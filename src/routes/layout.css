@@ -1,0 +1,164 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+@plugin "daisyui";
+
+/* DaisyUI Theme Configuration */
+@plugin "daisyui" {
+  themes: dark, light --default;
+}
+
+/* Base Styles */
+:root {
+  --sidebar-width: 280px;
+  --topbar-height: 56px;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-base-100 text-base-content min-h-screen antialiased;
+}
+
+/* Global Border Radius Overrides for DaisyUI components */
+.btn {
+  @apply rounded-lg;
+}
+
+.input, .textarea, .select {
+  @apply rounded-lg;
+}
+
+.card {
+  @apply rounded-xl shadow-sm;
+}
+
+.badge {
+  @apply rounded-full;
+}
+
+.alert {
+  @apply rounded-xl;
+}
+
+/* Code Editor Textarea */
+.code-editor {
+  @apply font-mono text-sm leading-relaxed resize-none border-0 min-h-96;
+  tab-size: 2;
+}
+
+/* Line Numbers */
+.line-numbers {
+  @apply font-mono text-sm leading-relaxed text-base-content/40 select-none;
+  counter-reset: line;
+}
+
+.line-numbers span {
+  counter-increment: line;
+}
+
+.line-numbers span::before {
+  content: counter(line);
+  @apply inline-block w-8 text-right pr-3;
+}
+
+/* Error Line Highlight */
+.error-line {
+  @apply bg-error/20 border-l-2 border-error;
+}
+
+/* JSON Syntax Highlighting */
+.json-string { @apply text-success; }
+.json-number { @apply text-info; }
+.json-boolean { @apply text-warning; }
+.json-null { @apply text-error; }
+.json-key { @apply text-primary; }
+.json-bracket { @apply text-base-content/70; }
+
+/* Tree View */
+.tree-node {
+  @apply relative pl-4;
+}
+
+.tree-node::before {
+  content: '';
+  @apply absolute left-0 top-0 bottom-0 w-px bg-base-content/10;
+}
+
+.tree-node:last-child::before {
+  @apply h-4;
+}
+
+/* Diff Viewer */
+.diff-added {
+  @apply bg-success/20 rounded-lg;
+}
+
+.diff-removed {
+  @apply bg-error/20 rounded-lg;
+}
+
+.diff-changed {
+  @apply bg-warning/20 rounded-lg;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-base-content/15 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-base-content/25;
+}
+
+/* Transitions */
+.sidebar-transition {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Smooth transitions for interactive elements */
+.btn, .input, .textarea, .select, .card, .badge {
+  @apply transition-all duration-200 ease-out;
+}
+
+/* Subtle hover effects */
+.card:hover {
+  @apply shadow-md;
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 100%;
+  }
+}
+
+/* Join buttons styling */
+.join .btn {
+  @apply first:rounded-l-lg last:rounded-r-lg;
+}
+
+/* Menu items in sidebar */
+.menu li a {
+  @apply rounded-lg;
+}
+
+.menu li a.active {
+  @apply bg-primary/10 text-primary;
+}

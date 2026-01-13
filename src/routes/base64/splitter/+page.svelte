@@ -1,0 +1,184 @@
+<script lang="ts">
+	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import { splitBase64, validateBase64 } from '$lib/utils/base64';
+
+	let input = $state('');
+	let chunkSize = $state(76);
+	let outputMode = $state<'newlines' | 'array' | 'numbered'>('newlines');
+	let output = $state('');
+	let chunks = $state<string[]>([]);
+	let error = $state<string | null>(null);
+	let splitTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	// Auto-split with debounce
+	$effect(() => {
+		const _input = input;
+		const _chunkSize = chunkSize;
+		const _outputMode = outputMode;
+
+		if (splitTimeout) {
+			clearTimeout(splitTimeout);
+		}
+
+		if (!_input.trim()) {
+			output = '';
+			chunks = [];
+			error = null;
+			return;
+		}
+
+		splitTimeout = setTimeout(() => {
+			handleSplit();
+		}, 200);
+
+		return () => {
+			if (splitTimeout) {
+				clearTimeout(splitTimeout);
+			}
+		};
+	});
+
+	function handleSplit() {
+		error = null;
+		output = '';
+		chunks = [];
+
+		const trimmed = input.trim();
+		
+		// Validate as Base64
+		const validation = validateBase64(trimmed);
+		if (!validation.valid) {
+			error = `${validation.error}: ${validation.details}`;
+			return;
+		}
+
+		try {
+			chunks = splitBase64(trimmed, chunkSize);
+			
+			switch (outputMode) {
+				case 'newlines':
+					output = chunks.join('\n');
+					break;
+				case 'array':
+					output = '[\n' + chunks.map(c => `  "${c}"`).join(',\n') + '\n]';
+					break;
+				case 'numbered':
+					output = chunks.map((c, i) => `${String(i + 1).padStart(3, ' ')}: ${c}`).join('\n');
+					break;
+			}
+		} catch (err) {
+			error = (err as Error).message;
+		}
+	}
+
+	async function copyOutput() {
+		if (output) {
+			await navigator.clipboard.writeText(output);
+		}
+	}
+</script>
+
+<ToolWrapper
+	title="Base64 String Splitter"
+	description="Split long Base64 strings into chunks for readability or MIME encoding"
+>
+	<div class="flex flex-col gap-6">
+		<!-- Controls -->
+		<div class="flex flex-wrap items-center gap-3">
+			<div class="flex items-center gap-2">
+				<label for="chunkSize" class="text-sm text-base-content/70">Chunk size:</label>
+				<input
+					id="chunkSize"
+					type="number"
+					class="input input-bordered input-sm w-20"
+					bind:value={chunkSize}
+					min="1"
+					max="1000"
+				/>
+			</div>
+
+			<div class="join">
+				<button
+					type="button"
+					class="btn join-item btn-sm"
+					class:btn-active={outputMode === 'newlines'}
+					onclick={() => (outputMode = 'newlines')}
+				>
+					Newlines
+				</button>
+				<button
+					type="button"
+					class="btn join-item btn-sm"
+					class:btn-active={outputMode === 'array'}
+					onclick={() => (outputMode = 'array')}
+				>
+					Array
+				</button>
+				<button
+					type="button"
+					class="btn join-item btn-sm"
+					class:btn-active={outputMode === 'numbered'}
+					onclick={() => (outputMode = 'numbered')}
+				>
+					Numbered
+				</button>
+			</div>
+
+			{#if chunks.length > 0}
+				<span class="text-xs text-base-content/50">
+					{chunks.length} chunks
+				</span>
+			{/if}
+		</div>
+
+		<!-- Error -->
+		{#if error}
+			<div class="alert alert-error rounded-xl">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+				<span>{error}</span>
+			</div>
+		{/if}
+
+		<!-- Input/Output -->
+		<div class="grid gap-6 lg:grid-cols-2">
+			<div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">Base64 Input</h3>
+				<textarea
+					bind:value={input}
+					placeholder="Paste long Base64 string..."
+					class="textarea textarea-bordered w-full min-h-[300px] font-mono text-sm rounded-xl resize-none"
+					spellcheck="false"
+				></textarea>
+			</div>
+
+			<div>
+				<div class="mb-2 flex items-center justify-between">
+					<h3 class="text-sm font-medium text-base-content/70">Split Output</h3>
+					{#if output}
+						<button type="button" class="btn btn-ghost btn-xs" onclick={copyOutput}>
+							Copy
+						</button>
+					{/if}
+				</div>
+				<textarea
+					value={output}
+					readonly
+					placeholder="Split result..."
+					class="textarea textarea-bordered w-full min-h-[300px] font-mono text-sm rounded-xl resize-none bg-base-200"
+				></textarea>
+			</div>
+		</div>
+
+		<!-- Info -->
+		<div class="card bg-base-200 rounded-xl">
+			<div class="card-body py-4">
+				<h4 class="text-sm font-semibold">Common Chunk Sizes</h4>
+				<div class="mt-2 flex flex-wrap gap-2">
+					<button class="btn btn-xs btn-outline" onclick={() => (chunkSize = 64)}>64 (PEM)</button>
+					<button class="btn btn-xs btn-outline" onclick={() => (chunkSize = 76)}>76 (MIME)</button>
+					<button class="btn btn-xs btn-outline" onclick={() => (chunkSize = 80)}>80 (Terminal)</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</ToolWrapper>

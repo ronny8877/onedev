@@ -1,0 +1,228 @@
+<script lang="ts">
+	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import CodeEditor from '$lib/components/ui/CodeEditor.svelte';
+	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
+	import { compareJSON, type DiffResult, type ParseError } from '$lib/utils/json';
+
+	let leftInput = $state('');
+	let rightInput = $state('');
+	let diffs = $state<DiffResult[]>([]);
+	let error = $state<ParseError | null>(null);
+	let viewMode = $state<'side-by-side' | 'inline'>('side-by-side');
+	let ignoreKeyOrder = $state(false);
+	let compareTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	// Auto-compare with debounce when both inputs have content
+	// Also re-compare when ignoreKeyOrder changes
+	$effect(() => {
+		// Track dependencies
+		const _left = leftInput;
+		const _right = rightInput;
+		const _ignoreOrder = ignoreKeyOrder;
+
+		// Clear previous timeout
+		if (compareTimeout) {
+			clearTimeout(compareTimeout);
+		}
+
+		// Only auto-compare if both inputs have content
+		if (!_left.trim() || !_right.trim()) {
+			diffs = [];
+			error = null;
+			return;
+		}
+
+		// Debounce comparison by 500ms
+		compareTimeout = setTimeout(() => {
+			handleCompare();
+		}, 500);
+
+		return () => {
+			if (compareTimeout) {
+				clearTimeout(compareTimeout);
+			}
+		};
+	});
+
+	function handleCompare() {
+		error = null;
+		diffs = [];
+
+		if (!leftInput.trim() || !rightInput.trim()) {
+			error = { message: 'Please enter JSON in both panels' };
+			return;
+		}
+
+		try {
+			diffs = compareJSON(leftInput, rightInput, ignoreKeyOrder);
+		} catch (err) {
+			error = { message: (err as Error).message };
+		}
+	}
+
+	function getTypeColor(type: DiffResult['type']): string {
+		switch (type) {
+			case 'added':
+				return 'text-success';
+			case 'removed':
+				return 'text-error';
+			case 'changed':
+				return 'text-warning';
+			default:
+				return 'text-base-content';
+		}
+	}
+
+	function getTypeBadge(type: DiffResult['type']): string {
+		switch (type) {
+			case 'added':
+				return 'badge-success';
+			case 'removed':
+				return 'badge-error';
+			case 'changed':
+				return 'badge-warning';
+			default:
+				return 'badge-ghost';
+		}
+	}
+
+	function formatValue(value: unknown): string {
+		if (value === undefined) return 'undefined';
+		return JSON.stringify(value, null, 2);
+	}
+</script>
+
+<ToolWrapper
+	title="JSON Diff Checker"
+	description="Compare two JSON objects and see the differences highlighted"
+>
+	<div class="flex flex-col gap-6">
+		<!-- Controls -->
+		<div class="flex flex-wrap items-center gap-3">
+			<button type="button" class="btn btn-primary" onclick={handleCompare}>
+				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M9 5l7 7-7 7"
+					></path>
+				</svg>
+				Compare
+			</button>
+
+			<div class="join">
+				<button
+					type="button"
+					class="btn join-item btn-sm"
+					class:btn-active={viewMode === 'side-by-side'}
+					onclick={() => (viewMode = 'side-by-side')}
+				>
+					Side by Side
+				</button>
+				<button
+					type="button"
+					class="btn join-item btn-sm"
+					class:btn-active={viewMode === 'inline'}
+					onclick={() => (viewMode = 'inline')}
+				>
+					Inline
+				</button>
+			</div>
+
+			<label class="label cursor-pointer gap-2">
+				<input type="checkbox" class="checkbox checkbox-sm" bind:checked={ignoreKeyOrder} />
+				<span class="label-text">Ignore key order</span>
+			</label>
+		</div>
+
+		<!-- Error Display -->
+		<ErrorDisplay {error} />
+
+		<!-- Editors -->
+		<div class="grid gap-6 lg:grid-cols-2">
+			<div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">Left JSON</h3>
+				<CodeEditor bind:value={leftInput} placeholder="Paste first JSON here..." />
+			</div>
+
+			<div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">Right JSON</h3>
+				<CodeEditor bind:value={rightInput} placeholder="Paste second JSON here..." />
+			</div>
+		</div>
+
+		<!-- Diff Results -->
+		{#if diffs.length > 0}
+			<div class="rounded-xl border border-base-300 bg-base-200 p-4">
+				<h3 class="mb-4 font-semibold">
+					Differences Found: {diffs.length}
+				</h3>
+
+				{#key viewMode}
+					<div class="space-y-3">
+						{#each diffs as diff}
+							<div class="rounded-xl bg-base-100 p-4">
+								<div class="flex items-center gap-2">
+									<span class="badge {getTypeBadge(diff.type)} badge-sm">
+										{diff.type}
+									</span>
+									<code class="text-sm font-mono {getTypeColor(diff.type)}">{diff.path}</code>
+								</div>
+
+								{#if diff.type === 'changed'}
+									<!-- Side by Side or Inline based on viewMode -->
+									{#if viewMode === 'side-by-side'}
+										<div class="mt-3 grid gap-3 lg:grid-cols-2">
+											<div class="rounded-lg bg-error/10 p-3">
+												<span class="text-xs font-medium text-base-content/60">Old Value</span>
+												<pre class="mt-2 overflow-auto text-sm text-error">{formatValue(diff.oldValue)}</pre>
+											</div>
+											<div class="rounded-lg bg-success/10 p-3">
+												<span class="text-xs font-medium text-base-content/60">New Value</span>
+												<pre class="mt-2 overflow-auto text-sm text-success">{formatValue(diff.newValue)}</pre>
+											</div>
+										</div>
+									{:else}
+										<div class="mt-3 flex flex-col gap-2">
+											<div class="rounded-lg bg-error/10 p-3">
+												<span class="text-xs font-medium text-base-content/60">- Old Value</span>
+												<pre class="mt-2 overflow-auto text-sm text-error">{formatValue(diff.oldValue)}</pre>
+											</div>
+											<div class="rounded-lg bg-success/10 p-3">
+												<span class="text-xs font-medium text-base-content/60">+ New Value</span>
+												<pre class="mt-2 overflow-auto text-sm text-success">{formatValue(diff.newValue)}</pre>
+											</div>
+										</div>
+									{/if}
+								{:else if diff.type === 'added'}
+									<div class="mt-3 rounded-lg bg-success/10 p-3">
+										<span class="text-xs font-medium text-base-content/60">+ Added</span>
+										<pre class="mt-2 overflow-auto text-sm text-success">{formatValue(diff.newValue)}</pre>
+									</div>
+								{:else if diff.type === 'removed'}
+									<div class="mt-3 rounded-lg bg-error/10 p-3">
+										<span class="text-xs font-medium text-base-content/60">- Removed</span>
+										<pre class="mt-2 overflow-auto text-sm text-error">{formatValue(diff.oldValue)}</pre>
+									</div>
+								{/if}
+							</div>
+						{/each}
+					</div>
+				{/key}
+			</div>
+		{:else if leftInput && rightInput && !error}
+			<div class="alert alert-success rounded-xl">
+				<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+					></path>
+				</svg>
+				<span>Both JSON objects are identical!</span>
+			</div>
+		{/if}
+	</div>
+</ToolWrapper>
