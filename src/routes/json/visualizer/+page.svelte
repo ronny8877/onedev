@@ -83,6 +83,7 @@
 				<CodeMirrorEditor
 					bind:value={input}
 					placeholder="Paste your JSON here to visualize..."
+					errorLine={error?.line}
 				/>
 			</div>
 

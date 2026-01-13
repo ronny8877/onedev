@@ -43,8 +43,10 @@
 	},
 	"dependencies": {
 		"@codemirror/lang-json": "^6.0.2",
+		"@codemirror/language": "^6.12.1",
 		"@codemirror/state": "^6.5.3",
 		"@codemirror/view": "^6.39.10",
+		"@lezer/highlight": "^1.2.3",
 		"codemirror": "^6.0.2",
 		"shiki": "^3.21.0",
 		"svelte-codemirror-editor": "^2.1.0"

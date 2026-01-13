@@ -1,12 +1,16 @@
 <script lang="ts">
 	import CodeMirror from 'svelte-codemirror-editor';
 	import { json } from '@codemirror/lang-json';
-	import { EditorView } from '@codemirror/view';
+	import { EditorView, Decoration, type DecorationSet } from '@codemirror/view';
+	import { StateField, StateEffect } from '@codemirror/state';
+	import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
+	import { tags } from '@lezer/highlight';
 
 	interface Props {
 		value: string;
 		placeholder?: string;
 		readonly?: boolean;
+		errorLine?: number;
 		onInput?: (value: string) => void;
 	}
 
@@ -14,11 +18,47 @@
 		value = $bindable(''),
 		placeholder = 'Enter JSON here...',
 		readonly = false,
+		errorLine,
 		onInput
 	}: Props = $props();
 
-	// Minimal light theme matching app aesthetics
-	const customTheme = EditorView.theme({
+	// Syntax highlighting theme with vibrant colors
+	const highlightStyle = HighlightStyle.define([
+		{ tag: tags.string, color: '#22c55e' },           // green for strings
+		{ tag: tags.number, color: '#f59e0b' },           // amber for numbers
+		{ tag: tags.bool, color: '#3b82f6' },             // blue for booleans
+		{ tag: tags.null, color: '#8b5cf6' },             // purple for null
+		{ tag: tags.propertyName, color: '#ec4899' },     // pink for property names
+		{ tag: tags.punctuation, color: '#64748b' },      // slate for punctuation
+		{ tag: tags.bracket, color: '#64748b' },          // slate for brackets
+	]);
+
+	// Error line highlighting
+	const errorLineEffect = StateEffect.define<number | null>();
+
+	const errorLineField = StateField.define<DecorationSet>({
+		create() {
+			return Decoration.none;
+		},
+		update(decorations, tr) {
+			for (const effect of tr.effects) {
+				if (effect.is(errorLineEffect)) {
+					if (effect.value === null) {
+						return Decoration.none;
+					}
+					const line = tr.state.doc.line(Math.min(effect.value, tr.state.doc.lines));
+					return Decoration.set([
+						Decoration.line({ class: 'cm-error-line' }).range(line.from)
+					]);
+				}
+			}
+			return decorations.map(tr.changes);
+		},
+		provide: (f) => EditorView.decorations.from(f)
+	});
+
+	// Base theme
+	const baseTheme = EditorView.theme({
 		'&': {
 			backgroundColor: 'transparent',
 			fontSize: '14px',
@@ -26,19 +66,16 @@
 		},
 		'.cm-content': {
 			padding: '12px 0',
-			caretColor: 'oklch(var(--p))'
+			caretColor: '#8b5cf6'
 		},
 		'.cm-line': {
 			padding: '0 12px'
 		},
 		'.cm-gutters': {
-			backgroundColor: 'oklch(var(--b3) / 0.3)',
+			backgroundColor: 'rgba(0,0,0,0.03)',
 			border: 'none',
-			color: 'oklch(var(--bc) / 0.4)',
+			color: 'rgba(0,0,0,0.3)',
 			minWidth: '3rem'
-		},
-		'.cm-gutter': {
-			padding: '0'
 		},
 		'.cm-lineNumbers .cm-gutterElement': {
 			padding: '0 8px 0 12px',
@@ -46,30 +83,38 @@
 			textAlign: 'right'
 		},
 		'.cm-activeLineGutter': {
-			backgroundColor: 'oklch(var(--p) / 0.1)'
+			backgroundColor: 'rgba(139, 92, 246, 0.1)'
 		},
 		'.cm-activeLine': {
-			backgroundColor: 'oklch(var(--p) / 0.05)'
+			backgroundColor: 'rgba(139, 92, 246, 0.05)'
 		},
 		'.cm-selectionBackground': {
-			backgroundColor: 'oklch(var(--p) / 0.2) !important'
+			backgroundColor: 'rgba(139, 92, 246, 0.2) !important'
 		},
 		'.cm-cursor': {
-			borderLeftColor: 'oklch(var(--p))'
+			borderLeftColor: '#8b5cf6'
 		},
 		'.cm-placeholder': {
-			color: 'oklch(var(--bc) / 0.3)'
+			color: 'rgba(0,0,0,0.3)'
 		},
 		'.cm-scroller': {
 			overflow: 'auto'
 		},
-		// JSON syntax colors
-		'.ͼb': { color: 'oklch(var(--su))' }, // strings - success
-		'.ͼc': { color: 'oklch(var(--wa))' }, // numbers - warning
-		'.ͼd': { color: 'oklch(var(--in))' }, // keywords (true/false/null) - info
-		'.ͼe': { color: 'oklch(var(--p))' },  // property names - primary
-		'.ͼm': { color: 'oklch(var(--bc) / 0.7)' } // punctuation
+		'.cm-error-line': {
+			backgroundColor: 'rgba(239, 68, 68, 0.15) !important'
+		},
+		'.cm-error-line .cm-lineNumbers .cm-gutterElement': {
+			color: '#ef4444 !important',
+			fontWeight: 'bold'
+		}
 	});
+
+	// Combined extensions
+	const extensions = [
+		syntaxHighlighting(highlightStyle),
+		baseTheme,
+		errorLineField
+	];
 
 	// Count lines for display
 	let lineCount = $derived(value.split('\n').length);
@@ -78,9 +123,14 @@
 <div class="codemirror-wrapper rounded-xl border border-base-300 bg-base-200 shadow-sm overflow-hidden">
 	<!-- Toolbar -->
 	<div class="flex items-center justify-between border-b border-base-300/50 bg-base-300/30 px-4 py-2.5">
-		<span class="text-xs font-medium text-base-content/50">
-			{lineCount} line{lineCount !== 1 ? 's' : ''}
-		</span>
+		<div class="flex items-center gap-2">
+			<span class="text-xs font-medium text-base-content/50">
+				{lineCount} line{lineCount !== 1 ? 's' : ''}
+			</span>
+			{#if errorLine}
+				<span class="badge badge-error badge-xs">Error at line {errorLine}</span>
+			{/if}
+		</div>
 		<div class="flex gap-1">
 			<button
 				type="button"
@@ -108,7 +158,7 @@
 		<CodeMirror
 			bind:value
 			lang={json()}
-			theme={customTheme}
+			{extensions}
 			{placeholder}
 			editable={!readonly}
 		/>
@@ -128,5 +178,10 @@
 
 	.editor-container :global(.cm-scroller) {
 		min-height: 300px;
+	}
+
+	/* Error line gutter highlight */
+	.editor-container :global(.cm-error-line) {
+		background-color: rgba(239, 68, 68, 0.15) !important;
 	}
 </style>
