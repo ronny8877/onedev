@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
-	import CodeEditor from '$lib/components/ui/CodeEditor.svelte';
+	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
 	import { jsonToTable, tableToCSV, type TableData, type ParseError } from '$lib/utils/json';
 
@@ -84,7 +84,7 @@
 		<!-- Input Editor -->
 		<div>
 			<h3 class="mb-2 text-sm font-medium text-base-content/70">JSON Array Input</h3>
-			<CodeEditor
+			<CodeMirrorEditor
 				bind:value={input}
 				placeholder={'Paste your JSON array here, e.g: [{"name": "John", "age": 30}, {"name": "Jane", "age": 25}]'}
 			/>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
-	import CodeEditor from '$lib/components/ui/CodeEditor.svelte';
+	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
 	import { compareJSON, type DiffResult, type ParseError } from '$lib/utils/json';
 
@@ -143,12 +143,12 @@
 		<div class="grid gap-6 lg:grid-cols-2">
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">Left JSON</h3>
-				<CodeEditor bind:value={leftInput} placeholder="Paste first JSON here..." />
+				<CodeMirrorEditor bind:value={leftInput} placeholder="Paste first JSON here..." />
 			</div>
 
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">Right JSON</h3>
-				<CodeEditor bind:value={rightInput} placeholder="Paste second JSON here..." />
+				<CodeMirrorEditor bind:value={rightInput} placeholder="Paste second JSON here..." />
 			</div>
 		</div>
 

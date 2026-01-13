@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
-	import CodeEditor from '$lib/components/ui/CodeEditor.svelte';
+	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
 	import { queryJSONPath, parseJSONSafe, type ParseError } from '$lib/utils/json';
 
@@ -130,7 +130,7 @@
 		<div class="grid gap-6 lg:grid-cols-2">
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">JSON Input</h3>
-				<CodeEditor
+				<CodeMirrorEditor
 					bind:value={input}
 					placeholder={'{"store": {"book": [{"title": "Example"}]}}'}
 				/>

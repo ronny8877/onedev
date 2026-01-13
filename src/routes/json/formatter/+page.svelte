@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
-	import CodeEditor from '$lib/components/ui/CodeEditor.svelte';
+	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
 	import { formatJSON, minifyJSON, validateJSON, type ParseError } from '$lib/utils/json';
 
@@ -144,12 +144,12 @@
 		<div class="grid gap-6 lg:grid-cols-2">
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">Input</h3>
-				<CodeEditor bind:value={input} placeholder="Paste your JSON here..." errorLine={error?.line} />
+				<CodeMirrorEditor bind:value={input} placeholder="Paste your JSON here..." />
 			</div>
 
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">Output</h3>
-				<CodeEditor value={output} readonly placeholder="Formatted JSON will appear here..." />
+				<CodeMirrorEditor value={output} readonly placeholder="Formatted JSON will appear here..." />
 			</div>
 		</div>
 	</div>

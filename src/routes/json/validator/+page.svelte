@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
-	import CodeEditor from '$lib/components/ui/CodeEditor.svelte';
+	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import { validateJSON, type ParseError } from '$lib/utils/json';
 
 	let input = $state('');
@@ -82,10 +82,9 @@
 		<!-- Editor -->
 		<div>
 			<h3 class="mb-2 text-sm font-medium text-base-content/70">JSON Input</h3>
-			<CodeEditor
+			<CodeMirrorEditor
 				bind:value={input}
 				placeholder="Paste your JSON here to validate..."
-				errorLine={error?.line}
 			/>
 		</div>
 
