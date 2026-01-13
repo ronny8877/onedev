@@ -128,14 +128,15 @@
 			</div>
 		{/if}
 
-		<div class="grid gap-6 lg:grid-cols-2">
+		<!-- Vertical layout for more space -->
+		<div class="flex flex-col gap-6">
 			<!-- Input -->
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">Base64 Image Data</h3>
 				<textarea
 					bind:value={input}
 					placeholder="Paste Base64 string or data URL here..."
-					class="textarea textarea-bordered w-full min-h-[300px] font-mono text-xs rounded-xl resize-none"
+					class="textarea textarea-bordered w-full min-h-[200px] font-mono text-xs rounded-xl resize-none"
 					spellcheck="false"
 				></textarea>
 			</div>
@@ -152,7 +153,7 @@
 				</div>
 				<div class="min-h-[300px] rounded-xl border border-base-300 bg-base-200 flex items-center justify-center overflow-hidden">
 					{#if imageUrl}
-						<img src={imageUrl} alt="Preview" class="max-w-full max-h-[400px] object-contain" />
+						<img src={imageUrl} alt="Preview" class="max-w-full max-h-[500px] object-contain" />
 					{:else}
 						<p class="text-base-content/50 text-center px-4">
 							Paste Base64 image data to see preview

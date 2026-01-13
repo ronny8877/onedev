@@ -45,7 +45,14 @@
 <aside
 	class="bg-base-200 fixed left-0 top-0 z-40 h-screen w-[var(--sidebar-width)] overflow-y-auto border-r border-base-300 pt-[var(--topbar-height)]"
 >
-	<nav class="p-4">
+	<!-- App Title -->
+	<div class="px-4 pt-4 pb-2">
+		<a href="/" class="text-lg font-bold tracking-tight">
+			<span class="text-primary">one</span>dev.tools
+		</a>
+	</div>
+
+	<nav class="p-4 pt-2">
 		<!-- Simple Items -->
 		{#if items.length > 0}
 			<ul class="menu w-full">

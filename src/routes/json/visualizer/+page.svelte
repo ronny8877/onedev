@@ -75,8 +75,8 @@
 		<!-- Error Display -->
 		<ErrorDisplay {error} />
 
-		<!-- Main Layout -->
-		<div class="grid gap-6 lg:grid-cols-2">
+		<!-- Main Layout - Vertical for more space -->
+		<div class="flex flex-col gap-6">
 			<!-- Input Editor -->
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">JSON Input</h3>
@@ -90,7 +90,7 @@
 			<!-- Tree View -->
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">Tree View</h3>
-				<div class="min-h-[300px] max-h-[500px] overflow-auto rounded-lg border border-base-300 bg-base-200 p-4">
+				<div class="min-h-[300px] max-h-[600px] overflow-auto rounded-xl border border-base-300 bg-base-200 p-4">
 					{#if parsedData}
 						{#key expandAll}
 							<JsonTree data={parsedData} {expandAll} />
