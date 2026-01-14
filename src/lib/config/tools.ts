@@ -54,7 +54,6 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'URL Builder', href: '/url/builder', description: 'Build URLs with dynamic params. Auto-encode.', icon: '🔧' },
 			{ name: 'Validator', href: '/url/validator', description: 'Check URL validity with protocol breakdown.', icon: '✓' },
 			{ name: 'Parts Analyzer', href: '/url/parts', description: 'Visual breakdown of URL components.', icon: '🔬' },
-			{ name: 'Redirect Checker', href: '/url/redirect-checker', description: 'Check redirect chains and final URL.', icon: '↪️' },
 			{ name: 'Slug Generator', href: '/url/slug-generator', description: 'Convert text to URL-safe slugs.', icon: '📝' },
 			{ name: 'Normalizer', href: '/url/normalizer', description: 'Normalize URLs: lowercase, sort params, clean up.', icon: '🧹' },
 			{ name: 'Compare', href: '/url/compare', description: 'Semantic URL comparison. Find differences.', icon: '⚖️' },

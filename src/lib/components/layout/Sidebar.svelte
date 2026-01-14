@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+
 	interface SidebarItem {
 		name: string;
 		href: string;
@@ -15,9 +16,10 @@
 	interface Props {
 		items?: SidebarItem[];
 		accordions?: SidebarAccordion[];
+		onNavigate?: () => void; // Callback when user navigates
 	}
 
-	let { items = [], accordions = [] }: Props = $props();
+	let { items = [], accordions = [], onNavigate }: Props = $props();
 
 	// Track which accordions are open
 	let openAccordions = $state<Record<string, boolean>>({});
@@ -39,6 +41,21 @@
 	function isActive(href: string): boolean {
 		return $page.url.pathname === href || $page.url.pathname.startsWith(href + '/');
 	}
+
+	function handleLinkClick(toolName: string, categoryName?: string) {
+		// Track with Umami
+		if (typeof window !== 'undefined' && (window as Window & { umami?: { track: (event: string, data?: Record<string, string>) => void } }).umami) {
+			(window as Window & { umami?: { track: (event: string, data?: Record<string, string>) => void } }).umami?.track('Tool Select', {
+				tool: toolName,
+				...(categoryName && { category: categoryName })
+			});
+		}
+
+		// Close mobile drawer
+		if (onNavigate) {
+			onNavigate();
+		}
+	}
 </script>
 
 <aside
@@ -46,7 +63,7 @@
 >
 	<!-- App Title -->
 	<div class="px-4 pt-4 pb-2">
-		<a href="/" class="flex w-full justify-center text-3xl font-bold tracking-tight">
+		<a href="/" class="flex w-full justify-center text-3xl font-bold tracking-tight" onclick={() => handleLinkClick('Home')}>
 			<span class="text-primary">One</span>dev.tools
 		</a>
 	</div>
@@ -56,8 +73,8 @@
 		{#if items.length > 0}
 			<ul class="menu w-full">
 				{#each items as item}
-					<li data-umami-event="Tool Select" data-umami-event-tool={item.name}>
-						<a href={item.href} class:active={isActive(item.href)}>
+					<li>
+						<a href={item.href} class:active={isActive(item.href)} onclick={() => handleLinkClick(item.name)}>
 							{#if item.icon}
 								<span class="text-lg">{item.icon}</span>
 							{/if}
@@ -72,8 +89,6 @@
 		{#each accordions as accordion}
 			<div class="mt-2">
 				<button
-					data-umami-event="Category Select"
-					data-umami-event-category={accordion.name}
 					type="button"
 					class="btn w-full justify-between text-left font-medium btn-ghost"
 					onclick={() => toggleAccordion(accordion.name)}
@@ -99,13 +114,12 @@
 				{#if openAccordions[accordion.name]}
 					<ul class="menu w-full gap-1 pl-4">
 						{#each accordion.items as item}
-							<li
-								data-umami-event="Tool Select"
-								data-umami-event-category={accordion.name}
-								data-umami-event-tool={item.name}
-							>
+							<li>
 								<a 
-								href={item.href} class:active={isActive(item.href)}>
+									href={item.href} 
+									class:active={isActive(item.href)}
+									onclick={() => handleLinkClick(item.name, accordion.name)}
+								>
 									{#if item.icon}
 										<span class="text-base">{item.icon}</span>
 									{/if}

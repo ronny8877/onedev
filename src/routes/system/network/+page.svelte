@@ -55,34 +55,49 @@
 		return items;
 	}
 
+	interface IPWhoResponse {
+		success: boolean;
+		message?: string;
+		ip: string;
+		country: string;
+		country_code: string;
+		region: string;
+		city: string;
+		postal: string;
+		latitude: number;
+		longitude: number;
+		timezone?: { id: string };
+		connection?: { isp: string; org: string; asn: number };
+	}
+
 	async function fetchIPAndLocation() {
 		ipData.loading = true;
 		ipData.error = null;
 
 		try {
-			// Using ip-api.com (free, no API key needed, provides location)
-			const response = await fetch('http://ip-api.com/json/?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,query');
+			// Using ipwho.is (HTTPS, free, no API key needed, provides location)
+			const response = await fetch('https://ipwho.is/');
 
 			if (!response.ok) throw new Error('Failed to fetch IP data');
 
-			const data = await response.json();
+			const data: IPWhoResponse = await response.json();
 
-			if (data.status === 'fail') {
+			if (!data.success) {
 				throw new Error(data.message || 'IP lookup failed');
 			}
 
-			ipData.ip = data.query;
+			ipData.ip = data.ip;
 			ipData.location = [
-				{ label: 'IP Address', value: data.query, raw: data.query },
-				{ label: 'Country', value: `${data.country} (${data.countryCode})`, raw: data.country },
-				{ label: 'Region', value: data.regionName || data.region, raw: data.regionName },
-				{ label: 'City', value: data.city, raw: data.city },
-				{ label: 'ZIP Code', value: data.zip || 'N/A', raw: data.zip },
-				{ label: 'Coordinates', value: `${data.lat}, ${data.lon}`, raw: `${data.lat},${data.lon}` },
-				{ label: 'Timezone', value: data.timezone, raw: data.timezone },
-				{ label: 'ISP', value: data.isp, raw: data.isp },
-				{ label: 'Organization', value: data.org || 'N/A', raw: data.org },
-				{ label: 'AS', value: data.as || 'N/A', raw: data.as }
+				{ label: 'IP Address', value: data.ip, raw: data.ip },
+				{ label: 'Country', value: `${data.country} (${data.country_code})`, raw: data.country },
+				{ label: 'Region', value: data.region || 'N/A', raw: data.region },
+				{ label: 'City', value: data.city || 'N/A', raw: data.city },
+				{ label: 'Postal Code', value: data.postal || 'N/A', raw: data.postal },
+				{ label: 'Coordinates', value: `${data.latitude}, ${data.longitude}`, raw: `${data.latitude},${data.longitude}` },
+				{ label: 'Timezone', value: data.timezone?.id || 'N/A', raw: data.timezone?.id },
+				{ label: 'ISP', value: data.connection?.isp || 'N/A', raw: data.connection?.isp },
+				{ label: 'Organization', value: data.connection?.org || 'N/A', raw: data.connection?.org },
+				{ label: 'ASN', value: data.connection?.asn ? `AS${data.connection.asn}` : 'N/A', raw: data.connection?.asn }
 			];
 
 			ipData.loaded = true;
@@ -247,7 +262,7 @@
 				<h4 class="text-sm font-semibold">About This Tool</h4>
 				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
 					<li>• Connection info uses Network Information API (Chrome/Edge only)</li>
-					<li>• IP lookup uses ip-api.com (free, no API key)</li>
+					<li>• IP lookup uses ipwho.is (free, HTTPS, no API key)</li>
 					<li>• Location is approximate, based on IP</li>
 					<li>• Export as JSON for debugging</li>
 				</ul>

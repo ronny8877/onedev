@@ -401,8 +401,8 @@
 						</h3>
 						<div class="grid gap-1.5 sm:grid-cols-2">
 							{#each group.items as item}
-								<div class="flex items-center justify-between p-2 rounded-lg bg-base-300/50 text-sm gap-2">
-									<div class="flex items-center gap-1 min-w-0">
+								<div class="flex items-center justify-between p-2 rounded-lg bg-base-300/50 text-sm gap-2 min-w-0">
+									<div class="flex items-center gap-1 min-w-0 shrink-0 max-w-[40%]">
 										<span class="text-base-content/70 truncate">{item.label}</span>
 										{#if item.note}
 											<div class="tooltip tooltip-top" data-tip={item.note}>
@@ -410,7 +410,7 @@
 											</div>
 										{/if}
 									</div>
-									<span class="font-mono font-medium text-xs truncate max-w-[45%] text-right" title={item.value}>
+									<span class="font-mono font-medium text-xs truncate min-w-0" title={item.value}>
 										{item.value}
 									</span>
 								</div>

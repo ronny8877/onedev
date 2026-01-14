@@ -70,6 +70,6 @@
 	<!-- Sidebar Drawer -->
 	<div class="drawer-side z-40">
 		<label for="main-drawer" class="drawer-overlay" aria-label="Close menu"></label>
-		<Sidebar accordions={sidebarAccordions} />
+		<Sidebar accordions={sidebarAccordions} onNavigate={() => { drawerOpen = false; }} />
 	</div>
 </div>
