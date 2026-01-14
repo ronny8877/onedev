@@ -1,0 +1,186 @@
+<script lang="ts">
+	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+
+	let textA = $state('');
+	let textB = $state('');
+	let diffMode = $state<'word' | 'char'>('word');
+	let ignoreWhitespace = $state(false);
+	let ignoreCase = $state(false);
+
+	interface DiffPart {
+		type: 'same' | 'added' | 'removed';
+		value: string;
+	}
+
+	function computeDiff(a: string, b: string): DiffPart[] {
+		let strA = a;
+		let strB = b;
+
+		if (ignoreCase) {
+			strA = strA.toLowerCase();
+			strB = strB.toLowerCase();
+		}
+
+		if (ignoreWhitespace) {
+			strA = strA.replace(/\s+/g, ' ').trim();
+			strB = strB.replace(/\s+/g, ' ').trim();
+		}
+
+		const partsA = diffMode === 'word' ? strA.split(/(\s+)/) : strA.split('');
+		const partsB = diffMode === 'word' ? strB.split(/(\s+)/) : strB.split('');
+
+		// Simple LCS-based diff
+		const result: DiffPart[] = [];
+		let i = 0, j = 0;
+
+		while (i < partsA.length || j < partsB.length) {
+			if (i >= partsA.length) {
+				result.push({ type: 'added', value: partsB[j] });
+				j++;
+			} else if (j >= partsB.length) {
+				result.push({ type: 'removed', value: partsA[i] });
+				i++;
+			} else if (partsA[i] === partsB[j]) {
+				result.push({ type: 'same', value: partsA[i] });
+				i++;
+				j++;
+			} else {
+				// Look ahead to find matches
+				let foundInB = partsB.slice(j, j + 10).indexOf(partsA[i]);
+				let foundInA = partsA.slice(i, i + 10).indexOf(partsB[j]);
+
+				if (foundInB !== -1 && (foundInA === -1 || foundInB <= foundInA)) {
+					// partsB has extra content
+					result.push({ type: 'added', value: partsB[j] });
+					j++;
+				} else if (foundInA !== -1) {
+					// partsA has extra content
+					result.push({ type: 'removed', value: partsA[i] });
+					i++;
+				} else {
+					result.push({ type: 'removed', value: partsA[i] });
+					result.push({ type: 'added', value: partsB[j] });
+					i++;
+					j++;
+				}
+			}
+		}
+
+		return result;
+	}
+
+	let diff = $derived(textA || textB ? computeDiff(textA, textB) : []);
+	let stats = $derived({
+		added: diff.filter(d => d.type === 'added').length,
+		removed: diff.filter(d => d.type === 'removed').length,
+		same: diff.filter(d => d.type === 'same').length
+	});
+
+	function clearAll() {
+		textA = '';
+		textB = '';
+	}
+
+	function swapTexts() {
+		[textA, textB] = [textB, textA];
+	}
+</script>
+
+<ToolWrapper
+	title="Text Diff"
+	description="Compare two text blocks and highlight differences."
+>
+	<div class="flex flex-col gap-6">
+		<!-- Options -->
+		<div class="flex flex-wrap items-center gap-4">
+			<div class="flex items-center gap-2">
+				<span class="text-sm text-base-content/70">Mode:</span>
+				<div class="join">
+					<button class="btn btn-sm join-item {diffMode === 'word' ? 'btn-primary' : 'btn-ghost'}" onclick={() => diffMode = 'word'}>Word</button>
+					<button class="btn btn-sm join-item {diffMode === 'char' ? 'btn-primary' : 'btn-ghost'}" onclick={() => diffMode = 'char'}>Character</button>
+				</div>
+			</div>
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input type="checkbox" bind:checked={ignoreWhitespace} class="checkbox checkbox-sm" />
+				<span class="text-sm">Ignore whitespace</span>
+			</label>
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input type="checkbox" bind:checked={ignoreCase} class="checkbox checkbox-sm" />
+				<span class="text-sm">Ignore case</span>
+			</label>
+		</div>
+
+		<!-- Input Areas -->
+		<div class="grid md:grid-cols-2 gap-4">
+			<div>
+				<div class="flex items-center justify-between mb-2">
+					<h3 class="text-sm font-medium text-base-content/70">Original</h3>
+				</div>
+				<textarea
+					bind:value={textA}
+					placeholder="Paste original text here..."
+					class="textarea textarea-bordered w-full font-mono text-sm rounded-xl h-40"
+					spellcheck="false"
+				></textarea>
+			</div>
+			<div>
+				<div class="flex items-center justify-between mb-2">
+					<h3 class="text-sm font-medium text-base-content/70">Modified</h3>
+				</div>
+				<textarea
+					bind:value={textB}
+					placeholder="Paste modified text here..."
+					class="textarea textarea-bordered w-full font-mono text-sm rounded-xl h-40"
+					spellcheck="false"
+				></textarea>
+			</div>
+		</div>
+
+		<!-- Actions -->
+		<div class="flex gap-2">
+			<button class="btn btn-ghost btn-sm" onclick={swapTexts}>⇄ Swap</button>
+			<button class="btn btn-ghost btn-sm" onclick={clearAll}>Clear</button>
+		</div>
+
+		<!-- Stats -->
+		{#if diff.length > 0}
+			<div class="flex gap-4 text-sm">
+				<span class="text-success"><strong>+{stats.added}</strong> added</span>
+				<span class="text-error"><strong>-{stats.removed}</strong> removed</span>
+				<span class="text-base-content/70"><strong>{stats.same}</strong> unchanged</span>
+			</div>
+		{/if}
+
+		<!-- Diff Output -->
+		{#if diff.length > 0}
+			<div class="card bg-base-200 rounded-2xl">
+				<div class="card-body py-4">
+					<h3 class="font-semibold mb-3">Differences</h3>
+					<div class="p-4 rounded-xl bg-base-300/50 font-mono text-sm whitespace-pre-wrap break-words">
+						{#each diff as part}
+							{#if part.type === 'added'}
+								<span class="bg-success/30 text-success-content px-0.5">{part.value}</span>
+							{:else if part.type === 'removed'}
+								<span class="bg-error/30 text-error-content px-0.5 line-through">{part.value}</span>
+							{:else}
+								<span>{part.value}</span>
+							{/if}
+						{/each}
+					</div>
+				</div>
+			</div>
+		{/if}
+
+		<!-- Info -->
+		<div class="card bg-base-200 rounded-xl">
+			<div class="card-body py-4">
+				<h4 class="text-sm font-semibold">About</h4>
+				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
+					<li>• <strong>Word mode</strong> - Compares word by word</li>
+					<li>• <strong>Character mode</strong> - Compares character by character</li>
+					<li>• <span class="bg-success/30 px-1">Green</span> = added, <span class="bg-error/30 px-1 line-through">Red</span> = removed</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</ToolWrapper>

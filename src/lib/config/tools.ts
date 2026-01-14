@@ -85,6 +85,21 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Media Devices', href: '/system/media', description: 'Check camera, mic, speaker list.', icon: '🎥' },
 			{ name: 'Permissions', href: '/system/permissions', description: 'Check browser permission status.', icon: '🔐' }
 		]
+	},
+	{
+		name: 'Text',
+		icon: '📝',
+		items: [
+			{ name: 'Case Converter', href: '/text/case-converter', description: 'Convert between camelCase, snake_case, etc.', icon: '🔤' },
+			{ name: 'Line Tools', href: '/text/line-tools', description: 'Sort, dedupe, trim lines.', icon: '📋' },
+			{ name: 'Text Diff', href: '/text/diff', description: 'Compare two text blocks.', icon: '⚖️' },
+			{ name: 'Find & Replace', href: '/text/find-replace', description: 'Search and replace with regex.', icon: '🔍' },
+			{ name: 'Text Statistics', href: '/text/statistics', description: 'Count chars, words, reading time.', icon: '📊' },
+			{ name: 'Anagram Finder', href: '/text/anagram', description: 'Find anagrams of a word.', icon: '🔀' },
+			{ name: 'Remove Duplicates', href: '/text/remove-duplicates', description: 'Remove duplicate words.', icon: '✂️' },
+			{ name: 'Lorem Ipsum', href: '/text/lorem-ipsum', description: 'Generate placeholder text.', icon: '📄' },
+			{ name: 'Blabber Generator', href: '/text/blabber', description: 'Generate random readable text.', icon: '💬' }
+		]
 	}
 ];
 
