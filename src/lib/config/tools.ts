@@ -75,6 +75,17 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Color Extractor', href: '/image/colors', description: 'Extract dominant colors for theming.', icon: '🎨' },
 			{ name: 'Blur / Pixelate', href: '/image/blur', description: 'Apply blur or pixelate effects.', icon: '🔲' }
 		]
+	},
+	{
+		name: 'System',
+		icon: '💻',
+		items: [
+			{ name: 'System Info', href: '/system/info', description: 'OS, CPU, memory, screen, GPU info.', icon: '🖥️' },
+			{ name: 'Browser Info', href: '/system/browser', description: 'Browser name, version, engine, language.', icon: '🌐' },
+			{ name: 'Network Info', href: '/system/network', description: 'Connection type, speed, IP lookup.', icon: '📡' },
+			{ name: 'Media Devices', href: '/system/media', description: 'Check camera, mic, speaker list.', icon: '🎥' },
+			{ name: 'Permissions', href: '/system/permissions', description: 'Check browser permission status.', icon: '🔐' }
+		]
 	}
 ];
 

@@ -1,0 +1,257 @@
+<script lang="ts">
+	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+
+	interface InfoItem {
+		label: string;
+		value: string;
+		raw?: string | number | boolean | null;
+	}
+
+	// Connection info
+	let connectionInfo = $state<InfoItem[]>([]);
+
+	// IP and location info
+	let ipData = $state<{
+		loaded: boolean;
+		loading: boolean;
+		error: string | null;
+		ip: string;
+		location: InfoItem[];
+	}>({
+		loaded: false,
+		loading: false,
+		error: null,
+		ip: '',
+		location: []
+	});
+
+	let isLoading = $state(true);
+	let copied = $state(false);
+
+	interface NetworkInformation {
+		effectiveType?: string;
+		downlink?: number;
+		rtt?: number;
+		saveData?: boolean;
+		type?: string;
+	}
+
+	function getConnectionInfo(): InfoItem[] {
+		const conn = (navigator as Navigator & { connection?: NetworkInformation }).connection;
+		const items: InfoItem[] = [
+			{ label: 'Online Status', value: navigator.onLine ? 'Online' : 'Offline', raw: navigator.onLine }
+		];
+
+		if (conn) {
+			if (conn.effectiveType) items.push({ label: 'Effective Type', value: conn.effectiveType.toUpperCase(), raw: conn.effectiveType });
+			if (conn.type) items.push({ label: 'Connection Type', value: conn.type, raw: conn.type });
+			if (conn.downlink !== undefined) items.push({ label: 'Downlink Speed', value: `${conn.downlink} Mbps`, raw: conn.downlink });
+			if (conn.rtt !== undefined) items.push({ label: 'Round Trip Time', value: `${conn.rtt} ms`, raw: conn.rtt });
+			if (conn.saveData !== undefined) items.push({ label: 'Data Saver', value: conn.saveData ? 'Enabled' : 'Disabled', raw: conn.saveData });
+		} else {
+			items.push({ label: 'Network API', value: 'Not supported by browser', raw: null });
+		}
+
+		return items;
+	}
+
+	async function fetchIPAndLocation() {
+		ipData.loading = true;
+		ipData.error = null;
+
+		try {
+			// Using ip-api.com (free, no API key needed, provides location)
+			const response = await fetch('http://ip-api.com/json/?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,query');
+
+			if (!response.ok) throw new Error('Failed to fetch IP data');
+
+			const data = await response.json();
+
+			if (data.status === 'fail') {
+				throw new Error(data.message || 'IP lookup failed');
+			}
+
+			ipData.ip = data.query;
+			ipData.location = [
+				{ label: 'IP Address', value: data.query, raw: data.query },
+				{ label: 'Country', value: `${data.country} (${data.countryCode})`, raw: data.country },
+				{ label: 'Region', value: data.regionName || data.region, raw: data.regionName },
+				{ label: 'City', value: data.city, raw: data.city },
+				{ label: 'ZIP Code', value: data.zip || 'N/A', raw: data.zip },
+				{ label: 'Coordinates', value: `${data.lat}, ${data.lon}`, raw: `${data.lat},${data.lon}` },
+				{ label: 'Timezone', value: data.timezone, raw: data.timezone },
+				{ label: 'ISP', value: data.isp, raw: data.isp },
+				{ label: 'Organization', value: data.org || 'N/A', raw: data.org },
+				{ label: 'AS', value: data.as || 'N/A', raw: data.as }
+			];
+
+			ipData.loaded = true;
+		} catch (err) {
+			ipData.error = err instanceof Error ? err.message : 'Failed to fetch IP data';
+		} finally {
+			ipData.loading = false;
+		}
+	}
+
+	function loadInfo() {
+		connectionInfo = getConnectionInfo();
+		isLoading = false;
+
+		// Listen for online/offline changes
+		window.addEventListener('online', () => {
+			connectionInfo = getConnectionInfo();
+		});
+		window.addEventListener('offline', () => {
+			connectionInfo = getConnectionInfo();
+		});
+	}
+
+	function getJSONData(): object {
+		const data: Record<string, Record<string, string | number | boolean | null | undefined>> = {
+			connection: {},
+			ipLocation: {}
+		};
+
+		for (const item of connectionInfo) {
+			data.connection[item.label] = item.raw ?? item.value;
+		}
+
+		if (ipData.loaded) {
+			for (const item of ipData.location) {
+				data.ipLocation[item.label] = item.raw ?? item.value;
+			}
+		}
+
+		return data;
+	}
+
+	function copyAsJSON() {
+		const json = JSON.stringify(getJSONData(), null, 2);
+		navigator.clipboard.writeText(json);
+		copied = true;
+		setTimeout(() => { copied = false; }, 2000);
+	}
+
+	$effect(() => {
+		loadInfo();
+	});
+</script>
+
+<ToolWrapper
+	title="Network Info"
+	description="View connection details and optionally fetch your IP address with location data."
+>
+	<div class="flex flex-col gap-6">
+		{#if isLoading}
+			<div class="flex items-center justify-center py-12">
+				<span class="loading loading-spinner loading-lg text-primary"></span>
+			</div>
+		{:else}
+			<!-- Actions -->
+			<div class="flex items-center gap-2 flex-wrap">
+				<button class="btn btn-primary btn-sm gap-1" onclick={copyAsJSON} disabled={!ipData.loaded && connectionInfo.length === 0}>
+					{#if copied}
+						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						</svg>
+						Copied!
+					{:else}
+						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+						</svg>
+						Copy as JSON
+					{/if}
+				</button>
+				<button class="btn btn-ghost btn-sm" onclick={loadInfo}>
+					🔄 Refresh
+				</button>
+			</div>
+
+			<!-- Connection Info -->
+			<div class="card bg-base-200 rounded-2xl">
+				<div class="card-body py-4">
+					<h3 class="font-semibold text-lg flex items-center gap-2 mb-3">
+						<span>📶</span>
+						Connection Details
+					</h3>
+					<div class="grid gap-2 sm:grid-cols-2">
+						{#each connectionInfo as item}
+							<div class="flex items-center justify-between p-2.5 rounded-lg bg-base-300/50 text-sm">
+								<span class="text-base-content/70">{item.label}</span>
+								<span
+									class="font-mono font-medium"
+									class:text-success={item.label === 'Online Status' && item.value === 'Online'}
+									class:text-error={item.label === 'Online Status' && item.value === 'Offline'}
+								>
+									{item.value}
+								</span>
+							</div>
+						{/each}
+					</div>
+				</div>
+			</div>
+
+			<!-- IP and Location -->
+			<div class="card bg-base-200 rounded-2xl">
+				<div class="card-body py-4">
+					<h3 class="font-semibold text-lg flex items-center gap-2 mb-2">
+						<span>🌐</span>
+						IP Address & Location
+					</h3>
+
+					{#if !ipData.loaded}
+						<p class="text-sm text-base-content/60 mb-4">
+							Click the button to fetch your public IP and approximate location. This makes a request to ip-api.com.
+						</p>
+						<button
+							class="btn btn-primary"
+							onclick={fetchIPAndLocation}
+							disabled={ipData.loading}
+						>
+							{#if ipData.loading}
+								<span class="loading loading-spinner loading-sm"></span>
+								Loading...
+							{:else}
+								🔍 Check IP & Location
+							{/if}
+						</button>
+
+						{#if ipData.error}
+							<div class="alert alert-error mt-4 rounded-xl text-sm">
+								<span>{ipData.error}</span>
+							</div>
+						{/if}
+					{:else}
+						<div class="grid gap-2 sm:grid-cols-2 mt-2">
+							{#each ipData.location as item}
+								<div class="flex items-center justify-between p-2.5 rounded-lg bg-base-300/50 text-sm">
+									<span class="text-base-content/70">{item.label}</span>
+									<span class="font-mono font-medium truncate max-w-[50%] text-right" title={item.value}>
+										{item.value}
+									</span>
+								</div>
+							{/each}
+						</div>
+
+						<button class="btn btn-ghost btn-sm mt-4" onclick={fetchIPAndLocation}>
+							🔄 Refresh IP Data
+						</button>
+					{/if}
+				</div>
+			</div>
+		{/if}
+
+		<!-- Info -->
+		<div class="card bg-base-200 rounded-xl">
+			<div class="card-body py-4">
+				<h4 class="text-sm font-semibold">About This Tool</h4>
+				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
+					<li>• Connection info uses Network Information API (Chrome/Edge only)</li>
+					<li>• IP lookup uses ip-api.com (free, no API key)</li>
+					<li>• Location is approximate, based on IP</li>
+					<li>• Export as JSON for debugging</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</ToolWrapper>

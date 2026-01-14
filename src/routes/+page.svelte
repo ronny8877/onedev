@@ -10,7 +10,8 @@
 		'JSON': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10' },
 		'Base64': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10' },
 		'URL': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10' },
-		'Image': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' }
+		'Image': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' },
+		'System': { color: 'accent', hoverBorder: 'hover:border-accent/20', bgClass: 'bg-accent/10' }
 	};
 </script>
 

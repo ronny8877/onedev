@@ -1,0 +1,189 @@
+<script lang="ts">
+	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+
+	let browserInfo = $state<{ label: string; value: string; icon: string }[]>([]);
+	let isLoading = $state(true);
+
+	function getBrowserName(): { name: string; version: string } {
+		const ua = navigator.userAgent;
+
+		// Order matters - check more specific first
+		if (ua.includes('Firefox/')) {
+			const match = ua.match(/Firefox\/(\d+(\.\d+)?)/);
+			return { name: 'Firefox', version: match?.[1] || 'Unknown' };
+		}
+		if (ua.includes('Edg/')) {
+			const match = ua.match(/Edg\/(\d+(\.\d+)?)/);
+			return { name: 'Microsoft Edge', version: match?.[1] || 'Unknown' };
+		}
+		if (ua.includes('OPR/') || ua.includes('Opera/')) {
+			const match = ua.match(/(?:OPR|Opera)\/(\d+(\.\d+)?)/);
+			return { name: 'Opera', version: match?.[1] || 'Unknown' };
+		}
+		if (ua.includes('Chrome/')) {
+			const match = ua.match(/Chrome\/(\d+(\.\d+)?)/);
+			return { name: 'Chrome', version: match?.[1] || 'Unknown' };
+		}
+		if (ua.includes('Safari/') && !ua.includes('Chrome')) {
+			const match = ua.match(/Version\/(\d+(\.\d+)?)/);
+			return { name: 'Safari', version: match?.[1] || 'Unknown' };
+		}
+
+		return { name: 'Unknown', version: 'Unknown' };
+	}
+
+	function getEngine(): string {
+		const ua = navigator.userAgent;
+		if (ua.includes('Gecko/') && ua.includes('Firefox')) return 'Gecko';
+		if (ua.includes('AppleWebKit/')) {
+			if (ua.includes('Chrome') || ua.includes('Edg')) return 'Blink';
+			return 'WebKit';
+		}
+		if (ua.includes('Trident/')) return 'Trident';
+		return 'Unknown';
+	}
+
+	function getLanguages(): string {
+		if (navigator.languages?.length > 0) {
+			return navigator.languages.slice(0, 3).join(', ');
+		}
+		return navigator.language || 'Unknown';
+	}
+
+	function getTimezone(): string {
+		try {
+			return Intl.DateTimeFormat().resolvedOptions().timeZone;
+		} catch {
+			return 'Unknown';
+		}
+	}
+
+	function getDoNotTrack(): string {
+		if (navigator.doNotTrack === '1') return 'Enabled';
+		if (navigator.doNotTrack === '0') return 'Disabled';
+		return 'Not set';
+	}
+
+	function getCookiesEnabled(): string {
+		return navigator.cookieEnabled ? 'Enabled' : 'Disabled';
+	}
+
+	function getPDFViewer(): string {
+		return navigator.pdfViewerEnabled ? 'Available' : 'Not available';
+	}
+
+	function getJavaEnabled(): string {
+		try {
+			return navigator.javaEnabled?.() ? 'Enabled' : 'Disabled';
+		} catch {
+			return 'Not supported';
+		}
+	}
+
+	function loadBrowserInfo() {
+		const browser = getBrowserName();
+
+		browserInfo = [
+			{ label: 'Browser', value: browser.name, icon: '🌐' },
+			{ label: 'Version', value: browser.version, icon: '📋' },
+			{ label: 'Engine', value: getEngine(), icon: '⚙️' },
+			{ label: 'Languages', value: getLanguages(), icon: '🌍' },
+			{ label: 'Timezone', value: getTimezone(), icon: '🕐' },
+			{ label: 'Cookies', value: getCookiesEnabled(), icon: '🍪' },
+			{ label: 'Do Not Track', value: getDoNotTrack(), icon: '👁️' },
+			{ label: 'PDF Viewer', value: getPDFViewer(), icon: '📄' },
+			{ label: 'Java', value: getJavaEnabled(), icon: '☕' },
+			{ label: 'Online', value: navigator.onLine ? 'Yes' : 'No', icon: '📶' }
+		];
+
+		isLoading = false;
+	}
+
+	function copyAll() {
+		const text = browserInfo
+			.map(item => `${item.label}: ${item.value}`)
+			.join('\n');
+		navigator.clipboard.writeText(text);
+	}
+
+	function copyUserAgent() {
+		navigator.clipboard.writeText(navigator.userAgent);
+	}
+
+	$effect(() => {
+		loadBrowserInfo();
+	});
+</script>
+
+<ToolWrapper
+	title="Browser Info"
+	description="View detailed information about your browser including name, version, engine, and settings."
+>
+	<div class="flex flex-col gap-6">
+		{#if isLoading}
+			<div class="flex items-center justify-center py-12">
+				<span class="loading loading-spinner loading-lg text-primary"></span>
+			</div>
+		{:else}
+			<!-- Browser Info Grid -->
+			<div class="card bg-base-200 rounded-2xl">
+				<div class="card-body">
+					<div class="flex items-center justify-between mb-4">
+						<h3 class="font-semibold text-lg">Browser Details</h3>
+						<button class="btn btn-sm btn-ghost gap-1" onclick={copyAll}>
+							<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+							</svg>
+							Copy All
+						</button>
+					</div>
+					<div class="grid gap-3 sm:grid-cols-2">
+						{#each browserInfo as item}
+							<div class="flex items-center justify-between p-3 rounded-xl bg-base-300/50">
+								<div class="flex items-center gap-2">
+									<span class="text-lg">{item.icon}</span>
+									<span class="text-sm text-base-content/70">{item.label}</span>
+								</div>
+								<span class="font-mono font-semibold text-sm">{item.value}</span>
+							</div>
+						{/each}
+					</div>
+				</div>
+			</div>
+
+			<!-- User Agent -->
+			<div class="card bg-base-200 rounded-2xl">
+				<div class="card-body">
+					<div class="flex items-center justify-between mb-2">
+						<h3 class="font-semibold text-lg flex items-center gap-2">
+							<span>📝</span>
+							User Agent String
+						</h3>
+						<button class="btn btn-sm btn-ghost gap-1" onclick={copyUserAgent}>
+							<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+							</svg>
+							Copy
+						</button>
+					</div>
+					<div class="p-3 rounded-xl bg-base-300/50">
+						<code class="text-xs break-all text-base-content/80">{navigator.userAgent}</code>
+					</div>
+				</div>
+			</div>
+		{/if}
+
+		<!-- Info -->
+		<div class="card bg-base-200 rounded-xl">
+			<div class="card-body py-4">
+				<h4 class="text-sm font-semibold">About This Tool</h4>
+				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
+					<li>• No permissions required - reads browser APIs only</li>
+					<li>• Browser detection based on User Agent parsing</li>
+					<li>• Useful for debugging compatibility issues</li>
+					<li>• All data stays local - nothing is sent anywhere</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</ToolWrapper>
