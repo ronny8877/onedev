@@ -1,11 +1,8 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
-@plugin "daisyui";
-
-/* DaisyUI Theme Configuration */
 @plugin "daisyui" {
-  themes: dark, light --default;
+  themes: light --default, dark --prefersdark;
 }
 
 /* Base Styles */
