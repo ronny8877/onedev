@@ -49,7 +49,7 @@
 	}
 </script>
 
-<div class="flex items-center gap-0.5 {className}">
+<div class="flex items-center gap-0.5 z-50 {className}">
 	{#if showFormats}
 		<div class="dropdown dropdown-end">
 			<button
@@ -63,12 +63,12 @@
 			{#if dropdownOpen}
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div class="fixed inset-0 z-10" onclick={handleClickOutside} onkeydown={() => {}}></div>
-				<ul class="dropdown-content z-20 menu p-2 shadow-lg bg-base-200 rounded-box w-48 mt-1">
+				<ul class="dropdown-content  z-20 menu p-2 shadow-lg bg-base-200 rounded-2xl w-48 mt-1">
 					{#each formats as format}
 						<li>
 							<button
 								type="button"
-								class="flex items-center gap-2 text-sm"
+								class="flex items-center gap-2 text-sm rounded-2xl"
 								onclick={() => copyToClipboard(format.value)}
 							>
 								<span>{format.icon}</span>
