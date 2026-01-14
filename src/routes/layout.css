@@ -2,8 +2,9 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
+  themes: light --default;
 }
+
 
 /* Base Styles */
 :root {
@@ -153,9 +154,9 @@ body {
 
 /* Menu items in sidebar */
 .menu li a {
-  @apply rounded-lg;
+  @apply rounded-xl p-3 font-semibold;
 }
 
 .menu li a.active {
-  @apply bg-primary/10 text-primary;
+  @apply bg-primary/10 text-primary font-bold;
 }

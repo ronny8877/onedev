@@ -43,12 +43,12 @@
 </script>
 
 <aside
-	class="bg-base-200 fixed left-0 top-0 z-40 h-screen w-[var(--sidebar-width)] overflow-y-auto border-r border-base-300 pt-[var(--topbar-height)]"
+	class="bg-base-200 fixed left-0 top-0 z-40 h-screen w-[var(--sidebar-width)] overflow-y-auto border-r border-base-300"
 >
 	<!-- App Title -->
 	<div class="px-4 pt-4 pb-2">
-		<a href="/" class="text-lg font-bold tracking-tight">
-			<span class="text-primary">one</span>dev.tools
+		<a href="/" class="text-3xl flex justify-center w-full font-bold tracking-tight">
+			<span class="text-primary">One</span>dev.tools
 		</a>
 	</div>
 
@@ -96,7 +96,7 @@
 				</button>
 
 				{#if openAccordions[accordion.name]}
-					<ul class="menu w-full pl-4">
+					<ul class="menu w-full pl-4 gap-1">
 						{#each accordion.items as item}
 							<li>
 								<a href={item.href} class:active={isActive(item.href)}>
