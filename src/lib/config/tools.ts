@@ -61,6 +61,20 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'JSON Converter', href: '/url/json-converter', description: 'Convert query strings ↔ JSON objects.', icon: '🔄' },
 			{ name: 'Length Checker', href: '/url/length-checker', description: 'Check URL length against browser limits.', icon: '📏' }
 		]
+	},
+	{
+		name: 'Image',
+		icon: '🖼️',
+		items: [
+			{ name: 'Compressor', href: '/image/compressor', description: 'Reduce file size with quality control.', icon: '📦' },
+			{ name: 'Remove White BG', href: '/image/remove-white', description: 'Make white/near-white transparent.', icon: '🧹' },
+			{ name: 'Resize / Scale', href: '/image/resize', description: 'Resize with aspect ratio lock.', icon: '📐' },
+			{ name: 'Crop', href: '/image/crop', description: 'Crop with preset ratios or freeform.', icon: '✂️' },
+			{ name: 'Format Converter', href: '/image/converter', description: 'Convert between JPG, PNG, WebP.', icon: '🔄' },
+			{ name: 'Metadata Viewer', href: '/image/metadata', description: 'View and strip EXIF data.', icon: '📋' },
+			{ name: 'Color Extractor', href: '/image/colors', description: 'Extract dominant colors for theming.', icon: '🎨' },
+			{ name: 'Blur / Pixelate', href: '/image/blur', description: 'Apply blur or pixelate effects.', icon: '🔲' }
+		]
 	}
 ];
 

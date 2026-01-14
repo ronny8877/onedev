@@ -42,11 +42,11 @@
 </script>
 
 <aside
-	class="bg-base-200 fixed left-0 top-0 z-40 h-screen w-[var(--sidebar-width)] overflow-y-auto border-r border-base-300"
+	class="fixed top-0 left-0 z-40 h-screen w-[var(--sidebar-width)] overflow-y-auto border-r border-base-300 bg-base-200"
 >
 	<!-- App Title -->
 	<div class="px-4 pt-4 pb-2">
-		<a href="/" class="text-3xl flex justify-center w-full font-bold tracking-tight">
+		<a href="/" class="flex w-full justify-center text-3xl font-bold tracking-tight">
 			<span class="text-primary">One</span>dev.tools
 		</a>
 	</div>
@@ -56,7 +56,7 @@
 		{#if items.length > 0}
 			<ul class="menu w-full">
 				{#each items as item}
-					<li>
+					<li data-umami-event="Tool Select" data-umami-event-tool={item.name}>
 						<a href={item.href} class:active={isActive(item.href)}>
 							{#if item.icon}
 								<span class="text-lg">{item.icon}</span>
@@ -72,8 +72,10 @@
 		{#each accordions as accordion}
 			<div class="mt-2">
 				<button
+					data-umami-event="Category Select"
+					data-umami-event-category={accordion.name}
 					type="button"
-					class="btn btn-ghost w-full justify-between text-left font-medium"
+					class="btn w-full justify-between text-left font-medium btn-ghost"
 					onclick={() => toggleAccordion(accordion.name)}
 				>
 					<span class="flex items-center gap-2">
@@ -95,10 +97,15 @@
 				</button>
 
 				{#if openAccordions[accordion.name]}
-					<ul class="menu w-full pl-4 gap-1">
+					<ul class="menu w-full gap-1 pl-4">
 						{#each accordion.items as item}
-							<li>
-								<a href={item.href} class:active={isActive(item.href)}>
+							<li
+								data-umami-event="Tool Select"
+								data-umami-event-category={accordion.name}
+								data-umami-event-tool={item.name}
+							>
+								<a 
+								href={item.href} class:active={isActive(item.href)}>
 									{#if item.icon}
 										<span class="text-base">{item.icon}</span>
 									{/if}

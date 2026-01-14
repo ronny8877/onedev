@@ -9,7 +9,8 @@
 	const categoryStyles: Record<string, { color: string; hoverBorder: string; bgClass: string }> = {
 		'JSON': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10' },
 		'Base64': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10' },
-		'URL': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10' }
+		'URL': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10' },
+		'Image': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' }
 	};
 </script>
 

@@ -47,7 +47,10 @@
 		"@codemirror/state": "^6.5.4",
 		"@codemirror/view": "^6.39.11",
 		"@lezer/highlight": "^1.2.3",
+		"browser-image-compression": "^2.0.2",
 		"codemirror": "^6.0.2",
+		"exif-reader": "^2.0.3",
+		"extract-colors": "^4.2.1",
 		"shiki": "^3.21.0",
 		"svelte-codemirror-editor": "^2.1.0"
 	}
