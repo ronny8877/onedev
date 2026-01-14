@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-
 	interface SidebarItem {
 		name: string;
 		href: string;

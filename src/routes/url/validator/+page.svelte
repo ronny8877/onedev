@@ -5,38 +5,22 @@
 	import { validateURL, parseURLParts, parseQueryString, URL_SCHEMES, type URLParts, type QueryParam } from '$lib/utils/url';
 
 	let input = $state('');
-	let isValid = $state<boolean | null>(null);
-	let error = $state<{ error: string; details: string } | null>(null);
-	let parts = $state<URLParts | null>(null);
-	let queryParams = $state<QueryParam[]>([]);
-
-	$effect(() => {
-		if (!input.trim()) {
-			isValid = null;
-			error = null;
-			parts = null;
-			queryParams = [];
-			return;
-		}
-
-		const result = validateURL(input);
-		isValid = result.valid;
-		error = result.valid ? null : { error: result.error!, details: result.details! };
-		parts = result.valid ? parseURLParts(input) : null;
-		
-		if (parts && parts.search) {
-			queryParams = parseQueryString(parts.search);
-		} else {
-			queryParams = [];
-		}
-	});
+	
+	// Use $derived instead of $effect to avoid infinite loops
+	let validationResult = $derived(input.trim() ? validateURL(input) : null);
+	let isValid = $derived(validationResult?.valid ?? null);
+	let error = $derived(
+		validationResult && !validationResult.valid 
+			? { error: validationResult.error!, details: validationResult.details! } 
+			: null
+	);
+	let parts = $derived(validationResult?.valid ? parseURLParts(input) : null);
+	let queryParams = $derived(
+		parts?.search ? parseQueryString(parts.search) : []
+	);
 
 	function clearAll() {
 		input = '';
-		isValid = null;
-		error = null;
-		parts = null;
-		queryParams = [];
 	}
 
 	function loadExample() {

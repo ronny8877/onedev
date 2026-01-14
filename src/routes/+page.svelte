@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getActiveCategories, getAllActiveTools, BASE_URL } from '$lib/config/tools';
-
+	import logo from '$lib/assets/logo.png';
 	// Get tools from centralized config
 	const categories = getActiveCategories();
 	const allTools = getAllActiveTools();
@@ -62,6 +62,7 @@
 		<h1 class="mb-4 text-4xl font-bold tracking-tight text-base-content lg:text-5xl">
 			<span class="text-primary">One</span>Dev Tools
 		</h1>
+		<img src={logo} alt="OneDev Tools Logo" class="w-96 h-60 rounded-3xl mx-auto mb-4" />
 		<p class="text-lg text-base-content/70 leading-relaxed">
 			Free, fast, and privacy-focused developer tools.
 			<br />
