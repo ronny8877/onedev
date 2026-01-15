@@ -114,6 +114,17 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Attribute Cleaner', href: '/html/attribute-cleaner', description: 'Remove inline styles, data-*, empty attributes.', icon: '🧹' },
 			{ name: 'Tag Counter', href: '/html/tag-counter', description: 'Count elements by tag type.', icon: '📊' }
 		]
+	},
+	{
+		name: 'Break',
+		icon: '☕',
+		items: [
+			{ name: 'Pomodoro Timer', href: '/break/pomodoro', description: 'Focus timer with 25/5 and 50/10 presets.', icon: '🍅' },
+			{ name: 'Ambient Rest', href: '/break/ambient', description: 'Calm screen with rain and cafe sounds.', icon: '🌧️' },
+			{ name: 'Minimal Clock', href: '/break/clock', description: 'Big, quiet clock for focused thinking.', icon: '🕐' },
+			{ name: 'Zen Motion', href: '/break/zen-motion', description: 'Nostalgic bouncing shape for eye rest.', icon: '📀' },
+			{ name: 'Breathing Timer', href: '/break/breathing', description: 'Guided inhale, hold, exhale cycles.', icon: '🌬️' }
+		]
 	}
 ];
 

@@ -90,7 +90,7 @@
 			<div class="mt-2">
 				<button
 					type="button"
-					class="btn w-full justify-between text-left tracking-widest font-semibold btn-ghost"
+					class="btn w-full justify-between text-left font-semibold   btn-ghost"
 					onclick={() => toggleAccordion(accordion.name)}
 				>
 					<span class="flex items-center gap-2">
