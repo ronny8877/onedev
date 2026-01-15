@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	interface InfoItem {
 		label: string;
@@ -26,7 +27,6 @@
 	});
 
 	let isLoading = $state(true);
-	let copied = $state(false);
 
 	interface NetworkInformation {
 		effectiveType?: string;
@@ -121,7 +121,7 @@
 		});
 	}
 
-	function getJSONData(): object {
+	let jsonOutput = $derived.by(() => {
 		const data: Record<string, Record<string, string | number | boolean | null | undefined>> = {
 			connection: {},
 			ipLocation: {}
@@ -137,15 +137,8 @@
 			}
 		}
 
-		return data;
-	}
-
-	function copyAsJSON() {
-		const json = JSON.stringify(getJSONData(), null, 2);
-		navigator.clipboard.writeText(json);
-		copied = true;
-		setTimeout(() => { copied = false; }, 2000);
-	}
+		return JSON.stringify(data, null, 2);
+	});
 
 	$effect(() => {
 		loadInfo();
@@ -157,31 +150,17 @@
 	description="View connection details and optionally fetch your IP address with location data."
 >
 	<div class="flex flex-col gap-6">
+		<ToolActions copyText={jsonOutput} copyLabel="Copy as JSON">
+			<button class="btn btn-sm btn-ghost" onclick={loadInfo}>
+				🔄 Refresh
+			</button>
+		</ToolActions>
+
 		{#if isLoading}
 			<div class="flex items-center justify-center py-12">
 				<span class="loading loading-spinner loading-lg text-primary"></span>
 			</div>
 		{:else}
-			<!-- Actions -->
-			<div class="flex items-center gap-2 flex-wrap">
-				<button class="btn btn-primary btn-sm gap-1" onclick={copyAsJSON} disabled={!ipData.loaded && connectionInfo.length === 0}>
-					{#if copied}
-						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-						</svg>
-						Copied!
-					{:else}
-						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-						</svg>
-						Copy as JSON
-					{/if}
-				</button>
-				<button class="btn btn-ghost btn-sm" onclick={loadInfo}>
-					🔄 Refresh
-				</button>
-			</div>
-
 			<!-- Connection Info -->
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">

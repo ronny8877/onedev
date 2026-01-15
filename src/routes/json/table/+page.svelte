@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
 	import { jsonToTable, tableToCSV, type TableData, type ParseError } from '$lib/utils/json';
@@ -7,6 +8,12 @@
 	let input = $state('');
 	let tableData = $state<TableData | null>(null);
 	let error = $state<ParseError | null>(null);
+
+	const sampleJSON = `[
+  { "id": 1, "name": "Alice", "email": "alice@example.com", "role": "Admin" },
+  { "id": 2, "name": "Bob", "email": "bob@example.com", "role": "User" },
+  { "id": 3, "name": "Charlie", "email": "charlie@example.com", "role": "User" }
+]`;
 
 	function handleConvert() {
 		error = null;
@@ -42,13 +49,27 @@
 		if (typeof value === 'object') return JSON.stringify(value);
 		return String(value);
 	}
+
+	function loadSample() {
+		input = sampleJSON;
+		handleConvert();
+	}
+
+	function clearAll() {
+		input = '';
+		tableData = null;
+		error = null;
+	}
 </script>
 
 <ToolWrapper
 	title="JSON to Table"
-	description="Convert JSON arrays to a table view and export as CSV"
+	description="Convert JSON arrays to sortable tables. Export to CSV or copy as markdown."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} />
+
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
 			<button type="button" class="btn btn-primary" onclick={handleConvert}>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 
 	let mode = $state<'query-to-json' | 'json-to-query'>('query-to-json');
@@ -103,6 +104,9 @@
 	}
 
 	let outputURL = $derived(mode === 'json-to-query' && output ? `https://example.com/api${output}` : '');
+	let stats = $derived({
+		chars: input.length
+	});
 </script>
 
 <ToolWrapper
@@ -110,6 +114,9 @@
 	description="Convert between URL query strings and JSON objects. Perfect for API debugging."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={clearAll} copyText={output} {stats} />
+
 		<!-- Mode Selector -->
 		<div class="flex flex-wrap items-center gap-3">
 			<div class="join">
@@ -131,16 +138,9 @@
 				</button>
 			</div>
 
-			<button type="button" class="btn btn-ghost btn-sm" onclick={swapMode}>
+			<button type="button" class="btn btn-ghost btn-sm ml-auto" onclick={swapMode}>
 				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
-				Swap
-			</button>
-
-			<button type="button" class="btn btn-ghost btn-sm" onclick={loadExample}>
-				Load Example
-			</button>
-			<button type="button" class="btn btn-ghost btn-sm" onclick={clearAll}>
-				Clear
+				Swap Inputs
 			</button>
 		</div>
 
@@ -186,20 +186,10 @@
 			</div>
 		{/if}
 
-		<!-- Copy Options -->
-		{#if output && !error}
+		<!-- Copy Options (Extra) -->
+		{#if output && !error && mode === 'json-to-query'}
 			<div class="flex items-center gap-4">
-				{#if mode === 'query-to-json'}
-					<button
-						type="button"
-						class="btn btn-sm"
-						onclick={() => navigator.clipboard.writeText(output)}
-					>
-						Copy JSON
-					</button>
-				{:else}
-					<CopyButton url={outputURL} size="sm" />
-				{/if}
+				<CopyButton url={outputURL} size="sm" label="Copy as Full URL" />
 			</div>
 		{/if}
 

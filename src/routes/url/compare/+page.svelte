@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	let url1 = $state('');
 	let url2 = $state('');
@@ -138,18 +139,14 @@
 	description="Semantic URL comparison. Detects if URLs point to the same resource despite different formatting."
 >
 	<div class="flex flex-col gap-6">
-		<!-- Controls -->
-		<div class="flex flex-wrap items-center gap-3">
-			<button type="button" class="btn btn-ghost btn-sm" onclick={loadExample}>
-				Load Example
-			</button>
-			<button type="button" class="btn btn-ghost btn-sm" onclick={swapURLs}>
-				Swap URLs
-			</button>
-			<button type="button" class="btn btn-ghost btn-sm" onclick={clearAll}>
-				Clear
-			</button>
-		</div>
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={clearAll}>
+			{#snippet extraActions()}
+				<button type="button" class="btn btn-ghost btn-sm" onclick={swapURLs}>
+					Swap URLs
+				</button>
+			{/snippet}
+		</ToolActions>
 
 		<!-- Inputs -->
 		<div class="grid gap-4 lg:grid-cols-2">

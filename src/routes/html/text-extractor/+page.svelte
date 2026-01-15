@@ -2,6 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { htmlToText } from '$lib/utils/html';
 
 	let input = $state('');
@@ -19,7 +20,7 @@
 	});
 
 	const stats = $derived.by(() => {
-		if (!output) return null;
+		if (!output) return undefined;
 		return {
 			chars: output.length,
 			words: output.trim().split(/\s+/).filter(Boolean).length,
@@ -30,6 +31,14 @@
 	function handleClear() {
 		input = '';
 	}
+
+	function loadExample() {
+		input = `<div class="content">
+  <h1>Welcome</h1>
+  <p>This is a <strong>sample</strong> text.</p>
+  <p>Visit <a href="https://example.com">Example</a> for more.</p>
+</div>`;
+	}
 </script>
 
 <ToolWrapper
@@ -37,6 +46,9 @@
 	description="Strip HTML tags and extract plain text content"
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={handleClear} copyText={output} stats={stats} />
+
 		<!-- Options -->
 		<div class="flex flex-wrap items-center gap-4">
 			<label class="flex items-center gap-2 cursor-pointer">
@@ -51,9 +63,6 @@
 				<input type="checkbox" class="checkbox checkbox-sm" bind:checked={collapseWhitespace} />
 				<span class="text-sm">Collapse whitespace</span>
 			</label>
-			<button type="button" class="btn btn-ghost btn-sm" onclick={handleClear}>
-				Clear
-			</button>
 		</div>
 
 		<!-- Input -->
@@ -66,9 +75,6 @@
 		<div>
 			<div class="flex items-center justify-between mb-2">
 				<h3 class="text-sm font-medium text-base-content/70">Extracted Text</h3>
-				{#if output}
-					<CopyButton text={output} label="Copy" />
-				{/if}
 			</div>
 			<textarea
 				class="textarea textarea-bordered w-full font-mono text-sm rounded-xl h-48 bg-base-200"
@@ -77,15 +83,6 @@
 				placeholder="Extracted text will appear here..."
 			></textarea>
 		</div>
-
-		<!-- Stats -->
-		{#if stats}
-			<div class="flex flex-wrap gap-4 text-sm text-base-content/70">
-				<span><strong>{stats.chars.toLocaleString()}</strong> characters</span>
-				<span><strong>{stats.words.toLocaleString()}</strong> words</span>
-				<span><strong>{stats.lines}</strong> lines</span>
-			</div>
-		{/if}
 
 		<!-- Tips -->
 		<div class="card bg-base-200 rounded-xl">

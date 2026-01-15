@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
-	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	let input = $state('');
 	let output = $state('');
@@ -103,6 +103,10 @@
 		}
 		return result;
 	});
+
+	let stats = $derived({
+		chars: input.length
+	});
 </script>
 
 <ToolWrapper
@@ -110,15 +114,8 @@
 	description="Normalize URLs for consistency: lowercase host, remove default ports, sort query params."
 >
 	<div class="flex flex-col gap-6">
-		<!-- Controls -->
-		<div class="flex flex-wrap items-center gap-3">
-			<button type="button" class="btn btn-ghost btn-sm" onclick={loadExample}>
-				Load Example
-			</button>
-			<button type="button" class="btn btn-ghost btn-sm" onclick={clearAll}>
-				Clear
-			</button>
-		</div>
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={clearAll} copyText={output === 'Invalid URL' ? '' : output} {stats} />
 
 		<!-- Input -->
 		<div>
@@ -183,14 +180,6 @@
 				{/if}
 			</div>
 		</div>
-
-		<!-- Copy Options -->
-		{#if output && output !== 'Invalid URL'}
-			<div class="flex items-center gap-2">
-				<span class="text-sm text-base-content/60">Copy as:</span>
-				<CopyButton url={output} size="sm" />
-			</div>
-		{/if}
 
 		<!-- Info -->
 		<div class="card bg-base-200 rounded-xl">

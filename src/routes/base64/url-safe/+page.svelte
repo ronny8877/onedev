@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { toURLSafe, fromURLSafe, validateBase64 } from '$lib/utils/base64';
 
 	let input = $state('');
@@ -8,6 +9,8 @@
 	let removePadding = $state(false);
 	let error = $state<string | null>(null);
 	let convertTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	const sampleInput = 'Subject? = Yes';
 
 	// Auto-convert with debounce
 	$effect(() => {
@@ -42,13 +45,11 @@
 
 		const trimmed = input.trim();
 		
-		// Validate as Base64
-		const validation = validateBase64(trimmed);
-		if (!validation.valid) {
-			error = `${validation.error}: ${validation.details}`;
-			return;
-		}
-
+		// If converting FROM urlsafe to standard, we don't strict validate base64 initially because input might be urlsafe
+		// But if TO urlsafe, input should be standard base64? Usually this tool converts raw text -> base64url or base64 -> base64url.
+		// Actually, standard Base64 tools usually mean "Base64 string" <-> "URL-safe Base64 string".
+		// The description says "Convert between standard Base64 and URL-safe Base64".
+		
 		try {
 			if (mode === 'to-urlsafe') {
 				output = toURLSafe(trimmed, removePadding);
@@ -60,10 +61,19 @@
 		}
 	}
 
-	async function copyOutput() {
-		if (output) {
-			await navigator.clipboard.writeText(output);
-		}
+	function loadSample() {
+		// Use a pre-encoded sample that has visually different chars in standard vs urlsafe
+		// Standard: "Pz4=" (contains + or / usually? No. ? is not in base64. 
+		// Actually, let's use a raw string that results in + and /
+		// Base64 for "???" is "Pz8/"
+		input = 'Pz8/'; 
+		mode = 'to-urlsafe';
+	}
+
+	function clearAll() {
+		input = '';
+		output = '';
+		error = null;
 	}
 
 	function swapInputOutput() {
@@ -77,9 +87,12 @@
 
 <ToolWrapper
 	title="Base64 URL-safe Converter"
-	description="Convert between standard Base64 and URL-safe Base64"
+	description="Convert between standard Base64 and URL-safe Base64 strings."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} />
+
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
 			<div class="join">
@@ -109,9 +122,8 @@
 			{/if}
 
 			{#if output}
-				<button type="button" class="btn btn-ghost btn-sm" onclick={swapInputOutput}>
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
-					Swap
+				<button type="button" class="btn btn-ghost btn-sm ml-auto" onclick={swapInputOutput}>
+					Swap Inputs
 				</button>
 			{/if}
 		</div>
@@ -139,16 +151,9 @@
 			</div>
 
 			<div>
-				<div class="mb-2 flex items-center justify-between">
-					<h3 class="text-sm font-medium text-base-content/70">
-						{mode === 'to-urlsafe' ? 'URL-safe Base64' : 'Standard Base64'}
-					</h3>
-					{#if output}
-						<button type="button" class="btn btn-ghost btn-xs" onclick={copyOutput}>
-							Copy
-						</button>
-					{/if}
-				</div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">
+					{mode === 'to-urlsafe' ? 'URL-safe Base64' : 'Standard Base64'}
+				</h3>
 				<textarea
 					value={output}
 					readonly

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
-	import { loadImage, canvasToBlob, downloadBlob, formatFileSize, mimeToExtension } from '$lib/utils/image';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
+	import { loadImageAsCanvas, canvasToBlob, downloadBlob, formatFileSize, mimeToExtension } from '$lib/utils/image';
 
 	let originalFile = $state<File | null>(null);
 	let originalDataURL = $state('');
@@ -9,43 +10,77 @@
 	let processedBlob = $state<Blob | null>(null);
 	let isProcessing = $state(false);
 
-	// Original dimensions
 	let originalWidth = $state(0);
 	let originalHeight = $state(0);
 
-	// Options
-	let width = $state(0);
-	let height = $state(0);
-	let lockAspectRatio = $state(true);
-	let aspectRatio = $state(1);
+	let targetWidth = $state(0);
+	let targetHeight = $state(0);
+	let maintainAspectRatio = $state(true);
+	let percentage = $state(100);
+	let mode = $state<'dim' | 'perc'>('dim');
 
 	async function handleImageLoad(file: File, dataURL: string) {
 		originalFile = file;
 		originalDataURL = dataURL;
-
-		const img = await loadImage(dataURL);
+		const img = await loadImageAsCanvas(dataURL);
 		originalWidth = img.width;
 		originalHeight = img.height;
-		width = img.width;
-		height = img.height;
-		aspectRatio = img.width / img.height;
+		targetWidth = img.width;
+		targetHeight = img.height;
+		percentage = 100;
 
 		await process();
 	}
 
+	function handleDimChange(dim: 'width' | 'height') {
+		if (maintainAspectRatio && originalWidth > 0 && originalHeight > 0) {
+			const ratio = originalWidth / originalHeight;
+			if (dim === 'width') {
+				targetHeight = Math.round(targetWidth / ratio);
+			} else {
+				targetWidth = Math.round(targetHeight * ratio);
+			}
+		}
+		mode = 'dim';
+		// Update percentage roughly
+		if (originalWidth > 0) {
+			percentage = Math.round((targetWidth / originalWidth) * 100);
+		}
+		processDebounced();
+	}
+
+	function handlePercentageChange() {
+		mode = 'perc';
+		const factor = percentage / 100;
+		targetWidth = Math.round(originalWidth * factor);
+		targetHeight = Math.round(originalHeight * factor);
+		processDebounced();
+	}
+
+	let debounceTimer: ReturnType<typeof setTimeout>;
+	function processDebounced() {
+		clearTimeout(debounceTimer);
+		debounceTimer = setTimeout(process, 300);
+	}
+
 	async function process() {
-		if (!originalDataURL || width <= 0 || height <= 0) return;
+		if (!originalDataURL || targetWidth <= 0 || targetHeight <= 0) return;
 
 		isProcessing = true;
 		try {
-			const img = await loadImage(originalDataURL);
+			const img = await loadImageAsCanvas(originalDataURL);
 			const canvas = document.createElement('canvas');
-			canvas.width = Math.round(width);
-			canvas.height = Math.round(height);
+			canvas.width = targetWidth;
+			canvas.height = targetHeight;
 			const ctx = canvas.getContext('2d')!;
-			ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-			const mime = originalFile?.type || 'image/png';
+			// Use high quality image smoothing
+			ctx.imageSmoothingEnabled = true;
+			ctx.imageSmoothingQuality = 'high';
+
+			ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+			const mime = originalFile?.type || 'image/jpeg';
 			processedBlob = await canvasToBlob(canvas, mime, 0.92);
 			processedDataURL = canvas.toDataURL(mime);
 		} catch (err) {
@@ -55,32 +90,11 @@
 		}
 	}
 
-	function handleWidthChange(e: Event) {
-		const newWidth = parseInt((e.target as HTMLInputElement).value) || 0;
-		width = newWidth;
-		if (lockAspectRatio && newWidth > 0) {
-			height = Math.round(newWidth / aspectRatio);
-		}
-	}
-
-	function handleHeightChange(e: Event) {
-		const newHeight = parseInt((e.target as HTMLInputElement).value) || 0;
-		height = newHeight;
-		if (lockAspectRatio && newHeight > 0) {
-			width = Math.round(newHeight * aspectRatio);
-		}
-	}
-
-	function setScale(scale: number) {
-		width = Math.round(originalWidth * scale);
-		height = Math.round(originalHeight * scale);
-	}
-
 	function download() {
 		if (!processedBlob || !originalFile) return;
 		const ext = mimeToExtension(originalFile.type);
 		const name = originalFile.name.replace(/\.[^/.]+$/, '');
-		downloadBlob(processedBlob, `${name}-${width}x${height}.${ext}`);
+		downloadBlob(processedBlob, `${name}-${targetWidth}x${targetHeight}.${ext}`);
 	}
 
 	function reset() {
@@ -88,109 +102,118 @@
 		originalDataURL = '';
 		processedDataURL = '';
 		processedBlob = null;
-		width = 0;
-		height = 0;
+		originalWidth = 0;
+		originalHeight = 0;
+		targetWidth = 0;
+		targetHeight = 0;
+		percentage = 100;
 	}
 
-	// Re-process when dimensions change
-	$effect(() => {
-		if (originalDataURL && width > 0 && height > 0) {
-			process();
-		}
-	});
-
-	let scalePercent = $derived(
-		originalWidth > 0 ? Math.round((width / originalWidth) * 100) : 100
-	);
+	async function loadSample() {
+		const res = await fetch('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80');
+		const blob = await res.blob();
+		const file = new File([blob], 'mountains.jpg', { type: 'image/jpeg' });
+		const reader = new FileReader();
+		reader.onload = (e) => handleImageLoad(file, e.target?.result as string);
+		reader.readAsDataURL(file);
+	}
 </script>
 
 <ToolWrapper
-	title="Resize / Scale"
-	description="Resize images to specific dimensions while preserving aspect ratio."
+	title="Image Resize"
+	description="Resize images by pixel dimensions or percentage. Maintains quality with smart resampling."
 >
 	<div class="flex flex-col gap-6">
+		<ToolActions onSample={loadSample} onClear={reset} />
+
 		{#if !originalFile}
 			<ImageUploader onImageLoad={handleImageLoad} />
 		{:else}
 			<!-- Controls -->
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body gap-6">
-					<!-- Original Size Info -->
-					<div class="flex items-center gap-2 text-sm text-base-content/60">
-						<span>Original:</span>
-						<span class="font-mono font-semibold">{originalWidth} × {originalHeight}</span>
-						<span>px</span>
-					</div>
+					<!-- Processing Indicator -->
+					{#if isProcessing}
+						<div class="absolute inset-0 bg-base-200/50 backdrop-blur-sm z-10 flex items-center justify-center rounded-2xl">
+							<span class="loading loading-spinner text-primary"></span>
+						</div>
+					{/if}
 
-					<!-- Dimension Inputs -->
-					<div class="flex flex-wrap items-center gap-4">
-						<div>
-							<label class="text-xs text-base-content/60" for="width">Width (px)</label>
-							<input
-								id="width"
-								type="number"
-								class="input input-bordered w-28"
-								value={width}
-								onchange={handleWidthChange}
-								min="1"
-								max="10000"
-							/>
+					<div class="grid gap-6 md:grid-cols-2">
+						<!-- Dimensions -->
+						<div class="space-y-4">
+							<div class="flex items-center justify-between">
+								<h3 class="font-semibold text-sm">Dimensions</h3>
+								<div class="text-xs text-base-content/50">
+									Original: {originalWidth} × {originalHeight}
+								</div>
+							</div>
+
+							<div class="flex items-end gap-2">
+								<div class="form-control w-full">
+									<label class="label text-xs" for="width">Width (px)</label>
+									<input
+										id="width"
+										type="number"
+										class="input input-bordered font-mono"
+										bind:value={targetWidth}
+										oninput={() => handleDimChange('width')}
+										min="1"
+									/>
+								</div>
+								<div class="pb-3 text-base-content/50">×</div>
+								<div class="form-control w-full">
+									<label class="label text-xs" for="height">Height (px)</label>
+									<input
+										id="height"
+										type="number"
+										class="input input-bordered font-mono"
+										bind:value={targetHeight}
+										oninput={() => handleDimChange('height')}
+										min="1"
+									/>
+								</div>
+							</div>
+
+							<label class="label cursor-pointer justify-start gap-2">
+								<input type="checkbox" class="checkbox checkbox-sm" bind:checked={maintainAspectRatio} />
+								<span class="label-text text-sm">Maintain aspect ratio</span>
+							</label>
 						</div>
 
-						<button
-							class="btn btn-square btn-sm mt-5"
-							class:btn-primary={lockAspectRatio}
-							onclick={() => (lockAspectRatio = !lockAspectRatio)}
-							title={lockAspectRatio ? 'Unlock aspect ratio' : 'Lock aspect ratio'}
-						>
-							{#if lockAspectRatio}
-								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-								</svg>
-							{:else}
-								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-								</svg>
-							{/if}
-						</button>
+						<!-- Percentage -->
+						<div class="space-y-4">
+							<div class="flex items-center justify-between">
+								<h3 class="font-semibold text-sm">Scale Percentage</h3>
+								<span class="badge badge-ghost font-mono">{percentage}%</span>
+							</div>
 
-						<div>
-							<label class="text-xs text-base-content/60" for="height">Height (px)</label>
 							<input
-								id="height"
-								type="number"
-								class="input input-bordered w-28"
-								value={height}
-								onchange={handleHeightChange}
+								type="range"
 								min="1"
-								max="10000"
+								max="200"
+								bind:value={percentage}
+								oninput={handlePercentageChange}
+								class="range range-primary"
+								step="1"
 							/>
+							<div class="flex justify-between text-xs text-base-content/50 px-1">
+								<span>1%</span>
+								<span>50%</span>
+								<span>100%</span>
+								<span>150%</span>
+								<span>200%</span>
+							</div>
 						</div>
-
-						<div class="badge badge-ghost font-mono mt-5">{scalePercent}%</div>
-					</div>
-
-					<!-- Quick Scale Buttons -->
-					<div class="flex flex-wrap gap-2">
-						<span class="text-sm text-base-content/60 self-center">Quick resize:</span>
-						{#each [0.25, 0.5, 0.75, 1, 1.5, 2] as scale}
-							<button
-								class="btn btn-sm btn-ghost"
-								class:btn-active={scalePercent === scale * 100}
-								onclick={() => setScale(scale)}
-							>
-								{scale * 100}%
-							</button>
-						{/each}
 					</div>
 
 					<!-- Actions -->
-					<div class="flex items-center gap-3">
+					<div class="flex items-center gap-3 pt-2">
 						<button class="btn btn-primary gap-2" onclick={download} disabled={!processedBlob || isProcessing}>
 							<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
 							</svg>
-							Download
+							Download Resized
 						</button>
 						<button class="btn btn-ghost" onclick={reset}>
 							Upload New
@@ -200,34 +223,21 @@
 			</div>
 
 			<!-- Preview -->
-			{#if isProcessing}
-				<div class="flex items-center justify-center py-12">
-					<span class="loading loading-spinner loading-lg text-primary"></span>
-				</div>
-			{:else if processedDataURL}
-				<div class="relative">
-					<img
-						src={processedDataURL}
-						alt="Resized preview"
-						class="mx-auto max-h-96 rounded-2xl bg-base-300 object-contain"
-					/>
-					<div class="absolute top-3 left-3 rounded-lg bg-black/60 px-2 py-1 text-xs font-medium text-white">
-						{Math.round(width)} × {Math.round(height)} px
+			{#if processedDataURL}
+				<div class="space-y-2">
+					<div class="flex items-center justify-between text-sm">
+						<span class="font-medium">Preview</span>
+						<div class="flex gap-4 text-base-content/60">
+							<span>{targetWidth} × {targetHeight} px</span>
+							<span>{formatFileSize(processedBlob?.size || 0)}</span>
+						</div>
 					</div>
-				</div>
-
-				<!-- Size comparison -->
-				<div class="flex items-center justify-center gap-6 text-sm">
-					<div class="text-center">
-						<div class="text-base-content/50">Original</div>
-						<div class="font-mono font-semibold">{formatFileSize(originalFile.size)}</div>
-					</div>
-					<svg class="h-5 w-5 text-base-content/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-					</svg>
-					<div class="text-center">
-						<div class="text-base-content/50">Resized</div>
-						<div class="font-mono font-semibold">{formatFileSize(processedBlob?.size || 0)}</div>
+					<div class="flex items-center justify-center rounded-2xl bg-base-300 p-4">
+						<img
+							src={processedDataURL}
+							alt="Resized preview"
+							class="max-h-[500px] object-contain shadow-sm"
+						/>
 					</div>
 				</div>
 			{/if}
@@ -238,10 +248,10 @@
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold">Features</h4>
 				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• <strong>Aspect ratio lock</strong>: Maintain proportions while resizing</li>
-					<li>• <strong>Quick scale</strong>: Common percentage presets</li>
-					<li>• <strong>Pixel preview</strong>: See exact dimensions before download</li>
-					<li>• <strong>Client-side</strong>: Your images never leave your device</li>
+					<li>• <strong>Pixel precise</strong>: Set exact width and height</li>
+					<li>• <strong>Proportional scaling</strong>: Maintain aspect ratio automatically</li>
+					<li>• <strong>Smart resampling</strong>: High quality reduction and enlargement</li>
+					<li>• <strong>Percentage scale</strong>: Quickly resize by % of original</li>
 				</ul>
 			</div>
 		</div>

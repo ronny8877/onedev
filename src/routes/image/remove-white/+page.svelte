@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { loadImageAsCanvas, canvasToBlob, downloadBlob, formatFileSize } from '$lib/utils/image';
 
 	let originalFile = $state<File | null>(null);
@@ -136,6 +137,15 @@
 		processedDataURL = '';
 		processedBlob = null;
 	}
+
+	async function loadSample() {
+		const res = await fetch('https://images.unsplash.com/photo-1594498653385-d5172c532c00?w=800&q=80');
+		const blob = await res.blob();
+		const file = new File([blob], 'icon-white-bg.jpg', { type: 'image/jpeg' });
+		const reader = new FileReader();
+		reader.onload = (e) => handleImageLoad(file, e.target?.result as string);
+		reader.readAsDataURL(file);
+	}
 </script>
 
 <ToolWrapper
@@ -143,6 +153,8 @@
 	description="Make white and near-white pixels transparent with smooth edges. Perfect for logos and icons."
 >
 	<div class="flex flex-col gap-6">
+		<ToolActions onSample={loadSample} onClear={reset} />
+
 		{#if !originalFile}
 			<ImageUploader onImageLoad={handleImageLoad} />
 		{:else}

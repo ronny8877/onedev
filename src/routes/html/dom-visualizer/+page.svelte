@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import HtmlTree from '$lib/components/ui/HtmlTree.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { parseHTMLSafe, countTags, generateSelector, generateXPath } from '$lib/utils/html';
@@ -125,6 +126,38 @@
 		selectedNode = null;
 		searchQuery = '';
 	}
+
+	function loadExample() {
+		input = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Page</title>
+</head>
+<body>
+    <header class="main-header">
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="content">
+        <article class="post">
+            <h1>Hello World</h1>
+            <p>This is a <strong>sample</strong> paragraph.</p>
+            <img src="image.jpg" alt="Sample Image" />
+        </article>
+    </main>
+</body>
+</html>`;
+	}
+
+	let stats = $derived({
+		chars: input.length,
+		lines: input.split('\n').length
+	});
 </script>
 
 <ToolWrapper
@@ -132,13 +165,13 @@
 	description="Interactive tree view with search, node details, and copy utilities"
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={handleClear} {stats} />
+
 		<!-- Input Section -->
 		<div>
 			<div class="flex items-center justify-between mb-2">
 				<h3 class="text-sm font-medium text-base-content/70">HTML Input</h3>
-				<button type="button" class="btn btn-ghost btn-xs" onclick={handleClear}>
-					Clear
-				</button>
 			</div>
 			<CodeMirrorEditor bind:value={input} placeholder="Paste your HTML here..." />
 		</div>

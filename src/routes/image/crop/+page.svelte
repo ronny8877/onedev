@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { loadImage, canvasToBlob, downloadBlob, formatFileSize, mimeToExtension } from '$lib/utils/image';
 
 	let originalFile = $state<File | null>(null);
@@ -299,6 +300,15 @@
 		}
 		return 'crosshair';
 	});
+
+	async function loadSample() {
+		const res = await fetch('https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&q=80');
+		const blob = await res.blob();
+		const file = new File([blob], 'abstract.jpg', { type: 'image/jpeg' });
+		const reader = new FileReader();
+		reader.onload = (e) => handleImageLoad(file, e.target?.result as string);
+		reader.readAsDataURL(file);
+	}
 </script>
 
 <svelte:window onresize={updatePreviewScale} />
@@ -308,6 +318,8 @@
 	description="Crop images with preset aspect ratios. Click inside to move, drag corners to resize."
 >
 	<div class="flex flex-col gap-6">
+		<ToolActions onSample={loadSample} onClear={reset} />
+
 		{#if !originalFile}
 			<ImageUploader onImageLoad={handleImageLoad} />
 		{:else}

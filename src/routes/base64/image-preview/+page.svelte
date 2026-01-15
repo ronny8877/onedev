@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { validateBase64, detectMimeType } from '$lib/utils/base64';
 
 	let input = $state('');
@@ -7,6 +8,9 @@
 	let imageInfo = $state<{ width: number; height: number; mimeType: string } | null>(null);
 	let error = $state<string | null>(null);
 	let previewTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	// Red pixel 1x1 base64
+	const sampleInput = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKwMIQAAAABJRU5ErkJggg==';
 
 	// Auto-preview with debounce
 	$effect(() => {
@@ -94,31 +98,38 @@
 		link.click();
 	}
 
+	function loadSample() {
+		input = sampleInput;
+	}
+
 	function clearInput() {
 		input = '';
 		imageUrl = null;
 		imageInfo = null;
 		error = null;
 	}
+
+	let stats = $derived({
+		chars: input.length
+	});
 </script>
 
 <ToolWrapper
 	title="Base64 Image Preview"
-	description="Paste Base64 image data to see a live preview and download the image"
+	description="Paste Base64 image data to see a live preview and download the image."
 >
 	<div class="flex flex-col gap-6">
-		<!-- Controls -->
-		<div class="flex items-center gap-3">
-			{#if imageUrl}
-				<button type="button" class="btn btn-primary" onclick={downloadImage}>
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearInput} {stats} />
+		
+		{#if imageUrl}
+			<div class="flex justify-end">
+				<button type="button" class="btn btn-primary btn-sm" onclick={downloadImage}>
 					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
 					Download Image
 				</button>
-			{/if}
-			<button type="button" class="btn btn-ghost btn-sm" onclick={clearInput}>
-				Clear
-			</button>
-		</div>
+			</div>
+		{/if}
 
 		<!-- Error -->
 		{#if error}

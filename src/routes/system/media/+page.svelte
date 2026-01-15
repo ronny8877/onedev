@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { fade, slide, scale } from 'svelte/transition';
 
 	// Device state
@@ -121,6 +122,12 @@
 		}
 	}
 
+	function checkAll() {
+		checkCameras();
+		checkMicrophones();
+		checkSpeakers();
+	}
+
 	async function previewCamera(deviceId: string) {
 		stopVideoPreview();
 		selectedCameraId = deviceId;
@@ -168,6 +175,7 @@
 		selectedMicId = deviceId;
 
 		try {
+			// Request audio with echo cancellation disabled for better testing if desired, or default
 			audioPreviewStream = await navigator.mediaDevices.getUserMedia({
 				audio: { deviceId: { exact: deviceId } }
 			});
@@ -232,19 +240,33 @@
 		selectedMicId = null;
 	}
 
-	function toggleLoopback() {
-		loopbackEnabled = !loopbackEnabled;
-		if (gainNode) {
-			gainNode.gain.value = loopbackEnabled ? 0.8 : 0;
-		}
-	}
-
 	// Cleanup on unmount
 	$effect(() => {
 		return () => {
 			stopVideoPreview();
 			stopMicTest();
 		};
+	});
+
+	let statsText = $derived.by(() => {
+		const lines = [];
+		if (cameraChecked) lines.push(`Cameras: ${cameras.length} found`);
+		if (micChecked) lines.push(`Microphones: ${microphones.length} found`);
+		if (speakerChecked) lines.push(`Speakers: ${speakers.length} found`);
+		
+		if (cameras.length > 0) {
+			lines.push('\n--- Cameras ---');
+			cameras.forEach(c => lines.push(`- ${c.label}`));
+		}
+		if (microphones.length > 0) {
+			lines.push('\n--- Microphones ---');
+			microphones.forEach(m => lines.push(`- ${m.label}`));
+		}
+		if (speakers.length > 0) {
+			lines.push('\n--- Speakers ---');
+			speakers.forEach(s => lines.push(`- ${s.label}`));
+		}
+		return lines.join('\n');
 	});
 </script>
 
@@ -253,6 +275,12 @@
 	description="Check available cameras, microphones, and speakers. Permission is requested only when you click."
 >
 	<div class="flex flex-col gap-6">
+		<ToolActions copyText={statsText} copyLabel="Copy Device List">
+			<button class="btn btn-sm btn-ghost" onclick={checkAll}>
+				🔄 Check All
+			</button>
+		</ToolActions>
+
 		<!-- Warning Banner -->
 		<div class="alert alert-info rounded-xl" transition:fade={{ duration: 200 }}>
 			<svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

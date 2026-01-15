@@ -23,107 +23,107 @@ export const toolCategories: ToolCategory[] = [
 		name: 'JSON',
 		icon: '{ }',
 		items: [
-			{ name: 'JSON Formatter', href: '/json/formatter', description: 'Prettify or minify JSON with syntax highlighting', icon: '{ }' },
-			{ name: 'JSON Validator', href: '/json/validator', description: 'Check if your JSON is valid with detailed errors', icon: '✓' },
-			{ name: 'JSON Diff', href: '/json/diff', description: 'Compare two JSON objects and find differences', icon: '≠' },
-			{ name: 'JSON → Table', href: '/json/table', description: 'Convert JSON arrays to tables and export as CSV', icon: '📊' },
-			{ name: 'JSON Visualizer', href: '/json/visualizer', description: 'Explore JSON with an interactive tree view', icon: '🌲' },
-			{ name: 'Type Generator', href: '/json/type-generator', description: 'Generate TypeScript or Go types from JSON', icon: '⟨T⟩' },
-			{ name: 'Path Tester', href: '/json/path-tester', description: 'Test JSONPath expressions on your data', icon: '🔍' }
+			{ name: 'JSON Formatter', href: '/json/formatter', description: 'Validate and format JSON in the browser. Highlights syntax errors and prettifies valid JSON.', icon: '{ }' },
+			{ name: 'JSON Validator', href: '/json/validator', description: 'Check if JSON is valid with line-by-line error details. Instant validation as you type.', icon: '✓' },
+			{ name: 'JSON Diff', href: '/json/diff', description: 'Compare two JSON objects side by side. Highlights added, removed, and changed values.', icon: '≠' },
+			{ name: 'JSON → Table', href: '/json/table', description: 'Convert JSON arrays to sortable tables. Export to CSV or copy as markdown.', icon: '📊' },
+			{ name: 'JSON Visualizer', href: '/json/visualizer', description: 'Explore JSON with an interactive tree view. Expand, collapse, and search nodes.', icon: '🌲' },
+			{ name: 'Type Generator', href: '/json/type-generator', description: 'Generate TypeScript interfaces or Go structs from JSON. Handles nested objects.', icon: '⟨T⟩' },
+			{ name: 'Path Tester', href: '/json/path-tester', description: 'Test JSONPath expressions against your data. See matched values instantly.', icon: '🔍' }
 		]
 	},
 	{
 		name: 'Base64',
 		icon: '⚡',
 		items: [
-			{ name: 'Encode / Decode', href: '/base64/encode-decode', description: 'Encode text to Base64 or decode with auto-detect', icon: '🔄' },
-			{ name: 'File Encoder', href: '/base64/file-encoder', description: 'Convert files to Base64 data URIs', icon: '📁' },
-			{ name: 'Image Preview', href: '/base64/image-preview', description: 'Preview Base64-encoded images. Paste and view', icon: '🖼️' },
-			{ name: 'URL-safe Converter', href: '/base64/url-safe', description: 'Convert to/from URL-safe Base64 format', icon: '🔗' },
-			{ name: 'Validator', href: '/base64/validator', description: 'Check if a string is valid Base64', icon: '✓' },
-			{ name: 'Splitter', href: '/base64/splitter', description: 'Split long Base64 into lines or chunks', icon: '✂️' },
-			{ name: 'Hex / Binary', href: '/base64/hex-binary', description: 'Convert Base64 to hex or binary representation', icon: '01' }
+			{ name: 'Encode / Decode', href: '/base64/encode-decode', description: 'Encode text to Base64 or decode Base64 to text. Auto-detects input type.', icon: '🔄' },
+			{ name: 'File Encoder', href: '/base64/file-encoder', description: 'Convert any file to Base64 data URI. Copy or download the encoded string.', icon: '📁' },
+			{ name: 'Image Preview', href: '/base64/image-preview', description: 'Paste Base64 image data and preview it instantly. Supports PNG, JPG, WebP.', icon: '🖼️' },
+			{ name: 'URL-safe Converter', href: '/base64/url-safe', description: 'Convert between standard Base64 and URL-safe Base64 (replaces +/ with -_).', icon: '🔗' },
+			{ name: 'Validator', href: '/base64/validator', description: 'Check if a string is valid Base64. Shows encoding issues and padding problems.', icon: '✓' },
+			{ name: 'Splitter', href: '/base64/splitter', description: 'Split long Base64 strings into lines for embedding in code or config files.', icon: '✂️' },
+			{ name: 'Hex / Binary', href: '/base64/hex-binary', description: 'Convert Base64 to hexadecimal or binary representation and back.', icon: '01' }
 		]
 	},
 	{
 		name: 'URL',
 		icon: '🔗',
 		items: [
-			{ name: 'Encode / Decode', href: '/url/encode-decode', description: 'Encode special characters or decode URLs. Auto-detect.', icon: '🔐' },
-			{ name: 'Query Parser', href: '/url/query-parser', description: 'Parse query strings to table. Export JSON/CSV.', icon: '📋' },
-			{ name: 'URL Builder', href: '/url/builder', description: 'Build URLs with dynamic params. Auto-encode.', icon: '🔧' },
-			{ name: 'Validator', href: '/url/validator', description: 'Check URL validity with protocol breakdown.', icon: '✓' },
-			{ name: 'Parts Analyzer', href: '/url/parts', description: 'Visual breakdown of URL components.', icon: '🔬' },
-			{ name: 'Slug Generator', href: '/url/slug-generator', description: 'Convert text to URL-safe slugs.', icon: '📝' },
-			{ name: 'Normalizer', href: '/url/normalizer', description: 'Normalize URLs: lowercase, sort params, clean up.', icon: '🧹' },
-			{ name: 'Compare', href: '/url/compare', description: 'Semantic URL comparison. Find differences.', icon: '⚖️' },
-			{ name: 'JSON Converter', href: '/url/json-converter', description: 'Convert query strings ↔ JSON objects.', icon: '🔄' },
-			{ name: 'Length Checker', href: '/url/length-checker', description: 'Check URL length against browser limits.', icon: '📏' }
+			{ name: 'Encode / Decode', href: '/url/encode-decode', description: 'URL encode special characters or decode percent-encoded URLs. Auto-detects input.', icon: '🔐' },
+			{ name: 'Query Parser', href: '/url/query-parser', description: 'Parse URL query strings into key-value table. Export as JSON or CSV.', icon: '📋' },
+			{ name: 'URL Builder', href: '/url/builder', description: 'Build URLs with query parameters. Paste existing URLs to parse and edit them.', icon: '🔧' },
+			{ name: 'Validator', href: '/url/validator', description: 'Check if a URL is valid. Shows protocol, domain, port, and path breakdown.', icon: '✓' },
+			{ name: 'Parts Analyzer', href: '/url/parts', description: 'Visual breakdown of URL components: protocol, host, port, path, query, hash.', icon: '🔬' },
+			{ name: 'Slug Generator', href: '/url/slug-generator', description: 'Convert any text to URL-safe slugs. Handles unicode and special characters.', icon: '📝' },
+			{ name: 'Normalizer', href: '/url/normalizer', description: 'Normalize URLs: lowercase hostname, sort query params, remove defaults.', icon: '🧹' },
+			{ name: 'Compare', href: '/url/compare', description: 'Compare two URLs semantically. Find differences in path, query, or fragment.', icon: '⚖️' },
+			{ name: 'JSON Converter', href: '/url/json-converter', description: 'Convert URL query strings to JSON objects and back. Handles nested params.', icon: '🔄' },
+			{ name: 'Length Checker', href: '/url/length-checker', description: 'Check URL length against browser and server limits. Warns if too long.', icon: '📏' }
 		]
 	},
 	{
 		name: 'Image',
 		icon: '🖼️',
 		items: [
-			{ name: 'Compressor', href: '/image/compressor', description: 'Reduce file size with quality control.', icon: '📦' },
-			{ name: 'Remove White BG', href: '/image/remove-white', description: 'Make white/near-white transparent.', icon: '🧹' },
-			{ name: 'Resize / Scale', href: '/image/resize', description: 'Resize with aspect ratio lock.', icon: '📐' },
-			{ name: 'Crop', href: '/image/crop', description: 'Crop with preset ratios or freeform.', icon: '✂️' },
-			{ name: 'Format Converter', href: '/image/converter', description: 'Convert between JPG, PNG, WebP.', icon: '🔄' },
-			{ name: 'Metadata Viewer', href: '/image/metadata', description: 'View and strip EXIF data.', icon: '📋' },
-			{ name: 'Color Extractor', href: '/image/colors', description: 'Extract dominant colors for theming.', icon: '🎨' },
-			{ name: 'Blur / Pixelate', href: '/image/blur', description: 'Apply blur or pixelate effects.', icon: '🔲' }
+			{ name: 'Compressor', href: '/image/compressor', description: 'Reduce image file size with quality control. Supports JPEG, PNG, WebP output.', icon: '📦' },
+			{ name: 'Remove White BG', href: '/image/remove-white', description: 'Make white or near-white backgrounds transparent. Adjustable tolerance.', icon: '🧹' },
+			{ name: 'Resize / Scale', href: '/image/resize', description: 'Resize images by pixels or percentage. Lock aspect ratio option.', icon: '📐' },
+			{ name: 'Crop', href: '/image/crop', description: 'Crop images with preset ratios (16:9, 4:3, 1:1) or freeform selection.', icon: '✂️' },
+			{ name: 'Format Converter', href: '/image/converter', description: 'Convert images between JPEG, PNG, WebP, and GIF formats.', icon: '🔄' },
+			{ name: 'Metadata Viewer', href: '/image/metadata', description: 'View EXIF data: camera, GPS, date, settings. Option to strip metadata.', icon: '📋' },
+			{ name: 'Color Extractor', href: '/image/colors', description: 'Extract dominant colors from images. Get hex codes for theming.', icon: '🎨' },
+			{ name: 'Blur / Pixelate', href: '/image/blur', description: 'Apply blur or pixelate effects. Preview in real-time, then download.', icon: '🔲' }
 		]
 	},
 	{
 		name: 'System',
 		icon: '💻',
 		items: [
-			{ name: 'System Info', href: '/system/info', description: 'OS, CPU, memory, screen, GPU info.', icon: '🖥️' },
-			{ name: 'Browser Info', href: '/system/browser', description: 'Browser name, version, engine, language.', icon: '🌐' },
-			{ name: 'Network Info', href: '/system/network', description: 'Connection type, speed, IP lookup.', icon: '📡' },
-			{ name: 'Media Devices', href: '/system/media', description: 'Check camera, mic, speaker list.', icon: '🎥' },
-			{ name: 'Permissions', href: '/system/permissions', description: 'Check browser permission status.', icon: '🔐' }
+			{ name: 'System Info', href: '/system/info', description: 'Detect OS, CPU cores, memory, screen resolution, and GPU info.', icon: '🖥️' },
+			{ name: 'Browser Info', href: '/system/browser', description: 'Browser name, version, engine, and supported features detection.', icon: '🌐' },
+			{ name: 'Network Info', href: '/system/network', description: 'Connection type, effective speed, and public IP address lookup.', icon: '📡' },
+			{ name: 'Media Devices', href: '/system/media', description: 'List available cameras, microphones, and speakers with permissions.', icon: '🎥' },
+			{ name: 'Permissions', href: '/system/permissions', description: 'Check browser permission status: camera, microphone, location, notifications.', icon: '🔐' }
 		]
 	},
 	{
 		name: 'Text',
 		icon: '📝',
 		items: [
-			{ name: 'Case Converter', href: '/text/case-converter', description: 'Convert between camelCase, snake_case, etc.', icon: '🔤' },
-			{ name: 'Line Tools', href: '/text/line-tools', description: 'Sort, dedupe, trim lines.', icon: '📋' },
-			{ name: 'Text Diff', href: '/text/diff', description: 'Compare two text blocks.', icon: '⚖️' },
-			{ name: 'Find & Replace', href: '/text/find-replace', description: 'Search and replace with regex.', icon: '🔍' },
-			{ name: 'Text Statistics', href: '/text/statistics', description: 'Count chars, words, reading time.', icon: '📊' },
-			{ name: 'Anagram Finder', href: '/text/anagram', description: 'Find anagrams of a word.', icon: '🔀' },
-			{ name: 'Remove Duplicates', href: '/text/remove-duplicates', description: 'Remove duplicate words.', icon: '✂️' },
-			{ name: 'Lorem Ipsum', href: '/text/lorem-ipsum', description: 'Generate placeholder text.', icon: '📄' },
-			{ name: 'Blabber Generator', href: '/text/blabber', description: 'Generate random readable text.', icon: '💬' }
+			{ name: 'Case Converter', href: '/text/case-converter', description: 'Convert between camelCase, snake_case, kebab-case, PascalCase, and more.', icon: '🔤' },
+			{ name: 'Line Tools', href: '/text/line-tools', description: 'Sort lines, remove duplicates, trim whitespace, reverse order.', icon: '📋' },
+			{ name: 'Text Diff', href: '/text/diff', description: 'Compare two text blocks line by line. Highlights additions and deletions.', icon: '⚖️' },
+			{ name: 'Find & Replace', href: '/text/find-replace', description: 'Search and replace text with regex support. Preview matches before applying.', icon: '🔍' },
+			{ name: 'Text Statistics', href: '/text/statistics', description: 'Count characters, words, sentences, paragraphs, and reading time.', icon: '📊' },
+			{ name: 'Anagram Finder', href: '/text/anagram', description: 'Find all anagrams of a word or phrase. Uses dictionary validation.', icon: '🔀' },
+			{ name: 'Remove Duplicates', href: '/text/remove-duplicates', description: 'Remove duplicate words or lines from text. Preserves order.', icon: '✂️' },
+			{ name: 'Lorem Ipsum', href: '/text/lorem-ipsum', description: 'Generate placeholder text: paragraphs, sentences, or words.', icon: '📄' },
+			{ name: 'Blabber Generator', href: '/text/blabber', description: 'Generate random readable gibberish text for testing layouts.', icon: '💬' }
 		]
 	},
 	{
 		name: 'HTML',
 		icon: '📄',
 		items: [
-			{ name: 'HTML Validator (Basic)', href: '/html/validator', description: 'Check for invalid tags, unclosed elements, duplicate IDs.', icon: '✓' },
-			{ name: 'HTML Formatter', href: '/html/formatter', description: 'Beautify or minify HTML with proper indentation.', icon: '{ }' },
-			{ name: 'HTML → Text', href: '/html/text-extractor', description: 'Strip HTML tags, preserve text content.', icon: '📝' },
-			{ name: 'Element Extractor', href: '/html/element-extractor', description: 'Extract links, images, meta tags.', icon: '🔍' },
-			{ name: 'DOM Visualizer', href: '/html/dom-visualizer', description: 'Interactive tree view with search and copy.', icon: '🌲' },
-			{ name: 'HTML → JSON', href: '/html/to-json', description: 'Convert DOM structure to JSON.', icon: '🔄' },
-			{ name: 'Attribute Cleaner', href: '/html/attribute-cleaner', description: 'Remove inline styles, data-*, empty attributes.', icon: '🧹' },
-			{ name: 'Tag Counter', href: '/html/tag-counter', description: 'Count elements by tag type.', icon: '📊' }
+			{ name: 'HTML Validator (Basic)', href: '/html/validator', description: 'Check for unclosed tags, invalid nesting, duplicate IDs, and common errors.', icon: '✓' },
+			{ name: 'HTML Formatter', href: '/html/formatter', description: 'Beautify or minify HTML with proper indentation. Preserves inline elements.', icon: '{ }' },
+			{ name: 'HTML → Text', href: '/html/text-extractor', description: 'Strip all HTML tags and extract plain text content only.', icon: '📝' },
+			{ name: 'Element Extractor', href: '/html/element-extractor', description: 'Extract all links, images, meta tags, or scripts from HTML.', icon: '🔍' },
+			{ name: 'DOM Visualizer', href: '/html/dom-visualizer', description: 'Interactive tree view of HTML structure. Search and copy nodes.', icon: '🌲' },
+			{ name: 'HTML → JSON', href: '/html/to-json', description: 'Convert HTML DOM structure to JSON representation.', icon: '🔄' },
+			{ name: 'Attribute Cleaner', href: '/html/attribute-cleaner', description: 'Remove inline styles, data attributes, classes, or empty attributes.', icon: '🧹' },
+			{ name: 'Tag Counter', href: '/html/tag-counter', description: 'Count occurrences of each HTML tag. Shows element distribution.', icon: '📊' }
 		]
 	},
 	{
 		name: 'Break',
 		icon: '☕',
 		items: [
-			{ name: 'Pomodoro Timer', href: '/break/pomodoro', description: 'Focus timer with 25/5 and 50/10 presets.', icon: '🍅' },
-			{ name: 'Ambient Rest', href: '/break/ambient', description: 'Calm screen with rain and cafe sounds.', icon: '🌧️' },
-			{ name: 'Minimal Clock', href: '/break/clock', description: 'Big, quiet clock for focused thinking.', icon: '🕐' },
-			{ name: 'Zen Motion', href: '/break/zen-motion', description: 'Nostalgic bouncing shape for eye rest.', icon: '📀' },
-			{ name: 'Breathing Timer', href: '/break/breathing', description: 'Guided inhale, hold, exhale cycles.', icon: '🌬️' }
+			{ name: 'Pomodoro Timer', href: '/break/pomodoro', description: 'Focus timer with 25/5 and 50/10 minute presets. Audio notification.', icon: '🍅' },
+			{ name: 'Ambient Rest', href: '/break/ambient', description: 'Full-screen calm background with rain or café ambient sounds.', icon: '🌧️' },
+			{ name: 'Minimal Clock', href: '/break/clock', description: 'Large, distraction-free clock. Analog or digital display options.', icon: '🕐' },
+			{ name: 'Zen Motion', href: '/break/zen-motion', description: 'Nostalgic bouncing shape animation for resting your eyes.', icon: '📀' },
+			{ name: 'Breathing Timer', href: '/break/breathing', description: 'Guided breathing: configurable inhale, hold, exhale cycles.', icon: '🌬️' }
 		]
 	}
 ];

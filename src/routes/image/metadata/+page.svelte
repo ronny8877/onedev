@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { readFileAsArrayBuffer, loadImage, loadImageAsCanvas, canvasToBlob, downloadBlob, formatFileSize } from '$lib/utils/image';
 
 	let originalFile = $state<File | null>(null);
@@ -176,7 +177,7 @@
 	}
 
 	function getTagName(tag: number, prefix: string): string | null {
-		// Comprehensive EXIF tag database - extract ALL available metadata
+		// Comprehensive EXIF tag database
 		const ifd0Tags: Record<number, string> = {
 			// Primary tags (IFD0)
 			0x0100: 'Image Width',
@@ -497,6 +498,15 @@
 		exifError = '';
 		strippedBlob = null;
 	}
+
+	async function loadSample() {
+		const res = await fetch('https://images.unsplash.com/photo-1517336714731-489689fd1ca4?w=800&q=80');
+		const blob = await res.blob();
+		const file = new File([blob], 'laptop.jpg', { type: 'image/jpeg' });
+		const reader = new FileReader();
+		reader.onload = (e) => handleImageLoad(file, e.target?.result as string);
+		reader.readAsDataURL(file);
+	}
 </script>
 
 <ToolWrapper
@@ -504,6 +514,8 @@
 	description="View all image information including dimensions, file details, and EXIF data. Strip metadata for privacy."
 >
 	<div class="flex flex-col gap-6">
+		<ToolActions onSample={loadSample} onClear={reset} />
+
 		{#if !originalFile}
 			<ImageUploader onImageLoad={handleImageLoad} />
 		{:else}

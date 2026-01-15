@@ -1,7 +1,8 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
-	import { loadImageAsCanvas, canvasToBlob, downloadBlob, formatFileSize, mimeToExtension, replaceExtension } from '$lib/utils/image';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
+	import { loadImageAsCanvas, canvasToBlob, downloadBlob, formatFileSize, mimeToExtension } from '$lib/utils/image';
 
 	let originalFile = $state<File | null>(null);
 	let originalDataURL = $state('');
@@ -71,6 +72,16 @@
 	});
 
 	let originalFormat = $derived(originalFile?.type || 'unknown');
+
+	async function loadSample() {
+		// Load a transparent PNG to show conversion benefits (e.g. to JPG loses transparency)
+		const res = await fetch('https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=800&q=80');
+		const blob = await res.blob();
+		const file = new File([blob], 'logo-idea.jpg', { type: 'image/jpeg' });
+		const reader = new FileReader();
+		reader.onload = (e) => handleImageLoad(file, e.target?.result as string);
+		reader.readAsDataURL(file);
+	}
 </script>
 
 <ToolWrapper
@@ -78,6 +89,8 @@
 	description="Convert images between JPEG, PNG, and WebP formats."
 >
 	<div class="flex flex-col gap-6">
+		<ToolActions onSample={loadSample} onClear={reset} />
+
 		{#if !originalFile}
 			<ImageUploader onImageLoad={handleImageLoad} />
 		{:else}

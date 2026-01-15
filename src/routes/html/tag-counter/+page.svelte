@@ -1,11 +1,40 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { countTags, type TagCount } from '$lib/utils/html';
 
 	let input = $state('');
 	let sortBy = $state<'count' | 'name'>('count');
 	let viewMode = $state<'bars' | 'grid'>('bars');
+
+	function handleClear() {
+		input = '';
+	}
+
+	function loadExample() {
+		input = `<!DOCTYPE html>
+<html>
+<head>
+    <title>Sample</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Header</h1>
+        <p>Paragraph 1</p>
+        <p>Paragraph 2</p>
+        <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+        </ul>
+        <div class="footer">
+            <span>Footer</span>
+        </div>
+    </div>
+</body>
+</html>`;
+	}
 
 	const tags = $derived.by(() => {
 		if (!input.trim()) return [];
@@ -28,9 +57,10 @@
 		return `hsl(${hue}, 65%, 55%)`;
 	}
 
-	function handleClear() {
-		input = '';
-	}
+	let stats = $derived({
+		chars: input.length,
+		lines: input.split('\n').length
+	});
 </script>
 
 <ToolWrapper
@@ -38,6 +68,9 @@
 	description="Count and analyze HTML elements by tag type"
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={handleClear} {stats} />
+
 		<!-- Summary Cards -->
 		{#if tags.length > 0}
 			<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -97,9 +130,6 @@
 		<div>
 			<div class="flex items-center justify-between mb-2">
 				<h3 class="text-sm font-medium text-base-content/70">HTML Input</h3>
-				<button type="button" class="btn btn-ghost btn-xs" onclick={handleClear}>
-					Clear
-				</button>
 			</div>
 			<CodeMirrorEditor bind:value={input} placeholder="Paste your HTML here..." />
 		</div>

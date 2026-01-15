@@ -1,8 +1,11 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	let input = $state('');
 	let selectedCase = $state('camelCase');
+
+	const sampleInput = 'getUserProfileData';
 
 	const cases = [
 		{ id: 'camelCase', name: 'camelCase', example: 'myVariableName' },
@@ -17,11 +20,10 @@
 	];
 
 	function toWords(str: string): string[] {
-		// Split by common delimiters and camelCase
 		return str
-			.replace(/([a-z])([A-Z])/g, '$1 $2') // camelCase
-			.replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2') // XMLParser -> XML Parser
-			.replace(/[-_]/g, ' ') // kebab and snake
+			.replace(/([a-z])([A-Z])/g, '$1 $2')
+			.replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+			.replace(/[-_]/g, ' ')
 			.toLowerCase()
 			.split(/\s+/)
 			.filter(Boolean);
@@ -57,9 +59,10 @@
 	}
 
 	let output = $derived(convert(input, selectedCase));
+	let stats = $derived(input ? { chars: input.length } : undefined);
 
-	function copyOutput() {
-		navigator.clipboard.writeText(output);
+	function loadSample() {
+		input = sampleInput;
 	}
 
 	function clearAll() {
@@ -69,15 +72,15 @@
 
 <ToolWrapper
 	title="Case Converter"
-	description="Convert text between camelCase, PascalCase, snake_case, kebab-case, and more."
+	description="Convert between camelCase, snake_case, kebab-case, PascalCase, and more."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} stats={stats} />
+
 		<!-- Input -->
 		<div>
-			<div class="flex items-center justify-between mb-2">
-				<h3 class="text-sm font-medium text-base-content/70">Input Text</h3>
-				<button class="btn btn-ghost btn-xs" onclick={clearAll}>Clear</button>
-			</div>
+			<h3 class="text-sm font-medium text-base-content/70 mb-2">Input Text</h3>
 			<textarea
 				bind:value={input}
 				placeholder="Enter text to convert (e.g., myVariableName, my-variable-name)"
@@ -105,15 +108,7 @@
 		{#if input.trim()}
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
-					<div class="flex items-center justify-between mb-2">
-						<h3 class="font-semibold">{selectedCase}</h3>
-						<button class="btn btn-ghost btn-sm gap-1" onclick={copyOutput}>
-							<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-							</svg>
-							Copy
-						</button>
-					</div>
+					<h3 class="font-semibold mb-2">{selectedCase}</h3>
 					<code class="text-lg font-mono break-all">{output}</code>
 				</div>
 			</div>

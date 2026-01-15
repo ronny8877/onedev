@@ -1,11 +1,24 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import { validateJSON, type ParseError } from '$lib/utils/json';
 
 	let input = $state('');
 	let isValid = $state<boolean | null>(null);
 	let error = $state<ParseError | null>(null);
+
+	// Stats
+	let stats = $derived(input ? { chars: input.length, lines: input.split('\n').length } : undefined);
+
+	const sampleJSON = `{
+  "user": {
+    "id": 12345,
+    "name": "John Doe"
+    "email": "john@example.com",
+  },
+  "active": true
+}`;
 
 	$effect(() => {
 		if (!input.trim()) {
@@ -18,13 +31,26 @@
 		isValid = result.valid;
 		error = result.error || null;
 	});
+
+	function loadSample() {
+		input = sampleJSON;
+	}
+
+	function clearAll() {
+		input = '';
+		isValid = null;
+		error = null;
+	}
 </script>
 
 <ToolWrapper
 	title="JSON Validator"
-	description="Check if your JSON is valid and get detailed error messages with line numbers"
+	description="Check if JSON is valid with line-by-line error details. Instant validation as you type."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} stats={stats} />
+
 		<!-- Status Badge -->
 		{#if isValid !== null}
 			<div class="flex items-center gap-3">

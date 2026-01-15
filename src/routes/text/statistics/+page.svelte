@@ -1,7 +1,12 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	let input = $state('');
+
+	const sampleText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
 	let stats = $derived.by(() => {
 		const text = input;
@@ -43,35 +48,26 @@
 		};
 	});
 
-	function clearAll() {
-		input = '';
+	function loadSample() {
+		input = sampleText;
 	}
 
-	function copyStats() {
-		if (!stats) return;
-		const text = `Characters: ${stats.chars}
-Characters (no spaces): ${stats.charsNoSpaces}
-Words: ${stats.words}
-Lines: ${stats.lines}
-Sentences: ${stats.sentences}
-Paragraphs: ${stats.paragraphs}
-Avg word length: ${stats.avgWordLength}
-Reading time: ${stats.readingMinutes} min`;
-		navigator.clipboard.writeText(text);
+	function clearAll() {
+		input = '';
 	}
 </script>
 
 <ToolWrapper
 	title="Text Statistics"
-	description="Analyze text for character count, word count, reading time, and more."
+	description="Analyze text counts: characters, words, sentences, reading time, and more."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} copyText={input} />
+
 		<!-- Input -->
 		<div>
-			<div class="flex items-center justify-between mb-2">
-				<h3 class="text-sm font-medium text-base-content/70">Enter Text</h3>
-				<button class="btn btn-ghost btn-xs" onclick={clearAll}>Clear</button>
-			</div>
+			<h3 class="text-sm font-medium text-base-content/70 mb-2">Enter Text</h3>
 			<textarea
 				bind:value={input}
 				placeholder="Paste or type your text here to analyze..."
@@ -84,10 +80,7 @@ Reading time: ${stats.readingMinutes} min`;
 		{#if stats}
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
-					<div class="flex items-center justify-between mb-4">
-						<h3 class="font-semibold">Statistics</h3>
-						<button class="btn btn-ghost btn-sm" onclick={copyStats}>Copy Stats</button>
-					</div>
+					<h3 class="font-semibold mb-4">Statistics</h3>
 					<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
 						<div class="flex items-center justify-between p-3 rounded-xl bg-base-300/50">
 							<span class="text-base-content/70">Characters</span>

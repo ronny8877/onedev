@@ -1,10 +1,10 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	let paragraphs = $state(3);
 	let wordsPerParagraph = $state(50);
 	let output = $state('');
-	let copied = $state(false);
 
 	const loremWords = [
 		'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit', 'sed', 'do',
@@ -32,21 +32,15 @@
 
 		for (let i = 0; i < wordCount; i++) {
 			let word = loremWords[Math.floor(Math.random() * loremWords.length)];
-
-			// Capitalize first word of sentence
 			if (words.length === 0 || words[words.length - 1].endsWith('.')) {
 				word = word.charAt(0).toUpperCase() + word.slice(1);
 			}
-
-			// Add punctuation occasionally
 			if (i > 0 && Math.random() < 0.1) {
 				word += ',';
 			}
-
 			words.push(word);
 		}
 
-		// Ensure ends with period
 		let result = words.join(' ');
 		if (!result.endsWith('.') && !result.endsWith('!') && !result.endsWith('?')) {
 			result = result.replace(/,?$/, '.');
@@ -63,20 +57,17 @@
 		output = paras.join('\n\n');
 	}
 
-	function copyOutput() {
-		navigator.clipboard.writeText(output);
-		copied = true;
-		setTimeout(() => { copied = false; }, 2000);
+	function sample() {
+		paragraphs = 3;
+		wordsPerParagraph = 50;
+		generate();
 	}
 
-	function copyHtml() {
-		const html = output.split('\n\n').map(p => `<p>${p}</p>`).join('\n');
-		navigator.clipboard.writeText(html);
-		copied = true;
-		setTimeout(() => { copied = false; }, 2000);
+	function clearAll() {
+		output = '';
 	}
 
-	// Generate on mount
+	// Generate on mount is standard for this tool
 	$effect(() => {
 		generate();
 	});
@@ -84,9 +75,12 @@
 
 <ToolWrapper
 	title="Lorem Ipsum Generator"
-	description="Generate placeholder text for design mockups and prototypes."
+	description="Generate placeholder text for design mockups. Configurable length."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={sample} onClear={clearAll} copyText={output} />
+
 		<!-- Options -->
 		<div class="grid sm:grid-cols-2 gap-4">
 			<div>
@@ -97,6 +91,7 @@
 					max="10"
 					bind:value={paragraphs}
 					class="range range-primary"
+					oninput={generate}
 				/>
 				<div class="text-center font-mono text-sm mt-1">{paragraphs}</div>
 			</div>
@@ -109,41 +104,21 @@
 					step="10"
 					bind:value={wordsPerParagraph}
 					class="range range-primary"
+					oninput={generate}
 				/>
 				<div class="text-center font-mono text-sm mt-1">{wordsPerParagraph}</div>
 			</div>
 		</div>
 
-		<!-- Actions -->
-		<div class="flex flex-wrap gap-2">
-			<button class="btn btn-primary" onclick={generate}>
-				🎲 Generate
-			</button>
-			<button class="btn btn-ghost" onclick={copyOutput} disabled={!output}>
-				{copied ? '✓ Copied' : '📋 Copy Text'}
-			</button>
-			<button class="btn btn-ghost" onclick={copyHtml} disabled={!output}>
-				Copy as HTML
-			</button>
-		</div>
-
-				<!-- Quick Presets -->
+		<!-- Quick Presets -->
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold mb-3">Quick Presets</h4>
 				<div class="flex flex-wrap gap-2">
-					<button class="btn btn-sm btn-ghost" onclick={() => { paragraphs = 1; wordsPerParagraph = 30; generate(); }}>
-						Short
-					</button>
-					<button class="btn btn-sm btn-ghost" onclick={() => { paragraphs = 3; wordsPerParagraph = 50; generate(); }}>
-						Medium
-					</button>
-					<button class="btn btn-sm btn-ghost" onclick={() => { paragraphs = 5; wordsPerParagraph = 80; generate(); }}>
-						Long
-					</button>
-					<button class="btn btn-sm btn-ghost" onclick={() => { paragraphs = 10; wordsPerParagraph = 100; generate(); }}>
-						Article
-					</button>
+					<button class="btn btn-sm btn-ghost" onclick={() => { paragraphs = 1; wordsPerParagraph = 30; generate(); }}>Short</button>
+					<button class="btn btn-sm btn-ghost" onclick={() => { paragraphs = 3; wordsPerParagraph = 50; generate(); }}>Medium</button>
+					<button class="btn btn-sm btn-ghost" onclick={() => { paragraphs = 5; wordsPerParagraph = 80; generate(); }}>Long</button>
+					<button class="btn btn-sm btn-ghost" onclick={() => { paragraphs = 10; wordsPerParagraph = 100; generate(); }}>Article</button>
 				</div>
 			</div>
 		</div>

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	let paragraphs = $state(2);
 	let sentencesPerParagraph = $state(5);
 	let output = $state('');
-	let copied = $state(false);
 
 	// Word lists for generating pseudo-readable text
 	const subjects = [
@@ -50,15 +50,10 @@
 
 	function generateSentence(useTransition: boolean = false): string {
 		const patterns = [
-			// Subject + adverb + verb + object
 			() => `${random(subjects)} ${random(adverbs)} ${random(verbs)} ${random(objects)}.`,
-			// Subject + verb + adjective + object
 			() => `${random(subjects)} ${random(verbs)} ${random(adjectives)} ${random(objects)}.`,
-			// Subject + verb + and + verb + object
 			() => `${random(subjects)} ${random(verbs)} and ${random(verbs)} ${random(objects)}.`,
-			// Simple: Subject + verb
 			() => `${random(subjects)} ${random(verbs)} ${random(adverbs)}.`,
-			// With adjective subject
 			() => `A ${random(adjectives)} ${random(['person', 'thing', 'idea', 'moment', 'day'])} ${random(verbs)} ${random(objects)}.`
 		];
 
@@ -90,13 +85,16 @@
 		output = paras.join('\n\n');
 	}
 
-	function copyOutput() {
-		navigator.clipboard.writeText(output);
-		copied = true;
-		setTimeout(() => { copied = false; }, 2000);
+	function sample() {
+		paragraphs = 2;
+		sentencesPerParagraph = 5;
+		generate();
 	}
 
-	// Generate on mount
+	function clearAll() {
+		output = '';
+	}
+
 	$effect(() => {
 		generate();
 	});
@@ -104,9 +102,12 @@
 
 <ToolWrapper
 	title="Blabber Generator"
-	description="Generate random but somewhat readable English text for testing."
+	description="Generate random, readable nonsense text. Great for testing layouts."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={sample} onClear={clearAll} copyText={output} />
+
 		<!-- Options -->
 		<div class="grid sm:grid-cols-2 gap-4">
 			<div>
@@ -117,6 +118,7 @@
 					max="10"
 					bind:value={paragraphs}
 					class="range range-secondary"
+					oninput={generate}
 				/>
 				<div class="text-center font-mono text-sm mt-1">{paragraphs}</div>
 			</div>
@@ -128,18 +130,16 @@
 					max="10"
 					bind:value={sentencesPerParagraph}
 					class="range range-secondary"
+					oninput={generate}
 				/>
 				<div class="text-center font-mono text-sm mt-1">{sentencesPerParagraph}</div>
 			</div>
 		</div>
 
-		<!-- Actions -->
-		<div class="flex flex-wrap gap-3">
+		<!-- Main Action -->
+		<div>
 			<button class="btn btn-primary" onclick={generate}>
 				🎲 Generate New
-			</button>
-			<button class="btn btn-ghost" onclick={copyOutput} disabled={!output}>
-				{copied ? '✓ Copied' : '📋 Copy'}
 			</button>
 		</div>
 

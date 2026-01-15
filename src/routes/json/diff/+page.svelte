@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
 	import { compareJSON, type DiffResult, type ParseError } from '$lib/utils/json';
@@ -12,27 +13,41 @@
 	let ignoreKeyOrder = $state(false);
 	let compareTimeout: ReturnType<typeof setTimeout> | null = null;
 
+	const sampleLeft = `{
+  "name": "OneDev Tools",
+  "version": "1.0.0",
+  "features": ["JSON", "Base64"],
+  "config": {
+    "theme": "light"
+  }
+}`;
+
+	const sampleRight = `{
+  "name": "OneDev Tools",
+  "version": "2.0.0",
+  "features": ["JSON", "Base64", "URL"],
+  "config": {
+    "theme": "dark",
+    "notifications": true
+  }
+}`;
+
 	// Auto-compare with debounce when both inputs have content
-	// Also re-compare when ignoreKeyOrder changes
 	$effect(() => {
-		// Track dependencies
 		const _left = leftInput;
 		const _right = rightInput;
 		const _ignoreOrder = ignoreKeyOrder;
 
-		// Clear previous timeout
 		if (compareTimeout) {
 			clearTimeout(compareTimeout);
 		}
 
-		// Only auto-compare if both inputs have content
 		if (!_left.trim() || !_right.trim()) {
 			diffs = [];
 			error = null;
 			return;
 		}
 
-		// Debounce comparison by 500ms
 		compareTimeout = setTimeout(() => {
 			handleCompare();
 		}, 500);
@@ -58,6 +73,18 @@
 		} catch (err) {
 			error = { message: (err as Error).message };
 		}
+	}
+
+	function loadSample() {
+		leftInput = sampleLeft;
+		rightInput = sampleRight;
+	}
+
+	function clearAll() {
+		leftInput = '';
+		rightInput = '';
+		diffs = [];
+		error = null;
 	}
 
 	function getTypeColor(type: DiffResult['type']): string {
@@ -94,9 +121,12 @@
 
 <ToolWrapper
 	title="JSON Diff Checker"
-	description="Compare two JSON objects and see the differences highlighted"
+	description="Compare two JSON objects side by side. Highlights added, removed, and changed values."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} />
+
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
 			<button type="button" class="btn btn-primary" onclick={handleCompare}>
@@ -171,7 +201,6 @@
 								</div>
 
 								{#if diff.type === 'changed'}
-									<!-- Side by Side or Inline based on viewMode -->
 									{#if viewMode === 'side-by-side'}
 										<div class="mt-3 grid gap-3 lg:grid-cols-2">
 											<div class="rounded-lg bg-error/10 p-3">

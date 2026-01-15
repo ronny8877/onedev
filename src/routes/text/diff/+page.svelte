@@ -1,11 +1,20 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	let textA = $state('');
 	let textB = $state('');
 	let diffMode = $state<'word' | 'char'>('word');
 	let ignoreWhitespace = $state(false);
 	let ignoreCase = $state(false);
+
+	const sampleA = `The quick brown fox jumps over the lazy dog.
+This is an example of text comparison.
+Some lines will remain unchanged.`;
+
+	const sampleB = `The quick red fox leaps over the lazy dog.
+This is a demo of text comparison.
+Some lines will remain unchanged.`;
 
 	interface DiffPart {
 		type: 'same' | 'added' | 'removed';
@@ -29,7 +38,6 @@
 		const partsA = diffMode === 'word' ? strA.split(/(\s+)/) : strA.split('');
 		const partsB = diffMode === 'word' ? strB.split(/(\s+)/) : strB.split('');
 
-		// Simple LCS-based diff
 		const result: DiffPart[] = [];
 		let i = 0, j = 0;
 
@@ -45,16 +53,13 @@
 				i++;
 				j++;
 			} else {
-				// Look ahead to find matches
 				let foundInB = partsB.slice(j, j + 10).indexOf(partsA[i]);
 				let foundInA = partsA.slice(i, i + 10).indexOf(partsB[j]);
 
 				if (foundInB !== -1 && (foundInA === -1 || foundInB <= foundInA)) {
-					// partsB has extra content
 					result.push({ type: 'added', value: partsB[j] });
 					j++;
 				} else if (foundInA !== -1) {
-					// partsA has extra content
 					result.push({ type: 'removed', value: partsA[i] });
 					i++;
 				} else {
@@ -76,6 +81,11 @@
 		same: diff.filter(d => d.type === 'same').length
 	});
 
+	function loadSample() {
+		textA = sampleA;
+		textB = sampleB;
+	}
+
 	function clearAll() {
 		textA = '';
 		textB = '';
@@ -88,9 +98,12 @@
 
 <ToolWrapper
 	title="Text Diff"
-	description="Compare two text blocks and highlight differences."
+	description="Compare two text blocks line by line. Highlights additions and deletions."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} />
+
 		<!-- Options -->
 		<div class="flex flex-wrap items-center gap-4">
 			<div class="flex items-center gap-2">
@@ -108,14 +121,13 @@
 				<input type="checkbox" bind:checked={ignoreCase} class="checkbox checkbox-sm" />
 				<span class="text-sm">Ignore case</span>
 			</label>
+			<button class="btn btn-ghost btn-sm" onclick={swapTexts}>⇄ Swap</button>
 		</div>
 
 		<!-- Input Areas -->
 		<div class="grid md:grid-cols-2 gap-4">
 			<div>
-				<div class="flex items-center justify-between mb-2">
-					<h3 class="text-sm font-medium text-base-content/70">Original</h3>
-				</div>
+				<h3 class="text-sm font-medium text-base-content/70 mb-2">Original</h3>
 				<textarea
 					bind:value={textA}
 					placeholder="Paste original text here..."
@@ -124,9 +136,7 @@
 				></textarea>
 			</div>
 			<div>
-				<div class="flex items-center justify-between mb-2">
-					<h3 class="text-sm font-medium text-base-content/70">Modified</h3>
-				</div>
+				<h3 class="text-sm font-medium text-base-content/70 mb-2">Modified</h3>
 				<textarea
 					bind:value={textB}
 					placeholder="Paste modified text here..."
@@ -134,12 +144,6 @@
 					spellcheck="false"
 				></textarea>
 			</div>
-		</div>
-
-		<!-- Actions -->
-		<div class="flex gap-2">
-			<button class="btn btn-ghost btn-sm" onclick={swapTexts}>⇄ Swap</button>
-			<button class="btn btn-ghost btn-sm" onclick={clearAll}>Clear</button>
 		</div>
 
 		<!-- Stats -->

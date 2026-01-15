@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { formatFileSize, downloadBlob } from '$lib/utils/image';
 	import imageCompression from 'browser-image-compression';
 
@@ -99,6 +100,15 @@
 			? (originalFile.size / processedBlob.size).toFixed(1)
 			: '0'
 	);
+
+	async function loadSample() {
+		const res = await fetch('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200&q=95');
+		const blob = await res.blob();
+		const file = new File([blob], 'nature.jpg', { type: 'image/jpeg' });
+		const reader = new FileReader();
+		reader.onload = (e) => handleImageLoad(file, e.target?.result as string);
+		reader.readAsDataURL(file);
+	}
 </script>
 
 <ToolWrapper
@@ -106,6 +116,8 @@
 	description="Reduce image file size while maintaining quality. All processing happens locally."
 >
 	<div class="flex flex-col gap-6">
+		<ToolActions onSample={loadSample} onClear={reset} />
+
 		{#if !originalFile}
 			<ImageUploader onImageLoad={handleImageLoad} />
 		{:else}

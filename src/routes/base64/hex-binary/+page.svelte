@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { base64ToHex, base64ToBinary, validateBase64 } from '$lib/utils/base64';
 
 	let input = $state('');
@@ -7,6 +8,8 @@
 	let output = $state('');
 	let error = $state<string | null>(null);
 	let convertTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	const sampleInput = 'SGVsbG8gV29ybGQh'; // "Hello World!" in Base64
 
 	// Auto-convert with debounce
 	$effect(() => {
@@ -58,16 +61,25 @@
 		}
 	}
 
-	async function copyOutput() {
-		if (output) {
-			await navigator.clipboard.writeText(output);
-		}
+	function loadSample() {
+		input = sampleInput;
+		outputFormat = 'hex';
+	}
+
+	function clearAll() {
+		input = '';
+		output = '';
+		error = null;
 	}
 
 	// Format hex with spaces every 2 chars for readability
 	function formatHex(hex: string): string {
 		return hex.match(/.{1,2}/g)?.join(' ') || hex;
 	}
+
+	let stats = $derived({
+		chars: input.length
+	});
 </script>
 
 <ToolWrapper
@@ -75,6 +87,9 @@
 	description="Convert Base64 to hexadecimal or binary representation. Useful for crypto and debugging."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} {stats} />
+
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
 			<div class="join">
@@ -124,16 +139,9 @@
 			</div>
 
 			<div>
-				<div class="mb-2 flex items-center justify-between">
-					<h3 class="text-sm font-medium text-base-content/70">
-						{outputFormat === 'hex' ? 'Hexadecimal' : 'Binary'} Output
-					</h3>
-					{#if output}
-						<button type="button" class="btn btn-ghost btn-xs" onclick={copyOutput}>
-							Copy
-						</button>
-					{/if}
-				</div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">
+					{outputFormat === 'hex' ? 'Hexadecimal' : 'Binary'} Output
+				</h3>
 				<textarea
 					value={outputFormat === 'hex' ? formatHex(output) : output}
 					readonly

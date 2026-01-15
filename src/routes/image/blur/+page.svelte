@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { loadImage, canvasToBlob, downloadBlob, formatFileSize, mimeToExtension } from '$lib/utils/image';
 
 	let originalFile = $state<File | null>(null);
@@ -331,12 +332,14 @@
 		}
 	}
 
-	// Current drag preview for new patch
-	let currentDragPreview = $derived.by(() => {
-		if (!isDragging || dragMode !== 'new') return null;
-		// We need to track mouse position for preview - handled in template
-		return null;
-	});
+	async function loadSample() {
+		const res = await fetch('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80');
+		const blob = await res.blob();
+		const file = new File([blob], 'landscape.jpg', { type: 'image/jpeg' });
+		const reader = new FileReader();
+		reader.onload = (e) => handleImageLoad(file, e.target?.result as string);
+		reader.readAsDataURL(file);
+	}
 
 	function updateCanvasScale() {
 		if (containerRef && imageWidth > 0) {
@@ -350,6 +353,8 @@
 	description="Apply blur or pixelate effects. Use patch mode to selectively blur areas for privacy."
 >
 	<div class="flex flex-col gap-6">
+		<ToolActions onSample={loadSample} onClear={reset} />
+
 		{#if !originalFile}
 			<ImageUploader onImageLoad={handleImageLoad} />
 		{:else}

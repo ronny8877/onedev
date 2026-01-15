@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 
 	let input = $state('');
@@ -17,6 +18,7 @@
 	let length = $derived(input.length);
 	let bytes = $derived(new TextEncoder().encode(input).length);
 	let percent = $derived(Math.min((length / 2048) * 100, 100));
+	let status = $derived(getStatus());
 
 	function getStatusColor(): string {
 		if (length === 0) return 'bg-base-300';
@@ -45,7 +47,10 @@
 		input = 'https://api.example.com/v1/search?query=a+very+long+search+query+with+many+terms&category=electronics&subcategory=smartphones&brand=apple&brand=samsung&brand=google&min_price=100&max_price=1500&in_stock=true&sort=price_asc&page=1&limit=50&fields=id,name,price,image,rating,reviews&include=specifications,variants&exclude=description&format=json&locale=en-US&currency=USD&timestamp=' + Date.now();
 	}
 
-	let status = $derived(getStatus());
+	let stats = $derived({
+		chars: input.length,
+		bytes: new TextEncoder().encode(input).length
+	});
 </script>
 
 <ToolWrapper
@@ -53,15 +58,8 @@
 	description="Check URL length against browser and server limits. Keep URLs under 2048 characters for best compatibility."
 >
 	<div class="flex flex-col gap-6">
-		<!-- Controls -->
-		<div class="flex flex-wrap items-center gap-3">
-			<button type="button" class="btn btn-ghost btn-sm" onclick={loadExample}>
-				Load Long Example
-			</button>
-			<button type="button" class="btn btn-ghost btn-sm" onclick={clearAll}>
-				Clear
-			</button>
-		</div>
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={clearAll} copyText={input} {stats} />
 
 		<!-- Input -->
 		<div>
@@ -145,14 +143,6 @@
 				</table>
 			</div>
 		</div>
-
-		<!-- Copy Options -->
-		{#if input}
-			<div class="flex items-center gap-2">
-				<span class="text-sm text-base-content/60">Copy as:</span>
-				<CopyButton url={input} size="sm" />
-			</div>
-		{/if}
 
 		<!-- Tips -->
 		<div class="card bg-base-200 rounded-xl">

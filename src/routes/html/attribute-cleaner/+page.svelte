@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { cleanAttributes } from '$lib/utils/html';
 
 	let input = $state('');
@@ -32,6 +33,15 @@
 		removedCount = 0;
 	}
 
+	function loadExample() {
+		input = `<div class="container" style="color: red; margin: 10px;">
+  <h1 data-test-id="heading">Hello World</h1>
+  <p onclick="alert('click')" class="">Paragraph with event handler</p>
+  <img src="image.jpg" alt="" data-lazy="true" />
+</div>`;
+		setTimeout(handleClean, 0);
+	}
+
 	function handleSwap() {
 		if (output) {
 			input = output;
@@ -48,6 +58,11 @@
 			handleClean();
 		}
 	});
+
+	let stats = $derived({
+		chars: input.length,
+		lines: input.split('\n').length
+	});
 </script>
 
 <ToolWrapper
@@ -55,6 +70,9 @@
 	description="Remove inline styles, empty attributes, data-* attributes, and event handlers"
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={handleClear} copyText={output} {stats} />
+
 		<!-- Options -->
 		<div class="flex flex-wrap items-center gap-4">
 			<label class="flex items-center gap-2 cursor-pointer">
@@ -90,12 +108,8 @@
 				</button>
 			{/if}
 
-			<button type="button" class="btn btn-ghost btn-sm" onclick={handleClear}>
-				Clear
-			</button>
-
 			{#if removedCount > 0}
-				<div class="badge badge-success gap-1">
+				<div class="badge badge-success gap-1 ml-auto">
 					<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
 					</svg>

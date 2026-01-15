@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import QueryParamsDisplay from '$lib/components/ui/QueryParamsDisplay.svelte';
 	import { parseURLParts, parseQueryString, type URLParts, type QueryParam } from '$lib/utils/url';
@@ -96,6 +97,10 @@
 		
 		return result;
 	}
+
+	let stats = $derived({
+		chars: input.length
+	});
 </script>
 
 <ToolWrapper
@@ -103,15 +108,8 @@
 	description="Break down a URL into its component parts with detailed query parameter parsing."
 >
 	<div class="flex flex-col gap-6">
-		<!-- Controls -->
-		<div class="flex flex-wrap items-center gap-3">
-			<button type="button" class="btn btn-ghost btn-sm" onclick={loadExample}>
-				Load Example
-			</button>
-			<button type="button" class="btn btn-ghost btn-sm" onclick={clearAll}>
-				Clear
-			</button>
-		</div>
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={clearAll} {stats} />
 
 		<!-- Input -->
 		<div>

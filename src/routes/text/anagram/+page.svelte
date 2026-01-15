@@ -1,7 +1,10 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	let input = $state('');
+
+	const sampleWord = 'listen';
 
 	function sortString(str: string): string {
 		return str.toLowerCase().split('').sort().join('');
@@ -39,7 +42,16 @@
 		'world', 'would', 'write', 'year', 'yes', 'yet', 'you', 'young', 'your',
 		'silent', 'listen', 'earth', 'heart', 'state', 'taste', 'night', 'thing', 'canoe', 'ocean',
 		'notes', 'stone', 'tones', 'onset', 'teams', 'steam', 'meats', 'mates', 'actor', 'trace',
-		'crate', 'react', 'cater', 'acres', 'scare', 'cares', 'races', 'artic', 'trail', 'trial'
+		'crate', 'react', 'cater', 'acres', 'scare', 'cares', 'races', 'artic', 'trail', 'trial',
+		'angel', 'angle', 'glean', 'alert', 'alter', 'later', 'arise', 'raise', 'baker', 'brake',
+		'break', 'bare', 'bear', 'beat', 'beta', 'bin', 'nib', 'bleat', 'table', 'blow', 'bowl',
+		'brag', 'grab', 'brush', 'shrub', 'cafe', 'face', 'care', 'race', 'cars', 'scar',
+		'cat', 'act', 'center', 'recent', 'chin', 'inch', 'chop', 'shop', 'cinema', 'iceman',
+		'cloud', 'could', 'code', 'coed', 'cork', 'rock', 'dairy', 'diary', 'dale', 'deal',
+		'lead', 'dare', 'read', 'dear', 'diet', 'edit', 'tide', 'tied', 'dog', 'god',
+		'draw', 'ward', 'dusty', 'study', 'ear', 'are', 'era', 'east', 'seat', 'eats',
+		'elbow', 'below', 'evil', 'live', 'vile', 'veil', 'flow', 'wolf', 'fowl', 'form',
+		'from', 'garden', 'danger', 'gate', 'geta', 'gene', 'nege', 'glean', 'angle', 'angel'
 	];
 
 	let anagrams = $derived.by(() => {
@@ -68,6 +80,10 @@
 		return generatePermutations(input.trim().toLowerCase()).filter(p => p !== input.trim().toLowerCase()).slice(0, 100);
 	});
 
+	function loadSample() {
+		input = sampleWord;
+	}
+
 	function clearAll() {
 		input = '';
 	}
@@ -75,15 +91,15 @@
 
 <ToolWrapper
 	title="Anagram Finder"
-	description="Find anagrams of a word using a built-in dictionary."
+	description="Find anagrams of a word using a built-in dictionary. Also shows permutations."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} />
+
 		<!-- Input -->
 		<div>
-			<div class="flex items-center justify-between mb-2">
-				<h3 class="text-sm font-medium text-base-content/70">Enter a word</h3>
-				<button class="btn btn-ghost btn-xs" onclick={clearAll}>Clear</button>
-			</div>
+			<h3 class="text-sm font-medium text-base-content/70 mb-2">Enter a word</h3>
 			<input
 				type="text"
 				bind:value={input}

@@ -1,10 +1,18 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { fade, slide } from 'svelte/transition';
 
 	let input = $state('');
-	let copied = $state(false);
 	let showLineNumbers = $state(false);
+
+	const sampleInput = `Apple
+Banana
+Cherry
+Apple
+Date
+Banana
+Elderberry`;
 
 	function sortAZ() {
 		input = input.split('\n').sort((a, b) => a.localeCompare(b)).join('\n');
@@ -12,6 +20,19 @@
 
 	function sortZA() {
 		input = input.split('\n').sort((a, b) => b.localeCompare(a)).join('\n');
+	}
+
+	function removeDuplicates() {
+		const lines = input.split('\n');
+		const seen = new Set<string>();
+		const unique: string[] = [];
+		for (const line of lines) {
+			if (!seen.has(line)) {
+				seen.add(line);
+				unique.push(line);
+			}
+		}
+		input = unique.join('\n');
 	}
 
 	function trimWhitespace() {
@@ -36,7 +57,6 @@
 	}
 
 	function numberLines() {
-		// First remove any existing numbers to prevent duplicates
 		const cleanedLines = input.split('\n').map(line => line.replace(/^\d+\.\s*/, ''));
 		input = cleanedLines.map((line, i) => `${i + 1}. ${line}`).join('\n');
 	}
@@ -48,31 +68,30 @@
 	let lines = $derived(input.split('\n'));
 	let lineCount = $derived(lines.filter(l => l.trim()).length);
 	let uniqueCount = $derived(new Set(lines.filter(l => l.trim())).size);
+	let stats = $derived(input ? { lines: lineCount, chars: input.length } : undefined);
 
-	function copyOutput() {
-		navigator.clipboard.writeText(input);
-		copied = true;
-		setTimeout(() => { copied = false; }, 2000);
+	function loadSample() {
+		input = sampleInput;
 	}
 
 	function clearAll() {
 		input = '';
 	}
-
-	function toggleLineNumbers() {
-		showLineNumbers = !showLineNumbers;
-	}
 </script>
 
 <ToolWrapper
 	title="Line Tools"
-	description="Sort, deduplicate, trim, and manipulate lines of text."
+	description="Sort lines, remove duplicates, trim whitespace, reverse order."
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
-		<div class="flex flex-wrap gap-3">
+		<ToolActions onSample={loadSample} onClear={clearAll} copyText={input} stats={stats} />
+
+		<!-- Tool Actions -->
+		<div class="flex flex-wrap gap-2">
 			<button class="btn btn-primary btn-sm" onclick={sortAZ}>Sort A→Z</button>
 			<button class="btn btn-primary btn-sm" onclick={sortZA}>Sort Z→A</button>
+			<button class="btn btn-secondary btn-sm" onclick={removeDuplicates}>Remove Duplicates</button>
 			<button class="btn btn-secondary btn-sm" onclick={trimWhitespace}>Trim Whitespace</button>
 			<button class="btn btn-secondary btn-sm" onclick={removeEmptyLines}>Remove Empty</button>
 			<button class="btn btn-accent btn-sm" onclick={reverseLines}>Reverse</button>
@@ -96,20 +115,10 @@
 		<div>
 			<div class="flex items-center justify-between mb-2">
 				<h3 class="text-sm font-medium text-base-content/70">Text (one item per line)</h3>
-				<div class="flex gap-2">
-					<label class="label cursor-pointer gap-2">
-						<span class="label-text text-xs">Show Line Numbers</span>
-						<input type="checkbox" class="toggle toggle-primary toggle-sm" bind:checked={showLineNumbers} />
-					</label>
-					<button class="btn btn-ghost btn-xs gap-1" onclick={copyOutput} disabled={!input.trim()}>
-						{#if copied}
-							✓ Copied
-						{:else}
-							Copy
-						{/if}
-					</button>
-					<button class="btn btn-ghost btn-xs" onclick={clearAll}>Clear</button>
-				</div>
+				<label class="label cursor-pointer gap-2">
+					<span class="label-text text-xs">Show Line Numbers</span>
+					<input type="checkbox" class="toggle toggle-primary toggle-sm" bind:checked={showLineNumbers} />
+				</label>
 			</div>
 
 			<div class="relative">

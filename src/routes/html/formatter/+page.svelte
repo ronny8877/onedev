@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { formatHTML, minifyHTML } from '$lib/utils/html';
 
 	let input = $state('');
@@ -52,6 +53,11 @@
 		lastAction = null;
 	}
 
+	function loadExample() {
+		input = `<div class="container"><header><h1>Title</h1></header><main><p>Content with <b>bold</b> text.</p><ul><li>Item 1</li><li>Item 2</li></ul></main><footer><p>&copy; 2024</p></footer></div>`;
+		setTimeout(handlePrettify, 0);
+	}
+
 	// Stats
 	const inputStats = $derived({
 		chars: input.length,
@@ -78,6 +84,11 @@
 			return () => clearTimeout(timer);
 		}
 	});
+
+	let stats = $derived({
+		chars: input.length,
+		lines: input.split('\n').length
+	});
 </script>
 
 <ToolWrapper
@@ -85,6 +96,9 @@
 	description="Beautify or minify your HTML with proper indentation"
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={handleClear} copyText={output} {stats} />
+
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
 			<div class="join">
@@ -98,7 +112,6 @@
 					</svg>
 					Prettify
 				</button>
-
 				<button 
 					type="button" 
 					class="btn join-item {lastAction === 'minify' ? 'btn-secondary' : 'btn-ghost'}"
@@ -130,13 +143,9 @@
 					Use Output
 				</button>
 			{/if}
-
-			<button type="button" class="btn btn-ghost btn-sm" onclick={handleClear}>
-				Clear
-			</button>
 		</div>
 
-		<!-- Stats Bar -->
+		<!-- Stats Bar (Minify) -->
 		{#if output && lastAction === 'minify'}
 			<div class="flex items-center gap-4 p-3 bg-success/5 border border-success/20 rounded-xl">
 				<div class="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center">

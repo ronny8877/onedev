@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	interface InfoItem {
 		label: string;
@@ -16,7 +17,6 @@
 
 	let groups = $state<InfoGroup[]>([]);
 	let isLoading = $state(true);
-	let copied = $state(false);
 
 	function getOS(): { name: string; version: string; architecture: string } {
 		const ua = navigator.userAgent;
@@ -280,6 +280,7 @@
 	}
 
 	async function loadInfo() {
+		isLoading = true;
 		const os = getOS();
 		const batteryInfo = await getBattery();
 
@@ -329,7 +330,7 @@
 		isLoading = false;
 	}
 
-	function getJSONData(): object {
+	let jsonOutput = $derived.by(() => {
 		const data: Record<string, Record<string, string | number | boolean | null | undefined>> = {};
 		for (const group of groups) {
 			data[group.name] = {};
@@ -338,15 +339,8 @@
 			}
 		}
 		data['userAgent'] = { full: navigator.userAgent } as Record<string, string | number | boolean | null>;
-		return data;
-	}
-
-	function copyAsJSON() {
-		const json = JSON.stringify(getJSONData(), null, 2);
-		navigator.clipboard.writeText(json);
-		copied = true;
-		setTimeout(() => { copied = false; }, 2000);
-	}
+		return JSON.stringify(data, null, 2);
+	});
 
 	$effect(() => {
 		loadInfo();
@@ -358,6 +352,12 @@
 	description="Comprehensive device, browser, and hardware information gathered from browser APIs."
 >
 	<div class="flex flex-col gap-5">
+		<ToolActions copyText={jsonOutput} copyLabel="Copy as JSON">
+			<button class="btn btn-sm btn-ghost" onclick={loadInfo}>
+				🔄 Refresh
+			</button>
+		</ToolActions>
+
 		{#if isLoading}
 			<div class="flex items-center justify-center py-12">
 				<span class="loading loading-spinner loading-lg text-primary"></span>
@@ -369,26 +369,6 @@
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
 				</svg>
 				<span>Browser APIs have privacy limits. Memory caps at 8GB, architecture may be indeterminate, and some values are approximations.</span>
-			</div>
-
-			<!-- Actions -->
-			<div class="flex items-center gap-2 flex-wrap">
-				<button class="btn btn-primary btn-sm gap-1" onclick={copyAsJSON}>
-					{#if copied}
-						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-						</svg>
-						Copied!
-					{:else}
-						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-						</svg>
-						Copy as JSON
-					{/if}
-				</button>
-				<button class="btn btn-ghost btn-sm" onclick={loadInfo}>
-					🔄 Refresh
-				</button>
 			</div>
 
 			<!-- Info Groups -->

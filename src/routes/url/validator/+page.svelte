@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import QueryParamsDisplay from '$lib/components/ui/QueryParamsDisplay.svelte';
 	import { validateURL, parseURLParts, parseQueryString, URL_SCHEMES, type URLParts, type QueryParam } from '$lib/utils/url';
@@ -19,13 +20,19 @@
 		parts?.search ? parseQueryString(parts.search) : []
 	);
 
+	const sampleURL = 'https://api.example.com:8080/v1/users?page=1&limit=10&tags=a,b,c#section';
+
 	function clearAll() {
 		input = '';
 	}
 
 	function loadExample() {
-		input = 'https://api.example.com:8080/v1/users?page=1&limit=10&tags=a,b,c#section';
+		input = sampleURL;
 	}
+
+	let stats = $derived({
+		chars: input.length
+	});
 </script>
 
 <ToolWrapper
@@ -33,15 +40,8 @@
 	description="Check if a URL is valid with protocol verification and detailed structure breakdown."
 >
 	<div class="flex flex-col gap-6">
-		<!-- Controls -->
-		<div class="flex flex-wrap items-center gap-3">
-			<button type="button" class="btn btn-ghost btn-sm" onclick={loadExample}>
-				Load Example
-			</button>
-			<button type="button" class="btn btn-ghost btn-sm" onclick={clearAll}>
-				Clear
-			</button>
-		</div>
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={clearAll} copyText={input} {stats} />
 
 		<!-- Input -->
 		<div>

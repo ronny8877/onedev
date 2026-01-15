@@ -1,10 +1,13 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { validateBase64 } from '$lib/utils/base64';
 
 	let input = $state('');
 	let result = $state<{ valid: boolean; error?: string; details?: string } | null>(null);
 	let validateTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	const sampleInvalid = 'Not valid base64!!!';
 
 	// Auto-validate with debounce
 	$effect(() => {
@@ -30,17 +33,28 @@
 		};
 	});
 
+	function loadSample() {
+		input = sampleInvalid;
+	}
+
 	function clearInput() {
 		input = '';
 		result = null;
 	}
+
+	let stats = $derived({
+		chars: input.length
+	});
 </script>
 
 <ToolWrapper
 	title="Base64 Validator"
-	description="Check if a string is valid Base64 and get detailed error explanations"
+	description="Check if a string is valid Base64 and see detailed error explanations."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearInput} {stats} />
+
 		<!-- Status Badge -->
 		{#if result}
 			<div class="flex items-center gap-3">
@@ -67,18 +81,6 @@
 				</div>
 			</div>
 		{/if}
-
-		<!-- Controls -->
-		<div class="flex items-center gap-3">
-			<button type="button" class="btn btn-ghost btn-sm" onclick={clearInput}>
-				Clear
-			</button>
-			{#if input}
-				<span class="text-xs text-base-content/50">
-					{input.trim().replace(/\s/g, '').length} characters (excluding whitespace)
-				</span>
-			{/if}
-		</div>
 
 		<!-- Input -->
 		<div>

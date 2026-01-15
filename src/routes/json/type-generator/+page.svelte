@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
 	import SyntaxHighlighter from '$lib/components/ui/SyntaxHighlighter.svelte';
@@ -11,6 +12,19 @@
 	let language = $state<'typescript' | 'go'>('typescript');
 	let typeName = $state('Root');
 	let generateTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	const sampleJSON = `{
+  "id": 12345,
+  "name": "John Doe",
+  "email": "john@example.com",
+  "roles": ["admin", "user"],
+  "profile": {
+    "avatar": "https://example.com/avatar.jpg",
+    "bio": "Software developer"
+  },
+  "active": true,
+  "createdAt": "2024-01-15T10:30:00Z"
+}`;
 
 	// Auto-generate types with debounce
 	$effect(() => {
@@ -64,16 +78,25 @@
 		}
 	}
 
-	async function copyOutput() {
-		await navigator.clipboard.writeText(output);
+	function loadSample() {
+		input = sampleJSON;
+	}
+
+	function clearAll() {
+		input = '';
+		output = '';
+		error = null;
 	}
 </script>
 
 <ToolWrapper
 	title="JSON Type Generator"
-	description="Generate TypeScript interfaces or Go structs from your JSON data"
+	description="Generate TypeScript interfaces or Go structs from JSON. Handles nested objects."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} />
+
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
 			<button type="button" class="btn btn-primary" onclick={handleGenerate}>
@@ -133,16 +156,9 @@
 			</div>
 
 			<div>
-				<div class="mb-2 flex items-center justify-between">
-					<h3 class="text-sm font-medium text-base-content/70">
-						Generated {language === 'typescript' ? 'TypeScript' : 'Go'}
-					</h3>
-					{#if output}
-						<button type="button" class="btn btn-ghost btn-xs" onclick={copyOutput}>
-							Copy
-						</button>
-					{/if}
-				</div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">
+					Generated {language === 'typescript' ? 'TypeScript' : 'Go'}
+				</h3>
 				<div class="min-h-[300px] max-h-[500px] overflow-auto rounded-xl border border-base-300 bg-base-200">
 					{#if output}
 						<SyntaxHighlighter 

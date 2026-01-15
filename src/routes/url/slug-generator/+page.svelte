@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { generateSlug } from '$lib/utils/url';
 
@@ -9,6 +10,8 @@
 	let lowercase = $state(true);
 	let maxLength = $state(100);
 	let output = $state('');
+
+	const sampleText = 'How to Build a REST API with Node.js — A Complete Guide! 🚀';
 
 	$effect(() => {
 		if (!input.trim()) {
@@ -31,8 +34,12 @@
 	}
 
 	function loadExamples() {
-		input = 'How to Build a REST API with Node.js — A Complete Guide! 🚀';
+		input = sampleText;
 	}
+
+	let stats = $derived({
+		chars: input.length
+	});
 </script>
 
 <ToolWrapper
@@ -40,15 +47,8 @@
 	description="Convert text into URL-friendly slugs. Perfect for blog posts and page URLs."
 >
 	<div class="flex flex-col gap-6">
-		<!-- Controls -->
-		<div class="flex flex-wrap items-center gap-3">
-			<button type="button" class="btn btn-ghost btn-sm" onclick={loadExamples}>
-				Load Example
-			</button>
-			<button type="button" class="btn btn-ghost btn-sm" onclick={clearAll}>
-				Clear
-			</button>
-		</div>
+		<!-- Actions -->
+		<ToolActions onSample={loadExamples} onClear={clearAll} copyText={output} {stats} />
 
 		<!-- Input -->
 		<div>
@@ -61,20 +61,6 @@
 				class="textarea textarea-bordered w-full min-h-[100px] font-mono text-sm rounded-xl resize-none"
 				spellcheck="false"
 			></textarea>
-		</div>
-
-		<!-- Base URL -->
-		<div>
-			<div class="mb-2">
-				<h3 class="text-sm font-medium text-base-content/70">Base URL (for preview)</h3>
-			</div>
-			<input
-				type="text"
-				bind:value={baseURL}
-				placeholder="https://example.com/blog"
-				class="input input-bordered w-full font-mono text-sm rounded-xl"
-				spellcheck="false"
-			/>
 		</div>
 
 		<!-- Options -->
@@ -108,6 +94,20 @@
 					/>
 				</label>
 			</div>
+		</div>
+
+		<!-- Base URL -->
+		<div>
+			<div class="mb-2">
+				<h3 class="text-sm font-medium text-base-content/70">Base URL (for preview)</h3>
+			</div>
+			<input
+				type="text"
+				bind:value={baseURL}
+				placeholder="https://example.com/blog"
+				class="input input-bordered w-full font-mono text-sm rounded-xl"
+				spellcheck="false"
+			/>
 		</div>
 
 		<!-- Output -->
@@ -151,7 +151,6 @@
 					<li>• <strong>Unicode-safe</strong>: Handles accented characters (café → cafe)</li>
 					<li>• <strong>Emoji removal</strong>: Strips emoji and special characters</li>
 					<li>• <strong>Custom base URL</strong>: Enter your own domain</li>
-					<li>• <strong>Quick copy</strong>: Copy as URL, cURL, fetch, axios, and more</li>
 				</ul>
 			</div>
 		</div>

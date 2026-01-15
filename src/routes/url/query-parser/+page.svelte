@@ -1,10 +1,13 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { parseQueryString, queryParamsToJSON, queryParamsToCSV, extractQueryString, type QueryParam } from '$lib/utils/url';
 
 	let input = $state('');
 	let params = $state<QueryParam[]>([]);
 	let parseTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	const sampleURL = 'https://example.com/search?q=hello%20world&page=1&sort=desc&filter=active&tags=a,b,c';
 
 	$effect(() => {
 		const _input = input;
@@ -40,14 +43,13 @@
 		params = parseQueryString(queryString);
 	}
 
-	async function copyAsJSON() {
-		const json = queryParamsToJSON(params);
-		await navigator.clipboard.writeText(json);
+	function copyAsJSON() {
+		if (params.length === 0) return '';
+		return queryParamsToJSON(params);
 	}
 
-	async function copyAsCSV() {
-		const csv = queryParamsToCSV(params);
-		await navigator.clipboard.writeText(csv);
+	function loadExample() {
+		input = sampleURL;
 	}
 
 	function clearAll() {
@@ -55,9 +57,9 @@
 		params = [];
 	}
 
-	function loadExample() {
-		input = 'https://example.com/search?q=hello%20world&page=1&sort=desc&filter=active&tags=a,b,c';
-	}
+	let stats = $derived({
+		chars: input.length
+	});
 </script>
 
 <ToolWrapper
@@ -65,28 +67,8 @@
 	description="Parse URL query strings into a readable table. Decode values and export as JSON or CSV."
 >
 	<div class="flex flex-col gap-6">
-		<!-- Controls -->
-		<div class="flex flex-wrap items-center gap-3">
-			<button type="button" class="btn btn-ghost btn-sm" onclick={loadExample}>
-				Load Example
-			</button>
-			<button type="button" class="btn btn-ghost btn-sm" onclick={clearAll}>
-				Clear
-			</button>
-
-			{#if params.length > 0}
-				<div class="ml-auto flex gap-2">
-					<button type="button" class="btn btn-sm btn-outline" onclick={copyAsJSON}>
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/></svg>
-						Copy JSON
-					</button>
-					<button type="button" class="btn btn-sm btn-outline" onclick={copyAsCSV}>
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-						Copy CSV
-					</button>
-				</div>
-			{/if}
-		</div>
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={clearAll} copyText={copyAsJSON()} {stats} />
 
 		<!-- Input -->
 		<div>

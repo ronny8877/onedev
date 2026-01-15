@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	// Permission state
 	interface PermissionStatus {
@@ -130,6 +131,10 @@
 		}
 	}
 
+	let statsText = $derived.by(() => {
+		return permissions.map(p => `${p.name}: ${p.state.toUpperCase()}`).join('\n');
+	});
+
 	$effect(() => {
 		loadPermissions();
 	});
@@ -140,6 +145,12 @@
 	description="Check the status of browser permissions. No permissions are requested unless you click a button."
 >
 	<div class="flex flex-col gap-6">
+		<ToolActions copyText={statsText} copyLabel="Copy Status List">
+			<button class="btn btn-sm btn-ghost" onclick={loadPermissions}>
+				🔄 Refresh
+			</button>
+		</ToolActions>
+
 		{#if isLoading}
 			<div class="flex items-center justify-center py-12">
 				<span class="loading loading-spinner loading-lg text-primary"></span>
@@ -148,12 +159,7 @@
 			<!-- Permissions Grid -->
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body">
-					<div class="flex items-center justify-between mb-4">
-						<h3 class="font-semibold text-lg">Permission Status</h3>
-						<button class="btn btn-sm btn-ghost" onclick={loadPermissions}>
-							🔄 Refresh
-						</button>
-					</div>
+					<h3 class="font-semibold text-lg mb-4">Permission Status</h3>
 
 					<div class="grid gap-3">
 						{#each permissions as perm}

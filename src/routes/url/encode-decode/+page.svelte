@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { encodeURL, decodeURL, isLikelyEncoded } from '$lib/utils/url';
 
 	let input = $state('');
@@ -9,6 +10,8 @@
 	let detectedMode = $state<'encode' | 'decode'>('encode');
 	let error = $state<string | null>(null);
 	let convertTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	const sampleText = 'Hello World! /?#@';
 
 	// Auto-convert with debounce
 	$effect(() => {
@@ -69,10 +72,15 @@
 		}
 	}
 
-	async function copyOutput() {
-		if (output) {
-			await navigator.clipboard.writeText(output);
-		}
+	function loadSample() {
+		input = sampleText;
+		mode = 'auto'; // Will likely detect encode
+	}
+
+	function clearAll() {
+		input = '';
+		output = '';
+		error = null;
 	}
 
 	function swapInputOutput() {
@@ -82,11 +90,9 @@
 		}
 	}
 
-	function clearAll() {
-		input = '';
-		output = '';
-		error = null;
-	}
+	let stats = $derived({
+		chars: input.length
+	});
 </script>
 
 <ToolWrapper
@@ -94,6 +100,9 @@
 	description="Encode special characters for URLs or decode encoded strings. Auto-detects input type."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} {stats} />
+
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
 			<div class="join">
@@ -139,15 +148,10 @@
 			{/if}
 
 			{#if output}
-				<button type="button" class="btn btn-ghost btn-sm" onclick={swapInputOutput}>
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
-					Swap
+				<button type="button" class="btn btn-ghost btn-sm ml-auto" onclick={swapInputOutput}>
+					Swap Inputs
 				</button>
 			{/if}
-
-			<button type="button" class="btn btn-ghost btn-sm" onclick={clearAll}>
-				Clear
-			</button>
 		</div>
 
 		<!-- Error Display -->
@@ -162,14 +166,9 @@
 		<div class="grid gap-6 lg:grid-cols-2">
 			<!-- Input -->
 			<div>
-				<div class="mb-2 flex items-center justify-between">
-					<h3 class="text-sm font-medium text-base-content/70">
-						{detectedMode === 'encode' ? 'Plain Text' : 'URL Encoded String'}
-					</h3>
-					<span class="text-xs text-base-content/50">
-						{input.length} chars
-					</span>
-				</div>
+				<h3 class="text-sm font-medium text-base-content/70 mb-2">
+					{detectedMode === 'encode' ? 'Plain Text' : 'URL Encoded String'}
+				</h3>
 				<textarea
 					bind:value={input}
 					placeholder={detectedMode === 'encode' ? 'Enter text to encode...' : 'Paste URL encoded string to decode...'}
@@ -180,21 +179,9 @@
 
 			<!-- Output -->
 			<div>
-				<div class="mb-2 flex items-center justify-between">
-					<h3 class="text-sm font-medium text-base-content/70">
-						{detectedMode === 'encode' ? 'URL Encoded' : 'Decoded Text'}
-					</h3>
-					<div class="flex items-center gap-2">
-						<span class="text-xs text-base-content/50">
-							{output.length} chars
-						</span>
-						{#if output}
-							<button type="button" class="btn btn-ghost btn-xs" onclick={copyOutput}>
-								Copy
-							</button>
-						{/if}
-					</div>
-				</div>
+				<h3 class="text-sm font-medium text-base-content/70 mb-2">
+					{detectedMode === 'encode' ? 'URL Encoded' : 'Decoded Text'}
+				</h3>
 				<textarea
 					value={output}
 					readonly

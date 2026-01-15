@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { htmlToJSON } from '$lib/utils/html';
 
 	let input = $state('');
@@ -18,6 +19,22 @@
 	function handleClear() {
 		input = '';
 	}
+
+	function loadExample() {
+		input = `<div id="app" class="loaded">
+  <header>
+    <h1>Title</h1>
+  </header>
+  <main>
+    <p>Hello World</p>
+  </main>
+</div>`;
+	}
+
+	let stats = $derived({
+		chars: input.length,
+		lines: input.split('\n').length
+	});
 </script>
 
 <ToolWrapper
@@ -25,17 +42,8 @@
 	description="Convert HTML DOM structure to clean, readable JSON"
 >
 	<div class="flex flex-col gap-6">
-		<!-- Controls -->
-		<div class="flex items-center gap-3">
-			<button type="button" class="btn btn-ghost btn-sm" onclick={handleClear}>
-				Clear
-			</button>
-			{#if jsonOutput}
-				<span class="text-sm text-base-content/50">
-					{jsonOutput.split('\n').length} lines
-				</span>
-			{/if}
-		</div>
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={handleClear} copyText={jsonOutput} {stats} />
 
 		<!-- Editors -->
 		<div class="grid gap-6 lg:grid-cols-2">
@@ -45,7 +53,12 @@
 			</div>
 
 			<div>
-				<h3 class="mb-2 text-sm font-medium text-base-content/70">JSON Output</h3>
+				<div class="flex items-center justify-between mb-2">
+					<h3 class="text-sm font-medium text-base-content/70">JSON Output</h3>
+					<span class="text-xs text-base-content/50">
+						{jsonOutput ? jsonOutput.split('\n').length : 0} lines
+					</span>
+				</div>
 				<CodeMirrorEditor value={jsonOutput} readonly placeholder="JSON will appear here..." />
 			</div>
 		</div>

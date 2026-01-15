@@ -1,9 +1,11 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	let input = $state('');
 	let caseSensitive = $state(false);
-	let copied = $state(false);
+
+	const sampleText = 'The quick brown fox jumps over the lazy dog. The quick red fox is fast.';
 
 	let result = $derived.by(() => {
 		if (!input.trim()) return { output: '', stats: null };
@@ -38,10 +40,8 @@
 		input = result.output;
 	}
 
-	function copyOutput() {
-		navigator.clipboard.writeText(result.output);
-		copied = true;
-		setTimeout(() => { copied = false; }, 2000);
+	function loadSample() {
+		input = sampleText;
 	}
 
 	function clearAll() {
@@ -54,20 +54,25 @@
 	description="Remove repeated words from text while preserving order."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} copyText={result.output} />
+
 		<!-- Options -->
 		<div class="flex items-center gap-4">
 			<label class="flex items-center gap-2 cursor-pointer">
 				<input type="checkbox" bind:checked={caseSensitive} class="checkbox checkbox-sm" />
 				<span class="text-sm">Case sensitive</span>
 			</label>
+			{#if result.output}
+				<button class="btn btn-primary btn-sm ml-auto" onclick={applyResult}>
+					Apply to Input
+				</button>
+			{/if}
 		</div>
 
 		<!-- Input -->
 		<div>
-			<div class="flex items-center justify-between mb-2">
-				<h3 class="text-sm font-medium text-base-content/70">Input Text</h3>
-				<button class="btn btn-ghost btn-xs" onclick={clearAll}>Clear</button>
-			</div>
+			<h3 class="text-sm font-medium text-base-content/70 mb-2">Input Text</h3>
 			<textarea
 				bind:value={input}
 				placeholder="Enter text with duplicate words...&#10;e.g., The quick brown fox the lazy dog fox"
@@ -91,17 +96,7 @@
 		{#if result.output}
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
-					<div class="flex items-center justify-between mb-2">
-						<h3 class="font-semibold">Result</h3>
-						<div class="flex gap-2">
-							<button class="btn btn-ghost btn-sm" onclick={copyOutput}>
-								{copied ? '✓ Copied' : 'Copy'}
-							</button>
-							<button class="btn btn-primary btn-sm" onclick={applyResult}>
-								Apply to Input
-							</button>
-						</div>
-					</div>
+					<h3 class="font-semibold mb-2">Result</h3>
 					<p class="font-mono text-sm whitespace-pre-wrap">{result.output}</p>
 				</div>
 			</div>

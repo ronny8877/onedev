@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { extractColors } from 'extract-colors';
 
 	let originalFile = $state<File | null>(null);
@@ -108,6 +109,15 @@
 			l: Math.round(l * 100)
 		};
 	}
+
+	async function loadSample() {
+		const res = await fetch('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&q=80');
+		const blob = await res.blob();
+		const file = new File([blob], 'gradient.jpg', { type: 'image/jpeg' });
+		const reader = new FileReader();
+		reader.onload = (e) => handleImageLoad(file, e.target?.result as string);
+		reader.readAsDataURL(file);
+	}
 </script>
 
 <ToolWrapper
@@ -115,6 +125,8 @@
 	description="Extract dominant colors from any image. Perfect for design and theming."
 >
 	<div class="flex flex-col gap-6">
+		<ToolActions onSample={loadSample} onClear={reset} />
+
 		{#if !originalFile}
 			<ImageUploader onImageLoad={handleImageLoad} />
 		{:else}

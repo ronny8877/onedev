@@ -2,6 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { extractElements, type ExtractedElement } from '$lib/utils/html';
 
 	let input = $state('');
@@ -110,6 +111,28 @@
 		elementType = 'custom';
 		customSelector = sel;
 	}
+
+	function loadExample() {
+		input = `<!DOCTYPE html>
+<html>
+<body>
+  <h1>Page Title</h1>
+  <p>Here is a <a href="https://example.com">link</a>.</p>
+  <img src="logo.png" alt="Logo" />
+  <img src="photo.jpg" />
+  <script src="app.js"><\\/script>
+</body>
+</html>`;
+	}
+
+	function handleClear() {
+		input = '';
+	}
+
+	let stats = $derived({
+		chars: input.length,
+		lines: input.split('\n').length
+	});
 </script>
 
 <ToolWrapper
@@ -117,6 +140,9 @@
 	description="Extract links, images, meta tags, and more from HTML"
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={handleClear} {stats} />
+
 		<!-- Quick Presets -->
 		<div>
 			<div class="flex items-center justify-between mb-3">

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
 	import { formatJSON, minifyJSON, validateJSON, type ParseError } from '$lib/utils/json';
@@ -9,6 +10,22 @@
 	let error = $state<ParseError | null>(null);
 	let indentSize = $state(2);
 	let formatTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	// Stats
+	let stats = $derived(output ? { chars: output.length, bytes: new TextEncoder().encode(output).length } : undefined);
+
+	// Sample JSON
+	const sampleJSON = `{
+  "name": "OneDev Tools",
+  "version": "1.0.0",
+  "features": ["JSON", "Base64", "URL", "Text"],
+  "config": {
+    "theme": "dark",
+    "autoFormat": true
+  },
+  "users": 15420,
+  "active": true
+}`;
 
 	// Auto-format on paste/input with debounce
 	$effect(() => {
@@ -80,13 +97,26 @@
 			output = '';
 		}
 	}
+
+	function loadSample() {
+		input = sampleJSON;
+	}
+
+	function clearAll() {
+		input = '';
+		output = '';
+		error = null;
+	}
 </script>
 
 <ToolWrapper
 	title="JSON Formatter"
-	description="Prettify or minify your JSON with syntax highlighting and error detection"
+	description="Validate and format JSON in the browser. Highlights syntax errors and prettifies valid JSON."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} stats={stats} />
+
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
 			<button type="button" class="btn btn-primary" onclick={handlePrettify}>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { splitBase64, validateBase64 } from '$lib/utils/base64';
 
 	let input = $state('');
@@ -9,6 +10,8 @@
 	let chunks = $state<string[]>([]);
 	let error = $state<string | null>(null);
 	let splitTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	const sampleInput = 'TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlzIHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2YgdGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGludWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRoZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=';
 
 	// Auto-split with debounce
 	$effect(() => {
@@ -71,18 +74,29 @@
 		}
 	}
 
-	async function copyOutput() {
-		if (output) {
-			await navigator.clipboard.writeText(output);
-		}
+	function loadSample() {
+		input = sampleInput;
+		chunkSize = 64;
 	}
+
+	function clearAll() {
+		input = '';
+		output = '';
+	}
+
+	let stats = $derived({
+		chars: input.length
+	});
 </script>
 
 <ToolWrapper
 	title="Base64 String Splitter"
-	description="Split long Base64 strings into chunks for readability or MIME encoding"
+	description="Split long Base64 strings into chunks for readability or MIME encoding."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} {stats} />
+
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
 			<div class="flex items-center gap-2">
@@ -152,14 +166,7 @@
 			</div>
 
 			<div>
-				<div class="mb-2 flex items-center justify-between">
-					<h3 class="text-sm font-medium text-base-content/70">Split Output</h3>
-					{#if output}
-						<button type="button" class="btn btn-ghost btn-xs" onclick={copyOutput}>
-							Copy
-						</button>
-					{/if}
-				</div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">Split Output</h3>
 				<textarea
 					value={output}
 					readonly

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
 	import { queryJSONPath, parseJSONSafe, type ParseError } from '$lib/utils/json';
@@ -9,6 +10,21 @@
 	let results = $state<unknown[]>([]);
 	let error = $state<ParseError | null>(null);
 	let queryTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	const sampleJSON = `{
+  "store": {
+    "name": "Tech Books",
+    "books": [
+      { "title": "JavaScript Patterns", "price": 29.99, "inStock": true },
+      { "title": "Clean Code", "price": 34.99, "inStock": false },
+      { "title": "Design Patterns", "price": 44.99, "inStock": true }
+    ],
+    "location": {
+      "city": "San Francisco",
+      "country": "USA"
+    }
+  }
+}`;
 
 	// Auto-query with debounce when input and path exist
 	$effect(() => {
@@ -63,6 +79,18 @@
 		}
 	}
 
+	function loadSample() {
+		input = sampleJSON;
+		path = '$.store.books[*].title';
+	}
+
+	function clearAll() {
+		input = '';
+		path = '$';
+		results = [];
+		error = null;
+	}
+
 	// Example paths for quick selection
 	const examplePaths = [
 		{ label: 'Root', path: '$' },
@@ -85,9 +113,12 @@
 
 <ToolWrapper
 	title="JSON Path Tester"
-	description="Test JSONPath expressions and see matched results"
+	description="Test JSONPath expressions against your data. See matched values instantly."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} />
+
 		<!-- Path Input -->
 		<div class="flex flex-wrap items-end gap-3">
 			<div class="flex-1">

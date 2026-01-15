@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { validateHTML, type HTMLValidationIssue } from '$lib/utils/html';
 
 	let input = $state('');
@@ -25,6 +26,20 @@
 	function handleClear() {
 		input = '';
 	}
+
+	function loadExample() {
+		input = `<div class="foo">
+  <span>Unclosed span
+  <p>Improper nesting</p>
+  <div id="duplicate"></div>
+  <div id="duplicate"></div>
+</div>`;
+	}
+
+	let stats = $derived({
+		chars: input.length,
+		lines: input.split('\n').length
+	});
 </script>
 
 <ToolWrapper
@@ -32,6 +47,9 @@
 	description="Check for invalid tags, unclosed elements, duplicate IDs, and nesting issues"
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadExample} onClear={handleClear} {stats} />
+
 		<!-- Status Summary -->
 		{#if isValid !== null}
 			<div class="flex flex-wrap items-center gap-4 p-4 rounded-2xl border transition-all
@@ -115,9 +133,6 @@
 		<div>
 			<div class="flex items-center justify-between mb-2">
 				<h3 class="text-sm font-medium text-base-content/70">HTML Input</h3>
-				<button type="button" class="btn btn-ghost btn-xs" onclick={handleClear}>
-					Clear
-				</button>
 			</div>
 			<CodeMirrorEditor
 				bind:value={input}

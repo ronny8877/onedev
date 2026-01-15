@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import JsonTree from '$lib/components/ui/JsonTree.svelte';
 	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
@@ -9,6 +10,26 @@
 	let parsedData = $state<unknown>(null);
 	let error = $state<ParseError | null>(null);
 	let expandAll = $state(false);
+
+	// Stats
+	let stats = $derived(input ? { chars: input.length, lines: input.split('\n').length } : undefined);
+
+	const sampleJSON = `{
+  "company": "OneDev Tools",
+  "founded": 2024,
+  "products": [
+    { "name": "JSON Formatter", "users": 5420 },
+    { "name": "Base64 Encoder", "users": 3200 }
+  ],
+  "settings": {
+    "theme": "dark",
+    "notifications": {
+      "email": true,
+      "push": false
+    }
+  },
+  "active": true
+}`;
 
 	$effect(() => {
 		if (!input.trim()) {
@@ -30,13 +51,27 @@
 	function toggleExpandAll() {
 		expandAll = !expandAll;
 	}
+
+	function loadSample() {
+		input = sampleJSON;
+	}
+
+	function clearAll() {
+		input = '';
+		parsedData = null;
+		error = null;
+		expandAll = false;
+	}
 </script>
 
 <ToolWrapper
 	title="JSON Visualizer"
-	description="Explore your JSON data with an interactive tree view"
+	description="Explore JSON with an interactive tree view. Expand, collapse, and search nodes."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} stats={stats} />
+
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
 			<button
@@ -75,7 +110,7 @@
 		<!-- Error Display -->
 		<ErrorDisplay {error} />
 
-		<!-- Main Layout - Vertical for more space -->
+		<!-- Main Layout -->
 		<div class="flex flex-col gap-6">
 			<!-- Input Editor -->
 			<div>

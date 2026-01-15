@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 
 	let input = $state('');
 	let findText = $state('');
@@ -7,6 +8,10 @@
 	let useRegex = $state(false);
 	let caseSensitive = $state(false);
 	let highlightOnly = $state(false);
+
+	const sampleInput = `The quick brown fox jumps over the lazy dog.
+The quick brown fox is fast.
+Foxes are clever animals.`;
 
 	let matches = $derived.by(() => {
 		if (!findText || !input) return [];
@@ -68,6 +73,12 @@
 		return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 	}
 
+	function loadSample() {
+		input = sampleInput;
+		findText = 'fox';
+		replaceText = 'cat';
+	}
+
 	function clearAll() {
 		input = '';
 		findText = '';
@@ -87,9 +98,12 @@
 
 <ToolWrapper
 	title="Find & Replace"
-	description="Search and replace text with optional regex support."
+	description="Search and replace text with optional regex support. Preview matches instantly."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} copyText={input} />
+
 		<!-- Find/Replace Inputs -->
 		<div class="grid sm:grid-cols-2 gap-4">
 			<div>
@@ -133,7 +147,7 @@
 			</label>
 		</div>
 
-		<!-- Actions -->
+		<!-- Tool Actions -->
 		<div class="flex flex-wrap gap-2">
 			<button class="btn btn-primary btn-sm" onclick={replaceAll} disabled={!findText || !input || highlightOnly}>
 				Replace All
@@ -141,7 +155,6 @@
 			<button class="btn btn-secondary btn-sm" onclick={replaceFirst} disabled={!findText || !input || highlightOnly}>
 				Replace First
 			</button>
-			<button class="btn btn-ghost btn-sm" onclick={clearAll}>Clear All</button>
 			{#if matches.length > 0}
 				<span class="badge badge-info">{matches.length} match{matches.length !== 1 ? 'es' : ''}</span>
 			{/if}
@@ -149,9 +162,7 @@
 
 		<!-- Text Input -->
 		<div>
-			<div class="flex items-center justify-between mb-2">
-				<h3 class="text-sm font-medium text-base-content/70">Text</h3>
-			</div>
+			<h3 class="text-sm font-medium text-base-content/70 mb-2">Text</h3>
 			<textarea
 				bind:value={input}
 				placeholder="Enter or paste your text here..."

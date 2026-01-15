@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
-	import { formatFileSize, detectMimeType } from '$lib/utils/base64';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
+	import { formatFileSize } from '$lib/utils/base64';
 
 	let fileInput: HTMLInputElement;
 	let isDragging = $state(false);
@@ -101,15 +102,20 @@
 
 <ToolWrapper
 	title="Base64 File Encoder"
-	description="Encode files (images, PDFs, etc.) to Base64. Client-side only - files never leave your browser."
+	description="Encode files (images, PDFs, etc.) to Base64. Files stay in your browser."
 >
 	<div class="flex flex-col gap-6">
+		<!-- Actions (Clear only, no Sample) -->
+		<ToolActions onClear={clearFile} />
+
 		<!-- Drop Zone -->
 		<div
 			class="relative rounded-xl border-2 border-dashed transition-colors {isDragging ? 'border-primary bg-primary/5' : 'border-base-300'}"
 			ondragover={handleDragOver}
 			ondragleave={handleDragLeave}
 			ondrop={handleDrop}
+			role="button"
+			tabindex="0"
 		>
 			<input
 				bind:this={fileInput}
@@ -155,9 +161,6 @@
 								<h4 class="font-semibold">{file.name}</h4>
 								<p class="text-sm text-base-content/60">{file.type || 'Unknown type'}</p>
 							</div>
-							<button type="button" class="btn btn-ghost btn-sm" onclick={clearFile}>
-								Clear
-							</button>
 						</div>
 						<div class="grid grid-cols-2 gap-4 mt-3 text-sm">
 							<div>
