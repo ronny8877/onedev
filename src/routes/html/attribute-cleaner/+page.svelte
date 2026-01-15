@@ -1,0 +1,133 @@
+<script lang="ts">
+	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
+	import { cleanAttributes } from '$lib/utils/html';
+
+	let input = $state('');
+	let removeInlineStyles = $state(true);
+	let removeEmptyAttributes = $state(true);
+	let removeDataAttributes = $state(false);
+	let removeEventHandlers = $state(true);
+
+	let output = $state('');
+	let removedCount = $state(0);
+
+	function handleClean() {
+		if (!input.trim()) return;
+		
+		const result = cleanAttributes(input, {
+			removeInlineStyles,
+			removeEmptyAttributes,
+			removeDataAttributes,
+			removeEventHandlers
+		});
+		
+		output = result.output;
+		removedCount = result.removed;
+	}
+
+	function handleClear() {
+		input = '';
+		output = '';
+		removedCount = 0;
+	}
+
+	function handleSwap() {
+		if (output) {
+			input = output;
+			output = '';
+			removedCount = 0;
+		}
+	}
+
+	// Auto-clean when options change
+	$effect(() => {
+		// Track all options
+		const _ = [removeInlineStyles, removeEmptyAttributes, removeDataAttributes, removeEventHandlers];
+		if (input.trim()) {
+			handleClean();
+		}
+	});
+</script>
+
+<ToolWrapper
+	title="Attribute Cleaner"
+	description="Remove inline styles, empty attributes, data-* attributes, and event handlers"
+>
+	<div class="flex flex-col gap-6">
+		<!-- Options -->
+		<div class="flex flex-wrap items-center gap-4">
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input type="checkbox" class="checkbox checkbox-sm checkbox-primary" bind:checked={removeInlineStyles} />
+				<span class="text-sm">Inline styles</span>
+			</label>
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input type="checkbox" class="checkbox checkbox-sm checkbox-primary" bind:checked={removeEmptyAttributes} />
+				<span class="text-sm">Empty attributes</span>
+			</label>
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input type="checkbox" class="checkbox checkbox-sm checkbox-primary" bind:checked={removeDataAttributes} />
+				<span class="text-sm">data-* attributes</span>
+			</label>
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input type="checkbox" class="checkbox checkbox-sm checkbox-primary" bind:checked={removeEventHandlers} />
+				<span class="text-sm">Event handlers</span>
+			</label>
+		</div>
+
+		<!-- Controls -->
+		<div class="flex items-center gap-3">
+			<button type="button" class="btn btn-primary" onclick={handleClean}>
+				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+				</svg>
+				Clean
+			</button>
+
+			{#if output}
+				<button type="button" class="btn btn-ghost btn-sm" onclick={handleSwap}>
+					Use Output
+				</button>
+			{/if}
+
+			<button type="button" class="btn btn-ghost btn-sm" onclick={handleClear}>
+				Clear
+			</button>
+
+			{#if removedCount > 0}
+				<div class="badge badge-success gap-1">
+					<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+					</svg>
+					Removed {removedCount} attribute{removedCount !== 1 ? 's' : ''}
+				</div>
+			{/if}
+		</div>
+
+		<!-- Editors -->
+		<div class="grid gap-6 lg:grid-cols-2">
+			<div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">Input</h3>
+				<CodeMirrorEditor bind:value={input} placeholder="Paste your HTML here..." />
+			</div>
+
+			<div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">Cleaned Output</h3>
+				<CodeMirrorEditor value={output} readonly placeholder="Cleaned HTML will appear here..." />
+			</div>
+		</div>
+
+		<!-- Info -->
+		<div class="card bg-base-200 rounded-xl">
+			<div class="card-body py-4">
+				<h4 class="text-sm font-semibold">What gets removed?</h4>
+				<ul class="mt-2 grid sm:grid-cols-2 gap-1 text-sm text-base-content/70">
+					<li>• <strong>Inline styles:</strong> style="..."</li>
+					<li>• <strong>Empty attributes:</strong> class=""</li>
+					<li>• <strong>data-* attributes:</strong> data-id="..."</li>
+					<li>• <strong>Event handlers:</strong> onclick, onload, etc.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</ToolWrapper>

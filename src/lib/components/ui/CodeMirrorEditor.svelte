@@ -184,4 +184,16 @@
 	.editor-container :global(.cm-error-line) {
 		background-color: rgba(239, 68, 68, 0.15) !important;
 	}
+
+	/* Fix line number overlap when scrolling horizontally */
+	.editor-container :global(.cm-gutters) {
+		position: sticky;
+		left: 0;
+		z-index: 10;
+		background-color: oklch(var(--b2)) !important;
+	}
+
+	.editor-container :global(.cm-gutter) {
+		background-color: oklch(var(--b2)) !important;
+	}
 </style>

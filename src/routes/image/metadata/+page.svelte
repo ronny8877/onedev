@@ -176,46 +176,167 @@
 	}
 
 	function getTagName(tag: number, prefix: string): string | null {
-		const tags: Record<number, string> = {
-			// IFD0 tags
+		// Comprehensive EXIF tag database - extract ALL available metadata
+		const ifd0Tags: Record<number, string> = {
+			// Primary tags (IFD0)
+			0x0100: 'Image Width',
+			0x0101: 'Image Height',
+			0x0102: 'Bits Per Sample',
+			0x0103: 'Compression',
+			0x0106: 'Photometric Interpretation',
+			0x010E: 'Image Description',
 			0x010F: 'Make',
 			0x0110: 'Model',
+			0x0111: 'Strip Offsets',
 			0x0112: 'Orientation',
+			0x0115: 'Samples Per Pixel',
+			0x0116: 'Rows Per Strip',
+			0x0117: 'Strip Byte Counts',
 			0x011A: 'X Resolution',
 			0x011B: 'Y Resolution',
+			0x011C: 'Planar Configuration',
 			0x0128: 'Resolution Unit',
+			0x012D: 'Transfer Function',
 			0x0131: 'Software',
 			0x0132: 'Date/Time',
-			// EXIF tags
+			0x013B: 'Artist',
+			0x013E: 'White Point',
+			0x013F: 'Primary Chromaticities',
+			0x0201: 'Thumbnail Offset',
+			0x0202: 'Thumbnail Length',
+			0x0211: 'YCbCr Coefficients',
+			0x0212: 'YCbCr Sub Sampling',
+			0x0213: 'YCbCr Positioning',
+			0x0214: 'Reference Black White',
+			0x8298: 'Copyright',
+			0x8769: 'EXIF Offset',
+			0x8825: 'GPS Info Offset',
+			0xA005: 'Interoperability Offset',
+		};
+
+		const exifTags: Record<number, string> = {
+			// EXIF SubIFD tags
 			0x829A: 'Exposure Time',
 			0x829D: 'F-Number',
 			0x8822: 'Exposure Program',
+			0x8824: 'Spectral Sensitivity',
 			0x8827: 'ISO Speed',
+			0x8828: 'OECF',
+			0x8830: 'Sensitivity Type',
+			0x8831: 'Standard Output Sensitivity',
+			0x8832: 'Recommended Exposure Index',
+			0x8833: 'ISO Speed',
+			0x8834: 'ISO Speed Latitude yyy',
+			0x8835: 'ISO Speed Latitude zzz',
 			0x9000: 'EXIF Version',
 			0x9003: 'Date/Time Original',
 			0x9004: 'Date/Time Digitized',
-			0x9201: 'Shutter Speed',
-			0x9202: 'Aperture',
-			0x9204: 'Exposure Bias',
+			0x9010: 'Offset Time',
+			0x9011: 'Offset Time Original',
+			0x9012: 'Offset Time Digitized',
+			0x9101: 'Components Configuration',
+			0x9102: 'Compressed Bits Per Pixel',
+			0x9201: 'Shutter Speed Value',
+			0x9202: 'Aperture Value',
+			0x9203: 'Brightness Value',
+			0x9204: 'Exposure Bias Value',
+			0x9205: 'Max Aperture Value',
+			0x9206: 'Subject Distance',
 			0x9207: 'Metering Mode',
+			0x9208: 'Light Source',
 			0x9209: 'Flash',
 			0x920A: 'Focal Length',
+			0x9214: 'Subject Area',
+			0x927C: 'Maker Note',
+			0x9286: 'User Comment',
+			0x9290: 'Sub Sec Time',
+			0x9291: 'Sub Sec Time Original',
+			0x9292: 'Sub Sec Time Digitized',
+			0xA000: 'Flashpix Version',
 			0xA001: 'Color Space',
 			0xA002: 'Pixel X Dimension',
 			0xA003: 'Pixel Y Dimension',
+			0xA004: 'Related Sound File',
+			0xA20B: 'Flash Energy',
+			0xA20C: 'Spatial Frequency Response',
+			0xA20E: 'Focal Plane X Resolution',
+			0xA20F: 'Focal Plane Y Resolution',
+			0xA210: 'Focal Plane Resolution Unit',
+			0xA214: 'Subject Location',
+			0xA215: 'Exposure Index',
+			0xA217: 'Sensing Method',
+			0xA300: 'File Source',
+			0xA301: 'Scene Type',
+			0xA302: 'CFA Pattern',
+			0xA401: 'Custom Rendered',
 			0xA402: 'Exposure Mode',
 			0xA403: 'White Balance',
-			0xA406: 'Scene Type',
+			0xA404: 'Digital Zoom Ratio',
+			0xA405: 'Focal Length In 35mm Film',
+			0xA406: 'Scene Capture Type',
+			0xA407: 'Gain Control',
+			0xA408: 'Contrast',
+			0xA409: 'Saturation',
+			0xA40A: 'Sharpness',
+			0xA40B: 'Device Setting Description',
+			0xA40C: 'Subject Distance Range',
+			0xA420: 'Image Unique ID',
+			0xA430: 'Camera Owner Name',
+			0xA431: 'Body Serial Number',
+			0xA432: 'Lens Specification',
+			0xA433: 'Lens Make',
+			0xA434: 'Lens Model',
+			0xA435: 'Lens Serial Number',
+			0xA460: 'Composite Image',
+			0xA461: 'Source Image Number Of Composite Image',
+			0xA462: 'Source Exposure Times Of Composite Image',
+			0xA500: 'Gamma',
+		};
+
+		const gpsTags: Record<number, string> = {
 			// GPS tags
-			0x0000: 'GPS Version',
+			0x0000: 'GPS Version ID',
 			0x0001: 'GPS Latitude Ref',
 			0x0002: 'GPS Latitude',
 			0x0003: 'GPS Longitude Ref',
 			0x0004: 'GPS Longitude',
 			0x0005: 'GPS Altitude Ref',
-			0x0006: 'GPS Altitude'
+			0x0006: 'GPS Altitude',
+			0x0007: 'GPS Time Stamp',
+			0x0008: 'GPS Satellites',
+			0x0009: 'GPS Status',
+			0x000A: 'GPS Measure Mode',
+			0x000B: 'GPS DOP',
+			0x000C: 'GPS Speed Ref',
+			0x000D: 'GPS Speed',
+			0x000E: 'GPS Track Ref',
+			0x000F: 'GPS Track',
+			0x0010: 'GPS Img Direction Ref',
+			0x0011: 'GPS Img Direction',
+			0x0012: 'GPS Map Datum',
+			0x0013: 'GPS Dest Latitude Ref',
+			0x0014: 'GPS Dest Latitude',
+			0x0015: 'GPS Dest Longitude Ref',
+			0x0016: 'GPS Dest Longitude',
+			0x0017: 'GPS Dest Bearing Ref',
+			0x0018: 'GPS Dest Bearing',
+			0x0019: 'GPS Dest Distance Ref',
+			0x001A: 'GPS Dest Distance',
+			0x001B: 'GPS Processing Method',
+			0x001C: 'GPS Area Information',
+			0x001D: 'GPS Date Stamp',
+			0x001E: 'GPS Differential',
+			0x001F: 'GPS H Positioning Error',
 		};
-		return tags[tag] || null;
+
+		// Select appropriate tag set based on prefix
+		if (prefix === 'GPS') {
+			return gpsTags[tag] || `Unknown GPS Tag (0x${tag.toString(16).toUpperCase()})`;
+		} else if (prefix === 'Camera') {
+			return exifTags[tag] || `Unknown EXIF Tag (0x${tag.toString(16).toUpperCase()})`;
+		} else {
+			return ifd0Tags[tag] || exifTags[tag] || `Unknown Tag (0x${tag.toString(16).toUpperCase()})`;
+		}
 	}
 
 	function readTagValue(view: DataView, type: number, count: number, valueOffset: number, tiffOffset: number, littleEndian: boolean): unknown {
@@ -297,22 +418,53 @@
 			.filter(([k]) => k.startsWith('Image:'))
 			.map(([k, v]) => ({ key: k.replace('Image: ', ''), value: v }));
 
-		const cameraData = Object.entries(data)
-			.filter(([k]) => k.startsWith('Camera:'))
+		// Exposure related camera data
+		const exposureData = Object.entries(data)
+			.filter(([k]) => k.startsWith('Camera:') && 
+				(k.includes('Exposure') || k.includes('ISO') || k.includes('Shutter') || 
+				 k.includes('Aperture') || k.includes('F-Number') || k.includes('Flash') ||
+				 k.includes('Metering') || k.includes('White Balance')))
+			.map(([k, v]) => ({ key: k.replace('Camera: ', ''), value: v }));
+
+		// Lens and focus data
+		const lensData = Object.entries(data)
+			.filter(([k]) => k.startsWith('Camera:') && 
+				(k.includes('Focal') || k.includes('Lens') || k.includes('Subject') || k.includes('Focus')))
+			.map(([k, v]) => ({ key: k.replace('Camera: ', ''), value: v }));
+
+		// Other camera data
+		const otherCameraData = Object.entries(data)
+			.filter(([k]) => k.startsWith('Camera:') && 
+				!exposureData.some(e => k.includes(e.key)) &&
+				!lensData.some(l => k.includes(l.key)))
 			.map(([k, v]) => ({ key: k.replace('Camera: ', ''), value: v }));
 
 		const gpsData = Object.entries(data)
 			.filter(([k]) => k.startsWith('GPS:'))
 			.map(([k, v]) => ({ key: k.replace('GPS: ', ''), value: v }));
 
+		// Unknown/Other tags
+		const unknownData = Object.entries(data)
+			.filter(([k]) => k.includes('Unknown'))
+			.map(([k, v]) => ({ key: k.replace(/^[^:]+: /, ''), value: v }));
+
 		if (imageData.length > 0) {
-			groups.push({ name: 'Image', icon: '🖼️', data: imageData });
+			groups.push({ name: 'Image Info', icon: '🖼️', data: imageData });
 		}
-		if (cameraData.length > 0) {
-			groups.push({ name: 'Camera Settings', icon: '📷', data: cameraData });
+		if (exposureData.length > 0) {
+			groups.push({ name: 'Exposure Settings', icon: '📸', data: exposureData });
+		}
+		if (lensData.length > 0) {
+			groups.push({ name: 'Lens & Focus', icon: '🔍', data: lensData });
+		}
+		if (otherCameraData.length > 0) {
+			groups.push({ name: 'Camera Details', icon: '📷', data: otherCameraData });
 		}
 		if (gpsData.length > 0) {
-			groups.push({ name: 'Location', icon: '📍', data: gpsData });
+			groups.push({ name: 'Location (GPS)', icon: '📍', data: gpsData });
+		}
+		if (unknownData.length > 0) {
+			groups.push({ name: 'Additional Data', icon: '📋', data: unknownData });
 		}
 
 		return groups;

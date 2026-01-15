@@ -1,0 +1,102 @@
+<script lang="ts">
+	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
+	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import { htmlToText } from '$lib/utils/html';
+
+	let input = $state('');
+	let preserveLineBreaks = $state(true);
+	let keepLinkUrls = $state(false);
+	let collapseWhitespace = $state(true);
+
+	const output = $derived.by(() => {
+		if (!input.trim()) return '';
+		return htmlToText(input, {
+			preserveLineBreaks,
+			keepLinkUrls,
+			collapseWhitespace
+		});
+	});
+
+	const stats = $derived.by(() => {
+		if (!output) return null;
+		return {
+			chars: output.length,
+			words: output.trim().split(/\s+/).filter(Boolean).length,
+			lines: output.split('\n').length
+		};
+	});
+
+	function handleClear() {
+		input = '';
+	}
+</script>
+
+<ToolWrapper
+	title="HTML → Text Extractor"
+	description="Strip HTML tags and extract plain text content"
+>
+	<div class="flex flex-col gap-6">
+		<!-- Options -->
+		<div class="flex flex-wrap items-center gap-4">
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input type="checkbox" class="checkbox checkbox-sm" bind:checked={preserveLineBreaks} />
+				<span class="text-sm">Preserve line breaks</span>
+			</label>
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input type="checkbox" class="checkbox checkbox-sm" bind:checked={keepLinkUrls} />
+				<span class="text-sm">Keep link URLs</span>
+			</label>
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input type="checkbox" class="checkbox checkbox-sm" bind:checked={collapseWhitespace} />
+				<span class="text-sm">Collapse whitespace</span>
+			</label>
+			<button type="button" class="btn btn-ghost btn-sm" onclick={handleClear}>
+				Clear
+			</button>
+		</div>
+
+		<!-- Input -->
+		<div>
+			<h3 class="mb-2 text-sm font-medium text-base-content/70">HTML Input</h3>
+			<CodeMirrorEditor bind:value={input} placeholder="Paste your HTML here..." />
+		</div>
+
+		<!-- Output -->
+		<div>
+			<div class="flex items-center justify-between mb-2">
+				<h3 class="text-sm font-medium text-base-content/70">Extracted Text</h3>
+				{#if output}
+					<CopyButton text={output} label="Copy" />
+				{/if}
+			</div>
+			<textarea
+				class="textarea textarea-bordered w-full font-mono text-sm rounded-xl h-48 bg-base-200"
+				readonly
+				value={output}
+				placeholder="Extracted text will appear here..."
+			></textarea>
+		</div>
+
+		<!-- Stats -->
+		{#if stats}
+			<div class="flex flex-wrap gap-4 text-sm text-base-content/70">
+				<span><strong>{stats.chars.toLocaleString()}</strong> characters</span>
+				<span><strong>{stats.words.toLocaleString()}</strong> words</span>
+				<span><strong>{stats.lines}</strong> lines</span>
+			</div>
+		{/if}
+
+		<!-- Tips -->
+		<div class="card bg-base-200 rounded-xl">
+			<div class="card-body py-4">
+				<h4 class="text-sm font-semibold">Tips</h4>
+				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
+					<li>• <strong>Preserve line breaks</strong> adds new lines for block elements (p, div, h1-h6, li)</li>
+					<li>• <strong>Keep link URLs</strong> shows links as "text (url)"</li>
+					<li>• Script and style content is automatically removed</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</ToolWrapper>

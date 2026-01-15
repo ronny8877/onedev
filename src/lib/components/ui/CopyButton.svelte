@@ -1,6 +1,4 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-
 	interface CopyFormat {
 		label: string;
 		value: string;
@@ -8,15 +6,31 @@
 	}
 
 	interface Props {
-		url: string;
+		// Use `text` for plain text copy (no URL formats)
+		// Use `url` for URL copy with format options
+		text?: string;
+		url?: string;
+		label?: string;
 		showFormats?: boolean;
 		size?: 'xs' | 'sm' | 'md';
 		class?: string;
 	}
 
-	let { url, showFormats = true, size = 'sm', class: className = '' }: Props = $props();
+	let { 
+		text = '', 
+		url = '', 
+		label = 'Copy',
+		showFormats = true, 
+		size = 'sm', 
+		class: className = '' 
+	}: Props = $props();
+
 	let copied = $state(false);
 	let dropdownOpen = $state(false);
+
+	// Determine what to copy - text takes priority over url
+	const copyValue = $derived(text || url);
+	const isUrl = $derived(!text && !!url);
 
 	function generateFormats(targetUrl: string): CopyFormat[] {
 		return [
@@ -31,26 +45,26 @@
 		];
 	}
 
-	let formats = $derived(generateFormats(url));
+	let formats = $derived(isUrl ? generateFormats(url) : []);
 
-	async function copyToClipboard(text: string) {
-		await navigator.clipboard.writeText(text);
+	async function copyToClipboard(value: string) {
+		await navigator.clipboard.writeText(value);
 		copied = true;
 		dropdownOpen = false;
 		setTimeout(() => copied = false, 2000);
 	}
 
 	async function copyDefault() {
-		await copyToClipboard(url);
+		await copyToClipboard(copyValue);
 	}
 
-	function handleClickOutside(event: MouseEvent) {
+	function handleClickOutside() {
 		dropdownOpen = false;
 	}
 </script>
 
 <div class="flex items-center gap-0.5 z-50 {className}">
-	{#if showFormats}
+	{#if showFormats && isUrl}
 		<div class="dropdown dropdown-end">
 			<button
 				type="button"
@@ -63,7 +77,7 @@
 			{#if dropdownOpen}
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div class="fixed inset-0 z-10" onclick={handleClickOutside} onkeydown={() => {}}></div>
-				<ul class="dropdown-content  z-20 menu p-2 shadow-lg bg-base-200 rounded-2xl w-48 mt-1">
+				<ul class="dropdown-content z-20 menu p-2 shadow-lg bg-base-200 rounded-2xl w-48 mt-1">
 					{#each formats as format}
 						<li>
 							<button
@@ -85,16 +99,16 @@
 		type="button"
 		class="btn btn-{size}"
 		class:btn-success={copied}
-		class:rounded-l-none={showFormats}
+		class:rounded-l-none={showFormats && isUrl}
 		onclick={copyDefault}
-		disabled={!url}
+		disabled={!copyValue}
 	>
 		{#if copied}
 			<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-			Copied!
+			{#if label}Copied!{/if}
 		{:else}
 			<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-			Copy
+			{#if label}{label}{/if}
 		{/if}
 	</button>
 </div>

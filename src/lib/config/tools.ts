@@ -100,6 +100,20 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Lorem Ipsum', href: '/text/lorem-ipsum', description: 'Generate placeholder text.', icon: '📄' },
 			{ name: 'Blabber Generator', href: '/text/blabber', description: 'Generate random readable text.', icon: '💬' }
 		]
+	},
+	{
+		name: 'HTML',
+		icon: '📄',
+		items: [
+			{ name: 'HTML Validator (Basic)', href: '/html/validator', description: 'Check for invalid tags, unclosed elements, duplicate IDs.', icon: '✓' },
+			{ name: 'HTML Formatter', href: '/html/formatter', description: 'Beautify or minify HTML with proper indentation.', icon: '{ }' },
+			{ name: 'HTML → Text', href: '/html/text-extractor', description: 'Strip HTML tags, preserve text content.', icon: '📝' },
+			{ name: 'Element Extractor', href: '/html/element-extractor', description: 'Extract links, images, meta tags.', icon: '🔍' },
+			{ name: 'DOM Visualizer', href: '/html/dom-visualizer', description: 'Interactive tree view with search and copy.', icon: '🌲' },
+			{ name: 'HTML → JSON', href: '/html/to-json', description: 'Convert DOM structure to JSON.', icon: '🔄' },
+			{ name: 'Attribute Cleaner', href: '/html/attribute-cleaner', description: 'Remove inline styles, data-*, empty attributes.', icon: '🧹' },
+			{ name: 'Tag Counter', href: '/html/tag-counter', description: 'Count elements by tag type.', icon: '📊' }
+		]
 	}
 ];
 
