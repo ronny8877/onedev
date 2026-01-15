@@ -2,6 +2,8 @@
 	import './layout.css';
 	import Sidebar from '$lib/components/layout/Sidebar.svelte';
 	import TopBar from '$lib/components/layout/TopBar.svelte';
+	import Toast from '$lib/components/ui/Toast.svelte';
+	import CommandPalette from '$lib/components/ui/CommandPalette.svelte';
 	import { page } from '$app/stores';
 	import { getSidebarAccordions, getToolNamesRecord } from '$lib/config/tools';
 	//fevicons
@@ -20,7 +22,20 @@
 
 	// Mobile drawer state
 	let drawerOpen = $state(false);
+
+	// Command palette state
+	let commandPaletteOpen = $state(false);
+
+	function handleGlobalKeydown(event: KeyboardEvent) {
+		// Cmd+K (Mac) or Ctrl+K (Windows/Linux)
+		if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+			event.preventDefault();
+			commandPaletteOpen = true;
+		}
+	}
 </script>
+
+<svelte:window onkeydown={handleGlobalKeydown} />
 
 <svelte:head>
 	<link rel="apple-touch-icon" sizes="180x180" href={appleTouchIcon} />
@@ -35,7 +50,7 @@
 
 	<div class="drawer-content ">
 		<!-- Top Bar -->
-		<TopBar toolName={currentToolName} />
+		<TopBar toolName={currentToolName} onSearchClick={() => commandPaletteOpen = true} />
 
 		<!-- Mobile menu button -->
 		<label
@@ -73,3 +88,7 @@
 		<Sidebar accordions={sidebarAccordions} onNavigate={() => { drawerOpen = false; }} />
 	</div>
 </div>
+
+<!-- Global Components -->
+<Toast />
+<CommandPalette bind:open={commandPaletteOpen} />

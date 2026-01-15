@@ -116,6 +116,14 @@
 		</div>
 	</div>
 
+	<!-- Tool Count -->
+	<div class="mb-8 text-center">
+		<div class="inline-flex items-center gap-2 bg-base-200 px-4 py-2 rounded-full border border-base-300">
+			<span class="text-2xl font-bold text-primary">{allTools.length}</span>
+			<span class="text-base-content/70">tools and counting</span>
+		</div>
+	</div>
+
 	<!-- Tool Categories (from centralized config) -->
 	{#each categories as category}
 		{@const style = categoryStyles[category.name] || categoryStyles['JSON']}

@@ -1,8 +1,10 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import { fade, slide } from 'svelte/transition';
 
 	let input = $state('');
 	let copied = $state(false);
+	let showLineNumbers = $state(false);
 
 	function sortAZ() {
 		input = input.split('\n').sort((a, b) => a.localeCompare(b)).join('\n');
@@ -34,15 +36,18 @@
 	}
 
 	function numberLines() {
-		input = input.split('\n').map((line, i) => `${i + 1}. ${line}`).join('\n');
+		// First remove any existing numbers to prevent duplicates
+		const cleanedLines = input.split('\n').map(line => line.replace(/^\d+\.\s*/, ''));
+		input = cleanedLines.map((line, i) => `${i + 1}. ${line}`).join('\n');
 	}
 
 	function removeNumbers() {
 		input = input.split('\n').map(line => line.replace(/^\d+\.\s*/, '')).join('\n');
 	}
 
-	let lineCount = $derived(input.split('\n').filter(l => l.trim()).length);
-	let uniqueCount = $derived(new Set(input.split('\n').filter(l => l.trim())).size);
+	let lines = $derived(input.split('\n'));
+	let lineCount = $derived(lines.filter(l => l.trim()).length);
+	let uniqueCount = $derived(new Set(lines.filter(l => l.trim())).size);
 
 	function copyOutput() {
 		navigator.clipboard.writeText(input);
@@ -53,6 +58,10 @@
 	function clearAll() {
 		input = '';
 	}
+
+	function toggleLineNumbers() {
+		showLineNumbers = !showLineNumbers;
+	}
 </script>
 
 <ToolWrapper
@@ -61,20 +70,20 @@
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
-		<div class="flex flex-wrap gap-2">
+		<div class="flex flex-wrap gap-3">
 			<button class="btn btn-primary btn-sm" onclick={sortAZ}>Sort A→Z</button>
 			<button class="btn btn-primary btn-sm" onclick={sortZA}>Sort Z→A</button>
-			<button class="btn btn-accent btn-sm" onclick={trimWhitespace}>Trim Whitespace</button>
-			<button class="btn btn-accent btn-sm" onclick={removeEmptyLines}>Remove Empty</button>
-			<button class="btn btn-ghost btn-sm" onclick={reverseLines}>Reverse</button>
-			<button class="btn btn-ghost btn-sm" onclick={shuffleLines}>Shuffle</button>
-			<button class="btn btn-ghost btn-sm" onclick={numberLines}>Number Lines</button>
+			<button class="btn btn-secondary btn-sm" onclick={trimWhitespace}>Trim Whitespace</button>
+			<button class="btn btn-secondary btn-sm" onclick={removeEmptyLines}>Remove Empty</button>
+			<button class="btn btn-accent btn-sm" onclick={reverseLines}>Reverse</button>
+			<button class="btn btn-accent btn-sm" onclick={shuffleLines}>Shuffle</button>
+			<button class="btn btn-info btn-sm" onclick={numberLines}>Number Lines</button>
 			<button class="btn btn-ghost btn-sm" onclick={removeNumbers}>Remove Numbers</button>
 		</div>
 
 		<!-- Stats -->
 		{#if input.trim()}
-			<div class="flex gap-4 text-sm text-base-content/70">
+			<div class="flex gap-4 text-sm text-base-content/70" transition:fade={{ duration: 150 }}>
 				<span><strong>{lineCount}</strong> lines</span>
 				<span><strong>{uniqueCount}</strong> unique</span>
 				{#if lineCount !== uniqueCount}
@@ -83,11 +92,15 @@
 			</div>
 		{/if}
 
-		<!-- Input -->
+		<!-- Input with optional line numbers gutter -->
 		<div>
 			<div class="flex items-center justify-between mb-2">
 				<h3 class="text-sm font-medium text-base-content/70">Text (one item per line)</h3>
 				<div class="flex gap-2">
+					<label class="label cursor-pointer gap-2">
+						<span class="label-text text-xs">Show Line Numbers</span>
+						<input type="checkbox" class="toggle toggle-primary toggle-sm" bind:checked={showLineNumbers} />
+					</label>
 					<button class="btn btn-ghost btn-xs gap-1" onclick={copyOutput} disabled={!input.trim()}>
 						{#if copied}
 							✓ Copied
@@ -98,12 +111,23 @@
 					<button class="btn btn-ghost btn-xs" onclick={clearAll}>Clear</button>
 				</div>
 			</div>
-			<textarea
-				bind:value={input}
-				placeholder="Enter text, one item per line&#10;Apple&#10;Banana&#10;Cherry&#10;Apple"
-				class="textarea textarea-bordered w-full font-mono text-sm rounded-xl h-80"
-				spellcheck="false"
-			></textarea>
+
+			<div class="relative">
+				{#if showLineNumbers && input}
+					<div class="line-gutter" transition:slide={{ duration: 200, axis: 'x' }}>
+						{#each lines as _, i}
+							<div class="line-number">{i + 1}</div>
+						{/each}
+					</div>
+				{/if}
+				<textarea
+					bind:value={input}
+					placeholder="Enter text, one item per line&#10;Apple&#10;Banana&#10;Cherry&#10;Apple"
+					class="textarea textarea-bordered w-full font-mono text-sm rounded-xl h-80"
+					class:pl-14={showLineNumbers && input}
+					spellcheck="false"
+				></textarea>
+			</div>
 		</div>
 
 		<!-- Info -->
@@ -123,3 +147,34 @@
 		</div>
 	</div>
 </ToolWrapper>
+
+<style>
+	.line-gutter {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 3rem;
+		padding-top: 0.75rem;
+		border-right: 1px solid oklch(var(--bc) / 0.15);
+		background: oklch(var(--b2));
+		border-radius: 0.75rem 0 0 0.75rem;
+		overflow: hidden;
+		z-index: 1;
+	}
+
+	.line-number {
+		height: 1.5rem;
+		padding-right: 0.75rem;
+		text-align: right;
+		font-family: monospace;
+		font-size: 0.75rem;
+		color: oklch(var(--bc) / 0.4);
+		line-height: 1.5rem;
+		user-select: none;
+	}
+
+	textarea.pl-14 {
+		padding-left: 3.5rem;
+	}
+</style>

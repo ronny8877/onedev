@@ -134,8 +134,8 @@
 		</div>
 
 		<!-- Actions -->
-		<div class="flex flex-wrap gap-2">
-			<button class="btn btn-secondary" onclick={generate}>
+		<div class="flex flex-wrap gap-3">
+			<button class="btn btn-primary" onclick={generate}>
 				🎲 Generate New
 			</button>
 			<button class="btn btn-ghost" onclick={copyOutput} disabled={!output}>

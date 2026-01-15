@@ -1,0 +1,214 @@
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { getAllActiveTools, type ToolItem, getActiveCategories } from '$lib/config/tools';
+	import { fade, scale } from 'svelte/transition';
+
+	interface Props {
+		open?: boolean;
+		onClose?: () => void;
+	}
+
+	let { open = $bindable(false), onClose }: Props = $props();
+
+	let searchQuery = $state('');
+	let selectedIndex = $state(0);
+	let inputRef: HTMLInputElement;
+
+	const allTools = getAllActiveTools();
+	const categories = getActiveCategories();
+
+	// Create a mapping of tool href to category name
+	const toolCategoryMap = new Map<string, string>();
+	for (const cat of categories) {
+		for (const tool of cat.items) {
+			toolCategoryMap.set(tool.href, cat.name);
+		}
+	}
+
+	let filteredTools = $derived(() => {
+		if (!searchQuery.trim()) return allTools.slice(0, 8);
+
+		const query = searchQuery.toLowerCase();
+		return allTools.filter(tool =>
+			tool.name.toLowerCase().includes(query) ||
+			tool.description?.toLowerCase().includes(query) ||
+			toolCategoryMap.get(tool.href)?.toLowerCase().includes(query)
+		).slice(0, 8);
+	});
+
+	function handleKeydown(event: KeyboardEvent) {
+		const tools = filteredTools();
+
+		switch (event.key) {
+			case 'ArrowDown':
+				event.preventDefault();
+				selectedIndex = Math.min(selectedIndex + 1, tools.length - 1);
+				break;
+			case 'ArrowUp':
+				event.preventDefault();
+				selectedIndex = Math.max(selectedIndex - 1, 0);
+				break;
+			case 'Enter':
+				event.preventDefault();
+				if (tools[selectedIndex]) {
+					navigateTo(tools[selectedIndex]);
+				}
+				break;
+			case 'Escape':
+				event.preventDefault();
+				closeModal();
+				break;
+		}
+	}
+
+	function navigateTo(tool: ToolItem) {
+		closeModal();
+		goto(tool.href);
+	}
+
+	function closeModal() {
+		open = false;
+		searchQuery = '';
+		selectedIndex = 0;
+		onClose?.();
+	}
+
+	// Reset selected index when search changes
+	$effect(() => {
+		searchQuery;
+		selectedIndex = 0;
+	});
+
+	// Focus input when modal opens
+	$effect(() => {
+		if (open && inputRef) {
+			setTimeout(() => inputRef?.focus(), 50);
+		}
+	});
+	let resultsContainer: HTMLDivElement;
+
+	// Scroll selected item into view
+	$effect(() => {
+		// Depend on selectedIndex
+		selectedIndex; 
+		if (resultsContainer) {
+			const selectedElement = resultsContainer.children[selectedIndex] as HTMLElement;
+			if (selectedElement) {
+				selectedElement.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+			}
+		}
+	});
+</script>
+
+{#if open}
+	<!-- Backdrop -->
+	<div
+		class="fixed inset-0 bg-black/50 z-100 backdrop-blur-sm"
+		transition:fade={{ duration: 150 }}
+		onclick={closeModal}
+		onkeydown={(e) => e.key === 'Escape' && closeModal()}
+		role="button"
+		tabindex="-1"
+	></div>
+
+	<!-- Modal -->
+	<div
+		class="command-palette bg-base-200"
+		transition:scale={{ duration: 150, start: 0.95 }}
+		onkeydown={handleKeydown}
+		role="dialog"
+		aria-modal="true"
+		aria-label="Search tools"
+	>
+		<!-- Search Input -->
+		<div class="flex items-center gap-3 px-4 py-3 border-b border-base-300">
+			<svg class="w-5 h-5 text-base-content/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+			</svg>
+			<input
+				bind:this={inputRef}
+				bind:value={searchQuery}
+				type="text"
+				placeholder="Search tools..."
+				class="flex-1 bg-transparent outline-none text-base-content placeholder:text-base-content/40 input input-ghost"
+			/>
+			<kbd class="kbd kbd-sm">ESC</kbd>
+		</div>
+
+		<!-- Results -->
+		<div 
+			class="max-h-80 overflow-y-auto p-2"
+			bind:this={resultsContainer}
+		>
+			{#if filteredTools().length > 0}
+				{#each filteredTools() as tool, i}
+					<button
+						class="result-item {i === selectedIndex ? 'bg-primary/15 text-primary' : 'hover:bg-primary/15'}"
+						onclick={() => navigateTo(tool)}
+						onmouseenter={() => selectedIndex = i}
+					>
+						<div class="flex items-center gap-3">
+							<span class="text-lg">{tool.icon || '🔧'}</span>
+							<div class="text-left">
+								<div class="font-medium text-sm">{tool.name}</div>
+								<div class="text-xs text-base-content/50">{toolCategoryMap.get(tool.href)}</div>
+							</div>
+						</div>
+						{#if i === selectedIndex}
+							<kbd class="kbd kbd-xs">↵</kbd>
+						{/if}
+					</button>
+				{/each}
+			{:else}
+				<div class="py-8 text-center text-base-content/50 text-sm">
+					No tools found for "{searchQuery}"
+				</div>
+			{/if}
+		</div>
+
+		<!-- Footer -->
+		<div class="px-4 py-2 border-t border-base-300 flex items-center justify-between text-xs text-base-content/50">
+			<div class="flex items-center gap-3">
+				<span class="flex items-center gap-1"><kbd class="kbd kbd-xs">↑</kbd><kbd class="kbd kbd-xs">↓</kbd> navigate</span>
+				<span class="flex items-center gap-1"><kbd class="kbd kbd-xs">↵</kbd> select</span>
+			</div>
+			<span>{allTools.length} tools available</span>
+		</div>
+	</div>
+{/if}
+
+<style>
+	.command-palette {
+		position: fixed;
+		top: 15%;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 100%;
+		max-width: 32rem;
+		border: 1px solid var(--fallback-bc, oklch(var(--bc) / 0.15));
+		border-radius: 1rem;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+		z-index: 101;
+		overflow: hidden;
+	}
+
+	/* Fallback for browsers that don't support oklch */
+	@supports not (color: oklch(0 0 0)) {
+		.command-palette {
+			background-color: hsl(220 13% 18%);
+			border-color: hsl(220 13% 30%);
+		}
+	}
+
+	/* result-item styles moved to markup to avoid @apply issues with daisyui classes */
+	.result-item {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		padding: 0.75rem 1rem;
+		border-radius: 0.5rem;
+		cursor: pointer;
+		transition: all 0.1s ease;
+	}
+</style>

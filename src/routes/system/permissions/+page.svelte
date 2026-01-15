@@ -14,8 +14,8 @@
 		{ name: 'Microphone', icon: '🎤', state: 'loading', canRequest: true },
 		{ name: 'Geolocation', icon: '📍', state: 'loading', canRequest: true },
 		{ name: 'Notifications', icon: '🔔', state: 'loading', canRequest: true },
-		{ name: 'Clipboard Read', icon: '📋', state: 'loading', canRequest: false },
-		{ name: 'Clipboard Write', icon: '✏️', state: 'loading', canRequest: false },
+		{ name: 'Clipboard Read', icon: '📋', state: 'loading', canRequest: true },
+		{ name: 'Clipboard Write', icon: '✏️', state: 'loading', canRequest: true },
 		{ name: 'Persistent Storage', icon: '💾', state: 'loading', canRequest: true },
 		{ name: 'Background Sync', icon: '🔄', state: 'loading', canRequest: false }
 	]);
@@ -82,6 +82,14 @@
 					if (navigator.storage?.persist) {
 						await navigator.storage.persist();
 					}
+					break;
+				case 'Clipboard Read':
+					// This will trigger the permission prompt
+					await navigator.clipboard.readText();
+					break;
+				case 'Clipboard Write':
+					// Write empty string to trigger permission
+					await navigator.clipboard.writeText('');
 					break;
 			}
 		} catch (err) {
