@@ -125,6 +125,21 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Zen Motion', href: '/break/zen-motion', description: 'Nostalgic bouncing shape animation for resting your eyes.', icon: '📀' },
 			{ name: 'Breathing Timer', href: '/break/breathing', description: 'Guided breathing: configurable inhale, hold, exhale cycles.', icon: '🌬️' }
 		]
+	},
+	{
+		name: 'Convert',
+		icon: '🔄',
+		items: [
+			{ name: 'CSS Units', href: '/convert/css-units', description: 'Convert between px, rem, em, vw, vh, pt, and percentages. Live updates.', icon: '📐' },
+			{ name: 'Length', href: '/convert/length', description: 'Convert mm, cm, inches, feet, meters, km, and pixels at any DPI.', icon: '📏' },
+			{ name: 'Screen / Resolution', href: '/convert/screen', description: 'Calculate screen dimensions from resolution and DPI, or vice versa.', icon: '🖥️' },
+			{ name: 'Time', href: '/convert/time', description: 'Convert ms, seconds, minutes, hours, days. Human-readable output.', icon: '⏱️' },
+			{ name: 'Data Size', href: '/convert/data-size', description: 'Convert bytes, KB, MB, GB. Decimal (SI) and binary (IEC) units.', icon: '💾' },
+			{ name: 'Angle', href: '/convert/angle', description: 'Convert degrees, radians, gradians, turns. Visual arc preview.', icon: '📐' },
+			{ name: 'Number Base', href: '/convert/number-base', description: 'Convert binary, decimal, hexadecimal, octal. Bit visualization.', icon: '🔢' },
+			{ name: 'Typography', href: '/convert/typography', description: 'Convert px, pt, em, rem. Line-height calculator and font preview.', icon: '🔤' },
+			{ name: 'Color', href: '/convert/color', description: 'Convert HEX, RGB, RGBA, HSL, HSLA. Live color preview.', icon: '🎨' }
+		]
 	}
 ];
 

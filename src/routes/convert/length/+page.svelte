@@ -1,0 +1,226 @@
+<script lang="ts">
+	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
+	import ConversionCard from '$lib/components/ui/ConversionCard.svelte';
+	import ConversionGroup from '$lib/components/ui/ConversionGroup.svelte';
+	import { getAllLengthUnits, formatNumber } from '$lib/utils/conversions';
+
+	let inputValue = $state('1');
+	let inputUnit = $state<'mm' | 'cm' | 'inch' | 'ft' | 'm' | 'km' | 'px'>('inch');
+	let dpi = $state(96);
+
+	// Parse input
+	let numValue = $derived(parseFloat(inputValue) || 0);
+
+	// Convert to mm first (base unit)
+	let mmValue = $derived(() => {
+		switch (inputUnit) {
+			case 'cm': return numValue * 10;
+			case 'inch': return numValue * 25.4;
+			case 'ft': return numValue * 25.4 * 12;
+			case 'm': return numValue * 1000;
+			case 'km': return numValue * 1000000;
+			case 'px': return (numValue * 25.4) / dpi;
+			default: return numValue; // mm
+		}
+	});
+
+	let conversions = $derived(getAllLengthUnits(mmValue(), dpi));
+
+	function loadSample() {
+		inputValue = '2.54';
+		inputUnit = 'cm';
+	}
+
+	function clearAll() {
+		inputValue = '';
+	}
+
+	// DPI presets
+	const dpiPresets = [
+		{ label: '72 (Web Legacy)', value: 72 },
+		{ label: '96 (CSS Standard)', value: 96 },
+		{ label: '150 (Medium Print)', value: 150 },
+		{ label: '300 (Print)', value: 300 },
+		{ label: '326 (iPhone Retina)', value: 326 },
+		{ label: '401 (iPhone Plus)', value: 401 },
+	];
+</script>
+
+<ToolWrapper
+	title="Length / Distance Converter"
+	description="Convert between physical length units: mm, cm, inches, feet, meters, km, and pixels at any DPI."
+	keywords={['length converter', 'mm to inch', 'cm to inch', 'pixels to mm', 'distance converter', 'unit converter']}
+>
+	<div class="flex flex-col gap-6">
+		<!-- Actions -->
+		<ToolActions onSample={loadSample} onClear={clearAll} />
+
+		<!-- Input Section -->
+		<div class="card bg-base-200 rounded-2xl">
+			<div class="card-body p-4">
+				<h3 class="text-sm font-semibold mb-3">Input Value</h3>
+				<div class="flex gap-2">
+					<input
+						type="number"
+						bind:value={inputValue}
+						placeholder="Enter value..."
+						class="input input-bordered flex-1 font-mono text-lg"
+						step="any"
+					/>
+					<select bind:value={inputUnit} class="select select-bordered w-24">
+						<option value="mm">mm</option>
+						<option value="cm">cm</option>
+						<option value="inch">inch</option>
+						<option value="ft">ft</option>
+						<option value="m">m</option>
+						<option value="km">km</option>
+						<option value="px">px</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<!-- DPI Setting -->
+		<div class="card bg-base-200 rounded-2xl">
+			<div class="card-body p-4">
+				<h3 class="text-sm font-semibold mb-3">Screen DPI (for pixel conversions)</h3>
+				<div class="flex items-center gap-3">
+					<input
+						type="number"
+						bind:value={dpi}
+						class="input input-bordered input-sm w-24 font-mono"
+						min="1"
+					/>
+					<span class="text-sm text-base-content/60">dots per inch</span>
+				</div>
+				<div class="mt-3 flex flex-wrap gap-1">
+					{#each dpiPresets as preset}
+						<button
+							class="btn btn-xs btn-ghost"
+							class:btn-active={dpi === preset.value}
+							onclick={() => dpi = preset.value}
+						>
+							{preset.label}
+						</button>
+					{/each}
+				</div>
+			</div>
+		</div>
+
+		<!-- Results -->
+		{#if numValue}
+			<div class="grid md:grid-cols-2 gap-4">
+				<ConversionGroup title="Metric" icon="📏">
+					<ConversionCard 
+						label="Millimeters" 
+						value={formatNumber(conversions.mm)} 
+						unit="mm" 
+						highlight={inputUnit === 'mm'}
+					/>
+					<ConversionCard 
+						label="Centimeters" 
+						value={formatNumber(conversions.cm)} 
+						unit="cm" 
+						highlight={inputUnit === 'cm'}
+					/>
+					<ConversionCard 
+						label="Meters" 
+						value={formatNumber(conversions.m)} 
+						unit="m" 
+						highlight={inputUnit === 'm'}
+					/>
+					<ConversionCard 
+						label="Kilometers" 
+						value={formatNumber(conversions.km)} 
+						unit="km" 
+						highlight={inputUnit === 'km'}
+					/>
+				</ConversionGroup>
+
+				<ConversionGroup title="Imperial & Screen" icon="📐">
+					<ConversionCard 
+						label="Inches" 
+						value={formatNumber(conversions.inch)} 
+						unit="in" 
+						highlight={inputUnit === 'inch'}
+					/>
+					<ConversionCard 
+						label="Feet" 
+						value={formatNumber(conversions.ft)} 
+						unit="ft" 
+						highlight={inputUnit === 'ft'}
+					/>
+					<ConversionCard 
+						label="Pixels" 
+						value={formatNumber(conversions.px)} 
+						unit="px" 
+						highlight={inputUnit === 'px'}
+						description="At {dpi} DPI"
+					/>
+				</ConversionGroup>
+			</div>
+
+			<!-- Visual Scale -->
+			<div class="card bg-base-200 rounded-2xl overflow-hidden">
+				<div class="card-body p-4">
+					<h3 class="text-sm font-semibold mb-3">Visual Scale (at {dpi} DPI)</h3>
+					<div class="space-y-3">
+						<!-- 1 inch reference -->
+						<div class="flex items-center gap-3">
+							<div 
+								class="h-4 bg-primary/30 border border-primary rounded"
+								style="width: {dpi}px; max-width: 100%;"
+							></div>
+							<span class="text-xs text-base-content/60 shrink-0">1 inch = {dpi}px</span>
+						</div>
+						<!-- 1 cm reference -->
+						<div class="flex items-center gap-3">
+							<div 
+								class="h-4 bg-secondary/30 border border-secondary rounded"
+								style="width: {dpi / 2.54}px; max-width: 100%;"
+							></div>
+							<span class="text-xs text-base-content/60 shrink-0">1 cm = {formatNumber(dpi / 2.54)}px</span>
+						</div>
+						<!-- Input value -->
+						{#if conversions.px <= 500}
+							<div class="flex items-center gap-3">
+								<div 
+									class="h-6 bg-accent/30 border-2 border-accent rounded flex items-center justify-center"
+									style="width: {Math.max(conversions.px, 20)}px; max-width: 100%;"
+								>
+									<span class="text-xs font-mono">{formatNumber(conversions.px)}px</span>
+								</div>
+								<span class="text-xs text-base-content/60 shrink-0">Your value</span>
+							</div>
+						{:else}
+							<p class="text-xs text-base-content/60">Value too large to display preview ({formatNumber(conversions.px)}px)</p>
+						{/if}
+					</div>
+				</div>
+			</div>
+		{:else}
+			<div class="card bg-base-200 rounded-2xl">
+				<div class="card-body items-center text-center py-12">
+					<span class="text-4xl mb-2">📏</span>
+					<p class="text-base-content/60">Enter a value above to see conversions</p>
+				</div>
+			</div>
+		{/if}
+
+		<!-- Info -->
+		<div class="card bg-base-200 rounded-xl">
+			<div class="card-body py-4">
+				<h4 class="text-sm font-semibold">Quick Reference</h4>
+				<div class="mt-2 grid grid-cols-2 gap-2 text-sm text-base-content/70">
+					<div>1 inch = 25.4 mm</div>
+					<div>1 inch = 2.54 cm</div>
+					<div>1 foot = 12 inches</div>
+					<div>1 meter = 100 cm</div>
+					<div>1 km = 1000 m</div>
+					<div>1 inch = 96px (CSS)</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ToolWrapper>
