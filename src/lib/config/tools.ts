@@ -140,6 +140,25 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Typography', href: '/convert/typography', description: 'Convert px, pt, em, rem. Line-height calculator and font preview.', icon: '🔤' },
 			{ name: 'Color', href: '/convert/color', description: 'Convert HEX, RGB, RGBA, HSL, HSLA. Live color preview.', icon: '🎨' }
 		]
+	},
+	{
+		name: 'CSS',
+		icon: '🎨',
+		items: [
+			{ name: 'Formatter', href: '/css/formatter', description: 'Beautify and format CSS code with proper indentation.', icon: '✨' },
+			{ name: 'Minifier', href: '/css/minifier', description: 'Compress CSS by removing whitespace and comments.', icon: '📦' },
+			{ name: 'Prefix Cleaner', href: '/css/prefix-cleaner', description: 'Remove vendor prefixes (-webkit-, -moz-, etc).', icon: '🧹' },
+			{ name: 'Transition', href: '/css/transition', description: 'Generate CSS transitions with live preview.', icon: '🔄' },
+			{ name: 'Bezier Curve', href: '/css/bezier', description: 'Interactive cubic-bezier curve editor for timing functions.', icon: '📈' },
+			{ name: 'Keyframes', href: '/css/keyframes', description: 'Create @keyframes animations with editable stops.', icon: '🎬' },
+			{ name: 'Flexbox', href: '/css/flexbox', description: 'Visual flexbox playground with live preview.', icon: '📦' },
+			{ name: 'Grid', href: '/css/grid', description: 'CSS Grid generator with visual builder.', icon: '⊞' },
+			{ name: 'Box Shadow', href: '/css/box-shadow', description: 'Create box-shadows with multiple layers and presets.', icon: '🌑' },
+			{ name: 'Text Shadow', href: '/css/text-shadow', description: 'Generate text-shadow effects with live preview.', icon: '💬' },
+			{ name: 'Filter', href: '/css/filter', description: 'CSS filter generator: blur, brightness, contrast, etc.', icon: '🎛️' },
+			{ name: 'Text Gradient', href: '/css/text-gradient', description: 'Create beautiful gradient text with visual color stops.', icon: '🌈' },
+			{ name: 'Snippets', href: '/css/snippets', description: 'Ready-to-use CSS snippets: centering, truncate, a11y.', icon: '📋' }
+		]
 	}
 ];
 
