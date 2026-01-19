@@ -159,6 +159,18 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Text Gradient', href: '/css/text-gradient', description: 'Create beautiful gradient text with visual color stops.', icon: '🌈' },
 			{ name: 'Snippets', href: '/css/snippets', description: 'Ready-to-use CSS snippets: centering, truncate, a11y.', icon: '📋' }
 		]
+	},
+	{
+		name: 'AI Utilities',
+		icon: '🤖',
+		items: [
+			{ name: 'Token Counter', href: '/ai/token-counter', description: 'Count tokens for GPT-4, Claude, Gemini and more. See character count and estimated cost.', icon: '🔢' },
+			{ name: 'Token Visualizer', href: '/ai/token-visualizer', description: 'See how AI models break text into tokens. Understand token boundaries visually.', icon: '🎨' },
+			{ name: 'Context Estimator', href: '/ai/context-estimator', description: 'Calculate total tokens for prompts, system messages, and chat history. See remaining context.', icon: '📊' },
+			{ name: 'Prompt Trimmer', href: '/ai/prompt-trimmer', description: 'Trim text to fit token limits. Supports hard cut, sentence-aware, and paragraph-aware modes.', icon: '✂️' },
+			{ name: 'Embedding Estimator', href: '/ai/embedding-estimator', description: 'Estimate tokens and vector dimensions for embedding models. Great for vector DB planning.', icon: '📐' },
+			{ name: 'Cost Estimator', href: '/ai/cost-estimator', description: 'Estimate API costs for AI models. Input tokens, output tokens, and per-request pricing.', icon: '💰' }
+		]
 	}
 ];
 
