@@ -18,7 +18,7 @@
 	const sidebarAccordions = getSidebarAccordions();
 	const toolNames = getToolNamesRecord();
 
-	let currentToolName = $derived(toolNames[$page.url.pathname] || 'OneDev Tools');
+	let currentToolName = $derived(toolNames[$page.url.pathname] || 'Dev Tools');
 
 	// Mobile drawer state
 	let drawerOpen = $state(false);

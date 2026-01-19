@@ -16,7 +16,7 @@
 	interface Props {
 		items?: SidebarItem[];
 		accordions?: SidebarAccordion[];
-		onNavigate?: () => void; // Callback when user navigates
+		onNavigate?: () => void;
 	}
 
 	let { items = [], accordions = [], onNavigate }: Props = $props();
@@ -43,7 +43,6 @@
 	}
 
 	function handleLinkClick(toolName: string, categoryName?: string) {
-		// Track with Umami
 		if (typeof window !== 'undefined' && (window as Window & { umami?: { track: (event: string, data?: Record<string, string>) => void } }).umami) {
 			(window as Window & { umami?: { track: (event: string, data?: Record<string, string>) => void } }).umami?.track('Tool Select', {
 				tool: toolName,
@@ -51,34 +50,36 @@
 			});
 		}
 
-		// Close mobile drawer
 		if (onNavigate) {
 			onNavigate();
 		}
 	}
 </script>
 
-<aside
-	class="fixed top-0 left-0 z-40 h-screen w-[var(--sidebar-width)] overflow-y-auto border-r border-base-300 bg-base-200"
->
+<aside class="sidebar-container">
 	<!-- App Title -->
-	<div class="px-4 pt-4 pb-2">
-		<a href="/" class="flex w-full justify-center text-3xl font-bold tracking-tight" onclick={() => handleLinkClick('Home')}>
-			<span class="text-primary">One</span>dev.tools
+	<div class="sidebar-header">
+		<a href="/" class="logo" onclick={() => handleLinkClick('Home')}>
+			<span class="logo-one">One</span><span class="logo-dev">dev</span><span class="logo-tools">.tools</span>
 		</a>
 	</div>
 
-	<nav class="p-4 pt-2">
+	<nav class="sidebar-nav">
 		<!-- Simple Items -->
 		{#if items.length > 0}
-			<ul class="menu w-full">
+			<ul class="nav-list">
 				{#each items as item}
 					<li>
-						<a href={item.href} class:active={isActive(item.href)} onclick={() => handleLinkClick(item.name)}>
+						<a 
+							href={item.href} 
+							class="nav-item"
+							class:active={isActive(item.href)}
+							onclick={() => handleLinkClick(item.name)}
+						>
 							{#if item.icon}
-								<span class="text-lg">{item.icon}</span>
+								<span class="nav-icon">{item.icon}</span>
 							{/if}
-							{item.name}
+							<span class="nav-text">{item.name}</span>
 						</a>
 					</li>
 				{/each}
@@ -86,50 +87,224 @@
 		{/if}
 
 		<!-- Accordions -->
-		{#each accordions as accordion}
-			<div class="mt-2">
-				<button
-					type="button"
-					class="btn w-full justify-between text-left font-semibold   btn-ghost"
-					onclick={() => toggleAccordion(accordion.name)}
-				>
-					<span class="flex items-center gap-2">
-						{#if accordion.icon}
-							<span class="text-lg">{accordion.icon}</span>
-						{/if}
-						{accordion.name}
-					</span>
-					<svg
-						class="h-4 w-4 transition-transform duration-200"
-						class:rotate-180={openAccordions[accordion.name]}
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
+		<div class="accordion-list">
+			{#each accordions as accordion}
+				<div class="accordion">
+					<!-- Category Header -->
+					<button
+						type="button"
+						class="accordion-header"
+						onclick={() => toggleAccordion(accordion.name)}
 					>
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"
-						></path>
-					</svg>
-				</button>
+						<span class="accordion-title">
+							{#if accordion.icon}
+								<span class="accordion-icon">{accordion.icon}</span>
+							{/if}
+							<span class="accordion-name">{accordion.name}</span>
+						</span>
+						<svg
+							class="chevron"
+							class:open={openAccordions[accordion.name]}
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+						</svg>
+					</button>
 
-				{#if openAccordions[accordion.name]}
-					<ul class="menu w-full gap-1 pl-4">
-						{#each accordion.items as item}
-							<li>
-								<a 
-									href={item.href} 
-									class:active={isActive(item.href)}
-									onclick={() => handleLinkClick(item.name, accordion.name)}
-								>
-									{#if item.icon}
-										<span class="text-base">{item.icon}</span>
-									{/if}
-									{item.name}
-								</a>
-							</li>
-						{/each}
-					</ul>
-				{/if}
-			</div>
-		{/each}
+					<!-- Items List -->
+					{#if openAccordions[accordion.name]}
+						<ul class="accordion-items">
+							{#each accordion.items as item}
+								<li>
+									<a 
+										href={item.href} 
+										class="nav-item"
+										class:active={isActive(item.href)}
+										onclick={() => handleLinkClick(item.name, accordion.name)}
+									>
+										{#if item.icon}
+											<span class="nav-icon small">{item.icon}</span>
+										{/if}
+										<span class="nav-text">{item.name}</span>
+									</a>
+								</li>
+							{/each}
+						</ul>
+					{/if}
+				</div>
+			{/each}
+		</div>
 	</nav>
 </aside>
+
+<style>
+	.sidebar-container {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 40;
+		height: 100vh;
+		width: var(--sidebar-width);
+		overflow-y: auto;
+		overflow-x: hidden;
+		border-right: 1px solid oklch(var(--bc) / 0.08);
+		background: oklch(var(--b2));
+	}
+
+	/* Custom scrollbar */
+	.sidebar-container::-webkit-scrollbar {
+		width: 4px;
+	}
+	.sidebar-container::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	.sidebar-container::-webkit-scrollbar-thumb {
+		background: oklch(var(--bc) / 0.12);
+		border-radius: 4px;
+	}
+	.sidebar-container::-webkit-scrollbar-thumb:hover {
+		background: oklch(var(--bc) / 0.2);
+	}
+
+	/* Header */
+	.sidebar-header {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		background: oklch(var(--b2));
+		padding: 1.25rem 1rem 1rem;
+		border-bottom: 1px solid oklch(var(--bc) / 0.06);
+	}
+
+	.logo {
+		display: flex;
+		justify-content: center;
+		font-size: 1.375rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		text-decoration: none;
+		transition: opacity 0.15s;
+	}
+	.logo:hover {
+		opacity: 0.85;
+	}
+	.logo-one {
+		color: oklch(var(--p));
+	}
+	.logo-dev {
+		color: oklch(var(--bc));
+	}
+	.logo-tools {
+		color: oklch(var(--bc) / 0.4);
+		font-weight: 400;
+	}
+
+	/* Navigation */
+	.sidebar-nav {
+		padding: 0.75rem;
+	}
+
+	.nav-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.nav-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.5rem;
+		text-decoration: none;
+		color: oklch(var(--bc) / 0.7);
+		font-size: 0.8125rem;
+		transition: all 0.12s ease;
+	}
+	.nav-item:hover {
+		background: oklch(var(--bc) / 0.06);
+		color: oklch(var(--bc) / 0.9);
+	}
+	.nav-item.active {
+		background: oklch(var(--p) / 0.1);
+		color: oklch(var(--p));
+		font-weight: 500;
+	}
+
+	.nav-icon {
+		font-size: 0.875rem;
+		opacity: 0.8;
+		flex-shrink: 0;
+	}
+	.nav-icon.small {
+		font-size: 0.8125rem;
+	}
+
+	.nav-text {
+		line-height: 1.3;
+	}
+
+	/* Accordions */
+	.accordion-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		margin-top: 0.5rem;
+	}
+
+	.accordion-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		padding: 0.5rem 0.75rem;
+		border: none;
+		border-radius: 0.5rem;
+		background: transparent;
+		cursor: pointer;
+		transition: background 0.12s ease;
+	}
+	.accordion-header:hover {
+		background: oklch(var(--bc) / 0.04);
+	}
+
+	.accordion-title {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.accordion-icon {
+		font-size: 0.9375rem;
+	}
+
+	.accordion-name {
+		font-size: 0.6875rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: oklch(var(--bc) / 0.45);
+	}
+
+	.chevron {
+		width: 0.875rem;
+		height: 0.875rem;
+		color: oklch(var(--bc) / 0.35);
+		transition: transform 0.2s ease;
+	}
+	.chevron.open {
+		transform: rotate(180deg);
+	}
+
+	.accordion-items {
+		list-style: none;
+		margin: 0.25rem 0 0.5rem 0;
+		padding: 0 0 0 0.5rem;
+	}
+
+	.accordion-items .nav-item {
+		padding: 0.4rem 0.75rem;
+	}
+</style>

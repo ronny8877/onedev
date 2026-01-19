@@ -200,7 +200,7 @@ export function getToolNameByPath(path: string): string | undefined {
 
 // Helper: Build toolNames record for layout
 export function getToolNamesRecord(): Record<string, string> {
-	const record: Record<string, string> = { '/': 'OneDev Tools' };
+	const record: Record<string, string> = { '/': 'Dev Tools' };
 	for (const cat of getActiveCategories()) {
 		for (const tool of cat.items) {
 			record[tool.href] = tool.name;
