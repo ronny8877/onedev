@@ -89,10 +89,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="URL Builder"
-	description="Build URLs with query parameters. Paste existing URLs to parse them, or build from scratch."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={clearAll} copyText={finalURL} {stats}>

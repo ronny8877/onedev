@@ -91,8 +91,6 @@
 </script>
 
 <ToolWrapper
-	title="Hash Lookup - Reverse Hash Check"
-	description="Check if a hash matches any known password. Reverse lookup for MD5 and SHA hashes against common password dictionaries. Educational tool."
 	keywords={['hash lookup', 'reverse hash', 'md5 decrypt', 'hash crack', 'password hash lookup', 'md5 lookup']}
 >
 	<div class="flex flex-col gap-6">

@@ -348,10 +348,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Image Blur / Pixelate"
-	description="Apply blur or pixelate effects. Use patch mode to selectively blur areas for privacy."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={reset} />
 

@@ -73,8 +73,6 @@
 </script>
 
 <ToolWrapper
-	title="Text Gradient Generator"
-	description="Create beautiful gradient text effects with visual controls. Support for linear and radial gradients with multiple color stops."
 	keywords={['gradient text', 'css gradient', 'text effects', 'gradient generator', 'css text']}
 >
 	<div class="flex flex-col gap-6">

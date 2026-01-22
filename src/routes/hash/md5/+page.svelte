@@ -123,8 +123,6 @@
 </script>
 
 <ToolWrapper
-	title="MD5 Hash Generator Online"
-	description="Generate MD5 hash from text or files instantly. Free online MD5 checksum calculator. Paste text or drop a file to get the 128-bit MD5 hash."
 	keywords={['md5 hash', 'md5 online', 'md5 generator', 'md5 checksum', 'md5 calculator', 'generate md5']}
 >
 	<div class="flex flex-col gap-6">

@@ -101,10 +101,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Pomodoro Timer"
-	description="Focus timer with work and break intervals. Stay productive with the Pomodoro Technique."
->
+<ToolWrapper>
 	<div class="flex flex-col items-center gap-8 py-8">
 		<!-- Preset Selector -->
 		<div class="flex gap-2">

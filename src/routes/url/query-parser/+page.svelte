@@ -62,10 +62,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Query String Parser"
-	description="Parse URL query strings into a readable table. Decode values and export as JSON or CSV."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={clearAll} copyText={copyAsJSON()} {stats} />

@@ -114,10 +114,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Browser Info"
-	description="View detailed information about your browser including name, version, engine, and settings."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions copyText={outputText} copyLabel="Copy Info">
 			<button class="btn btn-sm btn-ghost" onclick={loadBrowserInfo}>

@@ -23,8 +23,6 @@
 </script>
 
 <ToolWrapper
-	title="Flexbox Playground"
-	description="Visual CSS flexbox generator. Configure direction, justify, align, wrap, and gap with live preview."
 	keywords={['flexbox', 'css flexbox', 'flex generator', 'flexbox playground', 'css layout']}
 >
 	<div class="flex flex-col gap-6">

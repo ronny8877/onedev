@@ -140,10 +140,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Permissions Inspector"
-	description="Check the status of browser permissions. No permissions are requested unless you click a button."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions copyText={statsText} copyLabel="Copy Status List">
 			<button class="btn btn-sm btn-ghost" onclick={loadPermissions}>

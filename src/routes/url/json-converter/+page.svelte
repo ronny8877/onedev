@@ -109,10 +109,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="URL ↔ JSON Converter"
-	description="Convert between URL query strings and JSON objects. Perfect for API debugging."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={clearAll} copyText={output} {stats} />

@@ -64,10 +64,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="JSON Visualizer"
-	description="Explore JSON with an interactive tree view. Expand, collapse, and search nodes."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} stats={stats} />

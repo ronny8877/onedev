@@ -49,10 +49,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Remove Duplicate Words"
-	description="Remove repeated words from text while preserving order."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={result.output} />

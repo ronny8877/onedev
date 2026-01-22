@@ -154,8 +154,6 @@
 </script>
 
 <ToolWrapper
-	title="Hash Generator - MD5, SHA-256, SHA-512 Online"
-	description="Generate multiple hashes from text or files instantly. Get MD5, SHA-1, SHA-256, SHA-512, CRC32 checksums all at once. Free online tool."
 	keywords={['hash generator', 'md5 online', 'sha256 hash', 'sha512', 'crc32 checksum', 'file hash', 'checksum calculator']}
 >
 	<div class="flex flex-col gap-6">

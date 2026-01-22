@@ -73,10 +73,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Lorem Ipsum Generator"
-	description="Generate placeholder text for design mockups. Configurable length."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={sample} onClear={clearAll} copyText={output} />

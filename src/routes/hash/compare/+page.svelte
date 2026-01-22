@@ -63,8 +63,6 @@
 </script>
 
 <ToolWrapper
-	title="Compare Hashes Online"
-	description="Compare two hashes side by side. Case-insensitive matching with visual difference highlighting. Verify checksums quickly."
 	keywords={['compare hashes', 'hash comparison', 'compare md5', 'compare sha256', 'verify checksum', 'hash match']}
 >
 	<div class="flex flex-col gap-6">

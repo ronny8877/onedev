@@ -83,8 +83,6 @@
 </script>
 
 <ToolWrapper
-	title="Hash Format Converter"
-	description="Convert hash formats online. Transform between hex and Base64 encoding. Add separators, change case, format hashes for different systems."
 	keywords={['hash converter', 'hex to base64', 'base64 to hex', 'hash format', 'convert md5', 'hash encoding']}
 >
 	<div class="flex flex-col gap-6">

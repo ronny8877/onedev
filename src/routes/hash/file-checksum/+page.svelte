@@ -101,8 +101,6 @@
 </script>
 
 <ToolWrapper
-	title="File Checksum Verifier"
-	description="Verify file integrity by comparing checksums. Upload a file and compare its hash against an expected value. Supports MD5, SHA-256, SHA-512."
 	keywords={['verify checksum', 'file checksum', 'verify hash', 'file integrity', 'compare file hash', 'download verification']}
 >
 	<div class="flex flex-col gap-6">

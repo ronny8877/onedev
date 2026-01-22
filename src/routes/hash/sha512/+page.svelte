@@ -123,8 +123,6 @@
 </script>
 
 <ToolWrapper
-	title="SHA-512 Hash Generator Online"
-	description="Generate SHA-512 hash from text or files. Free online SHA-512 calculator. Maximum security 512-bit hash output for sensitive data."
 	keywords={['sha512 hash', 'sha512 online', 'sha512 generator', 'sha-512', 'sha512 checksum', '512 bit hash']}
 >
 	<div class="flex flex-col gap-6">

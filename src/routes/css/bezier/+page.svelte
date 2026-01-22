@@ -49,8 +49,6 @@
 </script>
 
 <ToolWrapper
-	title="Cubic Bezier Visualizer"
-	description="Interactive cubic-bezier curve editor for CSS timing functions. Create custom easing curves with live preview."
 	keywords={['cubic bezier', 'easing curves', 'css timing', 'animation easing', 'bezier editor']}
 >
 	<div class="flex flex-col gap-6">

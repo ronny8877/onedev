@@ -81,8 +81,6 @@
 </script>
 
 <ToolWrapper
-	title="Number Base Converter"
-	description="Convert between number bases: binary, decimal, hexadecimal, and octal. Instant conversion as you type."
 	keywords={['number base converter', 'binary to decimal', 'hex to decimal', 'decimal to binary', 'base converter']}
 >
 	<div class="flex flex-col gap-6">

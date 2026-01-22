@@ -79,10 +79,7 @@ Elderberry`;
 	}
 </script>
 
-<ToolWrapper
-	title="Line Tools"
-	description="Sort lines, remove duplicates, trim whitespace, reverse order."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={input} stats={stats} />

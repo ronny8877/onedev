@@ -27,8 +27,6 @@
 </script>
 
 <ToolWrapper
-	title="CSS Formatter"
-	description="Beautify and format your CSS code with proper indentation. Makes minified CSS readable."
 	keywords={['css formatter', 'css beautifier', 'format css', 'css prettify', 'beautify css']}
 >
 	<div class="flex flex-col gap-6">

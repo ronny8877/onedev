@@ -62,10 +62,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="JSON to Table"
-	description="Convert JSON arrays to sortable tables. Export to CSV or copy as markdown."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} />

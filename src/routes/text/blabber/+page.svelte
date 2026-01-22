@@ -100,10 +100,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Blabber Generator"
-	description="Generate random, readable nonsense text. Great for testing layouts."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={sample} onClear={clearAll} copyText={output} />

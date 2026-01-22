@@ -509,10 +509,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Image Metadata Viewer"
-	description="View all image information including dimensions, file details, and EXIF data. Strip metadata for privacy."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={reset} />
 

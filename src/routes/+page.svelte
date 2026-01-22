@@ -15,6 +15,9 @@
 		'Text': { color: 'success', hoverBorder: 'hover:border-success/20', bgClass: 'bg-success/10' },
 		'HTML': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10' },
 		'Break': { color: 'neutral', hoverBorder: 'hover:border-neutral/20', bgClass: 'bg-neutral/10' },
+		'Convert': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10' },
+		'CSS': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' },
+		'AI Utilities': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10' },
 		'Hash': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10' }
 	};
 </script>
@@ -23,7 +26,7 @@
 	<title>OneDev Tools - Free Online Developer Tools | JSON, Base64, URL Utilities</title>
 	<meta
 		name="description"
-		content="Free, fast, and privacy-focused developer tools. JSON formatter, validator, diff checker, Base64 encoder, URL parser, and more. No sign-up required. All processing happens locally in your browser."
+		content="Free online developer tools. JSON formatter, Base64 encoder decoder, URL encoder, hash generator, image compressor, CSS generators, and 80+ more tools. No signup, runs in your browser."
 	/>
 	<meta name="keywords" content="developer tools, JSON formatter, JSON validator, Base64 encoder, Base64 decoder, URL encoder, URL decoder, query string parser, URL builder, slug generator, free online tools, privacy-focused tools" />
 	<meta name="author" content="OneDev Tools" />
@@ -131,12 +134,15 @@
 	{#each categories as category}
 		{@const style = categoryStyles[category.name] || categoryStyles['JSON']}
 		<section class="mb-12">
-			<h2 class="mb-6 flex items-center gap-3 text-xl font-bold">
+			<h2 class="mb-2 flex items-center gap-3 text-xl font-bold">
 				<span class="flex h-9 w-9 items-center justify-center rounded-lg {style.bgClass} text-lg">
 					{category.icon}
 				</span>
 				{category.name} Tools
 			</h2>
+			{#if category.description}
+				<p class="mb-6 text-sm text-base-content/60 leading-relaxed max-w-2xl">{category.description}</p>
+			{/if}
 
 			<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{#each category.items as tool}

@@ -12,6 +12,7 @@ export interface ToolItem {
 export interface ToolCategory {
 	name: string;
 	icon: string;
+	description?: string; // SEO-rich category intro
 	active?: boolean; // defaults to true
 	items: ToolItem[];
 }
@@ -22,172 +23,184 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'JSON',
 		icon: '{ }',
+		description: 'Free online JSON tools to format, validate, compare, and convert JSON. Use our JSON formatter, validator, diff checker, and type generator directly in your browser—no uploads, no signup required.',
 		items: [
-			{ name: 'JSON Formatter', href: '/json/formatter', description: 'Validate and format JSON in the browser. Highlights syntax errors and prettifies valid JSON.', icon: '{ }' },
-			{ name: 'JSON Validator', href: '/json/validator', description: 'Check if JSON is valid with line-by-line error details. Instant validation as you type.', icon: '✓' },
-			{ name: 'JSON Diff', href: '/json/diff', description: 'Compare two JSON objects side by side. Highlights added, removed, and changed values.', icon: '≠' },
-			{ name: 'JSON → Table', href: '/json/table', description: 'Convert JSON arrays to sortable tables. Export to CSV or copy as markdown.', icon: '📊' },
-			{ name: 'JSON Visualizer', href: '/json/visualizer', description: 'Explore JSON with an interactive tree view. Expand, collapse, and search nodes.', icon: '🌲' },
-			{ name: 'Type Generator', href: '/json/type-generator', description: 'Generate TypeScript interfaces or Go structs from JSON. Handles nested objects.', icon: '⟨T⟩' },
-			{ name: 'Path Tester', href: '/json/path-tester', description: 'Test JSONPath expressions against your data. See matched values instantly.', icon: '🔍' }
+			{ name: 'JSON Formatter', href: '/json/formatter', description: 'JSON formatter online to format, prettify, and validate JSON. Instantly beautify JSON, detect syntax errors, and fix invalid JSON directly in your browser.', icon: '{ }' },
+			{ name: 'JSON Validator', href: '/json/validator', description: 'JSON validator online with line-by-line error details. Check if your JSON is valid instantly—get precise error locations and fix issues fast.', icon: '✓' },
+			{ name: 'JSON Diff', href: '/json/diff', description: 'JSON diff checker online to compare two JSON objects side by side. Highlights added, removed, and changed values instantly in your browser.', icon: '≠' },
+			{ name: 'JSON → Table', href: '/json/table', description: 'Convert JSON to table online. Transform JSON arrays into sortable, searchable tables. Export to CSV or copy as markdown—free and instant.', icon: '📊' },
+			{ name: 'JSON Visualizer', href: '/json/visualizer', description: 'JSON tree viewer online. Explore JSON with an interactive tree view—expand, collapse, and search nodes. Visualize complex JSON structures instantly.', icon: '🌲' },
+			{ name: 'Type Generator', href: '/json/type-generator', description: 'JSON to TypeScript online. Generate TypeScript interfaces or Go structs from JSON instantly. Convert JSON to types directly in your browser.', icon: '⟨T⟩' },
+			{ name: 'Path Tester', href: '/json/path-tester', description: 'JSONPath tester online. Test JSONPath expressions against your data and see matched values instantly. Debug JSONPath queries free in your browser.', icon: '🔍' }
 		]
 	},
 	{
 		name: 'Base64',
 		icon: '⚡',
+		description: 'Free Base64 encoder and decoder online. Encode text, files, and images to Base64 or decode Base64 strings instantly in your browser. No file uploads to servers—everything runs client-side.',
 		items: [
-			{ name: 'Encode / Decode', href: '/base64/encode-decode', description: 'Encode text to Base64 or decode Base64 to text. Auto-detects input type.', icon: '🔄' },
-			{ name: 'File Encoder', href: '/base64/file-encoder', description: 'Convert any file to Base64 data URI. Copy or download the encoded string.', icon: '📁' },
-			{ name: 'Image Preview', href: '/base64/image-preview', description: 'Paste Base64 image data and preview it instantly. Supports PNG, JPG, WebP.', icon: '🖼️' },
-			{ name: 'URL-safe Converter', href: '/base64/url-safe', description: 'Convert between standard Base64 and URL-safe Base64 (replaces +/ with -_).', icon: '🔗' },
-			{ name: 'Validator', href: '/base64/validator', description: 'Check if a string is valid Base64. Shows encoding issues and padding problems.', icon: '✓' },
-			{ name: 'Splitter', href: '/base64/splitter', description: 'Split long Base64 strings into lines for embedding in code or config files.', icon: '✂️' },
-			{ name: 'Hex / Binary', href: '/base64/hex-binary', description: 'Convert Base64 to hexadecimal or binary representation and back.', icon: '01' }
+			{ name: 'Encode / Decode', href: '/base64/encode-decode', description: 'Base64 encoder and decoder online. Encode text to Base64 or decode Base64 strings instantly in your browser with automatic input detection.', icon: '🔄' },
+			{ name: 'File Encoder', href: '/base64/file-encoder', description: 'File to Base64 converter online. Convert any file to Base64 data URI instantly. Perfect for embedding images in CSS or JSON—no server uploads.', icon: '📁' },
+			{ name: 'Image Preview', href: '/base64/image-preview', description: 'Base64 image viewer online. Paste Base64 image data and preview instantly. Supports PNG, JPG, WebP, GIF—decode and view Base64 images free.', icon: '🖼️' },
+			{ name: 'URL-safe Converter', href: '/base64/url-safe', description: 'URL-safe Base64 converter online. Convert between standard Base64 and URL-safe Base64 format (replaces +/ with -_). Free browser tool.', icon: '🔗' },
+			{ name: 'Validator', href: '/base64/validator', description: 'Base64 validator online. Check if a string is valid Base64 instantly. Detect encoding issues, padding problems, and invalid characters free.', icon: '✓' },
+			{ name: 'Splitter', href: '/base64/splitter', description: 'Base64 line splitter online. Split long Base64 strings into lines for embedding in code, config files, or PEM certificates. Free browser tool.', icon: '✂️' },
+			{ name: 'Hex / Binary', href: '/base64/hex-binary', description: 'Base64 to hex converter online. Convert Base64 to hexadecimal or binary representation and back. Free encoding conversion in your browser.', icon: '01' }
 		]
 	},
 	{
 		name: 'URL',
 		icon: '🔗',
+		description: 'Free URL tools online to encode, decode, parse, and build URLs. Validate URLs, generate SEO-friendly slugs, and parse query strings directly in your browser—no signup needed.',
 		items: [
-			{ name: 'Encode / Decode', href: '/url/encode-decode', description: 'URL encode special characters or decode percent-encoded URLs. Auto-detects input.', icon: '🔐' },
-			{ name: 'Query Parser', href: '/url/query-parser', description: 'Parse URL query strings into key-value table. Export as JSON or CSV.', icon: '📋' },
-			{ name: 'URL Builder', href: '/url/builder', description: 'Build URLs with query parameters. Paste existing URLs to parse and edit them.', icon: '🔧' },
-			{ name: 'Validator', href: '/url/validator', description: 'Check if a URL is valid. Shows protocol, domain, port, and path breakdown.', icon: '✓' },
-			{ name: 'Parts Analyzer', href: '/url/parts', description: 'Visual breakdown of URL components: protocol, host, port, path, query, hash.', icon: '🔬' },
-			{ name: 'Slug Generator', href: '/url/slug-generator', description: 'Convert any text to URL-safe slugs. Handles unicode and special characters.', icon: '📝' },
-			{ name: 'Normalizer', href: '/url/normalizer', description: 'Normalize URLs: lowercase hostname, sort query params, remove defaults.', icon: '🧹' },
-			{ name: 'Compare', href: '/url/compare', description: 'Compare two URLs semantically. Find differences in path, query, or fragment.', icon: '⚖️' },
-			{ name: 'JSON Converter', href: '/url/json-converter', description: 'Convert URL query strings to JSON objects and back. Handles nested params.', icon: '🔄' },
-			{ name: 'Length Checker', href: '/url/length-checker', description: 'Check URL length against browser and server limits. Warns if too long.', icon: '📏' }
+			{ name: 'Encode / Decode', href: '/url/encode-decode', description: 'URL encoder and decoder online. Encode special characters or decode percent-encoded URLs instantly. Auto-detects input type—free browser tool.', icon: '🔐' },
+			{ name: 'Query Parser', href: '/url/query-parser', description: 'URL query string parser online. Parse query parameters into a key-value table instantly. Export as JSON or CSV—free URL parameter extractor.', icon: '📋' },
+			{ name: 'URL Builder', href: '/url/builder', description: 'URL builder online. Build URLs with query parameters visually. Paste existing URLs to parse and edit them—generate URLs free in your browser.', icon: '🔧' },
+			{ name: 'Validator', href: '/url/validator', description: 'URL validator online. Check if a URL is valid and see protocol, domain, port, and path breakdown. Validate URLs instantly—free browser tool.', icon: '✓' },
+			{ name: 'Parts Analyzer', href: '/url/parts', description: 'URL parser online. Visual breakdown of URL components: protocol, host, port, path, query, hash. Analyze URL structure instantly and free.', icon: '🔬' },
+			{ name: 'Slug Generator', href: '/url/slug-generator', description: 'URL slug generator online. Convert any text to SEO-friendly, URL-safe slugs. Handles unicode and special characters—create slugs instantly free.', icon: '📝' },
+			{ name: 'Normalizer', href: '/url/normalizer', description: 'URL normalizer online. Normalize URLs: lowercase hostname, sort query params, remove defaults. Standardize URLs for comparison—free browser tool.', icon: '🧹' },
+			{ name: 'Compare', href: '/url/compare', description: 'URL comparator online. Compare two URLs semantically and find differences in path, query, or fragment. URL diff checker—free in your browser.', icon: '⚖️' },
+			{ name: 'JSON Converter', href: '/url/json-converter', description: 'URL to JSON converter online. Convert URL query strings to JSON objects and back. Handles nested parameters—free query string converter.', icon: '🔄' },
+			{ name: 'Length Checker', href: '/url/length-checker', description: 'URL length checker online. Check URL length against browser and server limits. Avoid "URL too long" errors—free length validator.', icon: '📏' }
 		]
 	},
 	{
 		name: 'Image',
 		icon: '🖼️',
+		description: 'Free online image tools to compress, resize, crop, and convert images. Extract colors, view EXIF metadata, and remove backgrounds—all processing happens in your browser, no uploads.',
 		items: [
-			{ name: 'Compressor', href: '/image/compressor', description: 'Reduce image file size with quality control. Supports JPEG, PNG, WebP output.', icon: '📦' },
-			{ name: 'Remove White BG', href: '/image/remove-white', description: 'Make white or near-white backgrounds transparent. Adjustable tolerance.', icon: '🧹' },
-			{ name: 'Resize / Scale', href: '/image/resize', description: 'Resize images by pixels or percentage. Lock aspect ratio option.', icon: '📐' },
-			{ name: 'Crop', href: '/image/crop', description: 'Crop images with preset ratios (16:9, 4:3, 1:1) or freeform selection.', icon: '✂️' },
-			{ name: 'Format Converter', href: '/image/converter', description: 'Convert images between JPEG, PNG, WebP, and GIF formats.', icon: '🔄' },
-			{ name: 'Metadata Viewer', href: '/image/metadata', description: 'View EXIF data: camera, GPS, date, settings. Option to strip metadata.', icon: '📋' },
-			{ name: 'Color Extractor', href: '/image/colors', description: 'Extract dominant colors from images. Get hex codes for theming.', icon: '🎨' },
-			{ name: 'Blur / Pixelate', href: '/image/blur', description: 'Apply blur or pixelate effects. Preview in real-time, then download.', icon: '🔲' }
+			{ name: 'Compressor', href: '/image/compressor', description: 'Online image compressor to reduce file size without losing quality. Compress JPEG, PNG, WebP images directly in your browser—free, no uploads.', icon: '📦' },
+			{ name: 'Remove White BG', href: '/image/remove-white', description: 'Remove white background online free. Make white or light backgrounds transparent instantly. Adjustable tolerance—works in your browser.', icon: '🧹' },
+			{ name: 'Resize / Scale', href: '/image/resize', description: 'Image resizer online free. Resize images by pixels or percentage with aspect ratio lock. Scale images instantly in your browser—no uploads.', icon: '📐' },
+			{ name: 'Crop', href: '/image/crop', description: 'Image cropper online free. Crop images with preset ratios (16:9, 4:3, 1:1) or freeform selection. Crop pictures instantly in your browser.', icon: '✂️' },
+			{ name: 'Format Converter', href: '/image/converter', description: 'Image format converter online. Convert images between JPEG, PNG, WebP, and GIF formats instantly. Free image converter in your browser.', icon: '🔄' },
+			{ name: 'Metadata Viewer', href: '/image/metadata', description: 'EXIF viewer online free. View image metadata: camera info, GPS location, date, settings. Option to strip EXIF data—works in your browser.', icon: '📋' },
+			{ name: 'Color Extractor', href: '/image/colors', description: 'Image color picker online. Extract dominant colors and color palette from images. Get hex codes for theming—free color extractor tool.', icon: '🎨' },
+			{ name: 'Blur / Pixelate', href: '/image/blur', description: 'Image blur tool online. Apply blur or pixelate effects to images. Preview in real-time, then download—free image privacy tool.', icon: '🔲' }
 		]
 	},
 	{
 		name: 'System',
 		icon: '💻',
+		description: 'Free browser-based system information tools. Detect your OS, CPU, memory, screen resolution, GPU, and network info. Check browser capabilities and device permissions—all client-side.',
 		items: [
-			{ name: 'System Info', href: '/system/info', description: 'Detect OS, CPU cores, memory, screen resolution, and GPU info.', icon: '🖥️' },
-			{ name: 'Browser Info', href: '/system/browser', description: 'Browser name, version, engine, and supported features detection.', icon: '🌐' },
-			{ name: 'Network Info', href: '/system/network', description: 'Connection type, effective speed, and public IP address lookup.', icon: '📡' },
-			{ name: 'Media Devices', href: '/system/media', description: 'List available cameras, microphones, and speakers with permissions.', icon: '🎥' },
-			{ name: 'Permissions', href: '/system/permissions', description: 'Check browser permission status: camera, microphone, location, notifications.', icon: '🔐' }
+			{ name: 'System Info', href: '/system/info', description: 'System information tool online. Detect your OS, CPU cores, memory, screen resolution, and GPU info. Check system specs in your browser—free.', icon: '🖥️' },
+			{ name: 'Browser Info', href: '/system/browser', description: 'Browser detector online. Check browser name, version, engine, and supported features. Detect browser capabilities instantly—free tool.', icon: '🌐' },
+			{ name: 'Network Info', href: '/system/network', description: 'Network info tool online. Check connection type, effective speed, and public IP address. Test your network details—free browser tool.', icon: '📡' },
+			{ name: 'Media Devices', href: '/system/media', description: 'Media device checker online. List available cameras, microphones, and speakers. Test webcam and mic access—free device detection tool.', icon: '🎥' },
+			{ name: 'Permissions', href: '/system/permissions', description: 'Browser permissions checker online. Check camera, microphone, location, notification permissions. See what browser has access to—free tool.', icon: '🔐' }
 		]
 	},
 	{
 		name: 'Text',
 		icon: '📝',
+		description: 'Free online text tools for developers. Convert text case, sort lines, find and replace with regex, compare text, count words, and generate lorem ipsum—all in your browser.',
 		items: [
-			{ name: 'Case Converter', href: '/text/case-converter', description: 'Convert between camelCase, snake_case, kebab-case, PascalCase, and more.', icon: '🔤' },
-			{ name: 'Line Tools', href: '/text/line-tools', description: 'Sort lines, remove duplicates, trim whitespace, reverse order.', icon: '📋' },
-			{ name: 'Text Diff', href: '/text/diff', description: 'Compare two text blocks line by line. Highlights additions and deletions.', icon: '⚖️' },
-			{ name: 'Find & Replace', href: '/text/find-replace', description: 'Search and replace text with regex support. Preview matches before applying.', icon: '🔍' },
-			{ name: 'Text Statistics', href: '/text/statistics', description: 'Count characters, words, sentences, paragraphs, and reading time.', icon: '📊' },
-			{ name: 'Anagram Finder', href: '/text/anagram', description: 'Find all anagrams of a word or phrase. Uses dictionary validation.', icon: '🔀' },
-			{ name: 'Remove Duplicates', href: '/text/remove-duplicates', description: 'Remove duplicate words or lines from text. Preserves order.', icon: '✂️' },
-			{ name: 'Lorem Ipsum', href: '/text/lorem-ipsum', description: 'Generate placeholder text: paragraphs, sentences, or words.', icon: '📄' },
-			{ name: 'Blabber Generator', href: '/text/blabber', description: 'Generate random readable gibberish text for testing layouts.', icon: '💬' }
+			{ name: 'Case Converter', href: '/text/case-converter', description: 'Text case converter online. Convert between camelCase, snake_case, kebab-case, PascalCase, UPPERCASE, lowercase. Change text case instantly free.', icon: '🔤' },
+			{ name: 'Line Tools', href: '/text/line-tools', description: 'Line sorter and text tools online. Sort lines, remove duplicates, trim whitespace, reverse order. Manipulate text lines free in your browser.', icon: '📋' },
+			{ name: 'Text Diff', href: '/text/diff', description: 'Text diff checker online. Compare two text blocks line by line with highlighted additions and deletions. Free text comparison tool.', icon: '⚖️' },
+			{ name: 'Find & Replace', href: '/text/find-replace', description: 'Find and replace online with regex support. Search and replace text patterns, preview matches before applying. Free regex replace tool.', icon: '🔍' },
+			{ name: 'Text Statistics', href: '/text/statistics', description: 'Word counter online free. Count characters, words, sentences, paragraphs, and reading time. Text statistics and character count tool.', icon: '📊' },
+			{ name: 'Anagram Finder', href: '/text/anagram', description: 'Anagram solver online. Find all anagrams of a word or phrase with dictionary validation. Anagram generator free in your browser.', icon: '🔀' },
+			{ name: 'Remove Duplicates', href: '/text/remove-duplicates', description: 'Remove duplicate lines online. Delete duplicate words or lines from text while preserving order. Free duplicate remover tool.', icon: '✂️' },
+			{ name: 'Lorem Ipsum', href: '/text/lorem-ipsum', description: 'Lorem ipsum generator online. Generate placeholder text: paragraphs, sentences, or words. Create dummy text instantly free.', icon: '📄' },
+			{ name: 'Blabber Generator', href: '/text/blabber', description: 'Random text generator online. Generate readable gibberish text for testing layouts and designs. Fake text generator free.', icon: '💬' }
 		]
 	},
 	{
 		name: 'HTML',
 		icon: '📄',
+		description: 'Free online HTML tools to validate, format, and extract content from HTML. Parse DOM structure, extract links and images, clean attributes—all processing in your browser.',
 		items: [
-			{ name: 'HTML Validator (Basic)', href: '/html/validator', description: 'Check for unclosed tags, invalid nesting, duplicate IDs, and common errors.', icon: '✓' },
-			{ name: 'HTML Formatter', href: '/html/formatter', description: 'Beautify or minify HTML with proper indentation. Preserves inline elements.', icon: '{ }' },
-			{ name: 'HTML → Text', href: '/html/text-extractor', description: 'Strip all HTML tags and extract plain text content only.', icon: '📝' },
-			{ name: 'Element Extractor', href: '/html/element-extractor', description: 'Extract all links, images, meta tags, or scripts from HTML.', icon: '🔍' },
-			{ name: 'DOM Visualizer', href: '/html/dom-visualizer', description: 'Interactive tree view of HTML structure. Search and copy nodes.', icon: '🌲' },
-			{ name: 'HTML → JSON', href: '/html/to-json', description: 'Convert HTML DOM structure to JSON representation.', icon: '🔄' },
-			{ name: 'Attribute Cleaner', href: '/html/attribute-cleaner', description: 'Remove inline styles, data attributes, classes, or empty attributes.', icon: '🧹' },
-			{ name: 'Tag Counter', href: '/html/tag-counter', description: 'Count occurrences of each HTML tag. Shows element distribution.', icon: '📊' }
+			{ name: 'HTML Validator (Basic)', href: '/html/validator', description: 'HTML validator online. Check for unclosed tags, invalid nesting, duplicate IDs, and common HTML errors. Validate HTML free in your browser.', icon: '✓' },
+			{ name: 'HTML Formatter', href: '/html/formatter', description: 'HTML formatter and beautifier online. Format, prettify, or minify HTML with proper indentation. HTML pretty print free in your browser.', icon: '{ }' },
+			{ name: 'HTML → Text', href: '/html/text-extractor', description: 'HTML to plain text converter online. Strip all HTML tags and extract text content only. Remove HTML tags free—get clean text instantly.', icon: '📝' },
+			{ name: 'Element Extractor', href: '/html/element-extractor', description: 'HTML element extractor online. Extract all links, images, meta tags, or scripts from HTML. Parse HTML elements free in your browser.', icon: '🔍' },
+			{ name: 'DOM Visualizer', href: '/html/dom-visualizer', description: 'HTML DOM tree viewer online. Interactive tree view of HTML structure with search and copy. Visualize DOM hierarchy free.', icon: '🌲' },
+			{ name: 'HTML → JSON', href: '/html/to-json', description: 'HTML to JSON converter online. Convert HTML DOM structure to JSON representation. Parse HTML to JSON object free in your browser.', icon: '🔄' },
+			{ name: 'Attribute Cleaner', href: '/html/attribute-cleaner', description: 'HTML attribute remover online. Remove inline styles, data attributes, classes, or empty attributes. Clean HTML code free in your browser.', icon: '🧹' },
+			{ name: 'Tag Counter', href: '/html/tag-counter', description: 'HTML tag counter online. Count occurrences of each HTML tag and see element distribution. Analyze HTML structure free.', icon: '📊' }
 		]
 	},
 	{
 		name: 'Break',
 		icon: '☕',
+		description: 'Take a break from coding with relaxation tools. Pomodoro timer for focus sessions, ambient sounds, breathing exercises, and calming visuals—free productivity and wellness tools.',
 		items: [
-			{ name: 'Pomodoro Timer', href: '/break/pomodoro', description: 'Focus timer with 25/5 and 50/10 minute presets. Audio notification.', icon: '🍅' },
-			{ name: 'Ambient Rest', href: '/break/ambient', description: 'Full-screen calm background with rain or café ambient sounds.', icon: '🌧️' },
-			{ name: 'Minimal Clock', href: '/break/clock', description: 'Large, distraction-free clock. Analog or digital display options.', icon: '🕐' },
-			{ name: 'Zen Motion', href: '/break/zen-motion', description: 'Nostalgic bouncing shape animation for resting your eyes.', icon: '📀' },
-			{ name: 'Breathing Timer', href: '/break/breathing', description: 'Guided breathing: configurable inhale, hold, exhale cycles.', icon: '🌬️' }
+			{ name: 'Pomodoro Timer', href: '/break/pomodoro', description: 'Pomodoro timer online free. Focus timer with 25/5 and 50/10 minute presets. Audio notifications to boost productivity—works in your browser.', icon: '🍅' },
+			{ name: 'Ambient Rest', href: '/break/ambient', description: 'Ambient sounds online for focus. Full-screen calm backgrounds with rain or café ambient sounds. Relax and recharge—free in your browser.', icon: '🌧️' },
+			{ name: 'Minimal Clock', href: '/break/clock', description: 'Fullscreen clock online. Large, distraction-free clock with analog or digital display options. Minimal clock for focus—free.', icon: '🕐' },
+			{ name: 'Zen Motion', href: '/break/zen-motion', description: 'Relaxing animation online. Nostalgic bouncing shape animation for resting your eyes. Zen screensaver for breaks—free in your browser.', icon: '📀' },
+			{ name: 'Breathing Timer', href: '/break/breathing', description: 'Breathing exercise timer online. Guided breathing with configurable inhale, hold, exhale cycles. Box breathing and 4-7-8 technique—free.', icon: '🌬️' }
 		]
 	},
 	{
 		name: 'Convert',
 		icon: '🔄',
+		description: 'Free unit converter tools online. Convert CSS units, lengths, screen resolutions, time, data sizes, angles, number bases, typography, and colors—instant conversion in your browser.',
 		items: [
-			{ name: 'CSS Units', href: '/convert/css-units', description: 'Convert between px, rem, em, vw, vh, pt, and percentages. Live updates.', icon: '📐' },
-			{ name: 'Length', href: '/convert/length', description: 'Convert mm, cm, inches, feet, meters, km, and pixels at any DPI.', icon: '📏' },
-			{ name: 'Screen / Resolution', href: '/convert/screen', description: 'Calculate screen dimensions from resolution and DPI, or vice versa.', icon: '🖥️' },
-			{ name: 'Time', href: '/convert/time', description: 'Convert ms, seconds, minutes, hours, days. Human-readable output.', icon: '⏱️' },
-			{ name: 'Data Size', href: '/convert/data-size', description: 'Convert bytes, KB, MB, GB. Decimal (SI) and binary (IEC) units.', icon: '💾' },
-			{ name: 'Angle', href: '/convert/angle', description: 'Convert degrees, radians, gradians, turns. Visual arc preview.', icon: '📐' },
-			{ name: 'Number Base', href: '/convert/number-base', description: 'Convert binary, decimal, hexadecimal, octal. Bit visualization.', icon: '🔢' },
-			{ name: 'Typography', href: '/convert/typography', description: 'Convert px, pt, em, rem. Line-height calculator and font preview.', icon: '🔤' },
-			{ name: 'Color', href: '/convert/color', description: 'Convert HEX, RGB, RGBA, HSL, HSLA. Live color preview.', icon: '🎨' }
+			{ name: 'CSS Units', href: '/convert/css-units', description: 'CSS unit converter online. Convert between px, rem, em, vw, vh, pt, and percentages. Calculate CSS units with live updates—free tool.', icon: '📐' },
+			{ name: 'Length', href: '/convert/length', description: 'Length converter online free. Convert mm, cm, inches, feet, meters, km, and pixels at any DPI. Unit converter for measurements.', icon: '📏' },
+			{ name: 'Screen / Resolution', href: '/convert/screen', description: 'Screen resolution calculator online. Calculate screen dimensions from resolution and DPI, or vice versa. PPI calculator free.', icon: '🖥️' },
+			{ name: 'Time', href: '/convert/time', description: 'Time converter online free. Convert milliseconds, seconds, minutes, hours, days. Human-readable time format converter.', icon: '⏱️' },
+			{ name: 'Data Size', href: '/convert/data-size', description: 'Data size converter online. Convert bytes, KB, MB, GB, TB. Supports decimal (SI) and binary (IEC) units—file size calculator free.', icon: '💾' },
+			{ name: 'Angle', href: '/convert/angle', description: 'Angle converter online free. Convert degrees, radians, gradians, turns. Visual arc preview—trigonometry angle calculator.', icon: '📐' },
+			{ name: 'Number Base', href: '/convert/number-base', description: 'Number base converter online. Convert between binary, decimal, hexadecimal, octal. Binary to hex converter with bit visualization—free.', icon: '🔢' },
+			{ name: 'Typography', href: '/convert/typography', description: 'Typography converter online. Convert px, pt, em, rem for fonts. Line-height calculator with font preview—free type scale tool.', icon: '🔤' },
+			{ name: 'Color', href: '/convert/color', description: 'Color converter online free. Convert between HEX, RGB, RGBA, HSL, HSLA, HSB. Live color preview—hex to RGB converter.', icon: '🎨' }
 		]
 	},
 	{
 		name: 'CSS',
 		icon: '🎨',
+		description: 'Free CSS tools and generators online. Format CSS, generate animations, create flexbox and grid layouts, build gradients and shadows—visual CSS generators in your browser.',
 		items: [
-			{ name: 'Formatter', href: '/css/formatter', description: 'Beautify and format CSS code with proper indentation.', icon: '✨' },
-			{ name: 'Minifier', href: '/css/minifier', description: 'Compress CSS by removing whitespace and comments.', icon: '📦' },
-			{ name: 'Prefix Cleaner', href: '/css/prefix-cleaner', description: 'Remove vendor prefixes (-webkit-, -moz-, etc).', icon: '🧹' },
-			{ name: 'Transition', href: '/css/transition', description: 'Generate CSS transitions with live preview.', icon: '🔄' },
-			{ name: 'Bezier Curve', href: '/css/bezier', description: 'Interactive cubic-bezier curve editor for timing functions.', icon: '📈' },
-			{ name: 'Keyframes', href: '/css/keyframes', description: 'Create @keyframes animations with editable stops.', icon: '🎬' },
-			{ name: 'Flexbox', href: '/css/flexbox', description: 'Visual flexbox playground with live preview.', icon: '📦' },
-			{ name: 'Grid', href: '/css/grid', description: 'CSS Grid generator with visual builder.', icon: '⊞' },
-			{ name: 'Box Shadow', href: '/css/box-shadow', description: 'Create box-shadows with multiple layers and presets.', icon: '🌑' },
-			{ name: 'Text Shadow', href: '/css/text-shadow', description: 'Generate text-shadow effects with live preview.', icon: '💬' },
-			{ name: 'Filter', href: '/css/filter', description: 'CSS filter generator: blur, brightness, contrast, etc.', icon: '🎛️' },
-			{ name: 'Text Gradient', href: '/css/text-gradient', description: 'Create beautiful gradient text with visual color stops.', icon: '🌈' },
-			{ name: 'Snippets', href: '/css/snippets', description: 'Ready-to-use CSS snippets: centering, truncate, a11y.', icon: '📋' }
+			{ name: 'Formatter', href: '/css/formatter', description: 'CSS formatter and beautifier online. Format CSS code with proper indentation. CSS pretty print and code beautifier—free in your browser.', icon: '✨' },
+			{ name: 'Minifier', href: '/css/minifier', description: 'CSS minifier online free. Compress CSS by removing whitespace and comments. Reduce CSS file size instantly—minify CSS code.', icon: '📦' },
+			{ name: 'Prefix Cleaner', href: '/css/prefix-cleaner', description: 'CSS prefix remover online. Remove vendor prefixes (-webkit-, -moz-, -ms-, -o-). Clean up CSS autoprefixer output—free tool.', icon: '🧹' },
+			{ name: 'Transition', href: '/css/transition', description: 'CSS transition generator online. Create CSS transitions with live preview. Generate smooth animations—free transition builder.', icon: '🔄' },
+			{ name: 'Bezier Curve', href: '/css/bezier', description: 'CSS cubic-bezier editor online. Interactive curve editor for timing functions. Create custom easing—bezier curve generator free.', icon: '📈' },
+			{ name: 'Keyframes', href: '/css/keyframes', description: 'CSS keyframes generator online. Create @keyframes animations with editable stops. CSS animation builder—free keyframe editor.', icon: '🎬' },
+			{ name: 'Flexbox', href: '/css/flexbox', description: 'CSS flexbox generator online. Visual flexbox playground with live preview. Generate flex container and items—free flexbox builder.', icon: '📦' },
+			{ name: 'Grid', href: '/css/grid', description: 'CSS grid generator online. Visual grid builder with live preview. Create grid layouts easily—free CSS grid layout tool.', icon: '⊞' },
+			{ name: 'Box Shadow', href: '/css/box-shadow', description: 'CSS box shadow generator online. Create box-shadows with multiple layers and presets. Live preview—free shadow generator tool.', icon: '🌑' },
+			{ name: 'Text Shadow', href: '/css/text-shadow', description: 'CSS text shadow generator online. Create text-shadow effects with live preview. Multiple shadow layers—free text shadow tool.', icon: '💬' },
+			{ name: 'Filter', href: '/css/filter', description: 'CSS filter generator online. Generate blur, brightness, contrast, grayscale, and more. Live filter preview—free CSS filter tool.', icon: '🎛️' },
+			{ name: 'Text Gradient', href: '/css/text-gradient', description: 'CSS gradient text generator online. Create beautiful gradient text with visual color stops. Text gradient maker—free CSS tool.', icon: '🌈' },
+			{ name: 'Snippets', href: '/css/snippets', description: 'CSS snippets library online. Ready-to-use CSS: centering tricks, text truncation, accessibility helpers. Copy CSS snippets free.', icon: '📋' }
 		]
 	},
 	{
 		name: 'AI Utilities',
 		icon: '🤖',
+		description: 'Free AI and LLM tools for developers. Count tokens for GPT-4, Claude, Gemini. Estimate API costs, trim prompts to fit context limits, and plan embeddings—all in your browser.',
 		items: [
-			{ name: 'Token Counter', href: '/ai/token-counter', description: 'Count tokens for GPT-4, Claude, Gemini and more. See character count and estimated cost.', icon: '🔢' },
-			{ name: 'Token Visualizer', href: '/ai/token-visualizer', description: 'See how AI models break text into tokens. Understand token boundaries visually.', icon: '🎨' },
-			{ name: 'Context Estimator', href: '/ai/context-estimator', description: 'Calculate total tokens for prompts, system messages, and chat history. See remaining context.', icon: '📊' },
-			{ name: 'Prompt Trimmer', href: '/ai/prompt-trimmer', description: 'Trim text to fit token limits. Supports hard cut, sentence-aware, and paragraph-aware modes.', icon: '✂️' },
-			{ name: 'Embedding Estimator', href: '/ai/embedding-estimator', description: 'Estimate tokens and vector dimensions for embedding models. Great for vector DB planning.', icon: '📐' },
-			{ name: 'Cost Estimator', href: '/ai/cost-estimator', description: 'Estimate API costs for AI models. Input tokens, output tokens, and per-request pricing.', icon: '💰' }
+			{ name: 'Token Counter', href: '/ai/token-counter', description: 'AI token counter online. Count tokens for GPT-4, Claude, Gemini and more. Character count and cost estimation—free LLM token calculator.', icon: '🔢' },
+			{ name: 'Token Visualizer', href: '/ai/token-visualizer', description: 'AI token visualizer online. See how AI models break text into tokens. Understand tokenization visually—free token boundary viewer.', icon: '🎨' },
+			{ name: 'Context Estimator', href: '/ai/context-estimator', description: 'AI context window calculator online. Calculate tokens for prompts, system messages, chat history. Check remaining context—free tool.', icon: '📊' },
+			{ name: 'Prompt Trimmer', href: '/ai/prompt-trimmer', description: 'AI prompt trimmer online. Trim text to fit token limits. Sentence-aware and paragraph-aware modes—reduce prompt length free.', icon: '✂️' },
+			{ name: 'Embedding Estimator', href: '/ai/embedding-estimator', description: 'AI embedding calculator online. Estimate tokens and vector dimensions for embedding models. Plan vector DB storage—free embeddings tool.', icon: '📐' },
+			{ name: 'Cost Estimator', href: '/ai/cost-estimator', description: 'AI API cost calculator online. Estimate costs for GPT-4, Claude, Gemini APIs. Input and output token pricing—free LLM cost tool.', icon: '💰' }
 		]
 	},
 	{
 		name: 'Hash',
 		icon: '#️⃣',
+		description: 'Free hash generator and checksum tools online. Create MD5, SHA-256, SHA-512, CRC32 hashes from text or files. Verify file integrity, compare hashes, and identify hash types—all in your browser.',
 		items: [
-			{ name: 'Hash Generator', href: '/hash/generator', description: 'Hash text or files online. Get MD5, SHA-1, SHA-256, SHA-512, CRC32 all at once.', icon: '🔐' },
-			{ name: 'MD5 Hash Online', href: '/hash/md5', description: 'Generate MD5 hash online. Paste text or drop a file to get MD5 checksum instantly.', icon: '🔒' },
-			{ name: 'SHA-256 Hash', href: '/hash/sha256', description: 'SHA-256 hash generator online. Create secure 256-bit hashes from text or files.', icon: '🔒' },
-			{ name: 'SHA-512 Hash', href: '/hash/sha512', description: 'SHA-512 hash online. Generate 512-bit hashes for maximum security.', icon: '🔒' },
-			{ name: 'SHA-1 Hash', href: '/hash/sha1', description: 'SHA-1 hash generator. 160-bit legacy algorithm, still used for git commits.', icon: '🔒' },
-			{ name: 'CRC32 Checksum', href: '/hash/crc32', description: 'CRC32 calculator online. Quick checksum for file integrity verification.', icon: '✓' },
-			{ name: 'Hash Identifier', href: '/hash/identifier', description: 'What hash is this? Paste any hash to detect if its MD5, SHA-256, bcrypt, etc.', icon: '🔍' },
-			{ name: 'Compare Hashes', href: '/hash/compare', description: 'Compare two hashes online. Case-insensitive with visual match indicator.', icon: '⚖️' },
-			{ name: 'File Checksum', href: '/hash/file-checksum', description: 'Verify file checksum. Compare downloaded file hash against expected value.', icon: '📁' },
-			{ name: 'Hash Lookup', href: '/hash/lookup', description: 'Reverse hash lookup. Check if MD5 or SHA-1 matches known passwords.', icon: '🔓' },
-			{ name: 'HMAC Generator', href: '/hash/hmac', description: 'Generate HMAC online. SHA-256, SHA-512 keyed-hash authentication codes.', icon: '🔑' },
-			{ name: 'Hash Converter', href: '/hash/converter', description: 'Convert hash formats. Hex to Base64, uppercase, add separators.', icon: '🔄' }
+			{ name: 'Hash Generator', href: '/hash/generator', description: 'Hash generator online free. Generate MD5, SHA-1, SHA-256, SHA-512, CRC32 hashes from text or files. Multi-hash calculator in your browser.', icon: '🔐' },
+			{ name: 'MD5 Hash Online', href: '/hash/md5', description: 'MD5 hash generator online free. Create MD5 checksum from text or file. Fast MD5 calculator—generate MD5 hashes instantly.', icon: '🔒' },
+			{ name: 'SHA-256 Hash', href: '/hash/sha256', description: 'SHA-256 hash generator online free. Create secure 256-bit hashes from text or files. SHA256 checksum calculator instant.', icon: '🔒' },
+			{ name: 'SHA-512 Hash', href: '/hash/sha512', description: 'SHA-512 hash generator online free. Generate 512-bit hashes for maximum security. SHA512 checksum calculator—free tool.', icon: '🔒' },
+			{ name: 'SHA-1 Hash', href: '/hash/sha1', description: 'SHA-1 hash generator online. Create 160-bit SHA1 hashes—still used for git commits and file verification. Free SHA1 calculator.', icon: '🔒' },
+			{ name: 'CRC32 Checksum', href: '/hash/crc32', description: 'CRC32 checksum calculator online free. Quick cyclic redundancy check for file integrity. Generate CRC32 hash instantly.', icon: '✓' },
+			{ name: 'Hash Identifier', href: '/hash/identifier', description: 'Hash identifier online free. What hash is this? Detect if a hash is MD5, SHA-256, bcrypt, or other types. Identify hash algorithm.', icon: '🔍' },
+			{ name: 'Compare Hashes', href: '/hash/compare', description: 'Hash comparator online free. Compare two hashes with case-insensitive matching. Visual match indicator—verify hashes instantly.', icon: '⚖️' },
+			{ name: 'File Checksum', href: '/hash/file-checksum', description: 'File checksum verifier online. Verify downloaded file hash against expected value. Check file integrity—free checksum tool.', icon: '📁' },
+			{ name: 'Hash Lookup', href: '/hash/lookup', description: 'Hash lookup online free. Reverse hash lookup to check if MD5 or SHA-1 matches known values. Hash reverse lookup tool.', icon: '🔓' },
+			{ name: 'HMAC Generator', href: '/hash/hmac', description: 'HMAC generator online free. Generate HMAC-SHA256, HMAC-SHA512 keyed-hash authentication codes. HMAC calculator in your browser.', icon: '🔑' },
+			{ name: 'Hash Converter', href: '/hash/converter', description: 'Hash format converter online. Convert hash from hex to Base64, change case, add byte separators. Hash encoding converter free.', icon: '🔄' }
 		]
 	}
 ];
@@ -207,13 +220,18 @@ export function getAllActiveTools(): ToolItem[] {
 	return getActiveCategories().flatMap(cat => cat.items);
 }
 
-// Helper: Get tool name by path
-export function getToolNameByPath(path: string): string | undefined {
+// Helper: Get tool by path (returns full tool data for SEO)
+export function getToolByPath(path: string): ToolItem | undefined {
 	for (const cat of toolCategories) {
 		const tool = cat.items.find(item => item.href === path);
-		if (tool) return tool.name;
+		if (tool) return tool;
 	}
 	return undefined;
+}
+
+// Helper: Get tool name by path
+export function getToolNameByPath(path: string): string | undefined {
+	return getToolByPath(path)?.name;
 }
 
 // Helper: Build toolNames record for layout

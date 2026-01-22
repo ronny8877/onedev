@@ -111,10 +111,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="JSON Path Tester"
-	description="Test JSONPath expressions against your data. See matched values instantly."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} />

@@ -62,8 +62,6 @@
 </script>
 
 <ToolWrapper
-	title="Time Converter"
-	description="Convert between time units: milliseconds, seconds, minutes, hours, and days. With human-readable output."
 	keywords={['time converter', 'ms to seconds', 'hours to minutes', 'time calculator', 'duration converter']}
 >
 	<div class="flex flex-col gap-6">

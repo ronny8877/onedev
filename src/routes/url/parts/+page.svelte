@@ -103,10 +103,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="URL Parts Analyzer"
-	description="Break down a URL into its component parts with detailed query parameter parsing."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={clearAll} {stats} />

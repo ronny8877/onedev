@@ -270,10 +270,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Media Device Checker"
-	description="Check available cameras, microphones, and speakers. Permission is requested only when you click."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions copyText={statsText} copyLabel="Copy Device List">
 			<button class="btn btn-sm btn-ghost" onclick={checkAll}>

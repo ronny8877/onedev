@@ -160,10 +160,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="DOM Visualizer"
-	description="Interactive tree view with search, node details, and copy utilities"
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={handleClear} {stats} />

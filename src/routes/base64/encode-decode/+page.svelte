@@ -102,10 +102,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Base64 Encode / Decode"
-	description="Auto-detects input type. UTF-8 safe with proper unicode support."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} {stats} />

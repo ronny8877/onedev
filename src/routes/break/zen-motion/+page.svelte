@@ -160,10 +160,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Zen Motion"
-	description="Nostalgic bouncing shape for eye rest. Pure visual calm."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-4">
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-4 justify-between">

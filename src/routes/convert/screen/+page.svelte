@@ -94,8 +94,6 @@
 </script>
 
 <ToolWrapper
-	title="Screen Resolution Calculator"
-	description="Calculate physical screen dimensions from resolution and DPI, or vice versa. Find PPI for any display."
 	keywords={['screen resolution', 'dpi calculator', 'ppi calculator', 'screen size', 'pixel density', 'monitor calculator']}
 >
 	<div class="flex flex-col gap-6">

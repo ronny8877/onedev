@@ -96,10 +96,7 @@ Some lines will remain unchanged.`;
 	}
 </script>
 
-<ToolWrapper
-	title="Text Diff"
-	description="Compare two text blocks line by line. Highlights additions and deletions."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} />

@@ -45,8 +45,6 @@
 </script>
 
 <ToolWrapper
-	title="Text Shadow Generator"
-	description="Create CSS text-shadows with visual sliders. Multiple layers, neon effects, 3D, and more presets."
 	keywords={['text shadow', 'css text shadow', 'text effects', 'shadow generator', 'text glow', 'neon text']}
 >
 	<div class="flex flex-col gap-6">

@@ -37,10 +37,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="HTML → JSON"
-	description="Convert HTML DOM structure to clean, readable JSON"
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={handleClear} copyText={jsonOutput} {stats} />

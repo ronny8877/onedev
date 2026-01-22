@@ -198,8 +198,6 @@
 </script>
 
 <ToolWrapper
-	title="CSS Keyframes Generator"
-	description="Create CSS @keyframes animations visually. Add keyframe stops, configure transforms, and preview in real-time."
 	keywords={['css keyframes', 'animation generator', 'css animation', 'keyframes builder']}
 >
 	<div class="flex flex-col gap-6">

@@ -115,8 +115,6 @@
 </script>
 
 <ToolWrapper
-	title="Color Converter"
-	description="Convert between color formats: HEX, RGB, RGBA, HSL, HSLA. Live color preview as you type."
 	keywords={['color converter', 'hex to rgb', 'rgb to hsl', 'color picker', 'color format converter']}
 >
 	<div class="flex flex-col gap-6">

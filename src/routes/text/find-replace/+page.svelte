@@ -96,10 +96,7 @@ Foxes are clever animals.`;
 	});
 </script>
 
-<ToolWrapper
-	title="Find & Replace"
-	description="Search and replace text with optional regex support. Preview matches instantly."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={input} />

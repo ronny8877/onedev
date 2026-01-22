@@ -41,10 +41,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="HTML → Text Extractor"
-	description="Strip HTML tags and extract plain text content"
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={handleClear} copyText={output} stats={stats} />

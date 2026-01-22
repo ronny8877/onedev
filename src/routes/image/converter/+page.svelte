@@ -84,10 +84,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Image Format Converter"
-	description="Convert images between JPEG, PNG, and WebP formats."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={reset} />
 

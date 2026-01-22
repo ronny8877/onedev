@@ -91,10 +91,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="HTML Formatter"
-	description="Beautify or minify your HTML with proper indentation"
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={handleClear} copyText={output} {stats} />

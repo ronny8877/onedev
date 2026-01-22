@@ -63,10 +63,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Tag Counter"
-	description="Count and analyze HTML elements by tag type"
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={handleClear} {stats} />

@@ -57,10 +57,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Minimal Clock"
-	description="A big, quiet clock for focused thinking."
->
+<ToolWrapper>
 	<div 
 		class="flex flex-col items-center justify-center min-h-[60vh] rounded-3xl transition-colors duration-500 relative
 			   {isDark ? 'bg-neutral text-neutral-content' : 'bg-base-200'}"

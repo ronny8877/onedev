@@ -35,10 +35,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="URL Validator"
-	description="Check if a URL is valid with protocol verification and detailed structure breakdown."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={clearAll} copyText={input} {stats} />

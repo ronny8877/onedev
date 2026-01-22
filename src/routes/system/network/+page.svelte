@@ -145,10 +145,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Network Info"
-	description="View connection details and optionally fetch your IP address with location data."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions copyText={jsonOutput} copyLabel="Copy as JSON">
 			<button class="btn btn-sm btn-ghost" onclick={loadInfo}>

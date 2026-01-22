@@ -61,8 +61,6 @@
 </script>
 
 <ToolWrapper
-	title="CSS Filter Generator"
-	description="Create CSS filter effects: blur, brightness, contrast, grayscale, and more. Live preview included."
 	keywords={['css filter', 'image filter', 'blur', 'brightness', 'contrast', 'grayscale', 'css effects']}
 >
 	<div class="flex flex-col gap-6">

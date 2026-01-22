@@ -95,10 +95,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="URL Encode / Decode"
-	description="Encode special characters for URLs or decode encoded strings. Auto-detects input type."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} {stats} />

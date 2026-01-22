@@ -134,10 +134,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="URL Compare Tool"
-	description="Semantic URL comparison. Detects if URLs point to the same resource despite different formatting."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={clearAll}>

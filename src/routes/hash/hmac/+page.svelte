@@ -109,8 +109,6 @@
 </script>
 
 <ToolWrapper
-	title="HMAC Generator Online"
-	description="Generate HMAC (Hash-based Message Authentication Code) online. Create SHA-256, SHA-384, SHA-512 keyed-hash authentication codes."
 	keywords={['hmac generator', 'hmac online', 'hmac sha256', 'hmac sha512', 'message authentication code', 'keyed hash']}
 >
 	<div class="flex flex-col gap-6">

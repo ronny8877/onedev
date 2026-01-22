@@ -120,10 +120,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Color Palette Extractor"
-	description="Extract dominant colors from any image. Perfect for design and theming."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={reset} />
 

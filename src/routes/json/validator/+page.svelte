@@ -43,10 +43,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="JSON Validator"
-	description="Check if JSON is valid with line-by-line error details. Instant validation as you type."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} stats={stats} />

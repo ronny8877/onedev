@@ -68,8 +68,6 @@
 </script>
 
 <ToolWrapper
-	title="Cost Estimator"
-	description="Estimate API costs for AI models. Input tokens, output tokens, and per-request pricing."
 	keywords={['AI cost estimator', 'GPT pricing', 'Claude pricing', 'LLM cost calculator', 'API cost']}
 >
 	<div class="flex flex-col gap-6">

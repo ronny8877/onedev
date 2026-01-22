@@ -42,10 +42,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="HTML Validator (Basic)"
-	description="Check for invalid tags, unclosed elements, duplicate IDs, and nesting issues"
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={handleClear} {stats} />

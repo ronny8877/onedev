@@ -56,8 +56,6 @@
 </script>
 
 <ToolWrapper
-	title="CSS Minifier"
-	description="Compress CSS by removing whitespace, comments, and unnecessary characters. Reduce file size for production."
 	keywords={['css minifier', 'minify css', 'compress css', 'css compressor', 'optimize css']}
 >
 	<div class="flex flex-col gap-6">

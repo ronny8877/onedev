@@ -51,8 +51,6 @@
 </script>
 
 <ToolWrapper
-	title="CSS Prefix Cleaner"
-	description="Remove vendor prefixes (-webkit-, -moz-, -ms-, -o-) from your CSS. Most are no longer needed in modern browsers."
 	keywords={['css prefix remover', 'remove vendor prefixes', 'clean prefixes', 'autoprefixer cleanup']}
 >
 	<div class="flex flex-col gap-6">

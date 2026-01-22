@@ -69,8 +69,6 @@
 </script>
 
 <ToolWrapper
-	title="CSS Transition Generator"
-	description="Create smooth CSS transitions with live preview. Customize property, duration, timing, and delay."
 	keywords={['css transition', 'transition generator', 'css animation', 'transition builder']}
 >
 	<div class="flex flex-col gap-6">

@@ -148,10 +148,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Remove White Background"
-	description="Make white and near-white pixels transparent with smooth edges. Perfect for logos and icons."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={reset} />
 

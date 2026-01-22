@@ -82,10 +82,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Base64 → Hex / Binary"
-	description="Convert Base64 to hexadecimal or binary representation. Useful for crypto and debugging."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} {stats} />

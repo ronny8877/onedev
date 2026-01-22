@@ -57,10 +57,7 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 	}
 </script>
 
-<ToolWrapper
-	title="Text Statistics"
-	description="Analyze text counts: characters, words, sentences, reading time, and more."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={input} />

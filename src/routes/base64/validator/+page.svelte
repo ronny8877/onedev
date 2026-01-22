@@ -47,10 +47,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Base64 Validator"
-	description="Check if a string is valid Base64 and see detailed error explanations."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearInput} {stats} />

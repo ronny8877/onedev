@@ -43,8 +43,6 @@ High-profile applications of AI include advanced web search engines, recommendat
 </script>
 
 <ToolWrapper
-	title="Prompt Length Trimmer"
-	description="Trim text to fit token limits. Supports hard cut, sentence-aware, and paragraph-aware modes."
 	keywords={['prompt trimmer', 'token limit', 'text trimmer', 'LLM prompt limit', 'truncate text']}
 >
 	<div class="flex flex-col gap-6">

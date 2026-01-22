@@ -17,8 +17,6 @@
 </script>
 
 <ToolWrapper
-	title="CSS Snippets"
-	description="Ready-to-use CSS snippets for common patterns: centering, text truncation, aspect ratios, effects, and modern CSS features."
 	keywords={['css snippets', 'css utilities', 'centering css', 'text overflow', 'glass effect', 'gradient text']}
 >
 	<div class="flex flex-col gap-6">

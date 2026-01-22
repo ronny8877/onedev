@@ -70,10 +70,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Case Converter"
-	description="Convert between camelCase, snake_case, kebab-case, PascalCase, and more."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} stats={stats} />

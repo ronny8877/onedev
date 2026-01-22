@@ -89,10 +89,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Base64 String Splitter"
-	description="Split long Base64 strings into chunks for readability or MIME encoding."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} {stats} />

@@ -74,8 +74,6 @@
 <svelte:window onmousemove={handleMouseMove} />
 
 <ToolWrapper
-	title="Token Visualizer"
-	description="See how AI models break text into tokens. Understand token boundaries visually."
 	keywords={['token visualizer', 'tokenization', 'GPT tokens', 'BPE tokenizer', 'AI tokens visualization']}
 >
 	<div class="flex flex-col gap-6">

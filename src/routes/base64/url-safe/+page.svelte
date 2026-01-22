@@ -85,10 +85,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Base64 URL-safe Converter"
-	description="Convert between standard Base64 and URL-safe Base64 strings."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} />

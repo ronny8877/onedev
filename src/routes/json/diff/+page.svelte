@@ -119,10 +119,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="JSON Diff Checker"
-	description="Compare two JSON objects side by side. Highlights added, removed, and changed values."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} />

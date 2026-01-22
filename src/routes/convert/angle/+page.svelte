@@ -74,8 +74,6 @@
 </script>
 
 <ToolWrapper
-	title="Angle Converter"
-	description="Convert between angle units: degrees, radians, gradians, and turns. With visual arc representation."
 	keywords={['angle converter', 'degrees to radians', 'rad to deg', 'gradians', 'angle calculator']}
 >
 	<div class="flex flex-col gap-6">

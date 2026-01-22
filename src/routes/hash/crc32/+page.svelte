@@ -122,8 +122,6 @@
 </script>
 
 <ToolWrapper
-	title="CRC32 Checksum Calculator Online"
-	description="Calculate CRC32 checksum from text or files. Free online CRC32 generator for quick data integrity verification. Fast 32-bit checksum."
 	keywords={['crc32', 'crc32 online', 'crc32 calculator', 'checksum', 'crc32 generator', 'file checksum']}
 >
 	<div class="flex flex-col gap-6">

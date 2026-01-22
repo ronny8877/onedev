@@ -42,8 +42,6 @@
 </script>
 
 <ToolWrapper
-	title="Box Shadow Generator"
-	description="Create CSS box-shadows visually with sliders. Support for multiple shadows, inset, and color customization."
 	keywords={['box shadow', 'css shadow', 'shadow generator', 'drop shadow', 'css effects']}
 >
 	<div class="flex flex-col gap-6">

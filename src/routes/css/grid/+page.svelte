@@ -26,8 +26,6 @@
 </script>
 
 <ToolWrapper
-	title="CSS Grid Generator"
-	description="Visual CSS grid layout generator. Configure columns, rows, gaps, and get copy-paste ready CSS."
 	keywords={['css grid', 'grid generator', 'grid layout', 'css grid builder', 'grid template']}
 >
 	<div class="flex flex-col gap-6">

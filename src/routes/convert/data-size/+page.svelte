@@ -62,8 +62,6 @@
 </script>
 
 <ToolWrapper
-	title="Data Size Converter"
-	description="Convert between data units: bits, bytes, KB, MB, GB, TB. Supports both decimal (SI) and binary (IEC) units."
 	keywords={['data size converter', 'bytes to mb', 'kb to gb', 'file size calculator', 'binary vs decimal']}
 >
 	<div class="flex flex-col gap-6">

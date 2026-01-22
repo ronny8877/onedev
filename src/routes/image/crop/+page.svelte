@@ -313,10 +313,7 @@
 
 <svelte:window onresize={updatePreviewScale} />
 
-<ToolWrapper
-	title="Image Crop"
-	description="Crop images with preset aspect ratios. Click inside to move, drag corners to resize."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={reset} />
 

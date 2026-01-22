@@ -55,8 +55,6 @@
 </script>
 
 <ToolWrapper
-	title="Hash Identifier - What Hash Is This?"
-	description="Identify unknown hash types instantly. Paste any hash to detect if it's MD5, SHA-256, SHA-512, bcrypt, CRC32 or other hash formats."
 	keywords={['hash identifier', 'what hash is this', 'identify hash', 'hash type', 'md5 or sha256', 'hash detector']}
 >
 	<div class="flex flex-col gap-6">

@@ -53,10 +53,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="URL Length Checker"
-	description="Check URL length against browser and server limits. Keep URLs under 2048 characters for best compatibility."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={clearAll} copyText={input} {stats} />

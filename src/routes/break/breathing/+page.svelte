@@ -103,10 +103,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Breathing Timer"
-	description="Guided breathing exercise. Inhale, hold, exhale. Visual only, no audio."
->
+<ToolWrapper>
 	<div class="flex flex-col items-center gap-8 py-8">
 		<!-- Cycle Selector -->
 		<div class="flex gap-2">

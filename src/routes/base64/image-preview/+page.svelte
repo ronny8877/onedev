@@ -114,10 +114,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Base64 Image Preview"
-	description="Paste Base64 image data to see a live preview and download the image."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearInput} {stats} />

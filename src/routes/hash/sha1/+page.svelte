@@ -123,8 +123,6 @@
 </script>
 
 <ToolWrapper
-	title="SHA-1 Hash Generator Online"
-	description="Generate SHA-1 hash from text or files. Free online SHA-1 calculator. 160-bit hash used in Git commits and legacy systems."
 	keywords={['sha1 hash', 'sha1 online', 'sha1 generator', 'sha-1', 'git hash', 'sha1 checksum']}
 >
 	<div class="flex flex-col gap-6">

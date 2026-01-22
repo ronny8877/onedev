@@ -89,10 +89,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Anagram Finder"
-	description="Find anagrams of a word using a built-in dictionary. Also shows permutations."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} />

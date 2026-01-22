@@ -89,10 +89,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="JSON Type Generator"
-	description="Generate TypeScript interfaces or Go structs from JSON. Handles nested objects."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} />

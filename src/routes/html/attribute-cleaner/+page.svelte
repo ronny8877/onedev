@@ -65,10 +65,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Attribute Cleaner"
-	description="Remove inline styles, empty attributes, data-* attributes, and event handlers"
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={handleClear} copyText={output} {stats} />

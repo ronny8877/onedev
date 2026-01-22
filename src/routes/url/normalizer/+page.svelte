@@ -109,10 +109,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="URL Normalizer"
-	description="Normalize URLs for consistency: lowercase host, remove default ports, sort query params."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={clearAll} copyText={output === 'Invalid URL' ? '' : output} {stats} />

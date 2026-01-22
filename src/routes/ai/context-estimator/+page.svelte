@@ -63,8 +63,6 @@ Assistant: That's great! AI is a fascinating field. What aspect would you like t
 </script>
 
 <ToolWrapper
-	title="Context Window Estimator"
-	description="Calculate total tokens for prompts, system messages, and chat history. See remaining context."
 	keywords={['context window', 'token budget', 'LLM context', 'prompt tokens', 'AI context limit']}
 >
 	<div class="flex flex-col gap-6">

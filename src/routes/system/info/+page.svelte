@@ -347,10 +347,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="System Info"
-	description="Comprehensive device, browser, and hardware information gathered from browser APIs."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-5">
 		<ToolActions copyText={jsonOutput} copyLabel="Copy as JSON">
 			<button class="btn btn-sm btn-ghost" onclick={loadInfo}>

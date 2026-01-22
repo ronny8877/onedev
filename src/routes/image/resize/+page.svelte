@@ -119,10 +119,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Image Resize"
-	description="Resize images by pixel dimensions or percentage. Maintains quality with smart resampling."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={reset} />
 

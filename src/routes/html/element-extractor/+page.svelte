@@ -135,10 +135,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="Element Extractor"
-	description="Extract links, images, meta tags, and more from HTML"
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExample} onClear={handleClear} {stats} />

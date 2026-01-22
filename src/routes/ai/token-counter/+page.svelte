@@ -56,8 +56,6 @@ Please provide:
 </script>
 
 <ToolWrapper
-	title="Token Counter"
-	description="Count tokens for GPT-4, Claude, Gemini and more. See character count and estimated API cost."
 	keywords={['token counter', 'GPT tokens', 'Claude tokens', 'AI token calculator', 'LLM tokens', 'tokenizer']}
 >
 	<div class="flex flex-col gap-6">

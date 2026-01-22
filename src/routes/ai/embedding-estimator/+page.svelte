@@ -44,8 +44,6 @@
 </script>
 
 <ToolWrapper
-	title="Embedding Size Estimator"
-	description="Estimate tokens and vector dimensions for embedding models. Great for vector DB planning."
 	keywords={['embedding estimator', 'vector size', 'embedding tokens', 'vector database', 'embedding dimensions']}
 >
 	<div class="flex flex-col gap-6">

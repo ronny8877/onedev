@@ -109,10 +109,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="JSON Formatter"
-	description="Validate and format JSON in the browser. Highlights syntax errors and prettifies valid JSON."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} stats={stats} />

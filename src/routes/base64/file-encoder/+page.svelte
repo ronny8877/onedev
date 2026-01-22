@@ -100,10 +100,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Base64 File Encoder"
-	description="Encode files (images, PDFs, etc.) to Base64. Files stay in your browser."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions (Clear only, no Sample) -->
 		<ToolActions onClear={clearFile} />

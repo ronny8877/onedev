@@ -123,8 +123,6 @@
 </script>
 
 <ToolWrapper
-	title="SHA-256 Hash Generator Online"
-	description="Generate SHA-256 hash from text or files. Free online SHA-256 calculator. The industry-standard 256-bit secure hash used in Bitcoin and TLS."
 	keywords={['sha256 hash', 'sha256 online', 'sha256 generator', 'sha-256', 'sha256 checksum', 'bitcoin hash']}
 >
 	<div class="flex flex-col gap-6">

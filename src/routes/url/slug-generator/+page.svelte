@@ -42,10 +42,7 @@
 	});
 </script>
 
-<ToolWrapper
-	title="URL Slug Generator"
-	description="Convert text into URL-friendly slugs. Perfect for blog posts and page URLs."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadExamples} onClear={clearAll} copyText={output} {stats} />

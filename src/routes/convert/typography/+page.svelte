@@ -72,8 +72,6 @@
 </script>
 
 <ToolWrapper
-	title="Typography Converter"
-	description="Convert between typography units: px, pt, em, rem. Calculate line-height in unitless or pixel values."
 	keywords={['typography converter', 'px to pt', 'em to px', 'line height calculator', 'font size converter']}
 >
 	<div class="flex flex-col gap-6">

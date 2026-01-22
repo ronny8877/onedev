@@ -116,10 +116,7 @@
 	}
 </style>
 
-<ToolWrapper
-	title="Ambient Rest"
-	description="A calm space with soothing sounds. Close your brain for a few minutes."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Preview Card with Video Background -->
 		<div 

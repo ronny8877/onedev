@@ -64,8 +64,6 @@
 </script>
 
 <ToolWrapper
-	title="CSS Units Converter"
-	description="Convert between CSS units: px, rem, em, vw, vh, pt, and percentages. Live updates as you type."
 	keywords={['css units', 'px to rem', 'px to em', 'rem converter', 'viewport units', 'css calculator']}
 >
 	<div class="flex flex-col gap-6">

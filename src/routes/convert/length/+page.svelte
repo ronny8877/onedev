@@ -48,8 +48,6 @@
 </script>
 
 <ToolWrapper
-	title="Length / Distance Converter"
-	description="Convert between physical length units: mm, cm, inches, feet, meters, km, and pixels at any DPI."
 	keywords={['length converter', 'mm to inch', 'cm to inch', 'pixels to mm', 'distance converter', 'unit converter']}
 >
 	<div class="flex flex-col gap-6">

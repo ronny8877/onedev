@@ -111,10 +111,7 @@
 	}
 </script>
 
-<ToolWrapper
-	title="Image Compressor"
-	description="Reduce image file size while maintaining quality. All processing happens locally."
->
+<ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={reset} />
 
