@@ -171,6 +171,24 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Embedding Estimator', href: '/ai/embedding-estimator', description: 'Estimate tokens and vector dimensions for embedding models. Great for vector DB planning.', icon: '📐' },
 			{ name: 'Cost Estimator', href: '/ai/cost-estimator', description: 'Estimate API costs for AI models. Input tokens, output tokens, and per-request pricing.', icon: '💰' }
 		]
+	},
+	{
+		name: 'Hash',
+		icon: '#️⃣',
+		items: [
+			{ name: 'Hash Generator', href: '/hash/generator', description: 'Hash text or files online. Get MD5, SHA-1, SHA-256, SHA-512, CRC32 all at once.', icon: '🔐' },
+			{ name: 'MD5 Hash Online', href: '/hash/md5', description: 'Generate MD5 hash online. Paste text or drop a file to get MD5 checksum instantly.', icon: '🔒' },
+			{ name: 'SHA-256 Hash', href: '/hash/sha256', description: 'SHA-256 hash generator online. Create secure 256-bit hashes from text or files.', icon: '🔒' },
+			{ name: 'SHA-512 Hash', href: '/hash/sha512', description: 'SHA-512 hash online. Generate 512-bit hashes for maximum security.', icon: '🔒' },
+			{ name: 'SHA-1 Hash', href: '/hash/sha1', description: 'SHA-1 hash generator. 160-bit legacy algorithm, still used for git commits.', icon: '🔒' },
+			{ name: 'CRC32 Checksum', href: '/hash/crc32', description: 'CRC32 calculator online. Quick checksum for file integrity verification.', icon: '✓' },
+			{ name: 'Hash Identifier', href: '/hash/identifier', description: 'What hash is this? Paste any hash to detect if its MD5, SHA-256, bcrypt, etc.', icon: '🔍' },
+			{ name: 'Compare Hashes', href: '/hash/compare', description: 'Compare two hashes online. Case-insensitive with visual match indicator.', icon: '⚖️' },
+			{ name: 'File Checksum', href: '/hash/file-checksum', description: 'Verify file checksum. Compare downloaded file hash against expected value.', icon: '📁' },
+			{ name: 'Hash Lookup', href: '/hash/lookup', description: 'Reverse hash lookup. Check if MD5 or SHA-1 matches known passwords.', icon: '🔓' },
+			{ name: 'HMAC Generator', href: '/hash/hmac', description: 'Generate HMAC online. SHA-256, SHA-512 keyed-hash authentication codes.', icon: '🔑' },
+			{ name: 'Hash Converter', href: '/hash/converter', description: 'Convert hash formats. Hex to Base64, uppercase, add separators.', icon: '🔄' }
+		]
 	}
 ];
 

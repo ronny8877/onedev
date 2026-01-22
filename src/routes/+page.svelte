@@ -14,7 +14,8 @@
 		'System': { color: 'accent', hoverBorder: 'hover:border-accent/20', bgClass: 'bg-accent/10' },
 		'Text': { color: 'success', hoverBorder: 'hover:border-success/20', bgClass: 'bg-success/10' },
 		'HTML': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10' },
-		'Break': { color: 'neutral', hoverBorder: 'hover:border-neutral/20', bgClass: 'bg-neutral/10' }
+		'Break': { color: 'neutral', hoverBorder: 'hover:border-neutral/20', bgClass: 'bg-neutral/10' },
+		'Hash': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10' }
 	};
 </script>
 
