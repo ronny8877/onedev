@@ -159,6 +159,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Formatter', href: '/css/formatter', description: 'CSS formatter and beautifier online. Format CSS code with proper indentation. CSS pretty print and code beautifier—free in your browser.', icon: '✨' },
 			{ name: 'Minifier', href: '/css/minifier', description: 'CSS minifier online free. Compress CSS by removing whitespace and comments. Reduce CSS file size instantly—minify CSS code.', icon: '📦' },
 			{ name: 'Prefix Cleaner', href: '/css/prefix-cleaner', description: 'CSS prefix remover online. Remove vendor prefixes (-webkit-, -moz-, -ms-, -o-). Clean up CSS autoprefixer output—free tool.', icon: '🧹' },
+			{ name: 'Gradient Generator', href: '/css/gradient', description: 'CSS gradient generator online free. Create linear, radial, and conic gradients with visual editor. Multiple color stops, angle control, and live preview—free gradient maker.', icon: '🌈' },
 			{ name: 'Transition', href: '/css/transition', description: 'CSS transition generator online. Create CSS transitions with live preview. Generate smooth animations—free transition builder.', icon: '🔄' },
 			{ name: 'Bezier Curve', href: '/css/bezier', description: 'CSS cubic-bezier editor online. Interactive curve editor for timing functions. Create custom easing—bezier curve generator free.', icon: '📈' },
 			{ name: 'Keyframes', href: '/css/keyframes', description: 'CSS keyframes generator online. Create @keyframes animations with editable stops. CSS animation builder—free keyframe editor.', icon: '🎬' },
@@ -167,7 +168,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Box Shadow', href: '/css/box-shadow', description: 'CSS box shadow generator online. Create box-shadows with multiple layers and presets. Live preview—free shadow generator tool.', icon: '🌑' },
 			{ name: 'Text Shadow', href: '/css/text-shadow', description: 'CSS text shadow generator online. Create text-shadow effects with live preview. Multiple shadow layers—free text shadow tool.', icon: '💬' },
 			{ name: 'Filter', href: '/css/filter', description: 'CSS filter generator online. Generate blur, brightness, contrast, grayscale, and more. Live filter preview—free CSS filter tool.', icon: '🎛️' },
-			{ name: 'Text Gradient', href: '/css/text-gradient', description: 'CSS gradient text generator online. Create beautiful gradient text with visual color stops. Text gradient maker—free CSS tool.', icon: '🌈' },
+			{ name: 'Text Gradient', href: '/css/text-gradient', description: 'CSS gradient text generator online. Create beautiful gradient text with visual color stops. Text gradient maker—free CSS tool.', icon: '✨' },
 			{ name: 'Snippets', href: '/css/snippets', description: 'CSS snippets library online. Ready-to-use CSS: centering tricks, text truncation, accessibility helpers. Copy CSS snippets free.', icon: '📋' }
 		]
 	},
