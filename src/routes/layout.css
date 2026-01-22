@@ -108,9 +108,16 @@ body {
   @apply bg-warning/20 rounded-lg;
 }
 
-/* Scrollbar Styling */
+/* Scrollbar Styling - Hidden */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
 ::-webkit-scrollbar {
-  @apply w-2 h-2;
+  width: 0;
+  height: 0;
+  display: none; /* Chrome, Safari, Opera */
 }
 
 ::-webkit-scrollbar-track {

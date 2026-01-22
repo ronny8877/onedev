@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { slide } from 'svelte/transition';
 
 	interface SidebarItem {
 		name: string;
@@ -66,8 +65,8 @@
 
 <aside class="sidebar-container bg-base-100 border-r border-base-300 h-screen w-80 fixed top-0 left-0 z-40 overflow-y-auto overflow-x-hidden flex flex-col supports-[height:100cqh]:h-[100cqh] supports-[height:100svh]:h-[100svh]">
 	<!-- App Title -->
-	<div class="sidebar-header sticky top-0 z-10 bg-base-100/95 backdrop-blur-sm border-b border-base-200 px-6 py-5">
-		<a href="/" class="flex items-center gap-0.5 text-xl font-bold tracking-tight hover:opacity-80 transition-opacity" onclick={() => handleLinkClick('Home')}>
+	<div class="sidebar-header justify-center flex sticky top-0 z-10 bg-base-100/95 backdrop-blur-sm border-b border-base-200 px-6 py-5">
+		<a href="/" class="flex items-center gap-0.5 text-3xl font-bold tracking-tight hover:opacity-80 transition-opacity" onclick={() => handleLinkClick('Home')}>
 			<span class="text-primary">One</span><span class="text-base-content">dev</span><span class="text-base-content/40 font-normal">.tools</span>
 		</a>
 	</div>
@@ -153,19 +152,3 @@
 	</nav>
 </aside>
 
-<style>
-/* Custom Scrollbar for Webkit */
-.sidebar-container::-webkit-scrollbar {
-	width: 5px;
-}
-.sidebar-container::-webkit-scrollbar-track {
-	background: transparent;
-}
-.sidebar-container::-webkit-scrollbar-thumb {
-	background-color: oklch(var(--bc) / 0.1);
-	border-radius: 20px;
-}
-.sidebar-container::-webkit-scrollbar-thumb:hover {
-	background-color: oklch(var(--bc) / 0.2);
-}
-</style>
