@@ -5,6 +5,7 @@
 		lookupHash,
 		parseWordlist,
 		COMMON_PASSWORDS,
+		identifyHashType,
 		type HashAlgorithm
 	} from '$lib/utils/hash';
 
@@ -16,6 +17,7 @@
 	let progress = $state({ checked: 0, total: 0 });
 	let result = $state<{ found: boolean; plaintext?: string; checked: number } | null>(null);
 	let fileInput: HTMLInputElement;
+	let autoDetected = $state(false);
 
 	// Parse multiple hashes (one per line)
 	let hashes = $derived(
@@ -24,6 +26,35 @@
 			.map((h) => h.trim())
 			.filter((h) => h.length > 0)
 	);
+
+	// Auto-detect hash type when input changes
+	$effect(() => {
+		const firstHash = hashes[0];
+		if (!firstHash || hashes.length > 1) {
+			autoDetected = false;
+			return;
+		}
+
+		const detected = identifyHashType(firstHash);
+		if (detected.length > 0 && detected[0].confidence === 'high') {
+			const type = detected[0].type;
+			// Map detected types to our supported algorithms
+			if (type === 'MD5') {
+				algorithm = 'MD5';
+				autoDetected = true;
+			} else if (type === 'SHA-1') {
+				algorithm = 'SHA-1';
+				autoDetected = true;
+			} else if (type === 'SHA-256') {
+				algorithm = 'SHA-256';
+				autoDetected = true;
+			} else {
+				autoDetected = false;
+			}
+		} else {
+			autoDetected = false;
+		}
+	});
 
 	let results = $state<Map<string, { found: boolean; plaintext?: string }>>(new Map());
 
@@ -113,11 +144,18 @@
 				<label class="label">
 					<span class="label-text text-sm">Algorithm</span>
 				</label>
-				<select bind:value={algorithm} class="select select-bordered select-sm">
-					<option value="MD5">MD5</option>
-					<option value="SHA-1">SHA-1</option>
-					<option value="SHA-256">SHA-256</option>
-				</select>
+				<div class="flex items-center gap-2 ">
+					<select bind:value={algorithm} class="select select-bordered select-sm">
+						<option value="MD5">MD5</option>
+						<option value="SHA-1">SHA-1</option>
+						<option value="SHA-256">SHA-256</option>
+					</select>
+					{#if autoDetected}
+						<span class="badge badge-success badge-sm block text-nowrap gap-1">
+							Auto-detected
+						</span>
+					{/if}
+				</div>
 			</div>
 
 			<div class="form-control flex-1">

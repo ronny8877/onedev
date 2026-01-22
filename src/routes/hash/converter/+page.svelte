@@ -9,15 +9,14 @@
 	let uppercase = $state(false);
 	let addSeparator = $state(false);
 	let separator = $state(':');
-	let error = $state<string | null>(null);
 
 	const sampleHex = '5d41402abc4b2a76b9719d911017c592';
 	const sampleBase64 = 'XUFAKrxLKna5cZ2REBfFkg==';
 
-	let output = $derived(() => {
-		error = null;
+	// Compute both output and error together without mutating state inside $derived
+	let computed = $derived.by(() => {
 		const trimmed = input.trim();
-		if (!trimmed) return '';
+		if (!trimmed) return { output: '', error: null };
 
 		try {
 			let result: string;
@@ -25,16 +24,14 @@
 			if (mode === 'hex-to-base64') {
 				// Validate hex
 				if (!/^[a-fA-F0-9]+$/.test(trimmed.replace(/[\s:-]/g, ''))) {
-					error = 'Invalid hex string';
-					return '';
+					return { output: '', error: 'Invalid hex string' };
 				}
 				const cleanHex = trimmed.replace(/[\s:-]/g, '');
 				result = hexToBase64(cleanHex);
 			} else {
 				// Validate base64
 				if (!/^[A-Za-z0-9+/]+=*$/.test(trimmed)) {
-					error = 'Invalid Base64 string';
-					return '';
+					return { output: '', error: 'Invalid Base64 string' };
 				}
 				result = base64ToHex(trimmed);
 			}
@@ -49,12 +46,14 @@
 				}
 			}
 
-			return result;
+			return { output: result, error: null };
 		} catch (err) {
-			error = (err as Error).message;
-			return '';
+			return { output: '', error: (err as Error).message };
 		}
 	});
+
+	let output = $derived(computed.output);
+	let computedError = $derived(computed.error);
 
 	function loadSample() {
 		if (mode === 'hex-to-base64') {
@@ -66,13 +65,11 @@
 
 	function clearAll() {
 		input = '';
-		error = null;
 	}
 
 	function swapMode() {
-		const currentOutput = output();
-		if (currentOutput) {
-			input = currentOutput;
+		if (output) {
+			input = output;
 		}
 		mode = mode === 'hex-to-base64' ? 'base64-to-hex' : 'hex-to-base64';
 	}
@@ -86,7 +83,7 @@
 	keywords={['hash converter', 'hex to base64', 'base64 to hex', 'hash format', 'convert md5', 'hash encoding']}
 >
 	<div class="flex flex-col gap-6">
-		<ToolActions onSample={loadSample} onClear={clearAll} {stats} copyText={output()} />
+		<ToolActions onSample={loadSample} onClear={clearAll} {stats} copyText={output} />
 
 		<!-- Mode Selection -->
 		<div class="flex flex-wrap items-center gap-4">
@@ -154,24 +151,24 @@
 				</h3>
 				<div class="relative">
 					<textarea
-						value={output()}
+						value={output}
 						readonly
 						placeholder="Result will appear here..."
 						class="textarea textarea-bordered w-full min-h-[150px] font-mono text-sm rounded-xl resize-none bg-base-200"
 						spellcheck="false"
 					></textarea>
-					{#if output()}
+					{#if output}
 						<div class="absolute top-2 right-2">
-							<CopyButton text={output()} size="sm" />
+							<CopyButton text={output} size="sm" />
 						</div>
 					{/if}
 				</div>
 			</div>
 		</div>
 
-		{#if error}
+		{#if computedError}
 			<div class="alert alert-error rounded-xl">
-				<span>{error}</span>
+				<span>{computedError}</span>
 			</div>
 		{/if}
 
