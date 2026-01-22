@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { slide } from 'svelte/transition';
 
 	interface SidebarItem {
 		name: string;
@@ -24,10 +25,17 @@
 	// Track which accordions are open
 	let openAccordions = $state<Record<string, boolean>>({});
 
+	// Helper to check if any item in an accordion is active
+	function isAccordionActive(accordion: SidebarAccordion): boolean {
+		return accordion.items.some((item) => isActive(item.href));
+	}
+
 	// Auto-open accordion that contains active route
 	$effect(() => {
 		const currentPath = $page.url.pathname;
 		for (const accordion of accordions) {
+			// Check if we haven't set the state for this accordion yet
+			// OR if it contains the current active item, enforce it open
 			if (accordion.items.some((item) => currentPath.startsWith(item.href))) {
 				openAccordions[accordion.name] = true;
 			}
@@ -56,30 +64,30 @@
 	}
 </script>
 
-<aside class="sidebar-container">
+<aside class="sidebar-container bg-base-100 border-r border-base-300 h-screen w-80 fixed top-0 left-0 z-40 overflow-y-auto overflow-x-hidden flex flex-col supports-[height:100cqh]:h-[100cqh] supports-[height:100svh]:h-[100svh]">
 	<!-- App Title -->
-	<div class="sidebar-header">
-		<a href="/" class="logo" onclick={() => handleLinkClick('Home')}>
-			<span class="logo-one">One</span><span class="logo-dev">dev</span><span class="logo-tools">.tools</span>
+	<div class="sidebar-header sticky top-0 z-10 bg-base-100/95 backdrop-blur-sm border-b border-base-200 px-6 py-5">
+		<a href="/" class="flex items-center gap-0.5 text-xl font-bold tracking-tight hover:opacity-80 transition-opacity" onclick={() => handleLinkClick('Home')}>
+			<span class="text-primary">One</span><span class="text-base-content">dev</span><span class="text-base-content/40 font-normal">.tools</span>
 		</a>
 	</div>
 
-	<nav class="sidebar-nav">
+	<nav class="flex-1 p-3 space-y-1">
 		<!-- Simple Items -->
 		{#if items.length > 0}
-			<ul class="nav-list">
+			<ul class="menu menu-sm bg-base-100 rounded-box w-full gap-1">
 				{#each items as item}
 					<li>
 						<a 
 							href={item.href} 
-							class="nav-item"
 							class:active={isActive(item.href)}
 							onclick={() => handleLinkClick(item.name)}
+							class="font-medium"
 						>
 							{#if item.icon}
-								<span class="nav-icon">{item.icon}</span>
+								<span class="text-lg opacity-75">{item.icon}</span>
 							{/if}
-							<span class="nav-text">{item.name}</span>
+							<span>{item.name}</span>
 						</a>
 					</li>
 				{/each}
@@ -87,224 +95,77 @@
 		{/if}
 
 		<!-- Accordions -->
-		<div class="accordion-list">
+		<ul class="bg-base-100 rounded-box w-full gap-1">
 			{#each accordions as accordion}
-				<div class="accordion">
-					<!-- Category Header -->
-					<button
-						type="button"
-						class="accordion-header"
-						onclick={() => toggleAccordion(accordion.name)}
-					>
-						<span class="accordion-title">
-							{#if accordion.icon}
-								<span class="accordion-icon">{accordion.icon}</span>
-							{/if}
-							<span class="accordion-name">{accordion.name}</span>
-						</span>
-						<svg
-							class="chevron"
-							class:open={openAccordions[accordion.name]}
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
+				{@const active = isAccordionActive(accordion)}
+				<li>
+					<div class="flex flex-col gap-0 p-0 !bg-transparent hover:!bg-transparent focus:!bg-transparent">
+						<!-- Category Header -->
+						<!-- svelte-ignore a11y_click_events_have_key_events -->
+						<!-- svelte-ignore a11y_no_static_element_interactions -->
+						<div
+							class="w-full flex items-center justify-between py-2 px-3 mt-1 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-base-200 {active ? 'bg-primary/5 text-primary' : ''}"
+							onclick={() => toggleAccordion(accordion.name)}
 						>
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-						</svg>
-					</button>
+							<div class="flex items-center gap-3">
+								{#if accordion.icon}
+									<span class="text-lg opacity-80" class:opacity-100={active}>{accordion.icon}</span>
+								{/if}
+								<span class="font-semibold text-sm tracking-wide" class:opacity-100={active}>{accordion.name}</span>
+							</div>
+							<svg
+								class="size-4 opacity-50 transition-transform duration-200"
+								class:rotate-180={openAccordions[accordion.name]}
+								class:text-primary={active}
+								class:opacity-100={active}
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+							</svg>
+						</div>
 
-					<!-- Items List -->
-					{#if openAccordions[accordion.name]}
-						<ul class="accordion-items">
-							{#each accordion.items as item}
-								<li>
-									<a 
-										href={item.href} 
-										class="nav-item"
-										class:active={isActive(item.href)}
-										onclick={() => handleLinkClick(item.name, accordion.name)}
-									>
-										{#if item.icon}
-											<span class="nav-icon small">{item.icon}</span>
-										{/if}
-										<span class="nav-text">{item.name}</span>
-									</a>
-								</li>
-							{/each}
-						</ul>
-					{/if}
-				</div>
+						<!-- Items List -->
+						{#if openAccordions[accordion.name]}
+							<ul class="menu menu-sm w-full mt-1 gap-1  bg-primary/5 rounded-3xl p-2">
+								{#each accordion.items as item}
+									<li>
+										<a 
+											href={item.href} 
+											class="py-2 rounded-lg hover:bg-primary-content transition-colors {isActive(item.href) ? 'bg-primary/10 text-primary' : ''}"
+											class:active={isActive(item.href)}
+											onclick={() => handleLinkClick(item.name, accordion.name)}
+										>
+											{#if item.icon}
+												<span class="text-base opacity-75">{item.icon}</span>
+											{/if}
+											<span class:font-medium={isActive(item.href)}>{item.name}</span>
+										</a>
+									</li>
+								{/each}
+							</ul>
+						{/if}
+					</div>
+				</li>
 			{/each}
-		</div>
+		</ul>
 	</nav>
 </aside>
 
 <style>
-	.sidebar-container {
-		position: fixed;
-		top: 0;
-		left: 0;
-		z-index: 40;
-		height: 100vh;
-		width: var(--sidebar-width);
-		overflow-y: auto;
-		overflow-x: hidden;
-		border-right: 1px solid oklch(var(--bc) / 0.08);
-		background: oklch(var(--b2));
-	}
-
-	/* Custom scrollbar */
-	.sidebar-container::-webkit-scrollbar {
-		width: 4px;
-	}
-	.sidebar-container::-webkit-scrollbar-track {
-		background: transparent;
-	}
-	.sidebar-container::-webkit-scrollbar-thumb {
-		background: oklch(var(--bc) / 0.12);
-		border-radius: 4px;
-	}
-	.sidebar-container::-webkit-scrollbar-thumb:hover {
-		background: oklch(var(--bc) / 0.2);
-	}
-
-	/* Header */
-	.sidebar-header {
-		position: sticky;
-		top: 0;
-		z-index: 10;
-		background: oklch(var(--b2));
-		padding: 1.25rem 1rem 1rem;
-		border-bottom: 1px solid oklch(var(--bc) / 0.06);
-	}
-
-	.logo {
-		display: flex;
-		justify-content: center;
-		font-size: 1.375rem;
-		font-weight: 700;
-		letter-spacing: -0.02em;
-		text-decoration: none;
-		transition: opacity 0.15s;
-	}
-	.logo:hover {
-		opacity: 0.85;
-	}
-	.logo-one {
-		color: oklch(var(--p));
-	}
-	.logo-dev {
-		color: oklch(var(--bc));
-	}
-	.logo-tools {
-		color: oklch(var(--bc) / 0.4);
-		font-weight: 400;
-	}
-
-	/* Navigation */
-	.sidebar-nav {
-		padding: 0.75rem;
-	}
-
-	.nav-list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
-
-	.nav-item {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.5rem 0.75rem;
-		border-radius: 0.5rem;
-		text-decoration: none;
-		color: oklch(var(--bc) / 0.7);
-		font-size: 0.8125rem;
-		transition: all 0.12s ease;
-	}
-	.nav-item:hover {
-		background: oklch(var(--bc) / 0.06);
-		color: oklch(var(--bc) / 0.9);
-	}
-	.nav-item.active {
-		background: oklch(var(--p) / 0.1);
-		color: oklch(var(--p));
-		font-weight: 500;
-	}
-
-	.nav-icon {
-		font-size: 0.875rem;
-		opacity: 0.8;
-		flex-shrink: 0;
-	}
-	.nav-icon.small {
-		font-size: 0.8125rem;
-	}
-
-	.nav-text {
-		line-height: 1.3;
-	}
-
-	/* Accordions */
-	.accordion-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		margin-top: 0.5rem;
-	}
-
-	.accordion-header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		width: 100%;
-		padding: 0.5rem 0.75rem;
-		border: none;
-		border-radius: 0.5rem;
-		background: transparent;
-		cursor: pointer;
-		transition: background 0.12s ease;
-	}
-	.accordion-header:hover {
-		background: oklch(var(--bc) / 0.04);
-	}
-
-	.accordion-title {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.accordion-icon {
-		font-size: 0.9375rem;
-	}
-
-	.accordion-name {
-		font-size: 0.6875rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		color: oklch(var(--bc) / 0.45);
-	}
-
-	.chevron {
-		width: 0.875rem;
-		height: 0.875rem;
-		color: oklch(var(--bc) / 0.35);
-		transition: transform 0.2s ease;
-	}
-	.chevron.open {
-		transform: rotate(180deg);
-	}
-
-	.accordion-items {
-		list-style: none;
-		margin: 0.25rem 0 0.5rem 0;
-		padding: 0 0 0 0.5rem;
-	}
-
-	.accordion-items .nav-item {
-		padding: 0.4rem 0.75rem;
-	}
+/* Custom Scrollbar for Webkit */
+.sidebar-container::-webkit-scrollbar {
+	width: 5px;
+}
+.sidebar-container::-webkit-scrollbar-track {
+	background: transparent;
+}
+.sidebar-container::-webkit-scrollbar-thumb {
+	background-color: oklch(var(--bc) / 0.1);
+	border-radius: 20px;
+}
+.sidebar-container::-webkit-scrollbar-thumb:hover {
+	background-color: oklch(var(--bc) / 0.2);
+}
 </style>
