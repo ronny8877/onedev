@@ -15,7 +15,7 @@
 </script>
 
 <header
-	class="bg-base-100/80 fixed top-0 right-0 left-(--sidebar-width) z-30 flex h-(--topbar-height) items-center border-b border-base-300 px-6 backdrop-blur-md"
+	class="bg-base-100/80 fixed top-0 right-0 left-0 lg:left-80 z-50 flex h-[var(--topbar-height)] items-center border-b border-base-300 px-6 backdrop-blur-md"
 >
 	<div class="flex w-full items-center justify-between">
 		<!-- Tool Name / Left Side -->

@@ -75,7 +75,7 @@
 		</label>
 
 		<!-- Main Content -->
-		<main class="min-h-screen bg-base-100 pt-(--topbar-height) lg:ml-(--sidebar-width)">
+		<main class="min-h-screen bg-base-100 pt-[var(--topbar-height)] lg:ml-80">
 			<div class="p-6">
 				{@render children()}
 			</div>
