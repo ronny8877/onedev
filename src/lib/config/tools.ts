@@ -226,6 +226,18 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Secrets Scanner', href: '/git/secrets-scanner', description: 'Git secrets scanner online. Detect API keys, tokens, passwords in code. Client-side scanning—find secrets before committing.', icon: '🔐' },
 			{ name: 'Large File Detector', href: '/git/large-files', description: 'Large file detector online. Find files too big for Git. Get Git LFS recommendations—detect large files before pushing.', icon: '📦' }
 		]
+	},
+	{
+		name: 'Regex',
+		icon: '.*',
+		description: 'Free regex tools online to test, match, replace, and explain regular expressions. Build regex patterns, extract matches, and learn regex syntax—all in your browser with instant visual feedback.',
+		items: [
+			{ name: 'Regex Tester', href: '/regex/tester', description: 'Regex tester online free. Test regular expressions with live highlighting, flags toggle (g i m s u), and match count. Debug regex patterns instantly in your browser.', icon: '🧪' },
+			{ name: 'Regex Matcher', href: '/regex/matcher', description: 'Regex match extractor online. Extract all matches and capture groups from text. Export matches as JSON, CSV, or plain list—free regex extraction tool.', icon: '🎯' },
+			{ name: 'Regex Replacer', href: '/regex/replacer', description: 'Regex replace online free. Find and replace with regular expressions. Live preview, capture group support ($1, $2)—regex find and replace tool.', icon: '🔄' },
+			{ name: 'Regex Explainer', href: '/regex/explainer', description: 'Regex explainer online. Break down regex patterns into tokens with plain English explanations. Understand any regex visually—free regex breakdown tool.', icon: '📖' },
+			{ name: 'Regex Cheat Sheet', href: '/regex/cheatsheet', description: 'Regex cheat sheet online. Complete regex syntax reference with examples: character classes, quantifiers, anchors, groups, and flags. Free regex guide.', icon: '📋' }
+		]
 	}
 ];
 
