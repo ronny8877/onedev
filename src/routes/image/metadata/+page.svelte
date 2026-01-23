@@ -1,3 +1,7 @@
+<script lang="ts">
+	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
+	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { readFileAsArrayBuffer, loadImage, loadImageAsCanvas, canvasToBlob, downloadBlob, formatFileSize } from '$lib/utils/image';
 	import exifr from 'exifr';
 
@@ -22,19 +26,24 @@
 		hasExif = false;
 		exifError = '';
 
-		// Get image dimensions
+		// Set initial basic info (robust to load failures)
+		const initialInfo = [
+			{ key: 'File Name', value: file.name },
+			{ key: 'File Size', value: formatFileSize(file.size) },
+			{ key: 'File Type', value: file.type || 'Unknown' },
+			{ key: 'Last Modified', value: file.lastModified ? new Date(file.lastModified).toLocaleString() : 'Unknown' }
+		];
+		basicInfo = initialInfo;
+
+		// Get image dimensions (optional)
 		try {
 			const img = await loadImage(dataURL);
-			
-			// Basic file info (always available)
 			basicInfo = [
-				{ key: 'File Name', value: file.name },
-				{ key: 'File Size', value: formatFileSize(file.size) },
-				{ key: 'File Type', value: file.type || 'Unknown' },
+				...initialInfo.slice(0, 3), // Insert dimensions after Type
 				{ key: 'Dimensions', value: `${img.width} × ${img.height} pixels` },
 				{ key: 'Aspect Ratio', value: formatAspectRatio(img.width, img.height) },
 				{ key: 'Total Pixels', value: `${(img.width * img.height / 1000000).toFixed(2)} MP` },
-				{ key: 'Last Modified', value: file.lastModified ? new Date(file.lastModified).toLocaleString() : 'Unknown' }
+				...initialInfo.slice(3)
 			];
 		} catch (e) {
 			console.error('Failed to load image preview:', e);
@@ -42,6 +51,9 @@
 
 		// Try to read Metadata using exifr
 		try {
+			console.log('Reading file as ArrayBuffer for exifr...');
+			const buffer = await readFileAsArrayBuffer(file);
+			
 			console.log('Starting exifr parse...');
 			// Parse with grouping enabled - try to be as permissive as possible
 			const options = {
@@ -59,13 +71,13 @@
 				reviveValues: true
 			};
 			
-			let output = await exifr.parse(file, options);
+			let output = await exifr.parse(buffer, options);
 			console.log('exifr structured output:', output);
 
 			if (!output || Object.keys(output).length === 0) {
 				console.log('Structured output empty, trying flat parse...');
 				// Fallback to simple parse
-				output = await exifr.parse(file);
+				output = await exifr.parse(buffer);
 				console.log('exifr flat output:', output);
 				
 				if (output) {
@@ -254,7 +266,7 @@
 									<span>{group.icon}</span>
 									{group.name}
 								</h4>
-								<div class="mt-2 grid gap-2 max-h-64 overflow-y-auto">
+								<div class="mt-2 grid gap-2 overflow-y-auto">
 									{#each group.data as item}
 										<div class="flex justify-between text-sm gap-4">
 											<span class="text-base-content/60 shrink-0">{item.key}</span>
