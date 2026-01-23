@@ -250,6 +250,17 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'JWT Generator', href: '/jwt/generator', description: 'JWT generator online for testing. Create unsigned or demo JWT tokens for UI testing. NOT for production—generates test tokens with custom header and payload.', icon: '⚡' },
 			{ name: 'Size Analyzer', href: '/jwt/size', description: 'JWT size analyzer online. Check JWT token length in characters and bytes. See header vs payload size breakdown and get warnings for oversized tokens.', icon: '📏' }
 		]
+	},
+	{
+		name: 'ID Tools',
+		icon: '🆔',
+		description: 'Free UUID and ID generator tools online. Generate UUID v4, v7, NanoID, and ULID. Validate UUIDs, detect versions, and create unique identifiers—all client-side in your browser.',
+		items: [
+			{ name: 'UUID Generator', href: '/id/uuid-generator', description: 'UUID generator online free. Generate UUID v4 (random) and v7 (time-ordered) with bulk generation up to 100. Copy, export as JSON—create UUIDs instantly.', icon: '🔑' },
+			{ name: 'UUID Validator', href: '/id/uuid-validator', description: 'UUID validator online free. Check if UUID is valid, detect version (v1-v7), and get detailed error explanations. Validate UUID format instantly.', icon: '✓' },
+			{ name: 'NanoID Generator', href: '/id/nanoid-generator', description: 'NanoID generator online free. Generate compact URL-safe unique IDs with custom length and alphabet. Collision probability info—create NanoIDs instantly.', icon: '⚡' },
+			{ name: 'ULID Generator', href: '/id/ulid-generator', description: 'ULID generator online free. Generate sortable unique IDs with timestamp component. See timestamp extraction and sorting demo—create ULIDs instantly.', icon: '📊' }
+		]
 	}
 ];
 
