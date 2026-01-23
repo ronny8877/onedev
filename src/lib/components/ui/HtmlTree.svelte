@@ -101,7 +101,10 @@
 
 	function getDisplayClass(): string {
 		if (!node.className) return '';
-		const classes = node.className.split(' ').slice(0, 2);
+		// className can be SVGAnimatedString for SVG elements, convert to string first
+		const classStr = typeof node.className === 'string' ? node.className : String(node.className);
+		if (!classStr.trim()) return '';
+		const classes = classStr.split(' ').filter(c => c.trim()).slice(0, 2);
 		if (classes.length === 0) return '';
 		return '.' + classes.join('.');
 	}

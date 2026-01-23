@@ -156,6 +156,10 @@ body {
   }
 }
 
+.join {
+  @apply flex gap-2 items-center;
+}
+
 /* Join buttons styling */
 .join .btn {
   @apply first:rounded-l-lg last:rounded-r-lg;

@@ -95,7 +95,7 @@
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} />
 
 		<!-- Controls -->
-		<div class="flex flex-wrap items-center gap-3">
+		<div class="flex items-center gap-3">
 			<button type="button" class="btn btn-primary" onclick={handleGenerate}>
 				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path
@@ -108,14 +108,14 @@
 				Generate
 			</button>
 
-			<div class="join">
+			<div class="flex gap-5">
 				<button
 					type="button"
 					class="btn join-item btn-sm"
 					class:btn-active={language === 'typescript'}
 					onclick={() => (language = 'typescript')}
 				>
-					TypeScript
+					TypeScript <img src="/typescript.png" alt="TypeScript" class="w-4 h-4" />
 				</button>
 				<button
 					type="button"
@@ -123,7 +123,7 @@
 					class:btn-active={language === 'go'}
 					onclick={() => (language = 'go')}
 				>
-					Go
+					Go <img src="/go.png" alt="Go" class="w-4 h-4" />
 				</button>
 			</div>
 

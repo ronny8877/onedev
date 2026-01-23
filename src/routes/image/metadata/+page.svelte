@@ -1,8 +1,5 @@
-<script lang="ts">
-	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
-	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
-	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { readFileAsArrayBuffer, loadImage, loadImageAsCanvas, canvasToBlob, downloadBlob, formatFileSize } from '$lib/utils/image';
+	import exifr from 'exifr';
 
 	let originalFile = $state<File | null>(null);
 	let originalDataURL = $state('');
@@ -17,6 +14,7 @@
 	let exifError = $state('');
 
 	async function handleImageLoad(file: File, dataURL: string) {
+		console.log('Handling image load:', file.name, file.type, file.size);
 		originalFile = file;
 		originalDataURL = dataURL;
 		basicInfo = [];
@@ -25,453 +23,122 @@
 		exifError = '';
 
 		// Get image dimensions
-		const img = await loadImage(dataURL);
+		try {
+			const img = await loadImage(dataURL);
+			
+			// Basic file info (always available)
+			basicInfo = [
+				{ key: 'File Name', value: file.name },
+				{ key: 'File Size', value: formatFileSize(file.size) },
+				{ key: 'File Type', value: file.type || 'Unknown' },
+				{ key: 'Dimensions', value: `${img.width} × ${img.height} pixels` },
+				{ key: 'Aspect Ratio', value: formatAspectRatio(img.width, img.height) },
+				{ key: 'Total Pixels', value: `${(img.width * img.height / 1000000).toFixed(2)} MP` },
+				{ key: 'Last Modified', value: file.lastModified ? new Date(file.lastModified).toLocaleString() : 'Unknown' }
+			];
+		} catch (e) {
+			console.error('Failed to load image preview:', e);
+		}
 
-		// Basic file info (always available)
-		basicInfo = [
-			{ key: 'File Name', value: file.name },
-			{ key: 'File Size', value: formatFileSize(file.size) },
-			{ key: 'File Type', value: file.type || 'Unknown' },
-			{ key: 'Dimensions', value: `${img.width} × ${img.height} pixels` },
-			{ key: 'Aspect Ratio', value: formatAspectRatio(img.width, img.height) },
-			{ key: 'Total Pixels', value: `${(img.width * img.height / 1000000).toFixed(2)} MP` },
-			{ key: 'Last Modified', value: file.lastModified ? new Date(file.lastModified).toLocaleString() : 'Unknown' }
-		];
+		// Try to read Metadata using exifr
+		try {
+			console.log('Starting exifr parse...');
+			// Parse with grouping enabled - try to be as permissive as possible
+			const options = {
+				tiff: true,
+				ifd0: true,
+				exif: true,
+				gps: true,
+				interop: true,
+				xmp: true,
+				jfif: true, 
+				icc: true,
+				iptc: true,
+				mergeOutput: false, // Keep structure
+				sanitize: true,
+				reviveValues: true
+			};
+			
+			let output = await exifr.parse(file, options);
+			console.log('exifr structured output:', output);
 
-		// Try to read EXIF data
-		if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.name.toLowerCase().endsWith('.jpg') || file.name.toLowerCase().endsWith('.jpeg')) {
-			try {
-				const buffer = await readFileAsArrayBuffer(file);
-				const exifData = await parseExifManually(buffer);
-
-				if (exifData && Object.keys(exifData).length > 0) {
-					hasExif = true;
-					exifGroups = organizeExifData(exifData);
+			if (!output || Object.keys(output).length === 0) {
+				console.log('Structured output empty, trying flat parse...');
+				// Fallback to simple parse
+				output = await exifr.parse(file);
+				console.log('exifr flat output:', output);
+				
+				if (output) {
+					// Wrap flat output in a 'General' group
+					output = { 'General': output };
 				}
-			} catch (err) {
-				console.error('EXIF parsing error:', err);
-				exifError = err instanceof Error ? err.message : 'Failed to parse EXIF';
 			}
+
+			if (output && Object.keys(output).length > 0) {
+				hasExif = true;
+				exifGroups = organizeExifData(output);
+				console.log('Organized groups:', exifGroups);
+			} else {
+				console.warn('No metadata found by exifr');
+				exifError = 'No standard metadata found';
+			}
+		} catch (err) {
+			console.error('Metadata parsing error:', err);
+			exifError = err instanceof Error ? err.message : 'Failed to parse metadata';
 		}
 
 		// Prepare stripped version
 		await prepareStripped();
 	}
 
-	function formatAspectRatio(w: number, h: number): string {
-		const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
-		const divisor = gcd(w, h);
-		const rw = w / divisor;
-		const rh = h / divisor;
-		// Simplify common ratios
-		if (rw === 16 && rh === 9) return '16:9';
-		if (rw === 4 && rh === 3) return '4:3';
-		if (rw === 3 && rh === 2) return '3:2';
-		if (rw === 1 && rh === 1) return '1:1';
-		if (rw > 20 || rh > 20) {
-			// Return decimal ratio for unusual aspect ratios
-			return (w / h).toFixed(2) + ':1';
-		}
-		return `${rw}:${rh}`;
-	}
+	// ... formatAspectRatio ...
 
-	async function parseExifManually(buffer: ArrayBuffer): Promise<Record<string, string>> {
-		const view = new DataView(buffer);
-		const result: Record<string, string> = {};
-
-		// Check for JPEG marker
-		if (view.getUint16(0) !== 0xFFD8) {
-			return result;
-		}
-
-		let offset = 2;
-
-		while (offset < view.byteLength - 4) {
-			const marker = view.getUint16(offset);
-
-			// APP1 marker (EXIF)
-			if (marker === 0xFFE1) {
-				const segmentLength = view.getUint16(offset + 2);
-
-				// Check for "Exif\0\0" header
-				const exifHeader = String.fromCharCode(
-					view.getUint8(offset + 4),
-					view.getUint8(offset + 5),
-					view.getUint8(offset + 6),
-					view.getUint8(offset + 7)
-				);
-
-				if (exifHeader === 'Exif') {
-					const tiffOffset = offset + 10;
-
-					// Check byte order
-					const byteOrder = view.getUint16(tiffOffset);
-					const littleEndian = byteOrder === 0x4949;
-
-					// Parse IFD0
-					const ifd0Offset = tiffOffset + view.getUint32(tiffOffset + 4, littleEndian);
-					parseIFD(view, ifd0Offset, tiffOffset, littleEndian, result, 'Image');
-
-					// Look for EXIF SubIFD
-					const exifPointer = result['_ExifOffset'];
-					if (exifPointer) {
-						const exifOffset = tiffOffset + parseInt(exifPointer);
-						parseIFD(view, exifOffset, tiffOffset, littleEndian, result, 'Camera');
-						delete result['_ExifOffset'];
-					}
-
-					// Look for GPS IFD
-					const gpsPointer = result['_GPSInfo'];
-					if (gpsPointer) {
-						const gpsOffset = tiffOffset + parseInt(gpsPointer);
-						parseIFD(view, gpsOffset, tiffOffset, littleEndian, result, 'GPS');
-						delete result['_GPSInfo'];
-					}
-				}
-				break;
-			}
-
-			// Move to next segment
-			if ((marker & 0xFF00) !== 0xFF00) break;
-			offset += 2 + view.getUint16(offset + 2);
-		}
-
-		return result;
-	}
-
-	function parseIFD(view: DataView, offset: number, tiffOffset: number, littleEndian: boolean, result: Record<string, string>, prefix: string) {
-		try {
-			const entryCount = view.getUint16(offset, littleEndian);
-
-			for (let i = 0; i < entryCount; i++) {
-				const entryOffset = offset + 2 + (i * 12);
-
-				if (entryOffset + 12 > view.byteLength) break;
-
-				const tag = view.getUint16(entryOffset, littleEndian);
-				const type = view.getUint16(entryOffset + 2, littleEndian);
-				const count = view.getUint32(entryOffset + 4, littleEndian);
-				const valueOffset = entryOffset + 8;
-
-				const tagName = getTagName(tag, prefix);
-				if (!tagName) continue;
-
-				// Special pointers
-				if (tag === 0x8769) { // ExifOffset
-					result['_ExifOffset'] = view.getUint32(valueOffset, littleEndian).toString();
-					continue;
-				}
-				if (tag === 0x8825) { // GPSInfo
-					result['_GPSInfo'] = view.getUint32(valueOffset, littleEndian).toString();
-					continue;
-				}
-
-				const value = readTagValue(view, type, count, valueOffset, tiffOffset, littleEndian);
-				if (value !== null) {
-					result[`${prefix}: ${tagName}`] = formatTagValue(tag, value);
-				}
-			}
-		} catch (e) {
-			// Silently fail on parse errors
-		}
-	}
-
-	function getTagName(tag: number, prefix: string): string | null {
-		// Comprehensive EXIF tag database
-		const ifd0Tags: Record<number, string> = {
-			// Primary tags (IFD0)
-			0x0100: 'Image Width',
-			0x0101: 'Image Height',
-			0x0102: 'Bits Per Sample',
-			0x0103: 'Compression',
-			0x0106: 'Photometric Interpretation',
-			0x010E: 'Image Description',
-			0x010F: 'Make',
-			0x0110: 'Model',
-			0x0111: 'Strip Offsets',
-			0x0112: 'Orientation',
-			0x0115: 'Samples Per Pixel',
-			0x0116: 'Rows Per Strip',
-			0x0117: 'Strip Byte Counts',
-			0x011A: 'X Resolution',
-			0x011B: 'Y Resolution',
-			0x011C: 'Planar Configuration',
-			0x0128: 'Resolution Unit',
-			0x012D: 'Transfer Function',
-			0x0131: 'Software',
-			0x0132: 'Date/Time',
-			0x013B: 'Artist',
-			0x013E: 'White Point',
-			0x013F: 'Primary Chromaticities',
-			0x0201: 'Thumbnail Offset',
-			0x0202: 'Thumbnail Length',
-			0x0211: 'YCbCr Coefficients',
-			0x0212: 'YCbCr Sub Sampling',
-			0x0213: 'YCbCr Positioning',
-			0x0214: 'Reference Black White',
-			0x8298: 'Copyright',
-			0x8769: 'EXIF Offset',
-			0x8825: 'GPS Info Offset',
-			0xA005: 'Interoperability Offset',
-		};
-
-		const exifTags: Record<number, string> = {
-			// EXIF SubIFD tags
-			0x829A: 'Exposure Time',
-			0x829D: 'F-Number',
-			0x8822: 'Exposure Program',
-			0x8824: 'Spectral Sensitivity',
-			0x8827: 'ISO Speed',
-			0x8828: 'OECF',
-			0x8830: 'Sensitivity Type',
-			0x8831: 'Standard Output Sensitivity',
-			0x8832: 'Recommended Exposure Index',
-			0x8833: 'ISO Speed',
-			0x8834: 'ISO Speed Latitude yyy',
-			0x8835: 'ISO Speed Latitude zzz',
-			0x9000: 'EXIF Version',
-			0x9003: 'Date/Time Original',
-			0x9004: 'Date/Time Digitized',
-			0x9010: 'Offset Time',
-			0x9011: 'Offset Time Original',
-			0x9012: 'Offset Time Digitized',
-			0x9101: 'Components Configuration',
-			0x9102: 'Compressed Bits Per Pixel',
-			0x9201: 'Shutter Speed Value',
-			0x9202: 'Aperture Value',
-			0x9203: 'Brightness Value',
-			0x9204: 'Exposure Bias Value',
-			0x9205: 'Max Aperture Value',
-			0x9206: 'Subject Distance',
-			0x9207: 'Metering Mode',
-			0x9208: 'Light Source',
-			0x9209: 'Flash',
-			0x920A: 'Focal Length',
-			0x9214: 'Subject Area',
-			0x927C: 'Maker Note',
-			0x9286: 'User Comment',
-			0x9290: 'Sub Sec Time',
-			0x9291: 'Sub Sec Time Original',
-			0x9292: 'Sub Sec Time Digitized',
-			0xA000: 'Flashpix Version',
-			0xA001: 'Color Space',
-			0xA002: 'Pixel X Dimension',
-			0xA003: 'Pixel Y Dimension',
-			0xA004: 'Related Sound File',
-			0xA20B: 'Flash Energy',
-			0xA20C: 'Spatial Frequency Response',
-			0xA20E: 'Focal Plane X Resolution',
-			0xA20F: 'Focal Plane Y Resolution',
-			0xA210: 'Focal Plane Resolution Unit',
-			0xA214: 'Subject Location',
-			0xA215: 'Exposure Index',
-			0xA217: 'Sensing Method',
-			0xA300: 'File Source',
-			0xA301: 'Scene Type',
-			0xA302: 'CFA Pattern',
-			0xA401: 'Custom Rendered',
-			0xA402: 'Exposure Mode',
-			0xA403: 'White Balance',
-			0xA404: 'Digital Zoom Ratio',
-			0xA405: 'Focal Length In 35mm Film',
-			0xA406: 'Scene Capture Type',
-			0xA407: 'Gain Control',
-			0xA408: 'Contrast',
-			0xA409: 'Saturation',
-			0xA40A: 'Sharpness',
-			0xA40B: 'Device Setting Description',
-			0xA40C: 'Subject Distance Range',
-			0xA420: 'Image Unique ID',
-			0xA430: 'Camera Owner Name',
-			0xA431: 'Body Serial Number',
-			0xA432: 'Lens Specification',
-			0xA433: 'Lens Make',
-			0xA434: 'Lens Model',
-			0xA435: 'Lens Serial Number',
-			0xA460: 'Composite Image',
-			0xA461: 'Source Image Number Of Composite Image',
-			0xA462: 'Source Exposure Times Of Composite Image',
-			0xA500: 'Gamma',
-		};
-
-		const gpsTags: Record<number, string> = {
-			// GPS tags
-			0x0000: 'GPS Version ID',
-			0x0001: 'GPS Latitude Ref',
-			0x0002: 'GPS Latitude',
-			0x0003: 'GPS Longitude Ref',
-			0x0004: 'GPS Longitude',
-			0x0005: 'GPS Altitude Ref',
-			0x0006: 'GPS Altitude',
-			0x0007: 'GPS Time Stamp',
-			0x0008: 'GPS Satellites',
-			0x0009: 'GPS Status',
-			0x000A: 'GPS Measure Mode',
-			0x000B: 'GPS DOP',
-			0x000C: 'GPS Speed Ref',
-			0x000D: 'GPS Speed',
-			0x000E: 'GPS Track Ref',
-			0x000F: 'GPS Track',
-			0x0010: 'GPS Img Direction Ref',
-			0x0011: 'GPS Img Direction',
-			0x0012: 'GPS Map Datum',
-			0x0013: 'GPS Dest Latitude Ref',
-			0x0014: 'GPS Dest Latitude',
-			0x0015: 'GPS Dest Longitude Ref',
-			0x0016: 'GPS Dest Longitude',
-			0x0017: 'GPS Dest Bearing Ref',
-			0x0018: 'GPS Dest Bearing',
-			0x0019: 'GPS Dest Distance Ref',
-			0x001A: 'GPS Dest Distance',
-			0x001B: 'GPS Processing Method',
-			0x001C: 'GPS Area Information',
-			0x001D: 'GPS Date Stamp',
-			0x001E: 'GPS Differential',
-			0x001F: 'GPS H Positioning Error',
-		};
-
-		// Select appropriate tag set based on prefix
-		if (prefix === 'GPS') {
-			return gpsTags[tag] || `Unknown GPS Tag (0x${tag.toString(16).toUpperCase()})`;
-		} else if (prefix === 'Camera') {
-			return exifTags[tag] || `Unknown EXIF Tag (0x${tag.toString(16).toUpperCase()})`;
-		} else {
-			return ifd0Tags[tag] || exifTags[tag] || `Unknown Tag (0x${tag.toString(16).toUpperCase()})`;
-		}
-	}
-
-	function readTagValue(view: DataView, type: number, count: number, valueOffset: number, tiffOffset: number, littleEndian: boolean): unknown {
-		try {
-			const typeSize = [0, 1, 1, 2, 4, 8, 1, 1, 2, 4, 8, 4, 8][type] || 0;
-			const totalSize = typeSize * count;
-			let dataOffset = valueOffset;
-
-			if (totalSize > 4) {
-				dataOffset = tiffOffset + view.getUint32(valueOffset, littleEndian);
-				if (dataOffset + totalSize > view.byteLength) return null;
-			}
-
-			switch (type) {
-				case 1: // BYTE
-				case 7: // UNDEFINED
-					return view.getUint8(dataOffset);
-				case 2: // ASCII
-					let str = '';
-					for (let i = 0; i < count - 1 && dataOffset + i < view.byteLength; i++) {
-						const char = view.getUint8(dataOffset + i);
-						if (char === 0) break;
-						str += String.fromCharCode(char);
-					}
-					return str.trim();
-				case 3: // SHORT
-					return view.getUint16(dataOffset, littleEndian);
-				case 4: // LONG
-					return view.getUint32(dataOffset, littleEndian);
-				case 5: // RATIONAL
-					const num = view.getUint32(dataOffset, littleEndian);
-					const den = view.getUint32(dataOffset + 4, littleEndian);
-					return den !== 0 ? num / den : 0;
-				case 10: // SRATIONAL
-					const snum = view.getInt32(dataOffset, littleEndian);
-					const sden = view.getInt32(dataOffset + 4, littleEndian);
-					return sden !== 0 ? snum / sden : 0;
-				default:
-					return null;
-			}
-		} catch {
-			return null;
-		}
-	}
-
-	function formatTagValue(tag: number, value: unknown): string {
-		if (value === null || value === undefined) return 'N/A';
-
-		// Format specific tags
-		if (tag === 0x829A && typeof value === 'number') {
-			// Exposure time
-			if (value < 1) return `1/${Math.round(1 / value)}s`;
-			return `${value}s`;
-		}
-		if (tag === 0x829D && typeof value === 'number') {
-			// F-number
-			return `f/${value.toFixed(1)}`;
-		}
-		if (tag === 0x920A && typeof value === 'number') {
-			// Focal length
-			return `${value.toFixed(1)}mm`;
-		}
-		if (tag === 0x9209 && typeof value === 'number') {
-			// Flash
-			return value & 1 ? 'Fired' : 'Did not fire';
-		}
-
-		if (typeof value === 'number') {
-			return Number.isInteger(value) ? value.toString() : value.toFixed(2);
-		}
-
-		return String(value);
-	}
-
-	function organizeExifData(data: Record<string, string>): { name: string; icon: string; data: { key: string; value: string }[] }[] {
+	function organizeExifData(data: any): { name: string; icon: string; data: { key: string; value: string }[] }[] {
 		const groups: { name: string; icon: string; data: { key: string; value: string }[] }[] = [];
 
-		const imageData = Object.entries(data)
-			.filter(([k]) => k.startsWith('Image:'))
-			.map(([k, v]) => ({ key: k.replace('Image: ', ''), value: v }));
+		const formatValue = (v: any): string => {
+			if (v instanceof Date) return v.toLocaleString();
+			if (v instanceof Uint8Array || v instanceof Uint16Array || (v && v.type === 'Buffer')) return `[Binary Data: ${v.length || v.byteLength} bytes]`;
+			if (Array.isArray(v)) return v.map(formatValue).join(', ');
+			if (typeof v === 'object' && v !== null) return JSON.stringify(v);
+			if (typeof v === 'number') return Number.isInteger(v) ? v.toString() : v.toFixed(4).replace(/\.?0+$/, '');
+			return String(v);
+		};
 
-		// Exposure related camera data
-		const exposureData = Object.entries(data)
-			.filter(([k]) => k.startsWith('Camera:') && 
-				(k.includes('Exposure') || k.includes('ISO') || k.includes('Shutter') || 
-				 k.includes('Aperture') || k.includes('F-Number') || k.includes('Flash') ||
-				 k.includes('Metering') || k.includes('White Balance')))
-			.map(([k, v]) => ({ key: k.replace('Camera: ', ''), value: v }));
+		const processGroup = (groupName: string, icon: string, groupData: any) => {
+			if (!groupData) return;
+			const items = Object.entries(groupData).map(([k, v]) => {
+				return { key: k, value: formatValue(v) };
+			});
+			if (items.length > 0) {
+				groups.push({ name: groupName, icon, data: items });
+			}
+		};
 
-		// Lens and focus data
-		const lensData = Object.entries(data)
-			.filter(([k]) => k.startsWith('Camera:') && 
-				(k.includes('Focal') || k.includes('Lens') || k.includes('Subject') || k.includes('Focus')))
-			.map(([k, v]) => ({ key: k.replace('Camera: ', ''), value: v }));
-
-		// Other camera data
-		const otherCameraData = Object.entries(data)
-			.filter(([k]) => k.startsWith('Camera:') && 
-				!exposureData.some(e => k.includes(e.key)) &&
-				!lensData.some(l => k.includes(l.key)))
-			.map(([k, v]) => ({ key: k.replace('Camera: ', ''), value: v }));
-
-		const gpsData = Object.entries(data)
-			.filter(([k]) => k.startsWith('GPS:'))
-			.map(([k, v]) => ({ key: k.replace('GPS: ', ''), value: v }));
-
-		// Unknown/Other tags
-		const unknownData = Object.entries(data)
-			.filter(([k]) => k.includes('Unknown'))
-			.map(([k, v]) => ({ key: k.replace(/^[^:]+: /, ''), value: v }));
-
-		if (imageData.length > 0) {
-			groups.push({ name: 'Image Info', icon: '🖼️', data: imageData });
-		}
-		if (exposureData.length > 0) {
-			groups.push({ name: 'Exposure Settings', icon: '📸', data: exposureData });
-		}
-		if (lensData.length > 0) {
-			groups.push({ name: 'Lens & Focus', icon: '🔍', data: lensData });
-		}
-		if (otherCameraData.length > 0) {
-			groups.push({ name: 'Camera Details', icon: '📷', data: otherCameraData });
-		}
-		if (gpsData.length > 0) {
-			groups.push({ name: 'Location (GPS)', icon: '📍', data: gpsData });
-		}
-		if (unknownData.length > 0) {
-			groups.push({ name: 'Additional Data', icon: '📋', data: unknownData });
-		}
+		// Map exifr groups to UI
+		if (data.ifd0) processGroup('Image Info (IFD0)', '🖼️', data.ifd0);
+		if (data.exif) processGroup('EXIF Parameters', '📸', data.exif);
+		if (data.gps) processGroup('GPS Location', '📍', data.gps);
+		if (data.interop) processGroup('Interoperability', '🔌', data.interop);
+		if (data.thumbnail) processGroup('Thumbnail Specs', '🖼️', data.thumbnail);
+		if (data.ifd1) processGroup('IFD1 (Thumbnail)', '🖼️', data.ifd1);
+		if (data.xmp) processGroup('XMP Metadata', '📝', data.xmp);
+		if (data.iptc) processGroup('IPTC Metadata', '�', data.iptc);
+		if (data.icc) processGroup('ICC Profile', '🎨', data.icc);
+		if (data.jfif) processGroup('JFIF', 'ℹ️', data.jfif);
+		
+		// Fallback for flat data or unknown groups
+		Object.keys(data).forEach(key => {
+			if (!['ifd0', 'exif', 'gps', 'interop', 'ifd1', 'xmp', 'jfif', 'thumbnail', 'iptc', 'icc'].includes(key)) {
+				processGroup(key.charAt(0).toUpperCase() + key.slice(1), '📁', data[key]);
+			}
+		});
 
 		return groups;
 	}
 
 	async function prepareStripped() {
+		// ... existing code ...
 		if (!originalDataURL) return;
 
 		try {
@@ -483,6 +150,7 @@
 	}
 
 	function downloadStripped() {
+		// ... existing code ...
 		if (!strippedBlob || !originalFile) return;
 		const name = originalFile.name.replace(/\.[^/.]+$/, '');
 		const ext = originalFile.name.split('.').pop() || 'jpg';
@@ -500,12 +168,23 @@
 	}
 
 	async function loadSample() {
-		const res = await fetch('https://images.unsplash.com/photo-1517336714731-489689fd1ca4?w=800&q=80');
-		const blob = await res.blob();
-		const file = new File([blob], 'laptop.jpg', { type: 'image/jpeg' });
-		const reader = new FileReader();
-		reader.onload = (e) => handleImageLoad(file, e.target?.result as string);
-		reader.readAsDataURL(file);
+		try {
+			console.log('Loading sample image...');
+			const res = await fetch('https://images.unsplash.com/photo-1517336714731-489689fd1ca4?w=800&q=80');
+			if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+			const blob = await res.blob();
+			const file = new File([blob], 'laptop.jpg', { type: 'image/jpeg' });
+			const reader = new FileReader();
+			reader.onload = (e) => handleImageLoad(file, e.target?.result as string);
+			reader.onerror = (e) => {
+				console.error('FileReader error:', e);
+				exifError = 'Failed to read sample file';
+			};
+			reader.readAsDataURL(file);
+		} catch (e) {
+			console.error('Sample load failed:', e);
+			exifError = 'Failed to load sample image (check network)';
+		}
 	}
 </script>
 

@@ -88,28 +88,78 @@
 					<div class="space-y-2">
 						{#each shadows as shadow, index}
 							<div 
-								class="flex items-center justify-between p-3 rounded-xl cursor-pointer transition-colors {selectedShadow === index ? 'bg-primary/15 ring-2 ring-primary/30' : 'bg-base-300 hover:bg-base-300/70'}"
+								class="flex items-center justify-between p-3 rounded-xl cursor-pointer transition-colors border border-transparent {selectedShadow === index ? 'bg-primary/10 border-primary/20' : 'bg-base-300 hover:bg-base-300/70'}"
 								onclick={() => selectedShadow = index}
 								role="button"
 								tabindex="0"
+								onkeydown={(e) => e.key === 'Enter' && (selectedShadow = index)}
 							>
 								<div class="flex items-center gap-3">
-									<div 
-										class="w-10 h-10 bg-base-100 rounded-lg"
-										style="box-shadow: {shadow.inset ? 'inset ' : ''}{shadow.x}px {shadow.y}px {shadow.blur}px {shadow.spread}px {shadow.color};"
-									></div>
+									<!-- Mini Preview with Checkerboard -->
+									<div class="w-10 h-10 rounded-lg bg-base-100 relative overflow-hidden ring-1 ring-base-content/10">
+										<div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 4px 4px;"></div>
+										<div 
+											class="absolute inset-2 bg-white rounded-sm"
+											style="box-shadow: {shadow.inset ? 'inset ' : ''}{shadow.x}px {shadow.y}px {shadow.blur}px {shadow.spread}px {shadow.color};"
+										></div>
+									</div>
 									<div>
-										<div class="text-sm font-medium">{shadow.inset ? 'Inset ' : ''}Shadow {index + 1}</div>
-										<div class="text-xs text-base-content/50 font-mono">{shadow.x}, {shadow.y}, {shadow.blur}, {shadow.spread}</div>
+										<div class="text-sm font-medium flex items-center gap-2">
+											<span>{shadow.inset ? 'Inset ' : ''}Layer {index + 1}</span>
+											{#if index === 0}
+												<span class="badge badge-xs badge-neutral">Top</span>
+											{/if}
+										</div>
+										<div class="text-xs text-base-content/50 font-mono mt-0.5">
+											{shadow.x}px {shadow.y}px {shadow.blur}px {shadow.color}
+										</div>
 									</div>
 								</div>
-								<button 
-									class="btn btn-xs btn-ghost text-error"
-									onclick={(e) => { e.stopPropagation(); removeShadow(index); }}
-									disabled={shadows.length <= 1}
-								>
-									✕
-								</button>
+								
+								<div class="flex items-center gap-1">
+									<!-- Reorder Buttons -->
+									<div class="flex flex-col gap-0.5 mr-2">
+										<button 
+											class="btn btn-xs btn-ghost btn-square h-4 min-h-0 w-6" 
+											disabled={index === 0}
+											onclick={(e) => {
+												e.stopPropagation();
+												if (index > 0) {
+													const newShadows = [...shadows];
+													[newShadows[index - 1], newShadows[index]] = [newShadows[index], newShadows[index - 1]];
+													shadows = newShadows;
+													if (selectedShadow === index) selectedShadow = index - 1;
+													else if (selectedShadow === index - 1) selectedShadow = index;
+												}
+											}}
+											title="Move Up"
+										>▲</button>
+										<button 
+											class="btn btn-xs btn-ghost btn-square h-4 min-h-0 w-6"
+											disabled={index === shadows.length - 1}
+											onclick={(e) => {
+												e.stopPropagation();
+												if (index < shadows.length - 1) {
+													const newShadows = [...shadows];
+													[newShadows[index + 1], newShadows[index]] = [newShadows[index], newShadows[index + 1]];
+													shadows = newShadows;
+													if (selectedShadow === index) selectedShadow = index + 1;
+													else if (selectedShadow === index + 1) selectedShadow = index;
+												}
+											}}
+											title="Move Down"
+										>▼</button>
+									</div>
+
+									<button 
+										class="btn btn-xs btn-ghost btn-square text-error hover:bg-error/10"
+										onclick={(e) => { e.stopPropagation(); removeShadow(index); }}
+										disabled={shadows.length <= 1}
+										title="Remove Layer"
+									>
+										✕
+									</button>
+								</div>
 							</div>
 						{/each}
 					</div>

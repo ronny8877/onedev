@@ -138,25 +138,6 @@
 				Compare
 			</button>
 
-			<div class="join">
-				<button
-					type="button"
-					class="btn join-item btn-sm"
-					class:btn-active={viewMode === 'side-by-side'}
-					onclick={() => (viewMode = 'side-by-side')}
-				>
-					Side by Side
-				</button>
-				<button
-					type="button"
-					class="btn join-item btn-sm"
-					class:btn-active={viewMode === 'inline'}
-					onclick={() => (viewMode = 'inline')}
-				>
-					Inline
-				</button>
-			</div>
-
 			<label class="label cursor-pointer gap-2">
 				<input type="checkbox" class="checkbox checkbox-sm" bind:checked={ignoreKeyOrder} />
 				<span class="label-text">Ignore key order</span>
@@ -182,9 +163,36 @@
 		<!-- Diff Results -->
 		{#if diffs.length > 0}
 			<div class="rounded-xl border border-base-300 bg-base-200 p-4">
-				<h3 class="mb-4 font-semibold">
-					Differences Found: {diffs.length}
-				</h3>
+				<div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+					<h3 class="font-semibold">
+						Differences Found: {diffs.length}
+					</h3>
+					<!-- View Mode Toggle - Only visible when diff is shown -->
+					<div class="join">
+						<button
+							type="button"
+							class="btn join-item btn-sm"
+							class:btn-active={viewMode === 'side-by-side'}
+							onclick={() => (viewMode = 'side-by-side')}
+						>
+							<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"></path>
+							</svg>
+							Side by Side
+						</button>
+						<button
+							type="button"
+							class="btn join-item btn-sm"
+							class:btn-active={viewMode === 'inline'}
+							onclick={() => (viewMode = 'inline')}
+						>
+							<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+							</svg>
+							Inline
+						</button>
+					</div>
+				</div>
 
 				{#key viewMode}
 					<div class="space-y-3">

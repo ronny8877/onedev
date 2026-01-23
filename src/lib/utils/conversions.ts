@@ -224,14 +224,18 @@ export function msToHumanReadable(ms: number): string {
 // Data / File Size
 // ============================================================================
 
-export type DataSizeUnit = 'bits' | 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'KiB' | 'MiB' | 'GiB' | 'TiB';
+export type DataSizeUnit = 'bits' | 'nibbles' | 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'KiB' | 'MiB' | 'GiB' | 'TiB' | 'PiB';
 
 const BITS_PER_BYTE = 8;
+const BITS_PER_NIBBLE = 4;
 const DECIMAL_BASE = 1000;
 const BINARY_BASE = 1024;
 
 export const bitsToBytes = (bits: number): number => bits / BITS_PER_BYTE;
 export const bytesToBits = (bytes: number): number => bytes * BITS_PER_BYTE;
+
+export const nibblesToBytes = (nibbles: number): number => (nibbles * BITS_PER_NIBBLE) / BITS_PER_BYTE;
+export const bytesToNibbles = (bytes: number): number => (bytes * BITS_PER_BYTE) / BITS_PER_NIBBLE;
 
 // Decimal (SI) units - base 1000
 export const bytesToKB = (bytes: number): number => bytes / DECIMAL_BASE;
@@ -246,6 +250,9 @@ export const gbToBytes = (gb: number): number => gb * (DECIMAL_BASE ** 3);
 export const bytesToTB = (bytes: number): number => bytes / (DECIMAL_BASE ** 4);
 export const tbToBytes = (tb: number): number => tb * (DECIMAL_BASE ** 4);
 
+export const bytesToPB = (bytes: number): number => bytes / (DECIMAL_BASE ** 5);
+export const pbToBytes = (pb: number): number => pb * (DECIMAL_BASE ** 5);
+
 // Binary (IEC) units - base 1024
 export const bytesToKiB = (bytes: number): number => bytes / BINARY_BASE;
 export const kibToBytes = (kib: number): number => kib * BINARY_BASE;
@@ -259,28 +266,34 @@ export const gibToBytes = (gib: number): number => gib * (BINARY_BASE ** 3);
 export const bytesToTiB = (bytes: number): number => bytes / (BINARY_BASE ** 4);
 export const tibToBytes = (tib: number): number => tib * (BINARY_BASE ** 4);
 
+export const bytesToPiB = (bytes: number): number => bytes / (BINARY_BASE ** 5);
+export const pibToBytes = (pib: number): number => pib * (BINARY_BASE ** 5);
+
 // Get all data size conversions from bytes
 export function getAllDataSizeUnits(bytes: number) {
 	return {
 		bits: bytesToBits(bytes),
+		nibbles: bytesToNibbles(bytes),
 		bytes,
 		// Decimal (SI)
 		KB: bytesToKB(bytes),
 		MB: bytesToMB(bytes),
 		GB: bytesToGB(bytes),
 		TB: bytesToTB(bytes),
+		PB: bytesToPB(bytes),
 		// Binary (IEC)
 		KiB: bytesToKiB(bytes),
 		MiB: bytesToMiB(bytes),
 		GiB: bytesToGiB(bytes),
 		TiB: bytesToTiB(bytes),
+		PiB: bytesToPiB(bytes),
 	};
 }
 
 // Format data size with appropriate unit
 export function formatDataSize(bytes: number, binary = false): string {
 	const base = binary ? BINARY_BASE : DECIMAL_BASE;
-	const units = binary ? ['B', 'KiB', 'MiB', 'GiB', 'TiB'] : ['B', 'KB', 'MB', 'GB', 'TB'];
+	const units = binary ? ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'] : ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 	
 	let unitIndex = 0;
 	let value = bytes;
@@ -407,6 +420,7 @@ export interface RGB { r: number; g: number; b: number; }
 export interface RGBA extends RGB { a: number; }
 export interface HSL { h: number; s: number; l: number; }
 export interface HSLA extends HSL { a: number; }
+export interface CMYK { c: number; m: number; y: number; k: number; }
 
 // HEX to RGB
 export function hexToRgb(hex: string): RGB | null {
@@ -492,6 +506,47 @@ export function hslToRgb(h: number, s: number, l: number): RGB {
 	};
 }
 
+// RGB to CMYK
+export function rgbToCmyk(r: number, g: number, b: number): CMYK {
+	let c = 1 - (r / 255);
+	let m = 1 - (g / 255);
+	let y = 1 - (b / 255);
+	let k = Math.min(c, Math.min(m, y));
+	
+	c = (c - k) / (1 - k);
+	m = (m - k) / (1 - k);
+	y = (y - k) / (1 - k);
+	
+	if (isNaN(c)) c = 0;
+	if (isNaN(m)) m = 0;
+	if (isNaN(y)) y = 0;
+	
+	return {
+		c: Math.round(c * 100),
+		m: Math.round(m * 100),
+		y: Math.round(y * 100),
+		k: Math.round(k * 100)
+	};
+}
+
+// CMYK to RGB
+export function cmykToRgb(c: number, m: number, y: number, k: number): RGB {
+	c = c / 100;
+	m = m / 100;
+	y = y / 100;
+	k = k / 100;
+	
+	const r = 1 - Math.min(1, c * (1 - k) + k);
+	const g = 1 - Math.min(1, m * (1 - k) + k);
+	const b = 1 - Math.min(1, y * (1 - k) + k);
+	
+	return {
+		r: Math.round(r * 255),
+		g: Math.round(g * 255),
+		b: Math.round(b * 255)
+	};
+}
+
 // HEX to HSL
 export function hexToHsl(hex: string): HSL | null {
 	const rgb = hexToRgb(hex);
@@ -522,6 +577,7 @@ export const formatRgb = (r: number, g: number, b: number): string => `rgb(${r},
 export const formatRgba = (r: number, g: number, b: number, a: number): string => `rgba(${r}, ${g}, ${b}, ${a})`;
 export const formatHsl = (h: number, s: number, l: number): string => `hsl(${Math.round(h)}, ${Math.round(s)}%, ${Math.round(l)}%)`;
 export const formatHsla = (h: number, s: number, l: number, a: number): string => `hsla(${Math.round(h)}, ${Math.round(s)}%, ${Math.round(l)}%, ${a})`;
+export const formatCmyk = (c: number, m: number, y: number, k: number): string => `cmyk(${Math.round(c)}%, ${Math.round(m)}%, ${Math.round(y)}%, ${Math.round(k)}%)`;
 
 // Get all color conversions from HEX
 export function getAllColorFormats(hex: string) {

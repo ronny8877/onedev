@@ -112,7 +112,13 @@ export function encodeBase64(input: string): string {
 	try {
 		// Handle UTF-8 properly
 		const utf8Bytes = new TextEncoder().encode(input);
-		const binary = String.fromCharCode(...utf8Bytes);
+		// Use chunked approach to avoid stack overflow with large files
+		const CHUNK_SIZE = 8192;
+		let binary = '';
+		for (let i = 0; i < utf8Bytes.length; i += CHUNK_SIZE) {
+			const chunk = utf8Bytes.subarray(i, i + CHUNK_SIZE);
+			binary += String.fromCharCode.apply(null, Array.from(chunk));
+		}
 		return btoa(binary);
 	} catch (err) {
 		throw new Error('Failed to encode: ' + (err as Error).message);

@@ -6,7 +6,7 @@
 	import { getAllDataSizeUnits, formatDataSize, formatNumber } from '$lib/utils/conversions';
 
 	let inputValue = $state('1024');
-	let inputUnit = $state<'bits' | 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'KiB' | 'MiB' | 'GiB' | 'TiB'>('bytes');
+	let inputUnit = $state<'bits' | 'nibbles' | 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'KiB' | 'MiB' | 'GiB' | 'TiB' | 'PiB'>('bytes');
 	let useBinary = $state(true); // true = 1024-based (IEC), false = 1000-based (SI)
 
 	// Parse input
@@ -14,17 +14,19 @@
 
 	// Convert to bytes first (base unit)
 	let bytesValue = $derived(() => {
-		const base = useBinary ? 1024 : 1000;
 		switch (inputUnit) {
 			case 'bits': return numValue / 8;
+			case 'nibbles': return numValue / 2;
 			case 'KB': return numValue * 1000;
 			case 'MB': return numValue * 1000 ** 2;
 			case 'GB': return numValue * 1000 ** 3;
 			case 'TB': return numValue * 1000 ** 4;
+			case 'PB': return numValue * 1000 ** 5;
 			case 'KiB': return numValue * 1024;
 			case 'MiB': return numValue * 1024 ** 2;
 			case 'GiB': return numValue * 1024 ** 3;
 			case 'TiB': return numValue * 1024 ** 4;
+			case 'PiB': return numValue * 1024 ** 5;
 			default: return numValue; // bytes
 		}
 	});
@@ -42,6 +44,7 @@
 
 	// Quick presets
 	const presets = [
+		{ label: '1 Nibble', bytes: 0.5 },
 		{ label: '1 KB', bytes: 1000 },
 		{ label: '1 KiB', bytes: 1024 },
 		{ label: '1 MB', bytes: 1000000 },
@@ -62,7 +65,7 @@
 </script>
 
 <ToolWrapper
-	keywords={['data size converter', 'bytes to mb', 'kb to gb', 'file size calculator', 'binary vs decimal']}
+	keywords={['data size converter', 'bytes to mb', 'kb to gb', 'file size calculator', 'binary vs decimal', 'nibbles']}
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
@@ -80,9 +83,10 @@
 						class="input input-bordered flex-1 font-mono text-lg"
 						step="any"
 					/>
-					<select bind:value={inputUnit} class="select select-bordered w-24">
+					<select bind:value={inputUnit} class="select select-bordered w-28">
 						<optgroup label="Base">
 							<option value="bits">bits</option>
+							<option value="nibbles">nibbles</option>
 							<option value="bytes">bytes</option>
 						</optgroup>
 						<optgroup label="Decimal (SI)">
@@ -90,12 +94,14 @@
 							<option value="MB">MB</option>
 							<option value="GB">GB</option>
 							<option value="TB">TB</option>
+							<option value="PB">PB</option>
 						</optgroup>
 						<optgroup label="Binary (IEC)">
 							<option value="KiB">KiB</option>
 							<option value="MiB">MiB</option>
 							<option value="GiB">GiB</option>
 							<option value="TiB">TiB</option>
+							<option value="PiB">PiB</option>
 						</optgroup>
 					</select>
 				</div>

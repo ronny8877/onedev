@@ -93,62 +93,80 @@
 		<!-- Settings -->
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body p-4">
-				<h3 class="text-sm font-semibold mb-3">Base Settings</h3>
+				<div class="flex items-center justify-between mb-3">
+					<h3 class="text-sm font-semibold">Base Settings</h3>
+					<button 
+						type="button" 
+						class="btn btn-ghost btn-xs gap-1"
+						onclick={() => {
+							baseFontSize = 16;
+							parentFontSize = 16;
+							viewportWidth = 1920;
+							viewportHeight = 1080;
+							baseForPercent = 100;
+						}}
+					>
+						<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+						</svg>
+						Reset
+					</button>
+				</div>
 				<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
 					<div>
 						<label class="label pb-1">
 							<span class="label-text text-xs">Base Font Size (root)</span>
 						</label>
-						<div class="input-group">
+						<div class="flex">
 							<input
 								type="number"
 								bind:value={baseFontSize}
-								class="input input-bordered input-sm w-full font-mono"
+								class="input input-bordered input-sm flex-1 font-mono rounded-r-none"
 								min="1"
 							/>
-							<span class="bg-base-300 px-2 text-sm">px</span>
+							<span class="flex items-center px-3 bg-base-300 text-sm rounded-r-lg border border-l-0 border-base-300">px</span>
 						</div>
 					</div>
 					<div>
 						<label class="label pb-1">
 							<span class="label-text text-xs">Parent Font Size (em)</span>
 						</label>
-						<div class="input-group">
+						<div class="flex">
 							<input
 								type="number"
 								bind:value={parentFontSize}
-								class="input input-bordered input-sm w-full font-mono"
+								class="input input-bordered input-sm flex-1 font-mono rounded-r-none"
 								min="1"
 							/>
-							<span class="bg-base-300 px-2 text-sm">px</span>
+							<span class="flex items-center px-3 bg-base-300 text-sm rounded-r-lg border border-l-0 border-base-300">px</span>
 						</div>
 					</div>
 					<div>
 						<label class="label pb-1">
 							<span class="label-text text-xs">Viewport Width</span>
 						</label>
-						<div class="input-group">
+						<div class="flex">
 							<input
 								type="number"
 								bind:value={viewportWidth}
-								class="input input-bordered input-sm w-full font-mono"
+								class="input input-bordered input-sm flex-1 font-mono rounded-r-none"
 								min="1"
 							/>
-							<span class="bg-base-300 px-2 text-sm">px</span>
+							<span class="flex items-center px-3 bg-base-300 text-sm rounded-r-lg border border-l-0 border-base-300">px</span>
 						</div>
 					</div>
 					<div>
 						<label class="label pb-1">
 							<span class="label-text text-xs">Viewport Height</span>
 						</label>
-						<div class="input-group">
+						<div class="flex">
 							<input
 								type="number"
 								bind:value={viewportHeight}
-								class="input input-bordered input-sm w-full font-mono"
+								class="input input-bordered input-sm flex-1 font-mono rounded-r-none"
 								min="1"
 							/>
-							<span class="bg-base-300 px-2 text-sm">px</span>
+							<span class="flex items-center px-3 bg-base-300 text-sm rounded-r-lg border border-l-0 border-base-300">px</span>
 						</div>
 					</div>
 				</div>

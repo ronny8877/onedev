@@ -11,7 +11,7 @@
 	} from '$lib/utils/conversions';
 
 	let inputValue = $state('#FF5733');
-	let inputType = $state<'hex' | 'rgb' | 'hsl'>('hex');
+	let inputType = $state<'auto' | 'hex' | 'rgb' | 'hsl' | 'cmyk'>('auto');
 
 	// Parse based on input type
 	let parsedColor = $derived(() => {
@@ -19,11 +19,23 @@
 		if (!cleaned) return null;
 
 		try {
-			if (inputType === 'hex') {
+			// Auto-detection logic
+			let type = inputType;
+			if (inputType === 'auto') {
+				if (cleaned.startsWith('#') || /^[0-9A-Fa-f]{3,6}$/.test(cleaned)) type = 'hex';
+				else if (cleaned.toLowerCase().startsWith('rgb')) type = 'rgb';
+				else if (cleaned.toLowerCase().startsWith('hsl')) type = 'hsl';
+				else if (cleaned.toLowerCase().startsWith('cmyk')) type = 'cmyk';
+				// Default to hex if 3/6 chars of hex chars
+				else if (/^[0-9A-Fa-f]{3}$|^[0-9A-Fa-f]{6}$/.test(cleaned)) type = 'hex';
+				else return null;
+			}
+
+			if (type === 'hex') {
 				const rgb = hexToRgb(cleaned);
 				if (!rgb) return null;
 				return { ...rgb, a: 1 };
-			} else if (inputType === 'rgb') {
+			} else if (type === 'rgb') {
 				const match = cleaned.match(/rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+))?\s*\)/i);
 				if (!match) return null;
 				return {
@@ -32,7 +44,7 @@
 					b: Math.min(255, Math.max(0, parseInt(match[3]))),
 					a: match[4] ? parseFloat(match[4]) : 1
 				};
-			} else if (inputType === 'hsl') {
+			} else if (type === 'hsl') {
 				const match = cleaned.match(/hsla?\s*\(\s*([\d.]+)\s*,\s*([\d.]+)%?\s*,\s*([\d.]+)%?\s*(?:,\s*([\d.]+))?\s*\)/i);
 				if (!match) return null;
 				const h = parseFloat(match[1]) % 360;
@@ -40,6 +52,15 @@
 				const l = Math.min(100, Math.max(0, parseFloat(match[3])));
 				const rgb = hslToRgb(h, s, l);
 				return { ...rgb, a: match[4] ? parseFloat(match[4]) : 1 };
+			} else if (type === 'cmyk') {
+				const match = cleaned.match(/cmyk\s*\(\s*(\d+)%?\s*,\s*(\d+)%?\s*,\s*(\d+)%?\s*,\s*(\d+)%?\s*\)/i);
+				if (!match) return null;
+				const c = Math.min(100, Math.max(0, parseFloat(match[1])));
+				const m = Math.min(100, Math.max(0, parseFloat(match[2])));
+				const y = Math.min(100, Math.max(0, parseFloat(match[3])));
+				const k = Math.min(100, Math.max(0, parseFloat(match[4])));
+				const rgb = cmykToRgb(c, m, y, k);
+				return { ...rgb, a: 1 };
 			}
 		} catch {
 			return null;
@@ -56,6 +77,7 @@
 
 		const hex = rgbToHex(color.r, color.g, color.b);
 		const hsl = rgbToHsl(color.r, color.g, color.b);
+		const cmyk = rgbToCmyk(color.r, color.g, color.b);
 		
 		return {
 			hex,
@@ -64,6 +86,7 @@
 			rgba: formatRgba(color.r, color.g, color.b, color.a),
 			hsl: formatHsl(hsl.h, hsl.s, hsl.l),
 			hsla: formatHsla(hsl.h, hsl.s, hsl.l, color.a),
+			cmyk: formatCmyk(cmyk.c, cmyk.m, cmyk.y, cmyk.k),
 			values: {
 				r: color.r,
 				g: color.g,
@@ -71,14 +94,18 @@
 				a: color.a,
 				h: hsl.h,
 				s: hsl.s,
-				l: hsl.l
+				l: hsl.l,
+				c: cmyk.c,
+				m: cmyk.m,
+				y: cmyk.y,
+				k: cmyk.k
 			}
 		};
 	});
 
 	function loadSample() {
 		inputValue = '#3B82F6';
-		inputType = 'hex';
+		inputType = 'auto';
 	}
 
 	function clearAll() {
@@ -109,13 +136,14 @@
 			case 'hex': return '#FF5733 or FF5733';
 			case 'rgb': return 'rgb(255, 87, 51) or rgba(...)';
 			case 'hsl': return 'hsl(9, 100%, 60%) or hsla(...)';
-			default: return 'Enter color...';
+			case 'cmyk': return 'cmyk(0, 100, 100, 0)';
+			default: return 'Paste any color format (#hex, rgb, hsl, cmyk)...';
 		}
 	});
 </script>
 
 <ToolWrapper
-	keywords={['color converter', 'hex to rgb', 'rgb to hsl', 'color picker', 'color format converter']}
+	keywords={['color converter', 'hex to rgb', 'rgb to hsl', 'color picker', 'color format converter', 'cmyk conversion']}
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
@@ -133,14 +161,16 @@
 						class="input input-bordered flex-1 font-mono"
 						class:input-error={inputValue.trim() && !isValid}
 					/>
-					<select bind:value={inputType} class="select select-bordered w-24">
+					<select bind:value={inputType} class="select select-bordered w-28">
+						<option value="auto">Auto</option>
 						<option value="hex">HEX</option>
 						<option value="rgb">RGB</option>
 						<option value="hsl">HSL</option>
+						<option value="cmyk">CMYK</option>
 					</select>
 				</div>
 				{#if inputValue.trim() && !isValid}
-					<p class="text-error text-sm mt-2">Invalid color format</p>
+					<p class="text-error text-sm mt-2">Invalid or unrecognized color format</p>
 				{/if}
 				<div class="mt-3 flex flex-wrap gap-1">
 					{#each colorPresets as preset}
@@ -160,15 +190,17 @@
 			{@const formats = colorFormats()!}
 			
 			<!-- Color Preview -->
-			<div class="card rounded-2xl overflow-hidden" style="background: linear-gradient(135deg, {formats.hex}, {formats.hex}80);">
-				<div class="card-body p-6">
-					<div class="flex items-center justify-between">
+			<div class="card rounded-2xl overflow-hidden" style="background: linear-gradient(135deg, {formats.hex}, {formats.hex});">
+				<div class="card-body p-6 relative overflow-hidden">
+					<div class="absolute inset-0 bg-black/10"></div>
+					<div class="relative flex items-center justify-between">
 						<div>
-							<div class="text-white/80 text-sm mb-1">Preview</div>
-							<div class="text-white text-2xl font-mono font-bold drop-shadow">{formats.hex}</div>
+							<div class="text-white/80 text-sm mb-1 font-medium">Preview</div>
+							<div class="text-white text-3xl font-mono font-bold drop-shadow-md tracking-wider">{formats.hex}</div>
+							<div class="text-white/60 text-sm mt-1 font-mono">{formats.rgb}</div>
 						</div>
 						<div 
-							class="w-20 h-20 rounded-2xl shadow-lg border-4 border-white/30"
+							class="w-24 h-24 rounded-2xl shadow-xl border-4 border-white/40 backdrop-blur-sm"
 							style="background-color: {formats.hex};"
 						></div>
 					</div>
@@ -239,34 +271,23 @@
 					</div>
 				</ConversionGroup>
 
-				<ConversionGroup title="Individual Values" icon="📊">
-					<div class="grid grid-cols-3 gap-2">
-						<div class="p-2 rounded-lg bg-base-300/50 text-center">
-							<div class="text-xs text-base-content/60">R</div>
-							<div class="font-mono font-bold text-red-500">{formats.values.r}</div>
+				<ConversionGroup title="CMYK Format" icon="🖨️">
+					<div class="p-3 rounded-xl bg-base-300/50 group flex items-center justify-between">
+						<div>
+							<div class="text-xs text-base-content/60 mb-1">CMYK</div>
+							<code class="text-lg font-mono font-bold">{formats.cmyk}</code>
 						</div>
-						<div class="p-2 rounded-lg bg-base-300/50 text-center">
-							<div class="text-xs text-base-content/60">G</div>
-							<div class="font-mono font-bold text-green-500">{formats.values.g}</div>
-						</div>
-						<div class="p-2 rounded-lg bg-base-300/50 text-center">
-							<div class="text-xs text-base-content/60">B</div>
-							<div class="font-mono font-bold text-blue-500">{formats.values.b}</div>
+						<div class="opacity-0 group-hover:opacity-100 transition-opacity">
+							<CopyButton text={formats.cmyk} label="" size="xs" />
 						</div>
 					</div>
-					<div class="grid grid-cols-3 gap-2 mt-2">
-						<div class="p-2 rounded-lg bg-base-300/50 text-center">
-							<div class="text-xs text-base-content/60">H</div>
-							<div class="font-mono font-bold">{Math.round(formats.values.h)}°</div>
-						</div>
-						<div class="p-2 rounded-lg bg-base-300/50 text-center">
-							<div class="text-xs text-base-content/60">S</div>
-							<div class="font-mono font-bold">{Math.round(formats.values.s)}%</div>
-						</div>
-						<div class="p-2 rounded-lg bg-base-300/50 text-center">
-							<div class="text-xs text-base-content/60">L</div>
-							<div class="font-mono font-bold">{Math.round(formats.values.l)}%</div>
-						</div>
+					<div class="grid grid-cols-4 gap-2 mt-2">
+						{#each ['c', 'm', 'y', 'k'] as char}
+							<div class="text-center p-2 bg-base-100 rounded-lg">
+								<div class="text-xs text-base-content/60 uppercase">{char}</div>
+								<div class="font-mono font-bold">{formats.values[char as keyof typeof formats.values]}</div>
+							</div>
+						{/each}
 					</div>
 				</ConversionGroup>
 			</div>
@@ -277,70 +298,99 @@
 					<h3 class="text-sm font-semibold mb-3">Component Breakdown</h3>
 					
 					<!-- RGB Bars -->
-					<div class="space-y-2 mb-4">
-						<div class="flex items-center gap-3">
-							<span class="w-8 text-sm text-red-500">R</span>
-							<div class="flex-1 h-4 bg-base-300 rounded-full overflow-hidden">
-								<div 
-									class="h-full bg-red-500 transition-all"
-									style="width: {(formats.values.r / 255) * 100}%;"
-								></div>
+					<div class="space-y-4">
+						<div>
+							<div class="text-xs font-semibold mb-2 opacity-70">RGB</div>
+							<div class="space-y-2">
+								<div class="flex items-center gap-3">
+									<span class="w-4 text-sm font-mono text-red-500">R</span>
+									<div class="flex-1 h-2 bg-base-300 rounded-full overflow-hidden">
+										<div class="h-full bg-red-500 transition-all" style="width: {(formats.values.r / 255) * 100}%;"></div>
+									</div>
+									<span class="w-8 text-sm font-mono text-right opacity-60">{formats.values.r}</span>
+								</div>
+								<div class="flex items-center gap-3">
+									<span class="w-4 text-sm font-mono text-green-500">G</span>
+									<div class="flex-1 h-2 bg-base-300 rounded-full overflow-hidden">
+										<div class="h-full bg-green-500 transition-all" style="width: {(formats.values.g / 255) * 100}%;"></div>
+									</div>
+									<span class="w-8 text-sm font-mono text-right opacity-60">{formats.values.g}</span>
+								</div>
+								<div class="flex items-center gap-3">
+									<span class="w-4 text-sm font-mono text-blue-500">B</span>
+									<div class="flex-1 h-2 bg-base-300 rounded-full overflow-hidden">
+										<div class="h-full bg-blue-500 transition-all" style="width: {(formats.values.b / 255) * 100}%;"></div>
+									</div>
+									<span class="w-8 text-sm font-mono text-right opacity-60">{formats.values.b}</span>
+								</div>
 							</div>
-							<span class="w-10 text-sm font-mono text-right">{formats.values.r}</span>
 						</div>
-						<div class="flex items-center gap-3">
-							<span class="w-8 text-sm text-green-500">G</span>
-							<div class="flex-1 h-4 bg-base-300 rounded-full overflow-hidden">
-								<div 
-									class="h-full bg-green-500 transition-all"
-									style="width: {(formats.values.g / 255) * 100}%;"
-								></div>
-							</div>
-							<span class="w-10 text-sm font-mono text-right">{formats.values.g}</span>
-						</div>
-						<div class="flex items-center gap-3">
-							<span class="w-8 text-sm text-blue-500">B</span>
-							<div class="flex-1 h-4 bg-base-300 rounded-full overflow-hidden">
-								<div 
-									class="h-full bg-blue-500 transition-all"
-									style="width: {(formats.values.b / 255) * 100}%;"
-								></div>
-							</div>
-							<span class="w-10 text-sm font-mono text-right">{formats.values.b}</span>
-						</div>
-					</div>
 
-					<!-- HSL Bars -->
-					<div class="space-y-2">
-						<div class="flex items-center gap-3">
-							<span class="w-8 text-sm">H</span>
-							<div class="flex-1 h-4 rounded-full overflow-hidden" style="background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);">
-								<div 
-									class="h-full w-1 bg-white border border-black/20 rounded transition-all"
-									style="margin-left: {(formats.values.h / 360) * 100}%;"
-								></div>
+						<div class="divider my-0"></div>
+
+						<!-- HSL Bars -->
+						<div>
+							<div class="text-xs font-semibold mb-2 opacity-70">HSL</div>
+							<div class="space-y-2">
+								<div class="flex items-center gap-3">
+									<span class="w-4 text-sm font-mono">H</span>
+									<div class="flex-1 h-2 rounded-full overflow-hidden" style="background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);">
+										<div class="h-full w-1 bg-white ring-1 ring-black/20" style="margin-left: {(formats.values.h / 360) * 100}%;"></div>
+									</div>
+									<span class="w-8 text-sm font-mono text-right opacity-60">{Math.round(formats.values.h)}°</span>
+								</div>
+								<div class="flex items-center gap-3">
+									<span class="w-4 text-sm font-mono">S</span>
+									<div class="flex-1 h-2 bg-base-300 rounded-full overflow-hidden">
+										<div class="h-full bg-base-content transition-all" style="width: {formats.values.s}%;"></div>
+									</div>
+									<span class="w-8 text-sm font-mono text-right opacity-60">{Math.round(formats.values.s)}%</span>
+								</div>
+								<div class="flex items-center gap-3">
+									<span class="w-4 text-sm font-mono">L</span>
+									<div class="flex-1 h-2 bg-base-300 rounded-full overflow-hidden">
+										<div class="h-full bg-base-content transition-all" style="width: {formats.values.l}%;"></div>
+									</div>
+									<span class="w-8 text-sm font-mono text-right opacity-60">{Math.round(formats.values.l)}%</span>
+								</div>
 							</div>
-							<span class="w-10 text-sm font-mono text-right">{Math.round(formats.values.h)}°</span>
 						</div>
-						<div class="flex items-center gap-3">
-							<span class="w-8 text-sm">S</span>
-							<div class="flex-1 h-4 bg-base-300 rounded-full overflow-hidden">
-								<div 
-									class="h-full transition-all"
-									style="width: {formats.values.s}%; background-color: {formats.hex};"
-								></div>
+
+						<div class="divider my-0"></div>
+
+						<!-- CMYK Bars -->
+						<div>
+							<div class="text-xs font-semibold mb-2 opacity-70">CMYK</div>
+							<div class="space-y-2">
+								<div class="flex items-center gap-3">
+									<span class="w-4 text-sm font-mono text-cyan-500">C</span>
+									<div class="flex-1 h-2 bg-base-300 rounded-full overflow-hidden">
+										<div class="h-full bg-cyan-500 transition-all" style="width: {formats.values.c}%;"></div>
+									</div>
+									<span class="w-8 text-sm font-mono text-right opacity-60">{formats.values.c}</span>
+								</div>
+								<div class="flex items-center gap-3">
+									<span class="w-4 text-sm font-mono text-magenta-500">M</span>
+									<div class="flex-1 h-2 bg-base-300 rounded-full overflow-hidden">
+										<div class="h-full bg-fuchsia-500 transition-all" style="width: {formats.values.m}%;"></div>
+									</div>
+									<span class="w-8 text-sm font-mono text-right opacity-60">{formats.values.m}</span>
+								</div>
+								<div class="flex items-center gap-3">
+									<span class="w-4 text-sm font-mono text-yellow-500">Y</span>
+									<div class="flex-1 h-2 bg-base-300 rounded-full overflow-hidden">
+										<div class="h-full bg-yellow-500 transition-all" style="width: {formats.values.y}%;"></div>
+									</div>
+									<span class="w-8 text-sm font-mono text-right opacity-60">{formats.values.y}</span>
+								</div>
+								<div class="flex items-center gap-3">
+									<span class="w-4 text-sm font-mono text-black">K</span>
+									<div class="flex-1 h-2 bg-base-300 rounded-full overflow-hidden">
+										<div class="h-full bg-black transition-all" style="width: {formats.values.k}%;"></div>
+									</div>
+									<span class="w-8 text-sm font-mono text-right opacity-60">{formats.values.k}</span>
+								</div>
 							</div>
-							<span class="w-10 text-sm font-mono text-right">{Math.round(formats.values.s)}%</span>
-						</div>
-						<div class="flex items-center gap-3">
-							<span class="w-8 text-sm">L</span>
-							<div class="flex-1 h-4 rounded-full overflow-hidden" style="background: linear-gradient(to right, #000, #888, #fff);">
-								<div 
-									class="h-full w-1 bg-white border border-black/20 rounded transition-all"
-									style="margin-left: {formats.values.l}%;"
-								></div>
-							</div>
-							<span class="w-10 text-sm font-mono text-right">{Math.round(formats.values.l)}%</span>
 						</div>
 					</div>
 				</div>
@@ -349,9 +399,9 @@
 			<div class="card bg-error/10 rounded-2xl">
 				<div class="card-body items-center text-center py-8">
 					<span class="text-3xl mb-2">⚠️</span>
-					<p class="text-error">Invalid color format</p>
+					<p class="text-error">Invalid or unrecognized color format</p>
 					<p class="text-sm text-base-content/60 mt-2">
-						Try: #FF5733, rgb(255, 87, 51), or hsl(9, 100%, 60%)
+						Try: #FF5733, rgb(255, 87, 51), hsl(9, 100%, 60%), or cmyk(0, 50, 50, 0)
 					</p>
 				</div>
 			</div>
@@ -359,7 +409,8 @@
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body items-center text-center py-12">
 					<span class="text-4xl mb-2">🎨</span>
-					<p class="text-base-content/60">Enter a color above to see conversions</p>
+					<p class="text-base-content/60">Enter a color code to see conversions</p>
+					<p class="text-xs text-base-content/40 mt-1">Supports HEX, RGB, HSL, CMYK</p>
 				</div>
 			</div>
 		{/if}
@@ -372,6 +423,7 @@
 					<p><strong>HEX:</strong> #RRGGBB or #RGB (3-digit shorthand)</p>
 					<p><strong>RGB:</strong> rgb(red, green, blue) — values 0-255</p>
 					<p><strong>HSL:</strong> hsl(hue, saturation%, lightness%)</p>
+					<p><strong>CMYK:</strong> cmyk(cyan, magenta, yellow, key) — values 0-100</p>
 					<p class="text-xs mt-2">Add 'a' for alpha: rgba(..., 0.5) or hsla(..., 0.5)</p>
 				</div>
 			</div>

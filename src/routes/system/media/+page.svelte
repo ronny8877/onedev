@@ -339,13 +339,13 @@
 								</span>
 								<button class="btn btn-ghost btn-xs" onclick={stopVideoPreview}>Close</button>
 							</div>
-							<div class="relative rounded-2xl overflow-hidden bg-black">
+							<div class="relative rounded-2xl overflow-hidden bg-black flex justify-center">
 								<video 
 									bind:this={videoRef} 
 									autoplay 
 									playsinline 
 									muted 
-									class="w-full max-h-72 object-cover"
+									class="max-w-full h-auto rounded-2xl"
 								></video>
 							</div>
 						</div>

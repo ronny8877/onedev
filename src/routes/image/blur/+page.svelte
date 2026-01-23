@@ -84,13 +84,45 @@
 				// Apply effects to patches
 				for (const patch of patches) {
 					if (mode === 'blur') {
+						// For blur, we need to clip to avoid bleeding outside the patch
+						ctx.save();
+						ctx.beginPath();
+						ctx.rect(patch.x, patch.y, patch.width, patch.height);
+						ctx.clip();
+						
+						// Draw the blurred version of the region with padding for better blur
+						const padding = blurIntensity * 2;
 						const tempCanvas = document.createElement('canvas');
-						tempCanvas.width = patch.width;
-						tempCanvas.height = patch.height;
+						tempCanvas.width = patch.width + padding * 2;
+						tempCanvas.height = patch.height + padding * 2;
 						const tempCtx = tempCanvas.getContext('2d')!;
+						
+						// Draw source region with padding
+						tempCtx.drawImage(
+							img, 
+							Math.max(0, patch.x - padding), 
+							Math.max(0, patch.y - padding), 
+							patch.width + padding * 2, 
+							patch.height + padding * 2, 
+							0, 0, 
+							tempCanvas.width, 
+							tempCanvas.height
+						);
+						
+						// Apply blur to the temp canvas
 						tempCtx.filter = `blur(${blurIntensity}px)`;
-						tempCtx.drawImage(img, patch.x, patch.y, patch.width, patch.height, 0, 0, patch.width, patch.height);
-						ctx.drawImage(tempCanvas, patch.x, patch.y);
+						tempCtx.drawImage(tempCanvas, 0, 0);
+						tempCtx.filter = 'none';
+						
+						// Draw back to main canvas (clipped)
+						ctx.drawImage(
+							tempCanvas, 
+							padding, padding, 
+							patch.width, patch.height,
+							patch.x, patch.y, 
+							patch.width, patch.height
+						);
+						ctx.restore();
 					} else {
 						applyPixelate(ctx, img, patch.x, patch.y, patch.width, patch.height, pixelSize);
 					}

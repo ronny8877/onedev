@@ -108,8 +108,8 @@
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} {stats} />
 
 		<!-- Controls -->
-		<div class="flex flex-wrap items-center gap-3">
-			<div class="join">
+		<div class="flex flex-wrap items-center gap-5">
+			<div class="flex gap-5">
 				<button
 					type="button"
 					class="btn join-item"
@@ -118,11 +118,12 @@
 				>
 					Auto
 				</button>
-				<button
-					type="button"
-					class="btn join-item"
-					class:btn-primary={mode === 'encode'}
-					onclick={() => (mode = 'encode')}
+				<div class="flex gap-1">
+					<button
+						type="button"
+						class="btn join-item"
+						class:btn-primary={mode === 'encode'}
+						onclick={() => (mode = 'encode')}
 				>
 					Encode
 				</button>
@@ -134,6 +135,7 @@
 				>
 					Decode
 				</button>
+				</div>
 			</div>
 
 			{#if mode === 'auto' && input.trim()}

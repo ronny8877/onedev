@@ -102,10 +102,10 @@
 
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
-			<div class="join">
+			<div class="flex gap-3">
 				<button
 					type="button"
-					class="btn join-item"
+					class="btn"
 					class:btn-info={mode === 'auto'}
 					onclick={() => (mode = 'auto')}
 				>
@@ -114,7 +114,7 @@
 				</button>
 				<button
 					type="button"
-					class="btn join-item"
+					class="btn"
 					class:btn-info={mode === 'encode'}
 					onclick={() => (mode = 'encode')}
 				>
@@ -122,7 +122,7 @@
 				</button>
 				<button
 					type="button"
-					class="btn join-item"
+					class="btn"
 					class:btn-info={mode === 'decode'}
 					onclick={() => (mode = 'decode')}
 				>
@@ -146,7 +146,7 @@
 
 			{#if output}
 				<button type="button" class="btn btn-ghost btn-sm ml-auto" onclick={swapInputOutput}>
-					Swap Inputs
+					Swap Inputs 
 				</button>
 			{/if}
 		</div>

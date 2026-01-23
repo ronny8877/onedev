@@ -51,7 +51,7 @@
 			return {
 				tag: el.tagName.toLowerCase(),
 				id: el.id || undefined,
-				className: el.className || undefined,
+				className: el.className ? (typeof el.className === 'string' ? el.className : String(el.className)) : undefined,
 				attributes: attrs,
 				children,
 				text: textContent || undefined,
@@ -306,7 +306,7 @@
 										<span class="badge badge-warning badge-sm font-mono">#{selectedDetails.id}</span>
 									{/if}
 									{#if selectedDetails.className}
-										<span class="badge badge-success badge-sm font-mono">.{selectedDetails.className.split(' ')[0]}</span>
+										<span class="badge badge-success badge-sm font-mono">.{(selectedDetails.className || '').split(' ')[0]}</span>
 									{/if}
 								</div>
 							</div>

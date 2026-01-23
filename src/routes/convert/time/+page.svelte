@@ -103,13 +103,47 @@
 
 		<!-- Results -->
 		{#if numValue}
-			<!-- Human Readable -->
-			<div class="card bg-primary/10 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-1">Human Readable</h3>
-					<code class="text-2xl font-mono font-bold text-primary">
-						{conversions.humanReadable}
-					</code>
+			<!-- Human Readable & Timeline -->
+			<div class="grid gap-6 md:grid-cols-2">
+				<div class="card bg-primary/10 rounded-2xl">
+					<div class="card-body p-4 justify-center">
+						<h3 class="text-sm font-semibold mb-1 text-primary/70">Human Readable</h3>
+						<code class="text-2xl font-mono font-bold text-primary break-all">
+							{conversions.humanReadable}
+						</code>
+					</div>
+				</div>
+
+				<!-- Visual Timeline -->
+				<div class="card bg-base-200 rounded-2xl overflow-hidden">
+					<div class="card-body p-4">
+						<h3 class="text-sm font-semibold mb-3">Timeline Visualization</h3>
+						<div class="relative h-8 bg-base-300 rounded-full overflow-hidden">
+							<div 
+								class="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-secondary transition-all duration-300"
+								style="width: {timelinePercentage}%;"
+							></div>
+							<!-- Hour markers -->
+							{#each Array(24) as _, i}
+								<div 
+									class="absolute top-0 bottom-0 w-px bg-base-content/10"
+									style="left: {(i / 24) * 100}%;"
+								></div>
+							{/each}
+						</div>
+						<div class="flex justify-between mt-1 text-xs text-base-content/60">
+							<span>0h</span>
+							<span>12h</span>
+							<span>24h</span>
+						</div>
+						<p class="text-xs text-base-content/60 mt-2 text-center">
+							{#if msValue() > 86400000}
+								Duration exceeds 24 hours ({formatNumber(conversions.days)} days)
+							{:else}
+								{formatNumber((msValue() / 86400000) * 100)}% of a day
+							{/if}
+						</p>
+					</div>
 				</div>
 			</div>
 
@@ -173,40 +207,6 @@
 						description="(remainder)"
 					/>
 				</ConversionGroup>
-			</div>
-
-			<!-- Visual Timeline -->
-			<div class="card bg-base-200 rounded-2xl overflow-hidden">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-3">Timeline Visualization</h3>
-					<div class="relative h-8 bg-base-300 rounded-full overflow-hidden">
-						<div 
-							class="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-secondary transition-all duration-300"
-							style="width: {timelinePercentage}%;"
-						></div>
-						<!-- Hour markers -->
-						{#each Array(24) as _, i}
-							<div 
-								class="absolute top-0 bottom-0 w-px bg-base-content/10"
-								style="left: {(i / 24) * 100}%;"
-							></div>
-						{/each}
-					</div>
-					<div class="flex justify-between mt-1 text-xs text-base-content/60">
-						<span>0h</span>
-						<span>6h</span>
-						<span>12h</span>
-						<span>18h</span>
-						<span>24h</span>
-					</div>
-					<p class="text-xs text-base-content/60 mt-2 text-center">
-						{#if msValue() > 86400000}
-							Duration exceeds 24 hours ({formatNumber(conversions.days)} days)
-						{:else}
-							{formatNumber((msValue() / 86400000) * 100)}% of a day
-						{/if}
-					</p>
-				</div>
 			</div>
 		{:else}
 			<div class="card bg-base-200 rounded-2xl">
