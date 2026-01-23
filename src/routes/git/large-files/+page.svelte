@@ -28,11 +28,16 @@ logs/app.log                        15 MB
 package.json                        1.2 KB`;
 
 	function parseSize(sizeStr: string): number {
-		const match = sizeStr.match(/([\d.]+)\s*(B|KB|MB|GB)?/i);
+		const match = sizeStr.match(/([\d.]+)\s*(B|KB|MB|GB|K|M|G)?/i);
 		if (!match) return 0;
 		
 		const num = parseFloat(match[1]);
-		const unit = (match[2] || 'B').toUpperCase();
+		let unit = (match[2] || 'B').toUpperCase();
+		
+		// Normalize short units (K -> KB, M -> MB, G -> GB)
+		if (unit === 'K') unit = 'KB';
+		if (unit === 'M') unit = 'MB';
+		if (unit === 'G') unit = 'GB';
 		
 		const multipliers: Record<string, number> = {
 			'B': 1,
@@ -56,14 +61,32 @@ package.json                        1.2 KB`;
 		const files: FileEntry[] = [];
 		
 		for (const line of lines) {
-			const match = line.match(/^(.+?)\s+([\d.]+\s*(?:B|KB|MB|GB))\s*$/i);
+			// Pattern 1: filename    size (original format)
+			let match = line.match(/^(.+?)\s+([\d.]+\s*(?:B|KB|MB|GB|K|M|G))\s*$/i);
+			
+			// Pattern 2: size    filename (du format: "4.0K    ./file.txt" or "100M    ./dir")
+			if (!match) {
+				match = line.match(/^\s*([\d.]+\s*(?:B|KB|MB|GB|K|M|G)?)\s+(.+?)\s*$/i);
+				if (match) {
+					// Swap to normalize: [full, size, name]
+					const temp = match[1];
+					match[1] = match[2];
+					match[2] = temp;
+				}
+			}
+			
 			if (match) {
 				const sizeBytes = parseSize(match[2]);
-				const sizeMatch = match[2].match(/([\d.]+)\s*(B|KB|MB|GB)?/i);
+				const sizeMatch = match[2].match(/([\d.]+)\s*(B|KB|MB|GB|K|M|G)?/i);
+				let unit = (sizeMatch?.[2] || 'B').toUpperCase();
+				if (unit === 'K') unit = 'KB';
+				if (unit === 'M') unit = 'MB';
+				if (unit === 'G') unit = 'GB';
+				
 				files.push({
-					name: match[1].trim(),
+					name: match[1].trim().replace(/^\.\//, ''), // Remove ./ prefix
 					size: parseFloat(sizeMatch?.[1] || '0'),
-					unit: (sizeMatch?.[2]?.toUpperCase() || 'B') as FileEntry['unit'],
+					unit: unit as FileEntry['unit'],
 					sizeBytes
 				});
 			}
@@ -84,17 +107,25 @@ package.json                        1.2 KB`;
 	let largeFiles = $derived(files.filter(f => f.sizeBytes >= thresholdBytes));
 	let totalLargeSize = $derived(largeFiles.reduce((acc, f) => acc + f.sizeBytes, 0));
 
-	// Dynamic find command based on threshold
-	let findCommand = $derived.by(() => {
+	// Commands based on threshold
+	let commands = $derived.by(() => {
 		let sizeArg = '';
 		if (thresholdUnit === 'B') {
-			sizeArg = `+${threshold}c`; // c = bytes
+			sizeArg = `+${threshold}c`;
 		} else if (thresholdUnit === 'KB') {
 			sizeArg = `+${threshold}k`;
 		} else {
 			sizeArg = `+${threshold}M`;
 		}
-		return `find . -size ${sizeArg} -type f`;
+		
+		return {
+			// Find command with human-readable output
+			find: `find . -type f -size ${sizeArg} -exec ls -lh {} \\;`,
+			// du command for Mac/Linux - shows size then path
+			du: `du -ah . | awk '$1 ~ /[0-9]+[MGK]/ {print}'`,
+			// du with sort for finding largest
+			duSort: `du -ah . 2>/dev/null | sort -rh | head -20`,
+			};
 	});
 
 	// Generate .gitattributes for LFS
@@ -113,6 +144,19 @@ package.json                        1.2 KB`;
 
 	function clearAll() {
 		input = '';
+	}
+
+	function loadDuSample() {
+		input = `4.0K	./README.md
+16K	./package.json
+256K	./src/app.ts
+2.5M	./public/hero.png
+45M	./assets/video.mp4
+120M	./data/backup.sql
+1.2G	./archive/old-data.tar.gz
+890M	./design/mockups.psd
+15M	./logs/combined.log
+450K	./dist/bundle.js`;
 	}
 
 	function getBarWidth(bytes: number): number {
@@ -138,16 +182,62 @@ package.json                        1.2 KB`;
 
 <ToolWrapper>
 	<div class="flex flex-col gap-6">
+		<!-- Commands to Generate Output -->
+		<div class="card bg-info/10 border border-info/30 rounded-xl">
+			<div class="card-body py-4">
+				<h4 class="text-sm font-semibold text-info flex items-center gap-2 mb-3">
+					<span>📋</span>
+					Copy a Command, Run It, Paste the Output Below
+				</h4>
+				<div class="space-y-2">
+					<div>
+						<p class="text-xs text-base-content/50 mb-1">Find large files (shows size + path)</p>
+						<div class="flex items-center justify-between gap-2 p-2 bg-base-200 rounded-lg">
+							<code class="font-mono text-xs flex-1 overflow-x-auto">{commands.duSort}</code>
+							<CopyButton text={commands.duSort} size="xs" />
+						</div>
+					</div>
+					<details class="text-sm">
+						<summary class="text-xs text-base-content/50 cursor-pointer hover:text-base-content/70">
+							More commands...
+						</summary>
+						<div class="space-y-2 mt-2">
+							<div>
+								<p class="text-xs text-base-content/50 mb-1">All files with sizes</p>
+								<div class="flex items-center justify-between gap-2 p-2 bg-base-200 rounded-lg">
+									<code class="font-mono text-xs flex-1 overflow-x-auto">{commands.du}</code>
+									<CopyButton text={commands.du} size="xs" />
+								</div>
+							</div>
+							<div>
+								<p class="text-xs text-base-content/50 mb-1">Find files over threshold</p>
+								<div class="flex items-center justify-between gap-2 p-2 bg-base-200 rounded-lg">
+									<code class="font-mono text-xs flex-1 overflow-x-auto">{commands.find}</code>
+									<CopyButton text={commands.find} size="xs" />
+								</div>
+							</div>
+						</div>
+					</details>
+				</div>
+			</div>
+		</div>
+
 		<!-- Actions -->
-		<ToolActions onSample={loadSample} onClear={clearAll} />
+		<div class="flex items-center gap-2 flex-wrap">
+			<button class="btn btn-sm btn-primary" onclick={loadSample}>📄 Sample (ls format)</button>
+			<button class="btn btn-sm btn-secondary" onclick={loadDuSample}>📄 Sample (du format)</button>
+			<button class="btn btn-sm btn-ghost" onclick={clearAll}>Clear</button>
+		</div>
 
 		<!-- Input -->
 		<div>
-			<h3 class="text-sm font-medium text-base-content/70 mb-2">Paste File List</h3>
-			<p class="text-xs text-base-content/50 mb-2">Paste output from <code class="px-1 bg-base-300 rounded">ls -lh</code> or similar</p>
+			<h3 class="text-sm font-medium text-base-content/70 mb-2">Paste Output</h3>
+			<p class="text-xs text-base-content/50 mb-2">
+				Supports both formats: <code class="px-1 bg-base-300 rounded">filename 2.5M</code> or <code class="px-1 bg-base-300 rounded">2.5M filename</code>
+			</p>
 			<textarea
 				bind:value={input}
-				placeholder="filename.txt    2.5 MB&#10;large-video.mp4    150 MB&#10;data.csv    1.2 GB"
+				placeholder="4.0K    ./README.md&#10;2.5M    ./public/hero.png&#10;45M     ./assets/video.mp4&#10;&#10;OR&#10;&#10;hero.png    2.5 MB&#10;video.mp4   45 MB"
 				class="textarea textarea-bordered w-full font-mono text-sm rounded-xl h-48"
 				spellcheck="false"
 			></textarea>
@@ -234,8 +324,8 @@ package.json                        1.2 KB`;
 		{#if files.length > 0}
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
-					<h3 class="font-semibold mb-4">File Sizes</h3>
-					<div class="space-y-3">
+					<h3 class="font-semibold mb-4">File Sizes ({files.length} files)</h3>
+					<div class="space-y-3 max-h-[400px] overflow-y-auto">
 						{#each files as file}
 							{@const isLarge = file.sizeBytes >= thresholdBytes}
 							<div class="flex items-center gap-3">
@@ -267,42 +357,30 @@ package.json                        1.2 KB`;
 
 		<!-- Git LFS Recommendation -->
 		{#if largeFiles.length > 0}
-			<div class="card bg-info/10 border border-info/30 rounded-xl">
+			<div class="card bg-base-200 rounded-xl">
 				<div class="card-body py-4">
-					<h4 class="text-sm font-semibold text-info flex items-center gap-2">
+					<h4 class="text-sm font-semibold flex items-center gap-2">
 						<span>💡</span>
-						Git LFS Recommendation
+						Git LFS Setup
 					</h4>
 					<div class="space-y-3 mt-3">
 						<div>
 							<p class="text-xs text-base-content/50 mb-1">1. Install Git LFS</p>
-							<code class="block font-mono text-sm p-2 bg-base-300/50 rounded-lg">git lfs install</code>
+							<div class="flex items-center justify-between gap-2 p-2 bg-base-300/50 rounded-lg">
+								<code class="font-mono text-sm">git lfs install</code>
+								<CopyButton text="git lfs install" size="xs" />
+							</div>
 						</div>
 						<div>
-							<p class="text-xs text-base-content/50 mb-1">2. Track large file types</p>
+							<p class="text-xs text-base-content/50 mb-1">2. Add to .gitattributes</p>
 							<div class="flex items-center justify-between gap-2 p-2 bg-base-300/50 rounded-lg">
 								<pre class="font-mono text-sm flex-1 whitespace-pre-wrap">{gitattributes}</pre>
-								<CopyButton text={gitattributes} size="sm" />
+								<CopyButton text={gitattributes} size="xs" />
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		{/if}
-
-		<!-- Finding Commands -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Finding Large Files</h4>
-				<div class="grid gap-2 mt-2 text-sm font-mono">
-					<div class="flex items-center justify-between gap-2 p-2 bg-base-300/50 rounded-lg">
-						<code>{findCommand}</code>
-						<CopyButton text={findCommand} size="sm" />
-					</div>
-					<div class="p-2 bg-base-300/50 rounded-lg">du -sh * | sort -h <span class="text-base-content/50"># Size by folder</span></div>
-					<div class="p-2 bg-base-300/50 rounded-lg">git rev-list --objects --all | git cat-file --batch-check <span class="text-base-content/50"># In git history</span></div>
-				</div>
-			</div>
-		</div>
 	</div>
 </ToolWrapper>

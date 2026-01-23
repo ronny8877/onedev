@@ -238,6 +238,18 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Regex Explainer', href: '/regex/explainer', description: 'Regex explainer online. Break down regex patterns into tokens with plain English explanations. Understand any regex visually—free regex breakdown tool.', icon: '📖' },
 			{ name: 'Regex Cheat Sheet', href: '/regex/cheatsheet', description: 'Regex cheat sheet online. Complete regex syntax reference with examples: character classes, quantifiers, anchors, groups, and flags. Free regex guide.', icon: '📋' }
 		]
+	},
+	{
+		name: 'JWT',
+		icon: '🔐',
+		description: 'Free JWT decoder and tools online. Decode JSON Web Tokens, check expiration, view claims, generate test tokens, and analyze token size—all client-side in your browser.',
+		items: [
+			{ name: 'JWT Decoder', href: '/jwt/decoder', description: 'JWT decoder online free. Decode JWT header and payload instantly. View algorithm, claims, and expiration in pretty JSON format—no signature verification, client-side only.', icon: '🔓' },
+			{ name: 'Expiration Checker', href: '/jwt/expiration', description: 'JWT expiration checker online. Check if your JWT is expired, see time remaining, and view exp/iat/nbf timestamps in human-readable format with timezone support.', icon: '⏱️' },
+			{ name: 'Claims Viewer', href: '/jwt/claims', description: 'JWT claims viewer online. View and understand all JWT claims with descriptions. Highlights standard claims (iss, sub, aud, exp) and flags missing recommended claims.', icon: '📋' },
+			{ name: 'JWT Generator', href: '/jwt/generator', description: 'JWT generator online for testing. Create unsigned or demo JWT tokens for UI testing. NOT for production—generates test tokens with custom header and payload.', icon: '⚡' },
+			{ name: 'Size Analyzer', href: '/jwt/size', description: 'JWT size analyzer online. Check JWT token length in characters and bytes. See header vs payload size breakdown and get warnings for oversized tokens.', icon: '📏' }
+		]
 	}
 ];
 
