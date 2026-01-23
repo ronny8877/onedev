@@ -50,6 +50,8 @@
 		"@lezer/highlight": "^1.2.3",
 		"browser-image-compression": "^2.0.2",
 		"codemirror": "^6.0.2",
+		"croner": "^9.1.0",
+		"cronstrue": "^3.9.0",
 		"exifr": "^7.1.3",
 		"extract-colors": "^4.2.1",
 		"gpt-tokenizer": "^3.4.0",

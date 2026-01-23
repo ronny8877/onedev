@@ -261,6 +261,19 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'NanoID Generator', href: '/id/nanoid-generator', description: 'NanoID generator online free. Generate compact URL-safe unique IDs with custom length and alphabet. Collision probability info—create NanoIDs instantly.', icon: '⚡' },
 			{ name: 'ULID Generator', href: '/id/ulid-generator', description: 'ULID generator online free. Generate sortable unique IDs with timestamp component. See timestamp extraction and sorting demo—create ULIDs instantly.', icon: '📊' }
 		]
+	},
+	{
+		name: 'Cron',
+		icon: '⏰',
+		description: 'Free cron expression tools online. Generate, explain, validate cron expressions. Calculate next run times with timezone support—all client-side in your browser.',
+		items: [
+			{ name: 'Cron Generator', href: '/cron/generator', description: 'Cron expression generator online free. Visual cron builder with presets. Generate 5-field or Quartz cron expressions—create cron schedules instantly.', icon: '🛠️' },
+			{ name: 'Cron Explainer', href: '/cron/explainer', description: 'Cron expression explainer online. Convert cron to plain English with field breakdown. Understand any cron schedule—explain cron expressions free.', icon: '📖' },
+			{ name: 'Next Run Calculator', href: '/cron/next-run', description: 'Cron next run calculator online. Show next 10 scheduled runs with timezone support. DST-safe cron schedule preview—free cron calculator.', icon: '📅' },
+			{ name: 'Cron Validator', href: '/cron/validator', description: 'Cron expression validator online free. Validate cron syntax, check field ranges, get helpful error messages. Validate cron expressions instantly.', icon: '✓' },
+			{ name: 'Cron Presets', href: '/cron/presets', description: 'Cron expression examples and presets. Copy-paste ready cron expressions for common schedules. Every minute, daily, weekly, monthly—cron cheat sheet.', icon: '📋' },
+			{ name: 'Human to Cron', href: '/cron/human', description: 'Natural language to cron converter online. Build cron expressions with dropdowns. Human-readable cron builder—convert schedule to cron free.', icon: '🔄' }
+		]
 	}
 ];
 
