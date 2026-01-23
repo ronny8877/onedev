@@ -203,6 +203,29 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'HMAC Generator', href: '/hash/hmac', description: 'HMAC generator online free. Generate HMAC-SHA256, HMAC-SHA512 keyed-hash authentication codes. HMAC calculator in your browser.', icon: '🔑' },
 			{ name: 'Hash Converter', href: '/hash/converter', description: 'Hash format converter online. Convert hash from hex to Base64, change case, add byte separators. Hash encoding converter free.', icon: '🔄' }
 		]
+	},
+	{
+		name: 'Git',
+		icon: '🔀',
+		description: 'Free Git tools online for developers. Generate .gitignore files, format commit messages, create branch names, build Git commands, and scan for secrets—all in your browser.',
+		items: [
+			{ name: 'Gitignore Generator', href: '/git/gitignore', description: 'Gitignore generator online free. Create .gitignore files for Node, Python, Java, Go, Rust, and more. Combine multiple presets—download or copy instantly.', icon: '🚫' },
+			{ name: 'Commit Generator', href: '/git/commit-generator', description: 'Conventional commit generator online. Build formatted commit messages with type, scope, and description. Emoji support—create git commits instantly.', icon: '💬' },
+			{ name: 'Commit Validator', href: '/git/commit-validator', description: 'Commit message validator online. Validate against Conventional Commits spec with detailed error explanations. Check commit format free.', icon: '✓' },
+			{ name: 'Branch Generator', href: '/git/branch-generator', description: 'Git branch name generator online. Create feature, bugfix, hotfix branches with ticket IDs. Customizable prefix order—copy branch names instantly.', icon: '🌿' },
+			{ name: 'Workflow Guide', href: '/git/workflow', description: 'Git workflow cheat sheet online. Learn Git Flow, trunk-based development, and feature branching with visual diagrams. Free Git guide.', icon: '📋' },
+			{ name: 'Diff Viewer', href: '/git/diff-viewer', description: 'Git diff viewer online free. Compare text with side-by-side or inline diff. Syntax highlighting and whitespace ignore—view diffs instantly.', icon: '📊' },
+			{ name: 'Log Formatter', href: '/git/log-formatter', description: 'Git log format generator online. Customize git log output with format placeholders. Generate pretty log commands—copy instantly.', icon: '📜' },
+			{ name: 'Blame Explainer', href: '/git/blame-explainer', description: 'Git blame explainer online. Paste git blame output and understand each field. Learn blame format visually—free educational tool.', icon: '🔍' },
+			{ name: 'Reset Helper', href: '/git/reset-helper', description: 'Git reset helper online. Understand soft, mixed, hard reset with visual diagrams. Generate reset commands safely—free Git tool.', icon: '⏪' },
+			{ name: 'Rebase Helper', href: '/git/rebase-helper', description: 'Git rebase guide online. Interactive rebase steps with visual explanation. Learn rebase commands—free Git rebase tool.', icon: '🔄' },
+			{ name: 'Config Generator', href: '/git/config-generator', description: 'Git config generator online. Generate git config commands for name, email, aliases, and settings. Configure Git easily—copy commands free.', icon: '⚙️' },
+			{ name: 'Alias Generator', href: '/git/alias-generator', description: 'Git alias generator online. Create common Git aliases like co, br, st. Custom alias builder—copy git alias commands free.', icon: '⌨️' },
+			{ name: 'README Generator', href: '/git/readme-generator', description: 'README generator online free. Create GitHub README with badges, sections, and templates. Markdown preview—download README.md instantly.', icon: '📄' },
+			{ name: 'License Picker', href: '/git/license-picker', description: 'License picker online free. Choose MIT, Apache, GPL with plain-English explanations. Generate LICENSE file—copy or download instantly.', icon: '📜' },
+			{ name: 'Secrets Scanner', href: '/git/secrets-scanner', description: 'Git secrets scanner online. Detect API keys, tokens, passwords in code. Client-side scanning—find secrets before committing.', icon: '🔐' },
+			{ name: 'Large File Detector', href: '/git/large-files', description: 'Large file detector online. Find files too big for Git. Get Git LFS recommendations—detect large files before pushing.', icon: '📦' }
+		]
 	}
 ];
 
