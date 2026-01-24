@@ -301,6 +301,19 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'K8s to Helm', href: '/k8s/helm', description: 'Kubernetes to Helm converter online free. Generate values.yaml and templates from K8s manifests. Convert K8s YAML to Helm chart.', icon: '⚓' },
 			{ name: 'K8s API Checker', href: '/k8s/api-checker', description: 'Kubernetes API deprecation checker online free. Check K8s manifests for deprecated or removed APIs by cluster version. K8s API version checker.', icon: '📋' }
 		]
+	},
+	{
+		name: 'Security',
+		icon: '🔒',
+		description: 'Free security tools online. CSP generator, CORS headers, password strength tester, HTTP status codes—all client-side.',
+		items: [
+			{ name: 'CSP Generator', href: '/security/csp', description: 'Content Security Policy generator online free. Build CSP directives visually, analyze policies, highlight unsafe rules. CSP builder.', icon: '🛡️' },
+			{ name: 'CORS Generator', href: '/security/cors', description: 'CORS header generator online free. Build Access-Control headers, select origins, methods. CORS configuration tool.', icon: '🌐' },
+			{ name: 'Password Tester', href: '/security/password', description: 'Password strength tester online free. Check password security with entropy, crack time, dictionary checks. 100% client-side.', icon: '🔑' },
+			{ name: 'HTTP Status Codes', href: '/security/http-status', description: 'HTTP status code reference online free. All status codes explained with examples. HTTP response codes cheat sheet.', icon: '📊' },
+			{ name: 'X-Frame-Options', href: '/security/x-frame', description: 'X-Frame-Options header explainer online free. Understand DENY, SAMEORIGIN for clickjacking protection. X-Frame-Options guide.', icon: '🖼️' },
+			{ name: 'Security Headers', href: '/security/headers', description: 'Security headers cheat sheet online free. All HTTP security headers explained with examples. Security headers reference.', icon: '📋' }
+		]
 	}
 ];
 
