@@ -9,56 +9,92 @@
 	let recursive = $state(true);
 	let indent = $state(2);
 
-	// Sample YAML
+	// Sample YAML with unsorted keys at multiple levels
 	const sampleYaml = `zebra: animal
 apple: fruit
+mango: fruit
 database:
   port: 5432
   host: localhost
+  connection_timeout: 30
   credentials:
     password: secret
     username: admin
+    api_key: xyz123
+config:
+  z_setting: true
+  a_setting: false
+  m_setting: 100
 features:
   - logging
   - authentication
   - caching`;
 
-	// Sort keys
-	function sortYamlKeys(obj: unknown, isRecursive: boolean): unknown {
-		if (Array.isArray(obj)) {
-			return isRecursive ? obj.map(item => sortYamlKeys(item, isRecursive)) : obj;
+	// Sort keys recursively or at top level only
+	function sortKeysDeep(obj: unknown): unknown {
+		if (obj === null || obj === undefined) {
+			return obj;
 		}
-		if (typeof obj === 'object' && obj !== null) {
+		
+		// Handle arrays - sort contents if recursive
+		if (Array.isArray(obj)) {
+			return recursive ? obj.map(item => sortKeysDeep(item)) : obj;
+		}
+		
+		// Handle objects - sort keys
+		if (typeof obj === 'object') {
 			const sorted: Record<string, unknown> = {};
-			const keys = Object.keys(obj as Record<string, unknown>).sort();
+			const keys = Object.keys(obj as Record<string, unknown>);
+			
+			// Sort keys alphabetically (case-insensitive)
+			keys.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+			
 			for (const key of keys) {
-				sorted[key] = isRecursive 
-					? sortYamlKeys((obj as Record<string, unknown>)[key], isRecursive)
-					: (obj as Record<string, unknown>)[key];
+				const value = (obj as Record<string, unknown>)[key];
+				// Recursively sort nested objects if recursive is enabled
+				sorted[key] = recursive ? sortKeysDeep(value) : value;
 			}
 			return sorted;
 		}
+		
+		// Return primitives as-is
 		return obj;
 	}
 
-	function sortYaml(): { success: boolean; output: string; error?: string } {
+	function sortYaml(): { success: boolean; output: string; error?: string; keysSorted: number } {
 		if (!input.trim()) {
-			return { success: true, output: '' };
+			return { success: true, output: '', keysSorted: 0 };
 		}
 
 		try {
 			const parsed = yaml.load(input);
-			const sorted = sortYamlKeys(parsed, recursive);
+			
+			if (parsed === null || parsed === undefined || typeof parsed !== 'object') {
+				return { success: true, output: yaml.dump(parsed, { indent }), keysSorted: 0 };
+			}
+			
+			const sorted = sortKeysDeep(parsed);
+			
 			const output = yaml.dump(sorted, {
 				indent: indent,
 				lineWidth: -1,
 				noRefs: true,
-				sortKeys: false // We already sorted
+				quotingType: '"',
+				forceQuotes: false
 			});
-			return { success: true, output };
+			
+			// Count how many keys were in the original
+			const countKeys = (o: unknown): number => {
+				if (!o || typeof o !== 'object') return 0;
+				if (Array.isArray(o)) return o.reduce((sum, item) => sum + countKeys(item), 0);
+				const keys = Object.keys(o as Record<string, unknown>);
+				return keys.length + keys.reduce((sum, k) => sum + countKeys((o as Record<string, unknown>)[k]), 0);
+			};
+			
+			return { success: true, output, keysSorted: countKeys(parsed) };
 		} catch (e) {
 			const err = e as yaml.YAMLException;
-			return { success: false, output: '', error: err.reason || err.message };
+			return { success: false, output: '', error: err.reason || err.message, keysSorted: 0 };
 		}
 	}
 
@@ -98,7 +134,7 @@ features:
 		<div class="flex flex-wrap gap-4 items-center justify-center">
 			<label class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2 cursor-pointer">
 				<input type="checkbox" bind:checked={recursive} class="checkbox checkbox-sm checkbox-primary" />
-				<span class="text-sm font-medium">Sort recursively</span>
+				<span class="text-sm font-medium">Sort recursively (nested objects)</span>
 			</label>
 			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
 				<span class="text-sm font-medium">Indent:</span>
@@ -114,9 +150,6 @@ features:
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body p-4">
 					<div class="flex items-center gap-2 mb-3">
-						<div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-							<span>📄</span>
-						</div>
 						<h3 class="font-bold">Original YAML</h3>
 					</div>
 
@@ -134,10 +167,10 @@ features:
 				<div class="card-body p-4">
 					<div class="flex items-center justify-between mb-3">
 						<div class="flex items-center gap-2">
-							<div class="w-8 h-8 rounded-lg bg-success/20 flex items-center justify-center">
-								<span>🔤</span>
-							</div>
 							<h3 class="font-bold">Sorted YAML</h3>
+							{#if result.keysSorted > 0}
+								<span class="badge badge-ghost badge-sm">{result.keysSorted} keys</span>
+							{/if}
 						</div>
 						{#if result.success && result.output}
 							<div class="flex gap-1">
@@ -160,6 +193,20 @@ features:
 						class="textarea textarea-bordered w-full font-mono text-sm min-h-64 leading-relaxed bg-base-100"
 					></textarea>
 				</div>
+			</div>
+		</div>
+
+		<!-- Info -->
+		<div class="card bg-info/10 border border-info/20 rounded-xl">
+			<div class="card-body p-3">
+				<p class="text-sm text-base-content/70">
+					<strong>How it works:</strong> Keys are sorted alphabetically (case-insensitive). 
+					{#if recursive}
+						Nested objects are also sorted recursively.
+					{:else}
+						Only top-level keys are sorted.
+					{/if}
+				</p>
 			</div>
 		</div>
 	</div>

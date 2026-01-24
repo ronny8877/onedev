@@ -287,7 +287,8 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'YAML Diff', href: '/yaml/diff', description: 'YAML diff checker online free. Compare YAML files side-by-side. Structural diff with change highlights—compare YAML instantly.', icon: '⇄' },
 			{ name: 'YAML Linter', href: '/yaml/linter', description: 'YAML linter online free. Check YAML for duplicate keys, indentation issues, trailing spaces. Lint YAML files instantly.', icon: '🔍' },
 			{ name: 'YAML Key Sorter', href: '/yaml/sorter', description: 'YAML key sorter online free. Sort YAML keys alphabetically with recursive option. Normalize YAML structure—sort keys instantly.', icon: '🔤' },
-			{ name: 'YAML to ENV', href: '/yaml/to-env', description: 'YAML to ENV converter online free. Flatten YAML to .env format. Custom separators—convert YAML to environment variables instantly.', icon: '📝' }
+			{ name: 'YAML to ENV', href: '/yaml/to-env', description: 'YAML to ENV converter online free. Flatten YAML to .env format. Custom separators—convert YAML to environment variables instantly.', icon: '📝' },
+			{ name: 'K8s YAML Inspector', href: '/yaml/k8s', description: 'Kubernetes YAML validator online free. Inspect K8s manifests, detect resource types, validate required fields. K8s YAML checker—analyze Kubernetes YAML instantly.', icon: '☸️' }
 		]
 	}
 ];
