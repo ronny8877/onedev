@@ -312,7 +312,12 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Password Tester', href: '/security/password', description: 'Password strength tester online free. Check password security with entropy, crack time, dictionary checks. 100% client-side.', icon: '🔑' },
 			{ name: 'HTTP Status Codes', href: '/security/http-status', description: 'HTTP status code reference online free. All status codes explained with examples. HTTP response codes cheat sheet.', icon: '📊' },
 			{ name: 'X-Frame-Options', href: '/security/x-frame', description: 'X-Frame-Options header explainer online free. Understand DENY, SAMEORIGIN for clickjacking protection. X-Frame-Options guide.', icon: '🖼️' },
-			{ name: 'Security Headers', href: '/security/headers', description: 'Security headers cheat sheet online free. All HTTP security headers explained with examples. Security headers reference.', icon: '📋' }
+			{ name: 'Security Headers', href: '/security/headers', description: 'Security headers cheat sheet online free. All HTTP security headers explained with examples. Security headers reference.', icon: '📋' },
+			{ name: 'OWASP Top 10', href: '/security/owasp', description: 'OWASP Top 10 checklist online free. Interactive compliance tracker for web application security. OWASP 2021 reference with examples.', icon: '✓' },
+			{ name: 'Misconfig Detector', href: '/security/misconfig', description: 'Security misconfiguration detector online free. Analyze headers, config files for security issues. Find misconfigurations instantly.', icon: '⚠' },
+			{ name: 'Headers Checklist', href: '/security/headers-checklist', description: 'Secure headers implementation checklist. Framework-specific snippets for NGINX, Apache, Node. Security headers setup guide.', icon: '☑' },
+			{ name: 'Password Storage', href: '/security/password-storage', description: 'Password storage best practices generator. Algorithm recommendations, salt, pepper, cost factors. Secure password hashing guide.', icon: '🔐' },
+			{ name: 'Threat Model', href: '/security/threat-model', description: 'Web app threat model generator online free. STRIDE-style threat analysis with risk levels. Quick threat modeling tool.', icon: '⚡' }
 		]
 	}
 ];
