@@ -287,8 +287,19 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'YAML Diff', href: '/yaml/diff', description: 'YAML diff checker online free. Compare YAML files side-by-side. Structural diff with change highlights—compare YAML instantly.', icon: '⇄' },
 			{ name: 'YAML Linter', href: '/yaml/linter', description: 'YAML linter online free. Check YAML for duplicate keys, indentation issues, trailing spaces. Lint YAML files instantly.', icon: '🔍' },
 			{ name: 'YAML Key Sorter', href: '/yaml/sorter', description: 'YAML key sorter online free. Sort YAML keys alphabetically with recursive option. Normalize YAML structure—sort keys instantly.', icon: '🔤' },
-			{ name: 'YAML to ENV', href: '/yaml/to-env', description: 'YAML to ENV converter online free. Flatten YAML to .env format. Custom separators—convert YAML to environment variables instantly.', icon: '📝' },
-			{ name: 'K8s YAML Inspector', href: '/yaml/k8s', description: 'Kubernetes YAML validator online free. Inspect K8s manifests, detect resource types, validate required fields. K8s YAML checker—analyze Kubernetes YAML instantly.', icon: '☸️' }
+			{ name: 'YAML to ENV', href: '/yaml/to-env', description: 'YAML to ENV converter online free. Flatten YAML to .env format. Custom separators—convert YAML to environment variables instantly.', icon: '📝' }
+		]
+	},
+	{
+		name: 'Kubernetes',
+		icon: '☸️',
+		description: 'Free Kubernetes tools online. Inspect K8s manifests, compare resources, generate Helm charts, check API deprecations—all client-side.',
+		items: [
+			{ name: 'K8s Inspector', href: '/k8s/inspector', description: 'Kubernetes YAML validator online free. Inspect K8s manifests, detect resource types, validate required fields. K8s YAML checker—analyze Kubernetes YAML instantly.', icon: '🔍' },
+			{ name: 'K8s Resource Diff', href: '/k8s/diff', description: 'Kubernetes manifest diff online free. Compare K8s YAML files with semantic diff. See added, removed, changed resources—K8s diff checker.', icon: '⇄' },
+			{ name: 'K8s Manifest Splitter', href: '/k8s/splitter', description: 'Kubernetes YAML splitter online free. Split multi-doc YAML into individual files. Download as ZIP—K8s manifest splitter.', icon: '✂️' },
+			{ name: 'K8s to Helm', href: '/k8s/helm', description: 'Kubernetes to Helm converter online free. Generate values.yaml and templates from K8s manifests. Convert K8s YAML to Helm chart.', icon: '⚓' },
+			{ name: 'K8s API Checker', href: '/k8s/api-checker', description: 'Kubernetes API deprecation checker online free. Check K8s manifests for deprecated or removed APIs by cluster version. K8s API version checker.', icon: '📋' }
 		]
 	}
 ];
