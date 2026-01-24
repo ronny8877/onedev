@@ -274,6 +274,21 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Cron Presets', href: '/cron/presets', description: 'Cron expression examples and presets. Copy-paste ready cron expressions for common schedules. Every minute, daily, weekly, monthly—cron cheat sheet.', icon: '📋' },
 			{ name: 'Human to Cron', href: '/cron/human', description: 'Natural language to cron converter online. Build cron expressions with dropdowns. Human-readable cron builder—convert schedule to cron free.', icon: '🔄' }
 		]
+	},
+	{
+		name: 'YAML',
+		icon: '📄',
+		description: 'Free YAML tools online. Validate, format, convert YAML. YAML to JSON converter, diff checker, linter—all client-side in your browser.',
+		items: [
+			{ name: 'YAML Validator', href: '/yaml/validator', description: 'YAML validator online free. Validate YAML syntax with line and column error reporting. Clear error messages—validate YAML files instantly.', icon: '✓' },
+			{ name: 'YAML Formatter', href: '/yaml/formatter', description: 'YAML formatter online free. Format and beautify YAML with configurable indentation. Prettify YAML—format YAML files instantly.', icon: '✨' },
+			{ name: 'YAML to JSON', href: '/yaml/to-json', description: 'YAML to JSON converter online free. Convert YAML to pretty JSON format. Copy or download—convert YAML to JSON instantly.', icon: '→' },
+			{ name: 'JSON to YAML', href: '/yaml/from-json', description: 'JSON to YAML converter online free. Convert JSON to clean YAML format. Indentation control—convert JSON to YAML instantly.', icon: '←' },
+			{ name: 'YAML Diff', href: '/yaml/diff', description: 'YAML diff checker online free. Compare YAML files side-by-side. Structural diff with change highlights—compare YAML instantly.', icon: '⇄' },
+			{ name: 'YAML Linter', href: '/yaml/linter', description: 'YAML linter online free. Check YAML for duplicate keys, indentation issues, trailing spaces. Lint YAML files instantly.', icon: '🔍' },
+			{ name: 'YAML Key Sorter', href: '/yaml/sorter', description: 'YAML key sorter online free. Sort YAML keys alphabetically with recursive option. Normalize YAML structure—sort keys instantly.', icon: '🔤' },
+			{ name: 'YAML to ENV', href: '/yaml/to-env', description: 'YAML to ENV converter online free. Flatten YAML to .env format. Custom separators—convert YAML to environment variables instantly.', icon: '📝' }
+		]
 	}
 ];
 
