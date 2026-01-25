@@ -163,13 +163,26 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Transition', href: '/css/transition', description: 'CSS transition generator online. Create CSS transitions with live preview. Generate smooth animations—free transition builder.', icon: '🔄' },
 			{ name: 'Bezier Curve', href: '/css/bezier', description: 'CSS cubic-bezier editor online. Interactive curve editor for timing functions. Create custom easing—bezier curve generator free.', icon: '📈' },
 			{ name: 'Keyframes', href: '/css/keyframes', description: 'CSS keyframes generator online. Create @keyframes animations with editable stops. CSS animation builder—free keyframe editor.', icon: '🎬' },
-			{ name: 'Flexbox', href: '/css/flexbox', description: 'CSS flexbox generator online. Visual flexbox playground with live preview. Generate flex container and items—free flexbox builder.', icon: '📦' },
-			{ name: 'Grid', href: '/css/grid', description: 'CSS grid generator online. Visual grid builder with live preview. Create grid layouts easily—free CSS grid layout tool.', icon: '⊞' },
+
 			{ name: 'Box Shadow', href: '/css/box-shadow', description: 'CSS box shadow generator online. Create box-shadows with multiple layers and presets. Live preview—free shadow generator tool.', icon: '🌑' },
 			{ name: 'Text Shadow', href: '/css/text-shadow', description: 'CSS text shadow generator online. Create text-shadow effects with live preview. Multiple shadow layers—free text shadow tool.', icon: '💬' },
 			{ name: 'Filter', href: '/css/filter', description: 'CSS filter generator online. Generate blur, brightness, contrast, grayscale, and more. Live filter preview—free CSS filter tool.', icon: '🎛️' },
 			{ name: 'Text Gradient', href: '/css/text-gradient', description: 'CSS gradient text generator online. Create beautiful gradient text with visual color stops. Text gradient maker—free CSS tool.', icon: '✨' },
 			{ name: 'Snippets', href: '/css/snippets', description: 'CSS snippets library online. Ready-to-use CSS: centering tricks, text truncation, accessibility helpers. Copy CSS snippets free.', icon: '📋' }
+		]
+	},
+	{
+		name: 'CSS Layout',
+		icon: '📐',
+		description: 'Free CSS layout generators and tools. Visual builders for Flexbox, Grid, Masonry, and responsive design. Aspect ratio calculator and positioning playground—master CSS layouts visually.',
+		items: [
+			{ name: 'Flexbox Generator', href: '/css-layout/flexbox', description: 'CSS flexbox visualizer and generator. Interactive playground for flex direction, alignment, wrapping, and gap. Generate flex layout code instantly.', icon: '📦' },
+			{ name: 'Grid Builder', href: '/css-layout/grid', description: 'CSS grid generator online. Drag-and-drop grid builder with named areas and auto-placement. Create complex grid layouts visually.', icon: '⊞' },
+			{ name: 'Masonry Layout', href: '/css-layout/masonry', description: 'CSS masonry layout generator. Create Pinterest-style layouts using pure CSS columns or flexbox fallback. Responsive masonry grid builder.', icon: '🧱' },
+			{ name: 'Responsive Helper', href: '/css-layout/responsive', description: 'CSS responsive design helper. Generate media queries and common breakpoints for mobile, tablet, and desktop. Responsive layout tool.', icon: '📱' },
+			{ name: 'Position & Z-Index', href: '/css-layout/position', description: 'CSS positioning playground. Visualize absolute, relative, fixed, sticky positioning and z-index stacking contexts. Layout positioning tool.', icon: '📍' },
+			{ name: 'Spacing & Gap', href: '/css-layout/spacing', description: 'CSS spacing generator. Visual margin and padding builder with preview. Generate consistent spacing utilities and layouts.', icon: '↔️' },
+			{ name: 'Aspect Ratio', href: '/css-layout/aspect-ratio', description: 'CSS aspect ratio calculator. Generate aspect-ratio property and padding-hack fallbacks. Visual aspect ratio preview tool.', icon: 'rect' }
 		]
 	},
 	{
