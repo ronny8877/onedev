@@ -41,7 +41,6 @@
 		}
 	}).join('\n\n'));
 
-	// SCSS/Sass Mixin Output
 	let scssOutput = $derived(`// Breakpoints
 $breakpoints: (
 ${Object.entries(breakpoints).map(([name, width]) => `  '${name}': ${width}px`).join(',\n')}
@@ -55,150 +54,216 @@ ${Object.entries(breakpoints).map(([name, width]) => `  '${name}': ${width}px`).
   }
 }`);
 
-	let useScss = $state(false);
+	let tailwindOutput = $derived(`// tailwind.config.js
+module.exports = {
+  theme: {
+    screens: {
+${Object.entries(breakpoints).map(([name, width]) => `      '${name}': '${width}px'`).join(',\n')}
+    }
+  }
+}`);
+
+	let outputMode = $state<'css' | 'scss' | 'tailwind'>('css');
+	let currentOutput = $derived(outputMode === 'css' ? cssOutput : outputMode === 'scss' ? scssOutput : tailwindOutput);
+
+	const deviceIcons = [
+		{ w: 640, icon: '📱' },
+		{ w: 768, icon: '📖' },
+		{ w: 1024, icon: '💻' },
+		{ w: 1280, icon: '🖥️' },
+		{ w: 1536, icon: '📺' }
+	];
 </script>
 
 <ToolWrapper
 	title="Responsive Design Helper"
-	description="Generate CSS media queries and responsive breakpoints. Support for Mobile-First or Desktop-First strategies with common presets."
-	keywords={['css media queries', 'responsive design', 'css breakpoints', 'mobile first', 'media query generator']}
+	description="Generate CSS media queries and detailed responsive breakpoints. Supports Mobile-First/Desktop-First and Tailwind configurations."
+	keywords={['css media queries', 'responsive design', 'css breakpoints', 'mobile first', 'tailwind screens', 'media query generator']}
 >
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-8">
 		<!-- Visualizer -->
-		<div class="card bg-base-200 rounded-2xl overflow-hidden shadow-sm">
+		<div class="card bg-base-200 rounded-2xl overflow-hidden shadow-sm border border-base-300">
 			<div class="card-body p-6">
-				<h3 class="text-sm font-semibold mb-6">Breakpoint Visualizer</h3>
+				<div class="flex justify-between items-center mb-6">
+					<h3 class="text-sm font-bold uppercase tracking-wider text-base-content/60">Breakpoint Visualizer</h3>
+					<div class="badge badge-neutral text-xs font-mono">scale: 0 - 2000px</div>
+				</div>
 				
-				<div class="relative h-24 bg-base-300 rounded-xl overflow-hidden flex items-end">
+				<div class="relative h-32 bg-gradient-to-r from-base-300 to-base-200 rounded-xl overflow-hidden flex items-end border border-base-content/5">
 					<!-- Base -->
-					<div class="absolute inset-0 flex items-center justify-center text-xs font-mono text-base-content/30 z-0">
-						Base (0px)
+					<div class="absolute inset-0 flex items-center justify-center text-xs font-mono text-base-content/20 z-0 select-none">
+						Viewport Width
 					</div>
 
 					<!-- Breakpoint Maps -->
 					{#each Object.entries(breakpoints) as [name, width], i}
+						{@const colorClass = ['border-primary', 'border-secondary', 'border-accent', 'border-info', 'border-success'][i % 5]}
+						{@const bgClass = ['bg-primary/10', 'bg-secondary/10', 'bg-accent/10', 'bg-info/10', 'bg-success/10'][i % 5]}
+						{@const textClass = ['text-primary', 'text-secondary', 'text-accent', 'text-info', 'text-success'][i % 5]}
+						
 						<div 
-							class="absolute top-0 bottom-0 border-l border-primary/50 transition-all duration-300 group"
+							class="absolute top-0 bottom-0 border-l-2 {colorClass} transition-all duration-300 group hover:z-20"
 							style="left: {(width / 2000) * 100}%"
 						>
-							<div class="absolute top-2 left-1 text-[10px] font-bold uppercase text-primary/70 bg-base-100/80 px-1 rounded shadow-sm backdrop-blur-md">
-								{name}
+							<div class="absolute top-2 left-1 transform -translate-x-1">
+								<div class="badge badge-sm font-bold uppercase shadow-sm backdrop-blur-md {textClass} bg-base-100/90 border-current">
+									{name}
+								</div>
 							</div>
-							<div class="absolute bottom-2 left-1 text-[10px] font-mono text-base-content/60 bg-base-100/80 px-1 rounded shadow-sm">
-								{width}px
+							
+							<div class="absolute bottom-2 left-1 opacity-0 group-hover:opacity-100 transition-opacity transform -translate-x-1 z-10">
+								<div class="badge badge-sm font-mono shadow-sm bg-base-content text-base-100 border-none">
+									{width}px
+								</div>
 							</div>
 							
 							<!-- Hover range visual -->
-							<div class="absolute inset-0 w-screen bg-primary/5 group-hover:bg-primary/10 transition-colors pointer-events-none -z-10"></div>
+							<div class="absolute inset-0 w-screen {bgClass} opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none -z-10"></div>
 						</div>
 					{/each}
 				</div>
-				<div class="flex justify-between text-xs font-mono text-base-content/40 mt-2 px-1">
-					<span>0px</span>
-					<span>2000px</span>
+				
+				<!-- Scale -->
+				<div class="relative h-6 mt-1 text-[10px] font-mono text-base-content/40 select-none">
+					<span class="absolute left-0">0px</span>
+					<span class="absolute left-1/4">500px</span>
+					<span class="absolute left-1/2">1000px</span>
+					<span class="absolute left-3/4">1500px</span>
+					<span class="absolute right-0">2000px</span>
 				</div>
 			</div>
 		</div>
 
 		<!-- Controls -->
-		<div class="grid md:grid-cols-2 gap-4">
-			<!-- Strategy & Presets -->
-			<div class="card bg-base-200 rounded-2xl shadow-sm">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-3">Strategy & Presets</h3>
-					
-					<div class="form-control mb-4">
-						<label class="label cursor-pointer justify-start gap-4">
-							<span class="label-text font-medium">Strategy:</span>
-							<div class="join">
-								<button 
-									class="btn btn-sm join-item"
-									class:btn-primary={strategy === 'mobile-first'}
-									onclick={() => strategy = 'mobile-first'}
-								>
-									Mobile First (min-width)
-								</button>
-								<button 
-									class="btn btn-sm join-item"
-									class:btn-primary={strategy === 'desktop-first'}
-									onclick={() => strategy = 'desktop-first'}
-								>
-									Desktop First (max-width)
-								</button>
-							</div>
-						</label>
-					</div>
-
-					<div class="form-control">
-						<label class="label cursor-pointer justify-start gap-4">
-							<span class="label-text font-medium">Preset:</span>
-							<div class="join">
-								<button 
-									class="btn btn-xs sm:btn-sm join-item"
-									class:btn-active={preset === 'tailwind'}
-									onclick={() => applyPreset('tailwind')}
-								>Tailwind</button>
-								<button 
-									class="btn btn-xs sm:btn-sm join-item"
-									class:btn-active={preset === 'bootstrap'}
-									onclick={() => applyPreset('bootstrap')}
-								>Bootstrap</button>
-								<button 
-									class="btn btn-xs sm:btn-sm join-item"
-									class:btn-active={preset === 'standard'}
-									onclick={() => applyPreset('standard')}
-								>Standard</button>
-							</div>
-						</label>
-					</div>
-				</div>
-			</div>
-
-			<!-- Custom Breakpoints -->
-			<div class="card bg-base-200 rounded-2xl shadow-sm">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-3">Customize Breakpoints (px)</h3>
-					<div class="grid grid-cols-2 lg:grid-cols-3 gap-2">
-						{#each Object.entries(breakpoints) as [key, val]}
+		<div class="grid lg:grid-cols-3 gap-8">
+			<!-- Configuration Panel -->
+			<div class="lg:col-span-2 space-y-6">
+				<div class="card bg-base-200 shadow-sm border border-base-300">
+					<div class="card-body p-6">
+						<h3 class="text-sm font-bold uppercase tracking-wider mb-4">Configuration</h3>
+						
+						<div class="grid sm:grid-cols-2 gap-6">
 							<div class="form-control">
-								<label class="label py-0">
-									<span class="label-text text-xs uppercase font-bold text-base-content/60">{key}</span>
+								<label class="label-text font-medium mb-2">Strategy</label>
+								<div class="join w-full">
+									<button 
+										class="btn btn-sm join-item flex-1"
+										class:btn-primary={strategy === 'mobile-first'}
+										onclick={() => strategy = 'mobile-first'}
+									>
+										Mobile First
+									</button>
+									<button 
+										class="btn btn-sm join-item flex-1"
+										class:btn-primary={strategy === 'desktop-first'}
+										onclick={() => strategy = 'desktop-first'}
+									>
+										Desktop First
+									</button>
+								</div>
+								<label class="label">
+									<span class="label-text-alt opacity-60">
+										{strategy === 'mobile-first' ? 'Uses min-width' : 'Uses max-width'}
+									</span>
 								</label>
-								<input 
-									type="number" 
-									bind:value={breakpoints[key as keyof typeof breakpoints]} 
-									class="input input-sm input-bordered w-full font-mono"
-								/>
 							</div>
-						{/each}
-					</div>
-				</div>
-			</div>
-		</div>
 
-		<!-- Output -->
-		<div class="card bg-base-200 rounded-2xl shadow-sm">
-			<div class="card-body p-4">
-				<div class="flex items-center justify-between mb-3">
-					<div class="flex items-center gap-3">
-						<h3 class="text-sm font-semibold">Code Output</h3>
-						<div class="join">
-							<button 
-								class="btn btn-xs join-item"
-								class:btn-active={!useScss}
-								onclick={() => useScss = false}
-							>CSS</button>
-							<button 
-								class="btn btn-xs join-item"
-								class:btn-active={useScss}
-								onclick={() => useScss = true}
-							>SCSS</button>
+							<div class="form-control">
+								<label class="label-text font-medium mb-2">Preset</label>
+								<div class="join w-full">
+									<button 
+										class="btn btn-sm join-item flex-1"
+										class:btn-active={preset === 'tailwind'}
+										onclick={() => applyPreset('tailwind')}
+									>Tailwind</button>
+									<button 
+										class="btn btn-sm join-item flex-1"
+										class:btn-active={preset === 'bootstrap'}
+										onclick={() => applyPreset('bootstrap')}
+									>Bootstrap</button>
+									<button 
+										class="btn btn-sm join-item flex-1"
+										class:btn-active={preset === 'standard'}
+										onclick={() => applyPreset('standard')}
+									>Standard</button>
+								</div>
+							</div>
 						</div>
 					</div>
-					<CopyButton text={useScss ? scssOutput : cssOutput} label="Copy Code" size="sm" />
 				</div>
-				<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-x-auto h-64"><code>{useScss ? scssOutput : cssOutput}</code></pre>
+
+				<!-- Custom Values -->
+				<div class="card bg-base-200 shadow-sm border border-base-300">
+					<div class="card-body p-6">
+						<h3 class="text-sm font-bold uppercase tracking-wider mb-4">Breakpoints (px)</h3>
+						<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+							{#each Object.entries(breakpoints) as [key, val]}
+								<div class="form-control bg-base-100 p-2 rounded-lg border border-base-content/5">
+									<label class="label py-1">
+										<span class="label-text text-xs uppercase font-bold text-primary">{key}</span>
+									</label>
+									<input 
+										type="number" 
+										bind:value={breakpoints[key as keyof typeof breakpoints]} 
+										class="input input-sm input-ghost w-full font-mono text-center focus:bg-base-200"
+									/>
+								</div>
+							{/each}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Output Panel -->
+			<div class="lg:col-span-1">
+				<div class="card bg-base-200 h-full shadow-sm border border-base-300">
+					<div class="card-body p-5 flex flex-col h-full">
+						<div class="flex items-center justify-between mb-4">
+							<h3 class="text-sm font-bold uppercase tracking-wider">Output</h3>
+							<CopyButton text={currentOutput} label="Copy" size="sm" />
+						</div>
+
+						<div class="tabs rounded-2xl tabs-boxed bg-base-300 p-1 mb-2">
+							<button 
+								class="tab tab-xs flex-1" 
+								class:tab-active={outputMode === 'css'}
+								onclick={() => outputMode = 'css'}
+							>CSS</button>
+							<button 
+								class="tab tab-xs flex-1" 
+								class:tab-active={outputMode === 'scss'}
+								onclick={() => outputMode = 'scss'}
+							>SCSS</button>
+							<button 
+								class="tab tab-xs flex-1" 
+								class:tab-active={outputMode === 'tailwind'}
+								onclick={() => outputMode = 'tailwind'}
+							>Tailwind</button>
+						</div>
+						
+						<div class=" rounded-2xl bg-base-300 text-xs shadow-none flex-1 overflow-hidden flex flex-col">
+							<pre class="px-5 py-4 overflow-auto custom-scrollbar flex-1"><code class="language-{outputMode === 'tailwind' ? 'javascript' : 'css'}">{currentOutput}</code></pre>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </ToolWrapper>
+
+<style>
+	.custom-scrollbar::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+	.custom-scrollbar::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	.custom-scrollbar::-webkit-scrollbar-thumb {
+		background: oklch(var(--bc) / 0.2);
+		border-radius: 4px;
+	}
+	.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+		background: oklch(var(--bc) / 0.3);
+	}
+</style>

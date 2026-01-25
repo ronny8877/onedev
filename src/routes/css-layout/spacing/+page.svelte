@@ -67,7 +67,7 @@
 				
 				<!-- Margin Box -->
 				<div 
-					class="relative border-2 border-dashed border-warning/50 bg-warning/5 transition-all duration-300 relative group"
+					class="relative border-2 border-dashed border-warning/50 bg-warning/5 relative group"
 					style="
 						padding-top: {separateMargin ? mt : margin}px;
 						padding-right: {separateMargin ? mr : margin}px;
@@ -82,7 +82,7 @@
 						
 						<!-- Padding Box -->
 						<div 
-							class="relative border-2 border-dashed border-success/50 bg-success/5 transition-all duration-300"
+							class="relative border-2 border-dashed border-success/50 bg-success/5"
 							style="
 								padding-top: {separatePadding ? pt : padding}px;
 								padding-right: {separatePadding ? pr : padding}px;
@@ -94,7 +94,7 @@
 							
 							<!-- Content Box -->
 							<div 
-								class="bg-primary/20 flex items-center justify-center font-bold text-primary transition-all duration-300 rounded relative"
+								class="bg-primary/20 flex items-center justify-center font-bold text-primary rounded relative"
 								style="width: {boxSize}px; height: {boxSize}px;"
 							>
 								<span class="z-10 bg-base-100/50 backdrop-blur px-2 py-1 rounded">Content</span>

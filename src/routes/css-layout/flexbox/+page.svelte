@@ -23,133 +23,148 @@
 </script>
 
 <ToolWrapper
+	title="Flexbox Generator"
+	description="Visual CSS flexbox playground. Interactively design flex layouts and generate code instantly."
 	keywords={['flexbox', 'css flexbox', 'flex generator', 'flexbox playground', 'css layout']}
 >
-	<div class="flex flex-col gap-6">
-		<!-- Preview -->
-		<div class="card bg-base-200 rounded-2xl overflow-hidden">
-			<div class="card-body p-4">
-				<div class="flex items-center justify-between mb-3">
-					<h3 class="text-sm font-semibold">Live Preview</h3>
-					<div class="flex items-center gap-2">
-						<span class="text-sm text-base-content/60">Items:</span>
-						<input 
-							type="number" 
-							bind:value={itemCount} 
-							min="1" 
-							max="10"
-							class="input input-bordered input-sm w-16 font-mono"
-						/>
-					</div>
-				</div>
-				<div 
-					class="min-h-48 p-4 bg-base-300 rounded-xl border-2 border-dashed border-base-content/20"
-					style="
-						display: flex;
-						flex-direction: {config.direction};
-						justify-content: {config.justifyContent};
-						align-items: {config.alignItems};
-						flex-wrap: {config.flexWrap};
-						gap: {config.gap}px;
-					"
-				>
-					{#each Array(itemCount) as _, i}
-						<div 
-							class="flex items-center justify-center text-white font-bold rounded-lg {boxColors[i % boxColors.length]}"
-							style="width: {config.direction.includes('column') ? '80px' : (40 + (i * 10))}px; height: 50px;"
-						>
-							{i + 1}
-						</div>
-					{/each}
-				</div>
-			</div>
-		</div>
-
-		<!-- Controls -->
-		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-3">Direction</h3>
-					<div class="flex flex-wrap gap-2">
-						{#each directions as dir}
-							<button
-								class="btn btn-sm"
-								class:btn-primary={config.direction === dir}
-								onclick={() => config.direction = dir}
-							>
-								{dir}
-							</button>
-						{/each}
-					</div>
-				</div>
-			</div>
-
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-3">Justify Content</h3>
-					<select bind:value={config.justifyContent} class="select select-bordered w-full">
-						{#each justifyOptions as opt}
-							<option value={opt}>{opt}</option>
-						{/each}
-					</select>
-				</div>
-			</div>
-
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-3">Align Items</h3>
-					<select bind:value={config.alignItems} class="select select-bordered w-full">
-						{#each alignOptions as opt}
-							<option value={opt}>{opt}</option>
-						{/each}
-					</select>
-				</div>
-			</div>
-
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-3">Flex Wrap</h3>
-					<div class="flex flex-wrap gap-2">
-						{#each wrapOptions as wrap}
-							<button
-								class="btn btn-sm"
-								class:btn-primary={config.flexWrap === wrap}
-								onclick={() => config.flexWrap = wrap}
-							>
-								{wrap}
-							</button>
-						{/each}
-					</div>
-				</div>
-			</div>
-
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-3 flex justify-between">
-						<span>Gap</span>
-						<span class="text-primary font-mono">{config.gap}px</span>
-					</h3>
+	<div class="grid lg:grid-cols-3 gap-8 items-start">
+		
+		<!-- Preview Area (Main Content) -->
+		<div class="lg:col-span-2 space-y-6">
+			<div class="flex items-center justify-between">
+				<h3 class="text-sm font-bold uppercase tracking-wider text-base-content/60">Live Interactive Preview</h3>
+				<div class="flex items-center gap-3">
+					<span class="text-xs font-mono opacity-50">Items: {itemCount}</span>
 					<input 
 						type="range" 
-						bind:value={config.gap} 
-						min="0" 
-						max="48" 
-						step="4"
-						class="range range-primary"
+						bind:value={itemCount} 
+						min="1" 
+						max="12"
+						class="range range-xs range-primary w-24"
 					/>
 				</div>
 			</div>
-		</div>
 
-		<!-- Output -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<div class="flex items-center justify-between mb-3">
-					<h3 class="text-sm font-semibold">CSS Output</h3>
-					<CopyButton text={`.container {\n${cssOutput}\n}`} label="Copy" size="sm" />
+			<div class="card bg-base-200 shadow-sm border border-base-300 overflow-hidden">
+				<div class="card-body p-6">
+					<div 
+						class="min-h-[500px] p-6 bg-base-100 rounded-xl border-2 border-dashed border-base-content/10 transition-all duration-300"
+						style="
+							display: flex;
+							flex-direction: {config.direction};
+							justify-content: {config.justifyContent};
+							align-items: {config.alignItems};
+							flex-wrap: {config.flexWrap};
+							gap: {config.gap}px;
+						"
+					>
+						{#each Array(itemCount) as _, i}
+							<div 
+								class="flex items-center justify-center text-white font-bold rounded-lg shadow-sm transition-all duration-300 hover:scale-105 {boxColors[i % boxColors.length]}"
+								style="width: {config.direction.includes('column') ? '80px' : (60 + (i * 15))}px; height: 60px;"
+							>
+								{i + 1}
+							</div>
+						{/each}
+					</div>
 				</div>
-				<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm">.container {'{\n'}{cssOutput}{'\n}'}</pre>
+			</div>
+
+			<div class="card bg-base-200 border border-base-300 shadow-sm">
+				<div class="card-body p-5">
+					<div class="flex items-center justify-between mb-3">
+						<h3 class="text-sm font-bold uppercase tracking-wider">CSS Output</h3>
+						<CopyButton text={`.container {\n${cssOutput}\n}`} label="Copy" size="sm" />
+					</div>
+					<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-x-auto"><code>.container {'{\n'}{cssOutput}{'\n}'}</code></pre>
+				</div>
 			</div>
 		</div>
+
+		<!-- Controls Sidebar -->
+		<div class="lg:col-span-1 space-y-6 sticky top-6">
+			<div class="card bg-base-200 shadow-sm border border-base-300">
+				<div class="card-body p-6 space-y-6">
+					
+					<!-- Direction -->
+					<div class="form-control">
+						<label class="label-text font-bold mb-3 block">Flex Direction</label>
+						<div class="grid grid-cols-2 gap-2">
+							{#each directions as dir}
+								<button
+									class="btn btn-sm"
+									class:btn-outline={config.direction !== dir}
+									class:btn-primary={config.direction === dir}
+									onclick={() => config.direction = dir}
+								>
+									{dir}
+								</button>
+							{/each}
+						</div>
+					</div>
+
+					<div class="divider my-0"></div>
+
+					<!-- Wrap -->
+					<div class="form-control">
+						<label class="label-text font-bold mb-3 block">Flex Wrap</label>
+						<div class="join w-full">
+							{#each wrapOptions as wrap}
+								<button
+									class="btn btn-sm join-item flex-1"
+									class:btn-outline={config.flexWrap !== wrap}
+									class:btn-primary={config.flexWrap === wrap}
+									onclick={() => config.flexWrap = wrap}
+								>
+									{wrap}
+								</button>
+							{/each}
+						</div>
+					</div>
+
+					<div class="divider my-0"></div>
+
+					<!-- Justify -->
+					<div class="form-control">
+						<label class="label-text font-bold mb-2 block">Justify Content</label>
+						<select bind:value={config.justifyContent} class="select select-bordered select-sm w-full">
+							{#each justifyOptions as opt}
+								<option value={opt}>{opt}</option>
+							{/each}
+						</select>
+					</div>
+
+					<!-- Align -->
+					<div class="form-control">
+						<label class="label-text font-bold mb-2 block">Align Items</label>
+						<select bind:value={config.alignItems} class="select select-bordered select-sm w-full">
+							{#each alignOptions as opt}
+								<option value={opt}>{opt}</option>
+							{/each}
+						</select>
+					</div>
+
+					<div class="divider my-0"></div>
+
+					<!-- Gap -->
+					<div class="form-control">
+						<div class="flex justify-between items-center mb-2">
+							<label class="label-text font-bold">Gap</label>
+							<span class="badge badge-sm font-mono">{config.gap}px</span>
+						</div>
+						<input 
+							type="range" 
+							bind:value={config.gap} 
+							min="0" 
+							max="64" 
+							step="4"
+							class="range range-xs range-primary"
+						/>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
 	</div>
 </ToolWrapper>

@@ -52,19 +52,21 @@
 >
 	<div class="flex flex-col gap-6">
 		<!-- Preview -->
-		<div class="card bg-base-200 rounded-2xl overflow-hidden shadow-sm">
-			<div class="card-body p-6 flex flex-col items-center justify-center min-h-[300px]">
+		<div class="card bg-base-200 rounded-2xl overflow-hidden shadow-sm border border-base-300">
+			<div class="card-body p-6 flex flex-col items-center justify-center min-h-[400px]">
 				
-				<div class="w-full max-w-md bg-base-300 rounded-xl overflow-hidden relative shadow-lg transition-all duration-500">
-					<!-- The Box -->
-					<div 
-						class="bg-primary/90 flex items-center justify-center text-primary-content font-bold text-2xl relative overflow-hidden"
-						style="aspect-ratio: {width} / {height};"
-					>
-						<div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
-						<div class="z-10 flex flex-col items-center">
-							<span>{width}:{height}</span>
-							<span class="text-xs font-normal opacity-80 mt-1">{percentage}%</span>
+				<div class="w-full h-full max-h-[400px] flex items-center justify-center overflow-hidden">
+					<div class="w-full max-w-md bg-base-300 rounded-xl overflow-hidden relative shadow-lg transition-all duration-500">
+						<!-- The Box -->
+						<div 
+							class="bg-primary/90 flex items-center justify-center text-primary-content font-bold text-2xl relative overflow-hidden"
+							style="aspect-ratio: {width} / {height}; max-height: 400px;"
+						>
+							<div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
+							<div class="z-10 flex flex-col items-center">
+								<span>{width}:{height}</span>
+								<span class="text-xs font-normal opacity-80 mt-1">{percentage}%</span>
+							</div>
 						</div>
 					</div>
 				</div>
