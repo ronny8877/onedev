@@ -97,6 +97,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: '📝',
 		description: 'Free online text tools for developers. Convert text case, sort lines, find and replace with regex, compare text, count words, and generate lorem ipsum—all in your browser.',
 		items: [
+			{ name: 'String Compare', href: '/text/string-compare', description: 'String comparison tool online. Compare two strings word by word to find differences. Visual textual comparison tool free.', icon: '🔤' },
 			{ name: 'Case Converter', href: '/text/case-converter', description: 'Text case converter online. Convert between camelCase, snake_case, kebab-case, PascalCase, UPPERCASE, lowercase. Change text case instantly free.', icon: '🔤' },
 			{ name: 'Line Tools', href: '/text/line-tools', description: 'Line sorter and text tools online. Sort lines, remove duplicates, trim whitespace, reverse order. Manipulate text lines free in your browser.', icon: '📋' },
 			{ name: 'Text Diff', href: '/text/diff', description: 'Text diff checker online. Compare two text blocks line by line with highlighted additions and deletions. Free text comparison tool.', icon: '⚖️' },

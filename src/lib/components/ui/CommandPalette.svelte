@@ -29,11 +29,26 @@
 		if (!searchQuery.trim()) return allTools.slice(0, 8);
 
 		const query = searchQuery.toLowerCase();
-		return allTools.filter(tool =>
-			tool.name.toLowerCase().includes(query) ||
-			tool.description?.toLowerCase().includes(query) ||
-			toolCategoryMap.get(tool.href)?.toLowerCase().includes(query)
-		).slice(0, 8);
+		
+		return allTools
+			.map(tool => {
+				const name = tool.name.toLowerCase();
+				const description = tool.description?.toLowerCase() || '';
+				const category = toolCategoryMap.get(tool.href)?.toLowerCase() || '';
+				
+				let score = 0;
+				if (name === query) score += 100;
+				else if (name.startsWith(query)) score += 50;
+				else if (name.includes(query)) score += 20;
+				else if (description.includes(query)) score += 10;
+				else if (category.includes(query)) score += 5;
+				
+				return { tool, score };
+			})
+			.filter(item => item.score > 0)
+			.sort((a, b) => b.score - a.score)
+			.map(item => item.tool)
+			.slice(0, 8);
 	});
 
 	function handleKeydown(event: KeyboardEvent) {
