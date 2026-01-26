@@ -267,7 +267,7 @@ test123@test.io`;
 		<ToolActions onSample={loadSample} onClear={clearAll} {stats} />
 
 		<!-- Pattern Section -->
-		<div class="card bg-gradient-to-br from-base-200 to-base-300 rounded-2xl overflow-hidden">
+		<div class="card bg-gradient-to-br from-base-200 to-base-300 rounded-2xl">
 			<div class="card-body">
 				<!-- Pattern Header -->
 				<div class="flex items-center justify-between mb-4">
@@ -339,7 +339,7 @@ test123@test.io`;
 							Templates
 						</button>
 						<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-						<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-56">
+						<ul tabindex="0" class="dropdown-content z-50 menu p-2 shadow-lg bg-base-100 rounded-box w-56">
 							{#each quickTemplates as tmpl}
 								<li>
 									<button onclick={() => loadTemplate(tmpl.pattern)} class="text-sm">
@@ -359,7 +359,7 @@ test123@test.io`;
 								History
 							</button>
 							<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-							<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-72">
+							<ul tabindex="0" class="dropdown-content z-50 menu p-2 shadow-lg bg-base-100 rounded-box w-72">
 								{#each patternHistory as h}
 									<li>
 										<button onclick={() => loadFromHistory(h)} class="font-mono text-xs truncate">

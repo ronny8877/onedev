@@ -63,7 +63,7 @@
 	}
 </script>
 
-<div class="flex items-center gap-0.5 z-50 {className}">
+<div class="flex items-center gap-0.5  {className}">
 	{#if showFormats && isUrl}
 		<div class="dropdown dropdown-end">
 			<button
