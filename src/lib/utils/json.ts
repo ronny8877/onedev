@@ -19,11 +19,46 @@ export interface ValidationResult {
 /**
  * Parse JSON with detailed error information
  */
+/**
+ * Parse JSON with detailed error information.
+ * Enhanced to handle double-encoded strings and escaped JSON.
+ */
 export function parseJSONSafe(input: string): ValidationResult {
 	try {
 		const data = JSON.parse(input);
+
+		// If the result is a string, it might be double-encoded JSON (e.g. "{\"a\":1}")
+		// Try to parse the string value again.
+		if (typeof data === 'string') {
+			try {
+				const nested = parseJSONSafe(data);
+				if (nested.valid && typeof nested.data === 'object' && nested.data !== null) {
+					return nested;
+				}
+			} catch {
+				// Ignore nested parse errors, just return the string
+			}
+		}
+
 		return { valid: true, data };
 	} catch (err) {
+		// If normal parse fails, check if we can recover from escaped content
+		// This handles cases like {\"key\": \"value\"} which is common in logs
+		try {
+			// Try wrapping in quotes and parsing as a string, then parsing that string
+			// This effectively unescapes the input
+			const unescaped = JSON.parse(`"${input}"`);
+			if (typeof unescaped === 'string' && unescaped !== input) {
+				// Prevent infinite recursion if unescaping didn't change anything
+				const recover = parseJSONSafe(unescaped);
+				if (recover.valid) {
+					return recover;
+				}
+			}
+		} catch {
+			// Ignore recovery errors
+		}
+
 		const error = err as SyntaxError;
 		const parseError = extractErrorPosition(error.message, input);
 		return {
