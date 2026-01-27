@@ -154,26 +154,53 @@
 		};
 	}
 
-	// Generate IDs
-	function generate() {
+	// Generate IDs with chunking
+	async function generate() {
+		if (isGenerating) {
+			isGenerating = false;
+			return;
+		}
+
 		isGenerating = true;
-		
-		setTimeout(() => {
-			const alphabet = getCurrentAlphabet();
-			const results: string[] = [];
+		generatedIds = [];
+
+		const CHUNK_SIZE = 500;
+		const delay = 0;
+		let current = 0;
+
+		const alphabet = getCurrentAlphabet();
+		const generator = alphabetPreset === 'default' 
+			? () => nanoid(length)
+			: customAlphabet(alphabet, length);
+
+		// Initial batch
+		const initialBatchSize = Math.min(50, count);
+		const initialBatch = [];
+		for (let i = 0; i < initialBatchSize; i++) {
+			initialBatch.push(generator());
+		}
+		generatedIds = initialBatch;
+		current += initialBatchSize;
+
+		await new Promise(r => setTimeout(r, 10));
+
+		while (current < count && isGenerating) {
+			const batchSize = Math.min(CHUNK_SIZE, count - current);
+			const batch = [];
 			
-			// Use default nanoid or custom alphabet
-			const generator = alphabetPreset === 'default' 
-				? () => nanoid(length)
-				: customAlphabet(alphabet, length);
-			
-			for (let i = 0; i < count; i++) {
-				results.push(generator());
+			for (let i = 0; i < batchSize; i++) {
+				batch.push(generator());
 			}
 			
-			generatedIds = results;
-			isGenerating = false;
-		}, 50);
+			generatedIds = [...generatedIds, ...batch];
+			current += batchSize;
+
+			if (current < count) {
+				await new Promise(r => setTimeout(r, delay));
+			}
+		}
+
+		isGenerating = false;
 	}
 
 	// Get all IDs as text
@@ -241,7 +268,7 @@
 					<h3 class="font-bold">Configuration</h3>
 				</div>
 
-				<div class="grid gap-4 sm:grid-cols-2">
+				<div class="grid gap-4 sm:grid-cols-2 mb-4">
 					<!-- Length -->
 					<div>
 						<label class="text-sm font-medium mb-2 block">Length: {length} characters</label>
@@ -250,28 +277,39 @@
 							bind:value={length}
 							min="4"
 							max="64"
-							class="range range-sm range-primary"
+							class="range range-sm range-primary w-full"
 						/>
 						<div class="flex justify-between text-xs text-base-content/50 mt-1">
-							<span>4 (short)</span>
+							<span>4</span>
 							<span>21 (default)</span>
-							<span>64 (long)</span>
+							<span>64</span>
 						</div>
 					</div>
 
 					<!-- Quantity -->
 					<div>
-						<label class="text-sm font-medium mb-2 block">Quantity: {count}</label>
+						<div class="flex justify-between items-center mb-2">
+							<label class="text-sm font-medium">Quantity</label>
+							<input 
+								type="number" 
+								bind:value={count} 
+								min="1" 
+								max="10000" 
+								class="input input-xs input-bordered w-20 text-right font-mono"
+							/>
+						</div>
 						<input
 							type="range"
 							bind:value={count}
 							min="1"
-							max="100"
-							class="range range-sm"
+							max="10000"
+							step="1"
+							class="range range-sm w-full"
 						/>
 						<div class="flex justify-between text-xs text-base-content/50 mt-1">
 							<span>1</span>
-							<span>100</span>
+							<span>5k</span>
+							<span>10k</span>
 						</div>
 					</div>
 				</div>
@@ -317,8 +355,8 @@
 
 				<!-- Collision Probability -->
 				<div class="mt-4 grid md:grid-cols-2 gap-3">
-					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3">
-						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg">
+					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3 border border-base-content/5">
+						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg shadow-sm">
 							🎲
 						</div>
 						<div>
@@ -332,8 +370,8 @@
 						</div>
 					</div>
 
-					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3">
-						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg">
+					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3 border border-base-content/5">
+						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg shadow-sm">
 							⏳
 						</div>
 						<div>
@@ -349,21 +387,34 @@
 				</div>
 
 				<!-- Generate Button -->
-				<button
-					type="button"
-					class="btn btn-primary mt-4"
-					onclick={generate}
-					disabled={isGenerating || (alphabetPreset === 'custom' && customAlphabetInput.length < 2)}
-				>
+				<div class="mt-4 flex gap-2">
+					<button
+						type="button"
+						class="btn btn-primary flex-1"
+						onclick={generate}
+						disabled={isGenerating || (alphabetPreset === 'custom' && customAlphabetInput.length < 2)}
+					>
+						{#if isGenerating}
+							<span class="loading loading-spinner loading-sm"></span>
+							Generating... {Math.round((generatedIds.length / count) * 100)}%
+						{:else}
+							<svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+							</svg>
+							Generate {count > 1 ? `${count.toLocaleString()} ` : ''}NanoIDs
+						{/if}
+					</button>
+
 					{#if isGenerating}
-						<span class="loading loading-spinner loading-sm"></span>
-					{:else}
-						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-						</svg>
+						<button 
+							type="button" 
+							class="btn btn-error btn-outline"
+							onclick={() => isGenerating = false}
+						>
+							Stop
+						</button>
 					{/if}
-					Generate NanoIDs
-				</button>
+				</div>
 			</div>
 		</div>
 

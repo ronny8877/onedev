@@ -46,23 +46,55 @@
 		}
 	}
 
-	// Generate UUIDs
-	function generate() {
+	// Generate UUIDs with chunking
+	async function generate() {
+		if (isGenerating) {
+			isGenerating = false;
+			return;
+		}
+
 		isGenerating = true;
 		generatedUuids = [];
 
-		setTimeout(() => {
-			const results: { id: string; timestamp?: Date }[] = [];
+		const CHUNK_SIZE = 500;
+		const delay = 0; // ms
+		let current = 0;
+
+		// Initial small chunk for immediate feedback
+		const initialBatchSize = Math.min(50, count);
+		const initialBatch = [];
+		for (let i = 0; i < initialBatchSize; i++) {
+			const uuid = version === 'v4' ? uuidv4() : uuidv7();
+			const timestamp = version === 'v7' ? extractV7Timestamp(uuid) : undefined;
+			initialBatch.push({ id: uuid, timestamp });
+		}
+		generatedUuids = initialBatch;
+		current += initialBatchSize;
+
+		await new Promise(r => setTimeout(r, 10));
+
+		while (current < count && isGenerating) {
+			const batchSize = Math.min(CHUNK_SIZE, count - current);
+			const batch = [];
 			
-			for (let i = 0; i < count; i++) {
+			// Process chunk
+			for (let i = 0; i < batchSize; i++) {
 				const uuid = version === 'v4' ? uuidv4() : uuidv7();
 				const timestamp = version === 'v7' ? extractV7Timestamp(uuid) : undefined;
-				results.push({ id: uuid, timestamp });
+				batch.push({ id: uuid, timestamp });
 			}
 
-			generatedUuids = results;
-			isGenerating = false;
-		}, 50);
+			// Update state
+			generatedUuids = [...generatedUuids, ...batch];
+			current += batchSize;
+
+			// Yield to main thread
+			if (current < count) {
+				await new Promise(r => setTimeout(r, delay));
+			}
+		}
+
+		isGenerating = false;
 	}
 
 	// Get all UUIDs as formatted text
@@ -188,7 +220,7 @@
 					<h3 class="font-bold">Configuration</h3>
 				</div>
 
-				<div class="grid gap-4 sm:grid-cols-2">
+				<div class="grid gap-4 sm:grid-cols-2 mb-4">
 					<!-- Version Toggle -->
 					<div>
 						<label class="text-sm font-medium mb-2 block">UUID Version</label>
@@ -210,28 +242,39 @@
 
 					<!-- Count -->
 					<div>
-						<label class="text-sm font-medium mb-2 block">Quantity: {count}</label>
+						<div class="flex justify-between items-center mb-2">
+							<label class="text-sm font-medium">Quantity</label>
+							<input 
+								type="number" 
+								bind:value={count} 
+								min="1" 
+								max="10000" 
+								class="input input-xs input-bordered w-20 text-right font-mono"
+							/>
+						</div>
 						<input
 							type="range"
 							bind:value={count}
 							min="1"
-							max="100"
-							class="range range-sm range-primary"
+							max="10000"
+							step="1"
+							class="range range-sm range-primary w-full"
 						/>
 						<div class="flex justify-between text-xs text-base-content/50 mt-1">
 							<span>1</span>
-							<span>100</span>
+							<span>5k</span>
+							<span>10k</span>
 						</div>
 					</div>
 				</div>
 
 				<!-- Format Options -->
 				<div class="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-base-300">
-					<label class="flex items-center gap-2 cursor-pointer">
+					<label class="flex items-center gap-2 cursor-pointer select-none hover:text-base-content transition-colors">
 						<input type="checkbox" bind:checked={uppercase} class="toggle toggle-sm" />
 						<span class="text-sm">UPPERCASE</span>
 					</label>
-					<label class="flex items-center gap-2 cursor-pointer">
+					<label class="flex items-center gap-2 cursor-pointer select-none hover:text-base-content transition-colors">
 						<input type="checkbox" bind:checked={withHyphens} class="toggle toggle-sm toggle-primary" />
 						<span class="text-sm">With hyphens</span>
 					</label>
@@ -239,8 +282,8 @@
 				
 				<!-- Stats Cards -->
 				<div class="mt-4 grid md:grid-cols-2 gap-3">
-					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3">
-						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg">
+					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3 border border-base-content/5">
+						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg shadow-sm">
 							🎲
 						</div>
 						<div>
@@ -254,8 +297,8 @@
 						</div>
 					</div>
 
-					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3">
-						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg">
+					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3 border border-base-content/5">
+						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg shadow-sm">
 							⏳
 						</div>
 						<div>
@@ -271,21 +314,34 @@
 				</div>
 
 				<!-- Generate Button -->
-				<button
-					type="button"
-					class="btn btn-primary mt-4 w-full"
-					onclick={generate}
-					disabled={isGenerating}
-				>
+				<div class="mt-4 flex gap-2">
+					<button
+						type="button"
+						class="btn btn-primary flex-1"
+						onclick={generate}
+						disabled={isGenerating}
+					>
+						{#if isGenerating}
+							<span class="loading loading-spinner loading-sm"></span>
+							Generating... {Math.round((generatedUuids.length / count) * 100)}%
+						{:else}
+							<svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+							</svg>
+							Generate {count > 1 ? `${count.toLocaleString()} ` : ''}UUIDs
+						{/if}
+					</button>
+					
 					{#if isGenerating}
-						<span class="loading loading-spinner loading-xs"></span>
-					{:else}
-						<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-						</svg>
+						<button 
+							type="button" 
+							class="btn btn-error btn-outline"
+							onclick={() => isGenerating = false}
+						>
+							Stop
+						</button>
 					{/if}
-					Generate UUIDs
-				</button>
+				</div>
 			</div>
 		</div>
 
