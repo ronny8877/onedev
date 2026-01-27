@@ -496,4 +496,111 @@ footer {
 .container {
   container-type: inline-size;
 }`,
+
+	modernButton: `.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  color: white;
+  background-color: #6366f1;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: #4f46e5;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}`,
+
+	modernInput: `.input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #1f2937;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.input:focus {
+  border-color: #6366f1;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}`,
+
+	customCheckbox: `.checkbox-wrapper {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox-input {
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.25em;
+  height: 1.25em;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25em;
+  display: grid;
+  place-content: center;
+  transition: 0.2s ease-in-out;
+}
+
+.checkbox-input::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 0.12s transform ease-in-out;
+  box-shadow: inset 1em 1em white;
+  transform-origin: center;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.checkbox-input:checked {
+  background-color: #6366f1;
+  border-color: #6366f1;
+}
+
+.checkbox-input:checked::before {
+  transform: scale(1);
+}`,
+
+	card: `.card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0,0,0,0.05);
+}`,
+
+	borderRadius: `.rounded-sm { border-radius: 0.125rem; }
+.rounded { border-radius: 0.25rem; }
+.rounded-md { border-radius: 0.375rem; }
+.rounded-lg { border-radius: 0.5rem; }
+.rounded-xl { border-radius: 0.75rem; }
+.rounded-2xl { border-radius: 1rem; }
+.rounded-3xl { border-radius: 1.5rem; }
+.rounded-full { border-radius: 9999px; } 
+.rounded-pill { border-radius: 100vw; }`,
 };

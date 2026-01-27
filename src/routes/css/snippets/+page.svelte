@@ -3,7 +3,7 @@
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { cssSnippets } from '$lib/utils/css-utils';
 
-	let activeTab = $state<'centering' | 'truncate' | 'aspect' | 'sticky' | 'a11y' | 'effects' | 'modern'>('centering');
+	let activeTab = $state<'centering' | 'truncate' | 'aspect' | 'sticky' | 'a11y' | 'effects' | 'modern' | 'elements'>('centering');
 
 	const tabs = [
 		{ id: 'centering', label: 'Centering', icon: '⊕' },
@@ -13,6 +13,7 @@
 		{ id: 'a11y', label: 'Accessibility', icon: '♿' },
 		{ id: 'effects', label: 'Effects', icon: '✨' },
 		{ id: 'modern', label: 'Modern CSS', icon: '🆕' },
+		{ id: 'elements', label: 'UI Elements', icon: '🧩' },
 	] as const;
 </script>
 
@@ -346,6 +347,108 @@
 							<li>Use <code>clamp()</code> for responsive values</li>
 							<li>Use <code>text-wrap: balance</code> for headings</li>
 						</ul>
+					</div>
+				</div>
+			</div>
+		{/if}
+
+		<!-- UI Elements (New) -->
+		{#if activeTab === 'elements'}
+			<div class="space-y-4">
+				<div class="card bg-base-200 rounded-2xl">
+					<div class="card-body p-4">
+						<div class="flex items-center justify-between mb-3">
+							<h3 class="text-sm font-semibold">Modern Button</h3>
+							<CopyButton text={cssSnippets.modernButton} label="Copy" size="sm" />
+						</div>
+						<div class="grid lg:grid-cols-2 gap-4">
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto max-h-48 whitespace-pre-wrap">{cssSnippets.modernButton}</pre>
+							<div class="bg-base-300 rounded-xl p-6 flex flex-col gap-4 items-center justify-center">
+								<button class="px-6 py-3 font-semibold text-white bg-[#6366f1] hover:bg-[#4f46e5] rounded-lg transition-colors shadow-sm">
+									Click Me
+								</button>
+								<button class="px-6 py-3 font-semibold text-white bg-[#6366f1] rounded-lg opacity-60 cursor-not-allowed">
+									Disabled
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card bg-base-200 rounded-2xl">
+					<div class="card-body p-4">
+						<div class="flex items-center justify-between mb-3">
+							<h3 class="text-sm font-semibold">Input Field</h3>
+							<CopyButton text={cssSnippets.modernInput} label="Copy" size="sm" />
+						</div>
+						<div class="grid lg:grid-cols-2 gap-4">
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto max-h-48 whitespace-pre-wrap">{cssSnippets.modernInput}</pre>
+							<div class="bg-base-300 rounded-xl p-6 flex items-center justify-center">
+								<input type="text" placeholder="Type something..." class="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6366f1]/50 focus:border-[#6366f1] transition-all bg-white text-gray-800" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card bg-base-200 rounded-2xl">
+					<div class="card-body p-4">
+						<div class="flex items-center justify-between mb-3">
+							<h3 class="text-sm font-semibold">Custom Checkbox</h3>
+							<CopyButton text={cssSnippets.customCheckbox} label="Copy" size="sm" />
+						</div>
+						<div class="grid lg:grid-cols-2 gap-4">
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto max-h-48 whitespace-pre-wrap">{cssSnippets.customCheckbox}</pre>
+							<div class="bg-base-300 rounded-xl p-6 flex flex-col gap-4 items-center justify-center">
+								<label class="flex items-center gap-2 cursor-pointer">
+                                    <div class="w-5 h-5 border border-base-content/30 rounded bg-white flex items-center justify-center text-[#6366f1]">
+                                        <div class="w-3 h-3 bg-current transform scale-0 transition-transform duration-200 rounded-sm"></div>
+                                    </div>
+                                    <span class="text-sm">Unchecked</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <div class="w-5 h-5 border border-[#6366f1] rounded bg-[#6366f1] flex items-center justify-center text-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                                    </div>
+                                    <span class="text-sm">Checked</span>
+                                </label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card bg-base-200 rounded-2xl">
+					<div class="card-body p-4">
+						<div class="flex items-center justify-between mb-3">
+							<h3 class="text-sm font-semibold">Card Component</h3>
+							<CopyButton text={cssSnippets.card} label="Copy" size="sm" />
+						</div>
+						<div class="grid lg:grid-cols-2 gap-4">
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto max-h-48 whitespace-pre-wrap">{cssSnippets.card}</pre>
+							<div class="bg-base-300 rounded-xl p-6 flex items-center justify-center">
+								<div class="bg-white p-6 rounded-2xl shadow-sm border border-base-200 w-full max-w-xs text-gray-800">
+                                    <h4 class="font-bold text-lg mb-2">Card Title</h4>
+                                    <p class="text-sm opacity-70">This is a simple card component with a subtle shadow and border radius.</p>
+                                </div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+                <div class="card bg-base-200 rounded-2xl">
+					<div class="card-body p-4">
+						<div class="flex items-center justify-between mb-3">
+							<h3 class="text-sm font-semibold">Border Radius Helpers</h3>
+							<CopyButton text={cssSnippets.borderRadius} label="Copy" size="sm" />
+						</div>
+						<div class="grid lg:grid-cols-2 gap-4">
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto max-h-48 whitespace-pre-wrap">{cssSnippets.borderRadius}</pre>
+							<div class="bg-base-300 rounded-xl p-6 flex flex-wrap gap-4 items-center justify-center">
+								<div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-sm flex items-center justify-center text-[10px]">sm</div>
+                                <div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-md flex items-center justify-center text-[10px]">md</div>
+                                <div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-xl flex items-center justify-center text-[10px]">xl</div>
+                                <div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-full flex items-center justify-center text-[10px]">full</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
