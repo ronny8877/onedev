@@ -101,6 +101,73 @@
 			random: ulidStr.substring(10) // Remaining 16 chars are random
 		};
 	}
+	// Calculate collision stats for ULID
+	function getCollisionStats() {
+		// ULID has 80 bits of randomness per millisecond
+		// We focus on the random part for collision probability within the same MS
+		const randomBits = 80;
+		const totalPossibilities = Math.pow(2, randomBits);
+		
+		// 1. Collision Probability at 1 Billion IDs (within same ms for worst case, or total for general)
+		// For ULID, since it's monotonic, it handles same-ms collisions by incrementing.
+		// So purely random collision is only if we generate > 2^80 in a burst or different systems collide.
+		// Let's model "Random Collision Risk" for distributed systems.
+		
+		const n = 1e9; // 1 billion generated
+		
+		// Prob ≈ n^2 / 2N
+		// Using linear approx for such huge N is fine, or exp for correctness
+		// P = 1 - exp(-n^2/2N)
+		// n^2 = 1e18
+		// 2N = 2 * 1.2e24 ≈ 2.4e24
+		// Exponent is tiny.
+		
+		const exponent = - (n * n) / (2 * totalPossibilities);
+		let probability = 1 - Math.exp(exponent);
+		
+		if (-exponent < 1e-9) probability = -exponent;
+
+		let probString: string;
+		
+		if (probability < 1e-15) {
+			probString = '< 1e-15%'; 
+		} else if (probability < 0.000001) {
+			probString = '< 0.0001%';
+		} else {
+			const percentage = probability * 100;
+			if (percentage < 0.01) {
+				probString = '~' + percentage.toFixed(6) + '%';
+			} else {
+				probString = '~' + percentage.toFixed(4) + '%';
+			}
+		}
+
+		// 2. Time to 1% Collision Probability (Random component only)
+		// Rate: 1,000 IDs per second
+		const pTarget = 0.01;
+		const idsFor1Percent = Math.sqrt(2 * totalPossibilities * -Math.log(1 - pTarget));
+		const ratePerSecond = 1000;
+		const secondsTo1Percent = idsFor1Percent / ratePerSecond;
+		
+		let timeString = '';
+		const years = secondsTo1Percent / 31536000;
+		if (years > 1e12) {
+			timeString = 'Trillions of years';
+		} else if (years > 1e9) {
+			timeString = 'Billions of years';
+		} else if (years > 1e6) {
+			timeString = 'Millions of years';
+		} else {
+			timeString = `${Math.floor(years).toLocaleString()} years`;
+		}
+
+		return {
+			probability: probString,
+			timeToCollision: timeString
+		};
+	}
+	
+	let collisionInfo = $derived(getCollisionStats());
 </script>
 
 <ToolWrapper>
@@ -147,6 +214,39 @@
 							</svg>
 							Run Sort Demo
 						</button>
+					</div>
+				</div>
+
+				<!-- Stats Cards -->
+				<div class="mt-4 grid md:grid-cols-2 gap-3">
+					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3">
+						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg">
+							🎲
+						</div>
+						<div>
+							<p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">Collision Probability</p>
+							<div class="font-bold text-lg leading-tight">
+								{collisionInfo.probability}
+							</div>
+							<p class="text-[10px] text-base-content/50">
+								Generating 1 billion IDs
+							</p>
+						</div>
+					</div>
+
+					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3">
+						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg">
+							⏳
+						</div>
+						<div>
+							<p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">Time to 1% Risk</p>
+							<div class="font-bold text-lg leading-tight">
+								{collisionInfo.timeToCollision}
+							</div>
+							<p class="text-[10px] text-base-content/50">
+								at 1,000 IDs/second
+							</p>
+						</div>
 					</div>
 				</div>
 

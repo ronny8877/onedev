@@ -109,6 +109,68 @@
 	onMount(() => {
 		generate();
 	});
+	// Calculate collision stats for UUID
+	function getCollisionStats() {
+		// v4 has 122 random bits
+		// v7 has 74 random bits (plus 48 bits timestamp)
+		
+		const randomBits = version === 'v4' ? 122 : 74;
+		const totalPossibilities = Math.pow(2, randomBits);
+		
+		// 1. Random Collision Probability at 1 Billion IDs
+		// For v7, this is assuming collision within the SAME millisecond.
+		// For v4, this is general collision probability.
+		
+		const n = 1e9; // 1 billion generated
+		
+		// Prob ≈ n^2 / 2N
+		const exponent = - (n * n) / (2 * totalPossibilities);
+		let probability = 1 - Math.exp(exponent);
+		
+		if (-exponent < 1e-9) probability = -exponent;
+
+		let probString: string;
+		
+		if (probability < 1e-15) {
+			probString = '< 1e-15%'; 
+		} else if (probability < 0.000001) {
+			probString = '< 0.0001%';
+		} else {
+			const percentage = probability * 100;
+			if (percentage < 0.01) {
+				probString = '~' + percentage.toFixed(6) + '%';
+			} else {
+				probString = '~' + percentage.toFixed(4) + '%';
+			}
+		}
+
+		// 2. Time to 1% Collision Probability (Random component only)
+		// Rate: 1,000 IDs per second
+		const pTarget = 0.01;
+		const idsFor1Percent = Math.sqrt(2 * totalPossibilities * -Math.log(1 - pTarget));
+		const ratePerSecond = 1000;
+		const secondsTo1Percent = idsFor1Percent / ratePerSecond;
+		
+		let timeString = '';
+		const years = secondsTo1Percent / 31536000;
+		if (years > 1e12) {
+			timeString = 'Trillions of years';
+		} else if (years > 1e9) {
+			timeString = 'Billions of years';
+		} else if (years > 1e6) {
+			timeString = 'Millions of years';
+		} else {
+			timeString = `${Math.floor(years).toLocaleString()} years`;
+		}
+
+		return {
+			probability: probString,
+			timeToCollision: timeString,
+			description: version === 'v7' ? 'Risk within same ms' : 'Global risk'
+		};
+	}
+	
+	let collisionInfo = $derived(getCollisionStats());
 </script>
 
 <ToolWrapper>
@@ -173,22 +235,57 @@
 						<input type="checkbox" bind:checked={withHyphens} class="toggle toggle-sm toggle-primary" />
 						<span class="text-sm">With hyphens</span>
 					</label>
-					<button
-						type="button"
-						class="btn btn-primary btn-sm ml-auto"
-						onclick={generate}
-						disabled={isGenerating}
-					>
-						{#if isGenerating}
-							<span class="loading loading-spinner loading-xs"></span>
-						{:else}
-							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-							</svg>
-						{/if}
-						Generate
-					</button>
 				</div>
+				
+				<!-- Stats Cards -->
+				<div class="mt-4 grid md:grid-cols-2 gap-3">
+					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3">
+						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg">
+							🎲
+						</div>
+						<div>
+							<p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">Collision Probability</p>
+							<div class="font-bold text-lg leading-tight">
+								{collisionInfo.probability}
+							</div>
+							<p class="text-[10px] text-base-content/50">
+								{collisionInfo.description} (1B IDs)
+							</p>
+						</div>
+					</div>
+
+					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3">
+						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg">
+							⏳
+						</div>
+						<div>
+							<p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">Time to 1% Risk</p>
+							<div class="font-bold text-lg leading-tight">
+								{collisionInfo.timeToCollision}
+							</div>
+							<p class="text-[10px] text-base-content/50">
+								at 1,000 IDs/second
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Generate Button -->
+				<button
+					type="button"
+					class="btn btn-primary mt-4 w-full"
+					onclick={generate}
+					disabled={isGenerating}
+				>
+					{#if isGenerating}
+						<span class="loading loading-spinner loading-xs"></span>
+					{:else}
+						<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+						</svg>
+					{/if}
+					Generate UUIDs
+				</button>
 			</div>
 		</div>
 
@@ -238,37 +335,5 @@
 				</div>
 			</div>
 		{/if}
-
-		<!-- Info Cards -->
-		<div class="grid gap-4 sm:grid-cols-2">
-			<div class="card bg-base-200 rounded-xl">
-				<div class="card-body p-4">
-					<div class="flex items-center gap-2">
-						<span class="text-lg">🎲</span>
-						<h4 class="font-semibold">UUID v4 (Random)</h4>
-					</div>
-					<ul class="mt-2 text-sm text-base-content/70 space-y-1">
-						<li>• 122 random bits</li>
-						<li>• No timestamp or order</li>
-						<li>• Best for general unique IDs</li>
-						<li>• Collision probability: 1 in 2.71 quintillion</li>
-					</ul>
-				</div>
-			</div>
-			<div class="card bg-base-200 rounded-xl">
-				<div class="card-body p-4">
-					<div class="flex items-center gap-2">
-						<span class="text-lg">⏱️</span>
-						<h4 class="font-semibold">UUID v7 (Time-ordered)</h4>
-					</div>
-					<ul class="mt-2 text-sm text-base-content/70 space-y-1">
-						<li>• 48-bit Unix timestamp (ms)</li>
-						<li>• Sortable by creation time</li>
-						<li>• Better for databases (index friendly)</li>
-						<li>• Modern replacement for v1</li>
-					</ul>
-				</div>
-			</div>
-		</div>
 	</div>
 </ToolWrapper>

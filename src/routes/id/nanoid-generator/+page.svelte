@@ -49,32 +49,109 @@
 		return alphabetPresets[alphabetPreset].chars;
 	}
 
-	// Calculate collision probability
-	function getCollisionProbability(): { probability: string; description: string } {
+	// Calculate collision stats
+	function getCollisionStats() {
 		const alphabet = getCurrentAlphabet();
 		const alphabetSize = alphabet.length;
 		
-		// Using birthday paradox approximation
-		// For n IDs, probability ≈ n² / (2 * totalPossibilities)
-		// totalPossibilities = alphabetSize^length
-		
-		const totalPossibilities = Math.pow(alphabetSize, length);
-		const oneBillion = 1e9;
-		
-		// Probability of collision when generating 1 billion IDs
-		const probPerBillion = (oneBillion * oneBillion) / (2 * totalPossibilities);
-		
-		if (probPerBillion < 1e-15) {
-			return { probability: '< 0.000001%', description: 'Virtually impossible collision at 1 billion IDs' };
-		} else if (probPerBillion < 1e-9) {
-			return { probability: '~0.0000001%', description: 'Extremely unlikely at 1 billion IDs' };
-		} else if (probPerBillion < 1e-6) {
-			return { probability: '~0.0001%', description: 'Very unlikely at 1 billion IDs' };
-		} else if (probPerBillion < 0.01) {
-			return { probability: `~${(probPerBillion * 100).toFixed(4)}%`, description: 'Low probability at 1 billion IDs' };
-		} else {
-			return { probability: `~${(probPerBillion * 100).toFixed(2)}%`, description: '⚠️ Consider increasing length' };
+		if (alphabetSize === 0 || length <= 0) {
+			return {
+				probability: '0%',
+				probabilityDescription: 'Cannot calculate',
+				timeToCollision: 'N/A',
+				speedDescription: 'at 1,000 IDs/sec'
+			};
 		}
+
+		// Total unique combinations
+		const totalPossibilities = Math.pow(alphabetSize, length);
+		
+		// 1. Collision Probability at 1 Billion IDs
+		// Formula: P ≈ 1 - exp(-n^2 / (2N))
+		const n = 1e9; // 1 billion generated
+		
+		// Calculate the exponent: -n^2 / 2N
+		// We use n*n / 2 / N to avoid early overflow if possible, though JS doubles handle 1e308.
+		const exponent = - (n * n) / (2 * totalPossibilities);
+		
+		// Probability formula
+		let probability = 1 - Math.exp(exponent);
+		
+		// Fallback for very small probabilities where 1 - exp(x) loses precision
+		// For very small x, 1 - exp(-x) ≈ x
+		if (-exponent < 1e-9) {
+			probability = -exponent;
+		}
+		
+		// Clamp and format
+		let probString: string;
+		let probDesc: string;
+
+		if (probability > 0.9999) {
+			probString = '> 99.99%';
+			probDesc = 'High collision risk!';
+		} else if (probability < 1e-15) {
+			probString = '< 1e-15%'; // Essentially zero
+			probDesc = 'Virtually impossible';
+		} else if (probability < 0.000001) {
+			probString = '< 0.0001%';
+			probDesc = 'Extremely unlikely';
+		} else {
+			// Show reasonable precision
+			const percentage = probability * 100;
+			if (percentage < 0.01) {
+				probString = '~' + percentage.toFixed(6) + '%';
+			} else {
+				probString = '~' + percentage.toFixed(4) + '%';
+			}
+			
+			if (percentage > 50) probDesc = 'High risk';
+			else if (percentage > 1) probDesc = 'Consider longer IDs';
+			else probDesc = 'Low probability';
+		}
+
+		// 2. Time to 1% Collision Probability
+		// How many IDs to generate to reach 1% probability?
+		// n ≈ sqrt(2 * N * -ln(1 - P))
+		// For P = 0.01:
+		const pTarget = 0.01;
+		const idsFor1Percent = Math.sqrt(2 * totalPossibilities * -Math.log(1 - pTarget));
+		
+		// Assume rate of 1,000 IDs per second
+		const ratePerSecond = 1000;
+		const secondsTo1Percent = idsFor1Percent / ratePerSecond;
+		
+		let timeString = '';
+		
+		if (secondsTo1Percent < 1) {
+			timeString = 'Instant';
+		} else if (secondsTo1Percent < 60) {
+			timeString = `${Math.floor(secondsTo1Percent)} seconds`;
+		} else if (secondsTo1Percent < 3600) {
+			timeString = `${Math.floor(secondsTo1Percent / 60)} minutes`;
+		} else if (secondsTo1Percent < 86400) {
+			timeString = `${Math.floor(secondsTo1Percent / 3600)} hours`;
+		} else if (secondsTo1Percent < 31536000) {
+			timeString = `${Math.floor(secondsTo1Percent / 86400)} days`;
+		} else {
+			const years = secondsTo1Percent / 31536000;
+			if (years > 1e12) {
+				timeString = 'Trillions of years';
+			} else if (years > 1e9) {
+				timeString = 'Billions of years';
+			} else if (years > 1e6) {
+				timeString = 'Millions of years';
+			} else {
+				timeString = `${Math.floor(years).toLocaleString()} years`;
+			}
+		}
+
+		return {
+			probability: probString,
+			probabilityDescription: probDesc,
+			timeToCollision: timeString,
+			speedDescription: 'at 1,000 IDs/second'
+		};
 	}
 
 	// Generate IDs
@@ -141,7 +218,7 @@
 		count: generatedIds.length > 0 ? generatedIds.length : undefined
 	});
 
-	let collisionInfo = $derived(getCollisionProbability());
+	let collisionInfo = $derived(getCollisionStats());
 
 	// Generate on mount
 	onMount(() => {
@@ -171,12 +248,12 @@
 						<input
 							type="range"
 							bind:value={length}
-							min="8"
+							min="4"
 							max="64"
 							class="range range-sm range-primary"
 						/>
 						<div class="flex justify-between text-xs text-base-content/50 mt-1">
-							<span>8 (short)</span>
+							<span>4 (short)</span>
 							<span>21 (default)</span>
 							<span>64 (long)</span>
 						</div>
@@ -239,13 +316,33 @@
 				{/if}
 
 				<!-- Collision Probability -->
-				<div class="mt-4 p-3 bg-base-300/50 rounded-lg">
-					<div class="flex items-center gap-2">
-						<span class="text-lg">🎲</span>
+				<div class="mt-4 grid md:grid-cols-2 gap-3">
+					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3">
+						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg">
+							🎲
+						</div>
 						<div>
-							<p class="text-sm font-medium">Collision Probability</p>
-							<p class="text-xs text-base-content/70">
-								{collisionInfo.probability} — {collisionInfo.description}
+							<p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">Collision Probability</p>
+							<div class="font-bold text-lg leading-tight">
+								{collisionInfo.probability}
+							</div>
+							<p class="text-[10px] text-base-content/50">
+								Generating 1 billion IDs
+							</p>
+						</div>
+					</div>
+
+					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3">
+						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg">
+							⏳
+						</div>
+						<div>
+							<p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">Time to 1% Risk</p>
+							<div class="font-bold text-lg leading-tight">
+								{collisionInfo.timeToCollision}
+							</div>
+							<p class="text-[10px] text-base-content/50">
+								{collisionInfo.speedDescription}
 							</p>
 						</div>
 					</div>
