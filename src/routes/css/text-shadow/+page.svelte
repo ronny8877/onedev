@@ -2,20 +2,37 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { generateTextShadow, type TextShadowConfig } from '$lib/utils/css-utils';
+	import { basicShadows, neonShadows, retroShadows, threeDShadows, creativeShadows } from './shadows';
 
 	let shadows = $state<TextShadowConfig[]>([
 		{ x: 2, y: 2, blur: 4, color: 'rgba(0, 0, 0, 0.3)' }
 	]);
 
 	let previewText = $state('Hello World');
-	let fontSize = $state(48);
+	let fontSize = $state(64);
 	let fontWeight = $state('bold');
+	let textColor = $state('#333333');
+	let bgColor = $state('#f3f4f6');
 	let selectedShadow = $state(0);
 
 	let cssOutput = $derived(generateTextShadow(shadows));
 
+	// Library State
+	let activeLibraryTab = $state<'basic' | 'neon' | 'retro' | '3d' | 'creative'>('basic');
+	let librarySection: HTMLElement;
+
+	let activeLibraryShadows = $derived.by(() => {
+		switch (activeLibraryTab) {
+			case 'basic': return basicShadows;
+			case 'neon': return neonShadows;
+			case 'retro': return retroShadows;
+			case '3d': return threeDShadows;
+			case 'creative': return creativeShadows;
+		}
+	});
+
 	function addShadow() {
-		shadows = [...shadows, { x: 1, y: 1, blur: 2, color: 'rgba(0, 0, 0, 0.2)' }];
+		shadows = [...shadows, { x: 2, y: 2, blur: 0, color: 'rgba(0, 0, 0, 0.2)' }];
 		selectedShadow = shadows.length - 1;
 	}
 
@@ -25,193 +42,298 @@
 			if (selectedShadow >= shadows.length) selectedShadow = shadows.length - 1;
 		}
 	}
+	
+	function scrollToLibrary() {
+		librarySection?.scrollIntoView({ behavior: 'smooth' });
+	}
 
-	// Presets
-	const presets = [
-		{ name: 'Subtle', shadows: [{ x: 1, y: 1, blur: 2, color: 'rgba(0, 0, 0, 0.2)' }] },
-		{ name: 'Hard', shadows: [{ x: 3, y: 3, blur: 0, color: 'rgba(0, 0, 0, 0.4)' }] },
-		{ name: 'Glow', shadows: [{ x: 0, y: 0, blur: 10, color: 'rgba(59, 130, 246, 0.8)' }] },
-		{ name: 'Neon Pink', shadows: [{ x: 0, y: 0, blur: 5, color: '#ff00ff' }, { x: 0, y: 0, blur: 10, color: '#ff00ff' }, { x: 0, y: 0, blur: 20, color: '#ff00ff' }] },
-		{ name: 'Neon Cyan', shadows: [{ x: 0, y: 0, blur: 5, color: '#00ffff' }, { x: 0, y: 0, blur: 10, color: '#00ffff' }, { x: 0, y: 0, blur: 20, color: '#00ffff' }] },
-		{ name: '3D', shadows: [{ x: 1, y: 1, blur: 0, color: '#666' }, { x: 2, y: 2, blur: 0, color: '#555' }, { x: 3, y: 3, blur: 0, color: '#444' }] },
-		{ name: 'Outline', shadows: [{ x: -1, y: -1, blur: 0, color: '#000' }, { x: 1, y: -1, blur: 0, color: '#000' }, { x: -1, y: 1, blur: 0, color: '#000' }, { x: 1, y: 1, blur: 0, color: '#000' }] },
-		{ name: 'Emboss', shadows: [{ x: -1, y: -1, blur: 1, color: 'rgba(255,255,255,0.6)' }, { x: 1, y: 1, blur: 1, color: 'rgba(0,0,0,0.3)' }] },
-	];
-
-	function applyPreset(preset: typeof presets[0]) {
-		shadows = preset.shadows.map(s => ({ ...s }));
-		selectedShadow = 0;
+	function updateShadowColor(index: number, color: string) {
+		shadows[index].color = color;
 	}
 </script>
 
 <ToolWrapper
-	keywords={['text shadow', 'css text shadow', 'text effects', 'shadow generator', 'text glow', 'neon text']}
+	keywords={['text shadow', 'css text shadow', 'text effects', 'shadow generator', 'text glow', 'neon text', '3d text css']}
 >
-	<div class="flex flex-col gap-6">
-		<!-- Preview -->
-		<div class="card bg-base-200 rounded-2xl overflow-hidden">
-			<div class="card-body p-8">
-				<h3 class="text-sm font-semibold mb-4 text-center">Live Preview</h3>
-				<div class="flex justify-center py-8 bg-base-300 rounded-xl">
-					<span 
-						class="transition-all duration-300"
+	<!-- Top Notification -->
+	<div class="alert border-none mb-6 rounded-xl flex items-center justify-between">
+		<div class="flex items-center gap-3">
+			<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-content font-bold shadow-lg">
+				T
+			</div>
+			<div>
+				<h3 class="font-semibold text-sm">Need Inspiration?</h3>
+				<p class="text-xs opacity-70">Check out our collection of 20+ ready-to-use text effects.</p>
+			</div>
+		</div>
+		<button class="btn btn-sm btn-primary" onclick={scrollToLibrary}>
+			Browse Library
+			<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+		</button>
+	</div>
+
+	<div class="grid lg:grid-cols-[1fr_360px] gap-6 items-start">
+		<!-- Left Col: Preview & Bottom Code -->
+		<div class="space-y-6">
+			<!-- Main Preview Canvas -->
+			<div class="card bg-base-200 shadow-sm border border-base-300 overflow-hidden">
+				<div class="p-4 border-b border-base-300 flex items-center justify-between bg-base-100/50">
+					<h3 class="text-sm font-semibold flex items-center gap-2">
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+						Preview
+					</h3>
+					
+					<!-- Quick Color Controls -->
+					<div class="flex items-center gap-2">
+						<div class="tooltip tooltip-bottom" data-tip="Text Color">
+							<div class="flex items-center justify-center p-1 rounded hover:bg-base-200 transition-colors cursor-pointer border border-base-300 relative">
+								<div class="w-4 h-4 rounded-full shadow-sm border border-base-300" style="background: {textColor}"></div>
+								<input type="color" bind:value={textColor} class="absolute inset-0 opacity-0 cursor-pointer" />
+							</div>
+						</div>
+						<div class="w-px h-4 bg-base-300"></div>
+						<div class="tooltip tooltip-bottom" data-tip="Background Color">
+							<div class="flex items-center justify-center p-1 rounded hover:bg-base-200 transition-colors cursor-pointer border border-base-300 relative">
+								<div class="w-4 h-4 rounded-full shadow-sm border border-base-300" style="background: {bgColor}"></div>
+								<input type="color" bind:value={bgColor} class="absolute inset-0 opacity-0 cursor-pointer" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div 
+					class="h-[300px] w-full flex items-center justify-center relative overflow-hidden transition-colors duration-300"
+					style="background-color: {bgColor};"
+				>
+					<div 
+						contenteditable="true"
+						bind:textContent={previewText}
+						class="text-center outline-none min-w-[50%] p-4 rounded border border-transparent hover:border-base-300/50 transition-colors cursor-text"
 						style="
 							text-shadow: {cssOutput};
 							font-size: {fontSize}px;
 							font-weight: {fontWeight};
+							color: {textColor};
 						"
+						spellcheck="false"
 					>
-						{previewText || 'Preview'}
-					</span>
-				</div>
-				<div class="grid sm:grid-cols-3 gap-4 mt-4">
-					<input 
-						type="text" 
-						bind:value={previewText}
-						placeholder="Preview text"
-						class="input input-bordered input-sm"
-					/>
-					<div class="flex items-center gap-2">
-						<span class="text-sm shrink-0">Size:</span>
-						<input 
-							type="range" 
-							bind:value={fontSize} 
-							min="16" 
-							max="72"
-							class="range range-sm flex-1"
-						/>
-						<span class="font-mono text-sm w-12">{fontSize}px</span>
 					</div>
-					<select bind:value={fontWeight} class="select select-bordered select-sm">
-						<option value="normal">Normal</option>
-						<option value="bold">Bold</option>
-						<option value="100">100</option>
-						<option value="300">300</option>
-						<option value="500">500</option>
-						<option value="700">700</option>
-						<option value="900">900</option>
-					</select>
+				</div>
+
+				<!-- Text Settings Toolbar -->
+				<div class="p-3 bg-base-100 border-t border-base-300 flex flex-wrap gap-4 items-center justify-between text-xs">
+					<div class="flex items-center gap-4 flex-1">
+						<div class="flex items-center gap-2 flex-1">
+							<span class="opacity-70">Size:</span>
+							<input 
+								type="range" 
+								bind:value={fontSize} 
+								min="24" 
+								max="128"
+								class="range range-xs range-primary flex-1"
+							/>
+							<span class="font-mono w-8 text-right">{fontSize}</span>
+						</div>
+					</div>
+
+					<div class="flex items-center gap-2">
+						<span class="opacity-70">Weight:</span>
+						<select bind:value={fontWeight} class="select select-bordered select-xs w-24">
+							<option value="normal">Normal</option>
+							<option value="bold">Bold</option>
+							<option value="100">Thin</option>
+							<option value="900">Black</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<!-- CSS Output -->
+			<div class="card bg-base-200 border border-base-300 shadow-sm">
+				<div class="p-3 border-b border-base-300 flex items-center justify-between bg-base-100/50">
+					<h3 class="text-sm font-semibold">CSS Code</h3>
+					<CopyButton text={`text-shadow: ${cssOutput};`} label="Copy CSS" size="sm" />
+				</div>
+				<div class="p-4 bg-base-100/50 font-mono text-sm overflow-x-auto whitespace-pre-wrap break-all rounded-b-2xl">
+					<span class="text-primary">text-shadow</span>: {cssOutput};
 				</div>
 			</div>
 		</div>
 
-		<!-- Presets -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<h3 class="text-sm font-semibold mb-3">Presets</h3>
-				<div class="flex flex-wrap gap-2">
-					{#each presets as preset}
-						<button
-							class="btn btn-sm btn-ghost"
-							onclick={() => applyPreset(preset)}
+		<!-- Right Col: Controls -->
+		<div class="flex flex-col gap-6">
+			
+			<!-- Layers List -->
+			<div class="card bg-base-200 border border-base-300 shadow-sm">
+				<div class="p-3 border-b border-base-300 flex items-center justify-between bg-base-100/50">
+					<h3 class="text-sm font-semibold">Layers</h3>
+					<button class="btn btn-xs btn-primary gap-1" onclick={addShadow}>
+						<span class="text-lg leading-none">+</span> Add Layer
+					</button>
+				</div>
+				<div class="max-h-[240px] overflow-y-auto custom-scrollbar p-2 space-y-2">
+					{#each shadows as shadow, index}
+						<!-- svelte-ignore a11y_interactive_supports_focus -->
+						<div 
+							class="group relative flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all border
+								{selectedShadow === index ? 'bg-base-100 border-primary shadow-sm ring-1 ring-primary/20' : 'hover:bg-base-100/50 border-transparent hover:border-base-300'}"
+							onclick={() => selectedShadow = index}
+							role="button"
+							onkeydown={(e) => e.key === 'Enter' && (selectedShadow = index)}
 						>
-							{preset.name}
-						</button>
+							<div class="w-8 h-8 rounded bg-base-200 border border-base-300 flex items-center justify-center font-serif font-bold text-lg overflow-hidden shrink-0 text-base-content/50">
+								T
+							</div>
+
+							<div class="flex-1 min-w-0">
+								<div class="text-xs font-medium truncate flex items-center gap-2">
+									Layer {index + 1}
+								</div>
+								<div class="text-[10px] opacity-50 font-mono truncate">
+									{shadow.x}px {shadow.y}px {shadow.color}
+								</div>
+							</div>
+
+							<button 
+								class="btn btn-xs btn-ghost btn-square text-error hover:bg-error/10 opacity-0 group-hover:opacity-100 transition-opacity"
+								onclick={(e) => { e.stopPropagation(); removeShadow(index); }}
+								title="Remove Layer"
+                                disabled={shadows.length === 1}
+							>
+								✕
+							</button>
+						</div>
 					{/each}
 				</div>
 			</div>
-		</div>
 
-		<div class="grid lg:grid-cols-2 gap-6">
-			<!-- Shadow List -->
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<div class="flex items-center justify-between mb-3">
-						<h3 class="text-sm font-semibold">Layers ({shadows.length})</h3>
-						<button class="btn btn-sm btn-primary" onclick={addShadow}>+ Add</button>
-					</div>
-					<div class="space-y-2">
-						{#each shadows as shadow, index}
-							<div 
-								class="flex items-center justify-between p-3 rounded-xl cursor-pointer transition-colors {selectedShadow === index ? 'bg-primary/15 ring-2 ring-primary/30' : 'bg-base-300 hover:bg-base-300/70'}"
-								onclick={() => selectedShadow = index}
-								role="button"
-								tabindex="0"
-							>
-								<div class="flex items-center gap-3">
-									<div 
-										class="w-10 h-10 bg-base-100 rounded-lg flex items-center justify-center text-lg font-bold"
-										style="text-shadow: {shadow.x}px {shadow.y}px {shadow.blur}px {shadow.color};"
-									>
-										A
-									</div>
-									<div>
-										<div class="text-sm font-medium">Layer {index + 1}</div>
-										<div class="text-xs text-base-content/50 font-mono">{shadow.x}, {shadow.y}, {shadow.blur}</div>
-									</div>
-								</div>
-								<button 
-									class="btn btn-xs btn-ghost text-error"
-									onclick={(e) => { e.stopPropagation(); removeShadow(index); }}
-									disabled={shadows.length <= 1}
-								>
-									✕
-								</button>
-							</div>
-						{/each}
+			<!-- Selected Layer Controls -->
+			<div class="card bg-base-200 border border-base-300 shadow-sm">
+				<div class="p-3 border-b border-base-300 bg-base-100/50">
+					<div class="flex items-center justify-between">
+						<h3 class="text-sm font-semibold">Properties</h3>
 					</div>
 				</div>
-			</div>
-
-			<!-- Visual Controls -->
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-4">Layer {selectedShadow + 1} Controls</h3>
+				
+				<div class="p-5 space-y-6">
 					
+					<!-- X / Y Position -->
 					<div class="space-y-4">
-						<!-- X Offset -->
-						<div>
+						<div class="form-control">
 							<div class="flex justify-between mb-1">
-								<span class="text-sm">X Offset</span>
-								<span class="font-mono text-sm text-primary">{shadows[selectedShadow].x}px</span>
+								<span class="text-xs font-medium opacity-70">Horizontal (X)</span>
+								<span class="font-mono text-xs badge badge-neutral badge-sm">{shadows[selectedShadow].x}px</span>
 							</div>
-							<input type="range" bind:value={shadows[selectedShadow].x} min="-20" max="20" class="range range-primary range-sm"/>
+							<input type="range" bind:value={shadows[selectedShadow].x} min="-50" max="50" class="range range-xs range-primary w-full"/>
 						</div>
-
-						<!-- Y Offset -->
-						<div>
+						<div class="form-control">
 							<div class="flex justify-between mb-1">
-								<span class="text-sm">Y Offset</span>
-								<span class="font-mono text-sm text-primary">{shadows[selectedShadow].y}px</span>
+								<span class="text-xs font-medium opacity-70">Vertical (Y)</span>
+								<span class="font-mono text-xs badge badge-neutral badge-sm">{shadows[selectedShadow].y}px</span>
 							</div>
-							<input type="range" bind:value={shadows[selectedShadow].y} min="-20" max="20" class="range range-primary range-sm"/>
+							<input type="range" bind:value={shadows[selectedShadow].y} min="-50" max="50" class="range range-xs range-primary w-full"/>
 						</div>
+					</div>
 
-						<!-- Blur -->
-						<div>
-							<div class="flex justify-between mb-1">
-								<span class="text-sm">Blur</span>
-								<span class="font-mono text-sm text-secondary">{shadows[selectedShadow].blur}px</span>
-							</div>
-							<input type="range" bind:value={shadows[selectedShadow].blur} min="0" max="30" class="range range-secondary range-sm"/>
+					<div class="divider my-0"></div>
+
+					<!-- Blur -->
+					<div class="form-control">
+						<div class="flex justify-between mb-1">
+							<span class="text-xs font-medium opacity-70">Blur Radius</span>
+							<span class="font-mono text-xs badge badge-neutral badge-sm">{shadows[selectedShadow].blur}px</span>
 						</div>
+						<input type="range" bind:value={shadows[selectedShadow].blur} min="0" max="100" class="range range-xs range-secondary w-full"/>
+					</div>
 
-						<!-- Color -->
-						<div>
-							<div class="flex justify-between mb-1">
-								<span class="text-sm">Color</span>
+					<div class="divider my-0"></div>
+
+					<!-- Color -->
+					<div class="form-control">
+						<label class="label p-0 mb-2">
+							<span class="label-text text-xs font-medium opacity-70">Shadow Color</span>
+						</label>
+						
+						<div class="join w-full shadow-sm">
+							<div class="btn btn-square join-item relative hover:bg-base-200 border-base-300">
+								<div class="w-6 h-6 rounded shadow-sm ring-1 ring-base-content/10" style="background: {shadows[selectedShadow].color}"></div>
+								<input 
+									type="color" 
+									oninput={(e) => updateShadowColor(selectedShadow, (e.target as HTMLInputElement).value)}
+									value={shadows[selectedShadow].color}
+									class="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
+									title="Pick color"
+								/>
 							</div>
-							<div class="flex gap-2">
-								<input type="text" bind:value={shadows[selectedShadow].color} class="input input-bordered input-sm flex-1 font-mono"/>
-								<input type="color" value="#000000" onchange={(e) => {
-									shadows[selectedShadow].color = (e.target as HTMLInputElement).value;
-								}} class="w-10 h-8 rounded cursor-pointer"/>
-							</div>
+							<input 
+								type="text" 
+								bind:value={shadows[selectedShadow].color} 
+								class="input input-bordered join-item flex-1 font-mono uppercase text-sm"
+								placeholder="#000000"
+							/>
 						</div>
 					</div>
 				</div>
 			</div>
+
+		</div>
+	</div>
+	
+	<!-- Text Shadow Library Section -->
+	<div class="divider my-10">Text Shadow Gallery</div>
+
+	<div class="flex flex-col gap-6" bind:this={librarySection}>
+		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+			<div>
+				<h2 class="text-2xl font-bold">Inspiration Gallery</h2>
+				<p class="text-base-content/60 text-sm">Curated collection of cool text effects</p>
+			</div>
+			<div class="tabs tabs-boxed bg-base-200 p-1 rounded-xl overflow-x-auto flex-nowrap max-w-full">
+				{#each ['basic', 'neon', 'retro', '3d', 'creative'] as type}
+					<button 
+						class="tab tab-sm transition-all duration-300 rounded-lg whitespace-nowrap {activeLibraryTab === type ? 'tab-active bg-primary text-primary-content shadow-sm' : ''}"
+						onclick={() => activeLibraryTab = type as any}
+					>
+						{type.charAt(0).toUpperCase() + type.slice(1)}
+					</button>
+				{/each}
+			</div>
 		</div>
 
-		<!-- Output -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<div class="flex items-center justify-between mb-3">
-					<h3 class="text-sm font-semibold">CSS Output</h3>
-					<CopyButton text={`text-shadow: ${cssOutput};`} label="Copy" size="sm" />
+		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+			{#each activeLibraryShadows as shadow}
+				<div class="group relative card bg-base-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-visible border border-base-300 hover:-translate-y-1">
+					<!-- Preview Area -->
+					<div 
+						class="h-40 w-full flex items-center justify-center p-6 rounded-t-2xl relative text-center overflow-hidden"
+						style="background-color: {shadow.bgColor || '#f8f9fa'};"
+					>
+                        <!-- Grid pattern for subtle texture -->
+						<div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+						<div 
+							class="text-4xl font-bold transition-all duration-300 z-10"
+							style="
+								color: {shadow.textColor || '#333'}; 
+								text-shadow: {shadow.css};
+                                font-family: {shadow.fontFamily || 'inherit'};
+							"
+						>
+                            Aa
+                        </div>
+						
+						<!-- Copy Overlay -->
+						<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-base-300/40 backdrop-blur-[1px] rounded-t-2xl z-20">
+							<CopyButton text={`text-shadow: ${shadow.css};`} size="sm" label="Copy CSS" />
+						</div>
+					</div>
+
+					<!-- Label -->
+					<div class="p-3 bg-base-100 border-t border-base-200 z-10 rounded-b-2xl">
+						<div class="text-xs font-medium truncate text-center" title={shadow.name}>{shadow.name}</div>
+					</div>
 				</div>
-				<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-x-auto whitespace-pre-wrap break-all">text-shadow: {cssOutput};</pre>
-			</div>
+			{/each}
 		</div>
 	</div>
 </ToolWrapper>
