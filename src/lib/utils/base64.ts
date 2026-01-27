@@ -130,13 +130,24 @@ export function encodeBase64(input: string): string {
  */
 export function decodeBase64(input: string): string {
 	try {
-		// Convert URL-safe to standard if needed
-		const standard = standardFromURLSafe(input.trim());
-		const binary = atob(standard);
-		const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+		const bytes = decodeBase64ToBytes(input);
 		return new TextDecoder().decode(bytes);
 	} catch (err) {
 		throw new Error('Failed to decode: Invalid Base64 string');
+	}
+}
+
+/**
+ * Decode Base64 to Uint8Array
+ */
+export function decodeBase64ToBytes(input: string): Uint8Array {
+	try {
+		// Convert URL-safe to standard if needed
+		const standard = standardFromURLSafe(input.trim());
+		const binary = atob(standard);
+		return Uint8Array.from(binary, c => c.charCodeAt(0));
+	} catch {
+		throw new Error('Invalid Base64 string');
 	}
 }
 
