@@ -40,7 +40,7 @@ export const toolCategories: ToolCategory[] = [
 		description: 'Free Base64 encoder and decoder online. Encode text, files, and images to Base64 or decode Base64 strings instantly in your browser. No file uploads to servers—everything runs client-side.',
 		items: [
 			{ name: 'Encode / Decode', href: '/base64/encode-decode', description: 'Base64 encoder and decoder online. Encode text to Base64 or decode Base64 strings instantly in your browser with automatic input detection.', icon: '🔄' },
-			{ name: 'File Encoder', href: '/base64/file-encoder', description: 'File to Base64 converter online. Convert any file to Base64 data URI instantly. Perfect for embedding images in CSS or JSON—no server uploads.', icon: '📁' },
+			{ name: 'File to Base64', href: '/base64/file-encoder', description: 'Encode files to Base64 online. Convert any file to Base64 content for embedding in HTML, JSON, or XML. Free file to Base64 converter.', icon: '📁' },
 			{ name: 'Image Preview', href: '/base64/image-preview', description: 'Base64 image viewer online. Paste Base64 image data and preview instantly. Supports PNG, JPG, WebP, GIF—decode and view Base64 images free.', icon: '🖼️' },
 			{ name: 'URL-safe Converter', href: '/base64/url-safe', description: 'URL-safe Base64 converter online. Convert between standard Base64 and URL-safe Base64 format (replaces +/ with -_). Free browser tool.', icon: '🔗' },
 			{ name: 'Validator', href: '/base64/validator', description: 'Base64 validator online. Check if a string is valid Base64 instantly. Detect encoding issues, padding problems, and invalid characters free.', icon: '✓' },
@@ -160,15 +160,15 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Formatter', href: '/css/formatter', description: 'CSS formatter and beautifier online. Format CSS code with proper indentation. CSS pretty print and code beautifier—free in your browser.', icon: '✨' },
 			{ name: 'Minifier', href: '/css/minifier', description: 'CSS minifier online free. Compress CSS by removing whitespace and comments. Reduce CSS file size instantly—minify CSS code.', icon: '📦' },
 			{ name: 'Prefix Cleaner', href: '/css/prefix-cleaner', description: 'CSS prefix remover online. Remove vendor prefixes (-webkit-, -moz-, -ms-, -o-). Clean up CSS autoprefixer output—free tool.', icon: '🧹' },
-			{ name: 'Gradient Generator', href: '/css/gradient', description: 'CSS gradient generator online free. Create linear, radial, and conic gradients with visual editor. Multiple color stops, angle control, and live preview—free gradient maker.', icon: '🌈' },
+			{ name: 'CSS Gradient Generator', href: '/css/gradient', description: 'CSS gradient generator online free. Create linear, radial, and conic gradients with visual editor. Multiple color stops, angle control, and live preview—free gradient maker.', icon: '🌈' },
 			{ name: 'Transition', href: '/css/transition', description: 'CSS transition generator online. Create CSS transitions with live preview. Generate smooth animations—free transition builder.', icon: '🔄' },
 			{ name: 'Bezier Curve', href: '/css/bezier', description: 'CSS cubic-bezier editor online. Interactive curve editor for timing functions. Create custom easing—bezier curve generator free.', icon: '📈' },
 			{ name: 'Keyframes', href: '/css/keyframes', description: 'CSS keyframes generator online. Create @keyframes animations with editable stops. CSS animation builder—free keyframe editor.', icon: '🎬' },
 
-			{ name: 'Box Shadow', href: '/css/box-shadow', description: 'CSS box shadow generator online. Create box-shadows with multiple layers and presets. Live preview—free shadow generator tool.', icon: '🌑' },
-			{ name: 'Text Shadow', href: '/css/text-shadow', description: 'CSS text shadow generator online. Create text-shadow effects with live preview. Multiple shadow layers—free text shadow tool.', icon: '💬' },
-			{ name: 'Filter', href: '/css/filter', description: 'CSS filter generator online. Generate blur, brightness, contrast, grayscale, and more. Live filter preview—free CSS filter tool.', icon: '🎛️' },
-			{ name: 'Text Gradient', href: '/css/text-gradient', description: 'CSS gradient text generator online. Create beautiful gradient text with visual color stops. Text gradient maker—free CSS tool.', icon: '✨' },
+			{ name: 'Box Shadow Generator', href: '/css/box-shadow', description: 'CSS box shadow generator online. Create box-shadows with multiple layers and presets. Live preview—free shadow generator tool.', icon: '🌑' },
+			{ name: 'Text Shadow Generator', href: '/css/text-shadow', description: 'CSS text shadow generator online. Create text-shadow effects with live preview. Multiple shadow layers—free text shadow tool.', icon: '💬' },
+			{ name: 'Filter Generator', href: '/css/filter', description: 'CSS filter generator online. Generate blur, brightness, contrast, grayscale, and more. Live filter preview—free CSS filter tool.', icon: '🎛️' },
+			{ name: 'CSS Text Gradient', href: '/css/text-gradient', description: 'CSS text gradient generator. Create beautiful gradient text for headings and logos. Copy CSS code for gradient typography instantly.', icon: '✨' },
 			{ name: 'Snippets', href: '/css/snippets', description: 'CSS snippets library online. Ready-to-use CSS: centering tricks, text truncation, accessibility helpers. Copy CSS snippets free.', icon: '📋' }
 		]
 	},
@@ -230,7 +230,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Workflow Guide', href: '/git/workflow', description: 'Git workflow cheat sheet online. Learn Git Flow, trunk-based development, and feature branching with visual diagrams. Free Git guide.', icon: '📋' },
 			{ name: 'Diff Viewer', href: '/git/diff-viewer', description: 'Git diff viewer online free. Compare text with side-by-side or inline diff. Syntax highlighting and whitespace ignore—view diffs instantly.', icon: '📊' },
 			{ name: 'Log Formatter', href: '/git/log-formatter', description: 'Git log format generator online. Customize git log output with format placeholders. Generate pretty log commands—copy instantly.', icon: '📜' },
-			{ name: 'Blame Explainer', href: '/git/blame-explainer', description: 'Git blame explainer online. Paste git blame output and understand each field. Learn blame format visually—free educational tool.', icon: '🔍' },
+			{ name: 'Git Blame Explainer', href: '/git/blame-explainer', description: 'Git blame explainer online. Paste git blame output and understand each field. Learn blame format visually—free educational tool.', icon: '🔍' },
 			{ name: 'Reset Helper', href: '/git/reset-helper', description: 'Git reset helper online. Understand soft, mixed, hard reset with visual diagrams. Generate reset commands safely—free Git tool.', icon: '⏪' },
 			{ name: 'Rebase Helper', href: '/git/rebase-helper', description: 'Git rebase guide online. Interactive rebase steps with visual explanation. Learn rebase commands—free Git rebase tool.', icon: '🔄' },
 			{ name: 'Config Generator', href: '/git/config-generator', description: 'Git config generator online. Generate git config commands for name, email, aliases, and settings. Configure Git easily—copy commands free.', icon: '⚙️' },

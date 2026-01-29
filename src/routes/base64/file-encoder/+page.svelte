@@ -100,7 +100,7 @@
 	}
 </script>
 
-<ToolWrapper>
+<ToolWrapper title="File to Base64 | Base64 Converter Online">
 	<div class="flex flex-col gap-6">
 		<!-- Actions (Clear only, no Sample) -->
 		<ToolActions onClear={clearFile} />

@@ -152,7 +152,7 @@
 	}
 </script>
 
-<ToolWrapper>
+<ToolWrapper title="Gitignore Generator | Create .gitignore Files">
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={gitignoreContent} stats={selectedPresets.size > 0 ? stats : undefined} />
