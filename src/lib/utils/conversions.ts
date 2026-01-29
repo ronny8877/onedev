@@ -37,6 +37,9 @@ export const percentToPx = (percent: number, baseValue: number): number => (perc
 export const pxToPt = (px: number): number => px * 0.75; // 1px = 0.75pt at 96dpi
 export const ptToPx = (pt: number): number => pt / 0.75;
 
+export const pxToPc = (px: number): number => px * 0.0625; // 1pc = 12pt = 16px
+export const pcToPx = (pc: number): number => pc / 0.0625;
+
 // rem/em interconversion
 export const remToEm = (rem: number, baseFontSize = 16, parentFontSize = 16): number => 
 	(rem * baseFontSize) / parentFontSize;
@@ -55,6 +58,7 @@ export function getAllCSSUnits(px: number, config: Partial<CSSUnitConfig> = {}) 
 		vw: pxToVw(px, cfg.viewportWidth),
 		vh: pxToVh(px, cfg.viewportHeight),
 		pt: pxToPt(px),
+		pc: pxToPc(px),
 	};
 }
 
