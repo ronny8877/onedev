@@ -17,6 +17,11 @@ interface ToolContent {
 		question: string;
 		answer: string;
 	}>;
+	relatedTools: Array<{
+		name: string;
+		path: string;
+		description: string;
+	}>;
 }
 
 export const jsonToolsContent: Record<string, ToolContent> = {
@@ -116,6 +121,11 @@ export const jsonToolsContent: Record<string, ToolContent> = {
 				question: 'Can I format large JSON files?',
 				answer: '<p>Yes, though very large files (10MB+) may take a moment. For huge files, consider a desktop JSON editor.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'JSON Validator', path: '/json/validator', description: 'Validate JSON syntax before formatting' },
+			{ name: 'JSON Visualizer', path: '/json/visualizer', description: 'View JSON structure in tree format' },
+			{ name: 'Base64 Encode', path: '/base64/encode-decode', description: 'Encode JSON for safe transmission' }
 		]
 	},
 	
@@ -199,6 +209,11 @@ export const jsonToolsContent: Record<string, ToolContent> = {
 				question: 'Is the validation instant?',
 				answer: '<p>Yes! Validation happens as you type with a small delay to avoid performance issues during fast typing.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Format and beautify your JSON' },
+			{ name: 'JSONPath Tester', path: '/json/path-tester', description: 'Query JSON with JSONPath expressions' },
+			{ name: 'JSON Diff', path: '/json/diff', description: 'Compare two JSON documents' }
 		]
 	},
 
@@ -278,6 +293,11 @@ Result: email added`,
 				question: 'Can I export the diff results?',
 				answer: '<p>You can copy the visual diff displayed on screen. For programmatic use, consider using a JSON diff library in your code.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'JSON Validator', path: '/json/validator', description: 'Validate JSON before comparing' },
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Format JSON for easier comparison' },
+			{ name: 'JSON Visualizer', path: '/json/visualizer', description: 'Visualize JSON differences' }
 		]
 	},
 
@@ -359,6 +379,11 @@ Result: email added`,
 				question: 'Can I sort the table?',
 				answer: '<p>Yes, click on any column header to sort by that column (ascending/descending).</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'JSON Visualizer', path: '/json/visualizer', description: 'Visualize JSON in tree structure' },
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Format JSON data' },
+			{ name: 'Type Generator', path: '/json/type-generator', description: 'Generate TypeScript types from JSON' }
 		]
 	},
 
@@ -441,6 +466,11 @@ Result: email added`,
 				question: 'Does it show data types?',
 				answer: '<p>Yes! Each value has an icon/color indicating its type: string, number, boolean, array, object, or null.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Format and beautify your JSON' },
+			{ name: 'JSON to Table', path: '/json/table', description: 'Convert JSON to table format' },
+			{ name: 'JSONPath Tester', path: '/json/path-tester', description: 'Test JSONPath queries' }
 		]
 	},
 
@@ -523,6 +553,11 @@ interface Root {
 				question: 'What about deeply nested JSON?',
 				answer: '<p>The generator recursively creates types for all nested levels, creating intuitive type hierarchies.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'JSON Validator', path: '/json/validator', description: 'Validate JSON syntax' },
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Format data for types' },
+			{ name: 'JSON Visualizer', path: '/json/visualizer', description: 'Visualize complex structures' }
 		]
 	},
 
@@ -604,6 +639,11 @@ Result: null (path not found)`,
 				question: 'Can I use it with APIs?',
 				answer: '<p>Yes! Test your queries here, then use JSONPath libraries in your code to extract data from API responses.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'JSON Validator', path: '/json/validator', description: 'Validate JSON before querying' },
+			{ name: 'JSON Visualizer', path: '/json/visualizer', description: 'Visualize JSON structure' },
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Format JSON for readability' }
 		]
 	}
 };

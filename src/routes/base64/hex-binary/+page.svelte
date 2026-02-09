@@ -6,6 +6,7 @@
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
 	import Examples from '$lib/components/content/Examples.svelte';
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
+import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import { base64ToHex, base64ToBinary, validateBase64 } from '$lib/utils/base64';
 	import { base64ToolsContent } from '$lib/config/content/base64-tools-content';
 
@@ -175,5 +176,6 @@
 		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
 		<Examples examples={content.examples} />
 		<FAQSection faqs={content.faqs} />
+<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

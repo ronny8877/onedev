@@ -17,6 +17,11 @@ export interface Base64ToolContent {
 		question: string;
 		answer: string;
 	}[];
+	relatedTools: {
+		name: string;
+		path: string;
+		description: string;
+	}[];
 }
 
 export const base64ToolsContent: Record<string, Base64ToolContent> = {
@@ -92,6 +97,12 @@ export const base64ToolsContent: Record<string, Base64ToolContent> = {
 				question: 'Can Base64 encode any type of file?',
 				answer: '<p>Yes! Base64 can encode any binary data—images, PDFs, videos, ZIP files, executables, etc. However, for large files, Base64 is inefficient due to the 33% size increase. It\'s best suited for small files and embedding data directly in text formats.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'File Encoder', path: '/base64/file-encoder', description: 'Encode files to Base64' },
+			{ name: 'Base64 Validator', path: '/base64/validator', description: 'Validate Base64 strings' },
+			{ name: 'URL-safe Converter', path: '/base64/url-safe', description: 'Convert to URL-safe format' },
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Format JSON for encoding' }
 		]
 	},
 
@@ -167,6 +178,11 @@ export const base64ToolsContent: Record<string, Base64ToolContent> = {
 				question: 'Can I decode Base64 back to the original file?',
 				answer: '<p>Yes! Use a Base64 decoder to convert the Base64 string back to binary data, then save it with the correct file extension. Our <strong>Encode/Decode</strong> tool supports this, or you can use the browser\'s <code>atob()</code> function with <code>Blob</code> APIs.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'Base64 Encode/Decode', path: '/base64/encode-decode', description: 'Standard Base64 encoding' },
+			{ name: 'Image Preview', path: '/base64/image-preview', description: 'Preview Base64 images' },
+			{ name: 'Base64 Validator', path: '/base64/validator', description: 'Validate encoded files' }
 		]
 	},
 
@@ -243,6 +259,11 @@ export const base64ToolsContent: Record<string, Base64ToolContent> = {
 				question: 'Can I preview SVG images from Base64?',
 				answer: '<p>Yes! SVG (Scalable Vector Graphics) can be Base64-encoded and previewed. The data URI format is <code>data:image/svg+xml;base64,...</code>. SVGs remain vector-based even when Base64-encoded, so they scale without quality loss.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'File Encoder', path: '/base64/file-encoder', description: 'Encode images to Base64' },
+			{ name: 'Base64 Encode/Decode', path: '/base64/encode-decode', description: 'Decode Base64 strings' },
+			{ name: 'Base64 Validator', path: '/base64/validator', description: 'Validate image data' }
 		]
 	},
 
@@ -319,6 +340,11 @@ export const base64ToolsContent: Record<string, Base64ToolContent> = {
 				question: 'Can I use URL-safe Base64 in HTML attributes?',
 				answer: '<p>Yes! URL-safe Base64 is also <strong>HTML-attribute-safe</strong>. The characters <code>-</code> and <code>_</code> don\'t require escaping in HTML, unlike <code>+</code> and <code>/</code>. This makes it ideal for data attributes, hidden inputs, and meta tags.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'Base64 Encode/Decode', path: '/base64/encode-decode', description: 'Standard Base64 encoding' },
+			{ name: 'Base64 Validator', path: '/base64/validator', description: 'Validate URL-safe Base64' },
+			{ name: 'Hex/Binary Converter', path: '/base64/hex-binary', description: 'Convert to hex/binary' }
 		]
 	},
 
@@ -405,6 +431,11 @@ export const base64ToolsContent: Record<string, Base64ToolContent> = {
 				question: 'Is URL-safe Base64 valid for standard Base64 validators?',
 				answer: '<p><strong>No.</strong> Standard Base64 validators will reject <code>-</code> and <code>_</code> characters as invalid. URL-safe Base64 requires a separate validation rule. Always specify which Base64 variant you\'re validating (standard or URL-safe).</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'Base64 Encode/Decode', path: '/base64/encode-decode', description: 'Encode and decode Base64' },
+			{ name: 'URL-safe Converter', path: '/base64/url-safe', description: 'Convert to URL-safe format' },
+			{ name: 'Splitter', path: '/base64/splitter', description: 'Split Base64 into lines' }
 		]
 	},
 
@@ -484,6 +515,11 @@ vHxRKYs4h3JZlJYuFWvwxf7aO...
 				question: 'Can I use different line lengths for different parts?',
 				answer: '<p><strong>No.</strong> Best practice is to use a <strong>consistent line length</strong> throughout the entire Base64 block. Mixing line lengths makes the content harder to parse and may violate format specifications like PEM, which strictly requires 64 characters.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'Base64 Validator', path: '/base64/validator', description: 'Validate split Base64' },
+			{ name: 'Base64 Encode/Decode', path: '/base64/encode-decode', description: 'Encode content for splitting' },
+			{ name: 'File Encoder', path: '/base64/file-encoder', description: 'Encode files to Base64' }
 		]
 	},
 
@@ -564,6 +600,11 @@ vHxRKYs4h3JZlJYuFWvwxf7aO...
 				question: 'Why is Base64 more compact than hex?',
 				answer: '<p>Base64 encodes 6 bits per character (2<sup>6</sup>=64), while hex encodes 4 bits per character (2<sup>4</sup>=16). For the same data, Base64 is ~33% shorter than hex. Example: 3 bytes → 4 Base64 chars vs. 6 hex chars.</p>'
 			}
+		],
+		relatedTools: [
+			{ name: 'Base64 Encode/Decode', path: '/base64/encode-decode', description: 'Standard Base64 operations' },
+			{ name: 'URL-safe Converter', path: '/base64/url-safe', description: 'URL-safe Base64 format' },
+			{ name: 'Base64 Validator', path: '/base64/validator', description: 'Validate Base64  strings' }
 		]
 	}
 };

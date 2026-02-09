@@ -8,6 +8,7 @@
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
 	import Examples from '$lib/components/content/Examples.svelte';
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import { formatJSON, minifyJSON, validateJSON, type ParseError } from '$lib/utils/json';
 	import { jsonToolsContent } from '$lib/config/content/json-tools-content';
 
@@ -196,5 +197,6 @@
 		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
 		<Examples examples={content.examples} />
 		<FAQSection faqs={content.faqs} />
+		<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>
