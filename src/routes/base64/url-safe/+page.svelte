@@ -1,7 +1,15 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import { toURLSafe, fromURLSafe, validateBase64 } from '$lib/utils/base64';
+	import { base64ToolsContent } from '$lib/config/content/base64-tools-content';
+
+	const content = base64ToolsContent['url-safe'];
 
 	let input = $state('');
 	let output = $state('');
@@ -194,5 +202,14 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<!-- Content Sections -->
+	<div class="mt-12 space-y-6">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<Examples examples={content.examples} />
+		<FAQSection faqs={content.faqs} />
 	</div>
 </ToolWrapper>
