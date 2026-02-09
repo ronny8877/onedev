@@ -4,7 +4,15 @@
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ErrorDisplay from '$lib/components/ui/ErrorDisplay.svelte';
 	import SyntaxHighlighter from '$lib/components/ui/SyntaxHighlighter.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import { generateTypeScript, generateGoStruct, type ParseError } from '$lib/utils/json';
+	import { jsonToolsContent } from '$lib/config/content/json-tools-content';
+
+	const content = jsonToolsContent['type-generator'];
 
 	let input = $state('');
 	let output = $state('');
@@ -192,5 +200,14 @@
 				</ul>
 			</div>
 		</div>
+	</div>
+
+	<!-- Content Sections -->
+	<div class="mt-12 space-y-6">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<Examples examples={content.examples} />
+		<FAQSection faqs={content.faqs} />
 	</div>
 </ToolWrapper>
