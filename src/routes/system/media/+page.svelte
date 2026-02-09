@@ -2,6 +2,15 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { fade, slide, scale } from 'svelte/transition';
+	import { systemToolsContent } from '$lib/config/content/system-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+
+	const content = systemToolsContent['media'];
 
 	// Device state
 	interface DeviceInfo {
@@ -486,18 +495,14 @@
 			</div>
 		</div>
 
-		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">About This Tool</h4>
-				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• Permission is only requested when you click a button</li>
-					<li>• Nothing is recorded or sent anywhere</li>
-					<li>• Enable <strong>Loopback</strong> to hear yourself through speakers</li>
-					<li>• Speaker enumeration may not work in all browsers</li>
-					<li>• Camera/mic tests stop automatically when you leave</li>
-				</ul>
-			</div>
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>
