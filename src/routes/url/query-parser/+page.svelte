@@ -1,7 +1,16 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import { parseQueryString, queryParamsToJSON, queryParamsToCSV, extractQueryString, type QueryParam } from '$lib/utils/url';
+	import { urlToolsContent } from '$lib/config/content/url-tools-content';
+
+	const content = urlToolsContent['query-parser'];
 
 	let input = $state('');
 	let params = $state<QueryParam[]>([]);
@@ -135,17 +144,15 @@
 				<pre class="bg-base-200 p-4 rounded-xl overflow-x-auto text-sm font-mono">{queryParamsToJSON(params)}</pre>
 			</div>
 		{/if}
+	</div>
 
-		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Tips</h4>
-				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• Paste a full URL or just the query string starting with ?</li>
-					<li>• Encoded values are automatically decoded for readability</li>
-					<li>• Export to JSON for use in code, or CSV for spreadsheets</li>
-				</ul>
-			</div>
-		</div>
+	<!-- Content Sections -->
+	<div class="mt-12 space-y-6">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<Examples examples={content.examples} />
+		<FAQSection faqs={content.faqs} />
+		<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

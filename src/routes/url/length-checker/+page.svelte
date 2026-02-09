@@ -2,6 +2,16 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+	import { urlToolsContent } from '$lib/config/content/url-tools-content';
+
+	const content = urlToolsContent['length-checker'];
 
 	let input = $state('');
 
@@ -140,18 +150,18 @@
 				</table>
 			</div>
 		</div>
+	</div>
 
-		<!-- Tips -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Tips for Shorter URLs</h4>
-				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• Use URL shorteners for sharing</li>
-					<li>• Move large data to POST request body</li>
-					<li>• Use abbreviated parameter names</li>
-					<li>• Compress repeated values into arrays</li>
-				</ul>
-			</div>
-		</div>
+	<!-- Content Sections -->
+	<div class="mt-12 space-y-6">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<Examples examples={content.examples} />
+		<FAQSection faqs={content.faqs} />
+		{#if content.tips}
+			<Tips tips={content.tips} />
+		{/if}
+		<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

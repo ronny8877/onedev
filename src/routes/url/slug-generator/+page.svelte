@@ -2,7 +2,16 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import { generateSlug } from '$lib/utils/url';
+	import { urlToolsContent } from '$lib/config/content/url-tools-content';
+
+	const content = urlToolsContent['slug-generator'];
 
 	let input = $state('');
 	let baseURL = $state('https://example.com/blog');
@@ -139,17 +148,15 @@
 				<CopyButton url={fullURL} size="sm" />
 			</div>
 		{/if}
+	</div>
 
-		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Features</h4>
-				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• <strong>Unicode-safe</strong>: Handles accented characters (café → cafe)</li>
-					<li>• <strong>Emoji removal</strong>: Strips emoji and special characters</li>
-					<li>• <strong>Custom base URL</strong>: Enter your own domain</li>
-				</ul>
-			</div>
-		</div>
+	<!-- Content Sections -->
+	<div class="mt-12 space-y-6">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<Examples examples={content.examples} />
+		<FAQSection faqs={content.faqs} />
+		<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

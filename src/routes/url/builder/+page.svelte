@@ -2,7 +2,16 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import { buildURL, parseURLParts, parseQueryString } from '$lib/utils/url';
+	import { urlToolsContent } from '$lib/config/content/url-tools-content';
+
+	const content = urlToolsContent['builder'];
 
 	let baseURL = $state('https://example.com/api');
 	let params = $state<{ key: string; value: string; id: number }[]>([
@@ -183,17 +192,15 @@
 				<CopyButton url={finalURL} size="sm" />
 			</div>
 		{/if}
+	</div>
 
-		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Features</h4>
-				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• <strong>Auto-parse</strong>: Paste a URL with params to extract them</li>
-					<li>• <strong>Auto-encode</strong>: Values are URL-encoded automatically</li>
-					<li>• <strong>Quick copy</strong>: Copy as URL, cURL, fetch, axios, and more</li>
-				</ul>
-			</div>
-		</div>
+	<!-- Content Sections -->
+	<div class="mt-12 space-y-6">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<Examples examples={content.examples} />
+		<FAQSection faqs={content.faqs} />
+		<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

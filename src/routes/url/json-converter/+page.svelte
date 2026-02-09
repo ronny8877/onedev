@@ -2,6 +2,15 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import { urlToolsContent } from '$lib/config/content/url-tools-content';
+
+	const content = urlToolsContent['json-converter'];
 
 	let mode = $state<'query-to-json' | 'json-to-query'>('query-to-json');
 	let input = $state('');
@@ -189,17 +198,15 @@
 				<CopyButton url={outputURL} size="sm" label="Copy as Full URL" />
 			</div>
 		{/if}
+	</div>
 
-		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Features</h4>
-				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• <strong>Array support</strong>: Repeated params become arrays in JSON</li>
-					<li>• <strong>Auto-decode</strong>: URL-encoded values are decoded</li>
-					<li>• <strong>Bidirectional</strong>: Convert either direction</li>
-				</ul>
-			</div>
-		</div>
+	<!-- Content Sections -->
+	<div class="mt-12 space-y-6">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<Examples examples={content.examples} />
+		<FAQSection faqs={content.faqs} />
+		<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>
