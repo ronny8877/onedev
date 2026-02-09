@@ -3,6 +3,16 @@
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { extractColors } from 'extract-colors';
+	import { imageToolsContent } from '$lib/config/content/image-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+
+	const content = imageToolsContent['colors'];
 
 	let originalFile = $state<File | null>(null);
 	let originalDataURL = $state('');
@@ -237,17 +247,17 @@
 			{/if}
 		{/if}
 
-		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Use Cases</h4>
-				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• <strong>Design theming</strong>: Extract colors from brand images</li>
-					<li>• <strong>CSS variables</strong>: Copy as CSS custom properties</li>
-					<li>• <strong>Color harmony</strong>: Find complementary colors in photos</li>
-					<li>• <strong>Mood boards</strong>: Create palettes from inspiration images</li>
-				</ul>
-			</div>
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			{#if content.tips}
+				<Tips tips={content.tips} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>

@@ -3,6 +3,16 @@
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { loadImage, canvasToBlob, downloadBlob, formatFileSize, mimeToExtension } from '$lib/utils/image';
+	import { imageToolsContent } from '$lib/config/content/image-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+
+	const content = imageToolsContent['crop'];
 
 	let originalFile = $state<File | null>(null);
 	let originalDataURL = $state('');
@@ -434,17 +444,17 @@
 			{/if}
 		{/if}
 
-		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Features</h4>
-				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• <strong>Move selection</strong>: Click and drag inside the crop area</li>
-					<li>• <strong>Resize</strong>: Drag the corner handles</li>
-					<li>• <strong>Preset ratios</strong>: 1:1, 16:9, 4:3, 3:2, 9:16</li>
-					<li>• <strong>Rule of thirds</strong>: Grid overlay for composition</li>
-				</ul>
-			</div>
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			{#if content.tips}
+				<Tips tips={content.tips} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>

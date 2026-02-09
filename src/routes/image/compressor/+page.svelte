@@ -4,6 +4,16 @@
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { formatFileSize, downloadBlob } from '$lib/utils/image';
 	import imageCompression from 'browser-image-compression';
+	import { imageToolsContent } from '$lib/config/content/image-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+
+	const content = imageToolsContent['compressor'];
 
 	let originalFile = $state<File | null>(null);
 	let originalDataURL = $state('');
@@ -322,19 +332,17 @@
 			{/if}
 		{/if}
 
-		<!-- Features -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Features</h4>
-				<ul class="mt-2 grid gap-1 text-sm text-base-content/70 sm:grid-cols-2">
-					<li>• Quality control slider</li>
-					<li>• Target file size limit</li>
-					<li>• Max dimension resize</li>
-					<li>• Format conversion</li>
-					<li>• EXIF preservation option</li>
-					<li>• 100% client-side processing</li>
-				</ul>
-			</div>
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			{#if content.tips}
+				<Tips tips={content.tips} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>
