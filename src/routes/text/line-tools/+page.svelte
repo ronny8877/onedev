@@ -2,6 +2,16 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { fade, slide } from 'svelte/transition';
+	import { textToolsContent } from '$lib/config/content/text-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+
+	const content = textToolsContent['line-tools'];
 
 	let input = $state('');
 	let showLineNumbers = $state(false);
@@ -136,20 +146,17 @@ Elderberry`;
 			</div>
 		</div>
 
-		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Available Operations</h4>
-				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• <strong>Sort A→Z / Z→A</strong> - Alphabetical sorting</li>
-					<li>• <strong>Remove Duplicates</strong> - Keep only unique lines</li>
-					<li>• <strong>Trim Whitespace</strong> - Remove leading/trailing spaces</li>
-					<li>• <strong>Remove Empty</strong> - Delete blank lines</li>
-					<li>• <strong>Reverse</strong> - Flip line order</li>
-					<li>• <strong>Shuffle</strong> - Randomize line order</li>
-					<li>• <strong>Number Lines</strong> - Add line numbers</li>
-				</ul>
-			</div>
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			{#if content.tips}
+				<Tips tips={content.tips} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>

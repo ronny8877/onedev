@@ -102,7 +102,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Line Tools', href: '/text/line-tools', description: 'Line sorter and text tools online. Sort lines, remove duplicates, trim whitespace, reverse order. Manipulate text lines free in your browser.', icon: '📋' },
 			{ name: 'Text Diff', href: '/text/diff', description: 'Text diff checker online. Compare two text blocks line by line with highlighted additions and deletions. Free text comparison tool.', icon: '⚖️' },
 			{ name: 'Find & Replace', href: '/text/find-replace', description: 'Find and replace online with regex support. Search and replace text patterns, preview matches before applying. Free regex replace tool.', icon: '🔍' },
-			{ name: 'Text Statistics', href: '/text/statistics', description: 'Word counter online free. Count characters, words, sentences, paragraphs, and reading time. Text statistics and character count tool.', icon: '📊' },
+			{ name: 'Word Count', href: '/text/statistics', description: 'Word counter online free. Count characters, words, sentences, paragraphs, and reading time. Text statistics and character count tool.', icon: '📊' },
 			{ name: 'Anagram Finder', href: '/text/anagram', description: 'Anagram solver online. Find all anagrams of a word or phrase with dictionary validation. Anagram generator free in your browser.', icon: '🔀' },
 			{ name: 'Remove Duplicates', href: '/text/remove-duplicates', description: 'Remove duplicate lines online. Delete duplicate words or lines from text while preserving order. Free duplicate remover tool.', icon: '✂️' },
 			{ name: 'Lorem Ipsum', href: '/text/lorem-ipsum', description: 'Lorem ipsum generator online. Generate placeholder text: paragraphs, sentences, or words. Create dummy text instantly free.', icon: '📄' },
