@@ -4,6 +4,16 @@
 	import ConversionCard from '$lib/components/ui/ConversionCard.svelte';
 	import ConversionGroup from '$lib/components/ui/ConversionGroup.svelte';
 	import { getSizeFromResolution, getResolutionFromSize, formatNumber } from '$lib/utils/conversions';
+	import { convertToolsContent } from '$lib/config/content/convert-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+
+	const content = convertToolsContent['screen'];
 
 	// Mode: resolution to size or size to resolution
 	let mode = $state<'resolution' | 'size'>('resolution');
@@ -320,6 +330,19 @@
 					<p class="text-xs mt-2">For screens, DPI and PPI are often used interchangeably.</p>
 				</div>
 			</div>
+		</div>
+
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			{#if content.tips}
+				<Tips tips={content.tips} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>
