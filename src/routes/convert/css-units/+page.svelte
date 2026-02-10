@@ -142,6 +142,19 @@
 	function toggleSettings() {
 		showSettings = !showSettings;
 	}
+
+	// Quick preset values
+	const fontSizePresets = [12, 14, 16, 18, 20, 24, 32, 48, 64];
+
+	function setPreset(value: number, unit: typeof inputUnit = 'px') {
+		inputValue = value.toString();
+		inputUnit = unit;
+	}
+
+	// Check if current input matches a preset
+	let activePreset = $derived(
+		fontSizePresets.find(p => p === numValue && inputUnit === 'px')
+	);
 </script>
 
 <ToolWrapper
@@ -183,7 +196,7 @@
 									placeholder="Value"
 									class="input input-bordered join-item flex-1 font-mono text-lg"
 								/>
-								<select bind:value={inputUnit} class="select select-bordered join-item font-mono w-28">
+								<select bind:value={inputUnit} class="select select-bordered join-item font-mono w-28 text-lg font-semibold">
 									<optgroup label="Relative">
 										<option value="px">px</option>
 										<option value="rem">rem</option>
@@ -203,7 +216,51 @@
 							</div>
 						</div>
 						
-						<!-- Settings Toggle -->
+						<!-- Quick Presets -->
+						<div class="col-span-full">
+							<p class="text-xs text-base-content/60 mb-2 font-medium">Quick Presets:</p>
+							<div class="flex flex-wrap gap-2">
+								{#each fontSizePresets as preset}
+									<button
+										class="btn btn-sm font-mono transition-all"
+										class:btn-primary={activePreset === preset}
+										class:btn-outline={activePreset !== preset}
+										onclick={() => setPreset(preset)}
+									>
+										{preset}px
+									</button>
+								{/each}
+							</div>
+						</div>
+
+						<!-- Viewport Presets & Settings -->
+						<div class="col-span-full flex flex-wrap items-center gap-3 mt-2">
+							<p class="text-xs text-base-content/60 font-medium">Viewport:</p>
+							{#each viewportPresets as vp}
+								<button
+									class="btn btn-xs btn-outline gap-1 font-mono"
+									class:btn-active={viewportWidth === vp.w && viewportHeight === vp.h}
+									onclick={() => setViewport(vp.w, vp.h)}
+								>
+									{vp.label}
+								</button>
+							{/each}
+							<div class="ml-auto">
+								<button 
+									class="btn btn-sm btn-outline gap-2" 
+									onclick={toggleSettings}
+								>
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+									</svg>
+									{showSettings ? 'Hide' : 'Advanced'}
+								</button>
+							</div>
+						</div>
+
+						<!-- Settings Toggle (Old position) -->
+						<!--
 						<div class="flex items-end">
 							<button 
 								class="btn btn-outline border-base-content/20 hover:border-base-content/40 hover:bg-base-200 text-base-content" 
@@ -216,6 +273,7 @@
 								{showSettings ? 'Hide Settings' : 'Settings'}
 							</button>
 						</div>
+						-->
 					</div>
 
 					{#if showSettings}
