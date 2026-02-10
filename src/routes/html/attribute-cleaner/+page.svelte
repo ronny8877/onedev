@@ -3,6 +3,16 @@
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { cleanAttributes } from '$lib/utils/html';
+	import { htmlToolsContent } from '$lib/config/content/html-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+
+	const content = htmlToolsContent['attribute-cleaner'];
 
 	let input = $state('');
 	let removeInlineStyles = $state(true);
@@ -128,17 +138,17 @@
 			</div>
 		</div>
 
-		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">What gets removed?</h4>
-				<ul class="mt-2 grid sm:grid-cols-2 gap-1 text-sm text-base-content/70">
-					<li>• <strong>Inline styles:</strong> style="..."</li>
-					<li>• <strong>Empty attributes:</strong> class=""</li>
-					<li>• <strong>data-* attributes:</strong> data-id="..."</li>
-					<li>• <strong>Event handlers:</strong> onclick, onload, etc.</li>
-				</ul>
-			</div>
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			{#if content.tips}
+				<Tips tips={content.tips} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>

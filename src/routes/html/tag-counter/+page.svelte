@@ -3,6 +3,15 @@
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { countTags, type TagCount } from '$lib/utils/html';
+	import { htmlToolsContent } from '$lib/config/content/html-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+
+	const content = htmlToolsContent['tag-counter'];
 
 	let input = $state('');
 	let sortBy = $state<'count' | 'name'>('count');
@@ -237,5 +246,14 @@
 				<p class="text-base-content/50">No HTML elements found</p>
 			</div>
 		{/if}
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			<RelatedTools relatedTools={content.relatedTools} />
+		</div>
 	</div>
 </ToolWrapper>

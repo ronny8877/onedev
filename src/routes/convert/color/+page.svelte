@@ -7,6 +7,7 @@
 	import { 
 		hexToRgb, rgbToHex, rgbToHsl, hslToRgb, 
 		formatRgb, formatRgba, formatHsl, formatHsla,
+		rgbToCmyk, cmykToRgb, formatCmyk,
 		getAllColorFormats
 	} from '$lib/utils/conversions';
 
@@ -130,6 +131,15 @@
 		inputType = 'hex';
 	}
 
+	// Handle color picker change
+	function handleColorPicker(e: Event) {
+		const target = e.target as HTMLInputElement;
+		if (target.value) {
+			inputValue = target.value;
+			inputType = 'hex';
+		}
+	}
+
 	// Input placeholder based on type
 	let placeholder = $derived(() => {
 		switch (inputType) {
@@ -153,6 +163,36 @@
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body p-4">
 				<h3 class="text-sm font-semibold mb-3">Color Input</h3>
+				
+				<!-- Color Picker -->
+				<div class="flex items-center gap-3 mb-3">
+					<div class="relative">
+						<label 
+							for="color-picker" 
+							class="block w-16 h-16 rounded-2xl cursor-pointer transition-all hover:scale-105 active:scale-95 shadow-lg"
+							style="background: linear-gradient(135deg, {isValid ? colorFormats()?.hex || '#3B82F6' : '#3B82F6'}, {isValid ? colorFormats()?.hex || '#8B5CF6' : '#8B5CF6'}); padding: 4px;"
+						>
+							<input
+								id="color-picker"
+								type="color"
+								value={isValid && colorFormats() ? colorFormats()!.hex : '#3B82F6'}
+								onchange={handleColorPicker}
+								class="w-full h-full rounded-xl cursor-pointer opacity-0 absolute inset-0"
+							/>
+							<div 
+								class="w-full h-full rounded-xl border-2 border-white/50 shadow-inner"
+								style="background-color: {isValid && colorFormats() ? colorFormats()!.hex : '#3B82F6'};"
+							></div>
+						</label>
+						<div class="absolute -bottom-1 -right-1 bg-primary text-primary-content text-xs px-2 py-0.5 rounded-full shadow-md font-medium">
+							🎨
+						</div>
+					</div>
+					<div class="flex-1">
+						<div class="text-xs text-base-content/60 mb-1 font-medium">Visual Color Picker</div>
+						<p class="text-xs text-base-content/50">Click the swatch to pick a color visually, or enter a color code below</p>
+					</div>
+				</div>
 				<div class="flex gap-2">
 					<input
 						type="text"

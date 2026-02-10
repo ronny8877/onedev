@@ -3,6 +3,15 @@
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { htmlToJSON } from '$lib/utils/html';
+	import { htmlToolsContent } from '$lib/config/content/html-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+
+	const content = htmlToolsContent['to-json'];
 
 	let input = $state('');
 
@@ -60,17 +69,14 @@
 			</div>
 		</div>
 
-		<!-- Output Structure Info -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Output Structure</h4>
-				<pre class="mt-2 text-xs text-base-content/70 font-mono bg-base-300 p-3 rounded-lg overflow-x-auto">{`{
-  "tag": "div",
-  "attributes": { "class": "container", "id": "main" },
-  "children": [ ... ],
-  "text": "Text content"
-}`}</pre>
-			</div>
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>

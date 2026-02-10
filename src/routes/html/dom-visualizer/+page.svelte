@@ -5,6 +5,15 @@
 	import HtmlTree from '$lib/components/ui/HtmlTree.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { parseHTMLSafe, countTags, generateSelector, generateXPath } from '$lib/utils/html';
+	import { htmlToolsContent } from '$lib/config/content/html-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+
+	const content = htmlToolsContent['dom-visualizer'];
 
 	interface HtmlNodeData {
 		tag: string;
@@ -387,6 +396,15 @@
 				<span class="w-3 h-3 rounded bg-success/20"></span>
 				<code class="text-success">.class</code>
 			</span>
+		</div>
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>
