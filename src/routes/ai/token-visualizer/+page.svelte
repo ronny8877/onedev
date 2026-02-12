@@ -4,6 +4,16 @@
 	import { getTokens, formatNumber } from '$lib/utils/tokenizer';
 	import { CHAT_MODELS } from '$lib/config/ai-models';
 	import type { TokenInfo } from '$lib/utils/tokenizer';
+	import { aiToolsContent } from '$lib/config/content/ai-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+
+	const content = aiToolsContent['token-visualizer'];
 
 	let input = $state('');
 	let selectedModel = $state('gpt-4o');
@@ -184,6 +194,18 @@
 					<li>• Understanding tokenization helps optimize prompts and costs</li>
 				</ul>
 			</div>
+		</div>
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			{#if content.tips}
+				<Tips tips={content.tips} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>
