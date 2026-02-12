@@ -2,6 +2,16 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+	import { gitToolsContent } from '$lib/config/content/git-tools-content';
+
+	const content = gitToolsContent['readme-generator'];
 
 	let projectName = $state('');
 	let description = $state('');
@@ -266,7 +276,7 @@
 				<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
 					{#each Object.entries(sections) as [key, value]}
 						<label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg bg-base-300/50">
-							<input type="checkbox" bind:checked={sections[key]} class="checkbox checkbox-sm checkbox-primary" />
+							<input type="checkbox" bind:checked={sections[key as keyof typeof sections]} class="checkbox checkbox-sm checkbox-primary" />
 							<span class="text-sm capitalize">{key}</span>
 						</label>
 					{/each}
@@ -284,7 +294,7 @@
 				<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
 					{#each Object.entries(badges) as [key, value]}
 						<label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg bg-base-300/50">
-							<input type="checkbox" bind:checked={badges[key]} class="checkbox checkbox-sm checkbox-primary" />
+							<input type="checkbox" bind:checked={badges[key as keyof typeof badges]} class="checkbox checkbox-sm checkbox-primary" />
 							<span class="text-sm capitalize">{key}</span>
 						</label>
 					{/each}
@@ -339,5 +349,17 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="mt-12 space-y-12">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<Examples examples={content.examples} />
+		<FAQSection faqs={content.faqs} />
+		<RelatedTools relatedTools={content.relatedTools} />
+		{#if content.tips}
+			<Tips tips={content.tips} />
+		{/if}
 	</div>
 </ToolWrapper>
