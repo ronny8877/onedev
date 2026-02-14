@@ -59,16 +59,18 @@
 	}
 
 	// Presets (Kept for quick access, simplified)
-	function applyPreset(preset: typeof softShadows[0]) {
-		// Parse minimal preset object or full shadow definition
-		// For the gallery, we have 'css' string, we need to parse it or just use it. 
-		// But our tool works with objects.
-		// For simplicity in this tool, the library just copies CSS.
-		// BUT, user might want to EDIT library shadows.
-		// Parsing complex box-shadow strings is hard. 
-		// For now, let's keep the library as "Copy CSS" mainly, 
-		// OR we try to parse simple ones. 
-		// Given complexity, let's keep Library as "Copy CSS" for now, and rely on internal presets for editing.
+	function loadShadow(shadow: (typeof activeLibraryShadows)[0]) {
+		// Deep copy layers
+		shadows = JSON.parse(JSON.stringify(shadow.layers));
+		selectedShadow = 0;
+		
+        // Load other properties if available
+        if (shadow.bgColor) previewBgColor = shadow.bgColor;
+        if (shadow.boxColor) previewBoxColor = shadow.boxColor;
+        if (shadow.borderRadius !== undefined) previewBorderRadius = shadow.borderRadius;
+
+		// Build visual feedback like scroll to top
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 	
 	function scrollToLibrary() {
@@ -97,7 +99,7 @@
 			</div>
 			<div>
 				<h3 class="font-semibold text-sm">Need Inspiration?</h3>
-				<p class="text-xs opacity-70">Check out our collection of 60+ ready-to-use shadows.</p>
+				<p class="text-xs opacity-70">Check out our collection of ready-to-use shadows.</p>
 			</div>
 		</div>
 		<button class="btn btn-sm btn-primary" onclick={scrollToLibrary}>
@@ -107,7 +109,7 @@
 	</div>
 
 	<div class="grid lg:grid-cols-[1fr_360px] gap-6 items-start">
-		<!-- Left Col: Preview & Bottom Code -->
+		<!-- Left Col: Preview & Properties & CSS -->
 		<div class="space-y-6">
 			<!-- Main Preview Canvas -->
 			<div class="card bg-base-200 shadow-sm border border-base-300 overflow-hidden">
@@ -240,22 +242,7 @@
 				</div>
 			</div>
 
-			<!-- CSS Output -->
-			<div class="card bg-base-200 border border-base-300 shadow-sm">
-				<div class="p-3 border-b border-base-300 flex items-center justify-between bg-base-100/50">
-					<h3 class="text-sm font-semibold">CSS Code</h3>
-					<CopyButton text={`box-shadow: ${cssOutput};`} label="Copy CSS" size="sm" />
-				</div>
-				<div class="p-4 bg-base-100/50 font-mono text-sm overflow-x-auto whitespace-pre-wrap break-all rounded-b-2xl">
-					<span class="text-primary">box-shadow</span>: {cssOutput};
-				</div>
-			</div>
-		</div>
-
-		<!-- Right Col: Controls -->
-		<div class="flex flex-col gap-6">
-			
-			<!-- Layers List -->
+			<!-- Layers List (Moved to Left) -->
 			<div class="card bg-base-200 border border-base-300 shadow-sm">
 				<div class="p-3 border-b border-base-300 flex items-center justify-between bg-base-100/50">
 					<h3 class="text-sm font-semibold">Layers</h3>
@@ -263,7 +250,7 @@
 						<span class="text-lg leading-none">+</span> Add Layer
 					</button>
 				</div>
-				<div class="max-h-[240px] overflow-y-auto custom-scrollbar p-2 space-y-2">
+				<div class="max-h-[300px] overflow-y-auto custom-scrollbar p-2 space-y-2">
 					{#each shadows as shadow, index}
 						<!-- svelte-ignore a11y_interactive_supports_focus -->
 						<div 
@@ -308,7 +295,21 @@
 				</div>
 			</div>
 
-			<!-- Selected Layer Controls -->
+			<!-- CSS Output -->
+			<div class="card bg-base-200 border border-base-300 shadow-sm">
+				<div class="p-3 border-b border-base-300 flex items-center justify-between bg-base-100/50">
+					<h3 class="text-sm font-semibold">CSS Code</h3>
+					<CopyButton text={`box-shadow: ${cssOutput};`} label="Copy CSS" size="sm" />
+				</div>
+				<div class="p-4 bg-base-100/50 font-mono text-sm overflow-x-auto whitespace-pre-wrap break-all rounded-b-2xl">
+					<span class="text-primary">box-shadow</span>: {cssOutput};
+				</div>
+			</div>
+		</div>
+
+		<!-- Right Col: Properties -->
+		<div class="flex flex-col gap-6 sticky top-6">
+            <!-- Selected Layer Properties (Moved to Right) -->
 			<div class="card bg-base-200 border border-base-300 shadow-sm">
 				<div class="p-3 border-b border-base-300 bg-base-100/50">
 					<div class="flex items-center justify-between">
@@ -391,7 +392,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 	
@@ -418,6 +418,7 @@
 
 		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
 			{#each activeLibraryShadows as shadow}
+                {@const css = generateBoxShadow(shadow.layers)}
 				<div class="group relative card bg-base-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-visible border border-base-300 hover:-translate-y-1">
 					<!-- Preview Area -->
 					<div 
@@ -437,13 +438,24 @@
 							class="w-16 h-16 rounded-xl transition-all duration-300 z-5"
 							style="
 								background-color: {shadow.boxColor || 'white'}; 
-								box-shadow: {shadow.css};
+								box-shadow: {css};
+                                border-radius: {shadow.borderRadius || 12}px;
 							"
 						></div>
 						
-						<!-- Copy Overlay -->
-						<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-base-300/40 backdrop-blur-[1px] rounded-t-2xl z-10">
-							<CopyButton text={`box-shadow: ${shadow.css};`} size="sm" label="Copy CSS" />
+						<!-- Hover Overlay Actions -->
+						<div class="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-base-300/40 backdrop-blur-[1px] rounded-t-2xl z-10 p-4">
+							<button 
+                                class="btn btn-sm btn-primary shadow-lg" 
+                                onclick={() => loadShadow(shadow)}
+                                title="Load into Editor"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M9 14l3-3 3 3M4 4h16"/></svg>
+                                Edit
+                            </button>
+                            <div class="tooltip" data-tip="Copy CSS">
+							    <CopyButton text={`box-shadow: ${css};`} size="sm" />
+                            </div>
 						</div>
 					</div>
 
