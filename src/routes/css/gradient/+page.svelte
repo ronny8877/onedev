@@ -359,7 +359,7 @@
 					<h3 class="text-sm font-semibold">CSS Code</h3>
 					<CopyButton text={fullCSS} label="Copy CSS" size="sm" />
 				</div>
-				<div class="p-4 bg-base-100/50 font-mono text-sm overflow-x-auto whitespace-pre-wrap break-all rounded-b-2xl">
+				<div class="p-4 bg-base-100/50 font-mono text-sm overflow-x-auto whitespace-pre-wrap break-all rounded-b-2xl max-w-full">
 					<span class="text-primary">background</span>: {gradientCSS};{#if isAnimated}<br/><span class="text-secondary">animation</span>: {animationCSS.split(';')[0]};{/if}
 				</div>
 			</div>
@@ -469,7 +469,7 @@
 					<div class="flex flex-wrap gap-2">
 						{#each presets as preset}
 							<button
-								class="btn btn-sm btn-ghost bg-base-100 shadow-sm gap-2 hover:scale-105 border border-base-300/50 flex-grow"
+								class="btn btn-sm btn-ghost bg-base-100 shadow-sm gap-2 hover:scale-105 border border-base-300/50 grow"
 								onclick={() => applyPreset(preset)}
 							>
 								<span 

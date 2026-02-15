@@ -110,7 +110,7 @@
 							<CopyButton text={minifiedCSS} label="Copy" size="sm" />
 						{/if}
 					</div>
-					<pre class="bg-base-300 p-4 rounded-xl h-64 overflow-auto text-sm font-mono break-all">{minifiedCSS || 'Minified CSS will appear here...'}</pre>
+					<div class="bg-base-300 p-4 rounded-xl h-64 overflow-auto text-sm font-mono break-all max-w-full">{minifiedCSS || 'Minified CSS will appear here...'}</div>
 				</div>
 			</div>
 		</div>

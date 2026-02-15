@@ -189,7 +189,7 @@
 					<h3 class="text-sm font-semibold">CSS Output</h3>
 					<CopyButton text={`transition: ${cssOutput};`} label="Copy" size="sm" />
 				</div>
-				<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-x-auto whitespace-pre-wrap break-all">transition: {cssOutput};</pre>
+				<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-x-auto whitespace-pre-wrap break-all max-w-full">transition: {cssOutput};</pre>
 			</div>
 		</div>
 	</div>

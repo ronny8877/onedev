@@ -132,7 +132,7 @@
                     <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 20px 20px;"></div>
 
 					<span 
-						class="text-center leading-tight break-words max-w-full outline-none transition-all duration-300"
+						class="text-center leading-tight wrap-break-word max-w-full outline-none transition-all duration-300"
                         contenteditable="true"
                         bind:textContent={previewText}
                         spellcheck="false"
@@ -181,7 +181,7 @@
 					<h3 class="text-sm font-semibold">CSS Output</h3>
 					<CopyButton text={cssOutput} label="Copy CSS" size="sm" />
 				</div>
-				<pre class="bg-base-100/50 p-4 font-mono text-sm overflow-x-auto whitespace-pre-wrap rounded-b-2xl">{cssOutput}</pre>
+				<pre class="bg-base-100/50 p-4 font-mono text-sm overflow-x-auto whitespace-pre-wrap rounded-b-2xl break-all max-w-full">{cssOutput}</pre>
 			</div>
 		</div>
 

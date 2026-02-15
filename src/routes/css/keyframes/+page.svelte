@@ -372,7 +372,7 @@
 					<h3 class="text-sm font-semibold">Generated CSS</h3>
 					<CopyButton text={fullCSS} label="Copy" size="sm" />
 				</div>
-				<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto max-h-64 whitespace-pre-wrap">{fullCSS}</pre>
+				<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto max-h-64 whitespace-pre-wrap break-all max-w-full">{fullCSS}</pre>
 			</div>
 		</div>
 	</div>

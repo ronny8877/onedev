@@ -102,7 +102,7 @@
 							<CopyButton text={cleanedCSS} label="Copy" size="sm" />
 						{/if}
 					</div>
-					<pre class="bg-base-300 p-4 rounded-xl h-64 overflow-auto text-sm font-mono whitespace-pre-wrap">{cleanedCSS || 'Cleaned CSS will appear here...'}</pre>
+					<pre class="bg-base-300 p-4 rounded-xl h-64 overflow-auto text-sm font-mono whitespace-pre-wrap break-all max-w-full">{cleanedCSS || 'Cleaned CSS will appear here...'}</pre>
 				</div>
 			</div>
 		</div>

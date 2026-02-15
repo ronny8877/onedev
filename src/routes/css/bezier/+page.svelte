@@ -245,7 +245,7 @@
 						</div>
 						<div class="relative h-16 bg-base-300 rounded-full px-2">
 							<div 
-								class="absolute top-3 w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 shadow-lg"
+								class="absolute top-3 w-10 h-10 rounded-full bg-linear-to-br from-pink-500 to-purple-500 shadow-lg"
 								style="
 									left: {ballPosition}%;
 									transform: translateX(-{ballPosition * 0.4}px);
@@ -274,11 +274,11 @@
 					</div>
 				</div>
 				<div class="grid sm:grid-cols-2 gap-3">
-					<div class="bg-base-300 p-3 rounded-xl">
+					<div class="bg-base-300 p-3 rounded-xl overflow-x-auto max-w-full">
 						<div class="text-xs text-base-content/50 mb-1">Value only</div>
 						<code class="font-mono text-sm text-primary">{cssOutput}</code>
 					</div>
-					<div class="bg-base-300 p-3 rounded-xl">
+					<div class="bg-base-300 p-3 rounded-xl overflow-x-auto max-w-full">
 						<div class="text-xs text-base-content/50 mb-1">Full property</div>
 						<code class="font-mono text-sm">transition-timing-function: {cssOutput};</code>
 					</div>

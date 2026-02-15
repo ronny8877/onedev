@@ -164,7 +164,7 @@
 					<h3 class="text-sm font-semibold">CSS Code</h3>
 					<CopyButton text={`text-shadow: ${cssOutput};`} label="Copy CSS" size="sm" />
 				</div>
-				<div class="p-4 bg-base-100/50 font-mono text-sm overflow-x-auto whitespace-pre-wrap break-all rounded-b-2xl">
+				<div class="p-4 bg-base-100/50 font-mono text-sm overflow-x-auto whitespace-pre-wrap break-all rounded-b-2xl max-w-full">
 					<span class="text-primary">text-shadow</span>: {cssOutput};
 				</div>
 			</div>

@@ -91,33 +91,43 @@
 		<ToolActions onSample={loadSample} onClear={clearAll} />
 
 		<!-- Input Section -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<h3 class="text-sm font-semibold mb-3">Input Value</h3>
-				<div class="flex gap-2">
-					<input
-						type="number"
-						bind:value={inputValue}
-						placeholder="Enter value..."
-						class="input input-bordered flex-1 font-mono text-lg"
-						step="any"
-					/>
-					<select bind:value={inputUnit} class="select select-bordered w-28">
-						<option value="deg">degrees</option>
-						<option value="rad">radians</option>
-						<option value="grad">gradians</option>
-						<option value="turns">turns</option>
-					</select>
-				</div>
-				<div class="mt-3 flex flex-wrap gap-1">
-					{#each presets as preset}
-						<button
-							class="btn btn-xs btn-ghost"
-							onclick={() => setPreset(preset.deg)}
-						>
-							{preset.label}
-						</button>
-					{/each}
+		<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300">
+			<div class="card-body p-4 sm:p-6">
+				<div class="flex flex-col gap-6">
+					<div class="form-control w-full">
+						<label class="label pt-0 pb-2">
+							<span class="label-text font-semibold text-base">Input Angle</span>
+						</label>
+						<div class="join w-full shadow-sm">
+							<input
+								type="number"
+								bind:value={inputValue}
+								placeholder="Enter value..."
+								class="input input-lg input-bordered join-item flex-1 font-mono text-xl"
+								step="any"
+							/>
+							<select bind:value={inputUnit} class="select select-lg select-bordered join-item font-mono w-32 text-lg font-semibold bg-base-100">
+								<option value="deg">degrees</option>
+								<option value="rad">radians</option>
+								<option value="grad">gradians</option>
+								<option value="turns">turns</option>
+							</select>
+						</div>
+					</div>
+
+					<div>
+						<p class="text-xs text-base-content/60 font-medium mb-2 uppercase tracking-wider">Common Angles</p>
+						<div class="flex flex-wrap gap-2">
+							{#each presets as preset}
+								<button
+									class="btn btn-sm font-mono transition-all"
+									onclick={() => setPreset(preset.deg)}
+								>
+									{preset.label}
+								</button>
+							{/each}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -126,24 +136,29 @@
 		{#if numValue || inputValue}
 			<div class="grid md:grid-cols-2 gap-4">
 				<!-- Visual Arc -->
-				<div class="card bg-base-200 rounded-2xl">
-					<div class="card-body p-4 items-center">
-						<h3 class="text-sm font-semibold mb-3 w-full">Visual Representation</h3>
-						<svg viewBox="0 0 100 100" class="w-48 h-48">
+				<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300">
+					<div class="card-body p-4 items-center justify-center min-h-[300px]">
+						<h3 class="text-sm font-semibold mb-6 w-full text-center uppercase tracking-wider opacity-70">Visual Representation</h3>
+						<svg viewBox="0 0 100 100" class="w-64 h-64">
 							<!-- Background circle -->
-							<circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2" />
+							<circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
 							
 							<!-- Tick marks -->
 							{#each [0, 90, 180, 270] as tick}
-								{@const pos = polarToCartesian(tick, 40)}
-								{@const innerPos = polarToCartesian(tick, 35)}
+								{@const pos = polarToCartesian(tick, 42)}
+								{@const innerPos = polarToCartesian(tick, 38)}
 								<line 
 									x1={innerPos.x} y1={innerPos.y} 
 									x2={pos.x} y2={pos.y} 
 									stroke="currentColor" 
 									stroke-width="1" 
-									opacity="0.4"
+									opacity="0.3"
 								/>
+								<!-- Labels -->
+								{#if tick === 0}<text x="50" y="8" font-size="4" text-anchor="middle" fill="currentColor" opacity="0.5" font-family="monospace">0°</text>{/if}
+								{#if tick === 90}<text x="92" y="51" font-size="4" text-anchor="start" fill="currentColor" opacity="0.5" font-family="monospace">90°</text>{/if}
+								{#if tick === 180}<text x="50" y="94" font-size="4" text-anchor="middle" fill="currentColor" opacity="0.5" font-family="monospace">180°</text>{/if}
+								{#if tick === 270}<text x="8" y="51" font-size="4" text-anchor="end" fill="currentColor" opacity="0.5" font-family="monospace">270°</text>{/if}
 							{/each}
 							
 							<!-- Arc -->
@@ -151,7 +166,7 @@
 								<path 
 									d={describeArc(0, Math.min(normalizedDeg, 360), 40)}
 									fill="url(#arcGradient)"
-									opacity="0.6"
+									opacity="0.8"
 								/>
 							{/if}
 							
@@ -165,24 +180,26 @@
 							/>
 							
 							<!-- Center dot -->
-							<circle cx="50" cy="50" r="3" fill="hsl(var(--p))" />
+							<circle cx="50" cy="50" r="2" fill="hsl(var(--p))" />
 							
 							<!-- Base line (0°) -->
-							<line x1="50" y1="50" x2="50" y2="10" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="2,2" />
+							<line x1="50" y1="50" x2="50" y2="10" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-dasharray="2,2" />
 							
 							<!-- Gradient definition -->
 							<defs>
 								<linearGradient id="arcGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-									<stop offset="0%" stop-color="hsl(var(--p))" />
-									<stop offset="100%" stop-color="hsl(var(--s))" />
+									<stop offset="0%" stop-color="hsl(var(--p))" stop-opacity="0.6" />
+									<stop offset="100%" stop-color="hsl(var(--s))" stop-opacity="0.6" />
 								</linearGradient>
 							</defs>
 						</svg>
-						<div class="text-center mt-2">
-							<span class="text-2xl font-bold font-mono">{formatNumber(normalizedDeg)}°</span>
-							<p class="text-xs text-base-content/60">
+						<div class="text-center mt-6">
+							<span class="text-4xl font-bold font-mono tracking-tight">{formatNumber(normalizedDeg)}°</span>
+							<p class="text-xs text-base-content/60 mt-1">
 								{#if degValue() > 360 || degValue() < 0}
 									(normalized from {formatNumber(degValue())}°)
+								{:else}
+									Normalized Angle
 								{/if}
 							</p>
 						</div>

@@ -55,7 +55,7 @@
 							<CopyButton text={cssSnippets.centerFlex} label="Copy" size="sm" />
 						</div>
 						<div class="grid lg:grid-cols-2 gap-4">
-							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap">{cssSnippets.centerFlex}</pre>
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap break-all max-w-full">{cssSnippets.centerFlex}</pre>
 							<div class="flex items-center justify-center h-32 bg-base-300 rounded-xl">
 								<div class="w-16 h-16 bg-primary rounded-lg flex items-center justify-center text-white text-xs">Centered</div>
 							</div>
@@ -70,7 +70,7 @@
 							<CopyButton text={cssSnippets.centerGrid} label="Copy" size="sm" />
 						</div>
 						<div class="grid lg:grid-cols-2 gap-4">
-							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap">{cssSnippets.centerGrid}</pre>
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap break-all max-w-full">{cssSnippets.centerGrid}</pre>
 							<div class="grid place-items-center h-32 bg-base-300 rounded-xl">
 								<div class="w-16 h-16 bg-secondary rounded-lg flex items-center justify-center text-white text-xs">Centered</div>
 							</div>
@@ -85,7 +85,7 @@
 							<CopyButton text={cssSnippets.centerAbsolute} label="Copy" size="sm" />
 						</div>
 						<div class="grid lg:grid-cols-2 gap-4">
-							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap">{cssSnippets.centerAbsolute}</pre>
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap break-all max-w-full">{cssSnippets.centerAbsolute}</pre>
 							<div class="relative h-32 bg-base-300 rounded-xl">
 								<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-accent rounded-lg flex items-center justify-center text-white text-xs">Centered</div>
 							</div>
@@ -105,7 +105,7 @@
 							<CopyButton text={cssSnippets.truncateSingle} label="Copy" size="sm" />
 						</div>
 						<div class="grid lg:grid-cols-2 gap-4">
-							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap">{cssSnippets.truncateSingle}</pre>
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap break-all max-w-full">{cssSnippets.truncateSingle}</pre>
 							<div class="bg-base-300 rounded-xl p-4">
 								<p class="whitespace-nowrap overflow-hidden text-overflow-ellipsis max-w-full" style="text-overflow: ellipsis;">
 									This is a very long text that will be truncated with an ellipsis when it overflows.
@@ -122,7 +122,7 @@
 							<CopyButton text={cssSnippets.truncateMulti} label="Copy" size="sm" />
 						</div>
 						<div class="grid lg:grid-cols-2 gap-4">
-							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap">{cssSnippets.truncateMulti}</pre>
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap break-all max-w-full">{cssSnippets.truncateMulti}</pre>
 							<div class="bg-base-300 rounded-xl p-4">
 								<p class="line-clamp-3">
 									This is a longer paragraph that spans multiple lines. The text will be clamped to 3 lines maximum and will show an ellipsis at the end. This is very useful for card descriptions, previews, and any content that needs to fit in a specific height.
@@ -139,7 +139,7 @@
 							<CopyButton text={cssSnippets.textBalance} label="Copy" size="sm" />
 						</div>
 						<div class="grid lg:grid-cols-2 gap-4">
-							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap">{cssSnippets.textBalance}</pre>
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap break-all max-w-full">{cssSnippets.textBalance}</pre>
 							<div class="bg-base-300 rounded-xl p-4">
 								<h2 class="text-lg font-bold" style="text-wrap: balance; max-inline-size: 30ch;">
 									This Headline Is Balanced Across Lines for Better Readability
@@ -161,9 +161,9 @@
 							<CopyButton text={cssSnippets.aspectRatio} label="Copy" size="sm" />
 						</div>
 						<div class="grid lg:grid-cols-2 gap-4">
-							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap">{cssSnippets.aspectRatio}</pre>
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap break-all max-w-full">{cssSnippets.aspectRatio}</pre>
 							<div class="bg-base-300 rounded-xl overflow-hidden" style="aspect-ratio: 16/9; max-width: 200px;">
-								<div class="w-full h-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white">16:9</div>
+								<div class="w-full h-full bg-linear-to-br from-primary to-secondary flex items-center justify-center text-white">16:9</div>
 							</div>
 						</div>
 					</div>
@@ -259,7 +259,7 @@
 							<CopyButton text={cssSnippets.gradientText} label="Copy" size="sm" />
 						</div>
 						<div class="grid lg:grid-cols-2 gap-4">
-							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap">{cssSnippets.gradientText}</pre>
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap break-all max-w-full">{cssSnippets.gradientText}</pre>
 							<div class="bg-base-300 rounded-xl p-6 flex items-center justify-center">
 								<span 
 									class="text-3xl font-bold"
@@ -279,8 +279,8 @@
 							<CopyButton text={cssSnippets.glassEffect} label="Copy" size="sm" />
 						</div>
 						<div class="grid lg:grid-cols-2 gap-4">
-							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap">{cssSnippets.glassEffect}</pre>
-							<div class="bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl p-6 flex items-center justify-center">
+							<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto whitespace-pre-wrap break-all max-w-full">{cssSnippets.glassEffect}</pre>
+							<div class="bg-linear-to-br from-purple-500 to-pink-500 rounded-xl p-6 flex items-center justify-center">
 								<div 
 									class="p-4 rounded-2xl text-white text-sm"
 									style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);"

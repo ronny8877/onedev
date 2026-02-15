@@ -154,7 +154,7 @@
 					<h3 class="text-sm font-semibold">CSS Output</h3>
 					<CopyButton text={`filter: ${cssOutput};`} label="Copy" size="sm" />
 				</div>
-				<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm break-all">filter: {cssOutput};</pre>
+				<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm break-all max-w-full overflow-x-auto">filter: {cssOutput};</pre>
 			</div>
 		</div>
 	</div>
