@@ -102,6 +102,79 @@
 		return null;
 	}
 
+	function getTouchPos(e: TouchEvent): { x: number; y: number } {
+		if (!containerRef || e.touches.length === 0) return { x: 0, y: 0 };
+		const rect = containerRef.getBoundingClientRect();
+		const touch = e.touches[0];
+		return {
+			x: (touch.clientX - rect.left) / previewScale,
+			y: (touch.clientY - rect.top) / previewScale
+		};
+	}
+
+	function handleTouchStart(e: TouchEvent) {
+		if (e.cancelable) e.preventDefault(); // Prevent scrolling while cropping
+		const pos = getTouchPos(e);
+
+		// Check resize handles first
+		const handle = getHandleAtPosition(pos.x, pos.y);
+		if (handle) {
+			dragMode = 'resize';
+			resizeHandle = handle;
+			dragStart = pos;
+			cropStart = { x: cropX, y: cropY, w: cropWidth, h: cropHeight };
+			return;
+		}
+
+		// Check if clicking inside existing crop area -> move
+		if (isInsideCrop(pos.x, pos.y)) {
+			dragMode = 'move';
+			dragStart = pos;
+			cropStart = { x: cropX, y: cropY, w: cropWidth, h: cropHeight };
+			return;
+		}
+
+		// Otherwise start new selection
+		dragMode = 'new';
+		dragStart = pos;
+		cropX = pos.x;
+		cropY = pos.y;
+		cropWidth = 0;
+		cropHeight = 0;
+	}
+
+	function handleTouchMove(e: TouchEvent) {
+		if (!dragMode) return;
+		if (e.cancelable) e.preventDefault();
+
+		const pos = getTouchPos(e);
+		pos.x = Math.max(0, Math.min(imageWidth, pos.x));
+		pos.y = Math.max(0, Math.min(imageHeight, pos.y));
+
+		if (dragMode === 'move') {
+			const dx = pos.x - dragStart.x;
+			const dy = pos.y - dragStart.y;
+
+			cropX = Math.max(0, Math.min(imageWidth - cropStart.w, cropStart.x + dx));
+			cropY = Math.max(0, Math.min(imageHeight - cropStart.h, cropStart.y + dy));
+		} else if (dragMode === 'resize') {
+			handleResize(pos.x, pos.y);
+		} else if (dragMode === 'new') {
+			handleNewSelection(pos.x, pos.y);
+		}
+	}
+
+	function handleTouchEnd(e: TouchEvent) {
+		if (dragMode) {
+			if (e.cancelable) e.preventDefault();
+			dragMode = null;
+			resizeHandle = null;
+			if (cropWidth > 10 && cropHeight > 10) {
+				applyCrop();
+			}
+		}
+	}
+
 	function handleMouseDown(e: MouseEvent) {
 		const pos = getMousePos(e);
 
@@ -376,7 +449,7 @@
 			<div class="relative">
 				<div
 					bind:this={containerRef}
-					class="relative inline-block overflow-hidden rounded-2xl bg-base-300"
+					class="relative inline-block overflow-hidden rounded-2xl bg-base-300 touch-none"
 					style="cursor: {cursorStyle}"
 					role="application"
 					aria-label="Crop area selector"
@@ -384,6 +457,9 @@
 					onmousemove={handleMouseMove}
 					onmouseup={handleMouseUp}
 					onmouseleave={handleMouseUp}
+					ontouchstart={handleTouchStart}
+					ontouchmove={handleTouchMove}
+					ontouchend={handleTouchEnd}
 				>
 					<img
 						src={originalDataURL}
