@@ -195,7 +195,7 @@
 
 			<!-- Origin -->
 			<div class="bg-base-200 p-4 rounded-xl">
-				<div class="flex items-center justify-between">
+				<div class="flex items-center flex-wrap gap-5 justify-between">
 					<div>
 						<div class="text-xs text-base-content/50 mb-1">Origin (Protocol + Host + Port)</div>
 						<div class="font-mono text-sm font-medium">{parts.origin}</div>

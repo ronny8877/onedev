@@ -337,7 +337,7 @@
 			<Features features={content.features} />
 			<UseCases useCases={content.useCases} />
 			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
-			<Examples examples={content.examples} />
+			<!-- <Examples examples={content.examples} /> -->
 			<FAQSection faqs={content.faqs} />
 			{#if content.tips}
 				<Tips tips={content.tips} />

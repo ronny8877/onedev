@@ -186,17 +186,17 @@
 				<!-- Summary Badge -->
 				<div class="flex items-center gap-3 flex-wrap">
 					{#if comparison.identical}
-						<div class="badge badge-success gap-2 p-4 text-lg">
+						<div class="badge badge-success gap-2 p-4 md:text-lg">
 							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
 							Identical URLs
 						</div>
 					{:else if comparison.sameOrigin && comparison.samePath && comparison.sameParams}
-						<div class="badge badge-warning gap-2 p-4 text-lg">
+						<div class="badge badge-warning gap-2 p-4 md:text-lg">
 							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
 							Same Resource, Different Format
 						</div>
 					{:else}
-						<div class="badge badge-error gap-2 p-4 text-lg">
+						<div class="badge badge-error gap-2 p-4 md:text-lg">
 							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
 							Different URLs
 						</div>
