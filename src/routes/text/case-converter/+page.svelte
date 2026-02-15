@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
+	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { textToolsContent } from '$lib/config/content/text-tools-content';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
@@ -115,7 +116,10 @@
 		{#if input.trim()}
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
-					<h3 class="font-semibold mb-2">{selectedCase}</h3>
+					<div class="flex items-center justify-between mb-2">
+						<h3 class="font-semibold">{selectedCase}</h3>
+						<CopyButton text={output} size="sm" />
+					</div>
 					<code class="text-lg font-mono break-all">{output}</code>
 				</div>
 			</div>
@@ -128,7 +132,10 @@
 						{#each cases as caseOption}
 							<div class="flex items-center justify-between p-2 rounded-lg bg-base-300/50 text-sm gap-4 min-w-0">
 								<span class="text-base-content/70 shrink-0">{caseOption.name}</span>
-								<code class="font-mono truncate min-w-0" title={convert(input, caseOption.id)}>{convert(input, caseOption.id)}</code>
+								<div class="flex items-center gap-2 min-w-0 flex-1 justify-end">
+									<code class="font-mono truncate" title={convert(input, caseOption.id)}>{convert(input, caseOption.id)}</code>
+									<CopyButton text={convert(input, caseOption.id)} size="xs" showFormats={false} class="shrink-0" />
+								</div>
 							</div>
 						{/each}
 					</div>

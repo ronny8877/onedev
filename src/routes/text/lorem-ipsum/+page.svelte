@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
+	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { textToolsContent } from '$lib/config/content/text-tools-content';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
@@ -134,7 +135,10 @@
 		{#if output}
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
-					<h3 class="font-semibold mb-3">Generated Text</h3>
+					<div class="flex items-center justify-between mb-3">
+						<h3 class="font-semibold">Generated Text</h3>
+						<CopyButton text={output} size="sm" />
+					</div>
 					<div class="prose prose-sm max-w-none">
 						{#each output.split('\n\n') as para}
 							<p class="text-base-content/80">{para}</p>
