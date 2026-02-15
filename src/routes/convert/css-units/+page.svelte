@@ -172,7 +172,7 @@
 >
 	<div class="flex flex-col gap-6">
 		<!-- Tabs -->
-		<div role="tablist" class="tabs tabs-boxed bg-base-200 p-1 w-full max-w-md mx-auto">
+		<div role="tablist" class="tabs rounded-3xl tabs-boxed bg-base-200 p-1 w-full max-w-md mx-auto">
 			<button 
 				role="tab" 
 				class="tab flex-1 transition-all"
@@ -194,47 +194,53 @@
 			<!-- Converter Mode -->
 			<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300">
 				<div class="card-body p-4 sm:p-6">
-					<div class="flex flex-col sm:flex-row gap-4">
-						<div class="flex-1">
-							<label class="label pt-0">
-								<span class="label-text font-semibold">Input Value</span>
-							</label>
-							<div class="join w-full">
-								<input
-									type="number"
-									bind:value={inputValue}
-									placeholder="Value"
-									class="input input-bordered join-item flex-1 font-mono text-lg"
-								/>
-								<select bind:value={inputUnit} class="select select-bordered join-item font-mono w-28 text-lg font-semibold">
-									<optgroup label="Relative">
-										<option value="px">px</option>
-										<option value="rem">rem</option>
-										<option value="em">em</option>
-										<option value="%">%</option>
-									</optgroup>
-									<optgroup label="Print">
-										<option value="pt">pt</option>
-										<option value="pc">pc</option>
-									</optgroup>
-									<optgroup label="Physical">
-										<option value="in">in</option>
-										<option value="cm">cm</option>
-										<option value="mm">mm</option>
-									</optgroup>
-								</select>
+					<div class="flex flex-col gap-6">
+						<!-- Main Input Area -->
+						<div class="flex flex-col sm:flex-row gap-4 items-start">
+							<div class="form-control flex-1 w-full">
+								<label class="label pt-0 pb-2">
+									<span class="label-text font-semibold text-base">Input Value</span>
+								</label>
+								<div class="join w-full">
+									<input
+										type="number"
+										bind:value={inputValue}
+										placeholder="Value"
+										class="input input-lg input-bordered join-item flex-1 font-mono text-xl"
+									/>
+									<select bind:value={inputUnit} class="select select-lg select-bordered join-item font-mono w-32 text-lg font-semibold bg-base-100">
+										<optgroup label="Relative">
+											<option value="px">px</option>
+											<option value="rem">rem</option>
+											<option value="em">em</option>
+											<option value="%">%</option>
+										</optgroup>
+										<optgroup label="Print">
+											<option value="pt">pt</option>
+											<option value="pc">pc</option>
+										</optgroup>
+										<optgroup label="Physical">
+											<option value="in">in</option>
+											<option value="cm">cm</option>
+											<option value="mm">mm</option>
+										</optgroup>
+									</select>
+								</div>
 							</div>
 						</div>
-						
+
 						<!-- Quick Presets -->
-						<div class="col-span-full">
-							<p class="text-xs text-base-content/60 mb-2 font-medium">Quick Presets:</p>
+						<div>
+							<div class="flex items-center justify-between mb-2">
+								<p class="text-xs text-base-content/60 font-medium uppercase tracking-wider">Quick Presets</p>
+							</div>
 							<div class="flex flex-wrap gap-2">
 								{#each fontSizePresets as preset}
 									<button
 										class="btn btn-sm font-mono transition-all"
-										class:btn-primary={activePreset === preset}
-										class:btn-outline={activePreset !== preset}
+										class:btn-neutral={activePreset === preset}
+										class:btn-ghost={activePreset !== preset}
+										class:bg-base-300={activePreset !== preset}
 										onclick={() => setPreset(preset)}
 									>
 										{preset}px
@@ -243,83 +249,67 @@
 							</div>
 						</div>
 
-						<!-- Viewport Presets & Settings -->
-						<div class="col-span-full flex flex-wrap items-center gap-3 mt-2">
-							<p class="text-xs text-base-content/60 font-medium">Viewport:</p>
-							{#each viewportPresets as vp}
-								<button
-									class="btn btn-xs btn-outline gap-1 font-mono"
-									class:btn-active={viewportWidth === vp.w && viewportHeight === vp.h}
-									onclick={() => setViewport(vp.w, vp.h)}
-								>
-									{vp.label}
-								</button>
-							{/each}
-							<div class="ml-auto">
-								<button 
-									class="btn btn-sm btn-outline gap-2" 
-									onclick={toggleSettings}
-								>
-									<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-									</svg>
-									{showSettings ? 'Hide' : 'Advanced'}
-								</button>
+						<!-- Settings Section -->
+						<div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-xl">
+							<input type="checkbox" bind:checked={showSettings} /> 
+							<div class="collapse-title text-sm font-medium flex items-center gap-2">
+								<span class="text-lg">⚙️</span> Configuration & Viewport
+							</div>
+							<div class="collapse-content">
+								<div class="pt-2 space-y-4">
+									<!-- Viewport Presets -->
+									<div>
+										<p class="text-xs text-base-content/60 font-medium mb-2">Viewport Presets:</p>
+										<div class="flex flex-wrap gap-2">
+											{#each viewportPresets as vp}
+												<button
+													class="btn btn-xs btn-outline gap-1 font-mono"
+													class:btn-active={viewportWidth === vp.w && viewportHeight === vp.h}
+													onclick={() => setViewport(vp.w, vp.h)}
+												>
+													{vp.label}
+												</button>
+											{/each}
+										</div>
+									</div>
+
+									<!-- Advanced Inputs -->
+									<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+										<div class="form-control">
+											<label class="label py-1">
+												<span class="label-text text-xs text-base-content/70">Root Font Size (px)</span>
+											</label>
+											<input type="number" bind:value={baseFontSize} class="input input-sm input-bordered font-mono" />
+										</div>
+										<div class="form-control">
+											<label class="label py-1">
+												<span class="label-text text-xs text-base-content/70">Parent Font Size (px)</span>
+											</label>
+											<input type="number" bind:value={parentFontSize} class="input input-sm input-bordered font-mono" />
+										</div>
+										<div class="form-control">
+											<label class="label py-1">
+												<span class="label-text text-xs text-base-content/70">Base for % (px)</span>
+											</label>
+											<input type="number" bind:value={baseForPercent} class="input input-sm input-bordered font-mono" />
+										</div>
+										<div class="form-control">
+											<label class="label py-1">
+												<span class="label-text text-xs text-base-content/70">Viewport Width</span>
+											</label>
+											<input type="number" bind:value={viewportWidth} class="input input-sm input-bordered font-mono" />
+										</div>
+										<div class="form-control">
+											<label class="label py-1">
+												<span class="label-text text-xs text-base-content/70">Screen DPI</span>
+											</label>
+											<input type="number" bind:value={dpi} class="input input-sm input-bordered font-mono" />
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-
-						<!-- Settings Toggle (Old position) -->
-						<!--
-						<div class="flex items-end">
-							<button 
-								class="btn btn-outline border-base-content/20 hover:border-base-content/40 hover:bg-base-200 text-base-content" 
-								onclick={toggleSettings}
-							>
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-								</svg>
-								{showSettings ? 'Hide Settings' : 'Settings'}
-							</button>
-						</div>
-						-->
 					</div>
-
-					{#if showSettings}
-						<div class="mt-4 pt-4 border-t border-base-content/10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-in fade-in slide-in-from-top-2 duration-200">
-							<div class="form-control">
-								<label class="label py-1">
-									<span class="label-text text-xs text-base-content/70">Root Font Size (px)</span>
-								</label>
-								<input type="number" bind:value={baseFontSize} class="input input-sm input-bordered font-mono" />
-							</div>
-							<div class="form-control">
-								<label class="label py-1">
-									<span class="label-text text-xs text-base-content/70">Parent Font Size (px)</span>
-								</label>
-								<input type="number" bind:value={parentFontSize} class="input input-sm input-bordered font-mono" />
-							</div>
-							<div class="form-control">
-								<label class="label py-1">
-									<span class="label-text text-xs text-base-content/70">Base for % (px)</span>
-								</label>
-								<input type="number" bind:value={baseForPercent} class="input input-sm input-bordered font-mono" />
-							</div>
-							<div class="form-control">
-								<label class="label py-1">
-									<span class="label-text text-xs text-base-content/70">Viewport Width</span>
-								</label>
-								<input type="number" bind:value={viewportWidth} class="input input-sm input-bordered font-mono" />
-							</div>
-							<div class="form-control">
-								<label class="label py-1">
-									<span class="label-text text-xs text-base-content/70">Screen DPI</span>
-								</label>
-								<input type="number" bind:value={dpi} class="input input-sm input-bordered font-mono" />
-							</div>
-						</div>
-					{/if}
 				</div>
 			</div>
 
@@ -451,16 +441,16 @@
 
 		{:else}
 			<!-- Clamp Generator Mode -->
-			<div class="grid lg:grid-cols-2 gap-6">
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 				<!-- Controls -->
-				<div class="space-y-6">
+				<div class="flex flex-col gap-6 order-2 lg:order-1">
 					<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300">
 						<div class="card-body p-4 sm:p-6">
 							<h3 class="font-semibold flex items-center gap-2 mb-4">
 								<span class="text-xl">🛠️</span> Configuration
 							</h3>
 
-							<div class="grid grid-cols-2 gap-x-4 gap-y-6">
+							<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">
 								<div class="form-control">
 									<label class="label py-1">
 										<span class="label-text">Min Width (px)</span>
@@ -489,11 +479,11 @@
 						</div>
 					</div>
 
-					<div class="card bg-neutral text-neutral-content rounded-2xl shadow-lg">
+					<div class="card bg-neutral text-neutral-content rounded-2xl shadow-lg overflow-hidden">
 						<div class="card-body p-5">
 							<h3 class="text-sm font-semibold uppercase opacity-80 mb-2">Generated CSS</h3>
 							<div class="mockup-code bg-neutral-focus text-neutral-content m-0 w-full">
-								<pre class="px-5"><code>{clampResult}</code></pre>
+								<pre class="px-5 whitespace-normal break-all"><code>{clampResult}</code></pre>
 							</div>
 							<div class="flex justify-end mt-2">
 								<button 
@@ -508,13 +498,13 @@
 				</div>
 
 				<!-- Preview -->
-				<div class="space-y-6">
+				<div class="flex flex-col gap-6 order-1 lg:order-2">
 					<div class="card bg-base-200 border border-base-300 rounded-2xl h-full">
 						<div class="card-body p-4 sm:p-6">
 							<h3 class="font-semibold mb-4">Live Preview</h3>
 							
 							<div class="mb-6">
-								<div class="flex justify-between text-xs text-base-content/60 mb-2">
+								<div class="flex flex-wrap justify-between text-xs text-base-content/60 mb-2 gap-2">
 									<span>Current Viewport: {previewViewportW}px</span>
 									<span>Computed Size: {formatNumber(previewClampVal())}px</span>
 								</div>
@@ -523,7 +513,7 @@
 									min={clampMinW - 200} 
 									max={clampMaxW + 200} 
 									bind:value={previewViewportW} 
-									class="range range-primary range-sm" 
+									class="range range-primary range-sm touch-action-manipulation" 
 								/>
 								<div class="flex justify-between px-2 text-[10px] text-base-content/40 mt-1">
 									<span>{clampMinW - 200}px</span>
@@ -532,10 +522,10 @@
 							</div>
 
 							<div class="flex-1 bg-base-100 rounded-xl border border-base-300 p-4 flex items-center justify-center overflow-hidden relative min-h-[200px]">
-								<div class="text-center transition-all duration-75">
+								<div class="text-center transition-all duration-75 max-w-full">
 									<p 
-										class="leading-none whitespace-nowrap font-bold text-primary"
-										style="font-size: {previewClampVal()}px;"
+										class="leading-none whitespace-nowrap font-bold text-primary break-all fluid-preview-text"
+										style="--val: {previewClampVal()}px;"
 									>
 										Fluid Text
 									</p>
@@ -584,5 +574,15 @@
 	/* Make the preview range input look better */
 	.range {
 		--range-shdw: 0 0 0 1px hsl(var(--p));
+	}
+
+	.fluid-preview-text {
+		font-size: min(var(--val), 13vw) !important;
+	}
+
+	@media (min-width: 1024px) {
+		.fluid-preview-text {
+			font-size: min(var(--val), 18vw) !important;
+		}
 	}
 </style>
