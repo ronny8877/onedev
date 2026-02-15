@@ -62,7 +62,15 @@
 							min="1" 
 							max="6" 
 							step="1"
-							class="range range-primary w-full"
+							class="range range-primary w-full hidden sm:flex"
+						/>
+                        <input 
+							type="range" 
+							bind:value={columnCount} 
+							min="1" 
+							max="3" 
+							step="1"
+							class="range range-primary w-full sm:hidden"
 						/>
 						<div class="flex justify-between px-1 mt-2 text-xs font-mono text-base-content/50">
 							<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
@@ -100,7 +108,7 @@
 					<div class="badge badge-outline text-xs">Pure CSS Columns</div>
 				</div>
 				
-				<div class="bg-base-100 p-6 rounded-2xl border border-base-300 shadow-inner min-h-[600px] transition-all duration-300">
+				<div class="bg-base-100 p-6 rounded-2xl border border-base-300 shadow-inner min-h-[400px] md:min-h-[600px] transition-all duration-300">
 					<div 
 						style="
 							column-count: {columnCount};

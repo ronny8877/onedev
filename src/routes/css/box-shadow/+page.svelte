@@ -147,7 +147,7 @@
 				</div>
 
 				<div 
-					class="h-[400px] w-full flex items-center justify-center relative overflow-hidden transition-colors duration-300"
+					class="min-h-[300px] md:h-[400px] w-full flex items-center justify-center relative overflow-hidden transition-colors duration-300"
 					style="
 						background-color: {previewBgType === 'solid' ? previewBgColor : '#fff'};
 						background-image: {previewBgType === 'checker' ? 'linear-gradient(45deg, #eee 25%, transparent 25%), linear-gradient(-45deg, #eee 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #eee 75%), linear-gradient(-45deg, transparent 75%, #eee 75%)' : 'none'};
@@ -189,7 +189,7 @@
 						</label>
 
 						{#if !isResponsive}
-							<div class="flex items-center gap-2">
+							<div class="hidden sm:flex items-center gap-2">
 								<span class="opacity-70">W:</span>
 								<input 
 									type="range" 
@@ -200,7 +200,7 @@
 									class="range range-xs range-primary w-24"
 								/>
 							</div>
-							<div class="flex items-center gap-2">
+							<div class="hidden sm:flex items-center gap-2">
 								<span class="opacity-70">H:</span>
 								<input 
 									type="range" 
@@ -416,7 +416,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
 			{#each activeLibraryShadows as shadow}
                 {@const css = generateBoxShadow(shadow.layers)}
 				<div class="group relative card bg-base-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-visible border border-base-300 hover:-translate-y-1">

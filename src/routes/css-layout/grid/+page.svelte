@@ -55,8 +55,9 @@
 						/>
 					</div>
 				</div>
-				<div 
-					class="min-h-48 p-4 bg-base-300 rounded-xl border-2 border-dashed border-base-content/20"
+				<div class="w-full overflow-x-auto">
+					<div 
+						class="min-h-48 p-4 bg-base-300 rounded-xl border-2 border-dashed border-base-content/20"
 					style="
 						display: grid;
 						grid-template-columns: {config.columnSizes || `repeat(${config.columns}, 1fr)`};
@@ -73,6 +74,7 @@
 					{/each}
 				</div>
 			</div>
+		</div>
 		</div>
 
 		<!-- Controls -->

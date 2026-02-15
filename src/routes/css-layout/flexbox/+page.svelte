@@ -57,25 +57,27 @@
 
 			<div class="card bg-base-200 shadow-sm border border-base-300 overflow-hidden">
 				<div class="card-body p-6">
-					<div 
-						class="min-h-[500px] p-6 bg-base-100 rounded-xl border-2 border-dashed border-base-content/10 transition-all duration-300"
-						style="
-							display: flex;
-							flex-direction: {config.direction};
-							justify-content: {config.justifyContent};
-							align-items: {config.alignItems};
-							flex-wrap: {config.flexWrap};
-							gap: {config.gap}px;
-						"
-					>
-						{#each Array(itemCount) as _, i}
-							<div 
-								class="flex items-center justify-center text-white font-bold rounded-lg shadow-sm transition-all duration-300 hover:scale-105 {boxColors[i % boxColors.length]}"
-								style="width: {config.direction.includes('column') ? '80px' : (60 + (i * 15))}px; height: 60px;"
-							>
-								{i + 1}
-							</div>
-						{/each}
+					<div class="w-full overflow-x-auto">
+						<div 
+							class="min-h-[300px] md:min-h-[500px] p-6 bg-base-100 rounded-xl border-2 border-dashed border-base-content/10 transition-all duration-300"
+							style="
+								display: flex;
+								flex-direction: {config.direction};
+								justify-content: {config.justifyContent};
+								align-items: {config.alignItems};
+								flex-wrap: {config.flexWrap};
+								gap: {config.gap}px;
+							"
+						>
+							{#each Array(itemCount) as _, i}
+								<div 
+									class="flex items-center justify-center text-white font-bold rounded-lg shadow-sm transition-all duration-300 hover:scale-105 {boxColors[i % boxColors.length]} shrink-0"
+									style="width: {config.direction.includes('column') ? '80px' : (40 + (i * 10))}px; height: 40px; md:height: 60px;"
+								>
+									{i + 1}
+								</div>
+							{/each}
+						</div>
 					</div>
 				</div>
 			</div>

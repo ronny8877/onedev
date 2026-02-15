@@ -163,6 +163,34 @@
 		window.removeEventListener('mouseup', handleMouseUp);
 	}
 
+    // Touch Logic
+    function handleTouchStart(e: TouchEvent, id: string) {
+        // Prevent default to stop scrolling while dragging
+        if (e.cancelable) e.preventDefault();
+        isDragging = true;
+        selectedStopId = id;
+        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+        window.addEventListener('touchend', handleTouchEnd);
+    }
+
+    function handleTouchMove(e: TouchEvent) {
+        if (!isDragging || !selectedStopId || !gradientBarRef) return;
+        if (e.cancelable) e.preventDefault();
+        
+        const touch = e.touches[0];
+        const rect = gradientBarRef.getBoundingClientRect();
+        const x = Math.max(0, Math.min(touch.clientX - rect.left, rect.width));
+        const percentage = Math.round((x / rect.width) * 100);
+        
+        updateStopPosition(selectedStopId, percentage);
+    }
+
+    function handleTouchEnd() {
+        isDragging = false;
+        window.removeEventListener('touchmove', handleTouchMove);
+        window.removeEventListener('touchend', handleTouchEnd);
+    }
+
 	// Presets
 	const presets = [
 		{ name: 'Sunset', stops: [{ color: '#f093fb', position: 0 }, { color: '#f5576c', position: 100 }], type: 'linear' as GradientType, angle: 135 },
@@ -289,6 +317,7 @@
                                     class="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full border-[3px] border-white shadow-md cursor-grab active:cursor-grabbing transition-transform hover:scale-110 {selectedStopId === stop.id ? 'ring-2 ring-primary scale-125 z-10' : 'z-0'}"
                                     style="left: calc({stop.position}% - 10px); background: {stop.color};"
                                     onmousedown={(e) => handleMouseDown(e, stop.id)}
+                                    ontouchstart={(e) => handleTouchStart(e, stop.id)}
                                 ></div>
                             {/each}
                         </div>

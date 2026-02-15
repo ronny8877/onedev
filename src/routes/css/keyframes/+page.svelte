@@ -210,169 +210,221 @@
 <ToolWrapper
 	keywords={['css keyframes', 'animation generator', 'css animation', 'keyframes builder']}
 >
-	<div class="flex flex-col gap-6">
-		<!-- Preview -->
-		<div class="card bg-base-200 rounded-2xl overflow-hidden">
-			<div class="card-body p-6">
-				<div class="flex items-center justify-between mb-4">
-					<h3 class="text-sm font-semibold">Live Preview</h3>
-					<button class="btn btn-sm btn-primary" onclick={playAnimation}>
-						{isPlaying ? '⏹ Stop' : '▶ Play'}
-					</button>
-				</div>
-				<div class="flex justify-center py-12 bg-base-300 rounded-xl min-h-40 overflow-hidden">
-					<div 
-						class="w-16 h-16 rounded-xl"
-						style="
-							transform: translate({currentStyle.translateX}px, {currentStyle.translateY}px) scale({currentStyle.scale}) rotate({currentStyle.rotate}deg);
-							opacity: {currentStyle.opacity};
-							background-color: {currentStyle.backgroundColor};
-						"
-					></div>
-				</div>
-				<div class="flex items-center justify-center gap-2 mt-3">
-					<span class="text-xs text-base-content/50">Progress:</span>
-					<div class="flex-1 max-w-xs h-2 bg-base-300 rounded-full overflow-hidden">
-						<div class="h-full bg-primary transition-all duration-75" style="width: {animationProgress}%"></div>
-					</div>
-					<span class="text-xs font-mono w-12">{Math.round(animationProgress)}%</span>
-				</div>
-			</div>
-		</div>
-
-		<!-- Presets -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<h3 class="text-sm font-semibold mb-3">Presets</h3>
-				<div class="flex flex-wrap gap-2">
-					{#each ['bounce', 'shake', 'pulse', 'spin', 'fadeInUp'] as preset}
-						<button class="btn btn-sm btn-ghost" onclick={() => applyPreset(preset)}>
-							{preset}
-						</button>
-					{/each}
-				</div>
-			</div>
-		</div>
-
-		<!-- Animation Settings -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<h3 class="text-sm font-semibold mb-3">Animation Settings</h3>
-				<div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-					<div>
-						<label class="text-xs text-base-content/60 block mb-1">Name</label>
-						<input type="text" bind:value={animationName} class="input input-bordered input-sm w-full font-mono"/>
-					</div>
-					<div>
-						<label class="text-xs text-base-content/60 block mb-1">Duration (ms)</label>
-						<input type="number" bind:value={duration} min="100" step="100" class="input input-bordered input-sm w-full font-mono"/>
-					</div>
-					<div>
-						<label class="text-xs text-base-content/60 block mb-1">Timing</label>
-						<select bind:value={timingFunction} class="select select-bordered select-sm w-full">
-							<option value="linear">linear</option>
-							<option value="ease">ease</option>
-							<option value="ease-in">ease-in</option>
-							<option value="ease-out">ease-out</option>
-							<option value="ease-in-out">ease-in-out</option>
-						</select>
-					</div>
-					<div>
-						<label class="text-xs text-base-content/60 block mb-1">Iteration</label>
-						<select bind:value={iterationCount} class="select select-bordered select-sm w-full">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="infinite">infinite</option>
-						</select>
-					</div>
-					<div>
-						<label class="text-xs text-base-content/60 block mb-1">Direction</label>
-						<select bind:value={direction} class="select select-bordered select-sm w-full">
-							<option value="normal">normal</option>
-							<option value="reverse">reverse</option>
-							<option value="alternate">alternate</option>
-							<option value="alternate-reverse">alternate-reverse</option>
-						</select>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Keyframes Editor -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<div class="flex items-center justify-between mb-3">
-					<h3 class="text-sm font-semibold">Keyframes ({keyframes.length})</h3>
-					<div class="flex gap-2">
-						<button class="btn btn-sm btn-ghost" onclick={sortKeyframes}>Sort by %</button>
-						<button class="btn btn-sm btn-primary" onclick={addKeyframe}>+ Add Keyframe</button>
-					</div>
-				</div>
-				<div class="space-y-3">
-					{#each keyframes as kf (kf.id)}
-						<div class="p-3 rounded-xl bg-base-300">
-							<div class="flex items-center justify-between mb-2">
-								<div class="flex items-center gap-2">
-									<div 
-										class="w-5 h-5 rounded"
-										style="background-color: {kf.backgroundColor}"
-									></div>
-									<span class="font-mono font-bold text-sm">{kf.percent}%</span>
-								</div>
-								<button 
-									class="btn btn-xs btn-ghost text-error"
-									onclick={() => removeKeyframe(kf.id)}
-									disabled={keyframes.length <= 2}
-								>
-									✕
-								</button>
-							</div>
-							
-							<div class="grid grid-cols-3 sm:grid-cols-7 gap-2">
-								<div>
-									<label class="text-xs text-base-content/60">%</label>
-									<input type="number" bind:value={kf.percent} min="0" max="100" class="input input-bordered input-xs w-full font-mono"/>
-								</div>
-								<div>
-									<label class="text-xs text-base-content/60">X</label>
-									<input type="number" bind:value={kf.translateX} class="input input-bordered input-xs w-full font-mono"/>
-								</div>
-								<div>
-									<label class="text-xs text-base-content/60">Y</label>
-									<input type="number" bind:value={kf.translateY} class="input input-bordered input-xs w-full font-mono"/>
-								</div>
-								<div>
-									<label class="text-xs text-base-content/60">Scale</label>
-									<input type="number" bind:value={kf.scale} step="0.1" min="0" class="input input-bordered input-xs w-full font-mono"/>
-								</div>
-								<div>
-									<label class="text-xs text-base-content/60">Rotate</label>
-									<input type="number" bind:value={kf.rotate} class="input input-bordered input-xs w-full font-mono"/>
-								</div>
-								<div>
-									<label class="text-xs text-base-content/60">Opacity</label>
-									<input type="number" bind:value={kf.opacity} step="0.1" min="0" max="1" class="input input-bordered input-xs w-full font-mono"/>
-								</div>
-								<div>
-									<label class="text-xs text-base-content/60">Color</label>
-									<input type="color" bind:value={kf.backgroundColor} class="w-full h-6 rounded cursor-pointer"/>
-								</div>
-							</div>
+	<div class="grid lg:grid-cols-[1fr_360px] gap-6 items-start">
+		<!-- Left Column: Editor & Output -->
+		<div class="space-y-6">
+			
+			<!-- Keyframes Editor -->
+			<div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm">
+				<div class="card-body p-4 sm:p-6">
+					<div class="flex items-center justify-between flex-wrap mb-6">
+						<h3 class="text-sm font-semibold flex items-center gap-2">
+                            <span class="w-2 h-6 bg-primary rounded-full"></span>
+                            Keyframes Editor ({keyframes.length})
+                        </h3>
+						<div class="flex gap-2">
+							<button class="btn btn-sm btn-ghost hover:bg-base-300" onclick={sortKeyframes}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                Sort by %
+                            </button>
+							<button class="btn btn-sm btn-primary" onclick={addKeyframe}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                Add Keyframe
+                            </button>
 						</div>
-					{/each}
+					</div>
+
+					<div class="space-y-4 relative">
+                        <!-- Connector Line -->
+                        <div class="absolute left-6 top-8 bottom-8 w-0.5 bg-base-300/50 z-0"></div>
+
+						{#each keyframes as kf (kf.id)}
+							<div class="relative pl-12 group">
+                                <!-- Percentage Bubble -->
+                                <div class="absolute left-0 top-4 w-12 h-12 flex items-center justify-center bg-base-100 rounded-full border-4 border-base-200 shadow-sm z-10 group-hover:border-primary/20 transition-colors">
+                                    <div class="w-3 h-3 rounded-full" style="background-color: {kf.backgroundColor}"></div>
+                                </div>
+
+								<div class="p-4 rounded-xl bg-base-100 border border-base-300 shadow-sm hover:shadow-md transition-all duration-200">
+									<div class="flex items-center justify-between mb-4 pb-3 border-b border-base-200">
+										<div class="flex items-center gap-3">
+                                            <div class="join">
+                                                <input 
+                                                    type="number" 
+                                                    bind:value={kf.percent} 
+                                                    min="0" 
+                                                    max="100" 
+                                                    class="input input-sm input-bordered join-item w-20 font-mono font-bold text-center focus:outline-none"
+                                                />
+                                                <div class="btn btn-sm join-item no-animation cursor-default bg-base-200 border-base-300">%</div>
+                                            </div>
+                                            <input type="color" bind:value={kf.backgroundColor} class="w-8 h-8 rounded cursor-pointer border-none bg-transparent" title="Keyframe Color"/>
+										</div>
+										<button 
+											class="btn btn-xs btn-ghost text-base-content/40 hover:text-error hover:bg-error/10"
+											onclick={() => removeKeyframe(kf.id)}
+											disabled={keyframes.length <= 2}
+                                            title="Remove Keyframe"
+										>
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+										</button>
+									</div>
+									
+                                    <!-- Properties Grid -->
+                                    <div class="grid gap-4">
+                                        <!-- Position -->
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <div class="form-control">
+                                                <label class="label text-xs font-medium opacity-60 p-0 mb-1">Translate X (px)</label>
+                                                <input type="number" bind:value={kf.translateX} class="input input-bordered input-sm w-full font-mono"/>
+                                            </div>
+                                            <div class="form-control">
+                                                <label class="label text-xs font-medium opacity-60 p-0 mb-1">Translate Y (px)</label>
+                                                <input type="number" bind:value={kf.translateY} class="input input-bordered input-sm w-full font-mono"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- Transform Properties -->
+                                        <div class="grid grid-cols-3 gap-3">
+                                            <div class="form-control">
+                                                <label class="label text-xs font-medium opacity-60 p-0 mb-1">Scale</label>
+                                                <input type="number" bind:value={kf.scale} step="0.1" min="0" class="input input-bordered input-sm w-full font-mono"/>
+                                            </div>
+                                            <div class="form-control">
+                                                <label class="label text-xs font-medium opacity-60 p-0 mb-1">Rotate (deg)</label>
+                                                <input type="number" bind:value={kf.rotate} class="input input-bordered input-sm w-full font-mono"/>
+                                            </div>
+                                            <div class="form-control">
+                                                <label class="label text-xs font-medium opacity-60 p-0 mb-1">Opacity</label>
+                                                <input type="number" bind:value={kf.opacity} step="0.1" min="0" max="1" class="input input-bordered input-sm w-full font-mono"/>
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+						{/each}
+					</div>
 				</div>
 			</div>
+
+            <!-- CSS Output -->
+            <div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold">Generated CSS</h3>
+                        <CopyButton text={fullCSS} label="Copy CSS" size="sm" />
+                    </div>
+                    <pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto max-h-64 whitespace-pre-wrap break-all max-w-full">{fullCSS}</pre>
+                </div>
+            </div>
 		</div>
 
-		<!-- Output -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<div class="flex items-center justify-between mb-3">
-					<h3 class="text-sm font-semibold">Generated CSS</h3>
-					<CopyButton text={fullCSS} label="Copy" size="sm" />
+		<!-- Right Column: Preview & Settings -->
+		<div class="flex flex-col gap-6 sticky top-6">
+            
+            <!-- Live Preview -->
+            <div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="p-4 border-b border-base-300 bg-base-100/50 flex items-center justify-between">
+                        <h3 class="text-sm font-semibold">Live Preview</h3>
+                        <div class="badge badge-neutral font-mono text-xs">{Math.round(animationProgress)}%</div>
+                    </div>
+                    
+                    <div class="relative h-64 bg-base-100 flex items-center justify-center overflow-hidden">
+                        <!-- Grid Background -->
+                        <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 20px 20px;"></div>
+                        
+                        <div 
+                            class="w-16 h-16 rounded-xl shadow-lg border-2 border-white/20 transition-transform will-change-transform"
+                            style="
+                                transform: translate({currentStyle.translateX}px, {currentStyle.translateY}px) scale({currentStyle.scale}) rotate({currentStyle.rotate}deg);
+                                opacity: {currentStyle.opacity};
+                                background-color: {currentStyle.backgroundColor};
+                            "
+                        ></div>
+                    </div>
+
+                    <div class="p-4 bg-base-100/50 border-t border-base-300">
+                        <div class="flex items-center gap-3">
+                            <button 
+                                class="btn btn-primary flex-1" 
+                                onclick={playAnimation}
+                            >
+                                {isPlaying ? '⏹ Stop' : '▶ Play Animation'}
+                            </button>
+                        </div>
+                        <div class="mt-3 h-1.5 w-full bg-base-300 rounded-full overflow-hidden">
+                            <div class="h-full bg-primary transition-all duration-75" style="width: {animationProgress}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+			<!-- Animation Settings -->
+			<div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm">
+				<div class="card-body p-4 space-y-4">
+					<h3 class="text-sm font-semibold">Global Settings</h3>
+					
+                    <div class="form-control">
+                        <label class="label text-xs font-medium opacity-70 p-0 mb-1">Animation Name</label>
+                        <input type="text" bind:value={animationName} class="input input-bordered input-sm w-full font-mono"/>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="form-control">
+                            <label class="label text-xs font-medium opacity-70 p-0 mb-1">Duration (ms)</label>
+                            <input type="number" bind:value={duration} min="100" step="100" class="input input-bordered input-sm w-full font-mono"/>
+                        </div>
+                        <div class="form-control">
+                            <label class="label text-xs font-medium opacity-70 p-0 mb-1">Timing</label>
+                            <select bind:value={timingFunction} class="select select-bordered select-sm w-full text-xs">
+                                <option value="linear">linear</option>
+                                <option value="ease">ease</option>
+                                <option value="ease-in">ease-in</option>
+                                <option value="ease-out">ease-out</option>
+                                <option value="ease-in-out">ease-in-out</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="form-control">
+                            <label class="label text-xs font-medium opacity-70 p-0 mb-1">Iteration</label>
+                            <select bind:value={iterationCount} class="select select-bordered select-sm w-full text-xs">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="infinite">infinite</option>
+                            </select>
+                        </div>
+                        <div class="form-control">
+                            <label class="label text-xs font-medium opacity-70 p-0 mb-1">Direction</label>
+                            <select bind:value={direction} class="select select-bordered select-sm w-full text-xs">
+                                <option value="normal">normal</option>
+                                <option value="reverse">reverse</option>
+                                <option value="alternate">alternate</option>
+                                <option value="alternate-reverse">alt-reverse</option>
+                            </select>
+                        </div>
+                    </div>
 				</div>
-				<pre class="bg-base-300 p-4 rounded-xl font-mono text-sm overflow-auto max-h-64 whitespace-pre-wrap break-all max-w-full">{fullCSS}</pre>
+			</div>
+
+			<!-- Presets -->
+			<div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm">
+				<div class="card-body p-4">
+					<h3 class="text-sm font-semibold mb-3">Quick Presets</h3>
+					<div class="flex flex-wrap gap-2">
+						{#each ['bounce', 'shake', 'pulse', 'spin', 'fadeInUp'] as preset}
+							<button 
+                                class="btn btn-sm btn-ghost bg-base-100 border-base-300 hover:border-primary hover:text-primary transition-all" 
+                                onclick={() => applyPreset(preset)}
+                            >
+								{preset}
+							</button>
+						{/each}
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

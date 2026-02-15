@@ -150,28 +150,30 @@
 				</div>
 
                 <!-- Live Text Input (Backup if contenteditable is annoying) -->
-                <div class="p-3 bg-base-100 border-t border-base-300 flex items-center gap-3">
+                <div class="p-3 bg-base-100 border-t border-base-300 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                     <input 
                         type="text" 
                         bind:value={previewText} 
                         class="input input-sm input-bordered w-full"
                         placeholder="Type text here..."
                     />
-                    <select bind:value={fontFamily} class="select select-bordered select-sm w-40 text-xs">
-                        <option value="system-ui">System UI</option>
-                        <option value="'Inter', sans-serif">Inter</option>
-                        <option value="'Roboto', sans-serif">Roboto</option>
-                        <option value="'Poppins', sans-serif">Poppins</option>
-                        <option value="'Playfair Display', serif">Playfair</option>
-                        <option value="monospace">Monospace</option>
-                    </select>
-                     <select bind:value={fontWeight} class="select select-bordered select-sm w-24 text-xs">
-                        <option value={400}>Normal</option>
-                        <option value={600}>Semibold</option>
-                        <option value={700}>Bold</option>
-                        <option value={800}>Extra Bold</option>
-                        <option value={900}>Black</option>
-                    </select>
+                    <div class="flex items-center gap-2">
+                        <select bind:value={fontFamily} class="select select-bordered select-sm flex-1 sm:w-40 text-xs">
+                            <option value="system-ui">System UI</option>
+                            <option value="'Inter', sans-serif">Inter</option>
+                            <option value="'Roboto', sans-serif">Roboto</option>
+                            <option value="'Poppins', sans-serif">Poppins</option>
+                            <option value="'Playfair Display', serif">Playfair</option>
+                            <option value="monospace">Monospace</option>
+                        </select>
+                         <select bind:value={fontWeight} class="select select-bordered select-sm w-24 text-xs">
+                            <option value={400}>Normal</option>
+                            <option value={600}>Semibold</option>
+                            <option value={700}>Bold</option>
+                            <option value={800}>Extra Bold</option>
+                            <option value={900}>Black</option>
+                        </select>
+                    </div>
                 </div>
 			</div>
 
@@ -337,7 +339,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
 			{#each activeLibraryGradients as item}
 				<div class="group relative card bg-base-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-visible border border-base-300 hover:-translate-y-1">
 					<!-- Preview Area -->

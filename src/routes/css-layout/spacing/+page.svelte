@@ -73,7 +73,7 @@
 	<div class="flex flex-col gap-6">
 		<!-- Visualization -->
 		<div class="card bg-base-200 rounded-2xl overflow-hidden shadow-sm">
-			<div class="card-body p-8 flex items-center justify-center min-h-[400px]">
+			<div class="card-body p-8 flex items-center justify-center min-h-[400px] overflow-x-auto">
 				
 				<!-- Margin Box -->
 				<div 

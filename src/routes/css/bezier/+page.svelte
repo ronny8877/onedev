@@ -61,32 +61,16 @@
 <ToolWrapper
 	keywords={['cubic bezier', 'easing curves', 'css timing', 'animation easing', 'bezier editor']}
 >
-	<div class="flex flex-col gap-6">
-		<!-- Presets -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<h3 class="text-sm font-semibold mb-3">Presets</h3>
-				<div class="flex flex-wrap gap-2">
-					{#each Object.keys(cubicBezierPresets) as preset}
-						<button
-							class="btn btn-sm {selectedPreset === preset ? 'btn-primary' : 'btn-ghost'}"
-							onclick={() => applyPreset(preset as CubicBezierPreset)}
-						>
-							{preset}
-						</button>
-					{/each}
-				</div>
-			</div>
-		</div>
-
-		<div class="grid lg:grid-cols-2 gap-6">
+	<div class="grid lg:grid-cols-[1fr_360px] gap-6 items-start">
+		<!-- Left Column: Visualization & Preview -->
+		<div class="space-y-6">
 			<!-- Curve Editor -->
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm">
 				<div class="card-body p-6">
 					<h3 class="text-sm font-semibold mb-4">Curve Visualization</h3>
-					<div class="flex justify-center">
+					<div class="flex justify-center bg-base-100/50 rounded-xl p-6 border border-base-300/50">
 						<div class="relative">
-							<svg viewBox="-20 -20 240 240" class="w-72 h-72 bg-base-300 rounded-2xl">
+							<svg viewBox="-20 -20 240 240" class="w-72 h-72">
 								<!-- Grid -->
 								<defs>
 									<pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -157,155 +141,189 @@
 								<circle cx="200" cy="0" r="6" fill="#6366f1"/>
 								
 								<!-- Axis labels -->
-								<text x="100" y="220" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.5">Time</text>
-								<text x="-15" y="100" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.5" transform="rotate(-90 -15 100)">Progress</text>
+								<text x="100" y="225" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.5" font-family="monospace">TIME</text>
+								<text x="-15" y="100" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.5" transform="rotate(-90 -15 100)" font-family="monospace">PROGRESS</text>
 							</svg>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<!-- Controls & Preview -->
-			<div class="flex flex-col gap-4">
-				<!-- Control Point Sliders -->
-				<div class="card bg-base-200 rounded-2xl">
-					<div class="card-body p-4">
-						<h3 class="text-sm font-semibold mb-4">Control Points</h3>
-						
-						<!-- P1 Controls -->
-						<div class="mb-4 p-3 rounded-xl bg-pink-500/10 border border-pink-500/20">
-							<div class="flex items-center gap-2 mb-2">
-								<div class="w-3 h-3 rounded-full bg-pink-500"></div>
-								<span class="text-sm font-medium">Point 1</span>
-							</div>
-							<div class="grid grid-cols-2 gap-3">
-								<div>
-									<div class="flex justify-between text-xs text-base-content/60 mb-1">
-										<span>X</span>
-										<span class="font-mono">{p1x.toFixed(2)}</span>
-									</div>
-									<input type="range" bind:value={p1x} step="0.01" min="0" max="1" class="range range-xs range-primary"/>
-								</div>
-								<div>
-									<div class="flex justify-between text-xs text-base-content/60 mb-1">
-										<span>Y</span>
-										<span class="font-mono">{p1y.toFixed(2)}</span>
-									</div>
-									<input type="range" bind:value={p1y} step="0.01" min="-0.5" max="1.5" class="range range-xs range-primary"/>
-								</div>
-							</div>
-						</div>
-						
-						<!-- P2 Controls -->
-						<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20">
-							<div class="flex items-center gap-2 mb-2">
-								<div class="w-3 h-3 rounded-full bg-purple-500"></div>
-								<span class="text-sm font-medium">Point 2</span>
-							</div>
-							<div class="grid grid-cols-2 gap-3">
-								<div>
-									<div class="flex justify-between text-xs text-base-content/60 mb-1">
-										<span>X</span>
-										<span class="font-mono">{p2x.toFixed(2)}</span>
-									</div>
-									<input type="range" bind:value={p2x} step="0.01" min="0" max="1" class="range range-xs range-secondary"/>
-								</div>
-								<div>
-									<div class="flex justify-between text-xs text-base-content/60 mb-1">
-										<span>Y</span>
-										<span class="font-mono">{p2y.toFixed(2)}</span>
-									</div>
-									<input type="range" bind:value={p2y} step="0.01" min="-0.5" max="1.5" class="range range-xs range-secondary"/>
-								</div>
-							</div>
-						</div>
+			<!-- Animation Preview -->
+			<div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm">
+				<div class="card-body p-6">
+					<div class="flex items-center justify-between mb-4">
+						<h3 class="text-sm font-semibold">Animation Preview</h3>
+						<div class="badge badge-neutral font-mono text-xs">{animationDuration}ms</div>
+					</div>
+					
+					<div class="relative h-20 bg-base-100 rounded-2xl px-2 border border-base-300/50 flex items-center overflow-hidden">
+                        <!-- Track line -->
+                        <div class="absolute left-2 right-2 h-0.5 bg-base-300"></div>
+                        
+						<div 
+							class="absolute w-12 h-12 rounded-xl bg-linear-to-br from-pink-500 to-purple-500 shadow-lg border-2 border-white z-10"
+							style="
+								left: {ballPosition}%;
+								transform: translateX(-{ballPosition}%);
+								transition: left {animationDuration}ms {cssOutput};
+							"
+						></div>
+					</div>
+					<div class="flex justify-between text-xs text-base-content/40 mt-2 px-2 font-mono">
+						<span>0%</span>
+						<span>50%</span>
+						<span>100%</span>
 					</div>
 				</div>
+			</div>
 
-				<!-- Animation Preview -->
-				<div class="card bg-base-200 rounded-2xl">
-					<div class="card-body p-4">
+			<!-- Comparison -->
+			<div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm">
+				<div class="card-body p-6">
+					<h3 class="text-sm font-semibold mb-4">Compare with Standard Easings</h3>
+					<div class="space-y-4">
+						{#each ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'] as easing}
+							<div class="flex items-center gap-4">
+								<div class="w-20 text-xs font-mono opacity-70 text-right">{easing}</div>
+								<div class="flex-1 relative h-2 bg-base-100 rounded-full overflow-hidden">
+									<div 
+										class="absolute top-0 bottom-0 w-8 h-full rounded-full bg-primary/30"
+										style="
+											left: {ballPosition}%;
+											transform: translateX(-{ballPosition}%);
+											transition: left {animationDuration}ms {easing};
+										"
+									></div>
+								</div>
+							</div>
+						{/each}
+					</div>
+				</div>
+			</div>
+            
+            <!-- Output -->
+            <div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold">CSS Output</h3>
+                        <div class="flex gap-2">
+                            <CopyButton text={cssOutput} label="Copy Value" size="sm" />
+                            <CopyButton text={`transition-timing-function: ${cssOutput};`} label="Copy Full" size="sm" />
+                        </div>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-3">
+                        <div class="bg-base-300 p-3 rounded-xl overflow-x-auto max-w-full">
+                            <div class="text-xs text-base-content/50 mb-1">Value only</div>
+                            <code class="font-mono text-sm text-primary">{cssOutput}</code>
+                        </div>
+                        <div class="bg-base-300 p-3 rounded-xl overflow-x-auto max-w-full">
+                            <div class="text-xs text-base-content/50 mb-1">Full property</div>
+                            <code class="font-mono text-sm">transition-timing-function: {cssOutput};</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+
+		<!-- Right Column: Controls -->
+		<div class="flex flex-col gap-6 sticky top-6">
+			
+			<!-- Presets -->
+			<div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm">
+				<div class="card-body p-4">
+					<h3 class="text-sm font-semibold mb-3">Presets</h3>
+					<div class="flex flex-wrap gap-2">
+						{#each Object.keys(cubicBezierPresets) as preset}
+							<button
+								class="btn btn-sm {selectedPreset === preset ? 'btn-neutral text-neutral-content' : 'btn-ghost bg-base-100 border-base-300'}"
+								onclick={() => applyPreset(preset as CubicBezierPreset)}
+							>
+								{preset}
+							</button>
+						{/each}
+					</div>
+				</div>
+			</div>
+
+			<!-- Control Points -->
+			<div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm">
+				<div class="card-body p-4">
+					<h3 class="text-sm font-semibold mb-4">Control Points</h3>
+					
+					<!-- P1 Controls -->
+					<div class="mb-4 p-3 rounded-xl bg-pink-500/5 border border-pink-500/20">
 						<div class="flex items-center justify-between mb-3">
-							<h3 class="text-sm font-semibold">Animation Preview</h3>
 							<div class="flex items-center gap-2">
-								<select bind:value={animationDuration} class="select select-bordered select-xs">
-									<option value={500}>0.5s</option>
-									<option value={1000}>1s</option>
-									<option value={1500}>1.5s</option>
-									<option value={2000}>2s</option>
-								</select>
-								<button 
-									class="btn btn-sm btn-primary" 
-									onclick={playAnimation} 
-									disabled={isAnimating}
-								>
-									{isAnimating ? '⏳' : '▶'} Play
-								</button>
+								<div class="w-2 h-2 rounded-full bg-pink-500"></div>
+								<span class="text-xs font-bold uppercase tracking-wider text-pink-500">Point 1</span>
+							</div>
+                            <div class="text-xs font-mono opacity-60">({p1x.toFixed(2)}, {p1y.toFixed(2)})</div>
+						</div>
+						<div class="space-y-3">
+							<div class="space-y-1">
+                                <div class="flex justify-between text-[10px] opacity-70">
+                                    <span>X-Axis</span>
+                                </div>
+								<input type="range" bind:value={p1x} step="0.01" min="0" max="1" class="range range-xs range-primary"/>
+							</div>
+							<div class="space-y-1">
+                                <div class="flex justify-between text-[10px] opacity-70">
+                                    <span>Y-Axis</span>
+                                </div>
+								<input type="range" bind:value={p1y} step="0.01" min="-0.5" max="1.5" class="range range-xs range-primary"/>
 							</div>
 						</div>
-						<div class="relative h-16 bg-base-300 rounded-full px-2">
-							<div 
-								class="absolute top-3 w-10 h-10 rounded-full bg-linear-to-br from-pink-500 to-purple-500 shadow-lg"
-								style="
-									left: {ballPosition}%;
-									transform: translateX(-{ballPosition * 0.4}px);
-									transition: left {animationDuration}ms {cssOutput};
-								"
-							></div>
+					</div>
+					
+					<!-- P2 Controls -->
+					<div class="p-3 rounded-xl bg-purple-500/5 border border-purple-500/20">
+						<div class="flex items-center justify-between mb-3">
+							<div class="flex items-center gap-2">
+								<div class="w-2 h-2 rounded-full bg-purple-500"></div>
+								<span class="text-xs font-bold uppercase tracking-wider text-purple-500">Point 2</span>
+							</div>
+                            <div class="text-xs font-mono opacity-60">({p2x.toFixed(2)}, {p2y.toFixed(2)})</div>
 						</div>
-						<div class="flex justify-between text-xs text-base-content/50 mt-2 px-2">
-							<span>0%</span>
-							<span>50%</span>
-							<span>100%</span>
+						<div class="space-y-3">
+							<div class="space-y-1">
+                                <div class="flex justify-between text-[10px] opacity-70">
+                                    <span>X-Axis</span>
+                                </div>
+								<input type="range" bind:value={p2x} step="0.01" min="0" max="1" class="range range-xs range-secondary"/>
+							</div>
+							<div class="space-y-1">
+                                <div class="flex justify-between text-[10px] opacity-70">
+                                    <span>Y-Axis</span>
+                                </div>
+								<input type="range" bind:value={p2y} step="0.01" min="-0.5" max="1.5" class="range range-xs range-secondary"/>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- Output -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<div class="flex items-center justify-between mb-3">
-					<h3 class="text-sm font-semibold">CSS Output</h3>
-					<div class="flex gap-2">
-						<CopyButton text={cssOutput} label="Copy Value" size="sm" />
-						<CopyButton text={`transition-timing-function: ${cssOutput};`} label="Copy Full" size="sm" />
-					</div>
-				</div>
-				<div class="grid sm:grid-cols-2 gap-3">
-					<div class="bg-base-300 p-3 rounded-xl overflow-x-auto max-w-full">
-						<div class="text-xs text-base-content/50 mb-1">Value only</div>
-						<code class="font-mono text-sm text-primary">{cssOutput}</code>
-					</div>
-					<div class="bg-base-300 p-3 rounded-xl overflow-x-auto max-w-full">
-						<div class="text-xs text-base-content/50 mb-1">Full property</div>
-						<code class="font-mono text-sm">transition-timing-function: {cssOutput};</code>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Comparison -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<h3 class="text-sm font-semibold mb-3">Compare with Built-in Easings</h3>
-				<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-					{#each ['linear', 'ease', 'ease-in', 'ease-out'] as easing}
-						<div class="bg-base-300 p-3 rounded-xl text-center">
-							<div class="text-xs font-mono mb-2">{easing}</div>
-							<div class="relative h-8 bg-base-content/10 rounded-full">
-								<div 
-									class="absolute top-1 w-6 h-6 rounded-full bg-base-content/30"
-									style="
-										left: {ballPosition}%;
-										transform: translateX(-{ballPosition * 0.24}px);
-										transition: left {animationDuration}ms {easing};
-									"
-								></div>
-							</div>
-						</div>
-					{/each}
+			<!-- Animation Controls -->
+			<div class="card bg-base-200 rounded-2xl border border-base-300 shadow-sm">
+				<div class="card-body p-4">
+                    <h3 class="text-sm font-semibold mb-3">Animation Settings</h3>
+                    <div class="form-control mb-3">
+                        <label class="label text-xs font-medium opacity-70 p-0 mb-1">Duration</label>
+                        <select bind:value={animationDuration} class="select select-bordered select-sm w-full">
+                            <option value={500}>Speedy (0.5s)</option>
+                            <option value={1000}>Normal (1s)</option>
+                            <option value={1500}>Relaxed (1.5s)</option>
+                            <option value={2000}>Slow (2s)</option>
+                            <option value={3000}>Crawl (3s)</option>
+                        </select>
+                    </div>
+                    <button 
+                        class="btn btn-primary w-full" 
+                        onclick={playAnimation} 
+                        disabled={isAnimating}
+                    >
+                        {isAnimating ? 'Animating...' : '▶ Play Animation'}
+                    </button>
 				</div>
 			</div>
 		</div>
