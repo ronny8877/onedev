@@ -110,94 +110,113 @@
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} />
 
-		<!-- Mode Toggle -->
-		<div class="flex justify-center">
-			<div class="btn-group">
-				<button 
-					class="btn btn-sm"
-					class:btn-active={mode === 'resolution'}
-					onclick={() => mode = 'resolution'}
-				>
-					Resolution → Size
-				</button>
-				<button 
-					class="btn btn-sm"
-					class:btn-active={mode === 'size'}
-					onclick={() => mode = 'size'}
-				>
-					Size → Resolution
-				</button>
-			</div>
+
+		<!-- Mode Toggle (Tabs) -->
+		<div role="tablist" class="tabs rounded-3xl tabs-boxed bg-base-200 p-1 w-full max-w-md mx-auto">
+			<button 
+				role="tab" 
+				class="tab flex-1 transition-all"
+				class:tab-active={mode === 'resolution'}
+				onclick={() => mode = 'resolution'}
+			>Resolution → Size</button>
+			<button 
+				role="tab" 
+				class="tab flex-1 transition-all"
+				class:tab-active={mode === 'size'}
+				onclick={() => mode = 'size'}
+			>Size → Resolution</button>
 		</div>
 
 		{#if mode === 'resolution'}
 			<!-- Resolution Input -->
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-3">Screen Resolution</h3>
-					<div class="flex items-center gap-2">
-						<input
-							type="number"
-							bind:value={widthPx}
-							class="input input-bordered w-28 font-mono"
-							min="1"
-						/>
-						<span class="text-base-content/60">×</span>
-						<input
-							type="number"
-							bind:value={heightPx}
-							class="input input-bordered w-28 font-mono"
-							min="1"
-						/>
-						<span class="text-sm text-base-content/60">pixels</span>
-					</div>
-					<div class="mt-3 flex flex-wrap gap-1">
-						{#each resolutionPresets as preset}
-							<button
-								class="btn btn-xs btn-ghost"
-								class:btn-active={widthPx === preset.w && heightPx === preset.h}
-								onclick={() => setResolution(preset.w, preset.h)}
-							>
-								{preset.label}
-							</button>
-						{/each}
+			<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300">
+				<div class="card-body p-4 sm:p-6">
+					<div class="flex flex-col gap-6">
+						<div class="form-control w-full">
+							<label class="label pt-0 pb-2">
+								<span class="label-text font-semibold text-base">Screen Resolution</span>
+							</label> 
+							<div class="flex items-center gap-2 sm:gap-4">
+								<div class="relative flex-1">
+									<input
+										type="number"
+										bind:value={widthPx}
+										class="input input-lg input-bordered w-full font-mono text-xl text-center"
+										min="1"
+										placeholder="Width"
+									/>
+									<span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-base-content/40 pointer-events-none">W</span>
+								</div>
+								<span class="text-2xl text-base-content/40">×</span>
+								<div class="relative flex-1">
+									<input
+										type="number"
+										bind:value={heightPx}
+										class="input input-lg input-bordered w-full font-mono text-xl text-center"
+										min="1"
+										placeholder="Height"
+									/>
+									<span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-base-content/40 pointer-events-none">H</span>
+								</div>
+							</div>
+							<label class="label">
+								<span class="label-text-alt text-base-content/60">pixels</span>
+							</label>
+						</div>
+
+						<div>
+							<p class="text-xs text-base-content/60 font-medium mb-2 uppercase tracking-wider">Common Resolutions</p>
+							<div class="flex flex-wrap gap-2">
+								{#each resolutionPresets as preset}
+									<button
+										class="btn btn-sm font-mono transition-all"
+										class:btn-neutral={widthPx === preset.w && heightPx === preset.h}
+										class:btn-ghost={widthPx !== preset.w || heightPx !== preset.h}
+										class:bg-base-300={widthPx !== preset.w || heightPx !== preset.h}
+										onclick={() => setResolution(preset.w, preset.h)}
+									>
+										{preset.label}
+									</button>
+								{/each}
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		{:else}
 			<!-- Size Input -->
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="text-sm font-semibold mb-3">Physical Size (inches)</h3>
-					<div class="grid sm:grid-cols-2 gap-4">
-						<div>
-							<label class="label pb-1">
-								<span class="label-text text-xs">Width</span>
+			<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300">
+				<div class="card-body p-4 sm:p-6">
+					<h3 class="font-semibold text-base mb-4">Physical Size (inches)</h3>
+					<div class="grid sm:grid-cols-2 gap-6">
+						<div class="form-control">
+							<label class="label pt-0 pb-2">
+								<span class="label-text font-medium text-base-content/80">Width</span>
 							</label>
-							<div class="input-group">
+							<div class="join w-full shadow-sm">
 								<input
 									type="number"
 									bind:value={widthInches}
-									class="input input-bordered w-full font-mono"
+									class="input input-lg input-bordered join-item w-full font-mono text-xl"
 									step="0.1"
 									min="0.1"
 								/>
-								<span class="bg-base-300 px-2">in</span>
+								<span class="join-item flex items-center bg-base-200 px-4 font-mono text-base-content/60">in</span>
 							</div>
 						</div>
-						<div>
-							<label class="label pb-1">
-								<span class="label-text text-xs">Height</span>
+						<div class="form-control">
+							<label class="label pt-0 pb-2">
+								<span class="label-text font-medium text-base-content/80">Height</span>
 							</label>
-							<div class="input-group">
+							<div class="join w-full shadow-sm">
 								<input
 									type="number"
 									bind:value={heightInches}
-									class="input input-bordered w-full font-mono"
+									class="input input-lg input-bordered join-item w-full font-mono text-xl"
 									step="0.1"
 									min="0.1"
 								/>
-								<span class="bg-base-300 px-2">in</span>
+								<span class="join-item flex items-center bg-base-200 px-4 font-mono text-base-content/60">in</span>
 							</div>
 						</div>
 					</div>
@@ -206,28 +225,40 @@
 		{/if}
 
 		<!-- DPI Setting -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<h3 class="text-sm font-semibold mb-3">Pixel Density (DPI/PPI)</h3>
-				<div class="flex items-center gap-3">
-					<input
-						type="number"
-						bind:value={dpi}
-						class="input input-bordered w-28 font-mono"
-						min="1"
-					/>
-					<span class="text-sm text-base-content/60">dots per inch</span>
-				</div>
-				<div class="mt-3 flex flex-wrap gap-1">
-					{#each dpiPresets as preset}
-						<button
-							class="btn btn-xs btn-ghost"
-							class:btn-active={dpi === preset.value}
-							onclick={() => dpi = preset.value}
-						>
-							{preset.label}
-						</button>
-					{/each}
+		<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300">
+			<div class="card-body p-4 sm:p-6">
+				<div class="flex flex-col sm:flex-row gap-6 items-start">
+					<div class="form-control">
+						<label class="label pt-0 pb-2">
+							<span class="label-text font-semibold">Pixel Density (PPI)</span>
+						</label>
+						<div class="join shadow-sm">
+							<input
+								type="number"
+								bind:value={dpi}
+								class="input input-lg input-bordered join-item w-32 font-mono text-xl text-center"
+								min="1"
+							/>
+							<span class="join-item flex items-center bg-base-200 px-4 text-sm font-bold text-base-content/50">PPI</span>
+						</div>
+					</div>
+					
+					<div class="flex-1">
+						<p class="text-xs text-base-content/60 font-medium mb-2 uppercase tracking-wider">Common Densities</p>
+						<div class="flex flex-wrap gap-2">
+							{#each dpiPresets as preset}
+								<button
+									class="btn btn-sm font-mono transition-all"
+									class:btn-neutral={dpi === preset.value}
+									class:btn-ghost={dpi !== preset.value}
+									class:bg-base-300={dpi !== preset.value}
+									onclick={() => dpi = preset.value}
+								>
+									{preset.label}
+								</button>
+							{/each}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -295,13 +326,14 @@
 			</ConversionGroup>
 		</div>
 
-			<!-- Visual Representation -->
-		<div class="card bg-base-200 rounded-2xl overflow-hidden">
+	
+		<!-- Visual Representation -->
+		<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300 overflow-hidden">
 			<div class="card-body p-4">
 				<h3 class="text-sm font-semibold mb-3">Screen Preview (scaled)</h3>
 				<div class="flex justify-center">
 					<div 
-						class="relative border-4 border-base-content/20 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center"
+						class="relative border-4 border-base-content/20 rounded-lg bg-linear-to-br from-primary/20 to-secondary/20 flex items-center justify-center"
 						style="width: {previewWidth}px; height: {previewHeight}px;"
 					>
 						<div class="text-center">

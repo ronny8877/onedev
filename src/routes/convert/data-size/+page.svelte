@@ -81,49 +81,60 @@
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} />
 
+
 		<!-- Input Section -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<h3 class="text-sm font-semibold mb-3">Input Value</h3>
-				<div class="flex gap-2">
-					<input
-						type="number"
-						bind:value={inputValue}
-						placeholder="Enter value..."
-						class="input input-bordered flex-1 font-mono text-lg"
-						step="any"
-					/>
-					<select bind:value={inputUnit} class="select select-bordered w-28">
-						<optgroup label="Base">
-							<option value="bits">bits</option>
-							<option value="nibbles">nibbles</option>
-							<option value="bytes">bytes</option>
-						</optgroup>
-						<optgroup label="Decimal (SI)">
-							<option value="KB">KB</option>
-							<option value="MB">MB</option>
-							<option value="GB">GB</option>
-							<option value="TB">TB</option>
-							<option value="PB">PB</option>
-						</optgroup>
-						<optgroup label="Binary (IEC)">
-							<option value="KiB">KiB</option>
-							<option value="MiB">MiB</option>
-							<option value="GiB">GiB</option>
-							<option value="TiB">TiB</option>
-							<option value="PiB">PiB</option>
-						</optgroup>
-					</select>
-				</div>
-				<div class="mt-3 flex flex-wrap gap-1">
-					{#each presets as preset}
-						<button
-							class="btn btn-xs btn-ghost"
-							onclick={() => setPreset(preset.bytes)}
-						>
-							{preset.label}
-						</button>
-					{/each}
+		<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300">
+			<div class="card-body p-4 sm:p-6">
+				<div class="flex flex-col gap-6">
+					<div class="form-control w-full">
+						<label class="label pt-0 pb-2">
+							<span class="label-text font-semibold text-base">Input Size</span>
+						</label>
+						<div class="join w-full shadow-sm">
+							<input
+								type="number"
+								bind:value={inputValue}
+								placeholder="Enter value..."
+								class="input input-lg input-bordered join-item flex-1 font-mono text-xl"
+								step="any"
+							/>
+							<select bind:value={inputUnit} class="select select-lg select-bordered join-item font-mono w-40 text-lg font-semibold bg-base-100">
+								<optgroup label="Base">
+									<option value="bits">bits</option>
+									<option value="nibbles">nibbles</option>
+									<option value="bytes">bytes</option>
+								</optgroup>
+								<optgroup label="Decimal (SI)">
+									<option value="KB">KB</option>
+									<option value="MB">MB</option>
+									<option value="GB">GB</option>
+									<option value="TB">TB</option>
+									<option value="PB">PB</option>
+								</optgroup>
+								<optgroup label="Binary (IEC)">
+									<option value="KiB">KiB</option>
+									<option value="MiB">MiB</option>
+									<option value="GiB">GiB</option>
+									<option value="TiB">TiB</option>
+									<option value="PiB">PiB</option>
+								</optgroup>
+							</select>
+						</div>
+					</div>
+
+					<div>
+						<p class="text-xs text-base-content/60 font-medium mb-2 uppercase tracking-wider">Quick Presets</p>
+						<div class="flex flex-wrap gap-2">
+							{#each presets as preset}
+								<button
+									class="btn btn-sm font-mono transition-all"
+									onclick={() => setPreset(preset.bytes)}
+								>
+									{preset.label}
+								</button>
+							{/each}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -131,20 +142,20 @@
 		<!-- Results -->
 		{#if numValue}
 			<!-- Formatted Result -->
-			<div class="card bg-primary/10 rounded-2xl">
-				<div class="card-body p-4 flex flex-row items-center justify-between gap-4">
-					<div>
-						<h3 class="text-sm font-semibold mb-1">Auto-formatted</h3>
-						<div class="flex gap-4">
-							<div>
-								<span class="text-xs text-base-content/60">Decimal (SI)</span>
-								<code class="block text-lg font-mono font-bold text-primary">
+			<div class="card bg-base-200 shadow-sm border border-base-300 rounded-2xl">
+				<div class="card-body p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+					<div class="w-full">
+						<h3 class="text-sm font-semibold mb-3 uppercase tracking-wider opacity-70">Auto-formatted</h3>
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+							<div class="bg-base-100 p-4 rounded-xl border border-base-200">
+								<span class="text-xs text-base-content/60 block mb-1">Decimal (SI)</span>
+								<code class="block text-2xl font-mono font-bold text-primary">
 									{formatDataSize(bytesValue(), false)}
 								</code>
 							</div>
-							<div>
-								<span class="text-xs text-base-content/60">Binary (IEC)</span>
-								<code class="block text-lg font-mono font-bold text-secondary">
+							<div class="bg-base-100 p-4 rounded-xl border border-base-200">
+								<span class="text-xs text-base-content/60 block mb-1">Binary (IEC)</span>
+								<code class="block text-2xl font-mono font-bold text-secondary">
 									{formatDataSize(bytesValue(), true)}
 								</code>
 							</div>
@@ -234,7 +245,7 @@
 			</div>
 
 				<!-- Visual Comparison -->
-			<div class="card bg-base-200 rounded-2xl overflow-hidden">
+			<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300 overflow-hidden">
 				<div class="card-body p-4">
 					<h3 class="text-sm font-semibold mb-3">Decimal vs Binary Difference</h3>
 					<div class="space-y-3">

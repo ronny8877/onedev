@@ -65,53 +65,71 @@
 		<ToolActions onSample={loadSample} onClear={clearAll} />
 
 		<!-- Input Section -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<h3 class="text-sm font-semibold mb-3">Input Value</h3>
-				<div class="flex gap-2">
-					<input
-						type="number"
-						bind:value={inputValue}
-						placeholder="Enter value..."
-						class="input input-bordered flex-1 font-mono text-lg"
-						step="any"
-					/>
-					<select bind:value={inputUnit} class="select select-bordered w-24">
-						<option value="mm">mm</option>
-						<option value="cm">cm</option>
-						<option value="inch">inch</option>
-						<option value="ft">ft</option>
-						<option value="m">m</option>
-						<option value="km">km</option>
-						<option value="px">px</option>
-					</select>
-				</div>
-			</div>
-		</div>
+		<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300">
+			<div class="card-body p-4 sm:p-6">
+				<div class="flex flex-col gap-6">
+					<!-- Main Input -->
+					<div class="form-control w-full">
+						<label class="label pt-0 pb-2">
+							<span class="label-text font-semibold text-base">Input Length</span>
+						</label>
+						<div class="join w-full shadow-sm">
+							<input
+								type="number"
+								bind:value={inputValue}
+								placeholder="Enter value..."
+								class="input input-lg input-bordered join-item flex-1 font-mono text-xl"
+								step="any"
+							/>
+							<select bind:value={inputUnit} class="select select-lg select-bordered join-item font-mono w-32 text-lg font-semibold bg-base-100">
+								<option value="mm">mm</option>
+								<option value="cm">cm</option>
+								<option value="inch">inch</option>
+								<option value="ft">ft</option>
+								<option value="m">m</option>
+								<option value="km">km</option>
+								<option value="px">px</option>
+							</select>
+						</div>
+					</div>
 
-		<!-- DPI Setting -->
-		<div class="card bg-base-200 rounded-2xl">
-			<div class="card-body p-4">
-				<h3 class="text-sm font-semibold mb-3">Screen DPI (for pixel conversions)</h3>
-				<div class="flex items-center gap-3">
-					<input
-						type="number"
-						bind:value={dpi}
-						class="input input-bordered input-sm w-24 font-mono"
-						min="1"
-					/>
-					<span class="text-sm text-base-content/60">dots per inch</span>
-				</div>
-				<div class="mt-3 flex flex-wrap gap-1">
-					{#each dpiPresets as preset}
-						<button
-							class="btn btn-xs btn-ghost"
-							class:btn-active={dpi === preset.value}
-							onclick={() => dpi = preset.value}
-						>
-							{preset.label}
-						</button>
-					{/each}
+					<!-- DPI Settings (Collapsible) -->
+					<div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-xl">
+						<input type="checkbox" /> 
+						<div class="collapse-title text-sm font-medium flex items-center gap-2">
+							<span class="text-lg">🖨️</span> Screen DPI / PPI Configuration
+						</div>
+						<div class="collapse-content">
+							<div class="pt-2">
+								<div class="flex items-center gap-3 mb-4">
+									<input
+										type="number"
+										bind:value={dpi}
+										class="input input-bordered input-sm w-24 font-mono"
+										min="1"
+									/>
+									<span class="text-xs text-base-content/60">dots per inch (affects pixel conversions)</span>
+								</div>
+								
+								<div>
+									<p class="text-xs text-base-content/60 font-medium mb-2 uppercase tracking-wider">Common Presets</p>
+									<div class="flex flex-wrap gap-2">
+										{#each dpiPresets as preset}
+											<button
+												class="btn btn-sm font-mono transition-all"
+												class:btn-neutral={dpi === preset.value}
+												class:btn-ghost={dpi !== preset.value}
+												class:bg-base-200={dpi !== preset.value}
+												onclick={() => dpi = preset.value}
+											>
+												{preset.label}
+											</button>
+										{/each}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -170,7 +188,7 @@
 			</div>
 
 			<!-- Visual Scale -->
-			<div class="card bg-base-200 rounded-2xl overflow-hidden">
+			<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300 overflow-hidden">
 				<div class="card-body p-4">
 					<h3 class="text-sm font-semibold mb-3">Visual Scale (at {dpi} DPI)</h3>
 					<div class="space-y-3">
