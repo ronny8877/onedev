@@ -113,7 +113,8 @@
 	const extensions = [
 		syntaxHighlighting(highlightStyle),
 		baseTheme,
-		errorLineField
+		errorLineField,
+		EditorView.lineWrapping
 	];
 
 	// Count lines for display
@@ -188,9 +189,9 @@
 
 	/* Fix line number overlap when scrolling horizontally */
 	.editor-container :global(.cm-gutters) {
-		position: sticky;
-		left: 0;
-		z-index: 10;
+		position: sticky !important;
+		left: 0 !important;
+		z-index: 50 !important;
 		background-color: oklch(var(--b2)) !important;
 	}
 
