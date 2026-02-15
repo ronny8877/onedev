@@ -170,6 +170,7 @@
 		min-height: 300px;
 		max-height: 500px;
 		overflow: auto;
+		width: 100%;
 	}
 
 	.editor-container :global(.cm-editor) {

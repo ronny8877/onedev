@@ -104,7 +104,7 @@ import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} />
 
 		<!-- Controls -->
-		<div class="flex items-center gap-3">
+		<div class="flex items-center gap-3 flex-wrap">
 			<button type="button" class="btn btn-primary" onclick={handleGenerate}>
 				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path
@@ -152,7 +152,7 @@ import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 		<ErrorDisplay {error} />
 
 		<!-- Editors -->
-		<div class="grid gap-6 lg:grid-cols-2">
+		<div class="grid gap-6 lg:grid-cols-2 ">
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">JSON Input</h3>
 				<CodeMirrorEditor

@@ -165,19 +165,20 @@ import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 
 		<!-- Main Content -->
 		<div class="grid gap-6 lg:grid-cols-2">
-			<div>
+			<div class="w-full">
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">JSON Input</h3>
+			
 				<CodeMirrorEditor
 					bind:value={input}
-					placeholder={'{"store": {"book": [{"title": "Example"}]}}'}
+					placeholder={'{"store": {"book": "wimpy kid"}}'}
 				/>
 			</div>
 
-			<div>
+			<div class="w-full">
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">
 					Results ({results.length} match{results.length !== 1 ? 'es' : ''})
 				</h3>
-				<div class="min-h-[300px] max-h-[500px] overflow-auto rounded-xl border border-base-300 bg-base-200 p-4">
+				<div class="min-h-[350px] max-h-[500px] overflow-auto rounded-xl border border-base-300 bg-base-200 p-4">
 					{#if results.length === 0}
 						<p class="text-base-content/50">No results. Enter JSON and a JSONPath to query.</p>
 					{:else}
