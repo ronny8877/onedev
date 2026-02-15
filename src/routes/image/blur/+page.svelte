@@ -25,6 +25,7 @@
 	let applyMode = $state<'full' | 'patch'>('full');
 	let blurIntensity = $state(10);
 	let pixelSize = $state(15);
+	let addNoise = $state(false);
 
 	// Patch data
 	interface Patch {
@@ -80,12 +81,29 @@
 			const ctx = canvas.getContext('2d')!;
 
 			if (applyMode === 'full') {
+				// Draw original first
+				ctx.drawImage(img, 0, 0);
+				
+				if (addNoise) {
+					applyNoise(ctx, 0, 0, img.width, img.height);
+				}
+
 				if (mode === 'blur') {
+					// We need to apply blur to the noisy canvas
+					// Use a temp canvas for blur to avoid issues with filter affecting drawing context state weirdly
+					const tempCanvas = document.createElement('canvas');
+					tempCanvas.width = img.width;
+					tempCanvas.height = img.height;
+					const tempCtx = tempCanvas.getContext('2d')!;
+					tempCtx.drawImage(canvas, 0, 0); // Copy image + noise from main canvas
+					
+					ctx.clearRect(0, 0, img.width, img.height);
 					ctx.filter = `blur(${blurIntensity}px)`;
-					ctx.drawImage(img, 0, 0);
+					ctx.drawImage(tempCanvas, 0, 0);
 					ctx.filter = 'none';
 				} else {
-					applyPixelate(ctx, img, 0, 0, img.width, img.height, pixelSize);
+					// For pixelate, we want to pixelate the noisy image
+					applyPixelate(ctx, canvas, 0, 0, img.width, img.height, pixelSize);
 				}
 			} else {
 				// Draw original first
@@ -94,13 +112,11 @@
 				// Apply effects to patches
 				for (const patch of patches) {
 					if (mode === 'blur') {
-						// For blur, we need to clip to avoid bleeding outside the patch
 						ctx.save();
 						ctx.beginPath();
 						ctx.rect(patch.x, patch.y, patch.width, patch.height);
 						ctx.clip();
 						
-						// Draw the blurred version of the region with padding for better blur
 						const padding = blurIntensity * 2;
 						const tempCanvas = document.createElement('canvas');
 						tempCanvas.width = patch.width + padding * 2;
@@ -119,14 +135,20 @@
 							tempCanvas.height
 						);
 						
-						// Apply blur to the temp canvas
-						tempCtx.filter = `blur(${blurIntensity}px)`;
-						tempCtx.drawImage(tempCanvas, 0, 0);
-						tempCtx.filter = 'none';
+						if (addNoise) {
+							applyNoise(tempCtx, 0, 0, tempCanvas.width, tempCanvas.height);
+						}
+						
+						const blurCanvas = document.createElement('canvas');
+						blurCanvas.width = tempCanvas.width;
+						blurCanvas.height = tempCanvas.height;
+						const blurCtx = blurCanvas.getContext('2d')!;
+						blurCtx.filter = `blur(${blurIntensity}px)`;
+						blurCtx.drawImage(tempCanvas, 0, 0);
 						
 						// Draw back to main canvas (clipped)
 						ctx.drawImage(
-							tempCanvas, 
+							blurCanvas, 
 							padding, padding, 
 							patch.width, patch.height,
 							patch.x, patch.y, 
@@ -134,7 +156,18 @@
 						);
 						ctx.restore();
 					} else {
-						applyPixelate(ctx, img, patch.x, patch.y, patch.width, patch.height, pixelSize);
+						// Extract patch area to temp canvas to add noise
+						const tempCanvas = document.createElement('canvas');
+						tempCanvas.width = patch.width;
+						tempCanvas.height = patch.height;
+						const tempCtx = tempCanvas.getContext('2d')!;
+						tempCtx.drawImage(img, patch.x, patch.y, patch.width, patch.height, 0, 0, patch.width, patch.height);
+						
+						if (addNoise) {
+							applyNoise(tempCtx, 0, 0, patch.width, patch.height);
+						}
+						
+						applyPixelate(ctx, tempCanvas, patch.x, patch.y, patch.width, patch.height, pixelSize);
 					}
 				}
 			}
@@ -149,7 +182,22 @@
 		}
 	}
 
-	function applyPixelate(ctx: CanvasRenderingContext2D, img: HTMLImageElement, x: number, y: number, w: number, h: number, size: number) {
+	function applyNoise(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number) {
+		const imageData = ctx.getImageData(x, y, w, h);
+		const data = imageData.data;
+		const intensity = 40; // Hardcoded high intensity noise for security
+
+		for (let i = 0; i < data.length; i += 4) {
+			const noise = (Math.random() - 0.5) * intensity;
+			data[i] = Math.min(255, Math.max(0, data[i] + noise));     // R
+			data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + noise)); // G
+			data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + noise)); // B
+		}
+		
+		ctx.putImageData(imageData, x, y);
+	}
+
+	function applyPixelate(ctx: CanvasRenderingContext2D, img: CanvasImageSource, x: number, y: number, w: number, h: number, size: number) {
 		const tempCanvas = document.createElement('canvas');
 		const scaledW = Math.max(1, Math.ceil(w / size));
 		const scaledH = Math.max(1, Math.ceil(h / size));
@@ -205,6 +253,144 @@
 			}
 		}
 		return null;
+	}
+
+	function getTouchPos(e: TouchEvent): { x: number; y: number } {
+		if (!containerRef || e.touches.length === 0) return { x: 0, y: 0 };
+		const rect = containerRef.getBoundingClientRect();
+		const touch = e.touches[0];
+		return {
+			x: Math.max(0, Math.min(imageWidth, (touch.clientX - rect.left) / canvasScale)),
+			y: Math.max(0, Math.min(imageHeight, (touch.clientY - rect.top) / canvasScale))
+		};
+	}
+
+	function handleTouchStart(e: TouchEvent) {
+		if (e.cancelable) e.preventDefault(); // Prevent scrolling while drawing
+		if (applyMode !== 'patch') return;
+
+		const pos = getTouchPos(e);
+
+		// Check if clicking on a resize handle of selected patch
+		if (selectedPatchId !== null) {
+			const selectedPatch = patches.find(p => p.id === selectedPatchId);
+			if (selectedPatch) {
+				const handle = getHandleAtPosition(selectedPatch, pos.x, pos.y);
+				if (handle) {
+					isDragging = true;
+					dragMode = 'resize';
+					resizeHandle = handle;
+					dragStart = pos;
+					patchStart = { x: selectedPatch.x, y: selectedPatch.y, w: selectedPatch.width, h: selectedPatch.height };
+					return;
+				}
+			}
+		}
+
+		// Check if clicking inside an existing patch
+		const clickedPatch = findPatchAt(pos.x, pos.y);
+		if (clickedPatch) {
+			selectedPatchId = clickedPatch.id;
+			isDragging = true;
+			dragMode = 'move';
+			dragStart = pos;
+			patchStart = { x: clickedPatch.x, y: clickedPatch.y, w: clickedPatch.width, h: clickedPatch.height };
+			return;
+		}
+
+		// Start new patch
+		selectedPatchId = null;
+		isDragging = true;
+		dragMode = 'new';
+		dragStart = pos;
+	}
+
+	function handleTouchMove(e: TouchEvent) {
+		if (!isDragging || applyMode !== 'patch') return;
+		if (e.cancelable) e.preventDefault();
+
+		const pos = getTouchPos(e);
+
+		if (dragMode === 'new') {
+			// Creating new patch
+		} else if (dragMode === 'move' && selectedPatchId !== null) {
+			const patch = patches.find(p => p.id === selectedPatchId);
+			if (patch) {
+				const dx = pos.x - dragStart.x;
+				const dy = pos.y - dragStart.y;
+				patch.x = Math.max(0, Math.min(imageWidth - patch.width, patchStart.x + dx));
+				patch.y = Math.max(0, Math.min(imageHeight - patch.height, patchStart.y + dy));
+				patches = [...patches]; // Trigger reactivity
+			}
+		} else if (dragMode === 'resize' && selectedPatchId !== null) {
+			const patch = patches.find(p => p.id === selectedPatchId);
+			if (patch) {
+				let newX = patchStart.x;
+				let newY = patchStart.y;
+				let newW = patchStart.w;
+				let newH = patchStart.h;
+
+				switch (resizeHandle) {
+					case 'se':
+						newW = pos.x - patchStart.x;
+						newH = pos.y - patchStart.y;
+						break;
+					case 'sw':
+						newX = pos.x;
+						newW = patchStart.x + patchStart.w - pos.x;
+						newH = pos.y - patchStart.y;
+						break;
+					case 'ne':
+						newW = pos.x - patchStart.x;
+						newY = pos.y;
+						newH = patchStart.y + patchStart.h - pos.y;
+						break;
+					case 'nw':
+						newX = pos.x;
+						newY = pos.y;
+						newW = patchStart.x + patchStart.w - pos.x;
+						newH = patchStart.y + patchStart.h - pos.y;
+						break;
+				}
+
+				if (newW >= 20 && newH >= 20) {
+					patch.x = Math.max(0, newX);
+					patch.y = Math.max(0, newY);
+					patch.width = Math.min(newW, imageWidth - patch.x);
+					patch.height = Math.min(newH, imageHeight - patch.y);
+					patches = [...patches];
+				}
+			}
+		}
+	}
+
+	function handleTouchEnd(e: TouchEvent) {
+		if (!isDragging) return;
+		if (e.cancelable) e.preventDefault();
+
+		const pos = getTouchPos(e);
+
+		if (dragMode === 'new') {
+			const x = Math.min(dragStart.x, pos.x);
+			const y = Math.min(dragStart.y, pos.y);
+			const width = Math.abs(pos.x - dragStart.x);
+			const height = Math.abs(pos.y - dragStart.y);
+
+			if (width > 15 && height > 15) {
+				const newPatch: Patch = { id: nextPatchId++, x, y, width, height };
+				patches = [...patches, newPatch];
+				selectedPatchId = newPatch.id;
+			}
+		}
+
+		isDragging = false;
+		dragMode = null;
+		resizeHandle = null;
+
+		// Re-process after any patch change
+		if (patches.length > 0) {
+			process();
+		}
 	}
 
 	function handleMouseDown(e: MouseEvent) {
@@ -390,6 +576,8 @@
 	}
 </script>
 
+<svelte:window onresize={updateCanvasScale} />
+
 <ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={reset} />
@@ -440,6 +628,24 @@
 						</button>
 					</div>
 
+					<!-- Options -->
+					<div class="form-control">
+						<label class="label cursor-pointer justify-start gap-4">
+							<input 
+								type="checkbox" 
+								class="toggle toggle-primary toggle-sm" 
+								bind:checked={addNoise} 
+								onchange={() => { if (applyMode === 'full' || patches.length > 0) process(); }} 
+							/>
+							<span class="label-text font-medium flex items-center gap-2">
+								Add Secure Noise
+								<div class="tooltip tooltip-right" data-tip="Adds random noise to destroy text/details before blurring, making it harder to un-blur.">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-base-content/50"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+								</div>
+							</span>
+						</label>
+					</div>
+
 					<!-- Intensity Sliders -->
 					{#if mode === 'blur'}
 						<div>
@@ -451,7 +657,7 @@
 								id="blur"
 								type="range"
 								min="2"
-								max="50"
+								max="100"
 								bind:value={blurIntensity}
 								onchange={handleSliderChange}
 								class="range range-primary"
@@ -467,7 +673,7 @@
 								id="pixel"
 								type="range"
 								min="5"
-								max="50"
+								max="100"
 								bind:value={pixelSize}
 								onchange={handleSliderChange}
 								class="range range-primary"
@@ -526,13 +732,16 @@
 					<div class="relative">
 						<div
 							bind:this={containerRef}
-							class="relative inline-block overflow-hidden rounded-2xl bg-base-300 cursor-crosshair"
+							class="relative inline-block max-w-full overflow-hidden rounded-2xl bg-base-300 cursor-crosshair touch-none"
 							role="application"
 							aria-label="Patch drawing area"
 							onmousedown={handleMouseDown}
 							onmousemove={handleMouseMove}
 							onmouseup={handleMouseUp}
 							onmouseleave={handleMouseUp}
+							ontouchstart={handleTouchStart}
+							ontouchmove={handleTouchMove}
+							ontouchend={handleTouchEnd}
 						>
 							<img
 								src={processedDataURL}

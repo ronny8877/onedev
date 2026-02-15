@@ -213,7 +213,7 @@
 							<span class="text-base-content/70">Permission allowed</span>
 						</div>
 						<div class="flex items-center gap-2">
-							<span class="badge badge-warning badge-sm">Not Yet Asked</span>
+							<span class="badge badge-warning badge-sm">Not Asked</span>
 							<span class="text-base-content/70">Will prompt when needed</span>
 						</div>
 						<div class="flex items-center gap-2">
