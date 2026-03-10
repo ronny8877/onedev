@@ -4,6 +4,17 @@
 	import { Cron } from 'croner';
 	import cronstrue from 'cronstrue';
 
+	import { cronToolsContent } from '$lib/config/content/cron-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+
+	const content = cronToolsContent['human'];
+
 	// State - more flexible options
 	let frequency = $state<'every-x-minutes' | 'every-x-hours' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'custom'>('weekly');
 	
@@ -324,6 +335,19 @@
 				<span class="px-2 py-1 bg-orange-500/20 rounded">MON</span>
 				<span class="px-2 py-1 bg-purple-500/20 rounded">DOW</span>
 			</div>
+		</div>
+
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			{#if content.tips}
+				<Tips tips={content.tips} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>

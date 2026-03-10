@@ -5,6 +5,17 @@
 	import cronstrue from 'cronstrue';
 	import { onMount } from 'svelte';
 
+	import { cronToolsContent } from '$lib/config/content/cron-tools-content';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+
+	const content = cronToolsContent['next-run'];
+
 	// State
 	let input = $state('0 9 * * 1-5');
 	let timezone = $state('');
@@ -245,7 +256,19 @@
 				<p class="text-center text-xs text-base-content/50 mt-2">
 					* = any • , = list • - = range • / = step
 				</p>
-			</div>
+		</div>
+
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={content.features} />
+			<UseCases useCases={content.useCases} />
+			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+			<Examples examples={content.examples} />
+			<FAQSection faqs={content.faqs} />
+			{#if content.tips}
+				<Tips tips={content.tips} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>
