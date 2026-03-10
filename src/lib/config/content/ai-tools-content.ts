@@ -204,6 +204,18 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 			{
 				question: 'What is 128k context?',
 				answer: 'It means the model can process ~128,000 tokens (approx. 100,000 words or 300 pages of text) in a single request.'
+			},
+			{
+				question: 'How do custom context limits work?',
+				answer: 'If you are running a local private AI Model (like Meta Llama on Ollama) or an enterprise deployed instance, you can manually enter your precise total context window and expected maximum generation limits. The calculator will instantly adapt its math to these custom constraints.'
+			},
+			{
+				question: 'Why does message formatting add token overhead?',
+				answer: 'Under the hood, APIs like OpenAI\'s Chat Completion add hidden special tokens (such as `<|im_start|>` and `<|im_end|>`) to delineate different roles (user, system, assistant). This typically adds 3-4 tokens of invisible overhead per structural message.'
+			},
+			{
+				question: 'Can I calculate context usage for DeepSeek or Grok?',
+				answer: 'Yes! Our tool includes presets for all major modern models including Meta Llama 3, DeepSeek V3/R1, xAI Grok-2, Claude 3.5 Sonnet, and Gemini 1.5, allowing you to accurately budget token contexts.'
 			}
 		],
 		relatedTools: [
@@ -409,6 +421,68 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 		tips: [
 			'Always separate your Input (Prompt) and Output (Generation) estimates for accuracy.',
 			'Don\'t forget to account for re-tries and errors in your volume estimates.'
+		]
+	},
+	'cost-compare': {
+		features: [
+			'Compare all major AI models side-by-side',
+			'Dynamic sliders for input tokens, output tokens, and daily requests',
+			'Calculate daily and monthly API costs instantly',
+			'Sort models by price to find the most cost-effective solution',
+			'Provider filtering (OpenAI, Anthropic, Google, DeepSeek, etc.)'
+		],
+		useCases: [
+			'Evaluate LLM API costs for a new product launch',
+			'Find cheaper alternatives to expensive models for simple tasks',
+			'Budget computing costs for AI startups',
+			'Understand the pricing gap between "Pro" and "Flash" models',
+			'Perform cost-benefit analysis of reasoning models (like o1 or DeepSeek R1)'
+		],
+		concept: {
+			title: 'Understanding AI API Costs',
+			content: `<p>AI models charge based on the volume of text processed, measured in <strong>tokens</strong> (roughly 3/4 of a word).</p>
+			
+			<p><strong>Cost Components:</strong></p>
+			<ul>
+				<li><strong>Input Prompt:</strong> The text you send to the AI. This is heavily discounted (usually 1/3 to 1/4 the cost of output).</li>
+				<li><strong>Output Generation:</strong> The text the AI writes back to you. Producing text requires active compute, making it significantly more expensive.</li>
+				<li><strong>Volume:</strong> Your daily active users and interactions multiply the base token costs.</li>
+			</ul>`
+		},
+		examples: [
+			{
+				label: 'Light Chatbot',
+				code: '100 Input / 50 Output Tokens\n1,000 requests/day\nVery low cost on Flash/Mini models.',
+				isValid: true
+			},
+			{
+				label: 'Heavy RAG System',
+				code: '10,000 Input (Context) / 1,000 Output Tokens\n10,000 requests/day\nRequires careful model selection.',
+				isValid: true
+			}
+		],
+		faqs: [
+			{
+				question: 'Which AI model is the cheapest?',
+				answer: 'Currently, models like Gemini Flash-Lite and DeepSeek Chat offer incredibly low costs, but prices change rapidly. Use the interactive grid above to sort models by the lowest cost based on your specific traffic.'
+			},
+			{
+				question: 'How do reasoning models charge?',
+				answer: 'Models like OpenAI o1/o3 and DeepSeek R1 generate internal "thinking" tokens before they give you the final answer. Providers usually bill these invisible reasoning tokens exactly the same as regular output tokens.'
+			},
+			{
+				question: 'What is a context window?',
+				answer: 'It is the maximum number of tokens you can send and receive in a single API call. Check out our Context Estimator tool for more details.'
+			}
+		],
+		relatedTools: [
+			{ name: 'Cost Estimator', path: '/ai/cost-estimator', description: 'Single model cost detail' },
+			{ name: 'Context Estimator', path: '/ai/context-estimator', description: 'Plan capacity' },
+			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Count your usage' }
+		],
+		tips: [
+			'Use smaller models (like Haiku or Flash) for data extraction and basic reasoning, saving the massive "Pro" models for complex coding or creative tasks.',
+			'Cache frequent API responses on your server; the cheapest API call is the one you never make.'
 		]
 	}
 };

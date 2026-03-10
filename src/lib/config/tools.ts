@@ -196,7 +196,8 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Context Estimator', href: '/ai/context-estimator', description: 'AI context window calculator online. Calculate tokens for prompts, system messages, chat history. Check remaining context—free tool.', icon: '📊' },
 			{ name: 'Prompt Trimmer', href: '/ai/prompt-trimmer', description: 'AI prompt trimmer online. Trim text to fit token limits. Sentence-aware and paragraph-aware modes—reduce prompt length free.', icon: '✂️' },
 			{ name: 'Embedding Estimator', href: '/ai/embedding-estimator', description: 'AI embedding calculator online. Estimate tokens and vector dimensions for embedding models. Plan vector DB storage—free embeddings tool.', icon: '📐' },
-			{ name: 'Cost Estimator', href: '/ai/cost-estimator', description: 'AI API cost calculator online. Estimate costs for GPT-4, Claude, Gemini APIs. Input and output token pricing—free LLM cost tool.', icon: '💰' }
+			{ name: 'Cost Estimator', href: '/ai/cost-estimator', description: 'AI API cost calculator online. Estimate costs for GPT-4, Claude, Gemini APIs. Input and output token pricing—free LLM cost tool.', icon: '💰' },
+			{ name: 'Cost Compare', href: '/ai/cost-compare', description: 'Compare AI API costs online. Estimate daily limits and monthly pricing across top LLM models like GPT-4o, Claude 3.5, Gemini, DeepSeek, and Kimi. Free LLM comparison grid.', icon: '⚖️' }
 		]
 	},
 	{
