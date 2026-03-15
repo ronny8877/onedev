@@ -40,6 +40,7 @@ export const toolCategories: ToolCategory[] = [
 		description: 'Free Base64 encoder and decoder online. Encode text, files, and images to Base64 or decode Base64 strings instantly in your browser. No file uploads to servers—everything runs client-side.',
 		items: [
 			{ name: 'Encode / Decode', href: '/base64/encode-decode', description: 'Base64 encoder and decoder online. Encode text to Base64 or decode Base64 strings instantly in your browser with automatic input detection.', icon: '🔄' },
+			{ name: 'Image to Base64', href: '/base64/image-encoder', description: 'Image to Base64 converter online. Convert PNG, JPG, WebP, and SVG images to Base64 data URIs for HTML/CSS embedding. Free image encoder tool.', icon: '🖼️' },
 			{ name: 'File to Base64', href: '/base64/file-encoder', description: 'Encode files to Base64 online. Convert any file to Base64 content for embedding in HTML, JSON, or XML. Free file to Base64 converter.', icon: '📁' },
 			{ name: 'Image Preview', href: '/base64/image-preview', description: 'Base64 image viewer online. Paste Base64 image data and preview instantly. Supports PNG, JPG, WebP, GIF—decode and view Base64 images free.', icon: '🖼️' },
 			{ name: 'URL-safe Converter', href: '/base64/url-safe', description: 'URL-safe Base64 converter online. Convert between standard Base64 and URL-safe Base64 format (replaces +/ with -_). Free browser tool.', icon: '🔗' },

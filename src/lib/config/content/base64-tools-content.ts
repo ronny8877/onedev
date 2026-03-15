@@ -606,5 +606,83 @@ vHxRKYs4h3JZlJYuFWvwxf7aO...
 			{ name: 'URL-safe Converter', path: '/base64/url-safe', description: 'URL-safe Base64 format' },
 			{ name: 'Base64 Validator', path: '/base64/validator', description: 'Validate Base64  strings' }
 		]
+	},
+
+	'image-encoder': {
+		features: [
+			'Convert images to Base64 instantly',
+			'Drag-and-drop or select an image to convert',
+			'Support for PNG, JPG, WebP, GIF, SVG',
+			'Generate image data URI for direct use in HTML/CSS',
+			'Live preview of the uploaded image',
+			'Copy raw Base64 or full Data URI with one click'
+		],
+		useCases: [
+			'Embed images directly into HTML <img> tags',
+			'Use images in CSS background-image properties',
+			'Inline small icons and logos to reduce HTTP requests',
+			'Prepare image data for JSON API payloads',
+			'Store image data safely within databases as text'
+		],
+		concept: {
+			title: 'Image to Base64 Encoding',
+			content: `
+				<p><strong>Image to Base64 encoding</strong> is the process of converting a binary image file into a text string representation using the Base64 encoding scheme. This is particularly useful for web development when you want to embed images directly into your source code.</p>
+				
+				<p><strong>Common data URI format:</strong></p>
+				<ul>
+					<li><strong>PNG</strong> - <code>data:image/png;base64,iVBORw0KG...</code></li>
+					<li><strong>JPEG</strong> - <code>data:image/jpeg;base64,/9j/4AAQ...</code></li>
+					<li><strong>SVG</strong> - <code>data:image/svg+xml;base64,PHN2ZyB...</code></li>
+					<li><strong>WebP</strong> - <code>data:image/webp;base64,UklGRhoA...</code></li>
+				</ul>
+				
+				<p><strong>Benefits and trade-offs:</strong> Embedding Base64 images eliminates additional HTTP requests, which can speed up initial page load for small icons. However, Base64 encoding increases the file size by roughly 33%. We recommend using this technique only for small images (under 50KB).</p>
+			`
+		},
+		examples: [
+			{
+				label: 'CSS Background Image',
+				code: '.icon {\\n  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA...");\\n}',
+				isValid: true
+			},
+			{
+				label: 'HTML Image Tag',
+				code: '<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD..." alt="Embedded Image" />',
+				isValid: true
+			},
+			{
+				label: 'JSON API Payload',
+				code: '{\\n  "filename": "avatar.png",\\n  "content": "iVBORw0KGgoAAAANSUhEUgAAAAUA..."\\n}',
+				isValid: true
+			}
+		],
+		faqs: [
+			{
+				question: 'Why should I convert an image to Base64?',
+				answer: '<p>Converting an image to Base64 allows you to <strong>embed it directly</strong> into HTML, CSS, or JSON. This reduces the number of HTTP requests your browser has to make, which can improve page load performance for small icons and logos.</p>'
+			},
+			{
+				question: 'What are Data URIs?',
+				answer: '<p>A <strong>Data URI</strong> (Uniform Resource Identifier) is a scheme that allows you to include data locally in web pages as if they were external resources. For Base64 images, it takes the format <code>data:[MIME-type];base64,[Base64-Data]</code>.</p>'
+			},
+			{
+				question: 'Is it good for SEO to use Base64 images?',
+				answer: '<p>Base64 images are <strong>not indexed by Google Image Search</strong>. If SEO for the image itself is important, use a standard image URL instead. Use Base64 only for structural images, icons, or UI elements that do not require indexing.</p>'
+			},
+			{
+				question: 'Does Base64 encoding reduce file size?',
+				answer: '<p><strong>No.</strong> Actually, Base64 encoding increases the original file size by approximately <strong>33%</strong>. This is because it converts binary data into a restricted 64-character text format. Use it sparingly for large images to avoid bloating your HTML/CSS files.</p>'
+			},
+			{
+				question: 'Is my uploaded image saved to your server?',
+				answer: '<p><strong>No.</strong> All image processing and Base64 encoding are handled <strong>locally in your browser</strong> using the FileReader API. Your image never leaves your device, ensuring complete privacy and fast conversion.</p>'
+			}
+		],
+		relatedTools: [
+			{ name: 'Image Preview', path: '/base64/image-preview', description: 'Preview Base64 encoded images' },
+			{ name: 'File Encoder', path: '/base64/file-encoder', description: 'Encode any file to Base64' },
+			{ name: 'Encode / Decode', path: '/base64/encode-decode', description: 'Text Base64 operations' }
+		]
 	}
 };
