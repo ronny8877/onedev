@@ -645,5 +645,115 @@ Result: null (path not found)`,
 			{ name: 'JSON Visualizer', path: '/json/visualizer', description: 'Visualize JSON structure' },
 			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Format JSON for readability' }
 		]
+	},
+
+	relationship: {
+		features: [
+			'Interactive node-graph visualization of JSON structure',
+			'Split-pane layout with live JSON editor and visual canvas',
+			"Copy any node's JSON to clipboard with one click",
+			'Collapsible editor panel for full-screen visualization',
+			'Pan and zoom with mouse drag and scroll wheel',
+			'Auto-fit graph to screen with smart zoom',
+			'Color-coded nodes: indigo for objects, green for arrays',
+			'Bezier curve connections with labeled relationship keys'
+		],
+		useCases: [
+			'Understand complex API response structures at a glance',
+			'Map relationships between entities in JSON data',
+			'Visualize nested configuration files and their hierarchy',
+			'Explore database export schemas with parent-child connections',
+			'Document data models by visualizing JSON examples',
+			'Debug deeply nested JSON payloads from microservices'
+		],
+		concept: {
+			title: 'Understanding JSON Relationships',
+			content: `
+				<p><strong>JSON relationship visualization</strong> represents JSON data as a graph of interconnected nodes, making it easy to see how objects and arrays relate to each other.</p>
+				
+				<p><strong>How it works:</strong></p>
+				<ul>
+					<li><strong>Objects</strong> become nodes with their primitive properties listed inside</li>
+					<li><strong>Arrays</strong> become nodes with child connections to each element</li>
+					<li><strong>Nested structures</strong> are shown as parent→child connections with labeled edges</li>
+					<li><strong>Primitives</strong> (strings, numbers, booleans) are displayed as properties within their parent node</li>
+				</ul>
+				
+				<p><strong>Why use a node graph?</strong> Unlike tree views that expand vertically, a node graph shows the entire structure spatially—revealing patterns, depth, and branching that are hard to see in raw JSON text.</p>
+			`
+		},
+		examples: [
+			{
+				label: 'Simple nested object',
+				code: `{
+  "user": {
+    "name": "Alice",
+    "address": { "city": "NYC", "zip": "10001" }
+  }
+}
+→ 3 nodes: root → user → address`,
+				isValid: true
+			},
+			{
+				label: 'Array of objects',
+				code: `{
+  "users": [
+    { "name": "Alice", "role": "admin" },
+    { "name": "Bob", "role": "editor" }
+  ]
+}
+→ root → users (array) → [0], [1]`,
+				isValid: true
+			},
+			{
+				label: 'Deeply nested config',
+				code: `{
+  "server": {
+    "database": {
+      "primary": { "host": "db1.example.com" },
+      "replica": { "host": "db2.example.com" }
+    }
+  }
+}
+→ 5 nodes showing server hierarchy`,
+				isValid: true
+			}
+		],
+		faqs: [
+			{
+				question: 'How is this different from the JSON Visualizer?',
+				answer: "<p>The <strong>JSON Visualizer</strong> shows a vertical tree view with expand/collapse controls—great for browsing. The <strong>Relationship Visualizer</strong> shows a spatial node graph with connections, giving you a bird's-eye view of the entire structure and its relationships.</p>"
+			},
+			{
+				question: "Can I copy a specific node's JSON?",
+				answer: "<p>Yes! Every node has a copy button in its header. Clicking it copies that node's complete JSON (including all children) to your clipboard, formatted with 2-space indentation.</p>"
+			},
+			{
+				question: 'How do I navigate large JSON structures?',
+				answer: '<p>Use <strong>pan</strong> (click and drag) and <strong>zoom</strong> (scroll wheel or ± buttons) to navigate. Click the <strong>fit-to-screen</strong> button to auto-center and zoom to fit the entire graph.</p>'
+			},
+			{
+				question: 'Is there a limit on JSON size?',
+				answer: '<p>For best performance, arrays are limited to 6 visible child nodes, and objects show up to 14 properties. Truncated items show a "… N more" indicator. Very large JSON (1000+ nodes) may affect browser performance.</p>'
+			},
+			{
+				question: 'Can I hide the editor to see only the visualization?',
+				answer: '<p>Yes! Click the <strong>"Hide Editor"</strong> button to collapse the editor panel. The visualization expands to fill the full width. Click <strong>"Show Editor"</strong> to bring it back.</p>'
+			},
+			{
+				question: 'What do the node colors mean?',
+				answer: '<p><strong>Indigo/purple</strong> headers indicate objects (key-value pairs), while <strong>green</strong> headers indicate arrays (ordered lists). Property values inside nodes are color-coded by type: green for strings, amber for numbers, blue for booleans, purple for null.</p>'
+			},
+			{
+				question: 'Is my data safe?',
+				answer: '<p>Absolutely. Everything runs 100% client-side in your browser. No data is ever sent to any server.</p>'
+			}
+		],
+		relatedTools: [
+			{ name: 'JSON Visualizer', path: '/json/visualizer', description: 'Explore JSON with an interactive tree view' },
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Format and beautify JSON data' },
+			{ name: 'JSON Diff', path: '/json/diff', description: 'Compare two JSON documents side by side' },
+			{ name: 'Type Generator', path: '/json/type-generator', description: 'Generate TypeScript interfaces from JSON' }
+		]
 	}
 };

@@ -31,7 +31,8 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'JSON → Table', href: '/json/table', description: 'Convert JSON to table online. Transform JSON arrays into sortable, searchable tables. Export to CSV or copy as markdown—free and instant.', icon: '📊' },
 			{ name: 'JSON Visualizer', href: '/json/visualizer', description: 'JSON tree viewer online. Explore JSON with an interactive tree view—expand, collapse, and search nodes. Visualize complex JSON structures instantly.', icon: '🌲' },
 			{ name: 'Type Generator', href: '/json/type-generator', description: 'JSON to TypeScript online. Generate TypeScript interfaces or Go structs from JSON instantly. Convert JSON to types directly in your browser.', icon: '⟨T⟩' },
-			{ name: 'Path Tester', href: '/json/path-tester', description: 'JSONPath tester online. Test JSONPath expressions against your data and see matched values instantly. Debug JSONPath queries free in your browser.', icon: '🔍' }
+			{ name: 'Path Tester', href: '/json/path-tester', description: 'JSONPath tester online. Test JSONPath expressions against your data and see matched values instantly. Debug JSONPath queries free in your browser.', icon: '🔍' },
+		{ name: 'Relationship Visualizer', href: '/json/relationship', description: 'JSON relationship visualizer online. Visualize JSON structure as an interactive node graph with connections. Explore object hierarchies, copy nodes, and pan/zoom—free in your browser.', icon: '🔗' }
 		]
 	},
 	{
