@@ -3,6 +3,12 @@
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+	import { regexToolsContent } from '$lib/config/content/regex-tools-content';
+
+	const content = regexToolsContent['cheatsheet'];
 
 	let searchQuery = $state('');
 	let activeCategory = $state<string | null>(null);
@@ -548,5 +554,13 @@
 				</ul>
 			</div>
 		</section>
+	</div>
+
+	<div class="mt-12 space-y-12">
+		<FAQSection faqs={content.faqs} />
+		<RelatedTools relatedTools={content.relatedTools} />
+		{#if content.tips}
+			<Tips tips={content.tips} />
+		{/if}
 	</div>
 </ToolWrapper>

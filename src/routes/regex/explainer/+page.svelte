@@ -3,6 +3,16 @@
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { goto } from '$app/navigation';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+	import { regexToolsContent } from '$lib/config/content/regex-tools-content';
+
+	const content = regexToolsContent['explainer'];
 
 	let pattern = $state('');
 	let hoveredToken = $state<number | null>(null);
@@ -573,5 +583,17 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="mt-12 space-y-12">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<Examples examples={content.examples} />
+		<FAQSection faqs={content.faqs} />
+		<RelatedTools relatedTools={content.relatedTools} />
+		{#if content.tips}
+			<Tips tips={content.tips} />
+		{/if}
 	</div>
 </ToolWrapper>
