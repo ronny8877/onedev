@@ -1,5 +1,15 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+	import { securityToolsContent } from '$lib/config/content/security-tools-content';
+
+	const content = securityToolsContent['owasp'];
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 
 	// OWASP Top 10 2021 Data
@@ -291,5 +301,16 @@
 			<span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-error/30"></span> Needs Work</span>
 			<span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-base-300"></span> Pending</span>
 		</div>
+	</div>
+	<div class="mt-12 space-y-12">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<Examples examples={content.examples} />
+		<FAQSection faqs={content.faqs} />
+		<RelatedTools relatedTools={content.relatedTools} />
+		{#if content.tips}
+			<Tips tips={content.tips} />
+		{/if}
 	</div>
 </ToolWrapper>
