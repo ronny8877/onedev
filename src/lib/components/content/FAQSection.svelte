@@ -22,7 +22,7 @@
 	<div class="space-y-3">
 		{#each faqs as faq, index}
 			<div class="collapse collapse-plus border border-base-300 bg-base-200" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-				<input type="radio" name="faq-accordion" id="faq-{index}" />
+				<input type="checkbox" id="faq-{index}" />
 				<div class="collapse-title text-lg font-medium" itemprop="name">
 					{faq.question}
 				</div>

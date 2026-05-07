@@ -23,10 +23,10 @@
 </script>
 
 <svelte:head>
-	<title>OneDev Tools - Free Online Developer Tools | JSON, Base64, URL Utilities</title>
+	<title>OneDev Tools — 160+ Free Developer Tools | JSON, Base64, AI, URL Utilities</title>
 	<meta
 		name="description"
-		content="Free online developer tools. JSON formatter, Base64 encoder decoder, URL encoder, hash generator, image compressor, CSS generators, and 80+ more tools. No signup, runs in your browser."
+		content="160+ free online developer tools. JSON formatter, Base64 encoder, URL encoder, hash generator, AI token counter, regex tester, CSS generators, and more. No signup — everything runs in your browser."
 	/>
 	<meta name="keywords" content="developer tools, JSON formatter, JSON validator, Base64 encoder, Base64 decoder, URL encoder, URL decoder, query string parser, URL builder, slug generator, free online tools, privacy-focused tools" />
 	<meta name="author" content="OneDev Tools" />
@@ -162,8 +162,19 @@
 	{/each}
 
 	<!-- Footer -->
-	<footer class="mt-16 border-t border-base-300/50 py-8 text-center text-sm text-base-content/50">
-		<p>Built with Svelte, DaisyUI, and ❤️</p>
-		<p class="mt-2">All processing happens locally in your browser. Your data never leaves your device.</p>
+	<footer class="mt-16 border-t border-base-300/50 pt-8 pb-10">
+		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+			<div>
+				<p class="font-semibold text-base-content/80 mb-1">OneDev Tools</p>
+				<p class="text-sm text-base-content/50">All processing happens locally in your browser. Your data never leaves your device.</p>
+			</div>
+			<nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-base-content/50">
+				<a href="/about" class="hover:text-primary transition-colors">About</a>
+				<a href="/privacy" class="hover:text-primary transition-colors">Privacy Policy</a>
+				<a href="/contact" class="hover:text-primary transition-colors">Contact</a>
+				<a href="/editorial-policy" class="hover:text-primary transition-colors">Editorial Policy</a>
+			</nav>
+		</div>
+		<p class="mt-6 text-xs text-base-content/30 text-center">© {new Date().getFullYear()} OneDev Tools. Built with Svelte, DaisyUI, and ❤️</p>
 	</footer>
 </div>

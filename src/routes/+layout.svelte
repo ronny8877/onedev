@@ -43,6 +43,17 @@
 	<link rel="icon" type="image/png" sizes="16x16" href={favicon16} />
 	<link rel="manifest" href={siteWebmanifest} />
 	<meta name="theme-color" content="#1d232a" />
+
+	<!-- Sitewide OG/Social defaults (overridden by individual pages) -->
+	<meta property="og:site_name" content="OneDev Tools" />
+	<meta property="og:type" content="website" />
+	<meta property="og:image" content="https://onedev.tools/og-default.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:image:alt" content="OneDev Tools — Free Developer Utilities" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:image" content="https://onedev.tools/og-default.png" />
+	<meta name="twitter:site" content="@onedevtools" />
 </svelte:head>
 
 <div class="drawer lg:drawer-open">

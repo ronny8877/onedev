@@ -150,5 +150,18 @@
 			{/each}
 		</ul>
 	</nav>
+
+	<!-- Sidebar Footer — Trust Links -->
+	<div class="border-t border-base-200 px-4 py-3 mt-auto">
+		<div class="flex flex-wrap gap-x-3 gap-y-1 justify-center">
+			<a href="/about" class="text-xs text-base-content/40 hover:text-primary transition-colors">About</a>
+			<span class="text-base-content/20 text-xs">·</span>
+			<a href="/privacy" class="text-xs text-base-content/40 hover:text-primary transition-colors">Privacy</a>
+			<span class="text-base-content/20 text-xs">·</span>
+			<a href="/contact" class="text-xs text-base-content/40 hover:text-primary transition-colors">Contact</a>
+			<span class="text-base-content/20 text-xs">·</span>
+			<a href="/editorial-policy" class="text-xs text-base-content/40 hover:text-primary transition-colors">Editorial</a>
+		</div>
+	</div>
 </aside>
 

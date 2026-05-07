@@ -1,6 +1,6 @@
 // AI Models Configuration
 // Centralized configuration for all AI model data
-// Last updated: May 2026
+// Last updated: May 7, 2026
 //
 // ⚠️ UPDATE THIS FILE when model pricing changes
 // Check provider websites for current rates:
@@ -9,6 +9,7 @@
 // - Google: https://ai.google.dev/pricing
 // - xAI: https://x.ai/api
 // - DeepSeek: https://api-docs.deepseek.com/quick_start/pricing
+// - Moonshot (Kimi): https://platform.moonshot.ai/
 
 export const PRICING_LAST_UPDATED = '2026-05-07';
 
@@ -87,6 +88,41 @@ export const CHAT_MODELS: ChatModel[] = [
 		reasoning: false,
 		apiAvailability: true,
 		notes: 'Cheapest GPT-5.4 variant. Undercuts nearly every alternative on input price.'
+	},
+	// GPT-5.5 family — current frontier, released April 2026
+	{
+		name: 'gpt-5.5',
+		displayName: 'GPT-5.5',
+		provider: 'openai',
+		contextWindow: 1000000,
+		maxOutput: 128000,
+		inputPer1M: 5.00,
+		outputPer1M: 30.00,
+		cachedInputPer1M: 1.25,
+		multimodal: true,
+		releaseDate: '2026-04',
+		strengths: 'Agentic coding, computer use, long-horizon reasoning, scientific research, knowledge work',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Released Apr 24, 2026. 82.7% Terminal-Bench 2.0, 84.9% GDPval, 58.6% SWE-bench Pro. ~40% fewer output tokens per task vs GPT-5.4. Pricing doubles above 272K input tokens.'
+	},
+	{
+		name: 'gpt-5.5-pro',
+		displayName: 'GPT-5.5 Pro',
+		provider: 'openai',
+		contextWindow: 1000000,
+		maxOutput: 128000,
+		inputPer1M: 30.00,
+		outputPer1M: 180.00,
+		cachedInputPer1M: 7.50,
+		multimodal: true,
+		releaseDate: '2026-04',
+		strengths: 'Maximum reasoning depth, high-stakes agentic work, manuscript critique, complex research',
+		speedCategory: 'slow',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Premium tier of GPT-5.5 family. For workloads where accuracy outweighs cost. Batch/Flex at 50% off.'
 	},
 	// GPT-4.1 family — long-context specialist, released April 2025
 	{
@@ -211,7 +247,25 @@ export const CHAT_MODELS: ChatModel[] = [
 	},
 
 	// ============ Anthropic ============
-	// Claude 4.x family — current generation as of 2026
+	// Claude 4.7 — current flagship, released April 2026
+	{
+		name: 'claude-opus-4-7',
+		displayName: 'Claude Opus 4.7',
+		provider: 'anthropic',
+		contextWindow: 1000000,
+		maxOutput: 128000,
+		inputPer1M: 5.00,
+		outputPer1M: 25.00,
+		cachedInputPer1M: 0.50,
+		multimodal: true,
+		releaseDate: '2026-04',
+		strengths: 'Agentic coding, long-horizon multi-session work, high-res vision, enterprise doc workflows',
+		speedCategory: 'slow',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Released Apr 16, 2026. 87.6% SWE-bench Verified, 64.3% Terminal-Bench 2.0. New xhigh effort level. 3.75MP vision (3x previous). Task budgets beta. Note: new tokenizer uses up to 35% more tokens vs Opus 4.6.'
+	},
+	// Claude 4.6 family — previous generation, still widely used
 	{
 		name: 'claude-opus-4-6',
 		displayName: 'Claude Opus 4.6',
@@ -227,7 +281,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		speedCategory: 'slow',
 		reasoning: true,
 		apiAvailability: true,
-		notes: 'Flagship. Extended thinking support. 1M context flat-rate, no surcharge.'
+		notes: 'Previous flagship. Now superseded by Opus 4.7. Extended thinking support. 1M context flat-rate, no surcharge.'
 	},
 	{
 		name: 'claude-sonnet-4-6',
@@ -406,40 +460,40 @@ export const CHAT_MODELS: ChatModel[] = [
 	},
 
 	// ============ DeepSeek ============
-	// Current V4 family — launched March 2026
+	// Current V4 family — launched April 2026
 	{
 		name: 'deepseek-v4-flash',
 		displayName: 'DeepSeek V4 Flash (Chat)',
 		provider: 'deepseek',
 		contextWindow: 1000000,
-		maxOutput: 8000,
+		maxOutput: 32000,
 		inputPer1M: 0.14,
 		outputPer1M: 0.28,
 		cachedInputPer1M: 0.014,
 		multimodal: false,
-		releaseDate: '2026-03',
-		strengths: 'Extreme cost efficiency, coding, general tasks, 1M context',
+		releaseDate: '2026-04',
+		strengths: 'Extreme cost efficiency, coding, general tasks, 1M context, thinking/non-thinking modes',
 		speedCategory: 'fast',
 		reasoning: false,
 		apiAvailability: true,
-		notes: 'model string: deepseek-chat (maps to V4 Flash). Supports thinking and non-thinking modes.'
+		notes: 'Released Apr 24, 2026. 284B total / 13B active MoE params. model string: deepseek-chat (routes here). Replaces V3.2. deepseek-reasoner routes to V4 Flash thinking mode.'
 	},
 	{
 		name: 'deepseek-v4-pro',
 		displayName: 'DeepSeek V4 Pro',
 		provider: 'deepseek',
-		contextWindow: 128000,
-		maxOutput: 32000,
+		contextWindow: 1000000,
+		maxOutput: 384000,
 		inputPer1M: 1.74,
 		outputPer1M: 3.48,
-		cachedInputPer1M: 0.174,
+		cachedInputPer1M: 0.0036,
 		multimodal: false,
-		releaseDate: '2026-03',
-		strengths: 'High-quality reasoning and coding, MoE architecture',
+		releaseDate: '2026-04',
+		strengths: 'Frontier-class coding & reasoning, 1M context, open weights, near Claude Opus 4.7 quality',
 		speedCategory: 'balanced',
 		reasoning: true,
 		apiAvailability: true,
-		notes: '75% discount active until May 31 2026 (normally ~$6.95/$13.90). 81% SWE-bench.'
+		notes: '1.6T total / 49B active MoE params. 80.6% SWE-bench Verified, 93.5 LiveCodeBench. 75% discount active until May 31 2026 (~$0.435/$0.87). Full price after: $1.74/$3.48. Open weights (MIT).'
 	},
 	{
 		name: 'deepseek-reasoner',
@@ -452,11 +506,11 @@ export const CHAT_MODELS: ChatModel[] = [
 		cachedInputPer1M: 0.14,
 		multimodal: false,
 		releaseDate: '2025-01',
-		strengths: 'Math, complex coding, step-by-step logic, ~96% cheaper than OpenAI o1',
+		strengths: 'Math, complex coding, step-by-step reasoning',
 		speedCategory: 'balanced',
 		reasoning: true,
 		apiAvailability: true,
-		notes: 'model string: deepseek-reasoner. Chain-of-thought reasoning. 87.5% AIME.'
+		notes: 'model string: deepseek-reasoner (will deprecate Jul 24, 2026 — routes to V4 Flash thinking). 87.5% AIME.'
 	},
 	{
 		name: 'deepseek-chat',
@@ -469,11 +523,11 @@ export const CHAT_MODELS: ChatModel[] = [
 		cachedInputPer1M: 0.028,
 		multimodal: false,
 		releaseDate: '2024-12',
-		strengths: 'Ultra-cheap general assistant, coding (previous gen)',
+		strengths: 'Ultra-cheap general assistant, coding (legacy)',
 		speedCategory: 'balanced',
 		reasoning: false,
 		apiAvailability: true,
-		notes: 'Previous gen. V4 Flash offers 1M context at the same price tier.'
+		notes: 'LEGACY — model string routes to V4 Flash after Jul 24, 2026. Migrate to deepseek-v4-flash.'
 	},
 
 	// ============ xAI ============
@@ -540,6 +594,43 @@ export const CHAT_MODELS: ChatModel[] = [
 		reasoning: false,
 		apiAvailability: true,
 		notes: 'Output at $0.50/M — 4x cheaper than GPT-5 Mini output.'
+	},
+
+	// ============ Moonshot AI (Kimi) ============
+	// Current K2.6 generation — released April 2026
+	{
+		name: 'kimi-k2.6',
+		displayName: 'Kimi K2.6',
+		provider: 'moonshot',
+		contextWindow: 262144,
+		maxOutput: 16384,
+		inputPer1M: 0.75,
+		outputPer1M: 3.50,
+		cachedInputPer1M: 0.19,
+		multimodal: true,
+		releaseDate: '2026-04',
+		strengths: 'Long-horizon coding, frontend UI generation, 300-agent swarms, multi-agent orchestration',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Released Apr 20, 2026. 58.6% SWE-bench Pro (beats GPT-5.4). 1T total / 32B active MoE. Open weights (Modified MIT). 256K context with MLA for efficient long-context inference.'
+	},
+	{
+		name: 'kimi-k2.5',
+		displayName: 'Kimi K2.5',
+		provider: 'moonshot',
+		contextWindow: 262144,
+		maxOutput: 16384,
+		inputPer1M: 0.60,
+		outputPer1M: 2.50,
+		cachedInputPer1M: 0.15,
+		multimodal: true,
+		releaseDate: '2026-01',
+		strengths: 'Visual coding, Agent Swarm (100 parallel agents), general reasoning, cost-effective frontier quality',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		notes: '1T total / 32B active MoE. Thinking and non-thinking modes. 50.2% Humanity\'s Last Exam. 76% cheaper than Claude Opus 4.5 on comparable tasks. OpenAI-compatible API.'
 	},
 
 	// ============ Meta ============

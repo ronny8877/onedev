@@ -10,6 +10,11 @@ Crawl-delay: 1
 # Sitemap location
 Sitemap: https://onedev.tools/sitemap.xml
 
-# Block common non-content paths
+# Block non-content paths
 Disallow: /api/
 Disallow: /_app/
+
+# Noindex: entertainment-only pages (low informational value)
+Disallow: /break/ambient
+Disallow: /break/zen-motion
+Disallow: /break/clock
