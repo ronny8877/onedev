@@ -672,7 +672,7 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 			content: `<p>A cryptographic hash algorithm outputs raw binary data (a sequence of bytes). Because raw bytes cannot be easily displayed on a screen or typed into a JSON file, the binary data must be <strong>encoded</strong> into printable characters.</p>
 			<ul>
 				<li><strong>Hexadecimal (Hex):</strong> The most common encoding. It uses 16 characters (0-9, a-f). Each byte of the hash is represented by exactly 2 hex characters. A 32-byte SHA-256 hash becomes a 64-character hex string.</li>
-				<li><strong>Base64:</strong> A more compact encoding used frequently in web protocols and APIs. It uses 64 characters (A-Z, a-z, 0-9, +, /). A 32-byte SHA-256 hash becomes a 44-character Base64 string ending with an `=` padding character.</li>
+				<li><strong>Base64:</strong> A more compact encoding used frequently in web protocols and APIs. It uses 64 characters (A-Z, a-z, 0-9, +, /). A 32-byte SHA-256 hash becomes a 44-character Base64 string ending with an <code>=</code> padding character.</li>
 			</ul>
 			<p>Converting between Hex and Base64 does not change the actual hash value; it only changes how it is visually represented.</p>`
 		},
