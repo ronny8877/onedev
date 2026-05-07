@@ -1,14 +1,16 @@
 // AI Models Configuration
 // Centralized configuration for all AI model data
-// Last updated: January 2026
+// Last updated: May 2026
 //
 // ⚠️ UPDATE THIS FILE when model pricing changes
 // Check provider websites for current rates:
 // - OpenAI: https://openai.com/api/pricing/
 // - Anthropic: https://www.anthropic.com/pricing
 // - Google: https://ai.google.dev/pricing
+// - xAI: https://x.ai/api
+// - DeepSeek: https://api-docs.deepseek.com/quick_start/pricing
 
-export const PRICING_LAST_UPDATED = '2026-01-20';
+export const PRICING_LAST_UPDATED = '2026-05-07';
 
 // ============================================================
 // CHAT/COMPLETION MODELS
@@ -34,40 +36,145 @@ export interface ChatModel {
 
 export const CHAT_MODELS: ChatModel[] = [
 	// ============ OpenAI ============
+	// Current flagship family (GPT-5.4) — released March 2026
 	{
-		name: 'o1',
-		displayName: 'o1',
+		name: 'gpt-5.4',
+		displayName: 'GPT-5.4',
+		provider: 'openai',
+		contextWindow: 270000,
+		maxOutput: 128000,
+		inputPer1M: 2.50,
+		outputPer1M: 15.00,
+		cachedInputPer1M: 0.25,
+		multimodal: true,
+		releaseDate: '2026-03',
+		strengths: 'Frontier coding, computer use, general reasoning, agentic tasks',
+		speedCategory: 'balanced',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'Current flagship. 57.7% SWE-bench Pro. Unified model for coding, reasoning, and computer use.'
+	},
+	{
+		name: 'gpt-5.4-mini',
+		displayName: 'GPT-5.4 Mini',
+		provider: 'openai',
+		contextWindow: 400000,
+		maxOutput: 64000,
+		inputPer1M: 0.75,
+		outputPer1M: 4.50,
+		cachedInputPer1M: 0.075,
+		multimodal: true,
+		releaseDate: '2026-03',
+		strengths: 'High-throughput production workloads, chat, coding at scale',
+		speedCategory: 'fast',
+		reasoning: false,
+		apiAvailability: true,
+		notes: '54.38% SWE-bench Pro — close to Standard at ~6x lower cost.'
+	},
+	{
+		name: 'gpt-5.4-nano',
+		displayName: 'GPT-5.4 Nano',
+		provider: 'openai',
+		contextWindow: 200000,
+		maxOutput: 32000,
+		inputPer1M: 0.20,
+		outputPer1M: 1.25,
+		cachedInputPer1M: 0.02,
+		multimodal: false,
+		releaseDate: '2026-03',
+		strengths: 'Ultra-budget classification, simple chat, edge use cases',
+		speedCategory: 'fast',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'Cheapest GPT-5.4 variant. Undercuts nearly every alternative on input price.'
+	},
+	// GPT-4.1 family — long-context specialist, released April 2025
+	{
+		name: 'gpt-4.1',
+		displayName: 'GPT-4.1',
+		provider: 'openai',
+		contextWindow: 1000000,
+		maxOutput: 32768,
+		inputPer1M: 2.00,
+		outputPer1M: 8.00,
+		cachedInputPer1M: 0.50,
+		multimodal: true,
+		releaseDate: '2025-04',
+		strengths: 'Long-context processing, codebases, legal documents, instruction-following',
+		speedCategory: 'balanced',
+		reasoning: false,
+		apiAvailability: true,
+		notes: '1M token context at flat rate. Recommended replacement for GPT-4o.'
+	},
+	{
+		name: 'gpt-4.1-mini',
+		displayName: 'GPT-4.1 Mini',
+		provider: 'openai',
+		contextWindow: 1000000,
+		maxOutput: 32768,
+		inputPer1M: 0.40,
+		outputPer1M: 1.60,
+		cachedInputPer1M: 0.10,
+		multimodal: true,
+		releaseDate: '2025-04',
+		strengths: 'Large-context document processing at low cost',
+		speedCategory: 'fast',
+		reasoning: false,
+		apiAvailability: true
+	},
+	{
+		name: 'gpt-4.1-nano',
+		displayName: 'GPT-4.1 Nano',
+		provider: 'openai',
+		contextWindow: 1000000,
+		maxOutput: 16384,
+		inputPer1M: 0.10,
+		outputPer1M: 0.40,
+		cachedInputPer1M: 0.025,
+		multimodal: false,
+		releaseDate: '2025-04',
+		strengths: 'Cheapest capable model, long context classification',
+		speedCategory: 'fast',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'Cheapest model in OpenAI lineup. 1M context at $0.10 input.'
+	},
+	// Reasoning / o-series
+	{
+		name: 'o3',
+		displayName: 'o3',
 		provider: 'openai',
 		contextWindow: 200000,
 		maxOutput: 100000,
-		inputPer1M: 15.00,
-		outputPer1M: 60.00,
-		cachedInputPer1M: 7.50,
-		multimodal: true,
-		releaseDate: '2024-12',
-		strengths: 'Complex reasoning, math, coding',
+		inputPer1M: 2.00,
+		outputPer1M: 8.00,
+		cachedInputPer1M: 0.50,
+		multimodal: false,
+		releaseDate: '2025-04',
+		strengths: 'Math, formal logic, scientific analysis, complex multi-step reasoning',
 		speedCategory: 'slow',
 		reasoning: true,
 		apiAvailability: true,
-		notes: 'Reasoning model'
+		notes: 'Reasoning model. Replaced o1 at 87% lower cost with better performance.'
 	},
 	{
-		name: 'o3-mini',
-		displayName: 'o3 Mini',
+		name: 'o4-mini',
+		displayName: 'o4 Mini',
 		provider: 'openai',
 		contextWindow: 200000,
 		maxOutput: 100000,
 		inputPer1M: 1.10,
 		outputPer1M: 4.40,
-		cachedInputPer1M: 0.55,
+		cachedInputPer1M: 0.275,
 		multimodal: false,
-		releaseDate: '2025-01',
-		strengths: 'Fast reasoning, coding tasks, logic',
-		speedCategory: 'fast',
+		releaseDate: '2025-04',
+		strengths: 'Cost-effective reasoning, math, coding logic, multi-step tasks',
+		speedCategory: 'balanced',
 		reasoning: true,
 		apiAvailability: true,
-		notes: 'Reasoning model'
+		notes: 'Replaced o3-mini. Best-value reasoning model in OpenAI lineup.'
 	},
+	// Legacy models (still available)
 	{
 		name: 'gpt-4o',
 		displayName: 'GPT-4o',
@@ -79,10 +186,11 @@ export const CHAT_MODELS: ChatModel[] = [
 		cachedInputPer1M: 1.25,
 		multimodal: true,
 		releaseDate: '2024-05',
-		strengths: 'General purpose, multimodal analysis, tool use',
+		strengths: 'General purpose, multimodal analysis, tool use (legacy)',
 		speedCategory: 'balanced',
 		reasoning: false,
-		apiAvailability: true
+		apiAvailability: true,
+		notes: 'Legacy model. GPT-5.4 or GPT-4.1 preferred for new projects.'
 	},
 	{
 		name: 'gpt-4o-mini',
@@ -95,13 +203,67 @@ export const CHAT_MODELS: ChatModel[] = [
 		cachedInputPer1M: 0.075,
 		multimodal: true,
 		releaseDate: '2024-07',
-		strengths: 'High volume simple tasks, classification',
+		strengths: 'High volume simple tasks, classification (legacy)',
 		speedCategory: 'fast',
 		reasoning: false,
-		apiAvailability: true
+		apiAvailability: true,
+		notes: 'Legacy. GPT-5.4 Nano is newer and cheaper at $0.20 input.'
 	},
 
 	// ============ Anthropic ============
+	// Claude 4.x family — current generation as of 2026
+	{
+		name: 'claude-opus-4-6',
+		displayName: 'Claude Opus 4.6',
+		provider: 'anthropic',
+		contextWindow: 1000000,
+		maxOutput: 128000,
+		inputPer1M: 5.00,
+		outputPer1M: 25.00,
+		cachedInputPer1M: 0.50,
+		multimodal: true,
+		releaseDate: '2025-10',
+		strengths: 'Complex autonomous coding, agentic workflows, top SWE-bench performance',
+		speedCategory: 'slow',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Flagship. Extended thinking support. 1M context flat-rate, no surcharge.'
+	},
+	{
+		name: 'claude-sonnet-4-6',
+		displayName: 'Claude Sonnet 4.6',
+		provider: 'anthropic',
+		contextWindow: 1000000,
+		maxOutput: 64000,
+		inputPer1M: 3.00,
+		outputPer1M: 15.00,
+		cachedInputPer1M: 0.30,
+		multimodal: true,
+		releaseDate: '2025-10',
+		strengths: 'Coding, nuanced writing, balanced speed and capability',
+		speedCategory: 'balanced',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'Most popular production model. 1M token context at flat rate.'
+	},
+	{
+		name: 'claude-haiku-4-5-20251001',
+		displayName: 'Claude Haiku 4.5',
+		provider: 'anthropic',
+		contextWindow: 200000,
+		maxOutput: 8192,
+		inputPer1M: 1.00,
+		outputPer1M: 5.00,
+		cachedInputPer1M: 0.10,
+		multimodal: true,
+		releaseDate: '2025-10',
+		strengths: 'Fast analysis, high-volume tasks, text extraction',
+		speedCategory: 'fast',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'Budget tier of current Claude generation.'
+	},
+	// Older Claude models still available
 	{
 		name: 'claude-3-5-sonnet-20241022',
 		displayName: 'Claude 3.5 Sonnet',
@@ -113,10 +275,11 @@ export const CHAT_MODELS: ChatModel[] = [
 		cachedInputPer1M: 0.30,
 		multimodal: true,
 		releaseDate: '2024-10',
-		strengths: 'Coding, nuanced writing, computer use',
+		strengths: 'Coding, nuanced writing, computer use (previous gen)',
 		speedCategory: 'balanced',
 		reasoning: false,
-		apiAvailability: true
+		apiAvailability: true,
+		notes: 'Previous generation. Upgrade to Sonnet 4.6 for new projects.'
 	},
 	{
 		name: 'claude-3-5-haiku-20241022',
@@ -129,61 +292,84 @@ export const CHAT_MODELS: ChatModel[] = [
 		cachedInputPer1M: 0.08,
 		multimodal: true,
 		releaseDate: '2024-10',
-		strengths: 'Fast analysis, text extraction',
+		strengths: 'Fast analysis, text extraction (previous gen)',
 		speedCategory: 'fast',
-		reasoning: false,
-		apiAvailability: true
-	},
-	{
-		name: 'claude-3-opus-20240229',
-		displayName: 'Claude 3 Opus',
-		provider: 'anthropic',
-		contextWindow: 200000,
-		maxOutput: 4096,
-		inputPer1M: 15.00,
-		outputPer1M: 75.00,
-		multimodal: true,
-		releaseDate: '2024-02',
-		strengths: 'Deep domain expertise, creative writing',
-		speedCategory: 'slow',
 		reasoning: false,
 		apiAvailability: true
 	},
 
 	// ============ Google ============
+	// Gemini 3.x — latest generation
 	{
-		name: 'gemini-1.5-pro',
-		displayName: 'Gemini 1.5 Pro',
-		provider: 'google',
-		contextWindow: 2000000,
-		maxOutput: 8192,
-		inputPer1M: 1.25,
-		outputPer1M: 5.00,
-		cachedInputPer1M: 0.31,
-		multimodal: true,
-		releaseDate: '2024-05',
-		strengths: 'Massive context (codebases, long videos)',
-		speedCategory: 'balanced',
-		reasoning: false,
-		apiAvailability: true,
-		notes: '2x pricing for prompts >128K tokens'
-	},
-	{
-		name: 'gemini-1.5-flash',
-		displayName: 'Gemini 1.5 Flash',
+		name: 'gemini-3.1-pro-preview',
+		displayName: 'Gemini 3.1 Pro Preview',
 		provider: 'google',
 		contextWindow: 1000000,
-		maxOutput: 8192,
-		inputPer1M: 0.075,
-		outputPer1M: 0.30,
-		cachedInputPer1M: 0.019,
+		maxOutput: 65536,
+		inputPer1M: 2.00,
+		outputPer1M: 12.00,
+		cachedInputPer1M: 0.50,
 		multimodal: true,
-		releaseDate: '2024-05',
-		strengths: 'High-speed multimodal extraction',
+		releaseDate: '2026-02',
+		strengths: 'Advanced reasoning, native video understanding, complex multimodal tasks',
+		speedCategory: 'slow',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Latest flagship. 77.1% ARC-AGI-2. Pricing doubles above 200K tokens ($4/$18).'
+	},
+	// Gemini 2.5 — proven generation
+	{
+		name: 'gemini-2.5-pro',
+		displayName: 'Gemini 2.5 Pro',
+		provider: 'google',
+		contextWindow: 1000000,
+		maxOutput: 65536,
+		inputPer1M: 1.25,
+		outputPer1M: 10.00,
+		cachedInputPer1M: 0.31,
+		multimodal: true,
+		releaseDate: '2025-06',
+		strengths: 'Long-context reasoning, coding, math, scientific tasks',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Pricing doubles above 200K tokens ($2.50/$15). Built-in "thinking" capability.'
+	},
+	{
+		name: 'gemini-2.5-flash',
+		displayName: 'Gemini 2.5 Flash',
+		provider: 'google',
+		contextWindow: 1048576,
+		maxOutput: 65535,
+		inputPer1M: 0.30,
+		outputPer1M: 2.50,
+		cachedInputPer1M: 0.075,
+		multimodal: true,
+		releaseDate: '2025-06',
+		strengths: 'Best price-to-performance ratio, reasoning, 1M context, speed',
+		speedCategory: 'fast',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Outstanding value. Configurable reasoning depth. Flat pricing regardless of context.'
+	},
+	{
+		name: 'gemini-2.5-flash-lite',
+		displayName: 'Gemini 2.5 Flash-Lite',
+		provider: 'google',
+		contextWindow: 1000000,
+		maxOutput: 32768,
+		inputPer1M: 0.10,
+		outputPer1M: 0.40,
+		cachedInputPer1M: 0.025,
+		multimodal: true,
+		releaseDate: '2025-09',
+		strengths: 'Highest-volume low-cost workloads, classification, simple extraction',
 		speedCategory: 'fast',
 		reasoning: false,
-		apiAvailability: true
+		apiAvailability: true,
+		notes: 'Cheapest model from a Tier-1 provider. Batch: $0.05/$0.20.'
 	},
+	// Legacy Google models
 	{
 		name: 'gemini-2.0-flash',
 		displayName: 'Gemini 2.0 Flash',
@@ -195,16 +381,86 @@ export const CHAT_MODELS: ChatModel[] = [
 		cachedInputPer1M: 0.025,
 		multimodal: true,
 		releaseDate: '2024-12',
-		strengths: 'High-speed multimodal, improved logic',
+		strengths: 'High-speed multimodal, improved logic (legacy)',
 		speedCategory: 'fast',
 		reasoning: false,
-		apiAvailability: true
+		apiAvailability: false,
+		notes: 'DEPRECATED — shutting down June 1, 2026. Migrate to Gemini 2.5 Flash.'
+	},
+	{
+		name: 'gemini-1.5-pro',
+		displayName: 'Gemini 1.5 Pro',
+		provider: 'google',
+		contextWindow: 2000000,
+		maxOutput: 8192,
+		inputPer1M: 1.25,
+		outputPer1M: 5.00,
+		cachedInputPer1M: 0.31,
+		multimodal: true,
+		releaseDate: '2024-05',
+		strengths: 'Massive context (legacy)',
+		speedCategory: 'balanced',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'Legacy. 2x pricing for prompts >128K tokens. Upgrade to Gemini 2.5 Pro.'
 	},
 
 	// ============ DeepSeek ============
+	// Current V4 family — launched March 2026
+	{
+		name: 'deepseek-v4-flash',
+		displayName: 'DeepSeek V4 Flash (Chat)',
+		provider: 'deepseek',
+		contextWindow: 1000000,
+		maxOutput: 8000,
+		inputPer1M: 0.14,
+		outputPer1M: 0.28,
+		cachedInputPer1M: 0.014,
+		multimodal: false,
+		releaseDate: '2026-03',
+		strengths: 'Extreme cost efficiency, coding, general tasks, 1M context',
+		speedCategory: 'fast',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'model string: deepseek-chat (maps to V4 Flash). Supports thinking and non-thinking modes.'
+	},
+	{
+		name: 'deepseek-v4-pro',
+		displayName: 'DeepSeek V4 Pro',
+		provider: 'deepseek',
+		contextWindow: 128000,
+		maxOutput: 32000,
+		inputPer1M: 1.74,
+		outputPer1M: 3.48,
+		cachedInputPer1M: 0.174,
+		multimodal: false,
+		releaseDate: '2026-03',
+		strengths: 'High-quality reasoning and coding, MoE architecture',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		notes: '75% discount active until May 31 2026 (normally ~$6.95/$13.90). 81% SWE-bench.'
+	},
+	{
+		name: 'deepseek-reasoner',
+		displayName: 'DeepSeek R1',
+		provider: 'deepseek',
+		contextWindow: 128000,
+		maxOutput: 64000,
+		inputPer1M: 0.55,
+		outputPer1M: 2.19,
+		cachedInputPer1M: 0.14,
+		multimodal: false,
+		releaseDate: '2025-01',
+		strengths: 'Math, complex coding, step-by-step logic, ~96% cheaper than OpenAI o1',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'model string: deepseek-reasoner. Chain-of-thought reasoning. 87.5% AIME.'
+	},
 	{
 		name: 'deepseek-chat',
-		displayName: 'DeepSeek V3 (Chat)',
+		displayName: 'DeepSeek V3.2 (Chat)',
 		provider: 'deepseek',
 		contextWindow: 128000,
 		maxOutput: 8000,
@@ -213,26 +469,77 @@ export const CHAT_MODELS: ChatModel[] = [
 		cachedInputPer1M: 0.028,
 		multimodal: false,
 		releaseDate: '2024-12',
-		strengths: 'Coding, general assistant tasks, very cheap',
+		strengths: 'Ultra-cheap general assistant, coding (previous gen)',
+		speedCategory: 'balanced',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'Previous gen. V4 Flash offers 1M context at the same price tier.'
+	},
+
+	// ============ xAI ============
+	// Current Grok 4 family
+	{
+		name: 'grok-4',
+		displayName: 'Grok 4',
+		provider: 'x',
+		contextWindow: 256000,
+		maxOutput: 32768,
+		inputPer1M: 3.00,
+		outputPer1M: 15.00,
+		multimodal: true,
+		releaseDate: '2025-12',
+		strengths: 'Reasoning, real-time X/web data, science & math',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Same pricing as Claude Sonnet 4.6. OpenAI-compatible API format.'
+	},
+	{
+		name: 'grok-4.1-fast',
+		displayName: 'Grok 4.1 Fast',
+		provider: 'x',
+		contextWindow: 2000000,
+		maxOutput: 32768,
+		inputPer1M: 0.20,
+		outputPer1M: 0.50,
+		multimodal: true,
+		releaseDate: '2026-01',
+		strengths: 'Largest context window (2M tokens), ultra-low cost, real-time data',
+		speedCategory: 'fast',
+		reasoning: false,
+		apiAvailability: true,
+		notes: '2M context is unique at this price tier. Prompt caching included automatically.'
+	},
+	{
+		name: 'grok-3',
+		displayName: 'Grok 3',
+		provider: 'x',
+		contextWindow: 128000,
+		maxOutput: 16384,
+		inputPer1M: 3.00,
+		outputPer1M: 15.00,
+		multimodal: true,
+		releaseDate: '2025-02',
+		strengths: 'Reasoning, coding, real-time web knowledge (previous gen)',
 		speedCategory: 'balanced',
 		reasoning: false,
 		apiAvailability: true
 	},
 	{
-		name: 'deepseek-reasoner',
-		displayName: 'DeepSeek R1 (Reasoner)',
-		provider: 'deepseek',
+		name: 'grok-3-mini',
+		displayName: 'Grok 3 Mini',
+		provider: 'x',
 		contextWindow: 128000,
-		maxOutput: 64000,
-		inputPer1M: 0.28,
-		outputPer1M: 0.42,
-		cachedInputPer1M: 0.028,
+		maxOutput: 8192,
+		inputPer1M: 0.30,
+		outputPer1M: 0.50,
 		multimodal: false,
-		releaseDate: '2025-01',
-		strengths: 'Math, complex coding, step-by-step logic',
-		speedCategory: 'balanced',
-		reasoning: true,
-		apiAvailability: true
+		releaseDate: '2025-02',
+		strengths: 'Extraordinarily cheap output tokens, code generation, conversations',
+		speedCategory: 'fast',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'Output at $0.50/M — 4x cheaper than GPT-5 Mini output.'
 	},
 
 	// ============ Meta ============
@@ -246,11 +553,11 @@ export const CHAT_MODELS: ChatModel[] = [
 		outputPer1M: 0.40,
 		multimodal: false,
 		releaseDate: '2024-12',
-		strengths: 'Open weights, high performance text tasks',
+		strengths: 'Open weights, high performance text tasks, self-hostable',
 		speedCategory: 'fast',
 		reasoning: false,
 		apiAvailability: true,
-		notes: 'Pricing based on typical Groq/Together AI rates'
+		notes: 'Pricing based on typical Groq/Together AI rates. Can be self-hosted.'
 	},
 	{
 		name: 'llama-3.1-405b',
@@ -262,7 +569,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		outputPer1M: 0.90,
 		multimodal: false,
 		releaseDate: '2024-07',
-		strengths: 'Complex reasoning, synthetic data generation',
+		strengths: 'Complex reasoning, synthetic data generation, open weights',
 		speedCategory: 'balanced',
 		reasoning: false,
 		apiAvailability: true
@@ -277,39 +584,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		outputPer1M: 0.20,
 		multimodal: true,
 		releaseDate: '2024-09',
-		strengths: 'Open vision model, image reasoning',
-		speedCategory: 'fast',
-		reasoning: false,
-		apiAvailability: true
-	},
-
-	// ============ xAI ============
-	{
-		name: 'grok-2',
-		displayName: 'Grok 2',
-		provider: 'x',
-		contextWindow: 131072,
-		maxOutput: 4096,
-		inputPer1M: 2.00,
-		outputPer1M: 10.00,
-		multimodal: true,
-		releaseDate: '2024-08',
-		strengths: 'Humor, coding, real-time web knowledge',
-		speedCategory: 'balanced',
-		reasoning: false,
-		apiAvailability: true
-	},
-	{
-		name: 'grok-2-mini',
-		displayName: 'Grok 2 Mini',
-		provider: 'x',
-		contextWindow: 131072,
-		maxOutput: 4096,
-		inputPer1M: 0.20,
-		outputPer1M: 1.00,
-		multimodal: true,
-		releaseDate: '2024-08',
-		strengths: 'Fast conversations, code assistance',
+		strengths: 'Open vision model, image reasoning, self-hostable',
 		speedCategory: 'fast',
 		reasoning: false,
 		apiAvailability: true
@@ -326,7 +601,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		outputPer1M: 6.00,
 		multimodal: false,
 		releaseDate: '2024-11',
-		strengths: 'Multilingual support, strict system prompts',
+		strengths: 'Multilingual support, strict system prompts, European data residency',
 		speedCategory: 'balanced',
 		reasoning: false,
 		apiAvailability: true
@@ -341,7 +616,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		outputPer1M: 6.00,
 		multimodal: true,
 		releaseDate: '2024-11',
-		strengths: 'Chart/graph understanding, image OCR',
+		strengths: 'Chart/graph understanding, image OCR, document parsing',
 		speedCategory: 'balanced',
 		reasoning: false,
 		apiAvailability: true
@@ -356,7 +631,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		outputPer1M: 0.10,
 		multimodal: false,
 		releaseDate: '2024-10',
-		strengths: 'Edge computing, low latency workflows',
+		strengths: 'Edge computing, low latency, on-device workflows',
 		speedCategory: 'fast',
 		reasoning: false,
 		apiAvailability: true
@@ -373,7 +648,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		outputPer1M: 15.00,
 		multimodal: false,
 		releaseDate: '2024-04',
-		strengths: 'RAG, citations, multilingual enterprise usage',
+		strengths: 'RAG pipelines, citations, multilingual enterprise usage',
 		speedCategory: 'balanced',
 		reasoning: false,
 		apiAvailability: true
@@ -388,7 +663,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		outputPer1M: 1.50,
 		multimodal: false,
 		releaseDate: '2024-03',
-		strengths: 'Fast RAG, data extraction, tool use',
+		strengths: 'Fast RAG, data extraction, tool use, citations',
 		speedCategory: 'fast',
 		reasoning: false,
 		apiAvailability: true
@@ -405,7 +680,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		outputPer1M: 6.40,
 		multimodal: false,
 		releaseDate: '2024-12',
-		strengths: 'High performance general tasks, multilingual',
+		strengths: 'High performance general tasks, multilingual, strong Chinese language',
 		speedCategory: 'balanced',
 		reasoning: false,
 		apiAvailability: true
@@ -420,7 +695,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		outputPer1M: 1.20,
 		multimodal: false,
 		releaseDate: '2024-09',
-		strengths: 'Open weights, coding, mathematics',
+		strengths: 'Open weights, coding, mathematics, cost-effective',
 		speedCategory: 'fast',
 		reasoning: false,
 		apiAvailability: true
@@ -464,7 +739,8 @@ export const EMBEDDING_MODELS: EmbeddingModel[] = [
 		provider: 'openai',
 		dimensions: 1536,
 		maxTokens: 8191,
-		pricePerMillion: 0.10
+		pricePerMillion: 0.10,
+		notes: 'Legacy model. Prefer text-embedding-3 series.'
 	},
 	{
 		name: 'embed-english-v3',
@@ -570,7 +846,7 @@ export function getProviderColor(provider: string): string {
 		case 'moonshot':
 			return 'badge-info bg-indigo-500 text-white border-none';
 		case 'mistral':
-			return 'badge-error'; // Or 'badge-warning text-white'
+			return 'badge-error';
 		case 'alibaba':
 			return 'badge-error bg-orange-500 text-white border-none';
 		case 'custom':
