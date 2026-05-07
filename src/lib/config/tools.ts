@@ -17,7 +17,7 @@ export interface ToolCategory {
 	items: ToolItem[];
 }
 
-export const BASE_URL = 'https://onedev.tools';
+export const BASE_URL = import.meta.env.DEV ? 'http://localhost:5173' : 'https://onedev.tools';
 
 export const toolCategories: ToolCategory[] = [
 	{
@@ -389,4 +389,20 @@ export function getSidebarAccordions() {
 			href: item.href
 		}))
 	}));
+}
+
+// Helper: Derive URL slug from category name e.g. "AI Utilities" → "ai"
+// Matches the actual route paths used in the app
+export function getCategorySlug(cat: ToolCategory): string {
+	const overrides: Record<string, string> = {
+		'AI Utilities': 'ai',
+		'CSS Layout': 'css-layout',
+		'ID Tools': 'id',
+	};
+	return overrides[cat.name] ?? cat.name.toLowerCase().replace(/\s+/g, '-');
+}
+
+// Helper: Get a category by its URL slug
+export function getCategoryBySlug(slug: string): ToolCategory | undefined {
+	return toolCategories.find(cat => getCategorySlug(cat) === slug);
 }

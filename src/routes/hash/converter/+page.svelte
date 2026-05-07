@@ -10,6 +10,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = hashToolsContent['converter'];
 	import { hexToBase64, base64ToHex } from '$lib/utils/hash';
@@ -91,6 +92,7 @@
 
 <ToolWrapper
 	keywords={['hash converter', 'hex to base64', 'base64 to hex', 'hash format', 'convert md5', 'hash encoding']}
+	lastUpdated={content.lastUpdated}
 >
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={clearAll} {stats} copyText={output} />
@@ -230,6 +232,9 @@
 			<FAQSection faqs={content.faqs} />
 			{#if content.tips}
 				<Tips tips={content.tips} />
+			{/if}
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
 			{/if}
 			<RelatedTools relatedTools={content.relatedTools} />
 		</div>

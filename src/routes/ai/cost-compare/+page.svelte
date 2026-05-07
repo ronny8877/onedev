@@ -9,6 +9,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	import { CHAT_MODELS, calculateChatCost, formatCurrency, getProviderColor, formatNumber } from '$lib/config/ai-models';
 
@@ -65,6 +66,7 @@
 
 <ToolWrapper
 	keywords={['AI cost comparison', 'LLM pricing', 'GPT-4 cost', 'Claude pricing', 'Gemini cost', 'DeepSeek pricing']}
+	lastUpdated={content.lastUpdated}
 >
 	<div class="flex flex-col gap-6">
 		<ToolActions onClear={reset} />
@@ -208,6 +210,9 @@
 			<FAQSection faqs={content.faqs} />
 			{#if content.tips}
 				<Tips tips={content.tips} />
+			{/if}
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
 			{/if}
 			<RelatedTools relatedTools={content.relatedTools} />
 		</div>

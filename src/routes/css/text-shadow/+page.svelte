@@ -11,6 +11,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = cssToolsContent['text-shadow'];
 
@@ -64,6 +65,7 @@
 
 <ToolWrapper
 	keywords={['text shadow', 'css text shadow', 'text effects', 'shadow generator', 'text glow', 'neon text', '3d text css']}
+	lastUpdated={content.lastUpdated}
 >
 	<!-- Top Notification -->
 	<div class="alert border-none mb-6 rounded-xl flex items-center justify-between">
@@ -357,6 +359,9 @@
 		{#if content.tips}
 			<Tips tips={content.tips} />
 		{/if}
-		<RelatedTools relatedTools={content.relatedTools} />
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

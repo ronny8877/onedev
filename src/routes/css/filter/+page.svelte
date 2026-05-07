@@ -10,6 +10,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = cssToolsContent['filter'];
 
@@ -72,6 +73,7 @@
 
 <ToolWrapper
 	keywords={['css filter', 'image filter', 'blur', 'brightness', 'contrast', 'grayscale', 'css effects']}
+	lastUpdated={content.lastUpdated}
 >
 	<div class="flex flex-col gap-6">
 		<!-- Preview -->
@@ -169,6 +171,9 @@
 		{#if content.tips}
 			<Tips tips={content.tips} />
 		{/if}
-		<RelatedTools relatedTools={content.relatedTools} />
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

@@ -9,6 +9,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = hashToolsContent['compare'];
 
@@ -74,6 +75,7 @@
 
 <ToolWrapper
 	keywords={['compare hashes', 'hash comparison', 'compare md5', 'compare sha256', 'verify checksum', 'hash match']}
+	lastUpdated={content.lastUpdated}
 >
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={clearAll} />
@@ -188,6 +190,9 @@
 			<FAQSection faqs={content.faqs} />
 			{#if content.tips}
 				<Tips tips={content.tips} />
+			{/if}
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
 			{/if}
 			<RelatedTools relatedTools={content.relatedTools} />
 		</div>

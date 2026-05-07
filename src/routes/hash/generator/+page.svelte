@@ -10,6 +10,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = hashToolsContent['generator'];
 
@@ -166,6 +167,7 @@
 
 <ToolWrapper
 	keywords={['hash generator', 'md5 online', 'sha256 hash', 'sha512', 'crc32 checksum', 'file hash', 'checksum calculator']}
+	lastUpdated={content.lastUpdated}
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
@@ -362,6 +364,9 @@
 			<FAQSection faqs={content.faqs} />
 			{#if content.tips}
 				<Tips tips={content.tips} />
+			{/if}
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
 			{/if}
 			<RelatedTools relatedTools={content.relatedTools} />
 		</div>

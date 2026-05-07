@@ -7,6 +7,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 	import { securityToolsContent } from '$lib/config/content/security-tools-content';
 
 	const content = securityToolsContent['cors'];

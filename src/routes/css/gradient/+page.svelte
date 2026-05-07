@@ -10,6 +10,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = cssToolsContent['gradient'];
 
@@ -235,6 +236,7 @@
 		'radial gradient css', 'conic gradient', 'animated gradient css', 'gradient maker', 
 		'beautiful gradients', 'gradient presets', 'web design tools', 'css background generator'
 	]}
+	lastUpdated={content.lastUpdated}
 >
 	<!-- Top Notification -->
 	<div class="alert border-none mb-6 rounded-xl flex items-center justify-between">
@@ -580,6 +582,9 @@
 		{#if content.tips}
 			<Tips tips={content.tips} />
 		{/if}
-		<RelatedTools relatedTools={content.relatedTools} />
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

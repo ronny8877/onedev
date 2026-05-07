@@ -10,6 +10,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = hashToolsContent['sha256'];
 	import { hashText, hashFile, formatSize, formatTime, type HashResult, type HashProgress } from '$lib/utils/hash';
@@ -134,6 +135,7 @@
 
 <ToolWrapper
 	keywords={['sha256 hash', 'sha256 online', 'sha256 generator', 'sha-256', 'sha256 checksum', 'bitcoin hash']}
+	lastUpdated={content.lastUpdated}
 >
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={clearAll} {stats} copyText={result?.hex} />
@@ -270,6 +272,9 @@
 			<FAQSection faqs={content.faqs} />
 			{#if content.tips}
 				<Tips tips={content.tips} />
+			{/if}
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
 			{/if}
 			<RelatedTools relatedTools={content.relatedTools} />
 		</div>

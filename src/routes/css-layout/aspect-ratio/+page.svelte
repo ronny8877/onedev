@@ -9,6 +9,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = cssLayoutToolsContent['aspect-ratio'];
 
@@ -149,6 +150,9 @@
 		{#if content.tips}
 			<Tips tips={content.tips} />
 		{/if}
-		<RelatedTools relatedTools={content.relatedTools} />
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

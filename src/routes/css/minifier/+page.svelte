@@ -11,6 +11,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = cssToolsContent['minifier'];
 
@@ -67,6 +68,7 @@
 
 <ToolWrapper
 	keywords={['css minifier', 'minify css', 'compress css', 'css compressor', 'optimize css']}
+	lastUpdated={content.lastUpdated}
 >
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={loadSample} onClear={clearAll} />
@@ -139,6 +141,9 @@
 		{#if content.tips}
 			<Tips tips={content.tips} />
 		{/if}
-		<RelatedTools relatedTools={content.relatedTools} />
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

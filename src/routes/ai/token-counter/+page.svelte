@@ -10,6 +10,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = aiToolsContent['token-counter'];
 	import { CHAT_MODELS, getChatModel, calculateChatCost, formatCurrency, getProviderColor, formatNumber, getContextUsage, PRICING_LAST_UPDATED } from '$lib/config/ai-models';
@@ -67,6 +68,7 @@ Please provide:
 
 <ToolWrapper
 	keywords={['token counter', 'GPT tokens', 'Claude tokens', 'AI token calculator', 'LLM tokens', 'tokenizer']}
+	lastUpdated={content.lastUpdated}
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
@@ -249,6 +251,9 @@ Please provide:
 			<FAQSection faqs={content.faqs} />
 			{#if content.tips}
 				<Tips tips={content.tips} />
+			{/if}
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
 			{/if}
 			<RelatedTools relatedTools={content.relatedTools} />
 		</div>

@@ -13,6 +13,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = aiToolsContent['prompt-trimmer'];
 
@@ -54,6 +55,7 @@ High-profile applications of AI include advanced web search engines, recommendat
 
 <ToolWrapper
 	keywords={['prompt trimmer', 'token limit', 'text trimmer', 'LLM prompt limit', 'truncate text']}
+	lastUpdated={content.lastUpdated}
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
@@ -258,6 +260,9 @@ High-profile applications of AI include advanced web search engines, recommendat
 			<FAQSection faqs={content.faqs} />
 			{#if content.tips}
 				<Tips tips={content.tips} />
+			{/if}
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
 			{/if}
 			<RelatedTools relatedTools={content.relatedTools} />
 		</div>

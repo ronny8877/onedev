@@ -10,6 +10,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = cssToolsContent['bezier'];
 
@@ -60,6 +61,7 @@
 
 <ToolWrapper
 	keywords={['cubic bezier', 'easing curves', 'css timing', 'animation easing', 'bezier editor']}
+	lastUpdated={content.lastUpdated}
 >
 	<div class="grid lg:grid-cols-[1fr_360px] gap-6 items-start">
 		<!-- Left Column: Visualization & Preview -->
@@ -339,6 +341,9 @@
 		{#if content.tips}
 			<Tips tips={content.tips} />
 		{/if}
-		<RelatedTools relatedTools={content.relatedTools} />
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
+			{/if}
+			<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>
