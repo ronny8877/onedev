@@ -1,4 +1,6 @@
 <script lang="ts">
+	import JsonLd from './JsonLd.svelte';
+	
 	interface FAQ {
 		question: string;
 		answer: string; // HTML content
@@ -11,6 +13,8 @@
 
 	let { faqs, title = 'Frequently Asked Questions' }: Props = $props();
 </script>
+
+<JsonLd {faqs} />
 
 <section class="mt-12 rounded-xl border border-base-300 bg-base-100 p-6 shadow-sm" itemscope itemtype="https://schema.org/FAQPage">
 	<h2 class="mb-6 text-2xl font-bold text-base-content">{title}</h2>

@@ -12,7 +12,7 @@
 	import Tips from '$lib/components/content/Tips.svelte';
 
 	const content = aiToolsContent['context-estimator'];
-	import { CHAT_MODELS, formatNumber, getContextUsage } from '$lib/config/ai-models';
+	import { CHAT_MODELS, formatNumber, getProviderColor } from '$lib/config/ai-models';
 
 	let systemMessage = $state('');
 	let userPrompt = $state('');
@@ -21,6 +21,30 @@
 	
 	let customContextWindow = $state(128000);
 	let customMaxOutput = $state(8192);
+
+	let filterProvider = $state('all');
+	let filterFeature = $state('all');
+
+	let filteredModels = $derived.by(() => {
+		return CHAT_MODELS.filter(m => {
+			if (filterProvider !== 'all' && m.provider !== filterProvider) return false;
+			if (filterFeature === 'multimodal' && !m.multimodal) return false;
+			if (filterFeature === 'reasoning' && !m.reasoning) return false;
+			return true;
+		});
+	});
+
+	// Group models by provider for the select dropdown
+	let groupedModels = $derived.by(() => {
+		const groups: Record<string, typeof CHAT_MODELS> = {};
+		for (const m of filteredModels) {
+			if (!groups[m.provider]) groups[m.provider] = [];
+			groups[m.provider].push(m);
+		}
+		return groups;
+	});
+
+	let currentModelData = $derived(selectedModel !== 'custom' ? CHAT_MODELS.find(m => m.name === selectedModel) : null);
 
 	const sampleData = {
 		system: `You are a helpful AI assistant. You are polite, concise, and always try to provide accurate information. You should refuse to answer harmful or unethical questions.`,
@@ -94,29 +118,54 @@
 			<div class="flex flex-col lg:flex-row gap-8 items-start">
 				<!-- Preset Dropdown -->
 				<div class="flex-1 w-full">
-					<label class="label pt-0 pb-2" for="model-select">
-						<span class="label-text font-semibold text-base flex items-center gap-2">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-							AI Model Presets
-						</span>
-					</label>
+					<div class="flex items-center justify-between mb-2">
+						<label class="label pt-0 pb-0" for="model-select">
+							<span class="label-text font-semibold text-base flex items-center gap-2">
+								<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+								AI Model Presets
+							</span>
+						</label>
+					</div>
+					
+					<div class="grid grid-cols-2 gap-2 mb-3">
+						<select bind:value={filterProvider} class="select select-bordered select-sm w-full bg-base-100 shadow-sm text-xs">
+							<option value="all">All Providers</option>
+							<option value="openai">OpenAI</option>
+							<option value="anthropic">Anthropic</option>
+							<option value="google">Google</option>
+							<option value="meta">Meta</option>
+							<option value="mistral">Mistral</option>
+							<option value="cohere">Cohere</option>
+							<option value="deepseek">DeepSeek</option>
+							<option value="alibaba">Alibaba</option>
+							<option value="x">xAI</option>
+						</select>
+						<select bind:value={filterFeature} class="select select-bordered select-sm w-full bg-base-100 shadow-sm text-xs">
+							<option value="all">All Capabilities</option>
+							<option value="multimodal">Multimodal (Vision)</option>
+							<option value="reasoning">Reasoning</option>
+						</select>
+					</div>
+
 					<select
 						id="model-select"
 						bind:value={selectedModel}
 						class="select select-bordered select-lg w-full transition-all duration-200 bg-base-100 shadow-sm hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-primary/20"
 					>
-						<optgroup label="Presets">
-							{#each CHAT_MODELS as model}
-								<option value={model.name}>
-									{model.displayName} - {formatNumber(model.contextWindow)} context
-								</option>
-							{/each}
-						</optgroup>
+						{#each Object.entries(groupedModels) as [provider, models]}
+							<optgroup label={provider.charAt(0).toUpperCase() + provider.slice(1)}>
+								{#each models as model}
+									<option value={model.name}>
+										{model.displayName} - {formatNumber(model.contextWindow)} context
+									</option>
+								{/each}
+							</optgroup>
+						{/each}
 						<optgroup label="Custom">
 							<option value="custom">Custom Configuration...</option>
 						</optgroup>
 					</select>
-					<p class="text-sm text-base-content/60 mt-3 px-1">Select a model to auto-fill the constraints, or enter custom ones for local LLMs.</p>
+					<p class="text-sm text-base-content/60 mt-3 px-1">Select a model to auto-fill constraints, or enter custom ones.</p>
 				</div>
 
 				<div class="hidden lg:block w-px h-24 bg-base-content/10 mt-6 pt-2"></div>
@@ -387,6 +436,104 @@
 						<span>Longer contexts may increase latency and API token costs proportionally.</span>
 					</li>
 				</ul>
+			</div>
+		</div>
+
+		{#if currentModelData}
+		<!-- Model Details & Comparison -->
+		<div class="card bg-base-100 shadow-md border border-base-content/10 rounded-2xl mt-4">
+			<div class="card-body p-6">
+				<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+					<div>
+						<h3 class="text-xl font-bold flex items-center gap-3">
+							{currentModelData.displayName}
+							<span class="badge {getProviderColor(currentModelData.provider)} badge-sm uppercase font-bold">{currentModelData.provider}</span>
+							{#if currentModelData.reasoning}
+								<span class="badge badge-accent badge-sm">Reasoning</span>
+							{/if}
+						</h3>
+						{#if currentModelData.strengths}
+							<p class="text-sm text-base-content/70 mt-1">{currentModelData.strengths}</p>
+						{/if}
+					</div>
+					<div class="text-right">
+						<div class="text-sm font-semibold">Cost per 1M Tokens</div>
+						<div class="text-xs text-base-content/70">
+							In: ${currentModelData.inputPer1M} | Out: ${currentModelData.outputPer1M}
+							{#if currentModelData.cachedInputPer1M}
+								<br/><span class="text-success text-[10px] uppercase">Cached In: ${currentModelData.cachedInputPer1M}</span>
+							{/if}
+						</div>
+					</div>
+				</div>
+
+				<div class="divider mt-0 mb-4">Compare Similar Models</div>
+
+				<div class="overflow-x-auto">
+					<table class="table table-zebra table-sm">
+						<thead>
+							<tr>
+								<th>Model</th>
+								<th>Provider</th>
+								<th>Context</th>
+								<th>Input / 1M</th>
+								<th>Output / 1M</th>
+								<th>Value</th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each CHAT_MODELS.filter(m => m.provider === currentModelData.provider || (m.contextWindow >= currentModelData.contextWindow && Math.abs(m.inputPer1M - currentModelData.inputPer1M) <= 1.0)).slice(0, 5) as m}
+								<tr class={m.name === currentModelData.name ? "bg-primary/10 font-medium" : ""}>
+									<td>{m.displayName}</td>
+									<td><span class="badge badge-ghost badge-sm">{m.provider}</span></td>
+									<td class="font-mono text-xs">{formatNumber(m.contextWindow)}</td>
+									<td class="font-mono text-xs">${m.inputPer1M}</td>
+									<td class="font-mono text-xs">${m.outputPer1M}</td>
+									<td>
+										{#if m.inputPer1M < 0.2}
+											<span class="badge badge-success badge-sm text-[10px]">Best Value</span>
+										{:else if m.contextWindow >= 1000000}
+											<span class="badge badge-info badge-sm text-[10px]">High Context</span>
+										{/if}
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		{/if}
+
+		<!-- Token Usage Examples -->
+		<div class="card bg-base-200/50 backdrop-blur-md border border-base-content/10 shadow-sm rounded-2xl">
+			<div class="card-body py-5 px-6">
+				<h4 class="text-sm font-bold flex items-center gap-2 mb-3">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+					Real-World Token Usage Examples
+				</h4>
+				<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+					<div class="bg-base-100 p-3 rounded-xl border border-base-content/5">
+						<div class="text-xs font-bold text-base-content/50 uppercase mb-1">Standard Tweet</div>
+						<div class="text-xl font-black font-mono">~35</div>
+						<div class="text-xs text-base-content/50">tokens</div>
+					</div>
+					<div class="bg-base-100 p-3 rounded-xl border border-base-content/5">
+						<div class="text-xs font-bold text-base-content/50 uppercase mb-1">1-Page Document</div>
+						<div class="text-xl font-black font-mono">~500</div>
+						<div class="text-xs text-base-content/50">tokens</div>
+					</div>
+					<div class="bg-base-100 p-3 rounded-xl border border-base-content/5">
+						<div class="text-xs font-bold text-base-content/50 uppercase mb-1">10-Min Transcript</div>
+						<div class="text-xl font-black font-mono">~2,000</div>
+						<div class="text-xs text-base-content/50">tokens</div>
+					</div>
+					<div class="bg-base-100 p-3 rounded-xl border border-base-content/5">
+						<div class="text-xs font-bold text-base-content/50 uppercase mb-1">100k Word Book</div>
+						<div class="text-xl font-black font-mono">~135k</div>
+						<div class="text-xs text-base-content/50">tokens</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<!-- Content Sections -->

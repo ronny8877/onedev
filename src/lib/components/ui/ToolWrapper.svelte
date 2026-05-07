@@ -2,6 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import { page } from '$app/stores';
 	import { BASE_URL, getToolByPath } from '$lib/config/tools';
+	import JsonLd from '$lib/components/content/JsonLd.svelte';
 
 	interface Props {
 		title?: string;
@@ -19,21 +20,11 @@
 
 	let canonicalUrl = $derived(`${BASE_URL}${$page.url.pathname}`);
 	
-	// Structured Data for SoftwareApplication
-	let jsonLd = $derived(JSON.stringify({
-		"@context": "https://schema.org",
-		"@type": "SoftwareApplication",
-		"name": finalTitle,
-		"description": finalDescription,
-		"applicationCategory": "DeveloperApplication",
-		"operatingSystem": "Any",
-		"offers": {
-			"@type": "Offer",
-			"price": "0",
-			"priceCurrency": "USD"
-		},
-		"url": canonicalUrl
-	}));
+	let applicationData = $derived({
+		name: finalTitle,
+		description: finalDescription,
+		url: canonicalUrl
+	});
 </script>
 
 <svelte:head>
@@ -55,10 +46,9 @@
 	<meta name="twitter:card" content="summary" />
 	<meta name="twitter:title" content="{finalTitle} | OneDev Tools" />
 	<meta name="twitter:description" content={finalDescription} />
-
-	<!-- Structured Data -->
-	{@html `<script type="application/ld+json">${jsonLd}</script>`}
 </svelte:head>
+
+<JsonLd application={applicationData} />
 
 <div class="flex h-full flex-col">
 	<!-- Tool Header -->

@@ -11,478 +11,494 @@ interface AIToolContent {
 export const aiToolsContent: Record<string, AIToolContent> = {
 	'token-counter': {
 		features: [
-			'Accurate token count for GPT-4, Claude, and Gemini',
-			'Real-time character and word count',
-			'Cost estimation based on current API pricing',
-			'Support for multiple tokenizer models (cl100k_base, p50k_base)',
-			'Whitespace and special character handling',
-			'Batch processing capability'
+			'Highly accurate token counting for modern LLMs including GPT-4o, Claude 3.5, and Gemini',
+			'Real-time, instant character, word, and token calculations as you type',
+			'Built-in API cost estimation based on the latest provider pricing tiers',
+			'Support for multiple tokenizer encodings (cl100k_base for OpenAI, custom variants)',
+			'Precise whitespace, punctuation, and special character parsing',
+			'Pasting support for massive prompts without browser lag'
 		],
 		useCases: [
-			'Estimate API costs before sending requests',
-			'Ensure prompts fit within context windows',
-			'Compare token usage across different models',
-			'Analyze text density (tokens per word)',
-			'Budget for large-scale LLM operations'
+			'Accurately forecasting API budget consumption before launching large-scale LLM processing jobs',
+			'Ensuring complex multi-shot prompts strictly adhere to strict context window limitations',
+			'Comparing token efficiency between different languages (e.g., English vs. Japanese token density)',
+			'Optimizing code snippets to minimize API spend by removing redundant indentation',
+			'Evaluating text datasets to determine exact storage requirements for vector embeddings'
 		],
 		concept: {
-			title: 'Tokens vs. Words',
-			content: `<p>Large Language Models (LLMs) don't read text by words or characters, but by <strong>tokens</strong>. A token can be a word, part of a word, or even a space.</p>
+			title: 'Understanding Tokens vs. Words',
+			content: `<p>Large Language Models (LLMs) do not read or generate text word-by-word or character-by-character. Instead, they process text in chunks called <strong>tokens</strong>. A token can be an entire word, a syllable, a single character, or even a space.</p>
 			
-			<p><strong>Rule of Thumb:</strong> 1,000 tokens is approximately 750 words. In English, a token is roughly 4 characters or 0.75 words.</p>
+			<p><strong>The Industry Standard Rule of Thumb:</strong> 1,000 tokens is approximately equal to 750 English words. This means, on average, a single token equates to roughly 4 characters or 0.75 words. However, this ratio degrades significantly for non-English languages and code, which require far more tokens per word.</p>
 			
-			<p><strong>Tokenizer Models:</strong></p>
+			<p><strong>Common Tokenizer Encodings:</strong></p>
 			<ul>
-				<li><strong>cl100k_base:</strong> Used by GPT-4, GPT-3.5-Turbo, and <code>text-embedding-ada-002</code>.</li>
-				<li><strong>p50k_base:</strong> Used by older Codex models.</li>
-				<li><strong>r50k_base:</strong> Used by GPT-3.</li>
+				<li><strong>cl100k_base:</strong> The modern standard used by OpenAI for GPT-4, GPT-4o, and the <code>text-embedding-3</code> models. It is highly efficient, utilizing a massive vocabulary of 100,000 unique tokens.</li>
+				<li><strong>p50k_base / r50k_base:</strong> Older legacy encodings used for GPT-3 and early Codex models, which were less efficient at packing text into smaller token counts.</li>
+				<li><strong>Llama / Mistral Tokenizers:</strong> Open-source models use their own custom SentencePiece or BPE tokenizers, meaning a prompt sent to Llama 3 will yield a slightly different token count than the exact same prompt sent to GPT-4.</li>
 			</ul>`
 		},
 		examples: [
 			{
-				label: 'Short Phrase',
-				code: 'Hello, world!',
+				label: 'Common English Phrase',
+				code: '"Hello, world!"\n\nTokens: 4 (Hello)(,)( world)(!)',
 				isValid: true
 			},
 			{
-				label: 'Complex Word',
-				code: 'Indivisibility',
+				label: 'Complex Multisyllabic Word',
+				code: '"Indivisibility"\n\nTokens: 3 (Ind)(ivis)(ibility) - Note how rare words are fragmented.',
 				isValid: true
 			},
 			{
-				label: 'Code Snippet',
-				code: 'print("Hello")',
+				label: 'Source Code Snippet',
+				code: 'def hello_world():\n    print("Hello")\n\nCode often consumes more tokens due to spaces, brackets, and underscores.',
 				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'Why do token counts vary between models?',
-				answer: 'Different models use different vocabularies (tokenizers). GPT-4 uses `cl100k_base`, which is more efficient than deeper, older tokenizers, often resulting in fewer tokens for the same text.'
+				question: 'Why do token counts vary drastically between different AI models?',
+				answer: 'Different AI providers train their models using entirely different vocabularies (known as tokenizers). OpenAI uses `cl100k_base` for GPT-4, which has a 100,000-token dictionary, allowing it to efficiently map whole words to single tokens. Older models or open-source models with smaller dictionaries must break down the same words into multiple sub-word tokens, resulting in a higher total count.'
 			},
 			{
-				question: 'Does whitespace count as tokens?',
-				answer: 'Yes, spaces, tabs, and newlines are all tokenized. In many tokenizers, a leading space is often merged with the following word.'
+				question: 'Do invisible characters like whitespace and newlines count as tokens?',
+				answer: 'Yes, absolutely. Every single space, tab, and newline character is mapped to a token. In modern BPE (Byte-Pair Encoding) tokenizers, a leading space is often merged with the word that follows it (e.g., " apple"). However, consecutive spaces (like code indentation) can rapidly eat up your token budget.'
 			},
 			{
-				question: 'How accurate is this counter?',
-				answer: 'This tool uses the exact same tokenizer libraries (like `tiktoken`) used by OpenAI, ensuring near 100% accuracy for supported models.'
+				question: 'How accurate is this online token calculator?',
+				answer: 'This tool leverages exact algorithmic ports of the official tokenization libraries (such as OpenAI\'s `tiktoken`), guaranteeing near 100% precision for supported models before you make costly API calls.'
+			},
+			{
+				question: 'Why is non-English text so much more expensive to process?',
+				answer: 'Because tokenizers are primarily trained on English datasets, they have a dedicated single token for common English words (like "computer"). For languages like Japanese, Arabic, or Hindi, the tokenizer rarely has whole-word representations and must fall back to encoding the text character-by-character or byte-by-byte, heavily inflating the token count and API cost.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Cost Estimator', path: '/ai/cost-estimator', description: 'Calculate API costs' },
-			{ name: 'Context Estimator', path: '/ai/context-estimator', description: 'Check context limits' },
-			{ name: 'Token Visualizer', path: '/ai/token-visualizer', description: 'See token boundaries' }
+			{ name: 'API Cost Estimator', path: '/ai/cost-estimator', description: 'Convert your token counts directly into real-world API costs across providers' },
+			{ name: 'Context Window Estimator', path: '/ai/context-estimator', description: 'Verify if your tokens will fit safely inside a model\'s context limit' },
+			{ name: 'Token Visualizer', path: '/ai/token-visualizer', description: 'Visually inspect exactly where the tokenizer splits your text' }
 		],
 		tips: [
-			'To save costs, remove unnecessary repeated whitespace or verbose descriptions from your prompts.',
-			'Code usually consumes more tokens than prose because of special characters and indentation.'
+			'To drastically reduce your API spend, utilize a minifier on JSON data or code snippets before sending them to the LLM to strip out expensive whitespace tokens.',
+			'If deploying to international users, budget for 2x to 3x higher token consumption for non-Latin character languages.'
 		]
 	},
 	'token-visualizer': {
 		features: [
-			'Color-coded token visualization',
-			'Hover to see Token ID',
-			'Support for GPT-4 and legacy tokenizers',
-			'Toggle special tokens',
-			'Interactive exploration of token boundaries',
-			'Copy token list as JSON'
+			'Interactive color-coded token visualization mapping text exact to model vocabularies',
+			'Detailed hover tooltips displaying the exact Integer Token ID and raw byte string',
+			'Granular support for both modern (GPT-4o cl100k_base) and legacy tokenizers',
+			'Advanced toggle to visualize hidden special control tokens (e.g., <|endoftext|>)',
+			'One-click export to copy the exact token array as structured JSON for backend testing',
+			'Deep insight into how whitespace, punctuation, and emojis are fragmented'
 		],
 		useCases: [
-			'Debug why a specific word is split into multiple tokens',
-			'Understand how model pricing works granularly',
-			'Optimize prompts by choosing single-token synonyms',
-			'Educational demonstrations of NLP concepts',
-			'Visualize whitespace handling'
+			'Debugging why a specific AI model struggles to rhyme or spell a specific word (due to sub-word tokenization)',
+			'Optimizing massive prompts by replacing expensive, heavily fragmented words with single-token synonyms',
+			'Understanding the underlying mechanics of NLP (Natural Language Processing) byte-pair encoding',
+			'Analyzing how differently open-source models handle non-English characters compared to OpenAI models',
+			'Visualizing exactly how code indentation (tabs vs spaces) impacts your overall API spend'
 		],
 		concept: {
-			title: 'Tokenization Visualized',
-			content: `<p><strong>Tokenization</strong> is the process of breaking text into smaller units (tokens) that a machine learning model can process. </p>
+			title: 'The Anatomy of a Token Array',
+			content: `<p>To an AI model, text does not exist. The very first step of processing a prompt is converting your readable text into an array of integers (Token IDs). <strong>Tokenization</strong> is the algorithm that determines where to slice the text.</p>
 			
-			<p><strong>Common Patterns:</strong></p>
+			<p><strong>Common Byte-Pair Encoding (BPE) Behaviors:</strong></p>
 			<ul>
-				<li><strong>Common words:</strong> Usually a single token (e.g., "apple").</li>
-				<li><strong>Complex words:</strong> Split into sub-words (e.g., "smart" + "phone").</li>
-				<li><strong>Spaces:</strong> Often attached to the start of a word in newer tokenizers (e.g., " word").</li>
+				<li><strong>Whole Words:</strong> Highly common words (like "the", "apple", "computer") are usually assigned a single token ID.</li>
+				<li><strong>Sub-words:</strong> Complex, rare, or compound words (like "unbelievable") are sliced into smaller morphological chunks (e.g., "un" + "believ" + "able").</li>
+				<li><strong>Whitespace Merging:</strong> In modern tokenizers, a space character is rarely its own token. It is almost always fused to the beginning of the next word (e.g., the string " Hello" is a completely different token than "Hello").</li>
 			</ul>
-			<p>This visualizer highlights adjacent tokens in alternating colors so you can see exactly where the splits occur.</p>`
+			<p>Our visualizer uses alternating background colors to expose exactly where these invisible slices occur, allowing you to "see" text exactly how an LLM sees it.</p>`
 		},
 		examples: [
 			{
-				label: 'CamelCase',
+				label: 'CamelCase Fragmentation',
 				code: 'tokenVisualizerTool',
 				isValid: true
 			},
 			{
-				label: 'Email Address',
-				code: 'user@example.com',
+				label: 'URL & Email Splitting',
+				code: 'contact@example.com / https://example.com/path',
 				isValid: true
 			},
 			{
-				label: 'Math Equation',
-				code: '2 + 2 = 4',
+				label: 'Whitespace & Indentation',
+				code: 'def test():\n    print("Notice the space tokens!")',
 				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'What is a Token ID?',
-				answer: 'Every unique token in the model\'s vocabulary is assigned a unique integer ID. For example, "The" might be ID 464.'
+				question: 'What exactly is a Token ID?',
+				answer: 'A Token ID is the unique integer assigned to a specific string of characters in the model\'s predefined dictionary (vocabulary). For instance, in OpenAI\'s `cl100k_base` tokenizer, the word "apple" might be mapped to ID `4321`. The LLM only ever processes these integer IDs, never the raw letters.'
 			},
 			{
-				question: 'Why are some short words split?',
-				answer: 'If a word isn\'t in the vocabulary (or is rare), it falls back to sub-tokens or even bytes. This is common for names, typos, or technical jargon.'
+				question: 'Why are names and typos split into so many tiny colors?',
+				answer: 'LLMs have a finite vocabulary (usually between 30,000 to 100,000 tokens). If a word is not in that dictionary—like a unique surname, a typo, or highly technical jargon—the tokenizer falls back to splitting it into smaller sub-tokens it does recognize, sometimes breaking it down all the way to individual letters or raw UTF-8 bytes.'
 			},
 			{
-				question: 'Does case matter?',
-				answer: 'Yes! "Apple" and "apple" are completely different tokens with different IDs.'
+				question: 'Does capitalization change the token boundaries?',
+				answer: 'Yes, drastically. Tokenizers are strictly case-sensitive. The word "Apple" with a capital A has a completely different Token ID than "apple" with a lowercase a. Depending on the context, changing the case can sometimes cause a word to be split into multiple tokens instead of one.'
+			},
+			{
+				question: 'How do emojis map to tokens?',
+				answer: 'Emojis are rarely stored as single tokens. Because they are complex Unicode characters, they are often broken down into 2 to 4 raw byte tokens. You will often see emojis split across multiple blocks in the visualizer.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Count total tokens' },
-			{ name: 'Prompt Trimmer', path: '/ai/prompt-trimmer', description: 'Shorten text' },
-			{ name: 'String Compare', path: '/text/string-compare', description: 'Compare texts' }
+			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Get the raw token count and cost estimate for your text' },
+			{ name: 'Prompt Trimmer', path: '/ai/prompt-trimmer', description: 'Automatically truncate text exactly at token boundaries' },
+			{ name: 'String Compare', path: '/text/string-compare', description: 'Find exact character differences between two texts' }
 		],
 		tips: [
-			'Hover over any colored block to see the raw string value and its integer ID.',
-			'Notice how spaces are handled—sometimes they are their own token, sometimes part of the next word.'
+			'Hover over any colored block in the visualizer to reveal its exact integer Token ID and the raw string it represents.',
+			'Look closely at the leading spaces on words. You will notice that " word" and "word" are completely different entities to the AI.'
 		]
 	},
 	'context-estimator': {
 		features: [
-			'Calculate context usage for System, User, and Assistant messages',
-			'Presets for popular models (GPT-4-32k, Claude 2, etc.)',
-			'Visual progress bar of context window usage',
-			'Warning indicators for overflow',
-			'Dynamic remaining token calculation',
-			'Multi-message support'
+			'Calculate exact token usage for System, User, and Assistant message blocks',
+			'Built-in presets for modern LLMs (GPT-4o, Claude 3.5 Sonnet, DeepSeek V3)',
+			'Visual token progress bar showing current context window usage',
+			'Dynamic remaining token calculation with safety buffer warnings',
+			'Support for custom context configurations for local AI models (Llama, Mistral)'
 		],
 		useCases: [
-			'Plan chat history retention strategies',
-			'Ensure RAG (Retrieval Augmented Generation) context fits',
-			'Debug "context length exceeded" errors',
-			'Optimize system prompts for size',
-			'Compare capacity of different models'
+			'Architecting Retrieval-Augmented Generation (RAG) chunking strategies',
+			'Planning conversation history truncation logic for long-running AI chatbots',
+			'Debugging API "context length exceeded" 400 Bad Request errors',
+			'Comparing context capacities and constraints between top-tier provider models',
+			'Optimizing massive system prompts to maximize space for user interactions'
 		],
 		concept: {
-			title: 'Context Window',
-			content: `<p>The <strong>Context Window</strong> is the maximum amount of text (in tokens) the model can consider at one time. This includes:</p>
+			title: 'Understanding the LLM Context Window',
+			content: `<p>The <strong>Context Window</strong> represents the absolute maximum amount of textual information (measured in tokens) an AI model can process in a single interaction. You can think of it as the model's short-term memory.</p>
+			
+			<p>Every single API request is stateless, meaning the entire context window must be rebuilt and processed every time you send a message. This window is shared by four distinct components:</p>
 			<ol>
-				<li><strong>System Instructions:</strong> The base behavior rules.</li>
-				<li><strong>Conversation History:</strong> Past messages.</li>
-				<li><strong>Current Input:</strong> Your new question.</li>
-				<li><strong>Target Output:</strong> The space reserved for the answer.</li>
+				<li><strong>System Instructions:</strong> The foundational behavior rules, persona definitions, and overarching guidelines you provide to the model.</li>
+				<li><strong>Conversation History:</strong> The backlog of past User and Assistant messages required to maintain the illusion of an ongoing chat.</li>
+				<li><strong>Current Input:</strong> The immediate new prompt or question being asked.</li>
+				<li><strong>Target Output:</strong> The space required for the model to generate its response (also known as <code>max_tokens</code>).</li>
 			</ol>
-			<p>If you exceed this window, the model "forgets" the earliest parts of the conversation or simply errors out.</p>`
+			
+			<p><strong>The Golden Rule of Context:</strong> <code>Total Input Tokens + Expected Output Tokens ≤ Context Window Limit</code>. If your input leaves no room for output, the model will fail to generate a complete answer, resulting in truncated text or immediate API errors.</p>`
 		},
 		examples: [
 			{
-				label: 'Standard Chat',
-				code: 'System: You are a helpful assistant.\nUser: Hello!',
+				label: 'Standard Chat Context',
+				code: 'System: You are an expert programmer.\nHistory: [400 tokens of past code]\nUser: Can you refactor this function?',
 				isValid: true
 			},
 			{
-				label: 'RAG Context',
-				code: 'Context: [Long document content...]\nQuestion: Summarize this.',
+				label: 'Heavy RAG Context',
+				code: 'System: Answer based only on the context.\nContext: [50,000 tokens of scraped PDF data]\nUser: Summarize the Q3 financials.',
 				isValid: true
 			},
 			{
-				label: 'Few-Shot Prompting',
-				code: 'User: A -> B\nUser: C -> D\nUser: E -> ?',
+				label: 'Few-Shot Classification',
+				code: 'User: Input: "Happy" -> Output: Positive\nUser: Input: "Sad" -> Output: Negative\nUser: Input: "Angry" -> Output: ?',
 				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'What happens if I overflow context?',
-				answer: 'The API will reject your request with a 400 error. You must truncate old messages or summarize conversation history to free up space.'
+				question: 'What happens if my prompt exceeds the context window?',
+				answer: 'If the total token count of your input exceeds the maximum context window of the model, the API provider (like OpenAI or Anthropic) will reject the request outright, typically returning an HTTP 400 Bad Request error. You must implement a strategy to truncate old messages or compress the prompt before sending it.'
 			},
 			{
-				question: 'Does output count towards the limit?',
-				answer: 'Yes! The total token count (Input + Output) must stay within the model\'s limit. Usually, you specify a `max_tokens` for output, which reserves space from the total window.'
+				question: 'Does the generated output count towards the context limit?',
+				answer: 'Yes, absolutely. The context window is the sum of both the input prompt and the generated completion. For example, if a model has an 8,192 token limit and your input is 8,000 tokens, the model can only generate a maximum of 192 tokens before abruptly stopping (truncating).'
 			},
 			{
-				question: 'What is 128k context?',
-				answer: 'It means the model can process ~128,000 tokens (approx. 100,000 words or 300 pages of text) in a single request.'
-			},
-			{
-				question: 'How do custom context limits work?',
-				answer: 'If you are running a local private AI Model (like Meta Llama on Ollama) or an enterprise deployed instance, you can manually enter your precise total context window and expected maximum generation limits. The calculator will instantly adapt its math to these custom constraints.'
+				question: 'How do "Reasoning Tokens" affect the context window?',
+				answer: 'For reasoning models like OpenAI\'s o1/o3 or DeepSeek R1, the model generates internal "thinking" tokens before outputting the final answer. These invisible reasoning tokens share the same context window as your input and output. Therefore, complex reasoning tasks require significantly more headroom in the context window.'
 			},
 			{
 				question: 'Why does message formatting add token overhead?',
-				answer: 'Under the hood, APIs like OpenAI\'s Chat Completion add hidden special tokens (such as `<|im_start|>` and `<|im_end|>`) to delineate different roles (user, system, assistant). This typically adds 3-4 tokens of invisible overhead per structural message.'
+				answer: 'When you use Chat Completion APIs, the provider automatically injects special control tokens (such as `<|im_start|>` and `<|im_end|>`) to delineate the boundaries between the System, User, and Assistant roles. This typically adds 3 to 5 tokens of invisible overhead per structural message.'
 			},
 			{
-				question: 'Can I calculate context usage for DeepSeek or Grok?',
-				answer: 'Yes! Our tool includes presets for all major modern models including Meta Llama 3, DeepSeek V3/R1, xAI Grok-2, Claude 3.5 Sonnet, and Gemini 1.5, allowing you to accurately budget token contexts.'
+				question: 'Is it cheaper to use a smaller context window?',
+				answer: 'For most providers, pricing is strictly based on the number of tokens processed, regardless of the maximum theoretical window size. However, some providers (like Google or Anthropic) apply tiered pricing—charging double per token if your prompt exceeds a specific threshold (e.g., 128k or 200k tokens).'
 			}
 		],
 		relatedTools: [
-			{ name: 'Prompt Trimmer', path: '/ai/prompt-trimmer', description: 'Fit text into context' },
-			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Count tokens' },
-			{ name: 'Embedding Estimator', path: '/ai/embedding-estimator', description: 'Vector storage' }
+			{ name: 'Cost Estimator', path: '/ai/cost-estimator', description: 'Calculate precise API pricing based on token usage' },
+			{ name: 'Prompt Trimmer', path: '/ai/prompt-trimmer', description: 'Safely truncate text to fit within your token budget' },
+			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Count exact tokens for different tokenizer models' }
 		],
 		tips: [
-			'Always leave a buffer (e.g., 20% of context) for the model\'s response.',
-			'Use the "Prompt Trimmer" tool to automatically shorten content if you are close to the limit.'
+			'Always reserve at least 15-20% of your total context window as a safety buffer to ensure the model has ample space to generate a complete, high-quality response.',
+			'Implement a sliding window algorithm in your chatbots: automatically drop the oldest User/Assistant message pairs when the context usage reaches 85%.'
 		]
 	},
 	'prompt-trimmer': {
 		features: [
-			'Trim text to exact token limits',
-			'Sentence-aware trimming (keeps sentences intact)',
-			'Paragraph-aware trimming',
-			'Preserve start or end of text',
-			'Real-time before/after token comparison',
-			'One-click copy of trimmed text'
+			'Precision token-based truncation to guarantee your prompt fits within any LLM context limit',
+			'Semantic boundary awareness: trim text safely at the nearest sentence or paragraph boundary',
+			'Directional preservation: choose to keep the beginning (for instructions) or the end (for chat history)',
+			'Real-time comparative metrics showing exact token reduction and byte-size savings',
+			'Support for OpenAI tiktoken encodings to prevent accidental sub-word fragmentation',
+			'One-click clipboard export of the perfectly sized, model-ready string'
 		],
 		useCases: [
-			'Fit large documents into a prompt',
-			'Create snippets for search results',
-			'Summarize logs without cutting off mid-word',
-			'Prepare few-shot examples',
-			'Cleaning dataset entries'
+			'Safely truncating massive retrieved documents in RAG architectures to fit exactly into the prompt window',
+			'Automating the eviction of old messages in a conversational AI chatbot to prevent HTTP 400 Context Length errors',
+			'Cleaning massive datasets for fine-tuning by aggressively standardizing the token length of all training examples',
+			'Preparing concise, context-dense snippets for search engine indexing or metadata generation',
+			'Preventing hallucinations caused by cutting off sentences mid-word when feeding data to an LLM'
 		],
 		concept: {
-			title: 'Smart Truncation',
-			content: `<p>Truncating text blindly by character count often breaks words or sentences, leading to confusing inputs for AI models.</p>
+			title: 'The Danger of Blind Truncation',
+			content: `<p>Truncating text blindly by a static character count (e.g., <code>text.substring(0, 4000)</code>) is a major anti-pattern in AI engineering. It frequently slices words in half or leaves dangling punctuation, which severely degrades the LLM's comprehension and often leads to hallucinations or formatting errors in the output.</p>
 			
-			<p><strong>Strategies:</strong></p>
+			<p><strong>Smart Trimming Strategies:</strong></p>
 			<ul>
-				<li><strong>Token-based:</strong> Cuts exactly at the token limit (most space-efficient).</li>
-				<li><strong>Sentence-aware:</strong> Finds the last full sentence punctuation within the limit (most readable).</li>
-				<li><strong>Preserve Start/End:</strong> sometimes the most important context is at the end (chat history) or the start (instructions).</li>
+				<li><strong>Exact Token Trimming:</strong> Slices the string precisely at the token boundary (e.g., exactly 8,192 tokens). This is the most space-efficient method but may leave an incomplete sentence at the end.</li>
+				<li><strong>Sentence-Aware Trimming:</strong> Calculates the token limit, but then intentionally walks backward to find the nearest sentence-ending punctuation (like a period or exclamation mark). This sacrifices a few tokens of space but guarantees the model reads a complete, coherent thought.</li>
+				<li><strong>Directional Preservation:</strong> When sending chat history, you want to trim from the top down (Preserve End), dropping the oldest messages. When sending a strict instructional prompt, you want to trim from the bottom up (Preserve Start) to ensure the system instructions are never lost.</li>
 			</ul>`
 		},
 		examples: [
 			{
-				label: 'Trimming History',
-				code: '...[Old messages]... \nMost recent message.',
-				isValid: true
+				label: 'Blind Character Trim (Bad)',
+				code: 'Original: "The financial report states we made $4,000,000."\nTrimmed: "The financial report states we made $4,00"\nResult: The AI assumes you made $400.',
+				isValid: false
 			},
 			{
-				label: 'Abstract Generation',
-				code: 'First 500 tokens of the paper...',
+				label: 'Sentence-Aware Trim (Good)',
+				code: 'Original: "The company is growing. The financial report states we made $4,000,000."\nTrimmed: "The company is growing."\nResult: The AI receives less data, but the data is completely accurate.',
 				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'Will this cut off in the middle of a word?',
-				answer: 'If you choose "Exact Token" mode, yes (it cuts at the token boundary). If you choose "Sentence Aware", it will back up to the last period/punctuation mark to ensure complete thoughts.'
+				question: 'Will Exact Token trimming cut off in the middle of a word?',
+				answer: 'Because token boundaries are respected, it will not cut off in the middle of a "token". However, because complex words are made of multiple sub-tokens, it is entirely possible for it to cut off in the middle of a multisyllabic word. For production data, always use Sentence-Aware trimming.'
 			},
 			{
-				question: 'Why "Preserve End" for chat?',
-				answer: 'In conversations, the most recent messages are usually the most relevant. You often want to drop the oldest messages first (Preserve End).'
+				question: 'Why should I "Preserve End" for chat memory?',
+				answer: 'In conversational AI, the most recent message (the end of the string) is the most vital context for the model to generate a relevant reply. The oldest messages (the start of the string) are the least relevant and should be the first things truncated when you run out of space.'
 			},
 			{
-				question: 'Is it reversible?',
-				answer: 'No, trimming is destructive. Always keep a copy of your original text.'
+				question: 'Is it better to trim the text or summarize it?',
+				answer: 'If you have the compute budget, passing the overflowing text through a cheaper, faster model (like Claude 3 Haiku or GPT-4o-mini) to summarize it is usually superior to outright trimming. Trimming is best used as an absolute failsafe to prevent API crashes.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Context Estimator', path: '/ai/context-estimator', description: 'Check limits' },
-			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Count tokens' },
-			{ name: 'Lorem Ipsum', path: '/text/lorem-ipsum', description: 'Generate placeholder text' }
+			{ name: 'Context Window Estimator', path: '/ai/context-estimator', description: 'Visually plan how much text you need to trim' },
+			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Count the raw token usage of your text' },
+			{ name: 'String Compare', path: '/text/string-compare', description: 'See exactly what was removed from your original text' }
 		],
 		tips: [
-			'Use "Sentence Aware" mode for RAG contexts to prevent providing partial, confusing facts to the LLM.',
-			'Use "Exact Token" mode when you need to squeeze in absolutely every possible bit of information.'
+			'Always use "Sentence Aware" mode when feeding documents into a Retrieval-Augmented Generation (RAG) pipeline to prevent providing partial, confusing facts to the LLM.',
+			'Use "Exact Token" mode only when you need to squeeze in absolutely every possible bit of information and don\'t care about narrative flow (like raw log files).'
 		]
 	},
 	'embedding-estimator': {
 		features: [
-			'Estimate storage size for vector databases',
-			'Support for OpenAI (ada-002) and open-source models',
-			'Calculate dimensionality (1536, 768, etc.)',
-			'Estimate indexing costs',
-			'Batch size calculation',
-			'Memory usage Estimator (RAM vs Disk)'
+			'Calculate precise vector database storage requirements (in MB/GB) based on dimensionality and precision',
+			'Built-in presets for top embedding models: text-embedding-3-large, text-embedding-ada-002, and Cohere English',
+			'Dynamic memory overhead estimation mapping HNSW (Hierarchical Navigable Small World) index costs',
+			'Toggle between Float32, Float16, and Int8 (quantization) to see exact compression savings',
+			'Calculate scaling costs for managed cloud vector databases like Pinecone, Milvus, and Qdrant',
+			'Estimate token generation costs alongside raw storage byte sizes'
 		],
 		useCases: [
-			'Architecting RAG systems',
-			'Budgeting for Pinecone/Milvus/Weaviate',
-			'Choosing an embedding model',
-			'Planning server RAM requirements',
-			'Estimating migration time'
+			'Architecting the infrastructure and cloud budgeting for enterprise Retrieval-Augmented Generation (RAG) pipelines',
+			'Determining whether a vector dataset can fit entirely in the RAM of an AWS EC2 or DigitalOcean droplet',
+			'Evaluating the trade-off between using a high-dimension model (OpenAI 3072-dim) versus a fast, local model (MiniLM 384-dim)',
+			'Estimating the massive cost reductions achieved by applying scalar quantization (Int8) to billions of vectors',
+			'Planning data migration times by calculating the raw byte size of the exported JSON/Parquet vector files'
 		],
 		concept: {
-			title: 'Embeddings & Vectors',
-			content: `<p><strong>Embeddings</strong> are numerical representations (vectors) of text. They capture semantic meaning, allowing computers to "search by meaning" rather than just keywords.</p>
+			title: 'The Mathematics of Vector Storage',
+			content: `<p><strong>Embeddings</strong> are numerical representations (arrays of floats) of text. By mapping text to multi-dimensional space, computers can perform semantic searches (finding text with similar meaning, rather than exact keyword matches).</p>
 			
-			<p><strong>Storage Math:</strong></p>
+			<p><strong>Calculating Raw Storage Size:</strong></p>
 			<ul>
-				<li>Usually <code>float32</code> (4 bytes per number).</li>
-				<li>OpenAI <code>ada-002</code> has 1536 dimensions.</li>
-				<li>Size per vector = 1536 * 4 bytes = <strong>~6 KB</strong>.</li>
-				<li>1 Million vectors ≈ 6 GB of RAM/Disk (plus indexing overhead).</li>
-			</ul>`
+				<li><strong>Dimensionality:</strong> The number of values in the vector. OpenAI's <code>text-embedding-3-small</code> has 1536 dimensions.</li>
+				<li><strong>Precision:</strong> The standard is <code>Float32</code>, which takes 4 bytes per number.</li>
+				<li><strong>Formula:</strong> <code>Dimensions * Precision Bytes = Size Per Vector</code>.</li>
+				<li><strong>Example:</strong> 1536 * 4 bytes = 6,144 bytes (~6.1 KB) per vector.</li>
+			</ul>
+			<p><strong>The Indexing Overhead:</strong> Storing the raw vectors on disk is cheap. However, to search them quickly, Vector Databases build an Approximate Nearest Neighbor (ANN) index in RAM (usually an HNSW graph). This graph adds a massive 20% to 60% memory overhead on top of your raw data size, meaning a 10GB dataset often requires 15GB of expensive server RAM.</p>`
 		},
 		examples: [
 			{
-				label: 'OpenAI Ada-002',
-				code: 'Dimensions: 1536\nType: Float32\nSize: ~6KB / vector',
+				label: 'text-embedding-3-large (Uncompressed)',
+				code: 'Dimensions: 3072\nPrecision: Float32 (4 Bytes)\nRaw Vector Size: ~12.2 KB\n1 Million Docs: ~12.2 GB RAM',
 				isValid: true
 			},
 			{
-				label: 'MiniLM-L6',
-				code: 'Dimensions: 384\nType: Float32\nSize: ~1.5KB / vector',
+				label: 'all-MiniLM-L6-v2 (Local)',
+				code: 'Dimensions: 384\nPrecision: Float32 (4 Bytes)\nRaw Vector Size: ~1.5 KB\n1 Million Docs: ~1.5 GB RAM',
 				isValid: true
 			},
 			{
-				label: 'Million Scale',
-				code: '1M docs * 1536 dims * 4 bytes = ~6GB raw data',
+				label: 'Quantization Savings',
+				code: 'Dimensions: 1536\nPrecision: Int8 (1 Byte)\nRaw Vector Size: ~1.5 KB (75% savings!)',
 				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'Does text length affect vector size?',
-				answer: 'No! Whether you embed a single word or a paragraph, the resulting vector always has the same number of dimensions (e.g., 1536). However, the *token cost* to generate it depends on text length.'
+				question: 'Does the length of the text (tokens) affect the final byte size of the vector?',
+				answer: 'No! This is a common misconception. Whether you embed a single word like "apple" or a massive 500-word paragraph, the resulting vector array will always be the exact same fixed size (e.g., exactly 1536 numbers). The text length only affects the initial API cost to generate the embedding.'
 			},
 			{
-				question: 'Float32 vs Int8?',
-				answer: 'Quantization (using Int8) reduces size by 4x but sacrifices some precision/accuracy. It\'s great for massive datasets.'
+				question: 'What is Quantization (Float32 vs Int8)?',
+				answer: 'Quantization is a compression technique used by advanced databases (like Qdrant or Milvus). By converting 4-byte Float32 numbers into 1-byte Int8 integers, you reduce your total RAM usage by exactly 75%. While this introduces a tiny loss in search precision (usually < 1%), it is mathematically necessary to affordably store hundreds of millions of vectors.'
 			},
 			{
-				question: 'What is indexing overhead?',
-				answer: 'To search fast (ANN), databases build extra structures (HNSW graphs, IVO lists). This typically adds 10-50% more RAM usage usage on top of raw vector data.'
+				question: 'Why do Vector Databases need so much RAM?',
+				answer: 'To perform semantic search in milliseconds across millions of records, the vector index must be kept in volatile RAM. If the database has to read from a standard SSD (page faulting), search latency spikes from 10ms to thousands of milliseconds, breaking the application.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Estimate generation cost' },
-			{ name: 'Cost Estimator', path: '/ai/cost-estimator', description: 'API pricing' },
-			{ name: 'Data Size Converter', path: '/convert/data-size', description: 'Convert units' }
+			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Estimate the initial generation cost before creating embeddings' },
+			{ name: 'API Cost Estimator', path: '/ai/cost-estimator', description: 'Calculate the total price of your API calls' },
+			{ name: 'Data Size Converter', path: '/convert/data-size', description: 'Convert Megabytes to Gigabytes for server planning' }
 		],
 		tips: [
-			'For local development, smaller models like `all-MiniLM-L6-v2` (384 dims) are much faster and lighter.',
-			'Always calculate RAM needs before deployment—vector DBs love RAM.'
+			'If you are building a hobby project, use a smaller model like `all-MiniLM-L6-v2` (384 dims). The storage is 4x smaller than OpenAI, and search speeds are significantly faster.',
+			'Always over-provision your server RAM by at least 30% beyond your raw vector size to account for the HNSW indexing overhead.'
 		]
 	},
 	'cost-estimator': {
 		features: [
-			'Up-to-date pricing for major LLM providers',
-			'Separate Input vs Output token calculation',
-			'Compare models side-by-side (GPT-4 vs Claude 3)',
-			'Batch volume estimation (1k, 1M requests)',
-			'Fine-tuning cost estimation',
-			'Custom pricing entry'
+			'Highly accurate, up-to-date pricing algorithms for top-tier LLM providers (OpenAI, Anthropic, Google, Meta, Mistral)',
+			'Distinct calculation streams for Input (Prompt) tokens versus Output (Completion) tokens',
+			'Advanced support for calculating Prompt Caching discounts (e.g., Anthropic Claude 3.5 cached input rates)',
+			'Dynamic monthly SaaS budgeting based on projected Daily Active Users (DAU) and batch API scaling',
+			'Direct pasting support: paste raw text to instantly calculate both the token count and the exact monetary cost',
+			'Interactive side-by-side model comparison to instantly identify the most cost-effective AI engine'
 		],
 		useCases: [
-			'Pitching AI features to stakeholders',
-			'Comparing provider costs',
-			'Estimating monthly SaaS bills',
-			'Deciding between "smart" vs "fast" models',
-			'Budgeting for batch processing jobs'
+			'Pitching AI feature integrations to stakeholders by providing exact monthly API budget forecasts',
+			'Performing a rigorous cost-benefit analysis between using a flagship model (GPT-4o) versus a fast model (GPT-4o-mini)',
+			'Calculating the exact monetary cost of processing a massive 1-million-token RAG context window',
+			'Estimating the overhead of "invisible" reasoning tokens generated by models like OpenAI o1 or DeepSeek R1',
+			'Budgeting for massive offline batch processing jobs (which often receive a 50% API discount)'
 		],
 		concept: {
-			title: 'LLM Pricing Models',
-			content: `<p>LLM pricing is almost always based on <strong>per 1 million tokens</strong> (1M).</p>
+			title: 'The Asymmetric Economics of LLM APIs',
+			content: `<p>Generative AI pricing is almost universally calculated dynamically based on volume, specifically measured <strong>per 1 million tokens ($/1M)</strong>.</p>
 			
-			<p><strong>Key Dynamics:</strong></p>
+			<p><strong>The Core Pricing Dynamics:</strong></p>
 			<ul>
-				<li><strong>Input is cheaper:</strong> Processing prompts usually costs 1/3rd to 1/2 of generating output.</li>
-				<li><strong>Intelligence Tax:</strong> Smarter models (GPT-4) can be 20x to 50x more expensive than efficient models (GPT-3.5/Haiku).</li>
-				<li><strong>Vision/Images:</strong> Often billed as a fixed token amount or by resolution.</li>
+				<li><strong>Asymmetric Billing (Input vs Output):</strong> The computational power required to <em>read</em> text (Input) is drastically lower than the power required to <em>generate</em> new text (Output). Therefore, Output tokens are typically priced 3x to 5x higher than Input tokens.</li>
+				<li><strong>The Intelligence Premium:</strong> Frontier, reasoning-capable models (like Claude 3.5 Sonnet or GPT-4o) command an immense premium—often costing 20x to 50x more per token than their smaller, faster counterparts (like Claude 3.5 Haiku or GPT-4o-mini).</li>
+				<li><strong>Prompt Caching Discounts:</strong> Modern APIs now offer massive discounts (often 50% to 90% off) for <em>Cached Input</em>. If you repeatedly send the exact same massive system prompt or RAG document within a short time window, the provider caches the initial computation, drastically dropping your bill.</li>
 			</ul>`
 		},
 		examples: [
 			{
-				label: 'Simple Chat',
-				code: 'Input: 500 tokens\nOutput: 200 tokens\nCost: ~$0.00X',
+				label: 'Standard Chat Query',
+				code: 'Input: 500 tokens (System + History)\nOutput: 200 tokens\nCost Profile: Negligible. Best handled by fast, cheap models.',
 				isValid: true
 			},
 			{
-				label: 'RAG Query',
-				code: 'Input: 4000 tokens (Context)\nOutput: 500 tokens\nCost: Higher input weight',
+				label: 'Massive RAG Query',
+				code: 'Input: 100,000 tokens (10 PDF Documents)\nOutput: 500 tokens\nCost Profile: Highly asymmetric. The massive input dominates the cost unless Prompt Caching is utilized.',
+				isValid: true
+			},
+			{
+				label: 'Reasoning Model Generation',
+				code: 'Input: 1,000 tokens\nOutput: 5,000 tokens (4,500 invisible reasoning tokens + 500 visible answer tokens)\nCost Profile: Extremely high. You pay for the "thinking" time.',
 				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'Do prices change often?',
-				answer: 'Yes, it is a race to the bottom. Providers frequently cut prices. This calculator aims to use the latest published public rates.'
+				question: 'How frequently do LLM API prices change?',
+				answer: 'The AI industry is currently in a massive "race to the bottom". Providers like OpenAI, Google, and DeepSeek frequently slash prices (sometimes by 50% overnight) to undercut competitors. This calculator uses the most recently published public API rates.'
 			},
 			{
-				question: 'What is a "Completion"?',
-				answer: 'Completion refers to the text *generated* by the AI (Output). Prompt refers to the text *sent* to the AI (Input).'
+				question: 'What is the difference between a "Prompt" and a "Completion"?',
+				answer: 'These are the legacy terms used by OpenAI. The "Prompt" is your Input—the text, history, and instructions you send to the server. The "Completion" is the Output—the novel text the AI model generates and sends back to you.'
 			},
 			{
-				question: 'How to reduce costs?',
-				answer: '1. Use smaller models for simple tasks. 2. Shorten prompts (remove examples). 3. Cache common responses. 4. Use batch APIs (often 50% discount).'
+				question: 'How are reasoning tokens (like in OpenAI o1 or DeepSeek R1) billed?',
+				answer: 'Models equipped with Chain-of-Thought (CoT) reasoning generate thousands of internal, invisible tokens before they output the final answer. Providers bill these invisible reasoning tokens at the exact same high rate as standard Output tokens, making reasoning models significantly more expensive to run in production.'
+			},
+			{
+				question: 'What are the best strategies to reduce my monthly AI API bill?',
+				answer: '1. Model Routing: Use cheap models (like Llama 3 8B or GPT-4o-mini) for 80% of simple tasks, and route only the hardest 20% to flagship models. 2. Implement Semantic Caching to avoid querying the API for identical user questions. 3. Utilize the Batch API for non-urgent background tasks (which guarantees a 50% discount).'
 			}
 		],
 		relatedTools: [
-			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Count your usage' },
-			{ name: 'Context Estimator', path: '/ai/context-estimator', description: 'Plan capacity' },
-			{ name: 'Embedding Estimator', path: '/ai/embedding-estimator', description: 'Storage costs' }
+			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Count the exact number of tokens in your raw text' },
+			{ name: 'Context Window Estimator', path: '/ai/context-estimator', description: 'Visually plan how many tokens will fit inside the model limits' },
+			{ name: 'Model Cost Compare', path: '/ai/cost-compare', description: 'View a massive side-by-side grid of all provider prices' }
 		],
 		tips: [
-			'Always separate your Input (Prompt) and Output (Generation) estimates for accuracy.',
-			'Don\'t forget to account for re-tries and errors in your volume estimates.'
+			'Always calculate your Input (Prompt) and Output (Generation) estimates separately. RAG apps are entirely Input-heavy, while creative writing apps are entirely Output-heavy.',
+			'Do not forget to multiply your estimates by your expected Daily Active Users (DAU) and add a 15% buffer for retries, errors, and system prompt overhead.'
 		]
 	},
 	'cost-compare': {
 		features: [
-			'Compare all major AI models side-by-side',
-			'Dynamic sliders for input tokens, output tokens, and daily requests',
-			'Calculate daily and monthly API costs instantly',
-			'Sort models by price to find the most cost-effective solution',
-			'Provider filtering (OpenAI, Anthropic, Google, DeepSeek, etc.)'
+			'Comprehensive matrix comparing 30+ leading models across OpenAI, Anthropic, Google, Meta, Mistral, and xAI',
+			'Dynamic recalculation of monthly SaaS bills based on adjustable Input/Output ratio sliders',
+			'Instant cross-provider scaling: instantly see the financial impact of moving from GPT-4 to Llama 3',
+			'Visual indicators for the most cost-effective routing options based on real-time token economics',
+			'Granular filtering to isolate reasoning models, vision models, or ultra-fast sub-second latency models'
 		],
 		useCases: [
-			'Evaluate LLM API costs for a new product launch',
-			'Find cheaper alternatives to expensive models for simple tasks',
-			'Budget computing costs for AI startups',
-			'Understand the pricing gap between "Pro" and "Flash" models',
-			'Perform cost-benefit analysis of reasoning models (like o1 or DeepSeek R1)'
+			'Auditing a massive cloud AI bill to find exact drop-in replacement models that cut costs by 90%',
+			'Presenting a comparative financial dashboard to executive teams when requesting a monthly generative AI budget',
+			'Developing a Dynamic Model Routing system (LLM Router) that falls back to cheaper APIs for simple classification tasks',
+			'Evaluating whether the massive price premium of "Reasoning" models (like o1) is justified over fast "Pro" models',
+			'Calculating the profit margins of an AI wrapper application by modeling cost-per-user per month'
 		],
 		concept: {
-			title: 'Understanding AI API Costs',
-			content: `<p>AI models charge based on the volume of text processed, measured in <strong>tokens</strong> (roughly 3/4 of a word).</p>
+			title: 'Navigating the LLM Price Matrix',
+			content: `<p>The generative AI market is currently segmented into three distinct pricing tiers. Choosing the wrong tier can bankrupt an AI startup overnight.</p>
 			
-			<p><strong>Cost Components:</strong></p>
+			<p><strong>The Three Tiers of AI Economics:</strong></p>
 			<ul>
-				<li><strong>Input Prompt:</strong> The text you send to the AI. This is heavily discounted (usually 1/3 to 1/4 the cost of output).</li>
-				<li><strong>Output Generation:</strong> The text the AI writes back to you. Producing text requires active compute, making it significantly more expensive.</li>
-				<li><strong>Volume:</strong> Your daily active users and interactions multiply the base token costs.</li>
+				<li><strong>Frontier/Reasoning Models (Premium):</strong> Examples include GPT-4o, Claude 3.5 Sonnet, and OpenAI o1. They cost between $3.00 and $15.00 per million tokens. Use these strictly for complex coding, deep logical reasoning, or final copy generation.</li>
+				<li><strong>Fast/Mini Models (Commodity):</strong> Examples include GPT-4o-mini, Claude 3 Haiku, and Gemini 1.5 Flash. They cost between $0.15 and $0.60 per million tokens (often 50x cheaper than the premium tier). They are incredibly fast and perfectly capable of handling 80% of daily tasks like JSON extraction, summarization, and basic chat.</li>
+				<li><strong>Open-Source Local Models (Free Compute):</strong> Examples include Llama 3.1 8B or Mistral. If you host them on your own GPU, you pay zero token API costs, paying only for the raw server electricity and hardware depreciation.</li>
 			</ul>`
 		},
 		examples: [
 			{
-				label: 'Light Chatbot',
-				code: '100 Input / 50 Output Tokens\n1,000 requests/day\nVery low cost on Flash/Mini models.',
+				label: 'Tier 1 Routing (Complex)',
+				code: 'Task: Write a full React application.\nModel: Claude 3.5 Sonnet ($3.00 In / $15.00 Out)\nResult: Expensive, but produces working code.',
 				isValid: true
 			},
 			{
-				label: 'Heavy RAG System',
-				code: '10,000 Input (Context) / 1,000 Output Tokens\n10,000 requests/day\nRequires careful model selection.',
+				label: 'Tier 2 Routing (Simple)',
+				code: 'Task: Extract names from this text into JSON.\nModel: GPT-4o-mini ($0.150 In / $0.600 Out)\nResult: Nearly free, highly accurate for data extraction.',
 				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'Which AI model is the cheapest?',
-				answer: 'Currently, models like Gemini Flash-Lite and DeepSeek Chat offer incredibly low costs, but prices change rapidly. Use the interactive grid above to sort models by the lowest cost based on your specific traffic.'
+				question: 'How much cheaper are "Mini" or "Flash" models compared to the flagship models?',
+				answer: 'They are astonishingly cheaper. For example, GPT-4o-mini is roughly 33x cheaper than GPT-4o. If your application processes 100 million tokens a month, switching from a flagship model to a mini model can drop your cloud bill from $1,000 to just $30.'
 			},
 			{
-				question: 'How do reasoning models charge?',
-				answer: 'Models like OpenAI o1/o3 and DeepSeek R1 generate internal "thinking" tokens before they give you the final answer. Providers usually bill these invisible reasoning tokens exactly the same as regular output tokens.'
+				question: 'Are open-source models always cheaper?',
+				answer: 'Not always. While you do not pay per-token API fees for open-source models (like Llama 3) if you host them yourself, you do pay for the GPU server (e.g., $1,000/month for an AWS instance). If your token volume is low, it is actually much cheaper to use a managed API like OpenAI or Anthropic than to rent your own dedicated GPU.'
 			},
 			{
-				question: 'What is a context window?',
-				answer: 'It is the maximum number of tokens you can send and receive in a single API call. Check out our Context Estimator tool for more details.'
+				question: 'Do any providers offer bulk discounts?',
+				answer: 'Yes! Both OpenAI and Anthropic offer a "Batch API". If you submit a massive file of requests and are willing to wait up to 24 hours for the results, they will process the tokens at exactly a 50% discount. This is the ultimate hack for offline data processing.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Cost Estimator', path: '/ai/cost-estimator', description: 'Single model cost detail' },
-			{ name: 'Context Estimator', path: '/ai/context-estimator', description: 'Plan capacity' },
-			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Count your usage' }
+			{ name: 'Cost Estimator', path: '/ai/cost-estimator', description: 'Get a granular cost breakdown for a single specific AI model' },
+			{ name: 'Context Window Estimator', path: '/ai/context-estimator', description: 'Plan the absolute maximum tokens you can fit in a single request' },
+			{ name: 'Token Visualizer', path: '/ai/token-visualizer', description: 'See exactly how text translates into billable tokens' }
 		],
 		tips: [
-			'Use smaller models (like Haiku or Flash) for data extraction and basic reasoning, saving the massive "Pro" models for complex coding or creative tasks.',
-			'Cache frequent API responses on your server; the cheapest API call is the one you never make.'
+			'Use an "LLM Router" architecture: send all user inputs to a cheap Mini model first. If the Mini model fails or expresses low confidence, only then route the request to the expensive flagship model.',
+			'Pay close attention to "Cached Input" pricing. Providers like Anthropic offer massive 90% discounts if you repeatedly send the exact same long document over and over.'
 		]
 	}
 };
