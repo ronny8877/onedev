@@ -6,6 +6,7 @@
 	import CommandPalette from '$lib/components/ui/CommandPalette.svelte';
 	import { page } from '$app/stores';
 	import { getSidebarAccordions, getToolNamesRecord } from '$lib/config/tools';
+	import { initTheme, getTheme } from '$lib/stores/theme.svelte.ts';
 	//fevicons
 	import appleTouchIcon from '$lib/assets/apple-touch-icon.png';
 	import favicon32 from '$lib/assets/favicon-32x32.png';
@@ -26,6 +27,13 @@
 	// Command palette state
 	let commandPaletteOpen = $state(false);
 
+	// Theme
+	let currentTheme = $derived(getTheme());
+
+	$effect(() => {
+		initTheme();
+	});
+
 	function handleGlobalKeydown(event: KeyboardEvent) {
 		// Cmd+K (Mac) or Ctrl+K (Windows/Linux)
 		if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
@@ -42,7 +50,7 @@
 	<link rel="icon" type="image/png" sizes="32x32" href={favicon32} />
 	<link rel="icon" type="image/png" sizes="16x16" href={favicon16} />
 	<link rel="manifest" href={siteWebmanifest} />
-	<meta name="theme-color" content="#1d232a" />
+	<meta name="theme-color" content={currentTheme === 'dark' ? '#1d232a' : '#ffffff'} />
 
 	<!-- Sitewide OG/Social defaults (overridden by individual pages) -->
 	<meta property="og:site_name" content="OneDev Tools" />

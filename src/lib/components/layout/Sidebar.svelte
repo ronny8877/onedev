@@ -132,7 +132,7 @@
 									<li>
 										<a 
 											href={item.href} 
-											class="py-2 rounded-lg hover:bg-primary-content transition-colors {isActive(item.href) ? 'bg-primary/10 text-primary' : ''}"
+											class="py-2 rounded-lg hover:bg-primary/10 transition-colors {isActive(item.href) ? 'bg-primary/10 text-primary' : ''}"
 											class:active={isActive(item.href)}
 											onclick={() => handleLinkClick(item.name, accordion.name)}
 										>

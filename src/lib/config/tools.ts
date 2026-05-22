@@ -36,6 +36,23 @@ export const toolCategories: ToolCategory[] = [
 		]
 	},
 	{
+		name: 'PDF',
+		icon: '📄',
+		description: 'Free online PDF tools to view, split, merge, compress, and edit PDFs. Add watermarks and page numbers, redact content, compare PDFs, sign documents, and create PDFs from images—all processing happens in your browser, no file uploads.',
+		items: [
+			{ name: 'PDF Viewer', href: '/pdf/viewer', description: 'PDF viewer online free. View PDF files directly in your browser with page navigation and zoom. No uploads needed—view PDFs instantly.', icon: '👁️' },
+			{ name: 'PDF Splitter', href: '/pdf/split', description: 'PDF splitter online free. Extract specific pages or split PDF into individual pages. Select page ranges and download—free PDF split tool.', icon: '✂️' },
+			{ name: 'PDF Merger', href: '/pdf/merge', description: 'PDF merger online free. Combine multiple PDFs into one document. Drag to reorder pages—merge PDF files instantly in your browser.', icon: '🔗' },
+			{ name: 'PDF Compressor', href: '/pdf/compress', description: 'PDF compressor online free. Reduce PDF file size while maintaining quality. Optimize PDFs for email and web—free compression tool.', icon: '📦' },
+			{ name: 'PDF Watermark', href: '/pdf/watermark', description: 'PDF watermark tool online free. Add text or image watermarks to PDF pages. Customize opacity, position, and rotation—free watermark tool.', icon: '💧' },
+			{ name: 'PDF Page Numbers', href: '/pdf/page-numbers', description: 'Add page numbers to PDF online free. Number PDF pages with customizable position, font size, and starting number. Free page numbering tool.', icon: '🔢' },
+			{ name: 'PDF Redact', href: '/pdf/redact', description: 'PDF redaction tool online free. Permanently remove sensitive text and images from PDFs. Draw redaction rectangles—secure PDF redaction.', icon: '🖍️' },
+			{ name: 'PDF Compare', href: '/pdf/compare', description: 'PDF comparison tool online free. Compare two PDFs side by side and highlight differences. Find changes between PDF versions instantly.', icon: '⚖️' },
+			{ name: 'PDF Sign', href: '/pdf/sign', description: 'PDF signature tool online free. Draw or upload your signature and place it on PDF pages. Sign documents digitally—free PDF signer.', icon: '✍️' },
+			{ name: 'Images to PDF', href: '/pdf/images-to-pdf', description: 'Images to PDF converter online free. Combine multiple images into a single PDF. Choose page size and orientation—free image to PDF tool.', icon: '🖼️' }
+		]
+	},
+	{
 		name: 'Base64',
 		icon: '⚡',
 		description: 'Free Base64 encoder and decoder online. Encode text, files, and images to Base64 or decode Base64 strings instantly in your browser. No file uploads to servers—everything runs client-side.',
@@ -72,14 +89,14 @@ export const toolCategories: ToolCategory[] = [
 		icon: '🖼️',
 		description: 'Free online image tools to compress, resize, crop, and convert images. Extract colors, view EXIF metadata, and remove backgrounds—all processing happens in your browser, no uploads.',
 		items: [
-			{ name: 'Compressor', href: '/image/compressor', description: 'Online image compressor to reduce file size without losing quality. Compress JPEG, PNG, WebP images directly in your browser—free, no uploads.', icon: '📦' },
-			{ name: 'Remove White BG', href: '/image/remove-white', description: 'Remove white background online free. Make white or light backgrounds transparent instantly. Adjustable tolerance—works in your browser.', icon: '🧹' },
-			{ name: 'Resize / Scale', href: '/image/resize', description: 'Image resizer online free. Resize images by pixels or percentage with aspect ratio lock. Scale images instantly in your browser—no uploads.', icon: '📐' },
-			{ name: 'Crop', href: '/image/crop', description: 'Image cropper online free. Crop images with preset ratios (16:9, 4:3, 1:1) or freeform selection. Crop pictures instantly in your browser.', icon: '✂️' },
-			{ name: 'Format Converter', href: '/image/converter', description: 'Image format converter online. Convert images between JPEG, PNG, WebP, and GIF formats instantly. Free image converter in your browser.', icon: '🔄' },
-			{ name: 'Metadata Viewer', href: '/image/metadata', description: 'EXIF viewer online free. View image metadata: camera info, GPS location, date, settings. Option to strip EXIF data—works in your browser.', icon: '📋' },
-			{ name: 'Color Extractor', href: '/image/colors', description: 'Image color picker online. Extract dominant colors and color palette from images. Get hex codes for theming—free color extractor tool.', icon: '🎨' },
-			{ name: 'Blur / Pixelate', href: '/image/blur', description: 'Image blur tool online. Apply blur or pixelate effects to images. Preview in real-time, then download—free image privacy tool.', icon: '🔲' }
+			{ name: 'Image Compressor', href: '/image/compressor', description: 'Online image compressor to reduce file size without losing quality. Compress JPEG, PNG, WebP images directly in your browser—free, no uploads.', icon: '📦' },
+			{ name: 'Image BG Remover', href: '/image/remove-white', description: 'Remove white background online free. Make white or light backgrounds transparent instantly. Adjustable tolerance—works in your browser.', icon: '🧹' },
+			{ name: 'Image Resizer', href: '/image/resize', description: 'Image resizer online free. Resize images by pixels or percentage with aspect ratio lock. Scale images instantly in your browser—no uploads.', icon: '📐' },
+			{ name: 'Image Cropper', href: '/image/crop', description: 'Image cropper online free. Crop images with preset ratios (16:9, 4:3, 1:1) or freeform selection. Crop pictures instantly in your browser.', icon: '✂️' },
+			{ name: 'Image Format Converter', href: '/image/converter', description: 'Image format converter online. Convert images between JPEG, PNG, WebP, and GIF formats instantly. Free image converter in your browser.', icon: '🔄' },
+			{ name: 'Image Metadata Viewer', href: '/image/metadata', description: 'EXIF viewer online free. View image metadata: camera info, GPS location, date, settings. Option to strip EXIF data—works in your browser.', icon: '📋' },
+			{ name: 'Image Color Extractor', href: '/image/colors', description: 'Image color picker online. Extract dominant colors and color palette from images. Get hex codes for theming—free color extractor tool.', icon: '🎨' },
+			{ name: 'Image Blur', href: '/image/blur', description: 'Image blur tool online. Apply blur or pixelate effects to images. Preview in real-time, then download—free image privacy tool.', icon: '🔲' }
 		]
 	},
 	{

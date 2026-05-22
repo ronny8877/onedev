@@ -61,6 +61,8 @@
 		"js-yaml": "^4.1.1",
 		"jszip": "^3.10.1",
 		"nanoid": "^5.1.7",
+		"pdf-lib": "^1.17.1",
+		"pdfjs-dist": "^5.7.284",
 		"shiki": "^3.23.0",
 		"svelte-codemirror-editor": "^2.1.0",
 		"ulid": "^3.0.2",

@@ -3,6 +3,12 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script>
+			(function() {
+				var theme = localStorage.getItem('onedev-theme') || 'dark';
+				document.documentElement.setAttribute('data-theme', theme);
+			})();
+		</script>
 		<script defer src="https://umami.inyx.dev/script.js" data-website-id="e30eadb1-4fff-416f-a314-ccd529417e6f"></script>
 		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6428755652534745"
 			crossorigin="anonymous"></script>

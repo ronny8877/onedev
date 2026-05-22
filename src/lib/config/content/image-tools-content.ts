@@ -107,9 +107,9 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		],
 		relatedTools: [
 			{ name: 'Image Compressor', path: '/image/compressor', description: 'Reduce file size' },
-			{ name: 'Image Converter', path: '/image/converter', description: 'Convert formats' },
-			{ name: 'Image Crop', path: '/image/crop', description: 'Crop to dimensions' },
-			{ name: 'Image Metadata', path: '/image/metadata', description: 'View EXIF data' }
+			{ name: 'Image Format Converter', path: '/image/converter', description: 'Convert formats' },
+			{ name: 'Image Cropper', path: '/image/crop', description: 'Crop to dimensions' },
+			{ name: 'Image Metadata Viewer', path: '/image/metadata', description: 'View EXIF data' }
 		],
 		tips: [
 			'Downscale by 50% gradually for best quality',
@@ -200,10 +200,10 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 			}
 		],
 		relatedTools: [
-			{ name: 'Image Resize', path: '/image/resize', description: 'Change dimensions' },
-			{ name: 'Image Converter', path: '/image/converter', description: 'Convert formats' },
-			{ name: 'Image Metadata', path: '/image/metadata', description: 'Remove EXIF data' },
-			{ name: 'Remove Background', path: '/image/remove-white', description: 'Remove white backgrounds' }
+			{ name: 'Image Resizer', path: '/image/resize', description: 'Change dimensions' },
+			{ name: 'Image Format Converter', path: '/image/converter', description: 'Convert formats' },
+			{ name: 'Image Metadata Viewer', path: '/image/metadata', description: 'Remove EXIF data' },
+			{ name: 'Image BG Remover', path: '/image/remove-white', description: 'Remove white backgrounds' }
 		],
 		tips: [
 			'Use 85% quality for a good balance of size and quality',
@@ -293,10 +293,10 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 			}
 		],
 		relatedTools: [
-			{ name: 'Image Resize', path: '/image/resize', description: 'Change dimensions' },
+			{ name: 'Image Resizer', path: '/image/resize', description: 'Change dimensions' },
 			{ name: 'Image Compressor', path: '/image/compressor', description: 'Reduce file size' },
-			{ name: 'Image Converter', path: '/image/converter', description: 'Convert formats' },
-			{ name: 'Remove Background', path: '/image/remove-white', description: 'Remove backgrounds' }
+			{ name: 'Image Format Converter', path: '/image/converter', description: 'Convert formats' },
+			{ name: 'Image BG Remover', path: '/image/remove-white', description: 'Remove backgrounds' }
 		]
 	},
 
@@ -383,9 +383,9 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		],
 		relatedTools: [
 			{ name: 'Image Compressor', path: '/image/compressor', description: 'Compress after converting' },
-			{ name: 'Image Resize', path: '/image/resize', description: 'Resize dimensions' },
-			{ name: 'Remove Background', path: '/image/remove-white', description: 'Add transparency' },
-			{ name: 'Image Metadata', path: '/image/metadata', description: 'View/edit metadata' }
+			{ name: 'Image Resizer', path: '/image/resize', description: 'Resize dimensions' },
+			{ name: 'Image BG Remover', path: '/image/remove-white', description: 'Add transparency' },
+			{ name: 'Image Metadata Viewer', path: '/image/metadata', description: 'View/edit metadata' }
 		],
 		tips: [
 			'Use WebP for web—25-35% smaller than JPEG at same quality',
@@ -475,10 +475,10 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 			}
 		],
 		relatedTools: [
-			{ name: 'Image Crop', path: '/image/crop', description: 'Remove sensitive areas' },
+			{ name: 'Image Cropper', path: '/image/crop', description: 'Remove sensitive areas' },
 			{ name: 'Image Compressor', path: '/image/compressor', description: 'Compress blurred images' },
-			{ name: 'Image Metadata', path: '/image/metadata', description: 'Remove location data' },
-			{ name: 'Remove Background', path: '/image/remove-white', description: 'Isolate subjects' }
+			{ name: 'Image Metadata Viewer', path: '/image/metadata', description: 'Remove location data' },
+			{ name: 'Image BG Remover', path: '/image/remove-white', description: 'Isolate subjects' }
 		]
 	},
 
@@ -564,9 +564,9 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		],
 		relatedTools: [
 			{ name: 'Image Compressor', path: '/image/compressor', description: 'Compress edited images' },
-			{ name: 'Image Resize', path: '/image/resize', description: 'Resize for web' },
-			{ name: 'Image Converter', path: '/image/converter', description: 'Convert formats' },
-			{ name: 'Image Crop', path: '/image/crop', description: 'Crop composition' }
+			{ name: 'Image Resizer', path: '/image/resize', description: 'Resize for web' },
+			{ name: 'Image Format Converter', path: '/image/converter', description: 'Convert formats' },
+			{ name: 'Image Cropper', path: '/image/crop', description: 'Crop composition' }
 		]
 	},
 
@@ -653,9 +653,9 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		],
 		relatedTools: [
 			{ name: 'Image Compressor', path: '/image/compressor', description: 'Optionally remove EXIF' },
-			{ name: 'Image Converter', path: '/image/converter', description: 'Convert formats' },
+			{ name: 'Image Format Converter', path: '/image/converter', description: 'Convert formats' },
 			{ name: 'Image Blur', path: '/image/blur', description: 'Blur sensitive areas' },
-			{ name: 'Image Resize', path: '/image/resize', description: 'Resize images' }
+			{ name: 'Image Resizer', path: '/image/resize', description: 'Resize images' }
 		],
 		tips: [
 			'Remove GPS data before sharing photos publicly',
@@ -746,10 +746,10 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 			}
 		],
 		relatedTools: [
-			{ name: 'Image Converter', path: '/image/converter', description: 'Convert to PNG' },
-			{ name: 'Image Crop', path: '/image/crop', description: 'Crop before removal' },
+			{ name: 'Image Format Converter', path: '/image/converter', description: 'Convert to PNG' },
+			{ name: 'Image Cropper', path: '/image/crop', description: 'Crop before removal' },
 			{ name: 'Image Compressor', path: '/image/compressor', description: 'Compress PNGs' },
-			{ name: 'Image Resize', path: '/image/resize', description: 'Resize output' }
+			{ name: 'Image Resizer', path: '/image/resize', description: 'Resize output' }
 		]
 	}
 };
