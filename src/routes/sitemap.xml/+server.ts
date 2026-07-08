@@ -1,8 +1,12 @@
-import { getAllActiveTools, BASE_URL } from '$lib/config/tools';
+import { getAllActiveTools, getActiveCategories, getCategorySlug, BASE_URL } from '$lib/config/tools';
 
 export async function GET() {
 	const tools = getAllActiveTools();
-	
+	const categories = getActiveCategories();
+
+	// Static info/trust pages (good signals for search + ad review)
+	const staticPages = ['/about', '/privacy', '/contact', '/editorial-policy'];
+
 	const urls = [
 		// Homepage
 		`<url>
@@ -10,11 +14,23 @@ export async function GET() {
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>`,
+		// Category hub pages
+		...categories.map(category => `<url>
+    <loc>${BASE_URL}/${getCategorySlug(category)}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>`),
 		// All active tools
 		...tools.map(tool => `<url>
     <loc>${BASE_URL}${tool.href}</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>`),
+		// Info / trust pages
+		...staticPages.map(path => `<url>
+    <loc>${BASE_URL}${path}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>`)
 	];
 

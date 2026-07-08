@@ -1,5 +1,15 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import Examples from '$lib/components/content/Examples.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+	import { jwtToolsContent } from '$lib/config/content/jwt-tools-content';
+
+	const jwtContent = jwtToolsContent['size'];
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 
@@ -257,6 +267,18 @@
 					<li>• Cookies have a ~4KB limit if you're storing JWTs there</li>
 				</ul>
 			</div>
+		</div>
+		<!-- Content Sections -->
+		<div class="mt-12 space-y-6">
+			<Features features={jwtContent.features} />
+			<UseCases useCases={jwtContent.useCases} />
+			<ConceptExplainer title={jwtContent.concept.title} content={jwtContent.concept.content} />
+			<Examples examples={jwtContent.examples} />
+			<FAQSection faqs={jwtContent.faqs} />
+			{#if jwtContent.tips}
+				<Tips tips={jwtContent.tips} />
+			{/if}
+			<RelatedTools relatedTools={jwtContent.relatedTools} />
 		</div>
 	</div>
 </ToolWrapper>
