@@ -13,10 +13,10 @@
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = aiToolsContent['token-counter'];
-	import { CHAT_MODELS, getChatModel, calculateChatCost, formatCurrency, getProviderColor, formatNumber, getContextUsage, PRICING_LAST_UPDATED } from '$lib/config/ai-models';
+	import { CHAT_MODELS, getChatModel, calculateChatCost, formatCurrency, getProviderColor, formatNumber, getContextUsage, getTokenizerFactor, PRICING_LAST_UPDATED } from '$lib/config/ai-models';
 
 	let input = $state('');
-	let selectedModel = $state('gpt-4o');
+	let selectedModel = $state('gpt-5.4');
 	let showCost = $state(true);
 
 	const sampleText = `You are a helpful AI assistant. Your task is to analyze the following document and provide a comprehensive summary.
@@ -41,6 +41,7 @@ Please provide:
 		
 		const contextUsage = getContextUsage(tokens, selectedModel);
 		const cost = pricing ? calculateChatCost(selectedModel, tokens, 0) : null;
+		const tokenizerFactor = getTokenizerFactor(selectedModel);
 
 		return {
 			tokens,
@@ -53,7 +54,8 @@ Please provide:
 			contextUsage,
 			cost,
 			provider: model.provider,
-			inputPer1M: pricing?.inputPer1M || 0
+			inputPer1M: pricing?.inputPer1M || 0,
+			tokenizerFactor
 		};
 	});
 
@@ -177,6 +179,18 @@ Please provide:
 				</div>
 			</div>
 		</div>
+
+		<!-- Tokenizer Adjustment Note -->
+		{#if stats.tokenizerFactor !== 1}
+			<div class="alert bg-warning/10 border border-warning/30 text-sm">
+				<span>🔤</span>
+				<span>
+					<span class="font-semibold capitalize">{stats.provider}</span>'s tokenizer packs text more densely, using about
+					<span class="font-mono font-semibold">{Math.round((stats.tokenizerFactor - 1) * 100)}%</span>
+					more tokens than OpenAI's for the same input. Counts and costs shown here are adjusted to match.
+				</span>
+			</div>
+		{/if}
 
 		<!-- Context Usage Bar -->
 		<div class="card bg-base-200 rounded-xl p-4">

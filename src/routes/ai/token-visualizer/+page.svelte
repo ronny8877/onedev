@@ -2,7 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { getTokens, formatNumber } from '$lib/utils/tokenizer';
-	import { CHAT_MODELS } from '$lib/config/ai-models';
+	import { CHAT_MODELS, getChatModel, getTokenizerFactor } from '$lib/config/ai-models';
 	import type { TokenInfo } from '$lib/utils/tokenizer';
 	import { aiToolsContent } from '$lib/config/content/ai-tools-content';
 	import Features from '$lib/components/content/Features.svelte';
@@ -17,7 +17,7 @@
 	const content = aiToolsContent['token-visualizer'];
 
 	let input = $state('');
-	let selectedModel = $state('gpt-4o');
+	let selectedModel = $state('gpt-5.4');
 
 	const sampleText = `Hello, world! This is a demonstration of how AI models tokenize text. Each colored block represents one token.`;
 
@@ -34,6 +34,10 @@
 	let tokens = $derived.by(() => {
 		return getTokens(input, selectedModel);
 	});
+
+	let tokenizerFactor = $derived(getTokenizerFactor(selectedModel));
+	let adjustedCount = $derived(Math.round(tokens.length * tokenizerFactor));
+	let providerName = $derived(getChatModel(selectedModel)?.provider ?? 'openai');
 
 	// Tooltip state
 	let hoveredToken = $state<TokenInfo | null>(null);
@@ -114,6 +118,18 @@
 				</div>
 			{/if}
 		</div>
+
+		{#if tokenizerFactor !== 1 && tokens.length > 0}
+			<div class="alert bg-warning/10 border border-warning/30 text-sm">
+				<span>🔤</span>
+				<span>
+					The blocks below show OpenAI's BPE tokenization. <span class="font-semibold capitalize">{providerName}</span>'s
+					own tokenizer is denser — this text is closer to
+					<span class="font-mono font-semibold">{formatNumber(adjustedCount)} tokens</span> on that model
+					(~{Math.round((tokenizerFactor - 1) * 100)}% more).
+				</span>
+			</div>
+		{/if}
 
 		<!-- Input -->
 		<div>
