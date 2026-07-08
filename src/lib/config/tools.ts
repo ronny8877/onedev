@@ -40,16 +40,16 @@ export const toolCategories: ToolCategory[] = [
 		icon: '📄',
 		description: 'Free online PDF tools to view, split, merge, compress, and edit PDFs. Add watermarks and page numbers, redact content, compare PDFs, sign documents, and create PDFs from images—all processing happens in your browser, no file uploads.',
 		items: [
-			{ name: 'PDF Viewer', href: '/pdf/viewer', description: 'PDF viewer online free. View PDF files directly in your browser with page navigation and zoom. No uploads needed—view PDFs instantly.', icon: '👁️' },
-			{ name: 'PDF Splitter', href: '/pdf/split', description: 'PDF splitter online free. Extract specific pages or split PDF into individual pages. Select page ranges and download—free PDF split tool.', icon: '✂️' },
-			{ name: 'PDF Merger', href: '/pdf/merge', description: 'PDF merger online free. Combine multiple PDFs into one document. Drag to reorder pages—merge PDF files instantly in your browser.', icon: '🔗' },
-			{ name: 'PDF Compressor', href: '/pdf/compress', description: 'PDF compressor online free. Reduce PDF file size while maintaining quality. Optimize PDFs for email and web—free compression tool.', icon: '📦' },
-			{ name: 'PDF Watermark', href: '/pdf/watermark', description: 'PDF watermark tool online free. Add text or image watermarks to PDF pages. Customize opacity, position, and rotation—free watermark tool.', icon: '💧' },
-			{ name: 'PDF Page Numbers', href: '/pdf/page-numbers', description: 'Add page numbers to PDF online free. Number PDF pages with customizable position, font size, and starting number. Free page numbering tool.', icon: '🔢' },
-			{ name: 'PDF Redact', href: '/pdf/redact', description: 'PDF redaction tool online free. Permanently remove sensitive text and images from PDFs. Draw redaction rectangles—secure PDF redaction.', icon: '🖍️' },
-			{ name: 'PDF Compare', href: '/pdf/compare', description: 'PDF comparison tool online free. Compare two PDFs side by side and highlight differences. Find changes between PDF versions instantly.', icon: '⚖️' },
-			{ name: 'PDF Sign', href: '/pdf/sign', description: 'PDF signature tool online free. Draw or upload your signature and place it on PDF pages. Sign documents digitally—free PDF signer.', icon: '✍️' },
-			{ name: 'Images to PDF', href: '/pdf/images-to-pdf', description: 'Images to PDF converter online free. Combine multiple images into a single PDF. Choose page size and orientation—free image to PDF tool.', icon: '🖼️' }
+			{ name: 'PDF Viewer', href: '/pdf/viewer', description: 'View PDF files right in your browser with page navigation and zoom — nothing is uploaded.', icon: '👁️' },
+			{ name: 'PDF Splitter', href: '/pdf/split', description: 'Split a PDF or pull out specific pages by range, then download the result.', icon: '✂️' },
+			{ name: 'PDF Merger', href: '/pdf/merge', description: 'Combine several PDFs into one document and drag pages to reorder them before saving.', icon: '🔗' },
+			{ name: 'PDF Compressor', href: '/pdf/compress', description: 'Reduce PDF file size while keeping quality, so documents are easier to email or host.', icon: '📦' },
+			{ name: 'PDF Watermark', href: '/pdf/watermark', description: 'Add a text or image watermark to PDF pages, with control over opacity, position, and rotation.', icon: '💧' },
+			{ name: 'PDF Page Numbers', href: '/pdf/page-numbers', description: 'Add page numbers to a PDF with your choice of position, font size, and starting number.', icon: '🔢' },
+			{ name: 'PDF Redact', href: '/pdf/redact', description: 'Permanently remove sensitive text and images from a PDF by drawing redaction boxes.', icon: '🖍️' },
+			{ name: 'PDF Compare', href: '/pdf/compare', description: 'Compare two PDFs side by side and highlight what changed between versions.', icon: '⚖️' },
+			{ name: 'PDF Sign', href: '/pdf/sign', description: 'Draw or upload your signature and place it anywhere on a PDF to sign it.', icon: '✍️' },
+			{ name: 'Images to PDF', href: '/pdf/images-to-pdf', description: 'Combine multiple images into a single PDF, choosing page size and orientation.', icon: '🖼️' }
 		]
 	},
 	{
@@ -90,11 +90,11 @@ export const toolCategories: ToolCategory[] = [
 		description: 'Free online image tools to compress, resize, crop, and convert images. Extract colors, view EXIF metadata, and remove backgrounds—all processing happens in your browser, no uploads.',
 		items: [
 			{ name: 'Image Compressor', href: '/image/compressor', description: 'Online image compressor to reduce file size without losing quality. Compress JPEG, PNG, WebP images directly in your browser—free, no uploads.', icon: '📦' },
-			{ name: 'Image BG Remover', href: '/image/remove-white', description: 'Remove white background online free. Make white or light backgrounds transparent instantly. Adjustable tolerance—works in your browser.', icon: '🧹' },
-			{ name: 'Image Resizer', href: '/image/resize', description: 'Image resizer online free. Resize images by pixels or percentage with aspect ratio lock. Scale images instantly in your browser—no uploads.', icon: '📐' },
-			{ name: 'Image Cropper', href: '/image/crop', description: 'Image cropper online free. Crop images with preset ratios (16:9, 4:3, 1:1) or freeform selection. Crop pictures instantly in your browser.', icon: '✂️' },
+			{ name: 'Image BG Remover', href: '/image/remove-white', description: 'Make white or light image backgrounds transparent, with adjustable tolerance.', icon: '🧹' },
+			{ name: 'Image Resizer', href: '/image/resize', description: 'Resize images by pixels or percentage, with an optional aspect-ratio lock — no uploads.', icon: '📐' },
+			{ name: 'Image Cropper', href: '/image/crop', description: 'Crop images with preset ratios (16:9, 4:3, 1:1) or a freeform selection.', icon: '✂️' },
 			{ name: 'Image Format Converter', href: '/image/converter', description: 'Image format converter online. Convert images between JPEG, PNG, WebP, and GIF formats instantly. Free image converter in your browser.', icon: '🔄' },
-			{ name: 'Image Metadata Viewer', href: '/image/metadata', description: 'EXIF viewer online free. View image metadata: camera info, GPS location, date, settings. Option to strip EXIF data—works in your browser.', icon: '📋' },
+			{ name: 'Image Metadata Viewer', href: '/image/metadata', description: 'View image EXIF metadata — camera, GPS location, date, and settings — with an option to strip it.', icon: '📋' },
 			{ name: 'Image Color Extractor', href: '/image/colors', description: 'Image color picker online. Extract dominant colors and color palette from images. Get hex codes for theming—free color extractor tool.', icon: '🎨' },
 			{ name: 'Image Blur', href: '/image/blur', description: 'Image blur tool online. Apply blur or pixelate effects to images. Preview in real-time, then download—free image privacy tool.', icon: '🔲' }
 		]
@@ -121,7 +121,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Line Tools', href: '/text/line-tools', description: 'Line sorter and text tools online. Sort lines, remove duplicates, trim whitespace, reverse order. Manipulate text lines free in your browser.', icon: '📋' },
 			{ name: 'Text Diff', href: '/text/diff', description: 'Text diff checker online. Compare two text blocks line by line with highlighted additions and deletions. Free text comparison tool.', icon: '⚖️' },
 			{ name: 'Find & Replace', href: '/text/find-replace', description: 'Find and replace online with regex support. Search and replace text patterns, preview matches before applying. Free regex replace tool.', icon: '🔍' },
-			{ name: 'Word Count', href: '/text/statistics', description: 'Word counter online free. Count characters, words, sentences, paragraphs, and reading time. Text statistics and character count tool.', icon: '📊' },
+			{ name: 'Word Count', href: '/text/statistics', description: 'Count characters, words, sentences, paragraphs, and estimated reading time.', icon: '📊' },
 			{ name: 'Anagram Finder', href: '/text/anagram', description: 'Anagram solver online. Find all anagrams of a word or phrase with dictionary validation. Anagram generator free in your browser.', icon: '🔀' },
 			{ name: 'Remove Duplicates', href: '/text/remove-duplicates', description: 'Remove duplicate lines online. Delete duplicate words or lines from text while preserving order. Free duplicate remover tool.', icon: '✂️' },
 			{ name: 'Lorem Ipsum', href: '/text/lorem-ipsum', description: 'Lorem ipsum generator online. Generate placeholder text: paragraphs, sentences, or words. Create dummy text instantly free.', icon: '📄' },
@@ -148,11 +148,11 @@ export const toolCategories: ToolCategory[] = [
 		icon: '☕',
 		description: 'Take a break from coding with relaxation tools. Pomodoro timer for focus sessions, ambient sounds, breathing exercises, and calming visuals—free productivity and wellness tools.',
 		items: [
-			{ name: 'Pomodoro Timer', href: '/break/pomodoro', description: 'Pomodoro timer online free. Focus timer with 25/5 and 50/10 minute presets. Audio notifications to boost productivity—works in your browser.', icon: '🍅' },
-			{ name: 'Ambient Rest', href: '/break/ambient', description: 'Ambient sounds online for focus. Full-screen calm backgrounds with rain or café ambient sounds. Relax and recharge—free in your browser.', icon: '🌧️' },
-			{ name: 'Minimal Clock', href: '/break/clock', description: 'Fullscreen clock online. Large, distraction-free clock with analog or digital display options. Minimal clock for focus—free.', icon: '🕐' },
-			{ name: 'Zen Motion', href: '/break/zen-motion', description: 'Relaxing animation online. Nostalgic bouncing shape animation for resting your eyes. Zen screensaver for breaks—free in your browser.', icon: '📀' },
-			{ name: 'Breathing Timer', href: '/break/breathing', description: 'Breathing exercise timer online. Guided breathing with configurable inhale, hold, exhale cycles. Box breathing and 4-7-8 technique—free.', icon: '🌬️' }
+			{ name: 'Pomodoro Timer', href: '/break/pomodoro', description: 'A focus timer with 25/5 and 50/10 presets and a chime when each session ends.', icon: '🍅' },
+			{ name: 'Ambient Rest', href: '/break/ambient', description: 'Full-screen calm backgrounds with rain or café sounds to help you focus and recharge.', icon: '🌧️' },
+			{ name: 'Minimal Clock', href: '/break/clock', description: 'A large, distraction-free fullscreen clock with analog or digital display.', icon: '🕐' },
+			{ name: 'Zen Motion', href: '/break/zen-motion', description: 'A nostalgic bouncing-shape animation to rest your eyes between sessions.', icon: '📀' },
+			{ name: 'Breathing Timer', href: '/break/breathing', description: 'Guided breathing with configurable inhale, hold, and exhale — including box breathing and 4-7-8.', icon: '🌬️' }
 		]
 	},
 	{
@@ -160,15 +160,15 @@ export const toolCategories: ToolCategory[] = [
 		icon: '🔄',
 		description: 'Free unit converter tools online. Convert CSS units, lengths, screen resolutions, time, data sizes, angles, number bases, typography, and colors—instant conversion in your browser.',
 		items: [
-			{ name: 'CSS Units', href: '/convert/css-units', description: 'CSS unit converter online. Convert between px, rem, em, vw, vh, pt, and percentages. Calculate CSS units with live updates—free tool.', icon: '📐' },
-			{ name: 'Length', href: '/convert/length', description: 'Length converter online free. Convert mm, cm, inches, feet, meters, km, and pixels at any DPI. Unit converter for measurements.', icon: '📏' },
-			{ name: 'Screen / Resolution', href: '/convert/screen', description: 'Screen resolution calculator online. Calculate screen dimensions from resolution and DPI, or vice versa. PPI calculator free.', icon: '🖥️' },
-			{ name: 'Time', href: '/convert/time', description: 'Time converter online free. Convert milliseconds, seconds, minutes, hours, days. Human-readable time format converter.', icon: '⏱️' },
-			{ name: 'Data Size', href: '/convert/data-size', description: 'Data size converter online. Convert bytes, KB, MB, GB, TB. Supports decimal (SI) and binary (IEC) units—file size calculator free.', icon: '💾' },
-			{ name: 'Angle', href: '/convert/angle', description: 'Angle converter online free. Convert degrees, radians, gradians, turns. Visual arc preview—trigonometry angle calculator.', icon: '📐' },
-			{ name: 'Number Base', href: '/convert/number-base', description: 'Number base converter online. Convert between binary, decimal, hexadecimal, octal. Binary to hex converter with bit visualization—free.', icon: '🔢' },
-			{ name: 'Typography', href: '/convert/typography', description: 'Typography converter online. Convert px, pt, em, rem for fonts. Line-height calculator with font preview—free type scale tool.', icon: '🔤' },
-			{ name: 'Color', href: '/convert/color', description: 'Color converter online free. Convert between HEX, RGB, RGBA, HSL, HSLA, HSB. Live color preview—hex to RGB converter.', icon: '🎨' }
+			{ name: 'CSS Units', href: '/convert/css-units', description: 'Convert between px, rem, em, vw, vh, pt, and percentages, with live results.', icon: '📐' },
+			{ name: 'Length', href: '/convert/length', description: 'Convert between mm, cm, inches, feet, meters, km, and pixels at any DPI.', icon: '📏' },
+			{ name: 'Screen / Resolution', href: '/convert/screen', description: 'Work out screen dimensions, DPI, and PPI from a resolution — or the other way around.', icon: '🖥️' },
+			{ name: 'Time', href: '/convert/time', description: 'Convert between milliseconds, seconds, minutes, hours, and days in human-readable form.', icon: '⏱️' },
+			{ name: 'Data Size', href: '/convert/data-size', description: 'Convert between bytes, KB, MB, GB, and TB using decimal (SI) or binary (IEC) units.', icon: '💾' },
+			{ name: 'Angle', href: '/convert/angle', description: 'Convert between degrees, radians, gradians, and turns, with a visual arc preview.', icon: '📐' },
+			{ name: 'Number Base', href: '/convert/number-base', description: 'Convert between binary, decimal, hexadecimal, and octal, with a bit-by-bit view.', icon: '🔢' },
+			{ name: 'Typography', href: '/convert/typography', description: 'Convert px, pt, em, and rem for typography, and preview line-height and type scale.', icon: '🔤' },
+			{ name: 'Color', href: '/convert/color', description: 'Convert between HEX, RGB, RGBA, HSL, HSLA, and HSB, with a live color preview.', icon: '🎨' }
 		]
 	},
 	{
@@ -177,9 +177,9 @@ export const toolCategories: ToolCategory[] = [
 		description: 'Free CSS tools and generators online. Format CSS, generate animations, create flexbox and grid layouts, build gradients and shadows—visual CSS generators in your browser.',
 		items: [
 			{ name: 'Formatter', href: '/css/formatter', description: 'CSS formatter and beautifier online. Format CSS code with proper indentation. CSS pretty print and code beautifier—free in your browser.', icon: '✨' },
-			{ name: 'Minifier', href: '/css/minifier', description: 'CSS minifier online free. Compress CSS by removing whitespace and comments. Reduce CSS file size instantly—minify CSS code.', icon: '📦' },
+			{ name: 'Minifier', href: '/css/minifier', description: 'Compress CSS by stripping whitespace and comments to shrink file size.', icon: '📦' },
 			{ name: 'Prefix Cleaner', href: '/css/prefix-cleaner', description: 'CSS prefix remover online. Remove vendor prefixes (-webkit-, -moz-, -ms-, -o-). Clean up CSS autoprefixer output—free tool.', icon: '🧹' },
-			{ name: 'CSS Gradient Generator', href: '/css/gradient', description: 'CSS gradient generator online free. Create linear, radial, and conic gradients with visual editor. Multiple color stops, angle control, and live preview—free gradient maker.', icon: '🌈' },
+			{ name: 'CSS Gradient Generator', href: '/css/gradient', description: 'Create linear, radial, and conic gradients with a visual editor, multiple color stops, and live preview.', icon: '🌈' },
 			{ name: 'Transition', href: '/css/transition', description: 'CSS transition generator online. Create CSS transitions with live preview. Generate smooth animations—free transition builder.', icon: '🔄' },
 			{ name: 'Bezier Curve', href: '/css/bezier', description: 'CSS cubic-bezier editor online. Interactive curve editor for timing functions. Create custom easing—bezier curve generator free.', icon: '📈' },
 			{ name: 'Keyframes', href: '/css/keyframes', description: 'CSS keyframes generator online. Create @keyframes animations with editable stops. CSS animation builder—free keyframe editor.', icon: '🎬' },
@@ -224,18 +224,18 @@ export const toolCategories: ToolCategory[] = [
 		icon: '#️⃣',
 		description: 'Free hash generator and checksum tools online. Create MD5, SHA-256, SHA-512, CRC32 hashes from text or files. Verify file integrity, compare hashes, and identify hash types—all in your browser.',
 		items: [
-			{ name: 'Hash Generator', href: '/hash/generator', description: 'Hash generator online free. Generate MD5, SHA-1, SHA-256, SHA-512, CRC32 hashes from text or files. Multi-hash calculator in your browser.', icon: '🔐' },
-			{ name: 'MD5 Hash Online', href: '/hash/md5', description: 'MD5 hash generator online free. Create MD5 checksum from text or file. Fast MD5 calculator—generate MD5 hashes instantly.', icon: '🔒' },
-			{ name: 'SHA-256 Hash', href: '/hash/sha256', description: 'SHA-256 hash generator online free. Create secure 256-bit hashes from text or files. SHA256 checksum calculator instant.', icon: '🔒' },
-			{ name: 'SHA-512 Hash', href: '/hash/sha512', description: 'SHA-512 hash generator online free. Generate 512-bit hashes for maximum security. SHA512 checksum calculator—free tool.', icon: '🔒' },
-			{ name: 'SHA-1 Hash', href: '/hash/sha1', description: 'SHA-1 hash generator online. Create 160-bit SHA1 hashes—still used for git commits and file verification. Free SHA1 calculator.', icon: '🔒' },
-			{ name: 'CRC32 Checksum', href: '/hash/crc32', description: 'CRC32 checksum calculator online free. Quick cyclic redundancy check for file integrity. Generate CRC32 hash instantly.', icon: '✓' },
-			{ name: 'Hash Identifier', href: '/hash/identifier', description: 'Hash identifier online free. What hash is this? Detect if a hash is MD5, SHA-256, bcrypt, or other types. Identify hash algorithm.', icon: '🔍' },
-			{ name: 'Compare Hashes', href: '/hash/compare', description: 'Hash comparator online free. Compare two hashes with case-insensitive matching. Visual match indicator—verify hashes instantly.', icon: '⚖️' },
-			{ name: 'File Checksum', href: '/hash/file-checksum', description: 'File checksum verifier online. Verify downloaded file hash against expected value. Check file integrity—free checksum tool.', icon: '📁' },
-			{ name: 'Hash Lookup', href: '/hash/lookup', description: 'Hash lookup online free. Reverse hash lookup to check if MD5 or SHA-1 matches known values. Hash reverse lookup tool.', icon: '🔓' },
-			{ name: 'HMAC Generator', href: '/hash/hmac', description: 'HMAC generator online free. Generate HMAC-SHA256, HMAC-SHA512 keyed-hash authentication codes. HMAC calculator in your browser.', icon: '🔑' },
-			{ name: 'Hash Converter', href: '/hash/converter', description: 'Hash format converter online. Convert hash from hex to Base64, change case, add byte separators. Hash encoding converter free.', icon: '🔄' }
+			{ name: 'Hash Generator', href: '/hash/generator', description: 'Generate MD5, SHA-1, SHA-256, SHA-512, and CRC32 hashes from text or files, all in one place.', icon: '🔐' },
+			{ name: 'MD5 Hash Online', href: '/hash/md5', description: 'Create an MD5 checksum from text or a file with this fast MD5 calculator.', icon: '🔒' },
+			{ name: 'SHA-256 Hash', href: '/hash/sha256', description: 'Generate secure 256-bit SHA-256 hashes from text or files.', icon: '🔒' },
+			{ name: 'SHA-512 Hash', href: '/hash/sha512', description: 'Generate 512-bit SHA-512 hashes when you need maximum strength.', icon: '🔒' },
+			{ name: 'SHA-1 Hash', href: '/hash/sha1', description: 'Create 160-bit SHA-1 hashes, still handy for Git commits and file verification.', icon: '🔒' },
+			{ name: 'CRC32 Checksum', href: '/hash/crc32', description: 'Calculate a CRC32 checksum for quick file-integrity checks.', icon: '✓' },
+			{ name: 'Hash Identifier', href: '/hash/identifier', description: 'Not sure what a hash is? Detect whether it looks like MD5, SHA-256, bcrypt, or another type.', icon: '🔍' },
+			{ name: 'Compare Hashes', href: '/hash/compare', description: 'Compare two hashes with case-insensitive matching and a clear match indicator.', icon: '⚖️' },
+			{ name: 'File Checksum', href: '/hash/file-checksum', description: 'Verify a downloaded file hash against the expected value to confirm integrity.', icon: '📁' },
+			{ name: 'Hash Lookup', href: '/hash/lookup', description: 'Reverse-lookup an MD5 or SHA-1 hash to see if it matches a known value.', icon: '🔓' },
+			{ name: 'HMAC Generator', href: '/hash/hmac', description: 'Generate keyed HMAC-SHA256 and HMAC-SHA512 authentication codes.', icon: '🔑' },
+			{ name: 'Hash Converter', href: '/hash/converter', description: 'Convert a hash between hex and Base64, change its case, or add byte separators.', icon: '🔄' }
 		]
 	},
 	{
@@ -243,20 +243,20 @@ export const toolCategories: ToolCategory[] = [
 		icon: '🔀',
 		description: 'Free Git tools online for developers. Generate .gitignore files, format commit messages, create branch names, build Git commands, and scan for secrets—all in your browser.',
 		items: [
-			{ name: 'Gitignore Generator', href: '/git/gitignore', description: 'Gitignore generator online free. Create .gitignore files for Node, Python, Java, Go, Rust, and more. Combine multiple presets—download or copy instantly.', icon: '🚫' },
+			{ name: 'Gitignore Generator', href: '/git/gitignore', description: 'Create .gitignore files for Node, Python, Java, Go, Rust, and more — combine presets, then copy or download.', icon: '🚫' },
 			{ name: 'Commit Generator', href: '/git/commit-generator', description: 'Conventional commit generator online. Build formatted commit messages with type, scope, and description. Emoji support—create git commits instantly.', icon: '💬' },
 			{ name: 'Commit Validator', href: '/git/commit-validator', description: 'Commit message validator online. Validate against Conventional Commits spec with detailed error explanations. Check commit format free.', icon: '✓' },
 			{ name: 'Branch Generator', href: '/git/branch-generator', description: 'Git branch name generator online. Create feature, bugfix, hotfix branches with ticket IDs. Customizable prefix order—copy branch names instantly.', icon: '🌿' },
 			{ name: 'Workflow Guide', href: '/git/workflow', description: 'Git workflow cheat sheet online. Learn Git Flow, trunk-based development, and feature branching with visual diagrams. Free Git guide.', icon: '📋' },
-			{ name: 'Diff Viewer', href: '/git/diff-viewer', description: 'Git diff viewer online free. Compare text with side-by-side or inline diff. Syntax highlighting and whitespace ignore—view diffs instantly.', icon: '📊' },
+			{ name: 'Diff Viewer', href: '/git/diff-viewer', description: 'Compare text with a side-by-side or inline diff, with syntax highlighting and whitespace ignore.', icon: '📊' },
 			{ name: 'Log Formatter', href: '/git/log-formatter', description: 'Git log format generator online. Customize git log output with format placeholders. Generate pretty log commands—copy instantly.', icon: '📜' },
 			{ name: 'Git Blame Explainer', href: '/git/blame-explainer', description: 'Git blame explainer online. Paste git blame output and understand each field. Learn blame format visually—free educational tool.', icon: '🔍' },
 			{ name: 'Reset Helper', href: '/git/reset-helper', description: 'Git reset helper online. Understand soft, mixed, hard reset with visual diagrams. Generate reset commands safely—free Git tool.', icon: '⏪' },
 			{ name: 'Rebase Helper', href: '/git/rebase-helper', description: 'Git rebase guide online. Interactive rebase steps with visual explanation. Learn rebase commands—free Git rebase tool.', icon: '🔄' },
 			{ name: 'Config Generator', href: '/git/config-generator', description: 'Git config generator online. Generate git config commands for name, email, aliases, and settings. Configure Git easily—copy commands free.', icon: '⚙️' },
 			{ name: 'Alias Generator', href: '/git/alias-generator', description: 'Git alias generator online. Create common Git aliases like co, br, st. Custom alias builder—copy git alias commands free.', icon: '⌨️' },
-			{ name: 'README Generator', href: '/git/readme-generator', description: 'README generator online free. Create GitHub README with badges, sections, and templates. Markdown preview—download README.md instantly.', icon: '📄' },
-			{ name: 'License Picker', href: '/git/license-picker', description: 'License picker online free. Choose MIT, Apache, GPL with plain-English explanations. Generate LICENSE file—copy or download instantly.', icon: '📜' },
+			{ name: 'README Generator', href: '/git/readme-generator', description: 'Create a GitHub README with badges, sections, and templates, with a live Markdown preview and download.', icon: '📄' },
+			{ name: 'License Picker', href: '/git/license-picker', description: 'Choose a license (MIT, Apache, GPL) with plain-English explanations, then generate the LICENSE file.', icon: '📜' },
 			{ name: 'Secrets Scanner', href: '/git/secrets-scanner', description: 'Git secrets scanner online. Detect API keys, tokens, passwords in code. Client-side scanning—find secrets before committing.', icon: '🔐' },
 			{ name: 'Large File Detector', href: '/git/large-files', description: 'Large file detector online. Find files too big for Git. Get Git LFS recommendations—detect large files before pushing.', icon: '📦' }
 		]
@@ -266,9 +266,9 @@ export const toolCategories: ToolCategory[] = [
 		icon: '.*',
 		description: 'Free regex tools online to test, match, replace, and explain regular expressions. Build regex patterns, extract matches, and learn regex syntax—all in your browser with instant visual feedback.',
 		items: [
-			{ name: 'Regex Tester', href: '/regex/tester', description: 'Regex tester online free. Test regular expressions with live highlighting, flags toggle (g i m s u), and match count. Debug regex patterns instantly in your browser.', icon: '🧪' },
+			{ name: 'Regex Tester', href: '/regex/tester', description: 'Test regular expressions with live highlighting, flag toggles (g i m s u), and a match count.', icon: '🧪' },
 			{ name: 'Regex Matcher', href: '/regex/matcher', description: 'Regex match extractor online. Extract all matches and capture groups from text. Export matches as JSON, CSV, or plain list—free regex extraction tool.', icon: '🎯' },
-			{ name: 'Regex Replacer', href: '/regex/replacer', description: 'Regex replace online free. Find and replace with regular expressions. Live preview, capture group support ($1, $2)—regex find and replace tool.', icon: '🔄' },
+			{ name: 'Regex Replacer', href: '/regex/replacer', description: 'Find and replace with regular expressions, with live preview and capture-group support ($1, $2).', icon: '🔄' },
 			{ name: 'Regex Explainer', href: '/regex/explainer', description: 'Regex explainer online. Break down regex patterns into tokens with plain English explanations. Understand any regex visually—free regex breakdown tool.', icon: '📖' },
 			{ name: 'Regex Cheat Sheet', href: '/regex/cheatsheet', description: 'Regex cheat sheet online. Complete regex syntax reference with examples: character classes, quantifiers, anchors, groups, and flags. Free regex guide.', icon: '📋' }
 		]
@@ -278,7 +278,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: '🔐',
 		description: 'Free JWT decoder and tools online. Decode JSON Web Tokens, check expiration, view claims, generate test tokens, and analyze token size—all client-side in your browser.',
 		items: [
-			{ name: 'JWT Decoder', href: '/jwt/decoder', description: 'JWT decoder online free. Decode JWT header and payload instantly. View algorithm, claims, and expiration in pretty JSON format—no signature verification, client-side only.', icon: '🔓' },
+			{ name: 'JWT Decoder', href: '/jwt/decoder', description: 'Decode a JWT header and payload to view the algorithm, claims, and expiry as pretty JSON — decoding only, no signature verification.', icon: '🔓' },
 			{ name: 'Expiration Checker', href: '/jwt/expiration', description: 'JWT expiration checker online. Check if your JWT is expired, see time remaining, and view exp/iat/nbf timestamps in human-readable format with timezone support.', icon: '⏱️' },
 			{ name: 'Claims Viewer', href: '/jwt/claims', description: 'JWT claims viewer online. View and understand all JWT claims with descriptions. Highlights standard claims (iss, sub, aud, exp) and flags missing recommended claims.', icon: '📋' },
 			{ name: 'JWT Generator', href: '/jwt/generator', description: 'JWT generator online for testing. Create unsigned or demo JWT tokens for UI testing. NOT for production—generates test tokens with custom header and payload.', icon: '⚡' },
@@ -290,10 +290,10 @@ export const toolCategories: ToolCategory[] = [
 		icon: '🆔',
 		description: 'Free UUID and ID generator tools online. Generate UUID v4, v7, NanoID, and ULID. Validate UUIDs, detect versions, and create unique identifiers—all client-side in your browser.',
 		items: [
-			{ name: 'UUID Generator', href: '/id/uuid-generator', description: 'UUID generator online free. Generate UUID v4 (random) and v7 (time-ordered) with bulk generation up to 100. Copy, export as JSON—create UUIDs instantly.', icon: '🔑' },
-			{ name: 'UUID Validator', href: '/id/uuid-validator', description: 'UUID validator online free. Check if UUID is valid, detect version (v1-v7), and get detailed error explanations. Validate UUID format instantly.', icon: '✓' },
-			{ name: 'NanoID Generator', href: '/id/nanoid-generator', description: 'NanoID generator online free. Generate compact URL-safe unique IDs with custom length and alphabet. Collision probability info—create NanoIDs instantly.', icon: '⚡' },
-			{ name: 'ULID Generator', href: '/id/ulid-generator', description: 'ULID generator online free. Generate sortable unique IDs with timestamp component. See timestamp extraction and sorting demo—create ULIDs instantly.', icon: '📊' }
+			{ name: 'UUID Generator', href: '/id/uuid-generator', description: 'Generate UUID v4 (random) or v7 (time-ordered) in bulk, then copy or export as JSON.', icon: '🔑' },
+			{ name: 'UUID Validator', href: '/id/uuid-validator', description: 'Check whether a UUID is valid, detect its version (v1–v7), and see why one fails.', icon: '✓' },
+			{ name: 'NanoID Generator', href: '/id/nanoid-generator', description: 'Generate compact, URL-safe NanoIDs with a custom length and alphabet.', icon: '⚡' },
+			{ name: 'ULID Generator', href: '/id/ulid-generator', description: 'Generate sortable ULIDs with a timestamp component, and see how sorting works.', icon: '📊' }
 		]
 	},
 	{
@@ -301,10 +301,10 @@ export const toolCategories: ToolCategory[] = [
 		icon: '⏰',
 		description: 'Free cron expression tools online. Generate, explain, validate cron expressions. Calculate next run times with timezone support—all client-side in your browser.',
 		items: [
-			{ name: 'Cron Generator', href: '/cron/generator', description: 'Cron expression generator online free. Visual cron builder with presets. Generate 5-field or Quartz cron expressions—create cron schedules instantly.', icon: '🛠️' },
+			{ name: 'Cron Generator', href: '/cron/generator', description: 'Build 5-field or Quartz cron expressions with a visual builder and presets.', icon: '🛠️' },
 			{ name: 'Cron Explainer', href: '/cron/explainer', description: 'Cron expression explainer online. Convert cron to plain English with field breakdown. Understand any cron schedule—explain cron expressions free.', icon: '📖' },
 			{ name: 'Next Run Calculator', href: '/cron/next-run', description: 'Cron next run calculator online. Show next 10 scheduled runs with timezone support. DST-safe cron schedule preview—free cron calculator.', icon: '📅' },
-			{ name: 'Cron Validator', href: '/cron/validator', description: 'Cron expression validator online free. Validate cron syntax, check field ranges, get helpful error messages. Validate cron expressions instantly.', icon: '✓' },
+			{ name: 'Cron Validator', href: '/cron/validator', description: 'Validate cron syntax, check field ranges, and get helpful error messages.', icon: '✓' },
 			{ name: 'Cron Presets', href: '/cron/presets', description: 'Cron expression examples and presets. Copy-paste ready cron expressions for common schedules. Every minute, daily, weekly, monthly—cron cheat sheet.', icon: '📋' },
 			{ name: 'Human to Cron', href: '/cron/human', description: 'Natural language to cron converter online. Build cron expressions with dropdowns. Human-readable cron builder—convert schedule to cron free.', icon: '🔄' }
 		]
@@ -314,14 +314,14 @@ export const toolCategories: ToolCategory[] = [
 		icon: '📄',
 		description: 'Free YAML tools online. Validate, format, convert YAML. YAML to JSON converter, diff checker, linter—all client-side in your browser.',
 		items: [
-			{ name: 'YAML Validator', href: '/yaml/validator', description: 'YAML validator online free. Validate YAML syntax with line and column error reporting. Clear error messages—validate YAML files instantly.', icon: '✓' },
-			{ name: 'YAML Formatter', href: '/yaml/formatter', description: 'YAML formatter online free. Format and beautify YAML with configurable indentation. Prettify YAML—format YAML files instantly.', icon: '✨' },
-			{ name: 'YAML to JSON', href: '/yaml/to-json', description: 'YAML to JSON converter online free. Convert YAML to pretty JSON format. Copy or download—convert YAML to JSON instantly.', icon: '→' },
-			{ name: 'JSON to YAML', href: '/yaml/from-json', description: 'JSON to YAML converter online free. Convert JSON to clean YAML format. Indentation control—convert JSON to YAML instantly.', icon: '←' },
-			{ name: 'YAML Diff', href: '/yaml/diff', description: 'YAML diff checker online free. Compare YAML files side-by-side. Structural diff with change highlights—compare YAML instantly.', icon: '⇄' },
-			{ name: 'YAML Linter', href: '/yaml/linter', description: 'YAML linter online free. Check YAML for duplicate keys, indentation issues, trailing spaces. Lint YAML files instantly.', icon: '🔍' },
-			{ name: 'YAML Key Sorter', href: '/yaml/sorter', description: 'YAML key sorter online free. Sort YAML keys alphabetically with recursive option. Normalize YAML structure—sort keys instantly.', icon: '🔤' },
-			{ name: 'YAML to ENV', href: '/yaml/to-env', description: 'YAML to ENV converter online free. Flatten YAML to .env format. Custom separators—convert YAML to environment variables instantly.', icon: '📝' }
+			{ name: 'YAML Validator', href: '/yaml/validator', description: 'Validate YAML syntax with clear line-and-column error messages.', icon: '✓' },
+			{ name: 'YAML Formatter', href: '/yaml/formatter', description: 'Format and beautify YAML with the indentation you prefer.', icon: '✨' },
+			{ name: 'YAML to JSON', href: '/yaml/to-json', description: 'Convert YAML into clean, readable JSON and copy or download the result.', icon: '→' },
+			{ name: 'JSON to YAML', href: '/yaml/from-json', description: 'Convert JSON into tidy YAML, with control over indentation.', icon: '←' },
+			{ name: 'YAML Diff', href: '/yaml/diff', description: 'Compare two YAML files side by side with structural change highlighting.', icon: '⇄' },
+			{ name: 'YAML Linter', href: '/yaml/linter', description: 'Catch duplicate keys, indentation problems, and trailing spaces in YAML.', icon: '🔍' },
+			{ name: 'YAML Key Sorter', href: '/yaml/sorter', description: 'Sort YAML keys alphabetically, with an option to recurse into nested maps.', icon: '🔤' },
+			{ name: 'YAML to ENV', href: '/yaml/to-env', description: 'Flatten YAML into .env format, with custom separators for nested keys.', icon: '📝' }
 		]
 	},
 	{
@@ -329,11 +329,11 @@ export const toolCategories: ToolCategory[] = [
 		icon: '☸️',
 		description: 'Free Kubernetes tools online. Inspect K8s manifests, compare resources, generate Helm charts, check API deprecations—all client-side.',
 		items: [
-			{ name: 'K8s Inspector', href: '/k8s/inspector', description: 'Kubernetes YAML validator online free. Inspect K8s manifests, detect resource types, validate required fields. K8s YAML checker—analyze Kubernetes YAML instantly.', icon: '🔍' },
-			{ name: 'K8s Resource Diff', href: '/k8s/diff', description: 'Kubernetes manifest diff online free. Compare K8s YAML files with semantic diff. See added, removed, changed resources—K8s diff checker.', icon: '⇄' },
-			{ name: 'K8s Manifest Splitter', href: '/k8s/splitter', description: 'Kubernetes YAML splitter online free. Split multi-doc YAML into individual files. Download as ZIP—K8s manifest splitter.', icon: '✂️' },
-			{ name: 'K8s to Helm', href: '/k8s/helm', description: 'Kubernetes to Helm converter online free. Generate values.yaml and templates from K8s manifests. Convert K8s YAML to Helm chart.', icon: '⚓' },
-			{ name: 'K8s API Checker', href: '/k8s/api-checker', description: 'Kubernetes API deprecation checker online free. Check K8s manifests for deprecated or removed APIs by cluster version. K8s API version checker.', icon: '📋' }
+			{ name: 'K8s Inspector', href: '/k8s/inspector', description: 'Inspect Kubernetes manifests: detect resource types and check required fields.', icon: '🔍' },
+			{ name: 'K8s Resource Diff', href: '/k8s/diff', description: 'Compare Kubernetes manifests with a semantic diff of added, removed, and changed resources.', icon: '⇄' },
+			{ name: 'K8s Manifest Splitter', href: '/k8s/splitter', description: 'Split a multi-document YAML file into separate manifests and download them as a ZIP.', icon: '✂️' },
+			{ name: 'K8s to Helm', href: '/k8s/helm', description: 'Turn Kubernetes manifests into a Helm chart with generated values and templates.', icon: '⚓' },
+			{ name: 'K8s API Checker', href: '/k8s/api-checker', description: 'Check manifests for deprecated or removed Kubernetes APIs by cluster version.', icon: '📋' }
 		]
 	},
 	{
@@ -341,17 +341,17 @@ export const toolCategories: ToolCategory[] = [
 		icon: '🔒',
 		description: 'Free security tools online. CSP generator, CORS headers, password strength tester, HTTP status codes—all client-side.',
 		items: [
-			{ name: 'CSP Generator', href: '/security/csp', description: 'Content Security Policy generator online free. Build CSP directives visually, analyze policies, highlight unsafe rules. CSP builder.', icon: '🛡️' },
-			{ name: 'CORS Generator', href: '/security/cors', description: 'CORS header generator online free. Build Access-Control headers, select origins, methods. CORS configuration tool.', icon: '🌐' },
-			{ name: 'Password Tester', href: '/security/password', description: 'Password strength tester online free. Check password security with entropy, crack time, dictionary checks. 100% client-side.', icon: '🔑' },
-			{ name: 'HTTP Status Codes', href: '/security/http-status', description: 'HTTP status code reference online free. All status codes explained with examples. HTTP response codes cheat sheet.', icon: '📊' },
-			{ name: 'X-Frame-Options', href: '/security/x-frame', description: 'X-Frame-Options header explainer online free. Understand DENY, SAMEORIGIN for clickjacking protection. X-Frame-Options guide.', icon: '🖼️' },
-			{ name: 'Security Headers', href: '/security/headers', description: 'Security headers cheat sheet online free. All HTTP security headers explained with examples. Security headers reference.', icon: '📋' },
-			{ name: 'OWASP Top 10', href: '/security/owasp', description: 'OWASP Top 10 checklist online free. Interactive compliance tracker for web application security. OWASP 2021 reference with examples.', icon: '✓' },
-			{ name: 'Misconfig Detector', href: '/security/misconfig', description: 'Security misconfiguration detector online free. Analyze headers, config files for security issues. Find misconfigurations instantly.', icon: '⚠' },
+			{ name: 'CSP Generator', href: '/security/csp', description: 'Build a Content Security Policy visually and get warnings about unsafe directives.', icon: '🛡️' },
+			{ name: 'CORS Generator', href: '/security/cors', description: 'Assemble Access-Control headers by choosing origins, methods, and options.', icon: '🌐' },
+			{ name: 'Password Tester', href: '/security/password', description: 'Check password strength with entropy, estimated crack time, and dictionary checks — entirely in your browser.', icon: '🔑' },
+			{ name: 'HTTP Status Codes', href: '/security/http-status', description: 'A quick reference to every HTTP status code, explained with examples.', icon: '📊' },
+			{ name: 'X-Frame-Options', href: '/security/x-frame', description: 'Understand X-Frame-Options and how DENY and SAMEORIGIN help prevent clickjacking.', icon: '🖼️' },
+			{ name: 'Security Headers', href: '/security/headers', description: 'A cheat sheet of HTTP security headers, each explained with examples.', icon: '📋' },
+			{ name: 'OWASP Top 10', href: '/security/owasp', description: 'An interactive checklist for tracking OWASP Top 10 (2021) coverage, with examples.', icon: '✓' },
+			{ name: 'Misconfig Detector', href: '/security/misconfig', description: 'Scan headers and config files for common security misconfigurations.', icon: '⚠' },
 			{ name: 'Headers Checklist', href: '/security/headers-checklist', description: 'Secure headers implementation checklist. Framework-specific snippets for NGINX, Apache, Node. Security headers setup guide.', icon: '☑' },
 			{ name: 'Password Storage', href: '/security/password-storage', description: 'Password storage best practices generator. Algorithm recommendations, salt, pepper, cost factors. Secure password hashing guide.', icon: '🔐' },
-			{ name: 'Threat Model', href: '/security/threat-model', description: 'Web app threat model generator online free. STRIDE-style threat analysis with risk levels. Quick threat modeling tool.', icon: '⚡' }
+			{ name: 'Threat Model', href: '/security/threat-model', description: 'Run a quick STRIDE-style threat model with risk levels for your web app.', icon: '⚡' }
 		]
 	}
 ];
