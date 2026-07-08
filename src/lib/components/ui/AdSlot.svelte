@@ -43,16 +43,9 @@
 
 {#if ADS_ENABLED && AD_PROVIDER !== 'none'}
 	<aside class="ad-slot my-4 w-full {className}" aria-label="Advertisement">
-		<div class="mb-1 text-center text-[10px] font-medium uppercase tracking-widest text-base-content/30">
-			Advertisement
-		</div>
 		{#if showPlaceholder}
-			<div
-				class="flex items-center justify-center rounded-xl border border-dashed border-base-300 bg-base-200/40 text-xs text-base-content/40"
-				style="min-height: {minHeight}px"
-			>
-				<span class="font-mono">Ad space · {name}</span>
-			</div>
+			<!-- Reserved, intentionally empty space until a live unit is configured -->
+			<div style="min-height: {minHeight}px" aria-hidden="true"></div>
 		{:else if AD_PROVIDER === 'google' && google}
 			<ins
 				class="adsbygoogle block"
@@ -60,7 +53,7 @@
 				data-ad-client={GOOGLE_AD_CLIENT}
 				data-ad-slot={google.slot}
 				data-ad-format={google.format ?? 'auto'}
-				data-full-width-responsive={google.responsive ? 'true' : 'false'}
+				data-full-width-responsive={google.responsive ? 'true' : undefined}
 			></ins>
 		{/if}
 		<!--
