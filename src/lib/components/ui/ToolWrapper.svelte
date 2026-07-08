@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { BASE_URL, getToolByPath } from '$lib/config/tools';
 	import JsonLd from '$lib/components/content/JsonLd.svelte';
+	import AdSlot from '$lib/components/ui/AdSlot.svelte';
 
 	interface Props {
 		title?: string;
@@ -127,8 +128,14 @@
 		{/if}
 	</div>
 
+	<!-- Top leaderboard ad -->
+	<AdSlot name="tool-top" minHeight={90} class="mt-0 mb-6" />
+
 	<!-- Tool Content -->
 	<div class="flex-1">
 		{@render children()}
 	</div>
+
+	<!-- Bottom ad -->
+	<AdSlot name="tool-bottom" minHeight={250} class="mt-8" />
 </div>
