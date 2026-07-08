@@ -1,6 +1,6 @@
 // AI Models Configuration
 // Centralized configuration for all AI model data
-// Last updated: May 7, 2026
+// Last updated: July 8, 2026
 //
 // ⚠️ UPDATE THIS FILE when model pricing changes
 // Check provider websites for current rates:
@@ -11,7 +11,7 @@
 // - DeepSeek: https://api-docs.deepseek.com/quick_start/pricing
 // - Moonshot (Kimi): https://platform.moonshot.ai/
 
-export const PRICING_LAST_UPDATED = '2026-05-07';
+export const PRICING_LAST_UPDATED = '2026-07-08';
 
 // ============================================================
 // CHAT/COMPLETION MODELS
@@ -32,6 +32,11 @@ export interface ChatModel {
 	speedCategory?: 'fast' | 'balanced' | 'slow'; // Speed category
 	reasoning?: boolean; // Reasoning capability
 	apiAvailability?: boolean; // API availability
+	// Tokenizer adjustment factor relative to the OpenAI BPE tokenizer used for
+	// counting (gpt-tokenizer). Providers with a denser/different tokenizer emit
+	// more tokens for the same text, which increases real cost. Defaults to 1.
+	// e.g. Anthropic's Claude 4.7 tokenizer uses ~35% more tokens => 1.35.
+	tokenizerFactor?: number;
 	notes?: string;
 }
 
@@ -123,6 +128,23 @@ export const CHAT_MODELS: ChatModel[] = [
 		reasoning: true,
 		apiAvailability: true,
 		notes: 'Premium tier of GPT-5.5 family. For workloads where accuracy outweighs cost. Batch/Flex at 50% off.'
+	},
+	{
+		name: 'gpt-5.5-mini',
+		displayName: 'GPT-5.5 Mini',
+		provider: 'openai',
+		contextWindow: 400000,
+		maxOutput: 64000,
+		inputPer1M: 0.90,
+		outputPer1M: 5.40,
+		cachedInputPer1M: 0.09,
+		multimodal: true,
+		releaseDate: '2026-05',
+		strengths: 'High-throughput agentic workloads, chat, coding at scale with reasoning',
+		speedCategory: 'fast',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Released May 2026. Cost-efficient reasoning member of the GPT-5.5 family. ~6x cheaper than GPT-5.5 Standard at similar throughput.'
 	},
 	// GPT-4.1 family — long-context specialist, released April 2025
 	{
@@ -263,7 +285,26 @@ export const CHAT_MODELS: ChatModel[] = [
 		speedCategory: 'slow',
 		reasoning: true,
 		apiAvailability: true,
-		notes: 'Released Apr 16, 2026. 87.6% SWE-bench Verified, 64.3% Terminal-Bench 2.0. New xhigh effort level. 3.75MP vision (3x previous). Task budgets beta. Note: new tokenizer uses up to 35% more tokens vs Opus 4.6.'
+		tokenizerFactor: 1.35,
+		notes: 'Released Apr 16, 2026. 87.6% SWE-bench Verified, 64.3% Terminal-Bench 2.0. New xhigh effort level. 3.75MP vision (3x previous). Task budgets beta. New tokenizer emits up to ~35% more tokens vs Opus 4.6, raising effective cost — token/cost estimates here are adjusted accordingly.'
+	},
+	{
+		name: 'claude-sonnet-4-7',
+		displayName: 'Claude Sonnet 4.7',
+		provider: 'anthropic',
+		contextWindow: 1000000,
+		maxOutput: 64000,
+		inputPer1M: 3.30,
+		outputPer1M: 16.50,
+		cachedInputPer1M: 0.33,
+		multimodal: true,
+		releaseDate: '2026-05',
+		strengths: 'Balanced agentic coding, tool use, long-context reasoning at mid-tier price',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		tokenizerFactor: 1.35,
+		notes: 'Released May 2026. Sonnet tier of the Claude 4.7 generation. Uses the same new tokenizer as Opus 4.7 (~35% more tokens than 4.6), so token/cost estimates are adjusted. 1M context flat-rate.'
 	},
 	// Claude 4.6 family — previous generation, still widely used
 	{
@@ -370,6 +411,23 @@ export const CHAT_MODELS: ChatModel[] = [
 		reasoning: true,
 		apiAvailability: true,
 		notes: 'Latest flagship. 77.1% ARC-AGI-2. Pricing doubles above 200K tokens ($4/$18).'
+	},
+	{
+		name: 'gemini-3.1-flash',
+		displayName: 'Gemini 3.1 Flash',
+		provider: 'google',
+		contextWindow: 1048576,
+		maxOutput: 65536,
+		inputPer1M: 0.40,
+		outputPer1M: 3.00,
+		cachedInputPer1M: 0.10,
+		multimodal: true,
+		releaseDate: '2026-05',
+		strengths: 'Best price-to-performance in the Gemini 3.x line, fast multimodal reasoning, 1M context',
+		speedCategory: 'fast',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Released May 2026. Flash tier of Gemini 3.1 with configurable thinking. Flat pricing regardless of context length.'
 	},
 	// Gemini 2.5 — proven generation
 	{
@@ -563,6 +621,23 @@ export const CHAT_MODELS: ChatModel[] = [
 		reasoning: false,
 		apiAvailability: true,
 		notes: '2M context is unique at this price tier. Prompt caching included automatically.'
+	},
+	{
+		name: 'grok-4.1',
+		displayName: 'Grok 4.1',
+		provider: 'x',
+		contextWindow: 256000,
+		maxOutput: 32768,
+		inputPer1M: 3.00,
+		outputPer1M: 15.00,
+		cachedInputPer1M: 0.75,
+		multimodal: true,
+		releaseDate: '2026-05',
+		strengths: 'Reasoning, real-time X/web data, agentic tool use, science & math',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Released May 2026. Full-size upgrade over Grok 4 with reasoning and prompt caching. OpenAI-compatible API format.'
 	},
 	{
 		name: 'grok-3',
@@ -809,6 +884,15 @@ export interface EmbeddingModel {
 
 export const EMBEDDING_MODELS: EmbeddingModel[] = [
 	{
+		name: 'text-embedding-4-large',
+		displayName: 'text-embedding-4-large',
+		provider: 'openai',
+		dimensions: 4096,
+		maxTokens: 32768,
+		pricePerMillion: 0.15,
+		notes: 'Released 2026. Higher-dimensional successor to the v3 series with a longer input window.'
+	},
+	{
 		name: 'text-embedding-3-large',
 		displayName: 'text-embedding-3-large',
 		provider: 'openai',
@@ -842,6 +926,15 @@ export const EMBEDDING_MODELS: EmbeddingModel[] = [
 		pricePerMillion: 0.10
 	},
 	{
+		name: 'gemini-embedding-001',
+		displayName: 'Gemini Embedding 001',
+		provider: 'google',
+		dimensions: 3072,
+		maxTokens: 2048,
+		pricePerMillion: 0.15,
+		notes: 'Released 2026. Matryoshka dimensions (truncatable to 1536/768). Successor to text-embedding-004.'
+	},
+	{
 		name: 'text-embedding-004',
 		displayName: 'Gemini Text Embedding',
 		provider: 'google',
@@ -861,6 +954,11 @@ export function getChatModel(name: string): ChatModel | undefined {
 
 export function getEmbeddingModel(name: string): EmbeddingModel | undefined {
 	return EMBEDDING_MODELS.find((m) => m.name === name);
+}
+
+// Tokenizer adjustment factor for a model (defaults to 1 when unknown/unset).
+export function getTokenizerFactor(modelName: string): number {
+	return getChatModel(modelName)?.tokenizerFactor ?? 1;
 }
 
 export function calculateChatCost(

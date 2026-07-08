@@ -13,9 +13,9 @@
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = aiToolsContent['cost-estimator'];
-	import { CHAT_MODELS, getChatModel, calculateChatCost, formatCurrency, getProviderColor, formatNumber, PRICING_LAST_UPDATED } from '$lib/config/ai-models';
+	import { CHAT_MODELS, getChatModel, calculateChatCost, formatCurrency, getProviderColor, formatNumber, getTokenizerFactor, PRICING_LAST_UPDATED } from '$lib/config/ai-models';
 
-	let selectedModel = $state('gpt-4o');
+	let selectedModel = $state('gpt-5.4');
 	let inputTokens = $state(1000);
 	let outputTokens = $state(500);
 	let batchSize = $state(1);
@@ -56,6 +56,7 @@
 			inputPer1M: pricing?.inputPer1M || 0,
 			outputPer1M: pricing?.outputPer1M || 0,
 			provider: pricing?.provider || 'openai',
+			tokenizerFactor: getTokenizerFactor(selectedModel),
 			comparisons
 		};
 	});
@@ -130,6 +131,18 @@
 				Output: <span class="font-mono font-medium">${stats.outputPer1M}/1M</span>
 			</span>
 		</div>
+
+		<!-- Tokenizer Adjustment Note -->
+		{#if stats.tokenizerFactor !== 1}
+			<div class="alert bg-warning/10 border border-warning/30 text-sm">
+				<span>🔤</span>
+				<span>
+					<span class="font-semibold capitalize">{stats.provider}</span>'s tokenizer uses about
+					<span class="font-mono font-semibold">{Math.round((stats.tokenizerFactor - 1) * 100)}%</span>
+					more tokens than OpenAI's. In <span class="font-semibold">Paste Text</span> mode token counts (and cost) are adjusted automatically; in manual mode, remember your real token counts will be higher for this model.
+				</span>
+			</div>
+		{/if}
 
 		<!-- Input Mode Toggle -->
 		<div class="flex gap-2">

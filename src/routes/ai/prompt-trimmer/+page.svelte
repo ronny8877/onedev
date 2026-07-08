@@ -19,7 +19,7 @@
 
 	let input = $state('');
 	let targetTokens = $state(1000);
-	let selectedModel = $state('gpt-4o');
+	let selectedModel = $state('gpt-5.4');
 	let trimMode = $state<TrimMode>('sentence');
 	let trimFromEnd = $state(true);
 

@@ -18,7 +18,7 @@
 	let systemMessage = $state('');
 	let userPrompt = $state('');
 	let chatHistory = $state('');
-	let selectedModel = $state('gpt-4o');
+	let selectedModel = $state('gpt-5.4');
 	
 	let customContextWindow = $state(128000);
 	let customMaxOutput = $state(8192);

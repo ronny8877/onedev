@@ -3,26 +3,30 @@
 // Model configurations are in $lib/config/ai-models.ts
 
 import { encode, decode } from 'gpt-tokenizer';
-import { CHAT_MODELS, type ChatModel } from '$lib/config/ai-models';
+import { CHAT_MODELS, getTokenizerFactor, type ChatModel } from '$lib/config/ai-models';
 
 // Re-export for convenience
 export { CHAT_MODELS, type ChatModel };
-export { formatNumber, getContextUsage } from '$lib/config/ai-models';
+export { formatNumber, getContextUsage, getTokenizerFactor } from '$lib/config/ai-models';
 
 // Get model config by name
 export function getModelConfig(modelName: string): ChatModel {
 	return CHAT_MODELS.find((m) => m.name === modelName) || CHAT_MODELS[0];
 }
 
-// Count tokens for a given text and model
+// Count tokens for a given text and model.
+// The base count comes from OpenAI's BPE tokenizer; for providers with a denser
+// tokenizer (e.g. Anthropic's new Claude 4.7 tokenizer) the count is scaled by the
+// model's tokenizerFactor so estimates and costs reflect real token usage.
 export function countTokens(text: string, modelName: string = 'gpt-4o'): number {
 	if (!text) return 0;
+	const factor = getTokenizerFactor(modelName);
 	try {
 		const tokens = encode(text, { allowedSpecial: 'all' });
-		return tokens.length;
+		return Math.round(tokens.length * factor);
 	} catch {
 		// Fallback: rough estimate (4 chars per token on average)
-		return Math.ceil(text.length / 4);
+		return Math.round((text.length / 4) * factor);
 	}
 }
 
