@@ -33,11 +33,12 @@ export interface GoogleSlot {
 	responsive?: boolean; // data-full-width-responsive
 }
 
-// Placeholder ids (prefixed with REPLACE_) render a labeled empty box instead
-// of a live unit, so the layout is visible before real slot ids exist.
+// Placeholder ids (prefixed with REPLACE_) render an empty reserved space
+// instead of a live unit, so the layout is preserved before real ids exist.
 const googleSlots: Record<AdSlotName, GoogleSlot> = {
 	'tool-top': { slot: 'REPLACE_WITH_TOP_SLOT_ID', format: 'auto', responsive: true },
-	'tool-bottom': { slot: 'REPLACE_WITH_BOTTOM_SLOT_ID', format: 'auto', responsive: true }
+	// Multiplex / "autorelaxed" unit — a content-grid ad suited to the end of a page.
+	'tool-bottom': { slot: '2572937418', format: 'autorelaxed' }
 };
 
 export function getGoogleSlot(name: AdSlotName): GoogleSlot {
