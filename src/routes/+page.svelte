@@ -23,10 +23,10 @@
 </script>
 
 <svelte:head>
-	<title>OneDev Tools — 160+ Free Developer Tools | JSON, Base64, AI, URL Utilities</title>
+	<title>OneDev Tools — 170+ Free Developer Tools | JSON, Base64, AI, URL Utilities</title>
 	<meta
 		name="description"
-		content="160+ free online developer tools. JSON formatter, Base64 encoder, URL encoder, hash generator, AI token counter, regex tester, CSS generators, and more. No signup — everything runs in your browser."
+		content="170+ free online developer tools. JSON formatter, Base64 encoder, URL encoder, hash generator, AI token counter, regex tester, CSS generators, and more. No signup — everything runs in your browser."
 	/>
 	<meta name="keywords" content="developer tools, JSON formatter, JSON validator, Base64 encoder, Base64 decoder, URL encoder, URL decoder, query string parser, URL builder, slug generator, free online tools, privacy-focused tools" />
 	<meta name="author" content="OneDev Tools" />
