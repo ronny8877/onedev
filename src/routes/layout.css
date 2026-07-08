@@ -47,6 +47,12 @@ body {
   @apply rounded-xl;
 }
 
+/* Collapse AdSense units that don't get filled (e.g. while site approval is
+   pending or no ad is available) so they don't leave a blank reserved box. */
+ins.adsbygoogle[data-ad-status='unfilled'] {
+  display: none !important;
+}
+
 /* Code Editor Textarea */
 .code-editor {
   @apply font-mono text-sm leading-relaxed resize-none border-0 min-h-96;
