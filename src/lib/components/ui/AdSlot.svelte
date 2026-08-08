@@ -12,7 +12,9 @@
 
 	interface Props {
 		name: AdSlotName;
-		/** Reserved height (px) to avoid layout shift while the ad loads. */
+		/** Height (px) for the dev/unconfigured placeholder box only. Live ads are
+		 * not given a reserved height so an unfilled ad collapses to nothing
+		 * instead of leaving a blank box (no reserve-then-hide layout shift). */
 		minHeight?: number;
 		class?: string;
 	}
@@ -47,9 +49,11 @@
 			<!-- Reserved, intentionally empty space until a live unit is configured -->
 			<div style="min-height: {minHeight}px" aria-hidden="true"></div>
 		{:else if AD_PROVIDER === 'google' && google}
+			<!-- No reserved height: an unfilled ad stays collapsed (0px) rather than
+			     showing a blank box that later hides. A filled ad expands on its own. -->
 			<ins
 				class="adsbygoogle block"
-				style="display: block; min-height: {minHeight}px"
+				style="display: block"
 				data-ad-client={GOOGLE_AD_CLIENT}
 				data-ad-slot={google.slot}
 				data-ad-format={google.format ?? 'auto'}
