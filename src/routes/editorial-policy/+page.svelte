@@ -21,7 +21,7 @@
 			Transparency
 		</div>
 		<h1 class="text-4xl font-bold tracking-tight text-base-content mb-3">Editorial Policy</h1>
-		<p class="text-sm text-base-content/50 mb-4">Last updated: May 7, 2026</p>
+		<p class="text-sm text-base-content/50 mb-4">Last updated: August 16, 2026</p>
 		<p class="text-base-content/70 leading-relaxed">
 			This policy explains how OneDev Tools maintains the accuracy, quality, and integrity of the content and tools published on this site.
 		</p>
@@ -121,7 +121,7 @@
 		<section>
 			<h2 class="text-xl font-bold text-base-content">7. Advertising Independence</h2>
 			<p>
-				OneDev Tools uses Google AdSense for advertising revenue. Advertising relationships have no influence on which tools we build, what content we publish, or how we evaluate or describe any technology or service. We do not accept sponsored content, paid reviews, or affiliate-driven tool recommendations.
+				Advertising relationships have no influence on which tools we build, what content we publish, or how we evaluate or describe any technology or service. We do not accept sponsored content, paid reviews, or affiliate-driven tool recommendations.
 			</p>
 		</section>
 
