@@ -487,64 +487,36 @@ export function identifyHashType(hash: string): HashTypeGuess[] {
 	return results;
 }
 
-// Common password dictionary for hash lookup
-// This is a small sample - users can upload larger lists
-export const COMMON_PASSWORDS = [
-	'password', '123456', '12345678', 'qwerty', 'abc123', 'monkey', '1234567',
-	'letmein', 'trustno1', 'dragon', 'baseball', 'iloveyou', 'master', 'sunshine',
-	'ashley', 'bailey', 'passw0rd', 'shadow', '123123', '654321', 'superman',
-	'qazwsx', 'michael', 'football', 'password1', 'password123', '1234567890',
-	'000000', '111111', '121212', '123456789', '1qaz2wsx', 'access', 'admin',
-	'azerty', 'batman', 'charlie', 'donald', 'flower', 'freedom', 'hello',
-	'hottie', 'jesus', 'killer', 'login', 'loveme', 'master123', 'ninja',
-	'passw0rd', 'princess', 'qwerty123', 'solo', 'starwars', 'welcome',
-	'whatever', 'zaq1zaq1', '!@#$%^&*', '000000', '102030', '11111111',
-	'123321', '123qwe', '1q2w3e', '1q2w3e4r', '1q2w3e4r5t', '2000', '555555',
-	'654321', '666666', '696969', '7777777', '888888', '999999', 'aa123456',
-	'abc123', 'access', 'amanda', 'andrew', 'anthony', 'asdfgh', 'asdfghjkl',
-	'austin', 'bandit', 'blink182', 'buster', 'changeme', 'cheese', 'chocolate',
-	'computer', 'cookie', 'corvette', 'daniel', 'football', 'ginger', 'guitar',
-	'hannah', 'harley', 'heather', 'hockey', 'hunter', 'jackson', 'jasmine',
-	'jennifer', 'jessica', 'jordan', 'joshua', 'justin', 'maggie', 'matthew',
-	'melissa', 'michelle', 'morgan', 'mustang', 'nicole', 'orange', 'pepper',
-	'ranger', 'richard', 'robert', 'samsung', 'secret', 'soccer', 'sparky',
-	'summer', 'taylor', 'thomas', 'thunder', 'tigger', 'toyota', 'william', 'yankees'
+// Published inputs from RFC 1321 (MD5) and common FIPS 180 examples.
+// Used to check that a hasher matches known test vectors, not to guess passwords.
+export const HASH_TEST_VECTOR_INPUTS = [
+	'',
+	'a',
+	'abc',
+	'message digest',
+	'abcdefghijklmnopqrstuvwxyz',
+	'abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq',
+	'The quick brown fox jumps over the lazy dog',
+	'The quick brown fox jumps over the lazy dog.'
 ];
 
-// Hash lookup against dictionary
-export async function lookupHash(
+export async function matchPublishedTestVector(
 	hash: string,
-	algorithm: HashAlgorithm,
-	dictionary: string[] = COMMON_PASSWORDS,
-	onProgress?: (checked: number, total: number) => void
-): Promise<{ found: boolean; plaintext?: string; checked: number }> {
+	algorithm: HashAlgorithm
+): Promise<{ found: boolean; plaintext?: string; label?: string; checked: number }> {
 	const normalizedHash = hash.toLowerCase().trim();
-	const total = dictionary.length;
+	const total = HASH_TEST_VECTOR_INPUTS.length;
 
-	for (let i = 0; i < dictionary.length; i++) {
-		const word = dictionary[i];
-		const result = await hashText(word, algorithm);
-
+	for (let i = 0; i < HASH_TEST_VECTOR_INPUTS.length; i++) {
+		const input = HASH_TEST_VECTOR_INPUTS[i];
+		const result = await hashText(input, algorithm);
 		if (result.hex.toLowerCase() === normalizedHash) {
-			return { found: true, plaintext: word, checked: i + 1 };
-		}
-
-		// Report progress every 100 words
-		if (i % 100 === 0 && onProgress) {
-			onProgress(i, total);
+			const label = input === '' ? '(empty string)' : `"${input}"`;
+			return { found: true, plaintext: input, label, checked: i + 1 };
 		}
 	}
 
-	onProgress?.(total, total);
 	return { found: false, checked: total };
-}
-
-// Parse wordlist from text file
-export function parseWordlist(text: string): string[] {
-	return text
-		.split(/\r?\n/)
-		.map((line) => line.trim())
-		.filter((line) => line.length > 0 && !line.startsWith('#'));
 }
 
 // Format file size

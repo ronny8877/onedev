@@ -27,9 +27,8 @@
 	<title>OneDev Tools — 170+ Free Developer Tools | JSON, Base64, AI, URL Utilities</title>
 	<meta
 		name="description"
-		content="170+ free online developer tools. JSON formatter, Base64 encoder, URL encoder, hash generator, AI token counter, regex tester, CSS generators, and more. No signup — everything runs in your browser."
+		content="Client-side developer tools for JSON, hashes, JWTs, regex, PDFs, QR codes, and more. No signup. Tool input stays in your browser."
 	/>
-	<meta name="keywords" content="developer tools, JSON formatter, JSON validator, Base64 encoder, Base64 decoder, URL encoder, URL decoder, query string parser, URL builder, slug generator, free online tools, privacy-focused tools" />
 	<meta name="author" content="OneDev Tools" />
 	<meta name="robots" content="index, follow" />
 	<link rel="canonical" href="{BASE_URL}/" />

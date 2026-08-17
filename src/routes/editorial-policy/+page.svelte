@@ -21,7 +21,7 @@
 			Transparency
 		</div>
 		<h1 class="text-4xl font-bold tracking-tight text-base-content mb-3">Editorial Policy</h1>
-		<p class="text-sm text-base-content/50 mb-4">Last updated: August 16, 2026</p>
+		<p class="text-sm text-base-content/50 mb-4">Last updated: August 17, 2026</p>
 		<p class="text-base-content/70 leading-relaxed">
 			This policy explains how OneDev Tools maintains the accuracy, quality, and integrity of the content and tools published on this site.
 		</p>
@@ -126,7 +126,14 @@
 		</section>
 
 		<section>
-			<h2 class="text-xl font-bold text-base-content">8. External Links & Citations</h2>
+			<h2 class="text-xl font-bold text-base-content">8. What we will not publish</h2>
+			<p>
+				We do not copy other sites' articles and republish them. We do not ship tools whose purpose is unauthorized access, document forgery, or tracking another person without consent. We do not publish adult or family-misleading content. Educational pages explain developer formats (JSON, hashes, JWTs, CSP) with original commentary. Where two tools share a UI pattern, the explanation is written for that algorithm or format, not copied as a doorway page.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-xl font-bold text-base-content">9. External Links & Citations</h2>
 			<p>
 				Where we reference external documentation, specifications, or research, we link to the primary source (official RFC, API documentation, academic paper). We do not cite secondary aggregator sites as primary sources. External links are reviewed periodically for link rot.
 			</p>

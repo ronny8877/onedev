@@ -48,6 +48,21 @@
 		</div>
 	</section>
 
+	<section class="mb-10">
+		<h2 class="text-2xl font-bold text-base-content mb-4">Who publishes this site</h2>
+		<div class="prose prose-base max-w-none text-base-content/80">
+			<p>
+				OneDev Tools is an independent project at <strong>onedev.tools</strong>. It is written in English for software developers and other technical professionals. It is not a children's site and is not affiliated with, endorsed by, or part of Google, GitHub, Microsoft, OpenAI, Anthropic, or any other vendor whose APIs or formats we document.
+			</p>
+			<p>
+				We use product names (JSON, JWT, Kubernetes, GPT, and so on) to describe the formats and systems the tools work with. That is identification, not impersonation. Contact: <a href="/contact">hello@onedev.tools</a>.
+			</p>
+			<p>
+				Use these tools on data you have a right to process. Do not use them to break into systems, bypass access controls, forge documents, or monitor someone without their authorization. Hash tools compute checksums and published test vectors. They are not password crackers.
+			</p>
+		</div>
+	</section>
+
 	<!-- What We Cover -->
 	<section class="mb-10">
 		<h2 class="text-2xl font-bold text-base-content mb-6">What's Inside</h2>

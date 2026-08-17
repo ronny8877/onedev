@@ -459,7 +459,7 @@ export const categoryGuides: Record<string, CategoryGuide> = {
 		]
 	},
 	hash: {
-		intro: `<p>Hash tools compute MD5, SHA-1, SHA-256, SHA-512, CRC32, and HMAC in Web Crypto or JS implementations, identify likely hash types, compare digests, checksum files, and convert hex/Base64. Lookup only checks a small local set of common strings, not a giant rainbow table in the cloud.</p>
+		intro: `<p>Hash tools compute MD5, SHA-1, SHA-256, SHA-512, CRC32, and HMAC in Web Crypto or JS implementations, identify likely hash types, compare digests, checksum files, and convert hex/Base64. The test-vector page only recognizes published RFC/FIPS example strings. It is not a password cracker.</p>
 <p>Hashes are one-way fingerprints. They verify integrity and feed HMAC. They are not encryption. MD5 and SHA-1 are broken for collision resistance; do not use them for new security designs. File checksums are still a reasonable way to verify a download matches the published digest.</p>`,
 		whenToUse: [
 			'Verify a Linux ISO against the published SHA-256',
@@ -468,7 +468,7 @@ export const categoryGuides: Record<string, CategoryGuide> = {
 			'Compare two checksums without eyeballing',
 			'Convert a hex digest to Base64 for a header'
 		],
-		howItWorks: `<p>Text is encoded as UTF-8 unless you hash a file's raw bytes. Web Crypto provides SHA-256/512 and HMAC where available. MD5/SHA-1/CRC32 use well-known implementations in JS. Identifier uses length and alphabet heuristics. Lookup is not an online cracker.</p>`,
+		howItWorks: `<p>Text is encoded as UTF-8 unless you hash a file's raw bytes. Web Crypto provides SHA-256/512 and HMAC where available. MD5/SHA-1/CRC32 use well-known implementations in JS. Identifier uses length and alphabet heuristics. The test-vector checker hashes a handful of published example strings and compares digests. It does not run a password dictionary.</p>`,
 		pitfalls: [
 			'Hashing a string vs a file that contains that string plus a newline yields different digests.',
 			'HMAC needs a secret. Pasting production secrets into any website is a process smell even when we do not upload them.',
@@ -478,7 +478,7 @@ export const categoryGuides: Record<string, CategoryGuide> = {
 		faqs: [
 			{
 				question: 'Can I reverse SHA-256?',
-				answer: '<p>Not practically. Lookup only matches a tiny list of common inputs. If a password is in that list, it was a weak password.</p>'
+				answer: '<p>Not practically. The test-vector page only recognizes a few published example strings. It will not recover a password. Use a password hashing scheme (Argon2, bcrypt) if you are storing credentials.</p>'
 			},
 			{
 				question: 'Should I store passwords with SHA-256?',

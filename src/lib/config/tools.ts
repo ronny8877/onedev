@@ -23,22 +23,22 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'JSON',
 		icon: '{ }',
-		description: 'Free online JSON tools to format, validate, compare, and convert JSON. Use our JSON formatter, validator, diff checker, and type generator directly in your browser—no uploads, no signup required.',
+		description: 'Format, validate, compare, and convert JSON in this browser. Nothing is uploaded.',
 		items: [
-			{ name: 'JSON Formatter', href: '/json/formatter', description: 'JSON formatter online to format, prettify, and validate JSON. Instantly beautify JSON, detect syntax errors, and fix invalid JSON directly in your browser.', icon: '{ }' },
-			{ name: 'JSON Validator', href: '/json/validator', description: 'JSON validator online with line-by-line error details. Check if your JSON is valid instantly—get precise error locations and fix issues fast.', icon: '✓' },
-			{ name: 'JSON Diff', href: '/json/diff', description: 'JSON diff checker online to compare two JSON objects side by side. Highlights added, removed, and changed values instantly in your browser.', icon: '≠' },
-			{ name: 'JSON → Table', href: '/json/table', description: 'Convert JSON to table online. Transform JSON arrays into sortable, searchable tables. Export to CSV or copy as markdown—free and instant.', icon: '📊' },
-			{ name: 'JSON Visualizer', href: '/json/visualizer', description: 'JSON tree viewer online. Explore JSON with an interactive tree view—expand, collapse, and search nodes. Visualize complex JSON structures instantly.', icon: '🌲' },
-			{ name: 'Type Generator', href: '/json/type-generator', description: 'JSON to TypeScript online. Generate TypeScript interfaces or Go structs from JSON instantly. Convert JSON to types directly in your browser.', icon: '⟨T⟩' },
-			{ name: 'Path Tester', href: '/json/path-tester', description: 'JSONPath tester online. Test JSONPath expressions against your data and see matched values instantly. Debug JSONPath queries free in your browser.', icon: '🔍' },
-		{ name: 'Relationship Visualizer', href: '/json/relationship', description: 'JSON relationship visualizer online. Visualize JSON structure as an interactive node graph with connections. Explore object hierarchies, copy nodes, and pan/zoom—free in your browser.', icon: '🔗' }
+			{ name: 'JSON Formatter', href: '/json/formatter', description: 'Pretty-print or minify JSON and surface the first syntax error with a line number.', icon: '{ }' },
+			{ name: 'JSON Validator', href: '/json/validator', description: 'Check whether a document is valid JSON and jump to the first parse error.', icon: '✓' },
+			{ name: 'JSON Diff', href: '/json/diff', description: 'Compare two JSON values structurally. Key order and whitespace do not count as changes.', icon: '≠' },
+			{ name: 'JSON → Table', href: '/json/table', description: 'Turn a JSON array of objects into a sortable table you can copy as CSV or Markdown.', icon: '📊' },
+			{ name: 'JSON Visualizer', href: '/json/visualizer', description: 'Browse a JSON document as an expandable tree and search for keys or values.', icon: '🌲' },
+			{ name: 'Type Generator', href: '/json/type-generator', description: 'Infer TypeScript interfaces or Go structs from a sample JSON payload.', icon: '⟨T⟩' },
+			{ name: 'Path Tester', href: '/json/path-tester', description: 'Run JSONPath expressions against a document and inspect the matched values.', icon: '🔍' },
+			{ name: 'Relationship Visualizer', href: '/json/relationship', description: 'View object relationships as a node graph you can pan and zoom.', icon: '🔗' }
 		]
 	},
 	{
 		name: 'PDF',
 		icon: '📄',
-		description: 'Free online PDF tools to view, split, merge, compress, and edit PDFs. Add watermarks and page numbers, redact content, compare PDFs, sign documents, and create PDFs from images—all processing happens in your browser, no file uploads.',
+		description: 'View, split, merge, compress, watermark, redact, and sign PDFs in this tab. Files are not uploaded to us.',
 		items: [
 			{ name: 'PDF Viewer', href: '/pdf/viewer', description: 'View PDF files right in your browser with page navigation and zoom — nothing is uploaded.', icon: '👁️' },
 			{ name: 'PDF Splitter', href: '/pdf/split', description: 'Split a PDF or pull out specific pages by range, then download the result.', icon: '✂️' },
@@ -55,7 +55,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'Base64',
 		icon: '⚡',
-		description: 'Free Base64 encoder and decoder online. Encode text, files, and images to Base64 or decode Base64 strings instantly in your browser. No file uploads to servers—everything runs client-side.',
+		description: 'Encode and decode Base64 for text, files, and images. Encoding is not encryption.',
 		items: [
 			{ name: 'Encode / Decode', href: '/base64/encode-decode', description: 'Base64 encoder and decoder online. Encode text to Base64 or decode Base64 strings instantly in your browser with automatic input detection.', icon: '🔄' },
 			{ name: 'Image to Base64', href: '/base64/image-encoder', description: 'Image to Base64 converter online. Convert PNG, JPG, WebP, and SVG images to Base64 data URIs for HTML/CSS embedding. Free image encoder tool.', icon: '🖼️' },
@@ -70,7 +70,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'URL',
 		icon: '🔗',
-		description: 'Free URL tools online to encode, decode, parse, and build URLs. Validate URLs, generate SEO-friendly slugs, and parse query strings directly in your browser—no signup needed.',
+		description: 'Encode, decode, parse, build, and normalize URLs. Encoding is per component, not the whole string.',
 		items: [
 			{ name: 'Encode / Decode', href: '/url/encode-decode', description: 'URL encoder and decoder online. Encode special characters or decode percent-encoded URLs instantly. Auto-detects input type—free browser tool.', icon: '🔐' },
 			{ name: 'Query Parser', href: '/url/query-parser', description: 'URL query string parser online. Parse query parameters into a key-value table instantly. Export as JSON or CSV—free URL parameter extractor.', icon: '📋' },
@@ -87,7 +87,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'Image',
 		icon: '🖼️',
-		description: 'Free online image tools to compress, resize, crop, and convert images. Extract colors, view EXIF metadata, and remove backgrounds—all processing happens in your browser, no uploads.',
+		description: 'Compress, resize, crop, convert, and inspect images in the canvas. Photos stay on this device.',
 		items: [
 			{ name: 'Image Compressor', href: '/image/compressor', description: 'Online image compressor to reduce file size without losing quality. Compress JPEG, PNG, WebP images directly in your browser—free, no uploads.', icon: '📦' },
 			{ name: 'Image BG Remover', href: '/image/remove-white', description: 'Make white or light image backgrounds transparent, with adjustable tolerance.', icon: '🧹' },
@@ -102,7 +102,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'QR & Barcode',
 		icon: '▦',
-		description: 'Free QR code and barcode tools that run in your browser. Generate customizable QR codes with logos and dot styles, scan QR codes from an image or camera, create WiFi and vCard codes, and generate or read 1D barcodes. Nothing is uploaded.',
+		description: 'Create and read QR codes and 1D barcodes in the browser. Treat a WiFi QR like the password it encodes.',
 		items: [
 			{ name: 'QR Generator', href: '/qr/generator', description: 'QR code generator online. Create custom QR codes with logos, colors, and dot styles. Download PNG or SVG — free, no signup, runs in your browser.', icon: '▦' },
 			{ name: 'QR Reader', href: '/qr/reader', description: 'QR code reader online. Decode a QR code from an image or your camera. See the payload instantly — nothing is uploaded.', icon: '📷' },
@@ -115,7 +115,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'System',
 		icon: '💻',
-		description: 'Free browser-based system information tools. Detect your OS, CPU, memory, screen resolution, GPU, and network info. Check browser capabilities and device permissions—all client-side.',
+		description: 'See what this browser reports for OS, CPU, screen, and connection. Optional public IP lookup is opt-in and not used for ads.',
 		items: [
 			{ name: 'System Info', href: '/system/info', description: 'System information tool online. Detect your OS, CPU cores, memory, screen resolution, and GPU info. Check system specs in your browser—free.', icon: '🖥️' },
 			{ name: 'Browser Info', href: '/system/browser', description: 'Browser detector online. Check browser name, version, engine, and supported features. Detect browser capabilities instantly—free tool.', icon: '🌐' },
@@ -127,7 +127,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'Text',
 		icon: '📝',
-		description: 'Free online text tools for developers. Convert text case, sort lines, find and replace with regex, compare text, count words, and generate lorem ipsum—all in your browser.',
+		description: 'Change case, sort lines, diff text, count words, and generate placeholder copy.',
 		items: [
 			{ name: 'String Compare', href: '/text/string-compare', description: 'String comparison tool online. Compare two strings word by word to find differences. Visual textual comparison tool free.', icon: '🔤' },
 			{ name: 'Case Converter', href: '/text/case-converter', description: 'Text case converter online. Convert between camelCase, snake_case, kebab-case, PascalCase, UPPERCASE, lowercase. Change text case instantly free.', icon: '🔤' },
@@ -144,7 +144,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'HTML',
 		icon: '📄',
-		description: 'Free online HTML tools to validate, format, and extract content from HTML. Parse DOM structure, extract links and images, clean attributes—all processing in your browser.',
+		description: 'Format, check, and extract from HTML you paste. We do not fetch live URLs.',
 		items: [
 			{ name: 'HTML Validator (Basic)', href: '/html/validator', description: 'HTML validator online. Check for unclosed tags, invalid nesting, duplicate IDs, and common HTML errors. Validate HTML free in your browser.', icon: '✓' },
 			{ name: 'HTML Formatter', href: '/html/formatter', description: 'HTML formatter and beautifier online. Format, prettify, or minify HTML with proper indentation. HTML pretty print free in your browser.', icon: '{ }' },
@@ -171,7 +171,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'Convert',
 		icon: '🔄',
-		description: 'Free unit converter tools online. Convert CSS units, lengths, screen resolutions, time, data sizes, angles, number bases, typography, and colors—instant conversion in your browser.',
+		description: 'Convert CSS units, length, data size, time, color, and number bases. Formulas and assumptions are on each page.',
 		items: [
 			{ name: 'CSS Units', href: '/convert/css-units', description: 'Convert between px, rem, em, vw, vh, pt, and percentages, with live results.', icon: '📐' },
 			{ name: 'Length', href: '/convert/length', description: 'Convert between mm, cm, inches, feet, meters, km, and pixels at any DPI.', icon: '📏' },
@@ -187,7 +187,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'CSS',
 		icon: '🎨',
-		description: 'Free CSS tools and generators online. Format CSS, generate animations, create flexbox and grid layouts, build gradients and shadows—visual CSS generators in your browser.',
+		description: 'Format CSS and generate gradients, shadows, filters, and keyframes with a live preview.',
 		items: [
 			{ name: 'Formatter', href: '/css/formatter', description: 'CSS formatter and beautifier online. Format CSS code with proper indentation. CSS pretty print and code beautifier—free in your browser.', icon: '✨' },
 			{ name: 'Minifier', href: '/css/minifier', description: 'Compress CSS by stripping whitespace and comments to shrink file size.', icon: '📦' },
@@ -207,7 +207,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'CSS Layout',
 		icon: '📐',
-		description: 'Free CSS layout generators and tools. Visual builders for Flexbox, Grid, Masonry, and responsive design. Aspect ratio calculator and positioning playground—master CSS layouts visually.',
+		description: 'Visual playgrounds for Flexbox, Grid, spacing, and aspect-ratio. Output is CSS you paste into a project.',
 		items: [
 			{ name: 'Flexbox Generator', href: '/css-layout/flexbox', description: 'CSS flexbox visualizer and generator. Interactive playground for flex direction, alignment, wrapping, and gap. Generate flex layout code instantly.', icon: '📦' },
 			{ name: 'Grid Builder', href: '/css-layout/grid', description: 'CSS grid generator online. Drag-and-drop grid builder with named areas and auto-placement. Create complex grid layouts visually.', icon: '⊞' },
@@ -221,7 +221,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'AI Utilities',
 		icon: '🤖',
-		description: 'Free AI and LLM tools for developers. Count tokens for GPT-4, Claude, Gemini. Estimate API costs, trim prompts to fit context limits, and plan embeddings—all in your browser.',
+		description: 'Estimate tokens and API cost for common chat models from published tokenizers and price lists. We do not call those APIs with your prompt.',
 		items: [
 			{ name: 'Token Counter', href: '/ai/token-counter', description: 'AI token counter online. Count tokens for GPT-4, Claude, Gemini and more. Character count and cost estimation—free LLM token calculator.', icon: '🔢' },
 			{ name: 'Token Visualizer', href: '/ai/token-visualizer', description: 'AI token visualizer online. See how AI models break text into tokens. Understand tokenization visually—free token boundary viewer.', icon: '🎨' },
@@ -235,10 +235,10 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'Hash',
 		icon: '#️⃣',
-		description: 'Free hash generator and checksum tools online. Create MD5, SHA-256, SHA-512, CRC32 hashes from text or files. Verify file integrity, compare hashes, and identify hash types—all in your browser.',
+		description: 'Compute MD5, SHA-1, SHA-256, SHA-512, CRC32, and HMAC checksums, or check a digest against published test vectors. Hashes are not encryption.',
 		items: [
 			{ name: 'Hash Generator', href: '/hash/generator', description: 'Generate MD5, SHA-1, SHA-256, SHA-512, and CRC32 hashes from text or files, all in one place.', icon: '🔐' },
-			{ name: 'MD5 Hash Online', href: '/hash/md5', description: 'Create an MD5 checksum from text or a file with this fast MD5 calculator.', icon: '🔒' },
+			{ name: 'MD5 Checksum', href: '/hash/md5', description: 'Create an MD5 checksum from text or a file. MD5 is fine for accidental corruption checks, not for passwords.', icon: '🔒' },
 			{ name: 'SHA-256 Hash', href: '/hash/sha256', description: 'Generate secure 256-bit SHA-256 hashes from text or files.', icon: '🔒' },
 			{ name: 'SHA-512 Hash', href: '/hash/sha512', description: 'Generate 512-bit SHA-512 hashes when you need maximum strength.', icon: '🔒' },
 			{ name: 'SHA-1 Hash', href: '/hash/sha1', description: 'Create 160-bit SHA-1 hashes, still handy for Git commits and file verification.', icon: '🔒' },
@@ -246,7 +246,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Hash Identifier', href: '/hash/identifier', description: 'Not sure what a hash is? Detect whether it looks like MD5, SHA-256, bcrypt, or another type.', icon: '🔍' },
 			{ name: 'Compare Hashes', href: '/hash/compare', description: 'Compare two hashes with case-insensitive matching and a clear match indicator.', icon: '⚖️' },
 			{ name: 'File Checksum', href: '/hash/file-checksum', description: 'Verify a downloaded file hash against the expected value to confirm integrity.', icon: '📁' },
-			{ name: 'Hash Lookup', href: '/hash/lookup', description: 'Reverse-lookup an MD5 or SHA-1 hash to see if it matches a known value.', icon: '🔓' },
+			{ name: 'Hash Test Vectors', href: '/hash/lookup', description: 'Check whether a digest matches published RFC 1321 / FIPS 180 example strings. Not a password cracker.', icon: '📋' },
 			{ name: 'HMAC Generator', href: '/hash/hmac', description: 'Generate keyed HMAC-SHA256 and HMAC-SHA512 authentication codes.', icon: '🔑' },
 			{ name: 'Hash Converter', href: '/hash/converter', description: 'Convert a hash between hex and Base64, change its case, or add byte separators.', icon: '🔄' }
 		]
@@ -254,7 +254,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'Git',
 		icon: '🔀',
-		description: 'Free Git tools online for developers. Generate .gitignore files, format commit messages, create branch names, build Git commands, and scan for secrets—all in your browser.',
+		description: 'gitignore, conventional commits, branch names, and Git explainers. Nothing clones your repository here.',
 		items: [
 			{ name: 'Gitignore Generator', href: '/git/gitignore', description: 'Create .gitignore files for Node, Python, Java, Go, Rust, and more — combine presets, then copy or download.', icon: '🚫' },
 			{ name: 'Commit Generator', href: '/git/commit-generator', description: 'Conventional commit generator online. Build formatted commit messages with type, scope, and description. Emoji support—create git commits instantly.', icon: '💬' },
@@ -277,7 +277,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'Regex',
 		icon: '.*',
-		description: 'Free regex tools online to test, match, replace, and explain regular expressions. Build regex patterns, extract matches, and learn regex syntax—all in your browser with instant visual feedback.',
+		description: 'Test, extract, replace, and explain JavaScript regular expressions. Flavor differences vs PCRE are called out.',
 		items: [
 			{ name: 'Regex Tester', href: '/regex/tester', description: 'Test regular expressions with live highlighting, flag toggles (g i m s u), and a match count.', icon: '🧪' },
 			{ name: 'Regex Matcher', href: '/regex/matcher', description: 'Regex match extractor online. Extract all matches and capture groups from text. Export matches as JSON, CSV, or plain list—free regex extraction tool.', icon: '🎯' },
@@ -289,7 +289,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'JWT',
 		icon: '🔐',
-		description: 'Free JWT decoder and tools online. Decode JSON Web Tokens, check expiration, view claims, generate test tokens, and analyze token size—all client-side in your browser.',
+		description: 'Decode JWT header and payload, inspect claims and expiry, mint unsigned tokens for UI tests. Decoding is not verification.',
 		items: [
 			{ name: 'JWT Decoder', href: '/jwt/decoder', description: 'Decode a JWT header and payload to view the algorithm, claims, and expiry as pretty JSON — decoding only, no signature verification.', icon: '🔓' },
 			{ name: 'Expiration Checker', href: '/jwt/expiration', description: 'JWT expiration checker online. Check if your JWT is expired, see time remaining, and view exp/iat/nbf timestamps in human-readable format with timezone support.', icon: '⏱️' },
@@ -301,7 +301,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'ID Tools',
 		icon: '🆔',
-		description: 'Free UUID and ID generator tools online. Generate UUID v4, v7, NanoID, and ULID. Validate UUIDs, detect versions, and create unique identifiers—all client-side in your browser.',
+		description: 'Generate UUID v4/v7, NanoID, and ULID, and validate UUID layout.',
 		items: [
 			{ name: 'UUID Generator', href: '/id/uuid-generator', description: 'Generate UUID v4 (random) or v7 (time-ordered) in bulk, then copy or export as JSON.', icon: '🔑' },
 			{ name: 'UUID Validator', href: '/id/uuid-validator', description: 'Check whether a UUID is valid, detect its version (v1–v7), and see why one fails.', icon: '✓' },
@@ -312,7 +312,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'Cron',
 		icon: '⏰',
-		description: 'Free cron expression tools online. Generate, explain, validate cron expressions. Calculate next run times with timezone support—all client-side in your browser.',
+		description: 'Build, explain, and preview cron expressions, including timezone and DST caveats.',
 		items: [
 			{ name: 'Cron Generator', href: '/cron/generator', description: 'Build 5-field or Quartz cron expressions with a visual builder and presets.', icon: '🛠️' },
 			{ name: 'Cron Explainer', href: '/cron/explainer', description: 'Cron expression explainer online. Convert cron to plain English with field breakdown. Understand any cron schedule—explain cron expressions free.', icon: '📖' },
@@ -325,7 +325,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'YAML',
 		icon: '📄',
-		description: 'Free YAML tools online. Validate, format, convert YAML. YAML to JSON converter, diff checker, linter—all client-side in your browser.',
+		description: 'Validate, format, and convert YAML, including JSON round-trips. Comments are usually dropped on re-serialize.',
 		items: [
 			{ name: 'YAML Validator', href: '/yaml/validator', description: 'Validate YAML syntax with clear line-and-column error messages.', icon: '✓' },
 			{ name: 'YAML Formatter', href: '/yaml/formatter', description: 'Format and beautify YAML with the indentation you prefer.', icon: '✨' },
@@ -340,7 +340,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'Kubernetes',
 		icon: '☸️',
-		description: 'Free Kubernetes tools online. Inspect K8s manifests, compare resources, generate Helm charts, check API deprecations—all client-side.',
+		description: 'Inspect, diff, and split Kubernetes YAML. We do not talk to your cluster or read kubeconfig.',
 		items: [
 			{ name: 'K8s Inspector', href: '/k8s/inspector', description: 'Inspect Kubernetes manifests: detect resource types and check required fields.', icon: '🔍' },
 			{ name: 'K8s Resource Diff', href: '/k8s/diff', description: 'Compare Kubernetes manifests with a semantic diff of added, removed, and changed resources.', icon: '⇄' },
@@ -352,7 +352,7 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'Security',
 		icon: '🔒',
-		description: 'Free security tools online. CSP generator, CORS headers, password strength tester, HTTP status codes—all client-side.',
+		description: 'Draft CSP and CORS headers, test password strength locally, and read HTTP security references. This is not a pentest of your site.',
 		items: [
 			{ name: 'CSP Generator', href: '/security/csp', description: 'Build a Content Security Policy visually and get warnings about unsafe directives.', icon: '🛡️' },
 			{ name: 'CORS Generator', href: '/security/cors', description: 'Assemble Access-Control headers by choosing origins, methods, and options.', icon: '🌐' },

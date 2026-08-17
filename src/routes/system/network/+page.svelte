@@ -101,8 +101,6 @@
 				{ label: 'Country', value: `${data.country} (${data.country_code})`, raw: data.country },
 				{ label: 'Region', value: data.region || 'N/A', raw: data.region },
 				{ label: 'City', value: data.city || 'N/A', raw: data.city },
-				{ label: 'Postal Code', value: data.postal || 'N/A', raw: data.postal },
-				{ label: 'Coordinates', value: `${data.latitude}, ${data.longitude}`, raw: `${data.latitude},${data.longitude}` },
 				{ label: 'Timezone', value: data.timezone?.id || 'N/A', raw: data.timezone?.id },
 				{ label: 'ISP', value: data.connection?.isp || 'N/A', raw: data.connection?.isp },
 				{ label: 'Organization', value: data.connection?.org || 'N/A', raw: data.connection?.org },
@@ -201,7 +199,7 @@
 
 					{#if !ipData.loaded}
 						<p class="text-sm text-base-content/60 mb-4">
-							Click the button to fetch your public IP and approximate location. This makes a request to ip-api.com.
+							Optional: ask ipwho.is (from your browser) for your public IP and an approximate city. We do not store the result or use it for ads. Skip this if you only need connection type from this device.
 						</p>
 						<button
 							class="btn btn-primary"
@@ -212,7 +210,7 @@
 								<span class="loading loading-spinner loading-sm"></span>
 								Loading...
 							{:else}
-								🔍 Check IP & Location
+								Look up my public IP
 							{/if}
 						</button>
 
