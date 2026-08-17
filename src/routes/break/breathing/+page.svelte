@@ -1,5 +1,14 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+	import { breakToolsContent } from '$lib/config/content/break-tools-content';
+
+	const content = breakToolsContent.breathing;
 
 	type Phase = 'idle' | 'inhale' | 'hold' | 'exhale';
 	
@@ -183,5 +192,14 @@
 				<p><strong>4-4-6 Pattern:</strong> Inhale for 4 seconds, hold for 4 seconds, exhale for 6 seconds.</p>
 			</div>
 		</div>
+	</div>
+
+	<div class="mt-12 space-y-6">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<FAQSection faqs={content.faqs} />
+		<Tips tips={content.tips ?? []} />
+		<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

@@ -57,7 +57,7 @@
 	});
 </script>
 
-<ToolWrapper>
+<ToolWrapper noindex>
 	<div 
 		class="flex flex-col items-center justify-center min-h-[60vh] rounded-3xl transition-colors duration-500 relative
 			   {isDark ? 'bg-neutral text-neutral-content' : 'bg-base-200'}"

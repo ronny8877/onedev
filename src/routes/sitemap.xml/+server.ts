@@ -1,7 +1,10 @@
 import { getAllActiveTools, getActiveCategories, getCategorySlug, BASE_URL } from '$lib/config/tools';
 
+// Keep in sync with static/robots.txt Disallow and X-Robots-Tag noindex pages
+const NOINDEX_PATHS = new Set(['/break/ambient', '/break/zen-motion', '/break/clock']);
+
 export async function GET() {
-	const tools = getAllActiveTools();
+	const tools = getAllActiveTools().filter((tool) => !NOINDEX_PATHS.has(tool.href));
 	const categories = getActiveCategories();
 
 	// Static info/trust pages (good signals for search + ad review)

@@ -428,7 +428,8 @@ export function getCategorySlug(cat: ToolCategory): string {
 		'AI Utilities': 'ai',
 		'CSS Layout': 'css-layout',
 		'ID Tools': 'id',
-		'QR & Barcode': 'qr'
+		'QR & Barcode': 'qr',
+		'Kubernetes': 'k8s'
 	};
 	return overrides[cat.name] ?? cat.name.toLowerCase().replace(/\s+/g, '-');
 }
