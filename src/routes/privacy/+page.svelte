@@ -33,6 +33,7 @@
 					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> All tool processing runs in your browser. Your input data is never sent to our servers.</li>
 					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> We do not require accounts or collect personal information to use any tool.</li>
 					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> We use Google Analytics to see which pages are used. Tool input is never sent to analytics.</li>
+					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> We do not currently show ads. If Google ads are added later, third-party cookies will be disclosed here and in How Google uses data.</li>
 				</ul>
 			</div>
 		</section>
@@ -56,6 +57,10 @@
 			<p>
 				Google Analytics may collect page URL, referrer, browser and device type, approximate location, and similar usage data. Google may set cookies such as <code class="text-sm bg-base-200 px-1 rounded">_ga</code> for this purpose. For details, see <a href="https://policies.google.com/privacy" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a> and <a href="https://tools.google.com/dlpage/gaoptout" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Google Analytics opt-out</a>.
 			</p>
+			<h3 class="text-base font-semibold text-base-content mt-4 mb-2">Optional IP lookup (Network Info)</h3>
+			<p>
+				The Network Info tool can, if you click the button, ask a third-party IP echo service (<a href="https://ipwho.is/" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">ipwho.is</a>) for your public IP and an approximate country, region, city, and ISP. That request is made by your browser. We do not store the result. We do not use it for ads. Precise coordinates and postal codes are not shown. You can skip the button and still see connection type from the browser Network Information API, which stays on your device.
+			</p>
 			<h3 class="text-base font-semibold text-base-content mt-4 mb-2">Standard Server Logs</h3>
 			<p>
 				Like all websites, our hosting provider (Cloudflare) may retain standard web server access logs, which can include your IP address, browser user-agent string, referring URL, and the pages you accessed. These logs are used for security and operational purposes and are governed by <a href="https://www.cloudflare.com/privacypolicy/" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Cloudflare's Privacy Policy</a>.
@@ -65,14 +70,23 @@
 		<section>
 			<h2 class="text-xl font-bold text-base-content">3. Advertising</h2>
 			<p>
-				OneDev Tools does not currently display advertisements. We do not load Google AdSense, Monetag, or other ad-network scripts.
+				OneDev Tools does not currently display advertisements and does not load Google AdSense or other ad-network scripts. If we enable Google ads later, this policy will still apply, and we will update the "Last updated" date.
+			</p>
+			<p>
+				When Google ads are shown, Google and other third parties may place and read cookies on your browser, or use web beacons, IP addresses, or similar identifiers as a result of ad serving. We do not pass names, email addresses, or the text you enter into tools to Google advertising systems. We do not use Google ads to target personalized ads based on health, finances, race, religion, sexual orientation, or other sensitive categories listed in Google's personalized advertising policy. This site is not directed at children under 13, and we will not use interest-based ads on child-directed content.
+			</p>
+			<p>
+				To understand how Google uses data when you use sites or apps that partner with Google, read <a href="https://policies.google.com/technologies/partner-sites" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">How Google uses information from sites or apps that use our services</a>.
+			</p>
+			<p>
+				If ads.txt is present on this domain, it lists who is authorized to sell advertising on onedev.tools. That file must stay accurate. We do not misstate site URLs or app IDs in ad requests.
 			</p>
 		</section>
 
 		<section>
 			<h2 class="text-xl font-bold text-base-content">4. Cookies</h2>
 			<p>
-				OneDev Tools itself does not set first-party cookies for accounts or sessions. Google Analytics may set cookies to measure visits. You can block analytics cookies in your browser or use Google's opt-out browser add-on.
+				OneDev Tools itself does not set first-party cookies for accounts or sessions. Google Analytics may set cookies to measure visits. If Google ads are enabled later, Google may also set advertising cookies as described in section 3. You can block analytics cookies in your browser or use Google's opt-out browser add-on.
 			</p>
 			<p>
 				Some tools use your browser's <code class="text-sm bg-base-200 px-1 rounded">localStorage</code> to save your preferences or recent inputs locally on your device. This data is stored only on your device and is never transmitted to us. You can clear it at any time by clearing your browser's local storage.
@@ -89,19 +103,26 @@
 		<section>
 			<h2 class="text-xl font-bold text-base-content">6. Children's Privacy</h2>
 			<p>
-				OneDev Tools is intended for developers and technical users. We do not knowingly collect any personal information from children under the age of 13. If you believe a child has provided personal information through our site, please contact us so we can remove it.
+				OneDev Tools is for software developers and other technical professionals. It is not directed at children under 13, and we do not knowingly collect personal information from children. The site is not a family or children's product. If you believe a child has provided personal information through our site, please contact us so we can remove it.
 			</p>
 		</section>
 
 		<section>
-			<h2 class="text-xl font-bold text-base-content">7. Changes to This Policy</h2>
+			<h2 class="text-xl font-bold text-base-content">7. Identifiers and Google</h2>
+			<p>
+				We do not send names, emails, or tool input to Google in a form Google could use as personally identifiable information. Analytics uses Google's standard measurement cookies. We do not merge that data with a user account, because we have no accounts.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-xl font-bold text-base-content">8. Changes to This Policy</h2>
 			<p>
 				We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements. We will update the "Last updated" date at the top of this page when we do. Continued use of the site after changes constitutes acceptance of the updated policy.
 			</p>
 		</section>
 
 		<section>
-			<h2 class="text-xl font-bold text-base-content">8. Contact</h2>
+			<h2 class="text-xl font-bold text-base-content">9. Contact</h2>
 			<p>
 				If you have questions about this Privacy Policy or our data practices, please <a href="/contact" class="text-primary hover:underline">contact us</a>.
 			</p>

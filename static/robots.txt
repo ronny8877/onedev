@@ -1,20 +1,20 @@
 # Robots.txt for OneDev Tools
 # https://onedev.tools
 
-User-agent: *
+# Google's ads crawler must be able to read public pages
+User-agent: Mediapartners-Google
 Allow: /
 
-# Crawl rate
-Crawl-delay: 1
-
-# Sitemap location
-Sitemap: https://onedev.tools/sitemap.xml
+User-agent: *
+Allow: /
 
 # Block non-content paths
 Disallow: /api/
 Disallow: /_app/
 
-# Noindex: entertainment-only pages (low informational value)
+# Entertainment-only rest screens (low informational value)
 Disallow: /break/ambient
 Disallow: /break/zen-motion
 Disallow: /break/clock
+
+Sitemap: https://onedev.tools/sitemap.xml

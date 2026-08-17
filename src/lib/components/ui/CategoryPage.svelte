@@ -1,8 +1,12 @@
 <script lang="ts">
-	import type { ToolCategory, ToolItem } from '$lib/config/tools';
-	import { BASE_URL, getCategorySlug } from '$lib/config/tools';
+	import type { ToolCategory } from '$lib/config/tools';
+	import { BASE_URL, getCategorySlug, getActiveCategories } from '$lib/config/tools';
+	import { getCategoryGuide } from '$lib/config/content/category-guides';
 	import JsonLd from '$lib/components/content/JsonLd.svelte';
-	import { page } from '$app/stores';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	interface Props {
 		category: ToolCategory;
@@ -12,9 +16,13 @@
 
 	const slug = $derived(getCategorySlug(category));
 	const canonicalUrl = $derived(`${BASE_URL}/${slug}`);
+	const guide = $derived(getCategoryGuide(slug));
 
 	const title = $derived(`${category.name} Tools — Free Online ${category.name} Utilities`);
-	const description = $derived(category.description ?? `Free online ${category.name.toLowerCase()} tools. ${category.items.length} utilities running entirely in your browser — no signup, no uploads.`);
+	const description = $derived(
+		category.description ??
+			`Free online ${category.name.toLowerCase()} tools. ${category.items.length} utilities running entirely in your browser — no signup, no uploads.`
+	);
 
 	const breadcrumbs = $derived([
 		{ name: 'Home', item: BASE_URL + '/' },
@@ -26,6 +34,12 @@
 		description,
 		url: canonicalUrl
 	});
+
+	const relatedCategories = $derived(
+		getActiveCategories()
+			.filter((c) => getCategorySlug(c) !== slug)
+			.slice(0, 12)
+	);
 </script>
 
 <svelte:head>
@@ -39,7 +53,7 @@
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
-<JsonLd application={applicationData} {breadcrumbs} />
+<JsonLd application={applicationData} breadcrumbs={breadcrumbs} />
 
 <div class="mx-auto max-w-5xl animate-fade-in">
 
@@ -69,7 +83,17 @@
 		</div>
 	</div>
 
+	{#if guide}
+		<section class="mb-10 rounded-xl border border-base-300 bg-base-100 p-6 shadow-sm">
+			<h2 class="mb-3 text-xl font-bold text-base-content">About these {category.name} tools</h2>
+			<div class="prose prose-sm max-w-none prose-p:text-base-content/80 prose-code:text-primary">
+				{@html guide.intro}
+			</div>
+		</section>
+	{/if}
+
 	<!-- Tools Grid -->
+	<h2 class="mb-4 text-xl font-bold text-base-content">Tools in this category</h2>
 	<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
 		{#each category.items.filter(i => i.active !== false) as tool}
 			<a
@@ -81,9 +105,9 @@
 						<span class="mt-0.5 text-xl shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">{tool.icon}</span>
 					{/if}
 					<div class="min-w-0">
-						<h2 class="font-semibold text-base-content group-hover:text-primary transition-colors leading-snug">
+						<h3 class="font-semibold text-base-content group-hover:text-primary transition-colors leading-snug">
 							{tool.name}
-						</h2>
+						</h3>
 						{#if tool.description}
 							<p class="mt-1 text-xs text-base-content/55 leading-relaxed line-clamp-2">
 								{tool.description}
@@ -98,21 +122,21 @@
 		{/each}
 	</div>
 
+	{#if guide}
+		<div class="mt-12 space-y-6">
+			<ConceptExplainer title="How these tools run in your browser" content={guide.howItWorks} />
+			<UseCases useCases={guide.whenToUse} />
+			<CommonMistakes mistakes={guide.pitfalls} />
+			<FAQSection faqs={guide.faqs} />
+		</div>
+	{/if}
+
 	<!-- Related Categories -->
 	<div class="mt-16 pt-8 border-t border-base-300/50">
 		<p class="text-sm text-base-content/50 mb-3">Related tools on OneDev Tools</p>
 		<div class="flex flex-wrap gap-2">
-			{#each [
-				{ name: 'JSON', slug: 'json' },
-				{ name: 'Base64', slug: 'base64' },
-				{ name: 'Hash', slug: 'hash' },
-				{ name: 'Security', slug: 'security' },
-				{ name: 'Regex', slug: 'regex' },
-				{ name: 'YAML', slug: 'yaml' },
-				{ name: 'AI Utilities', slug: 'ai' },
-				{ name: 'Git', slug: 'git' },
-			].filter(c => c.slug !== slug) as cat}
-				<a href="/{cat.slug}" class="badge badge-ghost border border-base-300 hover:border-primary hover:text-primary transition-colors text-xs py-2.5 px-3">
+			{#each relatedCategories as cat}
+				<a href="/{getCategorySlug(cat)}" class="badge badge-ghost border border-base-300 hover:border-primary hover:text-primary transition-colors text-xs py-2.5 px-3">
 					{cat.name}
 				</a>
 			{/each}
@@ -124,6 +148,7 @@
 		<a href="/about" class="hover:text-primary transition-colors">About</a>
 		<a href="/privacy" class="hover:text-primary transition-colors">Privacy Policy</a>
 		<a href="/contact" class="hover:text-primary transition-colors">Contact</a>
+		<a href="/editorial-policy" class="hover:text-primary transition-colors">Editorial Policy</a>
 		<a href="/" class="hover:text-primary transition-colors">← All Tools</a>
 	</div>
 </div>

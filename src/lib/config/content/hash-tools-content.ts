@@ -538,63 +538,66 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 		]
 	},
 	'lookup': {
-		lastUpdated: '2026-05-07',
+		lastUpdated: '2026-08-17',
 		features: [
-			'Reverse lookup capabilities for common MD5 and SHA-1 hashes',
-			'Simulated checks against massive rainbow table databases',
-			'Identify weak, commonly used passwords instantly',
-			'Fast client-side logic for common strings',
-			'Educational feedback on password vulnerabilities'
+			'Compare a hex digest to published RFC 1321 and FIPS 180 test strings',
+			'Supports MD5, SHA-1, SHA-256, and SHA-512',
+			'Shows the exact published input when there is a match (including the empty string)',
+			'Runs in the browser. No wordlists, no password dictionaries, no uploads'
 		],
 		useCases: [
-			'Checking if your password has been exposed in previous data breaches',
-			'Recovering lost data or passwords from legacy MD5 database dumps',
-			'Auditing internal database security to flag users with easily crackable passwords',
-			'Understanding the mechanics of rainbow table attacks in cybersecurity training'
+			'Confirm your own hasher matches the MD5 of "abc" from RFC 1321',
+			'Teach the difference between a test vector and reversing a hash',
+			'Sanity-check a copy-pasted digest before you trust a checksum in docs'
 		],
 		concept: {
-			title: 'Rainbow Tables & Reverse Lookups',
-			content: `<p>Because cryptographic hashing is a one-way mathematical function, you cannot simply "decrypt" a hash to find the original text. However, attackers use a workaround: they compute the hashes for millions of common passwords (like "123456", "password", "qwerty") and store them in massive databases called <strong>Rainbow Tables</strong>.</p>
-			<p>When an attacker steals a database of hashed passwords, they simply query their rainbow table. If the stolen hash matches a hash in their table, they instantly know the original password.</p>
-			<p>This tool simulates a reverse lookup against common weak passwords. If a hash can be "reversed" here, it means the original input is dangerously weak and highly vulnerable to automated cracking attacks.</p>`
+			title: 'Test vectors, not reverse hashes',
+			content: `<p>A cryptographic hash is one-way. You cannot decrypt MD5 or SHA-256. What you <em>can</em> do is hash a known input and see if the digest matches. Standards bodies publish those known inputs so implementers can check their code.</p>
+			<p>This page hashes a short list of those published strings (empty, <code>a</code>, <code>abc</code>, <code>message digest</code>, the alphabet, and the fox sentence) and compares the result to what you pasted. If it matches, your digest is one of those examples. If it does not, the digest may still be valid. It is simply not in this tiny set.</p>
+			<p>We do not provide password dictionaries, rainbow tables, or wordlist upload. Those would help people attack other people's hashes. For your own password strength, use the Password Tester. For storing passwords, use Argon2 or bcrypt, not raw SHA-256.</p>`
 		},
 		examples: [
 			{
-				label: 'Successful MD5 Lookup (Weak Password)',
-				code: 'Input Hash: 5f4dcc3b5aa765d61d8327deb882cf99\nResult: "password" (Found in dictionary)',
+				label: 'RFC 1321 MD5 of abc',
+				code: 'Input: abc\nMD5: 900150983cd24fb0d6963f7d28e17f72',
 				isValid: true
 			},
 			{
-				label: 'Failed Lookup (Strong/Salted Password)',
-				code: 'Input Hash: 8b1a9953c4611296a827abf8c47804d7\nResult: Not found. The original text is too complex or salted.',
+				label: 'Empty string SHA-256',
+				code: 'Input: (empty)\nSHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+				isValid: true
+			},
+			{
+				label: 'A random digest is not a test vector',
+				code: 'Input hash: 5f4dcc3b5aa765d61d8327deb882cf99\nResult: not in the published set (that digest is MD5 of a common word, which we do not search for)',
 				isValid: false
 			}
 		],
 		faqs: [
 			{
-				question: 'Can you crack any hash?',
-				answer: '<p>No. We only check the input against a dictionary of highly common passwords and words. If the original text was complex (e.g., "M!k3s_S3cur3_P@ssw0rd"), it will not exist in a rainbow table and cannot be reversed by this tool.</p>'
+				question: 'Can this recover a password from a hash?',
+				answer: '<p>No. It only recognizes a handful of published example strings. That is how you verify a hash implementation, not how you attack a password database.</p>'
 			},
 			{
-				question: 'How do websites protect against rainbow tables?',
-				answer: '<p>They use a technique called <strong>Salting</strong>. A random string of characters (the salt) is generated for each user and appended to their password before hashing. Even if two users have the password "123456", their hashes will be completely different because their salts are different. This renders pre-computed rainbow tables completely useless.</p>'
+				question: 'Why did a real checksum not match?',
+				answer: '<p>Because it is not one of the RFC/FIPS examples. Compute the file or text with the Hash Generator or File Checksum tool instead.</p>'
 			},
 			{
-				question: 'Is it legal to crack hashes?',
-				answer: '<p>Reverse lookup tools are educational and defensive. It is legal to audit your own hashes or hashes you have explicit permission to test (e.g., in a penetration test). Attempting to crack hashes from stolen databases without authorization is illegal.</p>'
+				question: 'Where do the example strings come from?',
+				answer: '<p>MD5 examples follow RFC 1321. SHA examples follow the usual FIPS 180 test strings used in countless implementations (empty string, abc, fox sentence).</p>'
 			}
 		],
 		tips: [
-			'If you are building an authentication system, never rely on raw MD5 or SHA-256. Use bcrypt or Argon2, which handle salting automatically and are resistant to GPU-based brute force attacks.',
-			'Use password managers to generate long, random passwords that will never appear in any reverse-lookup dictionary.'
+			'Use this after you write a hasher, not against production password hashes.',
+			'If you need to store passwords, use a password hashing scheme with a unique salt (Argon2, bcrypt). Raw SHA-256 is the wrong tool.'
 		],
 		commonMistakes: [
-			'Believing that a hash function is secure just because this specific lookup tool failed to crack it. Dedicated hackers have rainbow tables terabytes in size.',
-			'Using a "global" salt for all users instead of generating a unique salt per user. A global salt still allows attackers to build a custom rainbow table specifically for your application.'
+			'Treating "not in the published set" as "invalid hash". Most valid digests are not test vectors.',
+			'Pasting a salted password hash and expecting a match. Test vectors are unsalted example strings.'
 		],
 		relatedTools: [
-			{ name: 'Password Tester', path: '/security/password', description: 'Check the strength and entropy of your passwords.' },
-			{ name: 'Hash Generator', path: '/hash/generator', description: 'Generate hashes to test against the lookup tool.' }
+			{ name: 'Hash Generator', path: '/hash/generator', description: 'Compute MD5, SHA-1, SHA-256, SHA-512, or CRC32 from text or a file.' },
+			{ name: 'Password Tester', path: '/security/password', description: 'Estimate strength of a password you are choosing, locally.' }
 		]
 	},
 	'hmac': {

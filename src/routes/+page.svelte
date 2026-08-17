@@ -27,9 +27,8 @@
 	<title>OneDev Tools — 170+ Free Developer Tools | JSON, Base64, AI, URL Utilities</title>
 	<meta
 		name="description"
-		content="170+ free online developer tools. JSON formatter, Base64 encoder, URL encoder, hash generator, AI token counter, regex tester, CSS generators, and more. No signup — everything runs in your browser."
+		content="Client-side developer tools for JSON, hashes, JWTs, regex, PDFs, QR codes, and more. No signup. Tool input stays in your browser."
 	/>
-	<meta name="keywords" content="developer tools, JSON formatter, JSON validator, Base64 encoder, Base64 decoder, URL encoder, URL decoder, query string parser, URL builder, slug generator, free online tools, privacy-focused tools" />
 	<meta name="author" content="OneDev Tools" />
 	<meta name="robots" content="index, follow" />
 	<link rel="canonical" href="{BASE_URL}/" />
@@ -130,6 +129,35 @@
 			<span class="text-base-content/70">tools and counting</span>
 		</div>
 	</div>
+
+	<!-- Original copy so the homepage is not only a card grid -->
+	<section class="mb-12 rounded-2xl border border-base-300 bg-base-100 p-6 sm:p-8 text-left">
+		<h2 class="text-2xl font-bold text-base-content mb-4">Developer tools that stay on your machine</h2>
+		<div class="prose prose-sm sm:prose-base max-w-none text-base-content/80">
+			<p>
+				OneDev Tools is a collection of utilities for everyday engineering work: formatting JSON, decoding JWTs, hashing files, generating QR codes, converting units, drafting CSP headers, and more. Every tool runs as JavaScript in this tab. We do not operate a processing API that receives your paste.
+			</p>
+			<p>
+				That design is the product. Paste an access token into a JWT decoder, a customer export into a JSON formatter, or a private key into a Base64 tool and you should not have to wonder which log file on someone else's server now has a copy. Hosted formatters that upload the payload are convenient until the payload is production data.
+			</p>
+			<p>
+				The site is free, has no accounts, and does not gate features. Google Analytics records page views so we can see which tools people open. Tool input stays in the browser. Read the <a href="/privacy">privacy policy</a> and <a href="/about">about page</a> if you want the full picture, including how we handle explanatory copy and AI pricing tables in the <a href="/editorial-policy">editorial policy</a>.
+			</p>
+		</div>
+
+		<h3 class="text-lg font-semibold text-base-content mt-6 mb-3">How to pick a tool</h3>
+		<ul class="space-y-2 text-sm text-base-content/80">
+			<li><strong class="text-base-content">Start from the category</strong> if you know the job (JSON, Hash, Regex, PDF). Each category page explains when to use the suite and which mistakes to avoid, then links into the individual tools.</li>
+			<li><strong class="text-base-content">Use search in the sidebar</strong> if you remember the name (slug generator, cron explainer, HMAC).</li>
+			<li><strong class="text-base-content">Prefer a local CLI</strong> for multi-hundred-megabyte files or air-gapped policy. A browser tab will run out of memory before a well-written command-line tool does.</li>
+			<li><strong class="text-base-content">Do not treat encoding as encryption.</strong> Base64, JWT decode, and URL encode are not a vault. Hash tools verify integrity; they do not hide secrets.</li>
+		</ul>
+
+		<h3 class="text-lg font-semibold text-base-content mt-6 mb-3">What we will not do</h3>
+		<p class="text-sm text-base-content/80 leading-relaxed">
+			We will not ask you to sign in to format JSON. We will not upload your PDF to compress it. We will not run your prompt against a hosted model from the AI token counters. Those pages estimate tokens and cost from published tokenizers and price lists. If a page cannot do the job honestly in the browser, we would rather omit the feature than fake a server round-trip.
+		</p>
+	</section>
 
 	<!-- Tool Categories (from centralized config) -->
 	{#each categories as category}

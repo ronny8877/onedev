@@ -116,7 +116,7 @@
 	}
 </style>
 
-<ToolWrapper>
+<ToolWrapper noindex>
 	<div class="flex flex-col gap-6">
 		<!-- Preview Card with Video Background -->
 		<div 

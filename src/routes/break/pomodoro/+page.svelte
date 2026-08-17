@@ -1,5 +1,14 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
+	import Features from '$lib/components/content/Features.svelte';
+	import UseCases from '$lib/components/content/UseCases.svelte';
+	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
+	import FAQSection from '$lib/components/content/FAQSection.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import Tips from '$lib/components/content/Tips.svelte';
+	import { breakToolsContent } from '$lib/config/content/break-tools-content';
+
+	const content = breakToolsContent.pomodoro;
 
 	// Timer state
 	let minutes = $state(25);
@@ -173,5 +182,14 @@
 				<p><strong>Tip:</strong> Work in focused bursts, then take a short break. After 4 sessions, take a longer break.</p>
 			</div>
 		</div>
+	</div>
+
+	<div class="mt-12 space-y-6">
+		<Features features={content.features} />
+		<UseCases useCases={content.useCases} />
+		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
+		<FAQSection faqs={content.faqs} />
+		<Tips tips={content.tips ?? []} />
+		<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>
