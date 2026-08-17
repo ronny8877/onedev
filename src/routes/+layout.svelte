@@ -5,8 +5,10 @@
 	import Toast from '$lib/components/ui/Toast.svelte';
 	import CommandPalette from '$lib/components/ui/CommandPalette.svelte';
 	import { page } from '$app/stores';
+	import { afterNavigate } from '$app/navigation';
 	import { getSidebarAccordions, getToolNamesRecord } from '$lib/config/tools';
 	import { initTheme, getTheme } from '$lib/stores/theme.svelte.ts';
+	import { trackPageView } from '$lib/utils/analytics';
 	//fevicons
 	import appleTouchIcon from '$lib/assets/apple-touch-icon.png';
 	import favicon32 from '$lib/assets/favicon-32x32.png';
@@ -32,6 +34,10 @@
 
 	$effect(() => {
 		initTheme();
+	});
+
+	afterNavigate(() => {
+		trackPageView($page.url.pathname + $page.url.search, document.title);
 	});
 
 	function handleGlobalKeydown(event: KeyboardEvent) {

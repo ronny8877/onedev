@@ -32,7 +32,7 @@
 				<ul class="space-y-2 text-sm text-base-content/80">
 					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> All tool processing runs in your browser. Your input data is never sent to our servers.</li>
 					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> We do not require accounts or collect personal information to use any tool.</li>
-					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> We may use anonymous analytics to understand which tools are most useful.</li>
+					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> We use Google Analytics to see which pages are used. Tool input is never sent to analytics.</li>
 				</ul>
 			</div>
 		</section>
@@ -49,9 +49,12 @@
 
 		<section>
 			<h2 class="text-xl font-bold text-base-content">2. Information We May Collect</h2>
-			<h3 class="text-base font-semibold text-base-content mt-4 mb-2">Anonymous Usage Analytics</h3>
+			<h3 class="text-base font-semibold text-base-content mt-4 mb-2">Usage Analytics — Google Analytics</h3>
 			<p>
-				We may collect anonymous, aggregated analytics data to understand which tools are most used and how we can improve the site. This data does not identify individual users and does not include any content you enter into tools. This may include: pages visited, time on site, and browser type.
+				OneDev Tools uses Google Analytics (GA4) to understand which pages and tools people open, how they move through the site, and which links they click. This helps us decide what to improve. Analytics does <strong>not</strong> include the text, files, or other content you enter into any tool.
+			</p>
+			<p>
+				Google Analytics may collect page URL, referrer, browser and device type, approximate location, and similar usage data. Google may set cookies such as <code class="text-sm bg-base-200 px-1 rounded">_ga</code> for this purpose. For details, see <a href="https://policies.google.com/privacy" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a> and <a href="https://tools.google.com/dlpage/gaoptout" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Google Analytics opt-out</a>.
 			</p>
 			<h3 class="text-base font-semibold text-base-content mt-4 mb-2">Standard Server Logs</h3>
 			<p>
@@ -69,7 +72,7 @@
 		<section>
 			<h2 class="text-xl font-bold text-base-content">4. Cookies</h2>
 			<p>
-				OneDev Tools itself does not set first-party cookies for tracking or session management. Anonymous analytics, if present, may record page views without identifying you.
+				OneDev Tools itself does not set first-party cookies for accounts or sessions. Google Analytics may set cookies to measure visits. You can block analytics cookies in your browser or use Google's opt-out browser add-on.
 			</p>
 			<p>
 				Some tools use your browser's <code class="text-sm bg-base-200 px-1 rounded">localStorage</code> to save your preferences or recent inputs locally on your device. This data is stored only on your device and is never transmitted to us. You can clear it at any time by clearing your browser's local storage.

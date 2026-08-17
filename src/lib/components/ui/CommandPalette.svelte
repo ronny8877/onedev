@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { getAllActiveTools, type ToolItem, getActiveCategories } from '$lib/config/tools';
 	import { fade, scale } from 'svelte/transition';
+	import { trackEvent, trackToolSelect } from '$lib/utils/analytics';
 
 	interface Props {
 		open?: boolean;
@@ -77,6 +78,10 @@
 	}
 
 	function navigateTo(tool: ToolItem) {
+		if (searchQuery.trim()) {
+			trackEvent('search', { search_term: searchQuery.trim() });
+		}
+		trackToolSelect(tool.name, toolCategoryMap.get(tool.href), 'search');
 		closeModal();
 		goto(tool.href);
 	}
