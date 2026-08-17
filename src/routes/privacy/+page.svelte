@@ -21,7 +21,7 @@
 			Legal
 		</div>
 		<h1 class="text-4xl font-bold tracking-tight text-base-content mb-3">Privacy Policy</h1>
-		<p class="text-sm text-base-content/50">Last updated: May 7, 2026</p>
+		<p class="text-sm text-base-content/50">Last updated: August 16, 2026</p>
 	</div>
 
 	<div class="prose prose-base max-w-none text-base-content/80 space-y-8">
@@ -32,7 +32,6 @@
 				<ul class="space-y-2 text-sm text-base-content/80">
 					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> All tool processing runs in your browser. Your input data is never sent to our servers.</li>
 					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> We do not require accounts or collect personal information to use any tool.</li>
-					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> We use Google AdSense for advertising. Google may use cookies to show relevant ads.</li>
 					<li class="flex items-start gap-2"><span class="text-success font-bold">✓</span> We may use anonymous analytics to understand which tools are most useful.</li>
 				</ul>
 			</div>
@@ -61,24 +60,16 @@
 		</section>
 
 		<section>
-			<h2 class="text-xl font-bold text-base-content">3. Advertising — Google AdSense</h2>
+			<h2 class="text-xl font-bold text-base-content">3. Advertising</h2>
 			<p>
-				OneDev Tools uses Google AdSense to display advertisements. Google AdSense uses cookies and similar tracking technologies to display ads that are relevant to you based on your browsing history and interests.
-			</p>
-			<ul class="list-disc list-inside space-y-1 text-sm">
-				<li>Google may use the DoubleClick cookie or other cookies to serve ads.</li>
-				<li>You can opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Google Ads Settings</a>.</li>
-				<li>You can also opt out via the <a href="https://www.networkadvertising.org/managing/opt_out.asp" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Network Advertising Initiative opt-out page</a>.</li>
-			</ul>
-			<p class="mt-3">
-				For full details on how Google uses data from advertising partners, visit <a href="https://policies.google.com/technologies/partner-sites" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">google.com/policies/privacy/partners</a>.
+				OneDev Tools does not currently use Google AdSense. The site may still load third-party advertising scripts from other networks to help cover hosting costs. Those networks may use cookies or similar technologies.
 			</p>
 		</section>
 
 		<section>
 			<h2 class="text-xl font-bold text-base-content">4. Cookies</h2>
 			<p>
-				OneDev Tools itself does not set first-party cookies for tracking or session management. Google AdSense, as described above, may set third-party cookies for advertising purposes.
+				OneDev Tools itself does not set first-party cookies for tracking or session management. Third-party advertising or analytics scripts, if present, may set their own cookies.
 			</p>
 			<p>
 				Some tools use your browser's <code class="text-sm bg-base-200 px-1 rounded">localStorage</code> to save your preferences or recent inputs locally on your device. This data is stored only on your device and is never transmitted to us. You can clear it at any time by clearing your browser's local storage.

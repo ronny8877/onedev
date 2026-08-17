@@ -80,7 +80,7 @@
 			<li class="flex items-start gap-2"><span class="text-success mt-0.5">✓</span> All tool processing happens locally in your browser — nothing is sent to a server.</li>
 			<li class="flex items-start gap-2"><span class="text-success mt-0.5">✓</span> We do not store, log, or analyze any text you paste into any tool.</li>
 			<li class="flex items-start gap-2"><span class="text-success mt-0.5">✓</span> No account creation required. We don't collect email addresses.</li>
-			<li class="flex items-start gap-2"><span class="text-success mt-0.5">✓</span> We use Google AdSense for revenue, which may set cookies for ad personalization. See our <a href="/privacy" class="text-primary font-medium hover:underline">Privacy Policy</a> for details.</li>
+			<li class="flex items-start gap-2"><span class="text-success mt-0.5">✓</span> See our <a href="/privacy" class="text-primary font-medium hover:underline">Privacy Policy</a> for details on analytics and third-party scripts.</li>
 		</ul>
 	</section>
 
