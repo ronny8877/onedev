@@ -160,7 +160,7 @@
 	});
 </script>
 
-<ToolWrapper>
+<ToolWrapper noindex>
 	<div class="flex flex-col gap-4">
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-4 justify-between">
