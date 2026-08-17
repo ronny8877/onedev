@@ -21,7 +21,7 @@
 			Legal
 		</div>
 		<h1 class="text-4xl font-bold tracking-tight text-base-content mb-3">Privacy Policy</h1>
-		<p class="text-sm text-base-content/50">Last updated: August 16, 2026</p>
+		<p class="text-sm text-base-content/50">Last updated: August 17, 2026</p>
 	</div>
 
 	<div class="prose prose-base max-w-none text-base-content/80 space-y-8">
@@ -62,14 +62,14 @@
 		<section>
 			<h2 class="text-xl font-bold text-base-content">3. Advertising</h2>
 			<p>
-				OneDev Tools does not currently use Google AdSense. The site may still load third-party advertising scripts from other networks to help cover hosting costs. Those networks may use cookies or similar technologies.
+				OneDev Tools does not currently display advertisements. We do not load Google AdSense, Monetag, or other ad-network scripts.
 			</p>
 		</section>
 
 		<section>
 			<h2 class="text-xl font-bold text-base-content">4. Cookies</h2>
 			<p>
-				OneDev Tools itself does not set first-party cookies for tracking or session management. Third-party advertising or analytics scripts, if present, may set their own cookies.
+				OneDev Tools itself does not set first-party cookies for tracking or session management. Anonymous analytics, if present, may record page views without identifying you.
 			</p>
 			<p>
 				Some tools use your browser's <code class="text-sm bg-base-200 px-1 rounded">localStorage</code> to save your preferences or recent inputs locally on your device. This data is stored only on your device and is never transmitted to us. You can clear it at any time by clearing your browser's local storage.
