@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { trackToolSelect } from '$lib/utils/analytics';
 
 	interface SidebarItem {
 		name: string;
@@ -50,12 +51,7 @@
 	}
 
 	function handleLinkClick(toolName: string, categoryName?: string) {
-		if (typeof window !== 'undefined' && (window as Window & { umami?: { track: (event: string, data?: Record<string, string>) => void } }).umami) {
-			(window as Window & { umami?: { track: (event: string, data?: Record<string, string>) => void } }).umami?.track('Tool Select', {
-				tool: toolName,
-				...(categoryName && { category: categoryName })
-			});
-		}
+		trackToolSelect(toolName, categoryName, 'sidebar');
 
 		if (onNavigate) {
 			onNavigate();
