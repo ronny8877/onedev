@@ -100,6 +100,19 @@ export const toolCategories: ToolCategory[] = [
 		]
 	},
 	{
+		name: 'QR & Barcode',
+		icon: '▦',
+		description: 'Free QR code and barcode tools that run in your browser. Generate customizable QR codes with logos and dot styles, scan QR codes from an image or camera, create WiFi and vCard codes, and generate or read 1D barcodes. Nothing is uploaded.',
+		items: [
+			{ name: 'QR Generator', href: '/qr/generator', description: 'QR code generator online. Create custom QR codes with logos, colors, and dot styles. Download PNG or SVG — free, no signup, runs in your browser.', icon: '▦' },
+			{ name: 'QR Reader', href: '/qr/reader', description: 'QR code reader online. Decode a QR code from an image or your camera. See the payload instantly — nothing is uploaded.', icon: '📷' },
+			{ name: 'WiFi QR', href: '/qr/wifi', description: 'WiFi QR code generator. Encode your network name, password, and security type so phones can join with a scan.', icon: '📶' },
+			{ name: 'vCard QR', href: '/qr/vcard', description: 'vCard QR code generator. Turn a name, phone, email, and company into a contact QR that phones can save.', icon: '👤' },
+			{ name: 'Barcode Generator', href: '/qr/barcode', description: 'Barcode generator online. Create CODE128, EAN-13, UPC, CODE39, and other 1D barcodes. Download SVG or PNG in your browser.', icon: '║' },
+			{ name: 'Barcode Reader', href: '/qr/barcode-reader', description: 'Barcode scanner online. Read EAN, UPC, CODE128, CODE39, and other barcodes from an image or camera.', icon: '🔍' }
+		]
+	},
+	{
 		name: 'System',
 		icon: '💻',
 		description: 'Free browser-based system information tools. Detect your OS, CPU, memory, screen resolution, GPU, and network info. Check browser capabilities and device permissions—all client-side.',
@@ -415,6 +428,7 @@ export function getCategorySlug(cat: ToolCategory): string {
 		'AI Utilities': 'ai',
 		'CSS Layout': 'css-layout',
 		'ID Tools': 'id',
+		'QR & Barcode': 'qr'
 	};
 	return overrides[cat.name] ?? cat.name.toLowerCase().replace(/\s+/g, '-');
 }

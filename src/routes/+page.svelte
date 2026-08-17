@@ -18,7 +18,8 @@
 		'Convert': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10' },
 		'CSS': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' },
 		'AI Utilities': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10' },
-		'Hash': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10' }
+		'Hash': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10' },
+		'QR & Barcode': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' }
 	};
 </script>
 

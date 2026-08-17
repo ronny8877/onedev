@@ -60,7 +60,8 @@
 				{ icon: '🎨', title: 'CSS Generators', desc: 'Visual builders for gradients, box shadows, animations, flexbox, grid, and CSS layout utilities.' },
 				{ icon: '🔄', title: 'Converters', desc: 'Unit converters for CSS, length, data size, time, color, typography, number base, and screen resolution.' },
 				{ icon: '📝', title: 'Text Tools', desc: 'Case converters, diff checkers, regex testers, word counters, line sorters, and lorem ipsum generators.' },
-				{ icon: '🖼️', title: 'Image Tools', desc: 'Browser-side image compression, resizing, cropping, format conversion, and EXIF metadata viewer.' }
+				{ icon: '🖼️', title: 'Image Tools', desc: 'Browser-side image compression, resizing, cropping, format conversion, and EXIF metadata viewer.' },
+				{ icon: '▦', title: 'QR & Barcode', desc: 'Generate customizable QR codes with logos and styles, scan QR codes, create WiFi and vCard codes, and generate or read barcodes.' }
 			] as cat}
 				<div class="card bg-base-200 border border-base-300/50 p-4">
 					<div class="text-2xl mb-2">{cat.icon}</div>
