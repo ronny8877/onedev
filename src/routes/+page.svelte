@@ -19,15 +19,22 @@
 		'CSS': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' },
 		'AI Utilities': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10' },
 		'Hash': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10' },
-		'QR & Barcode': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' }
+		'QR & Barcode': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' },
+		'XML': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10' },
+		'CSV': { color: 'success', hoverBorder: 'hover:border-success/20', bgClass: 'bg-success/10' },
+		'Date & Time': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10' },
+		'PDF': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10' },
+		'YAML': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10' },
+		'JWT': { color: 'accent', hoverBorder: 'hover:border-accent/20', bgClass: 'bg-accent/10' },
+		'Git': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' }
 	};
 </script>
 
 <svelte:head>
-	<title>OneDev Tools — 170+ Free Developer Tools | JSON, Base64, AI, URL Utilities</title>
+	<title>OneDev Tools — {allTools.length} Free Developer Tools | JSON, XML, CSV, Dates, AI</title>
 	<meta
 		name="description"
-		content="Client-side developer tools for JSON, hashes, JWTs, regex, PDFs, QR codes, and more. No signup. Tool input stays in your browser."
+		content="Client-side developer tools for JSON, XML, CSV, Unix timestamps, hashes, JWTs, regex, PDFs, QR codes, and more. No signup. Tool input stays in your browser."
 	/>
 	<meta name="author" content="OneDev Tools" />
 	<meta name="robots" content="index, follow" />

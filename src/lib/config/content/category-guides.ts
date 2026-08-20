@@ -648,6 +648,102 @@ export const categoryGuides: Record<string, CategoryGuide> = {
 			}
 		]
 	},
+	xml: {
+		intro: `<p>XML tools format, validate well-formedness, minify, convert to JSON and CSV, build XML from JSON, escape entities, run XPath 1.0, and diff two documents. Parsing uses the browser <code>DOMParser</code>. We do not fetch DTDs, XSDs, or the URLs inside your document.</p>
+<p>Use these pages for SOAP samples, RSS, Maven POMs, Android manifests, and generic config. HTML is a different parser; a <code>&lt;br&gt;</code> without a close is fine in HTML and an error here. Schema validity (does this match the XSD) is still a job for CI.</p>`,
+		whenToUse: [
+			'Pretty-print a minified SOAP fault before you file a ticket',
+			'See why a feed or POM fails to parse',
+			'Turn a catalog of repeating elements into CSV for a spreadsheet',
+			'Test an XPath before you write XSLT',
+			'Diff two configs without indent noise'
+		],
+		howItWorks: `<p>Well-formedness is whatever this browser’s XML parser accepts. Conversion to JSON uses <code>@</code> for attributes and arrays for repeated tags. XPath is 1.0 via <code>document.evaluate</code>. Diff walks the JSON projection, so comments are ignored. Large documents stay in this tab’s memory.</p>`,
+		pitfalls: [
+			'Default namespaces make //foo match nothing. Use local-name() or bind prefixes in your own code.',
+			'A raw & in text is not well-formed. Escape it.',
+			'JSON round-trips drop comments and mixed-content whitespace.',
+			'Megabyte dumps can freeze the tab. Use xmllint locally for those.'
+		],
+		faqs: [
+			{
+				question: 'Do you download my XSD?',
+				answer: '<p>No. There is no network request from these tools.</p>'
+			},
+			{
+				question: 'Is this HTML?',
+				answer: '<p>No. Use the HTML tools for HTML. XML is strict about closes, quotes, and entities.</p>'
+			},
+			{
+				question: 'Can I verify a digital signature?',
+				answer: '<p>No. Minifying or formatting a signed envelope will also break a byte signature. Re-sign after you change bytes.</p>'
+			}
+		]
+	},
+	csv: {
+		intro: `<p>CSV tools parse RFC 4180-style tables in the browser: convert to JSON, XML, SQL, and Markdown, view as a table, validate quotes and ragged rows, change delimiters (including TSV), diff two files, and transpose. Excel exports with a UTF-8 BOM are stripped automatically.</p>
+<p>There is no single CSV standard in the wild. We treat the first row as headers, pad or trim ragged rows with a warning, and keep every cell as a string so ZIP codes do not lose leading zeros. Huge sheets still belong in a CLI if they are tens of megabytes.</p>`,
+		whenToUse: [
+			'Turn a CRM export into JSON for a mock API',
+			'Open a CSV when you do not have Excel',
+			'Switch comma CSV to semicolon for a European Excel',
+			'Seed a local SQLite with INSERT statements',
+			'Paste a small table into a README as Markdown'
+		],
+		howItWorks: `<p>A single-pass parser handles quoted commas, escaped quotes, and newlines in fields. Delimiter detection looks at the first few lines. The viewer renders at most 250 rows so the DOM stays cheap; counts and download still include the full parse. SQL typing is a guess, not a schema.</p>`,
+		pitfalls: [
+			'Duplicate headers overwrite each other in JSON objects.',
+			'sep=, from Excel is not a real header. Remove it.',
+			'Diff is by row index, not a primary key. Sort first if you have an id.',
+			'Character encoding (Latin-1 vs UTF-8) is not a delimiter problem.'
+		],
+		faqs: [
+			{
+				question: 'Is TSV supported?',
+				answer: '<p>Yes. Tabs are detected, and the delimiter converter can emit TSV on purpose.</p>'
+			},
+			{
+				question: 'Do numbers stay numbers in JSON?',
+				answer: '<p>No. Cells stay strings so IDs and ZIP codes survive. Parse types in your app.</p>'
+			},
+			{
+				question: 'Will a 200,000-row file work?',
+				answer: '<p>The parser will try. The table preview will cap rows. Memory is the limit. Use miller or csvkit for huge files.</p>'
+			}
+		]
+	},
+	date: {
+		intro: `<p>Date and time tools convert Unix timestamps, time zones, ISO 8601 instants and durations, relative language, world clocks, calendar add/subtract, elapsed time, and common string formats. They use <code>Intl</code> and <code>Date</code> in this tab. Convert → Time is duration units (hours ↔ ms), not epoch conversion.</p>
+<p>Unix time is UTC. Civil time needs an IANA zone like <code>America/New_York</code>, not a frozen “EST” label. JavaScript stores milliseconds; a 10-digit value in the 2020s is almost always seconds. Mixing those up is the usual off-by-a-thousand-years bug.</p>`,
+		whenToUse: [
+			'Decode 1690000000 from a log or JWT exp',
+			'See the same instant in Tokyo and London',
+			'Parse P3DT4H from an API',
+			'Add 14 days to a trial start',
+			'Get RFC 2822 and Excel serial for one instant'
+		],
+		howItWorks: `<p>Digit length guesses Unix unit (s / ms / µs / ns). ISO instants go through <code>Date.parse</code>. Durations use an ISO 8601 P… parser with approximate months. Time zones come from <code>Intl.supportedValuesOf('timeZone')</code> when the engine has it. World clocks tick once a second from this device’s clock, not NTP.</p>`,
+		pitfalls: [
+			'A 13-digit Unix is milliseconds. Treat it as seconds and you land in the 50th millennium.',
+			'ISO date-time without Z is local in some engines and UTC in others. Put an offset.',
+			'DST gaps and overlaps still confuse “9am local”. Store UTC.',
+			'Excel 1900 leap-year oddities are not fully emulated.'
+		],
+		faqs: [
+			{
+				question: 'Is this the same as Convert → Time?',
+				answer: '<p>No. Convert → Time turns 3600000 ms into hours. These pages turn epochs and ISO strings into calendar dates and zones.</p>'
+			},
+			{
+				question: 'Do you call a world clock API?',
+				answer: '<p>No. Formatting is local. If the OS clock is wrong, the world clock is wrong.</p>'
+			},
+			{
+				question: 'Leap seconds?',
+				answer: '<p>POSIX Unix time ignores leap seconds. So does JavaScript Date. We follow that.</p>'
+			}
+		]
+	},
 	yaml: {
 		intro: `<p>YAML tools validate, format, convert to and from JSON, diff, lint duplicate keys, sort keys, and flatten to .env style. YAML is the language of Kubernetes, Ansible, and GitHub Actions, and it is easy to break with tabs, implicit typing, and duplicate keys.</p>
 <p>Norway problem (<code>NO</code> becoming boolean false), unquoted colons, and multiline strings are the usual footguns. Prefer JSON for APIs; use YAML when humans edit nested config and you understand the spec version your runner uses.</p>`,
