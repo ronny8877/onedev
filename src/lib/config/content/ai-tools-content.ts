@@ -11,7 +11,7 @@ interface AIToolContent {
 export const aiToolsContent: Record<string, AIToolContent> = {
 	'token-counter': {
 		features: [
-			'Highly accurate token counting for modern LLMs including GPT-4o, Claude 3.5, and Gemini',
+			'Highly accurate token counting for modern LLMs including GPT-5.6, Claude 5, Gemini 3.x, Grok 4.6, and DeepSeek V4',
 			'Real-time, instant character, word, and token calculations as you type',
 			'Built-in API cost estimation based on the latest provider pricing tiers',
 			'Support for multiple tokenizer encodings (cl100k_base for OpenAI, custom variants)',

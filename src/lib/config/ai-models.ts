@@ -1,6 +1,6 @@
 // AI Models Configuration
 // Centralized configuration for all AI model data
-// Last updated: July 8, 2026
+// Last updated: August 20, 2026
 //
 // ⚠️ UPDATE THIS FILE when model pricing changes
 // Check provider websites for current rates:
@@ -11,7 +11,7 @@
 // - DeepSeek: https://api-docs.deepseek.com/quick_start/pricing
 // - Moonshot (Kimi): https://platform.moonshot.ai/
 
-export const PRICING_LAST_UPDATED = '2026-07-08';
+export const PRICING_LAST_UPDATED = '2026-08-20';
 
 // ============================================================
 // CHAT/COMPLETION MODELS
@@ -42,6 +42,58 @@ export interface ChatModel {
 
 export const CHAT_MODELS: ChatModel[] = [
 	// ============ OpenAI ============
+	// GPT-5.6 family — current flagship, listed on OpenAI API pricing (Aug 2026)
+	{
+		name: 'gpt-5.6-sol',
+		displayName: 'GPT-5.6 Sol',
+		provider: 'openai',
+		contextWindow: 1050000,
+		maxOutput: 128000,
+		inputPer1M: 5.00,
+		outputPer1M: 30.00,
+		cachedInputPer1M: 0.50,
+		multimodal: true,
+		releaseDate: '2026-08',
+		strengths: 'Current OpenAI flagship for coding, agents, and knowledge work',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Listed as gpt-5.6-sol. Standard rates under ~270K input; long context is $10 / $45 per 1M. Batch 50% off. Regional data-residency endpoints add 10%.'
+	},
+	{
+		name: 'gpt-5.6-terra',
+		displayName: 'GPT-5.6 Terra',
+		provider: 'openai',
+		contextWindow: 1050000,
+		maxOutput: 128000,
+		inputPer1M: 2.00,
+		outputPer1M: 12.00,
+		cachedInputPer1M: 0.20,
+		multimodal: true,
+		releaseDate: '2026-08',
+		strengths: 'Mid-tier GPT-5.6: coding and production chat at roughly GPT-5.4 input price with a lower output rate',
+		speedCategory: 'fast',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Listed as gpt-5.6-terra. Long-context band $4 / $18 per 1M. Strong default when Sol is more than you need.'
+	},
+	{
+		name: 'gpt-5.6-luna',
+		displayName: 'GPT-5.6 Luna',
+		provider: 'openai',
+		contextWindow: 400000,
+		maxOutput: 64000,
+		inputPer1M: 0.20,
+		outputPer1M: 1.20,
+		cachedInputPer1M: 0.02,
+		multimodal: true,
+		releaseDate: '2026-08',
+		strengths: 'High-volume GPT-5.6: classification, cheap chat, extraction',
+		speedCategory: 'fast',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'Listed as gpt-5.6-luna. Long-context band $0.40 / $1.80 per 1M. Same $0.20 input floor as Grok 4.1 Fast with higher output price.'
+	},
 	// Current flagship family (GPT-5.4) — released March 2026
 	{
 		name: 'gpt-5.4',
@@ -265,11 +317,84 @@ export const CHAT_MODELS: ChatModel[] = [
 		speedCategory: 'fast',
 		reasoning: false,
 		apiAvailability: true,
-		notes: 'Legacy. GPT-5.4 Nano is newer and cheaper at $0.20 input.'
+		notes: 'Legacy. Prefer GPT-5.6 Luna ($0.20 / $1.20) or GPT-5.4 Nano for new work.'
 	},
 
 	// ============ Anthropic ============
-	// Claude 4.7 — current flagship, released April 2026
+	// Claude 5 family — current lineup on platform.claude.com/docs pricing (Aug 20, 2026)
+	{
+		name: 'claude-fable-5',
+		displayName: 'Claude Fable 5',
+		provider: 'anthropic',
+		contextWindow: 1000000,
+		maxOutput: 128000,
+		inputPer1M: 10.00,
+		outputPer1M: 50.00,
+		cachedInputPer1M: 1.00,
+		multimodal: true,
+		releaseDate: '2026-06',
+		strengths: 'Highest self-serve Claude tier: hard agentic coding, long evaluations, when extra quality pays back',
+		speedCategory: 'slow',
+		reasoning: true,
+		apiAvailability: true,
+		tokenizerFactor: 1.30,
+		notes: 'Official: $10 / $50 per MTok, cache hits $1. Tokenizer is the 4.7+ generation (~30% more tokens than Sonnet 4.6 and earlier).'
+	},
+	{
+		name: 'claude-opus-5',
+		displayName: 'Claude Opus 5',
+		provider: 'anthropic',
+		contextWindow: 1000000,
+		maxOutput: 128000,
+		inputPer1M: 5.00,
+		outputPer1M: 25.00,
+		cachedInputPer1M: 0.50,
+		multimodal: true,
+		releaseDate: '2026-07',
+		strengths: 'Current Opus flagship for complex reasoning, coding, and enterprise agents',
+		speedCategory: 'slow',
+		reasoning: true,
+		apiAvailability: true,
+		tokenizerFactor: 1.30,
+		notes: 'Released Jul 24, 2026. Same $5 / $25 card as prior Opus 4.x. Cache hits $0.50. 4.7+ tokenizer (~30% more tokens vs 4.6).'
+	},
+	{
+		name: 'claude-sonnet-5',
+		displayName: 'Claude Sonnet 5',
+		provider: 'anthropic',
+		contextWindow: 1000000,
+		maxOutput: 64000,
+		inputPer1M: 2.00,
+		outputPer1M: 10.00,
+		cachedInputPer1M: 0.20,
+		multimodal: true,
+		releaseDate: '2026-06',
+		strengths: 'Production default: coding, writing, and agents at the current standard $2 / $10 rate',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		tokenizerFactor: 1.30,
+		notes: 'Anthropic made $2 / $10 the standard Sonnet 5 price (the planned Sep 1, 2026 rise to $3 / $15 will not happen). Cache hits $0.20. 4.7+ tokenizer.'
+	},
+	{
+		name: 'claude-opus-4-8',
+		displayName: 'Claude Opus 4.8',
+		provider: 'anthropic',
+		contextWindow: 1000000,
+		maxOutput: 128000,
+		inputPer1M: 5.00,
+		outputPer1M: 25.00,
+		cachedInputPer1M: 0.50,
+		multimodal: true,
+		releaseDate: '2026-06',
+		strengths: 'Previous Opus flagship, still listed at $5 / $25',
+		speedCategory: 'slow',
+		reasoning: true,
+		apiAvailability: true,
+		tokenizerFactor: 1.30,
+		notes: 'Still on the official price table. Prefer Opus 5 for new projects. 4.7+ tokenizer.'
+	},
+	// Claude 4.7 — previous generation still widely used
 	{
 		name: 'claude-opus-4-7',
 		displayName: 'Claude Opus 4.7',
@@ -285,7 +410,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		speedCategory: 'slow',
 		reasoning: true,
 		apiAvailability: true,
-		tokenizerFactor: 1.35,
+		tokenizerFactor: 1.30,
 		notes: 'Released Apr 16, 2026. 87.6% SWE-bench Verified, 64.3% Terminal-Bench 2.0. New xhigh effort level. 3.75MP vision (3x previous). Task budgets beta. New tokenizer emits up to ~35% more tokens vs Opus 4.6, raising effective cost — token/cost estimates here are adjusted accordingly.'
 	},
 	{
@@ -303,7 +428,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		speedCategory: 'balanced',
 		reasoning: true,
 		apiAvailability: true,
-		tokenizerFactor: 1.35,
+		tokenizerFactor: 1.30,
 		notes: 'Released May 2026. Sonnet tier of the Claude 4.7 generation. Uses the same new tokenizer as Opus 4.7 (~35% more tokens than 4.6), so token/cost estimates are adjusted. 1M context flat-rate.'
 	},
 	// Claude 4.6 family — previous generation, still widely used
@@ -373,8 +498,8 @@ export const CHAT_MODELS: ChatModel[] = [
 		strengths: 'Coding, nuanced writing, computer use (previous gen)',
 		speedCategory: 'balanced',
 		reasoning: false,
-		apiAvailability: true,
-		notes: 'Previous generation. Upgrade to Sonnet 4.6 for new projects.'
+		apiAvailability: false,
+		notes: 'Previous generation. Prefer Sonnet 5 ($2 / $10) for new projects. Not on the current first-party price table.'
 	},
 	{
 		name: 'claude-3-5-haiku-20241022',
@@ -390,7 +515,8 @@ export const CHAT_MODELS: ChatModel[] = [
 		strengths: 'Fast analysis, text extraction (previous gen)',
 		speedCategory: 'fast',
 		reasoning: false,
-		apiAvailability: true
+		apiAvailability: false,
+		notes: 'Retired on first-party Claude API except Bedrock and Google Cloud. Prefer Haiku 4.5.'
 	},
 
 	// ============ Google ============
@@ -403,14 +529,82 @@ export const CHAT_MODELS: ChatModel[] = [
 		maxOutput: 65536,
 		inputPer1M: 2.00,
 		outputPer1M: 12.00,
-		cachedInputPer1M: 0.50,
+		cachedInputPer1M: 0.20,
 		multimodal: true,
 		releaseDate: '2026-02',
 		strengths: 'Advanced reasoning, native video understanding, complex multimodal tasks',
 		speedCategory: 'slow',
 		reasoning: true,
 		apiAvailability: true,
-		notes: 'Latest flagship. 77.1% ARC-AGI-2. Pricing doubles above 200K tokens ($4/$18).'
+		notes: 'Official Gemini API: $2 / $12 under 200K prompt tokens, $4 / $18 above. Cache reads $0.20 / $0.40. Thinking tokens billed as output.'
+	},
+	{
+		name: 'gemini-3.6-flash',
+		displayName: 'Gemini 3.6 Flash',
+		provider: 'google',
+		contextWindow: 1048576,
+		maxOutput: 65536,
+		inputPer1M: 1.50,
+		outputPer1M: 7.50,
+		cachedInputPer1M: 0.15,
+		multimodal: true,
+		releaseDate: '2026-08',
+		strengths: 'Current Gemini Flash for speed, search, and grounding',
+		speedCategory: 'fast',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Listed as gemini-3.6-flash on ai.google.dev pricing. Batch/Flex $0.75 / $3.75. Thinking tokens billed as output.'
+	},
+	{
+		name: 'gemini-3.5-flash',
+		displayName: 'Gemini 3.5 Flash',
+		provider: 'google',
+		contextWindow: 1048576,
+		maxOutput: 65536,
+		inputPer1M: 1.50,
+		outputPer1M: 9.00,
+		cachedInputPer1M: 0.15,
+		multimodal: true,
+		releaseDate: '2026-07',
+		strengths: 'Gemini 3.5 Flash: speed plus grounding, higher output rate than 3.6 Flash',
+		speedCategory: 'fast',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Official: $1.50 / $9.00. Batch/Flex $0.75 / $4.50.'
+	},
+	{
+		name: 'gemini-3.5-flash-lite',
+		displayName: 'Gemini 3.5 Flash-Lite',
+		provider: 'google',
+		contextWindow: 1048576,
+		maxOutput: 65536,
+		inputPer1M: 0.30,
+		outputPer1M: 2.50,
+		cachedInputPer1M: 0.03,
+		multimodal: true,
+		releaseDate: '2026-07',
+		strengths: 'High-volume agentic tasks, translation, simple extraction on the Gemini 3.5 line',
+		speedCategory: 'fast',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'Official: $0.30 / $2.50 (text/image/video/audio). Batch $0.15 / $1.25.'
+	},
+	{
+		name: 'gemini-3.1-flash-lite',
+		displayName: 'Gemini 3.1 Flash-Lite',
+		provider: 'google',
+		contextWindow: 1048576,
+		maxOutput: 65536,
+		inputPer1M: 0.25,
+		outputPer1M: 1.50,
+		cachedInputPer1M: 0.025,
+		multimodal: true,
+		releaseDate: '2026-05',
+		strengths: 'Cheapest current Gemini 3.x text/image/video path',
+		speedCategory: 'fast',
+		reasoning: false,
+		apiAvailability: true,
+		notes: 'Official: $0.25 / $1.50 for text/image/video. Audio input is $0.50 / 1M.'
 	},
 	{
 		name: 'gemini-3.1-flash',
@@ -497,7 +691,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		speedCategory: 'fast',
 		reasoning: false,
 		apiAvailability: false,
-		notes: 'DEPRECATED — shutting down June 1, 2026. Migrate to Gemini 2.5 Flash.'
+		notes: 'DEPRECATED — shut down June 1, 2026. Migrate to Gemini 2.5 Flash or 3.5 Flash-Lite.'
 	},
 	{
 		name: 'gemini-1.5-pro',
@@ -524,9 +718,9 @@ export const CHAT_MODELS: ChatModel[] = [
 		displayName: 'DeepSeek V4 Flash (Chat)',
 		provider: 'deepseek',
 		contextWindow: 1000000,
-		maxOutput: 32000,
-		inputPer1M: 0.14,
-		outputPer1M: 0.28,
+		maxOutput: 384000,
+		inputPer1M: 0.44,
+		outputPer1M: 1.32,
 		cachedInputPer1M: 0.014,
 		multimodal: false,
 		releaseDate: '2026-04',
@@ -534,7 +728,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		speedCategory: 'fast',
 		reasoning: false,
 		apiAvailability: true,
-		notes: 'Released Apr 24, 2026. 284B total / 13B active MoE params. model string: deepseek-chat (routes here). Replaces V3.2. deepseek-reasoner routes to V4 Flash thinking mode.'
+		notes: 'Peak (01:00–04:00 and 06:00–10:00 UTC) $0.44 / $1.32 cache-miss. Off-peak is half ($0.22 / $0.66). Cache hit $0.007 off-peak / $0.014 peak. Rates effective Aug 16, 2026. Max output 384K on current V4 Flash.'
 	},
 	{
 		name: 'deepseek-v4-pro',
@@ -542,16 +736,16 @@ export const CHAT_MODELS: ChatModel[] = [
 		provider: 'deepseek',
 		contextWindow: 1000000,
 		maxOutput: 384000,
-		inputPer1M: 1.74,
-		outputPer1M: 3.48,
-		cachedInputPer1M: 0.0036,
+		inputPer1M: 1.32,
+		outputPer1M: 3.96,
+		cachedInputPer1M: 0.044,
 		multimodal: false,
 		releaseDate: '2026-04',
-		strengths: 'Frontier-class coding & reasoning, 1M context, open weights, near Claude Opus 4.7 quality',
+		strengths: 'Frontier-class coding and reasoning, 1M context, open weights',
 		speedCategory: 'balanced',
 		reasoning: true,
 		apiAvailability: true,
-		notes: '1.6T total / 49B active MoE params. 80.6% SWE-bench Verified, 93.5 LiveCodeBench. 75% discount active until May 31 2026 (~$0.435/$0.87). Full price after: $1.74/$3.48. Open weights (MIT).'
+		notes: 'GA as DeepSeek-V4-Pro-0813. Peak cache-miss $1.32 / $3.96; off-peak half ($0.66 / $1.98). Cache hit $0.022 / $0.044. Cost estimator uses peak so budgets are not surprised. Effective Aug 16, 2026.'
 	},
 	{
 		name: 'deepseek-reasoner',
@@ -568,7 +762,7 @@ export const CHAT_MODELS: ChatModel[] = [
 		speedCategory: 'balanced',
 		reasoning: true,
 		apiAvailability: true,
-		notes: 'model string: deepseek-reasoner (will deprecate Jul 24, 2026 — routes to V4 Flash thinking). 87.5% AIME.'
+		notes: 'Legacy alias. Prefer deepseek-v4-flash thinking. First-party reasoner path was scheduled to route away Jul 24, 2026.'
 	},
 	{
 		name: 'deepseek-chat',
@@ -584,12 +778,63 @@ export const CHAT_MODELS: ChatModel[] = [
 		strengths: 'Ultra-cheap general assistant, coding (legacy)',
 		speedCategory: 'balanced',
 		reasoning: false,
-		apiAvailability: true,
-		notes: 'LEGACY — model string routes to V4 Flash after Jul 24, 2026. Migrate to deepseek-v4-flash.'
+		apiAvailability: false,
+		notes: 'LEGACY — model string routes to V4 Flash. Do not budget this row for new apps.'
 	},
 
 	// ============ xAI ============
-	// Current Grok 4 family
+	// Grok 4.6 is the current flagship on docs.x.ai (Aug 2026)
+	{
+		name: 'grok-4.6',
+		displayName: 'Grok 4.6',
+		provider: 'x',
+		contextWindow: 500000,
+		maxOutput: 128000,
+		inputPer1M: 2.00,
+		outputPer1M: 6.00,
+		cachedInputPer1M: 0.50,
+		multimodal: true,
+		releaseDate: '2026-08',
+		strengths: 'Current xAI flagship for coding, agents, and knowledge work',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Official: $2 / $0.50 / $6 per 1M under 200K prompt tokens; $4 / $1 / $12 at or above 200K for the whole request. 500K context. Reasoning effort low/medium/high/xhigh.'
+	},
+	{
+		name: 'grok-4.5',
+		displayName: 'Grok 4.5',
+		provider: 'x',
+		contextWindow: 500000,
+		maxOutput: 128000,
+		inputPer1M: 2.00,
+		outputPer1M: 6.00,
+		cachedInputPer1M: 0.30,
+		multimodal: true,
+		releaseDate: '2026-07',
+		strengths: 'Prior Grok coding/agent model, same token rates as 4.6 with cheaper cache hits',
+		speedCategory: 'balanced',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Official: $2 / $0.30 / $6 under 200K; doubles above. Prefer grok-4.6 for new work.'
+	},
+	{
+		name: 'grok-4.3',
+		displayName: 'Grok 4.3',
+		provider: 'x',
+		contextWindow: 1000000,
+		maxOutput: 128000,
+		inputPer1M: 1.25,
+		outputPer1M: 2.50,
+		cachedInputPer1M: 0.20,
+		multimodal: true,
+		releaseDate: '2026-06',
+		strengths: '1M context Grok at a lower output rate than 4.6',
+		speedCategory: 'fast',
+		reasoning: true,
+		apiAvailability: true,
+		notes: 'Official: $1.25 / $0.20 / $2.50 under 200K; $2.50 / $0.40 / $5.00 above. 1M context.'
+	},
 	{
 		name: 'grok-4',
 		displayName: 'Grok 4',
@@ -679,16 +924,16 @@ export const CHAT_MODELS: ChatModel[] = [
 		provider: 'moonshot',
 		contextWindow: 262144,
 		maxOutput: 16384,
-		inputPer1M: 0.75,
-		outputPer1M: 3.50,
-		cachedInputPer1M: 0.19,
+		inputPer1M: 0.95,
+		outputPer1M: 4.00,
+		cachedInputPer1M: 0.16,
 		multimodal: true,
 		releaseDate: '2026-04',
 		strengths: 'Long-horizon coding, frontend UI generation, 300-agent swarms, multi-agent orchestration',
 		speedCategory: 'balanced',
 		reasoning: true,
 		apiAvailability: true,
-		notes: 'Released Apr 20, 2026. 58.6% SWE-bench Pro (beats GPT-5.4). 1T total / 32B active MoE. Open weights (Modified MIT). 256K context with MLA for efficient long-context inference.'
+		notes: 'Released Apr 20, 2026. API list price checked Aug 2026: $0.95 input / $4.00 output, cache ~$0.16. 256K context. Open weights (Modified MIT).'
 	},
 	{
 		name: 'kimi-k2.5',
@@ -891,6 +1136,15 @@ export const EMBEDDING_MODELS: EmbeddingModel[] = [
 		maxTokens: 32768,
 		pricePerMillion: 0.15,
 		notes: 'Released 2026. Higher-dimensional successor to the v3 series with a longer input window.'
+	},
+	{
+		name: 'gemini-embedding-2',
+		displayName: 'Gemini Embedding 2',
+		provider: 'google',
+		dimensions: 3072,
+		maxTokens: 8192,
+		pricePerMillion: 0.20,
+		notes: 'Multimodal embedding (text $0.20 / 1M). Image/audio/video have separate rates on the Gemini pricing page.'
 	},
 	{
 		name: 'text-embedding-3-large',
