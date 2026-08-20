@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -256,7 +257,7 @@ spec:
 			<div class="card bg-base-200 rounded-2xl h-fit">
 				<div class="card-body p-4">
 					<div class="flex items-center gap-2 mb-3">
-						<span class="text-lg">☸️</span>
+						<AppIcon name={'☸️'} size={18} />
 						<h3 class="font-bold">Kubernetes YAML</h3>
 					</div>
 

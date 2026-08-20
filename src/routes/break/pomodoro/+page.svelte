@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
@@ -171,7 +172,7 @@
 		<!-- Session Counter -->
 		{#if sessions > 0}
 			<div class="badge badge-lg badge-ghost gap-2">
-				<span class="text-lg">🍅</span>
+				<AppIcon name={'🍅'} size={18} />
 				{sessions} session{sessions > 1 ? 's' : ''} completed
 			</div>
 		{/if}

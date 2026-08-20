@@ -2,6 +2,7 @@
 	import { toast, type ToastMessage } from '$lib/utils/toast';
 	import { fade, fly } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 
 	let toasts = $state<ToastMessage[]>([]);
 
@@ -14,11 +15,11 @@
 
 	function getIcon(type: string): string {
 		switch (type) {
-			case 'success': return '✓';
-			case 'error': return '✕';
-			case 'warning': return '⚠';
-			case 'info': return 'ℹ';
-			default: return '';
+			case 'success': return 'circle-check';
+			case 'error': return 'circle-x';
+			case 'warning': return 'triangle-alert';
+			case 'info': return 'info';
+			default: return 'info';
 		}
 	}
 
@@ -41,9 +42,11 @@
 			out:fade={{ duration: 150 }}
 			animate:flip={{ duration: 200 }}
 		>
-			<span class="text-lg">{getIcon(t.type)}</span>
+			<AppIcon name={getIcon(t.type)} size={18} />
 			<span class="text-sm font-medium">{t.message}</span>
-			<button class="btn btn-ghost btn-xs btn-circle" onclick={() => toast.remove(t.id)}>✕</button>
+			<button class="btn btn-ghost btn-xs btn-circle" onclick={() => toast.remove(t.id)} aria-label="Dismiss">
+				<AppIcon name="x" size={14} />
+			</button>
 		</div>
 	{/each}
 </div>

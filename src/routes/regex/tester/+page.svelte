@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -284,7 +285,7 @@ test123@test.io`;
 				<div class="flex items-center justify-between mb-4">
 					<div class="flex items-center gap-3">
 						<div class="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
-							<span class="text-xl">🧪</span>
+							<AppIcon name={'🧪'} size={20} />
 						</div>
 						<div>
 							<h3 class="font-bold">Regular Expression</h3>
@@ -420,7 +421,7 @@ test123@test.io`;
 							onclick={() => toggleFlag(flag.key)}
 							title={flag.title}
 						>
-							<span>{flag.icon}</span>
+							<span><AppIcon name={flag.icon} size={16} /></span>
 							<span class="font-mono font-bold">{flag.label}</span>
 						</button>
 					{/each}

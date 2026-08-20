@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
@@ -157,7 +158,7 @@
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body">
 					<h3 class="font-bold flex items-center gap-2 mb-4">
-						<span>📊</span> Size Breakdown
+						<AppIcon name={'📊'} size={16} /> Size Breakdown
 					</h3>
 
 					<!-- Visual Bar -->

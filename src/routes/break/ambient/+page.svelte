@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
@@ -160,7 +161,7 @@
 						class="btn gap-2 {currentScene === scene.id ? 'btn-primary' : 'btn-ghost'}"
 						onclick={() => selectScene(scene.id)}
 					>
-						<span class="text-lg">{scene.icon}</span>
+						<span class="text-lg"><AppIcon name={scene.icon} size={18} /></span>
 						{scene.name}
 					</button>
 				{/each}
@@ -232,7 +233,7 @@
 				class="btn btn-sm {currentScene === scene.id ? 'btn-primary' : 'btn-ghost bg-black/50 text-white hover:bg-black/70'}"
 				onclick={() => selectScene(scene.id)}
 			>
-				{scene.icon}
+				<AppIcon name={scene.icon} size={16} />
 			</button>
 		{/each}
 		<input type="range" min="0" max="1" step="0.05" bind:value={volume} class="range range-xs range-primary w-24" />

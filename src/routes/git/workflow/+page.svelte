@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
@@ -104,7 +105,7 @@
 					class="btn gap-2 {activeWorkflow === key ? 'btn-primary' : 'btn-ghost'}"
 					onclick={() => activeWorkflow = key as WorkflowType}
 				>
-					<span>{workflow.icon}</span>
+					<span><AppIcon name={workflow.icon} size={16} /></span>
 					{workflow.name}
 				</button>
 			{/each}
@@ -114,7 +115,7 @@
 		<div class="card bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl border border-primary/20">
 			<div class="card-body">
 				<h2 class="card-title flex items-center gap-2">
-					<span class="text-2xl">{currentWorkflow.icon}</span>
+					<span class="text-2xl"><AppIcon name={currentWorkflow.icon} size={24} /></span>
 					{currentWorkflow.name}
 				</h2>
 				<p class="text-base-content/70">{currentWorkflow.description}</p>
@@ -125,7 +126,7 @@
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-4 flex items-center gap-2">
-					<span>🌿</span>
+					<AppIcon name={'🌿'} size={16} />
 					Branch Structure
 				</h3>
 				<div class="space-y-3">
@@ -146,7 +147,7 @@
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-4 flex items-center gap-2">
-					<span>📊</span>
+					<AppIcon name={'📊'} size={16} />
 					Visual Flow
 				</h3>
 				<div class="overflow-x-auto">
@@ -231,7 +232,7 @@
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-4 flex items-center gap-2">
-					<span>⌨️</span>
+					<AppIcon name={'⌨️'} size={16} />
 					Common Commands
 				</h3>
 				<div class="space-y-3">
@@ -287,19 +288,19 @@
 				<h4 class="text-sm font-semibold mb-3">When to Use Each Workflow</h4>
 				<div class="grid gap-2 text-sm">
 					<div class="flex items-center gap-3 p-2 rounded-lg bg-base-300/50">
-						<span>🌊</span>
+						<AppIcon name={'🌊'} size={16} />
 						<span><strong>Git Flow</strong> - Large teams, versioned releases, enterprise</span>
 					</div>
 					<div class="flex items-center gap-3 p-2 rounded-lg bg-base-300/50">
-						<span>🌳</span>
+						<AppIcon name={'🌳'} size={16} />
 						<span><strong>Trunk-Based</strong> - CI/CD focused, experienced teams, web apps</span>
 					</div>
 					<div class="flex items-center gap-3 p-2 rounded-lg bg-base-300/50">
-						<span>🐙</span>
+						<AppIcon name={'🐙'} size={16} />
 						<span><strong>GitHub Flow</strong> - Small teams, continuous deployment, SaaS</span>
 					</div>
 					<div class="flex items-center gap-3 p-2 rounded-lg bg-base-300/50">
-						<span>🌿</span>
+						<AppIcon name={'🌿'} size={16} />
 						<span><strong>Feature Branch</strong> - Simple projects, beginners, small teams</span>
 					</div>
 				</div>

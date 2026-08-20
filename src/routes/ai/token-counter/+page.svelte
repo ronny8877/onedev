@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { countTokens, getModelConfig } from '$lib/utils/tokenizer';
@@ -120,7 +121,7 @@ Please provide:
 				<div class="card-body py-4 px-5">
 					<div class="flex items-center justify-between">
 						<span class="text-sm text-base-content/70">Tokens</span>
-						<span class="text-2xl">🔢</span>
+						<AppIcon name={'🔢'} size={24} />
 					</div>
 					<div class="text-3xl font-bold text-primary font-mono tracking-tight">
 						{formatNumber(stats.tokens)}
@@ -136,7 +137,7 @@ Please provide:
 				<div class="card-body py-4 px-5">
 					<div class="flex items-center justify-between">
 						<span class="text-sm text-base-content/70">Characters</span>
-						<span class="text-lg">📝</span>
+						<AppIcon name={'📝'} size={18} />
 					</div>
 					<div class="text-2xl font-bold font-mono">
 						{formatNumber(stats.chars)}
@@ -152,7 +153,7 @@ Please provide:
 				<div class="card-body py-4 px-5">
 					<div class="flex items-center justify-between">
 						<span class="text-sm text-base-content/70">Words</span>
-						<span class="text-lg">📄</span>
+						<AppIcon name={'📄'} size={18} />
 					</div>
 					<div class="text-2xl font-bold font-mono">
 						{formatNumber(stats.words)}
@@ -168,7 +169,7 @@ Please provide:
 				<div class="card-body py-4 px-5">
 					<div class="flex items-center justify-between">
 						<span class="text-sm text-base-content/70">Context</span>
-						<span class="text-lg">📊</span>
+						<AppIcon name={'📊'} size={18} />
 					</div>
 					<div class="text-2xl font-bold font-mono">
 						{formatNumber(stats.contextWindow - stats.tokens)}
@@ -183,7 +184,7 @@ Please provide:
 		<!-- Tokenizer Adjustment Note -->
 		{#if stats.tokenizerFactor !== 1}
 			<div class="alert bg-warning/10 border border-warning/30 text-sm">
-				<span>🔤</span>
+				<AppIcon name={'🔤'} size={16} />
 				<span>
 					<span class="font-semibold capitalize">{stats.provider}</span>'s tokenizer packs text more densely, using about
 					<span class="font-mono font-semibold">{Math.round((stats.tokenizerFactor - 1) * 100)}%</span>

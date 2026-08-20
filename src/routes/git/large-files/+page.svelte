@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import Features from '$lib/components/content/Features.svelte';
@@ -197,7 +198,7 @@ package.json                        1.2 KB`;
 		<div class="card bg-info/10 border border-info/30 rounded-xl">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold text-info flex items-center gap-2 mb-3">
-					<span>📋</span>
+					<AppIcon name={'📋'} size={16} />
 					Copy a Command, Run It, Paste the Output Below
 				</h4>
 				<div class="space-y-2">
@@ -258,7 +259,7 @@ package.json                        1.2 KB`;
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<span>⚙️</span>
+					<AppIcon name={'⚙️'} size={16} />
 					Size Threshold
 				</h3>
 				
@@ -299,7 +300,7 @@ package.json                        1.2 KB`;
 					<div class="card-body py-4">
 						<div class="flex items-center gap-4">
 							<div class="w-14 h-14 rounded-full bg-warning/20 flex items-center justify-center shrink-0">
-								<span class="text-2xl">📦</span>
+								<AppIcon name={'📦'} size={24} />
 							</div>
 							<div>
 								<h3 class="font-semibold text-warning text-lg">
@@ -344,7 +345,7 @@ package.json                        1.2 KB`;
 									{#if isLarge}
 										<span class="text-warning">⚠️</span>
 									{:else}
-										<span class="text-success">✓</span>
+										<AppIcon name={'✓'} size={16} />
 									{/if}
 								</div>
 								<div class="flex-1 min-w-0">

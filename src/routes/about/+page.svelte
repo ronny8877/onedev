@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { BASE_URL } from '$lib/config/tools';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 </script>
 
 <svelte:head>
@@ -82,7 +83,9 @@
 				{ icon: '▦', title: 'QR & Barcode', desc: 'Generate customizable QR codes with logos and styles, scan QR codes, create WiFi and vCard codes, and generate or read barcodes.' }
 			] as cat}
 				<div class="card bg-base-200 border border-base-300/50 p-4">
-					<div class="text-2xl mb-2">{cat.icon}</div>
+					<div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+						<AppIcon name={cat.icon} size={20} />
+					</div>
 					<h3 class="font-semibold text-base-content mb-1">{cat.title}</h3>
 					<p class="text-sm text-base-content/60 leading-relaxed">{cat.desc}</p>
 				</div>
@@ -93,13 +96,13 @@
 	<!-- Privacy Commitment -->
 	<section class="mb-10 rounded-xl bg-success/5 border border-success/20 p-6">
 		<h2 class="text-xl font-bold text-base-content mb-3 flex items-center gap-2">
-			<span class="text-success">🔐</span> Our Privacy Commitment
+			<AppIcon name="lock-keyhole" size={18} class="text-success" /> Our Privacy Commitment
 		</h2>
 		<ul class="space-y-2 text-base-content/80 text-sm leading-relaxed">
-			<li class="flex items-start gap-2"><span class="text-success mt-0.5">✓</span> All tool processing happens locally in your browser — nothing is sent to a server.</li>
-			<li class="flex items-start gap-2"><span class="text-success mt-0.5">✓</span> We do not store, log, or analyze any text you paste into any tool.</li>
-			<li class="flex items-start gap-2"><span class="text-success mt-0.5">✓</span> No account creation required. We don't collect email addresses.</li>
-			<li class="flex items-start gap-2"><span class="text-success mt-0.5">✓</span> See our <a href="/privacy" class="text-primary font-medium hover:underline">Privacy Policy</a> for details on analytics and third-party scripts.</li>
+			<li class="flex items-start gap-2"><AppIcon name="check" size={14} class="text-success mt-0.5" /> All tool processing happens locally in your browser — nothing is sent to a server.</li>
+			<li class="flex items-start gap-2"><AppIcon name="check" size={14} class="text-success mt-0.5" /> We do not store, log, or analyze any text you paste into any tool.</li>
+			<li class="flex items-start gap-2"><AppIcon name="check" size={14} class="text-success mt-0.5" /> No account creation required. We don't collect email addresses.</li>
+			<li class="flex items-start gap-2"><AppIcon name="check" size={14} class="text-success mt-0.5" /> See our <a href="/privacy" class="text-primary font-medium hover:underline">Privacy Policy</a> for details on analytics and third-party scripts.</li>
 		</ul>
 	</section>
 

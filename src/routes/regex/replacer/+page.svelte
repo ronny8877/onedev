@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -219,7 +220,7 @@ Sales: sales@business.net`;
 			<div class="card-body">
 				<div class="flex items-center gap-3 mb-4">
 					<div class="w-10 h-10 rounded-xl bg-warning/20 flex items-center justify-center">
-						<span class="text-xl">🔄</span>
+						<AppIcon name={'🔄'} size={20} />
 					</div>
 					<div>
 						<h3 class="font-bold">Find & Replace</h3>
@@ -516,7 +517,7 @@ Sales: sales@business.net`;
 		<div class="card bg-gradient-to-r from-base-200 to-base-300 rounded-xl">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold flex items-center gap-2">
-					<span>📝</span> Replacement Patterns
+					<AppIcon name={'📝'} size={16} /> Replacement Patterns
 				</h4>
 				<div class="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
 					<div class="bg-base-100 p-2 rounded-lg flex items-center gap-2">

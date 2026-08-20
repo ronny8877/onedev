@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -183,7 +184,7 @@
 		<!-- Presets -->
 		<div>
 			<h3 class="text-sm font-medium text-base-content/70 mb-3 flex items-center gap-2">
-				<span>⚡</span>
+				<AppIcon name={'⚡'} size={16} />
 				Quick Presets
 			</h3>
 			<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
@@ -193,7 +194,7 @@
 						class="flex flex-col items-center p-3 rounded-xl border-2 transition-all {selectedPreset === preset.name ? 'border-primary bg-primary/10' : 'border-base-300 hover:border-primary/50'}"
 						onclick={() => selectPreset(preset.name)}
 					>
-						<span class="text-xl mb-1">{preset.icon}</span>
+						<span class="text-xl mb-1"><AppIcon name={preset.icon} size={20} /></span>
 						<span class="text-xs font-semibold">{preset.name}</span>
 					</button>
 				{/each}
@@ -292,7 +293,7 @@
 			<div class="card-body py-4">
 				<div class="flex items-center justify-between mb-3">
 					<h3 class="font-semibold flex items-center gap-2">
-						<span>⌨️</span>
+						<AppIcon name={'⌨️'} size={16} />
 						Git Command
 					</h3>
 					<CopyButton text={command} label="Copy" size="sm" />
@@ -307,7 +308,7 @@
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<span>👁️</span>
+					<AppIcon name={'👁️'} size={16} />
 					Example Output
 				</h3>
 				<pre class="font-mono text-sm p-4 bg-base-300/50 rounded-xl whitespace-pre-wrap">{exampleOutput}</pre>

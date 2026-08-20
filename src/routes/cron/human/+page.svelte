@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { Cron } from 'croner';
@@ -160,7 +161,7 @@
 							class="btn {frequency === opt.val ? 'btn-primary' : 'btn-ghost'} flex-col h-auto py-3"
 							onclick={() => frequency = opt.val as typeof frequency}
 						>
-							<span class="text-xl">{opt.icon}</span>
+							<span class="text-xl"><AppIcon name={opt.icon} size={20} /></span>
 							<span class="text-xs">{opt.label}</span>
 						</button>
 					{/each}

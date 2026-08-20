@@ -1,32 +1,33 @@
 <script lang="ts">
 	import { getActiveCategories, getAllActiveTools, BASE_URL } from '$lib/config/tools';
 	import logo from '$lib/assets/logo.png';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	// Get tools from centralized config
 	const categories = getActiveCategories();
 	const allTools = getAllActiveTools();
 
 	// Category colors and icons
-	const categoryStyles: Record<string, { color: string; hoverBorder: string; bgClass: string }> = {
-		'JSON': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10' },
-		'Base64': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10' },
-		'URL': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10' },
-		'Image': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' },
-		'System': { color: 'accent', hoverBorder: 'hover:border-accent/20', bgClass: 'bg-accent/10' },
-		'Text': { color: 'success', hoverBorder: 'hover:border-success/20', bgClass: 'bg-success/10' },
-		'HTML': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10' },
-		'Break': { color: 'neutral', hoverBorder: 'hover:border-neutral/20', bgClass: 'bg-neutral/10' },
-		'Convert': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10' },
-		'CSS': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' },
-		'AI Utilities': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10' },
-		'Hash': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10' },
-		'QR & Barcode': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' },
-		'XML': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10' },
-		'CSV': { color: 'success', hoverBorder: 'hover:border-success/20', bgClass: 'bg-success/10' },
-		'Date & Time': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10' },
-		'PDF': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10' },
-		'YAML': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10' },
-		'JWT': { color: 'accent', hoverBorder: 'hover:border-accent/20', bgClass: 'bg-accent/10' },
-		'Git': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10' }
+	const categoryStyles: Record<string, { color: string; hoverBorder: string; bgClass: string; textClass: string }> = {
+		'JSON': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10', textClass: 'text-primary' },
+		'Base64': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10', textClass: 'text-warning' },
+		'URL': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10', textClass: 'text-info' },
+		'Image': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10', textClass: 'text-secondary' },
+		'System': { color: 'accent', hoverBorder: 'hover:border-accent/20', bgClass: 'bg-accent/10', textClass: 'text-accent' },
+		'Text': { color: 'success', hoverBorder: 'hover:border-success/20', bgClass: 'bg-success/10', textClass: 'text-success' },
+		'HTML': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10', textClass: 'text-error' },
+		'Break': { color: 'neutral', hoverBorder: 'hover:border-neutral/20', bgClass: 'bg-neutral/10', textClass: 'text-neutral' },
+		'Convert': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10', textClass: 'text-info' },
+		'CSS': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10', textClass: 'text-secondary' },
+		'AI Utilities': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10', textClass: 'text-warning' },
+		'Hash': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10', textClass: 'text-primary' },
+		'QR & Barcode': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10', textClass: 'text-secondary' },
+		'XML': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10', textClass: 'text-error' },
+		'CSV': { color: 'success', hoverBorder: 'hover:border-success/20', bgClass: 'bg-success/10', textClass: 'text-success' },
+		'Date & Time': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10', textClass: 'text-info' },
+		'PDF': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10', textClass: 'text-error' },
+		'YAML': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10', textClass: 'text-warning' },
+		'JWT': { color: 'accent', hoverBorder: 'hover:border-accent/20', bgClass: 'bg-accent/10', textClass: 'text-accent' },
+		'Git': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10', textClass: 'text-secondary' }
 	};
 </script>
 
@@ -171,8 +172,8 @@
 		{@const style = categoryStyles[category.name] || categoryStyles['JSON']}
 		<section class="mb-12">
 			<h2 class="mb-2 flex items-center gap-3 text-xl font-bold">
-				<span class="flex h-9 w-9 items-center justify-center rounded-lg {style.bgClass} text-lg">
-					{category.icon}
+				<span class="flex h-9 w-9 items-center justify-center rounded-lg {style.bgClass} {style.textClass}">
+					<AppIcon name={category.icon} size={18} />
 				</span>
 				{category.name} Tools
 			</h2>
@@ -187,7 +188,9 @@
 						class="card bg-base-200 border border-base-300/50 transition-all duration-200 hover:-translate-y-1 hover:bg-base-200/80 hover:shadow-lg {style.hoverBorder}"
 					>
 						<div class="card-body p-5">
-							<div class="mb-2 text-2xl">{tool.icon || '🔧'}</div>
+							<div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl {style.bgClass} {style.textClass}">
+								<AppIcon name={tool.icon} size={20} />
+							</div>
 							<h3 class="card-title text-base font-semibold">{tool.name}</h3>
 							<p class="text-sm text-base-content/60 leading-relaxed">{tool.description || ''}</p>
 						</div>
@@ -211,6 +214,6 @@
 				<a href="/editorial-policy" class="hover:text-primary transition-colors">Editorial Policy</a>
 			</nav>
 		</div>
-		<p class="mt-6 text-xs text-base-content/30 text-center">© {new Date().getFullYear()} OneDev Tools. Built with Svelte, DaisyUI, and ❤️</p>
+		<p class="mt-6 text-xs text-base-content/30 text-center inline-flex items-center justify-center gap-1 w-full">© {new Date().getFullYear()} OneDev Tools. Built with Svelte, DaisyUI, and <AppIcon name="heart" size={12} class="inline text-error" /></p>
 	</footer>
 </div>

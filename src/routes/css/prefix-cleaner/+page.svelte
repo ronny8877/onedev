@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -72,7 +73,7 @@
 		{#if inputCSS}
 			<div class="card bg-info/10 rounded-2xl">
 				<div class="card-body p-4 flex-row items-center gap-4">
-					<span class="text-3xl">🧹</span>
+					<AppIcon name={'🧹'} size={16} />
 					<div>
 						<div class="text-lg font-bold">{prefixCount()} prefixes found</div>
 						<div class="text-sm text-base-content/60">

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -226,7 +227,7 @@
 			<div class="card-body p-4">
 				<div class="flex items-center gap-2 mb-3">
 					<div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-						<span>🔧</span>
+						<AppIcon name={'🔧'} size={16} />
 					</div>
 					<h3 class="font-bold">Configuration</h3>
 				</div>
@@ -310,8 +311,7 @@
 
 					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3 border border-base-content/5">
 						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg shadow-sm">
-							⏳
-						</div>
+							<AppIcon name={'⏳'} size={18} /></div>
 						<div>
 							<p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">Time to 1% Risk</p>
 							<div class="font-bold text-lg leading-tight">

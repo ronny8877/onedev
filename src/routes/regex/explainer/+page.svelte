@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -363,7 +364,7 @@
 				<div class="flex items-center justify-between mb-4">
 					<div class="flex items-center gap-3">
 						<div class="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-							<span class="text-xl">📖</span>
+							<AppIcon name={'📖'} size={20} />
 						</div>
 						<div>
 							<h3 class="font-bold">Pattern to Explain</h3>
@@ -442,7 +443,7 @@
 					<div class="flex flex-wrap gap-1 mt-2">
 						{#each Object.entries(typeCounts) as [type, count]}
 							<span class="badge gap-1 {tokenConfig[type]?.bgClass || 'bg-base-300'}">
-								<span>{tokenConfig[type]?.icon || '📝'}</span>
+								<span><AppIcon name={tokenConfig[type]?.icon} size={16} /></span>
 								{count} {type}
 							</span>
 						{/each}
@@ -455,7 +456,7 @@
 		{#if summary && !regexError}
 			<div class="card bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl p-4 border border-primary/20">
 				<div class="flex items-start gap-3">
-					<span class="text-2xl">💬</span>
+					<AppIcon name={'💬'} size={24} />
 					<div>
 						<h4 class="text-sm font-semibold text-primary mb-1">In Plain English</h4>
 						<p class="text-sm text-base-content/80">{summary}</p>
@@ -469,7 +470,7 @@
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-4 flex items-center gap-2">
-						<span>🧩</span> Pattern Breakdown
+						<AppIcon name={'🧩'} size={16} /> Pattern Breakdown
 					</h3>
 					
 					<!-- Interactive Token Display -->
@@ -496,7 +497,7 @@
 							{@const token = tokens[idx]}
 							{@const config = tokenConfig[token.type]}
 							<div class="flex items-start gap-4">
-								<div class="text-4xl">{token.icon}</div>
+								<div class="text-4xl"><AppIcon name={token.icon} size={32} /></div>
 								<div class="flex-1">
 									<div class="flex items-center gap-2 mb-2">
 										<code class="text-xl font-mono font-bold {config.color} {config.bgClass} px-3 py-1 rounded-lg">{token.text}</code>
@@ -524,7 +525,7 @@
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-3 flex items-center gap-2">
-						<span>📋</span> Complete Token List
+						<AppIcon name={'📋'} size={16} /> Complete Token List
 					</h3>
 					<div class="overflow-x-auto">
 						<table class="table table-sm table-zebra">
@@ -551,7 +552,7 @@
 										</td>
 										<td>
 											<span class="badge badge-sm capitalize gap-1 {config.bgClass}">
-												<span>{token.icon}</span>
+												<span><AppIcon name={token.icon} size={16} /></span>
 												{token.type}
 											</span>
 										</td>
@@ -569,12 +570,12 @@
 		<div class="card bg-gradient-to-r from-base-200 to-base-300 rounded-xl">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold flex items-center gap-2">
-					<span>🎨</span> Token Types Legend
+					<AppIcon name={'🎨'} size={16} /> Token Types Legend
 				</h4>
 				<div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
 					{#each Object.entries(tokenConfig) as [type, config]}
 						<div class="flex items-center gap-2 p-2 bg-base-100 rounded-lg">
-							<span class="text-xl">{config.icon}</span>
+							<span class="text-xl"><AppIcon name={config.icon} size={20} /></span>
 							<div>
 								<div class="font-semibold capitalize text-sm {config.color}">{type}</div>
 								<div class="w-full h-1 rounded {config.bgClass}"></div>

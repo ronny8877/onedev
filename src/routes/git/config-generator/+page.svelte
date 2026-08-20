@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -144,7 +145,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<span>👤</span>
+					<AppIcon name={'👤'} size={16} />
 					User Settings
 				</h3>
 				<div class="grid md:grid-cols-2 gap-4">
@@ -174,7 +175,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<span>⚙️</span>
+					<AppIcon name={'⚙️'} size={16} />
 					Core Settings
 				</h3>
 				<div class="grid md:grid-cols-2 gap-4">
@@ -220,7 +221,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<span>🎛️</span>
+					<AppIcon name={'🎛️'} size={16} />
 					Additional Options
 				</h3>
 				<div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -274,7 +275,7 @@
 			<div class="card-body py-4">
 				<div class="flex items-center justify-between mb-3">
 					<h3 class="font-semibold flex items-center gap-2">
-						<span>📋</span>
+						<AppIcon name={'📋'} size={16} />
 						{outputFormat === 'commands' ? 'Git Commands' : '.gitconfig'}
 					</h3>
 					<CopyButton text={outputFormat === 'commands' ? allCommands : gitconfigFormat} label="Copy All" size="sm" />

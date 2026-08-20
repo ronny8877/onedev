@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -115,7 +116,7 @@ settings:
 				<div class="card-body p-4">
 					<div class="flex items-center gap-2 mb-3">
 						<div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-							<span>📝</span>
+							<AppIcon name={'📝'} size={16} />
 						</div>
 						<h3 class="font-bold">Input YAML</h3>
 					</div>
@@ -135,7 +136,7 @@ settings:
 					<div class="flex items-center justify-between mb-3">
 						<div class="flex items-center gap-2">
 							<div class="w-8 h-8 rounded-lg bg-success/20 flex items-center justify-center">
-								<span>✨</span>
+								<AppIcon name={'✨'} size={16} />
 							</div>
 							<h3 class="font-bold">Formatted YAML</h3>
 						</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -235,7 +236,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<span>📋</span>
+					<AppIcon name={'📋'} size={16} />
 					Project Info
 				</h3>
 				<div class="grid md:grid-cols-2 gap-4">
@@ -271,7 +272,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<span>📝</span>
+					<AppIcon name={'📝'} size={16} />
 					Sections
 				</h3>
 				<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -289,7 +290,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<span>🏷️</span>
+					<AppIcon name={'🏷️'} size={16} />
 					Badges
 				</h3>
 				<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -309,7 +310,7 @@
 				<div class="flex items-center justify-between mb-3">
 					<div class="flex items-center gap-4">
 						<h3 class="font-semibold flex items-center gap-2">
-							<span>👁️</span>
+							<AppIcon name={'👁️'} size={16} />
 							Preview
 						</h3>
 						<div class="join">

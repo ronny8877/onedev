@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 </script>
 
 <svelte:head>
@@ -32,7 +33,7 @@
 				{ name: 'CSS Gradient', href: '/css/gradient', icon: '🌈' },
 			] as tool}
 				<a href={tool.href} class="btn btn-ghost btn-sm border border-base-300 justify-start gap-2 font-normal">
-					<span class="text-base">{tool.icon}</span>
+					<AppIcon name={tool.icon} size={16} />
 					<span class="text-sm">{tool.name}</span>
 				</a>
 			{/each}

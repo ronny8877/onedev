@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
@@ -266,7 +267,7 @@
 					<div class="card-body p-4">
 						<div class="flex items-center gap-2 mb-3">
 							<div class="w-8 h-8 rounded-lg bg-info/20 flex items-center justify-center">
-								<span>📋</span>
+								<AppIcon name={'📋'} size={16} />
 							</div>
 							<h3 class="font-bold">Header</h3>
 						</div>
@@ -314,7 +315,7 @@
 					<div class="card-body p-4">
 						<div class="flex items-center gap-2 mb-3">
 							<div class="w-8 h-8 rounded-lg bg-warning/20 flex items-center justify-center">
-								<span>🔑</span>
+								<AppIcon name={'🔑'} size={16} />
 							</div>
 							<h3 class="font-bold">Secret Key</h3>
 						</div>
@@ -368,7 +369,7 @@
 					<div class="flex items-center justify-between mb-3">
 						<div class="flex items-center gap-2">
 							<div class="w-8 h-8 rounded-lg bg-success/20 flex items-center justify-center">
-								<span>📦</span>
+								<AppIcon name={'📦'} size={16} />
 							</div>
 							<h3 class="font-bold">Payload</h3>
 						</div>
@@ -488,7 +489,7 @@
 				<span class="loading loading-spinner loading-sm"></span>
 				Generating...
 			{:else}
-				<span>⚡</span>
+				<AppIcon name={'⚡'} size={16} />
 				Generate JWT
 			{/if}
 		</button>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import Features from '$lib/components/content/Features.svelte';
@@ -176,14 +177,14 @@ c3d4e5f6 (John Doe  2024-03-15 16:45:00 +0530 15) }`;
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-4 flex items-center gap-2">
-					<span>📖</span>
+					<AppIcon name={'📖'} size={16} />
 					Blame Output Fields Explained
 				</h3>
 				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
 					{#each blameFields as field}
 						<div class="p-3 rounded-xl bg-base-300/50">
 							<div class="flex items-center gap-2 mb-1">
-								<span>{field.icon}</span>
+								<span><AppIcon name={field.icon} size={16} /></span>
 								<span class="font-semibold text-sm">{field.name}</span>
 							</div>
 							<p class="text-xs text-base-content/70">{field.description}</p>
@@ -198,7 +199,7 @@ c3d4e5f6 (John Doe  2024-03-15 16:45:00 +0530 15) }`;
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-4 flex items-center gap-2">
-						<span>🔍</span>
+						<AppIcon name={'🔍'} size={16} />
 						Parsed Blame
 					</h3>
 					

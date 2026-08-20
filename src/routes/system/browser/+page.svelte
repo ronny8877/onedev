@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { systemToolsContent } from '$lib/config/content/system-tools-content';
@@ -146,7 +147,7 @@
 						{#each browserInfo as item}
 							<div class="flex items-center justify-between p-3 rounded-xl bg-base-300/50">
 								<div class="flex items-center gap-2">
-									<span class="text-lg">{item.icon}</span>
+									<span class="text-lg"><AppIcon name={item.icon} size={18} /></span>
 									<span class="text-sm text-base-content/70">{item.label}</span>
 								</div>
 								<span class="font-mono font-semibold text-sm">{item.value}</span>
@@ -161,7 +162,7 @@
 				<div class="card-body">
 					<div class="flex items-center justify-between mb-2">
 						<h3 class="font-semibold text-lg flex items-center gap-2">
-							<span>📝</span>
+							<AppIcon name={'📝'} size={16} />
 							User Agent String
 						</h3>
 						<button class="btn btn-sm btn-ghost gap-1" onclick={copyUserAgent}>

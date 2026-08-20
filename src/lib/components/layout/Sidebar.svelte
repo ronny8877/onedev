@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { trackToolSelect } from '$lib/utils/analytics';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 
 	interface SidebarItem {
 		name: string;
@@ -80,7 +81,7 @@
 							class="font-medium"
 						>
 							{#if item.icon}
-								<span class="text-lg opacity-75">{item.icon}</span>
+								<AppIcon name={item.icon} size={16} class="opacity-80" />
 							{/if}
 							<span>{item.name}</span>
 						</a>
@@ -104,7 +105,7 @@
 						>
 							<div class="flex items-center gap-3">
 								{#if accordion.icon}
-									<span class="text-lg opacity-80" class:opacity-100={active}>{accordion.icon}</span>
+									<AppIcon name={accordion.icon} size={16} class="opacity-80 {active ? 'opacity-100 text-primary' : ''}" />
 								{/if}
 								<span class="font-semibold text-sm tracking-wide" class:opacity-100={active}>{accordion.name}</span>
 							</div>
@@ -133,7 +134,7 @@
 											onclick={() => handleLinkClick(item.name, accordion.name)}
 										>
 											{#if item.icon}
-												<span class="text-base opacity-75">{item.icon}</span>
+												<AppIcon name={item.icon} size={15} class="opacity-70" />
 											{/if}
 											<span class:font-medium={isActive(item.href)}>{item.name}</span>
 										</a>

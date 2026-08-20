@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
-@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/forms' {
+  strategy: class;
+}
 @plugin '@tailwindcss/typography';
 @plugin "daisyui" {
   themes: light, dark;
@@ -47,7 +49,38 @@ body {
 }
 
 .input, .textarea, .select {
-  @apply rounded-lg;
+  @apply rounded-lg bg-base-100 text-base-content;
+}
+
+.input:focus, .textarea:focus, .select:focus {
+  @apply border-primary outline-none ring-2 ring-primary/20;
+}
+
+.select.select-ghost,
+.input.input-ghost {
+  @apply bg-base-100;
+}
+
+/* DaisyUI 5 dropped form-control; keep the old class working. */
+.form-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+}
+
+.toggle {
+  flex-shrink: 0;
+}
+
+.toggle:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .card {
@@ -171,13 +204,29 @@ body {
   }
 }
 
+/* Restore DaisyUI join groups (connected segmented controls).
+   The previous gap-2 override split every Text/File and Prettify/Minify group. */
 .join {
-  @apply flex gap-2 items-center;
+  display: inline-flex;
+  align-items: stretch;
 }
 
-/* Join buttons styling */
-.join .btn {
-  @apply first:rounded-l-lg last:rounded-r-lg;
+.join .join-item:not(:first-child) {
+  margin-inline-start: -1px;
+}
+
+.join .join-item {
+  border-radius: 0;
+}
+
+.join .join-item:first-child {
+  border-start-start-radius: var(--radius-field, 0.5rem);
+  border-end-start-radius: var(--radius-field, 0.5rem);
+}
+
+.join .join-item:last-child {
+  border-start-end-radius: var(--radius-field, 0.5rem);
+  border-end-end-radius: var(--radius-field, 0.5rem);
 }
 
 /* Menu items in sidebar */

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import cronstrue from 'cronstrue';
@@ -105,7 +106,7 @@
 			<div class="card-body p-5">
 				<div class="flex items-center gap-3 mb-4">
 					<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-info/30 to-info/10 flex items-center justify-center">
-						<span class="text-xl">📖</span>
+						<AppIcon name={'📖'} size={20} />
 					</div>
 					<div>
 						<h3 class="font-bold">Explain Cron Expression</h3>

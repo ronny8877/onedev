@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -247,7 +248,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<span>✨</span>
+					<AppIcon name={'✨'} size={16} />
 					Add Custom Alias
 				</h3>
 				<div class="flex flex-wrap gap-3">
@@ -281,7 +282,7 @@
 				<div class="card-body py-4">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2">
-							<span>📋</span>
+							<AppIcon name={'📋'} size={16} />
 							Commands ({selectedAliases.length} aliases)
 						</h3>
 						<CopyButton text={commands} label="Copy All" size="sm" />

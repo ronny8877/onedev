@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { countTokens } from '$lib/utils/tokenizer';
@@ -135,7 +136,7 @@
 		<!-- Tokenizer Adjustment Note -->
 		{#if stats.tokenizerFactor !== 1}
 			<div class="alert bg-warning/10 border border-warning/30 text-sm">
-				<span>🔤</span>
+				<AppIcon name={'🔤'} size={16} />
 				<span>
 					<span class="font-semibold capitalize">{stats.provider}</span>'s tokenizer uses about
 					<span class="font-mono font-semibold">{Math.round((stats.tokenizerFactor - 1) * 100)}%</span>

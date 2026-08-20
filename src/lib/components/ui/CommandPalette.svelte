@@ -3,6 +3,7 @@
 	import { getAllActiveTools, type ToolItem, getActiveCategories } from '$lib/config/tools';
 	import { fade, scale } from 'svelte/transition';
 	import { trackEvent, trackToolSelect } from '$lib/utils/analytics';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 
 	interface Props {
 		open?: boolean;
@@ -168,7 +169,7 @@
 						onmouseenter={() => selectedIndex = i}
 					>
 						<div class="flex items-center gap-3">
-							<span class="text-lg">{tool.icon || '🔧'}</span>
+							<AppIcon name={tool.icon} size={18} class="opacity-80" />
 							<div class="text-left">
 								<div class="font-medium text-sm">{tool.name}</div>
 								<div class="text-xs text-base-content/50">{toolCategoryMap.get(tool.href)}</div>
