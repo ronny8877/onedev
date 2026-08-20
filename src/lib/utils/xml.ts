@@ -69,7 +69,7 @@ export function formatXml(input: string, indentSize = 2): { ok: boolean; output:
 	if (!parsed.ok || !parsed.doc?.documentElement) {
 		return { ok: false, output: '', error: parsed.error };
 	}
-	const pad = ' '.repeat(Math.max(1, Math.min(8, indentSize)));
+	const pad = ' '.repeat(Math.max(1, Math.min(8, Number(indentSize) || 2)));
 	const decl = xmlDeclaration(input);
 	const body = serializeNode(parsed.doc.documentElement, 0, pad);
 	return { ok: true, output: decl + body + '\n', error: null };
@@ -245,7 +245,7 @@ export function jsonToXml(
 	}
 
 	const safeRoot = sanitizeName(rootName || 'root');
-	const pad = ' '.repeat(Math.max(1, Math.min(8, indentSize)));
+	const pad = ' '.repeat(Math.max(1, Math.min(8, Number(indentSize) || 2)));
 	const body = jsonValueToXml(safeRoot, data, 0, pad);
 	return { ok: true, output: `<?xml version="1.0" encoding="UTF-8"?>\n${body}\n`, error: null };
 }
