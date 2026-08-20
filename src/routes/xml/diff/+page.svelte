@@ -2,6 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import ToolContent from '$lib/components/content/ToolContent.svelte';
+	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import { diffXml, SAMPLE_XML } from '$lib/utils/xml';
 	import { xmlToolsContent } from '$lib/config/content/xml-tools-content';
 
@@ -32,17 +33,13 @@
 			}}
 		/>
 		<div class="grid gap-6 lg:grid-cols-2">
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="font-bold mb-3">Left XML</h3>
-					<textarea bind:value={left} class="textarea textarea-bordered w-full font-mono text-sm min-h-64" spellcheck="false"></textarea>
-				</div>
+			<div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">Left XML</h3>
+				<CodeMirrorEditor bind:value={left} language="xml" placeholder="Paste XML..." />
 			</div>
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="font-bold mb-3">Right XML</h3>
-					<textarea bind:value={right} class="textarea textarea-bordered w-full font-mono text-sm min-h-64" spellcheck="false"></textarea>
-				</div>
+			<div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">Right XML</h3>
+				<CodeMirrorEditor bind:value={right} language="xml" placeholder="Paste XML..." />
 			</div>
 		</div>
 		{#if result.error}

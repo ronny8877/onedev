@@ -55,7 +55,7 @@
 		<div class="grid gap-6 lg:grid-cols-2">
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">HTML Input</h3>
-				<CodeMirrorEditor bind:value={input} placeholder="Paste your HTML here..." />
+				<CodeMirrorEditor bind:value={input} language="html" placeholder="Paste your HTML here..." />
 			</div>
 
 			<div>
@@ -65,7 +65,7 @@
 						{jsonOutput ? jsonOutput.split('\n').length : 0} lines
 					</span>
 				</div>
-				<CodeMirrorEditor value={jsonOutput} readonly placeholder="JSON will appear here..." />
+				<CodeMirrorEditor value={jsonOutput} language="json" readonly placeholder="JSON will appear here..." />
 			</div>
 		</div>
 

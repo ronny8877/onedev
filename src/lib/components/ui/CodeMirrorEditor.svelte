@@ -1,35 +1,52 @@
 <script lang="ts">
 	import CodeMirror from 'svelte-codemirror-editor';
 	import { json } from '@codemirror/lang-json';
+	import { xml } from '@codemirror/lang-xml';
+	import { html } from '@codemirror/lang-html';
 	import { EditorView, Decoration, type DecorationSet } from '@codemirror/view';
 	import { StateField, StateEffect } from '@codemirror/state';
 	import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 	import { tags } from '@lezer/highlight';
+
+	export type EditorLanguage = 'json' | 'xml' | 'html';
 
 	interface Props {
 		value: string;
 		placeholder?: string;
 		readonly?: boolean;
 		errorLine?: number;
+		language?: EditorLanguage;
 		onInput?: (value: string) => void;
 	}
 
 	let {
 		value = $bindable(''),
-		placeholder = 'Enter JSON here...',
+		placeholder = 'Paste code here...',
 		readonly = false,
 		errorLine,
+		language = 'json',
 		onInput
 	}: Props = $props();
 
+	const langSupport = $derived(
+		language === 'xml' ? xml() : language === 'html' ? html() : json()
+	);
+
 	// Syntax highlighting theme with vibrant colors that read well on both themes
 	const highlightStyle = HighlightStyle.define([
-		{ tag: tags.string, color: '#22c55e' }, // green for strings
-		{ tag: tags.number, color: '#f59e0b' }, // amber for numbers
-		{ tag: tags.bool, color: '#3b82f6' }, // blue for booleans
-		{ tag: tags.null, color: '#a78bfa' }, // purple for null
-		{ tag: tags.propertyName, color: '#ec4899', fontWeight: '500' }, // pink for keys
-		{ tag: [tags.punctuation, tags.bracket, tags.separator], color: '#94a3b8' } // slate for structure
+		{ tag: tags.string, color: '#22c55e' },
+		{ tag: tags.number, color: '#f59e0b' },
+		{ tag: tags.bool, color: '#3b82f6' },
+		{ tag: tags.null, color: '#a78bfa' },
+		{ tag: tags.propertyName, color: '#ec4899', fontWeight: '500' },
+		{ tag: [tags.punctuation, tags.bracket, tags.separator], color: '#94a3b8' },
+		{ tag: tags.tagName, color: '#ec4899', fontWeight: '500' },
+		{ tag: tags.attributeName, color: '#3b82f6' },
+		{ tag: tags.attributeValue, color: '#22c55e' },
+		{ tag: tags.angleBracket, color: '#94a3b8' },
+		{ tag: tags.comment, color: '#94a3b8', fontStyle: 'italic' },
+		{ tag: tags.processingInstruction, color: '#a78bfa' },
+		{ tag: tags.documentMeta, color: '#a78bfa' }
 	]);
 
 	// Error line highlighting
@@ -246,7 +263,7 @@
 	<div class="editor-container">
 		<CodeMirror
 			bind:value
-			lang={json()}
+			lang={langSupport}
 			{extensions}
 			{placeholder}
 			editable={!readonly}

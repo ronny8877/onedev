@@ -2,6 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import { validateHTML, type HTMLValidationIssue } from '$lib/utils/html';
 	import { htmlToolsContent } from '$lib/config/content/html-tools-content';
 	import Features from '$lib/components/content/Features.svelte';
@@ -144,6 +145,7 @@
 			</div>
 			<CodeMirrorEditor
 				bind:value={input}
+				language="html"
 				placeholder="Paste your HTML here to validate..."
 				errorLine={issues.find(i => i.type === 'error')?.line}
 			/>
@@ -152,7 +154,7 @@
 		<!-- Note -->
 		<div class="flex items-start gap-3 p-4 bg-base-200/50 rounded-xl border border-base-300/50">
 			<div class="w-10 h-10 rounded-lg bg-warning/10 flex items-center justify-center shrink-0">
-				<span class="text-lg">⚠️</span>
+				<AppIcon name="triangle-alert" size={18} class="text-warning" />
 			</div>
 			<div>
 				<h4 class="font-medium text-sm">Basic Validation</h4>

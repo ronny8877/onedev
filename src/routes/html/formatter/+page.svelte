@@ -189,7 +189,7 @@
 					<h3 class="text-sm font-medium text-base-content/70">Input</h3>
 					<span class="text-xs text-base-content/40">{inputStats.lines} lines</span>
 				</div>
-				<CodeMirrorEditor bind:value={input} placeholder="Paste your HTML here..." />
+				<CodeMirrorEditor bind:value={input} language="html" placeholder="Paste your HTML here..." />
 			</div>
 
 			<div>
@@ -197,7 +197,7 @@
 					<h3 class="text-sm font-medium text-base-content/70">Output</h3>
 					<span class="text-xs text-base-content/40">{outputStats.lines} lines</span>
 				</div>
-				<CodeMirrorEditor value={output} readonly placeholder="Formatted HTML will appear here..." />
+				<CodeMirrorEditor value={output} language="html" readonly placeholder="Formatted HTML will appear here..." />
 			</div>
 		</div>
 		<!-- Content Sections -->

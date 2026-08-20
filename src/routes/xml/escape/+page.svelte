@@ -2,13 +2,14 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import ToolContent from '$lib/components/content/ToolContent.svelte';
+	import Segmented from '$lib/components/ui/Segmented.svelte';
 	import { escapeXmlText, escapeXmlAttr, unescapeXml } from '$lib/utils/xml';
 	import { xmlToolsContent } from '$lib/config/content/xml-tools-content';
 
 	const content = xmlToolsContent['escape'];
 
 	let input = $state('');
-	let mode = $state<'escape-text' | 'escape-attr' | 'unescape'>('escape-text');
+	let mode = $state('escape-text');
 
 	let output = $derived.by(() => {
 		if (!input) return '';
@@ -21,10 +22,15 @@
 <ToolWrapper lastUpdated="2026-08-20">
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={() => (input = 'Price < $5 & "special"')} onClear={() => (input = '')} copyText={output} />
-		<div class="flex flex-wrap gap-2 justify-center">
-			<button class="btn btn-sm" class:btn-primary={mode === 'escape-text'} onclick={() => (mode = 'escape-text')}>Escape text</button>
-			<button class="btn btn-sm" class:btn-primary={mode === 'escape-attr'} onclick={() => (mode = 'escape-attr')}>Escape attribute</button>
-			<button class="btn btn-sm" class:btn-primary={mode === 'unescape'} onclick={() => (mode = 'unescape')}>Unescape</button>
+		<div class="flex justify-center">
+			<Segmented
+				bind:value={mode}
+				options={[
+					{ value: 'escape-text', label: 'Escape text' },
+					{ value: 'escape-attr', label: 'Escape attribute' },
+					{ value: 'unescape', label: 'Unescape' }
+				]}
+			/>
 		</div>
 		<div class="grid gap-6 lg:grid-cols-2">
 			<div class="card bg-base-200 rounded-2xl">

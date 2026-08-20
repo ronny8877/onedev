@@ -2,6 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import ToolContent from '$lib/components/content/ToolContent.svelte';
+	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import { jsonToXml } from '$lib/utils/xml';
 	import { xmlToolsContent } from '$lib/config/content/xml-tools-content';
 
@@ -17,51 +18,35 @@
 	let rootName = $state('catalog');
 	let indent = $state(2);
 	let result = $derived(input.trim() ? jsonToXml(input, rootName, indent) : { ok: true, output: '', error: null });
-
-	function downloadOutput() {
-		if (!result.output) return;
-		const blob = new Blob([result.output], { type: 'application/xml' });
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement('a');
-		a.href = url;
-		a.download = 'converted.xml';
-		a.click();
-		URL.revokeObjectURL(url);
-	}
 </script>
 
 <ToolWrapper lastUpdated="2026-08-20">
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={() => (input = sample)} onClear={() => (input = '')} copyText={result.output} />
-		<div class="flex flex-wrap gap-4 items-center justify-center">
-			<label class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
-				<span class="text-sm font-medium">Root:</span>
-				<input bind:value={rootName} class="input input-sm input-ghost w-36" />
+		<div class="flex flex-wrap items-center gap-3">
+			<label class="flex items-center gap-2 rounded-lg bg-base-200 px-3 py-1.5">
+				<span class="text-xs text-base-content/50">Root</span>
+				<input bind:value={rootName} class="input input-sm input-bordered w-36" />
 			</label>
-			<label class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
-				<span class="text-sm font-medium">Indent:</span>
-				<select bind:value={indent} class="select select-sm select-bordered bg-base-100">
+			<label class="flex items-center gap-2 rounded-lg bg-base-200 px-3 py-1.5">
+				<span class="text-xs text-base-content/50">Indent</span>
+				<select bind:value={indent} class="select select-sm select-bordered w-24">
 					<option value={2}>2 spaces</option>
 					<option value={4}>4 spaces</option>
 				</select>
 			</label>
 		</div>
+		{#if result.error}
+			<div class="alert alert-error rounded-xl text-sm">{result.error.message}</div>
+		{/if}
 		<div class="grid gap-6 lg:grid-cols-2">
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<h3 class="font-bold mb-3">JSON</h3>
-					<textarea bind:value={input} placeholder="Paste JSON..." class="textarea textarea-bordered w-full font-mono text-sm min-h-72" spellcheck="false"></textarea>
-				</div>
+			<div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">JSON</h3>
+				<CodeMirrorEditor bind:value={input} language="json" placeholder="Paste JSON..." />
 			</div>
-			<div class="card bg-base-200 rounded-2xl">
-				<div class="card-body p-4">
-					<div class="flex justify-between mb-3">
-						<h3 class="font-bold">XML</h3>
-						{#if result.output}<button class="btn btn-xs btn-ghost" onclick={downloadOutput}>Download</button>{/if}
-					</div>
-					{#if result.error}<div class="alert alert-error mb-3 text-sm">{result.error.message}</div>{/if}
-					<textarea value={result.output} readonly placeholder="XML output..." class="textarea textarea-bordered w-full font-mono text-sm min-h-72 bg-base-100"></textarea>
-				</div>
+			<div>
+				<h3 class="mb-2 text-sm font-medium text-base-content/70">XML</h3>
+				<CodeMirrorEditor value={result.output} language="xml" readonly placeholder="XML output..." />
 			</div>
 		</div>
 	</div>
