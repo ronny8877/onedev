@@ -95,14 +95,14 @@ settings:
 		<div class="flex flex-wrap gap-4 items-center justify-center">
 			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
 				<span class="text-sm font-medium">Indent:</span>
-				<select bind:value={indent} class="select select-sm select-ghost">
+				<select bind:value={indent} class="select select-sm select-bordered bg-base-100">
 					<option value={2}>2 spaces</option>
 					<option value={4}>4 spaces</option>
 				</select>
 			</div>
 			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
 				<span class="text-sm font-medium">Style:</span>
-				<select bind:value={flowLevel} class="select select-sm select-ghost">
+				<select bind:value={flowLevel} class="select select-sm select-bordered bg-base-100">
 					<option value={-1}>Block (expanded)</option>
 					<option value={0}>Inline arrays</option>
 				</select>

@@ -92,19 +92,19 @@
 			</div>
 		</div>
 
-		<div class="form-control w-fit">
-			<label class="label" for="hash-vector-alg">
+		<div class="flex flex-col gap-2">
+			<label class="label py-0" for="hash-vector-alg">
 				<span class="label-text text-sm">Algorithm</span>
 			</label>
-			<div class="flex items-center gap-2">
-				<select id="hash-vector-alg" bind:value={algorithm} class="select select-bordered select-sm">
+			<div class="flex flex-wrap items-center gap-2">
+				<select id="hash-vector-alg" bind:value={algorithm} class="select select-bordered select-sm w-auto min-w-36 bg-base-100">
 					<option value="MD5">MD5</option>
 					<option value="SHA-1">SHA-1</option>
 					<option value="SHA-256">SHA-256</option>
 					<option value="SHA-512">SHA-512</option>
 				</select>
 				{#if autoDetected}
-					<span class="badge badge-success badge-sm">Auto-detected</span>
+					<span class="badge badge-success badge-sm whitespace-nowrap shrink-0">Auto-detected</span>
 				{/if}
 			</div>
 		</div>

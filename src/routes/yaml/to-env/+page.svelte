@@ -105,7 +105,7 @@ features:
 		<div class="flex flex-wrap gap-4 items-center justify-center">
 			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
 				<span class="text-sm font-medium">Separator:</span>
-				<select bind:value={separator} class="select select-sm select-ghost">
+				<select bind:value={separator} class="select select-sm select-bordered bg-base-100">
 					<option value="_">Underscore (_)</option>
 					<option value="__">Double underscore (__)</option>
 					<option value=".">Dot (.)</option>
@@ -117,7 +117,7 @@ features:
 					type="text"
 					bind:value={prefix}
 					placeholder="Optional"
-					class="input input-sm input-ghost w-24"
+					class="input input-sm input-bordered w-24 bg-base-100"
 				/>
 			</div>
 		</div>

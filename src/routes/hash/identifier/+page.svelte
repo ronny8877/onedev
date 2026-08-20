@@ -109,15 +109,15 @@
 					{#each results as result, i}
 						<div class="card bg-base-200 rounded-xl" class:ring-2={i === 0} class:ring-success={i === 0 && result.confidence === 'high'}>
 							<div class="card-body p-4">
-								<div class="flex items-start justify-between gap-4">
-									<div>
-										<div class="flex items-center gap-2 mb-1">
-											<span class="font-bold text-lg">{result.type}</span>
-											<span class="badge badge-{getConfidenceColor(result.confidence)} badge-sm">
+								<div class="flex items-start justify-between gap-3 min-w-0">
+									<div class="min-w-0 flex-1">
+										<div class="flex flex-wrap items-center gap-2 mb-1">
+											<span class="font-bold text-lg break-words">{result.type}</span>
+											<span class="badge badge-{getConfidenceColor(result.confidence)} badge-sm shrink-0">
 												{getConfidenceLabel(result.confidence)}
 											</span>
 										</div>
-										<p class="text-sm text-base-content/70">{result.description}</p>
+										<p class="text-sm text-base-content/70 break-words">{result.description}</p>
 									</div>
 									{#if i === 0 && result.confidence === 'high'}
 										<div class="text-success">
@@ -149,13 +149,13 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold mb-3">Hash Length Reference</h4>
-				<div class="overflow-x-auto">
-					<table class="table table-sm">
+								<div class="overflow-x-auto">
+					<table class="table table-sm table-fixed min-w-[28rem]">
 						<thead>
 							<tr>
-								<th>Hash Type</th>
-								<th>Hex Length</th>
-								<th>Bits</th>
+								<th class="w-28">Hash Type</th>
+								<th class="w-24">Hex Length</th>
+								<th class="w-16">Bits</th>
 								<th>Example</th>
 							</tr>
 						</thead>
@@ -164,37 +164,37 @@
 								<td class="font-sans font-medium">CRC32</td>
 								<td>8</td>
 								<td>32</td>
-								<td class="text-base-content/60">3610a686</td>
+								<td class="text-base-content/60 truncate">3610a686</td>
 							</tr>
 							<tr>
 								<td class="font-sans font-medium">MD5</td>
 								<td>32</td>
 								<td>128</td>
-								<td class="text-base-content/60">5d41402abc4b2a...</td>
+								<td class="text-base-content/60 truncate">5d41402abc4b2a76b9719d911017c592</td>
 							</tr>
 							<tr>
 								<td class="font-sans font-medium">SHA-1</td>
 								<td>40</td>
 								<td>160</td>
-								<td class="text-base-content/60">aaf4c61ddcc5e8...</td>
+								<td class="text-base-content/60 truncate">aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d</td>
 							</tr>
 							<tr>
 								<td class="font-sans font-medium">SHA-256</td>
 								<td>64</td>
 								<td>256</td>
-								<td class="text-base-content/60">2cf24dba5fb0a3...</td>
+								<td class="text-base-content/60 truncate">2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824</td>
 							</tr>
 							<tr>
 								<td class="font-sans font-medium">SHA-512</td>
 								<td>128</td>
 								<td>512</td>
-								<td class="text-base-content/60">9b71d224bd62f3...</td>
+								<td class="text-base-content/60 truncate">9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca7</td>
 							</tr>
 							<tr>
 								<td class="font-sans font-medium">bcrypt</td>
 								<td>60</td>
 								<td>-</td>
-								<td class="text-base-content/60">$2a$10$...</td>
+								<td class="text-base-content/60 truncate">$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy</td>
 							</tr>
 						</tbody>
 					</table>

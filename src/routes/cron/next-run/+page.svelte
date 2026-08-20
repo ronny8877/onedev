@@ -167,23 +167,30 @@
 
 		<!-- Settings Row -->
 		<div class="flex flex-wrap gap-4 items-center justify-center">
-			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
-				<span class="text-sm">🌍</span>
-				<select bind:value={timezone} class="select select-sm select-ghost font-medium">
+			<label class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
+				<span class="text-sm shrink-0">🌍</span>
+				<select bind:value={timezone} class="select select-sm select-bordered bg-base-100 font-medium min-w-44">
 					{#each allTimezones as tz}
 						<option value={tz}>{tz.replace(/_/g, ' ')}</option>
 					{/each}
 				</select>
-			</div>
-			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
-				<span class="text-sm">📊</span>
-				<span class="text-sm font-medium">Show {runCount}</span>
+			</label>
+			<div class="flex items-center gap-3 bg-base-200 rounded-xl px-4 py-2 min-w-64 flex-1 max-w-md">
+				<span class="text-sm shrink-0">📊</span>
+				<span class="text-sm font-medium whitespace-nowrap">Show</span>
 				<input
 					type="range"
 					bind:value={runCount}
 					min="5"
 					max="20"
-					class="range range-xs range-primary w-20"
+					class="range range-sm range-primary min-w-0 flex-1"
+				/>
+				<input
+					type="number"
+					bind:value={runCount}
+					min="5"
+					max="20"
+					class="input input-bordered input-sm w-16 shrink-0 text-center tabular-nums bg-base-100"
 				/>
 			</div>
 		</div>

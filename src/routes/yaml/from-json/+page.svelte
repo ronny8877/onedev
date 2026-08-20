@@ -90,7 +90,7 @@
 		<div class="flex justify-center">
 			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
 				<span class="text-sm font-medium">YAML Indent:</span>
-				<select bind:value={yamlIndent} class="select select-sm select-ghost">
+				<select bind:value={yamlIndent} class="select select-sm select-bordered bg-base-100">
 					<option value={2}>2 spaces</option>
 					<option value={4}>4 spaces</option>
 				</select>

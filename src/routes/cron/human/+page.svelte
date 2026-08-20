@@ -173,8 +173,11 @@
 			<div class="card bg-base-200 rounded-xl">
 				<div class="card-body p-4">
 					<h4 class="font-medium text-center mb-3">Run every {minuteInterval} minute(s)</h4>
-					<input type="range" bind:value={minuteInterval} min="1" max="30" class="range range-primary" />
-					<div class="flex justify-between text-xs text-base-content/50 mt-1">
+					<div class="flex items-center gap-3">
+						<input type="range" bind:value={minuteInterval} min="1" max="30" class="range range-primary range-sm min-w-0 flex-1" />
+						<input type="number" bind:value={minuteInterval} min="1" max="30" class="input input-bordered input-sm w-16 shrink-0 text-center tabular-nums bg-base-100" />
+					</div>
+					<div class="flex justify-between text-xs text-base-content/50 mt-1 pr-[4.75rem]">
 						<span>1</span>
 						<span>5</span>
 						<span>10</span>
@@ -190,17 +193,20 @@
 			<div class="card bg-base-200 rounded-xl">
 				<div class="card-body p-4">
 					<h4 class="font-medium text-center mb-3">Run every {hourInterval} hour(s)</h4>
-					<input type="range" bind:value={hourInterval} min="1" max="12" class="range range-primary" />
-					<div class="flex justify-between text-xs text-base-content/50 mt-1">
+					<div class="flex items-center gap-3">
+						<input type="range" bind:value={hourInterval} min="1" max="12" class="range range-primary range-sm min-w-0 flex-1" />
+						<input type="number" bind:value={hourInterval} min="1" max="12" class="input input-bordered input-sm w-16 shrink-0 text-center tabular-nums bg-base-100" />
+					</div>
+					<div class="flex justify-between text-xs text-base-content/50 mt-1 pr-[4.75rem]">
 						<span>1</span>
 						<span>2</span>
 						<span>4</span>
 						<span>6</span>
 						<span>12</span>
 					</div>
-					<div class="mt-4">
-						<label class="text-sm font-medium">At minute:</label>
-						<select bind:value={atMinute} class="select select-sm select-bordered ml-2">
+					<div class="mt-4 flex flex-wrap items-center gap-2">
+						<label class="text-sm font-medium" for="cron-at-minute">At minute:</label>
+						<select id="cron-at-minute" bind:value={atMinute} class="select select-sm select-bordered bg-base-100">
 							{#each [0, 15, 30, 45] as m}
 								<option value={m}>:{m.toString().padStart(2, '0')}</option>
 							{/each}
@@ -218,7 +224,7 @@
 					<div class="flex justify-center gap-4">
 						<div class="text-center">
 							<p class="text-xs text-base-content/60 mb-1">Hour</p>
-							<select bind:value={atHour} class="select select-bordered">
+							<select bind:value={atHour} class="select select-bordered bg-base-100">
 								{#each Array.from({length: 24}, (_, i) => i) as h}
 									<option value={h}>{formatHour(h)}</option>
 								{/each}
@@ -226,7 +232,7 @@
 						</div>
 						<div class="text-center">
 							<p class="text-xs text-base-content/60 mb-1">Minute</p>
-							<select bind:value={atMinute} class="select select-bordered">
+							<select bind:value={atMinute} class="select select-bordered bg-base-100">
 								{#each Array.from({length: 60}, (_, i) => i) as m}
 									<option value={m}>:{m.toString().padStart(2, '0')}</option>
 								{/each}

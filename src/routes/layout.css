@@ -21,6 +21,21 @@ html {
   scroll-behavior: smooth;
 }
 
+html[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+html[data-theme='light'] {
+  color-scheme: light;
+}
+
+/* Native select menus stay opaque in dark mode (Linux Chrome otherwise paints them see-through). */
+select option,
+.select option {
+  background-color: Canvas;
+  color: CanvasText;
+}
+
 body {
   @apply bg-base-100 text-base-content min-h-screen antialiased;
   font-family: "Montserrat", sans-serif;

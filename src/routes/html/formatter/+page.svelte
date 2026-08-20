@@ -134,7 +134,7 @@
 
 			<div class="flex items-center gap-2 px-3 py-1.5 bg-base-200 rounded-lg">
 				<label for="indent" class="text-xs text-base-content/50">Indent:</label>
-				<select id="indent" class="select select-ghost select-xs w-16" bind:value={indentSize}>
+				<select id="indent" class="select select-bordered select-xs w-16 bg-base-100" bind:value={indentSize}>
 					<option value={2}>2</option>
 					<option value={4}>4</option>
 					<option value={8}>8</option>
