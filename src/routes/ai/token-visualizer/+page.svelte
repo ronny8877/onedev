@@ -2,7 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { getTokens, formatNumber } from '$lib/utils/tokenizer';
-	import { CHAT_MODELS, getChatModel, getTokenizerFactor } from '$lib/config/ai-models';
+	import { CHAT_MODELS, getChatModel, getTokenizerFactor, PRICING_LAST_UPDATED } from '$lib/config/ai-models';
 	import type { TokenInfo } from '$lib/utils/tokenizer';
 	import { aiToolsContent } from '$lib/config/content/ai-tools-content';
 	import Features from '$lib/components/content/Features.svelte';
@@ -17,7 +17,7 @@
 	const content = aiToolsContent['token-visualizer'];
 
 	let input = $state('');
-	let selectedModel = $state('gpt-5.4');
+	let selectedModel = $state('gpt-5.6-terra');
 
 	const sampleText = `Hello, world! This is a demonstration of how AI models tokenize text. Each colored block represents one token.`;
 
@@ -90,7 +90,7 @@
 
 <ToolWrapper
 	keywords={['token visualizer', 'tokenization', 'GPT tokens', 'BPE tokenizer', 'AI tokens visualization']}
-	lastUpdated={content.lastUpdated}
+	lastUpdated={PRICING_LAST_UPDATED}
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->

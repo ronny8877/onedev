@@ -68,8 +68,11 @@
 		<h2 class="text-2xl font-bold text-base-content mb-6">What's Inside</h2>
 		<div class="grid gap-4 sm:grid-cols-2">
 			{#each [
-				{ icon: '🤖', title: 'AI & LLM Utilities', desc: 'Token counters, cost estimators, context window planners, and embedding calculators for GPT-4o, Claude, Gemini, and more.' },
+				{ icon: '🤖', title: 'AI & LLM Utilities', desc: 'Token counters, cost estimators, context planners, and embedding calculators for GPT-5.6, Claude 5, Gemini 3.x, Grok 4.6, and DeepSeek V4. Rates updated 20 Aug 2026.' },
 				{ icon: '{ }', title: 'JSON Tools', desc: 'Format, validate, diff, convert, and visually explore JSON structures with our suite of 8 JSON utilities.' },
+				{ icon: '⟨/⟩', title: 'XML Tools', desc: 'Format, validate, minify, convert XML to JSON or CSV, escape entities, run XPath 1.0, and diff two documents. Parsing stays in this tab.' },
+				{ icon: '▤', title: 'CSV Tools', desc: 'View, validate, transpose, and convert CSV or TSV to JSON, XML, SQL, and Markdown. Quoted commas and Excel BOMs are handled locally.' },
+				{ icon: '📅', title: 'Date & Time', desc: 'Unix timestamps, IANA time zones, ISO 8601 instants and durations, relative time, world clocks, and calendar math. Convert → Time is duration units, not epoch.' },
 				{ icon: '🔒', title: 'Security Tools', desc: 'CSP generators, CORS builders, password testers, JWT decoders, hash generators, and security header references.' },
 				{ icon: '🔀', title: 'Git Tools', desc: 'Gitignore generators, commit formatters, branch name builders, diff viewers, and README generators.' },
 				{ icon: '🎨', title: 'CSS Generators', desc: 'Visual builders for gradients, box shadows, animations, flexbox, grid, and CSS layout utilities.' },

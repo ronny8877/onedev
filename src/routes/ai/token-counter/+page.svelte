@@ -16,7 +16,7 @@
 	import { CHAT_MODELS, getChatModel, calculateChatCost, formatCurrency, getProviderColor, formatNumber, getContextUsage, getTokenizerFactor, PRICING_LAST_UPDATED } from '$lib/config/ai-models';
 
 	let input = $state('');
-	let selectedModel = $state('gpt-5.4');
+	let selectedModel = $state('gpt-5.6-terra');
 	let showCost = $state(true);
 
 	const sampleText = `You are a helpful AI assistant. Your task is to analyze the following document and provide a comprehensive summary.
@@ -70,7 +70,7 @@ Please provide:
 
 <ToolWrapper
 	keywords={['token counter', 'GPT tokens', 'Claude tokens', 'AI token calculator', 'LLM tokens', 'tokenizer']}
-	lastUpdated={content.lastUpdated}
+	lastUpdated={PRICING_LAST_UPDATED}
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->

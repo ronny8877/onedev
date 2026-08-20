@@ -271,13 +271,13 @@ export const toolCategories: ToolCategory[] = [
 		icon: '🤖',
 		description: 'Estimate tokens and API cost for common chat models from published tokenizers and price lists. We do not call those APIs with your prompt.',
 		items: [
-			{ name: 'Token Counter', href: '/ai/token-counter', description: 'AI token counter online. Count tokens for GPT-4, Claude, Gemini and more. Character count and cost estimation—free LLM token calculator.', icon: '🔢' },
-			{ name: 'Token Visualizer', href: '/ai/token-visualizer', description: 'AI token visualizer online. See how AI models break text into tokens. Understand tokenization visually—free token boundary viewer.', icon: '🎨' },
-			{ name: 'Context Estimator', href: '/ai/context-estimator', description: 'AI context window calculator online. Calculate tokens for prompts, system messages, chat history. Check remaining context—free tool.', icon: '📊' },
-			{ name: 'Prompt Trimmer', href: '/ai/prompt-trimmer', description: 'AI prompt trimmer online. Trim text to fit token limits. Sentence-aware and paragraph-aware modes—reduce prompt length free.', icon: '✂️' },
-			{ name: 'Embedding Estimator', href: '/ai/embedding-estimator', description: 'AI embedding calculator online. Estimate tokens and vector dimensions for embedding models. Plan vector DB storage—free embeddings tool.', icon: '📐' },
-			{ name: 'Cost Estimator', href: '/ai/cost-estimator', description: 'AI API cost calculator online. Estimate costs for GPT-4, Claude, Gemini APIs. Input and output token pricing—free LLM cost tool.', icon: '💰' },
-			{ name: 'Cost Compare', href: '/ai/cost-compare', description: 'Compare AI API costs online. Estimate daily limits and monthly pricing across top LLM models like GPT-4o, Claude 3.5, Gemini, DeepSeek, and Kimi. Free LLM comparison grid.', icon: '⚖️' }
+			{ name: 'Token Counter', href: '/ai/token-counter', description: 'AI token counter online. Count tokens for GPT-5.6, Claude 5, Gemini 3.x, Grok 4.6, and DeepSeek V4. Character count and cost estimation in this browser.', icon: '🔢' },
+			{ name: 'Token Visualizer', href: '/ai/token-visualizer', description: 'AI token visualizer online. See how current models break text into tokens. Understand tokenization visually, free, in this tab.', icon: '🎨' },
+			{ name: 'Context Estimator', href: '/ai/context-estimator', description: 'AI context window calculator. Tokens for prompts, system messages, and chat history against GPT-5.6, Claude 5, and Gemini 1M windows.', icon: '📊' },
+			{ name: 'Prompt Trimmer', href: '/ai/prompt-trimmer', description: 'AI prompt trimmer. Trim text to fit token limits with sentence-aware and paragraph-aware modes. Nothing is uploaded.', icon: '✂️' },
+			{ name: 'Embedding Estimator', href: '/ai/embedding-estimator', description: 'AI embedding calculator. Estimate tokens, dimensions, and vector DB size for text-embedding-4-large, Gemini Embedding 2, and Cohere.', icon: '📐' },
+			{ name: 'Cost Estimator', href: '/ai/cost-estimator', description: 'AI API cost calculator. Estimate GPT-5.6, Claude 5, Gemini 3.7 Flash, and DeepSeek V4 bills from published rates (updated 20 Aug 2026).', icon: '💰' },
+			{ name: 'Cost Compare', href: '/ai/cost-compare', description: 'Compare AI API costs. Monthly pricing across GPT-5.6 Sol/Terra/Luna, Claude Fable 5 / Opus 5 / Sonnet 5, Gemini 3.x, Grok 4.6, and DeepSeek V4.', icon: '⚖️' }
 		]
 	},
 	{

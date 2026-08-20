@@ -44,13 +44,13 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="OneDev Tools" />
 	<meta property="og:title" content="OneDev Tools - Free Online Developer Tools" />
-	<meta property="og:description" content="Free, fast, and privacy-focused developer tools. JSON formatter, Base64 encoder, URL utilities, and more. No sign-up required." />
+	<meta property="og:description" content="Client-side developer tools for JSON, XML, CSV, Unix timestamps, hashes, JWTs, regex, PDFs, QR codes, and AI cost estimates. No sign-up. Input stays in your browser." />
 	<meta property="og:url" content="{BASE_URL}/" />
 	
 	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="OneDev Tools - Free Online Developer Tools" />
-	<meta name="twitter:description" content="Free, fast, and privacy-focused developer tools. JSON formatter, Base64 encoder, URL utilities, and more." />
+	<meta name="twitter:description" content="Client-side developer tools for JSON, XML, CSV, Unix timestamps, hashes, JWTs, regex, PDFs, QR codes, and AI cost estimates." />
 	
 	<!-- Structured Data -->
 	{@html `<script type="application/ld+json">
@@ -59,7 +59,7 @@
 		"@type": "WebApplication",
 		"name": "OneDev Tools",
 		"url": "${BASE_URL}",
-		"description": "Free, fast, and privacy-focused developer tools for JSON, Base64, and URL manipulation.",
+		"description": "Client-side developer tools for JSON, XML, CSV, Unix timestamps, hashes, JWTs, and more.",
 		"applicationCategory": "DeveloperApplication",
 		"operatingSystem": "Any",
 		"offers": {

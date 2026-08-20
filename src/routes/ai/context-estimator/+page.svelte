@@ -13,12 +13,12 @@
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = aiToolsContent['context-estimator'];
-	import { CHAT_MODELS, formatNumber, getProviderColor } from '$lib/config/ai-models';
+	import { CHAT_MODELS, formatNumber, getProviderColor, PRICING_LAST_UPDATED } from '$lib/config/ai-models';
 
 	let systemMessage = $state('');
 	let userPrompt = $state('');
 	let chatHistory = $state('');
-	let selectedModel = $state('gpt-5.4');
+	let selectedModel = $state('gpt-5.6-terra');
 	
 	let customContextWindow = $state(128000);
 	let customMaxOutput = $state(8192);
@@ -109,7 +109,7 @@
 
 <ToolWrapper
 	keywords={['context window', 'token budget', 'LLM context', 'prompt tokens', 'AI context limit']}
-	lastUpdated={content.lastUpdated}
+	lastUpdated={PRICING_LAST_UPDATED}
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
