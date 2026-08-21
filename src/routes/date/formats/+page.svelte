@@ -2,6 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import ToolContent from '$lib/components/content/ToolContent.svelte';
+	import SelectMenu from '$lib/components/ui/SelectMenu.svelte';
 	import { parseInstant, formatBundle, listTimeZones } from '$lib/utils/datetime';
 	import { dateToolsContent } from '$lib/config/content/date-tools-content';
 
@@ -22,9 +23,11 @@
 		<ToolActions onSample={() => (input = 'now')} onClear={() => (input = 'now')} />
 		<div class="grid gap-3 sm:grid-cols-[1fr_auto]">
 			<input bind:value={input} class="input input-bordered font-mono" />
-			<select bind:value={timeZone} class="select select-bordered">
-				{#each zones as z}<option value={z}>{z}</option>{/each}
-			</select>
+			<SelectMenu
+				bind:value={timeZone}
+				class="w-64"
+				options={zones.map((z) => ({ value: z, label: z }))}
+			/>
 		</div>
 		{#if parsed && 'error' in parsed}
 			<div class="alert alert-error">{parsed.error}</div>
