@@ -292,10 +292,10 @@ body {
   background-color: var(--color-base-100) !important;
 }
 
-.select-menu-panel li {
-  display: block;
-  margin: 0;
-  padding: 0;
+.select-menu-panel button {
+  border-radius: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 .select-menu-option {
