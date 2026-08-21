@@ -37,7 +37,7 @@
 		<div class="grid gap-6 lg:grid-cols-2">
 			<div class="card bg-base-200 rounded-2xl"><div class="card-body p-4">
 				<h3 class="font-bold mb-3">JSON array</h3>
-				<textarea bind:value={input} class="textarea textarea-bordered w-full font-mono text-sm min-h-72" spellcheck="false" placeholder="[{...}]"></textarea>
+				<textarea bind:value={input} class="textarea textarea-bordered w-full font-mono text-sm min-h-72" spellcheck="false" placeholder={'[{ "id": 1, "name": "Ada" }]'}></textarea>
 			</div></div>
 			<div class="card bg-base-200 rounded-2xl"><div class="card-body p-4">
 				<div class="flex justify-between mb-3"><h3 class="font-bold">CSV</h3>{#if result.output}<button class="btn btn-xs btn-ghost" onclick={download}>Download</button>{/if}</div>
