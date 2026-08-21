@@ -23,6 +23,7 @@
 		'QR & Barcode': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10', textClass: 'text-secondary' },
 		'XML': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10', textClass: 'text-error' },
 		'CSV': { color: 'success', hoverBorder: 'hover:border-success/20', bgClass: 'bg-success/10', textClass: 'text-success' },
+		'SQL': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10', textClass: 'text-primary' },
 		'Date & Time': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10', textClass: 'text-info' },
 		'PDF': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10', textClass: 'text-error' },
 		'YAML': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10', textClass: 'text-warning' },
@@ -32,10 +33,10 @@
 </script>
 
 <svelte:head>
-	<title>OneDev Tools — {allTools.length} Free Developer Tools | JSON, XML, CSV, Dates, AI</title>
+	<title>OneDev Tools — {allTools.length} Free Developer Tools | JSON, XML, CSV, SQL, Dates</title>
 	<meta
 		name="description"
-		content="Free online developer tools: JSON formatter, XML formatter, CSV to JSON converter, Unix timestamp converter, timezone converter, hash generator, JWT decoder, and more. No signup. Nothing is uploaded."
+		content="Free online developer tools: JSON formatter, XML formatter, CSV to JSON converter, SQL formatter, Unix timestamp converter, timezone converter, hash generator, JWT decoder, and more. No signup. Nothing is uploaded."
 	/>
 	<meta name="author" content="OneDev Tools" />
 	<meta name="robots" content="index, follow" />
@@ -45,13 +46,13 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="OneDev Tools" />
 	<meta property="og:title" content="OneDev Tools - Free Online Developer Tools" />
-	<meta property="og:description" content="Free XML formatter, CSV to JSON converter, Unix timestamp converter, timezone converter, JSON tools, hashes, JWTs, and more. No sign-up. Input stays in your browser." />
+	<meta property="og:description" content="Free SQL formatter, XML formatter, CSV to JSON converter, Unix timestamp converter, timezone converter, JSON tools, hashes, JWTs, and more. No sign-up. Input stays in your browser." />
 	<meta property="og:url" content="{BASE_URL}/" />
 	
 	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="OneDev Tools - Free Online Developer Tools" />
-	<meta name="twitter:description" content="Free XML formatter, CSV to JSON converter, Unix timestamp converter, timezone converter, JSON tools, hashes, and JWTs. No sign-up." />
+	<meta name="twitter:description" content="Free SQL formatter, XML formatter, CSV to JSON converter, Unix timestamp converter, timezone converter, JSON tools, hashes, and JWTs. No sign-up." />
 	
 	<!-- Structured Data -->
 	{@html `<script type="application/ld+json">
@@ -60,7 +61,7 @@
 		"@type": "WebApplication",
 		"name": "OneDev Tools",
 		"url": "${BASE_URL}",
-		"description": "Free online developer tools: JSON formatter, XML formatter, CSV to JSON converter, Unix timestamp converter, timezone converter, hashes, JWTs, and more.",
+		"description": "Free online developer tools: JSON formatter, XML formatter, CSV to JSON converter, SQL formatter, Unix timestamp converter, timezone converter, hashes, JWTs, and more.",
 		"applicationCategory": "DeveloperApplication",
 		"operatingSystem": "Any",
 		"offers": {

@@ -4,7 +4,7 @@
 
 	interface Props {
 		code: string;
-		language?: 'json' | 'typescript' | 'go' | 'javascript' | 'xml' | 'html';
+		language?: 'json' | 'typescript' | 'go' | 'javascript' | 'xml' | 'html' | 'sql';
 		class?: string;
 	}
 

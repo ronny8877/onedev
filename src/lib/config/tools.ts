@@ -397,6 +397,131 @@ export const toolCategories: ToolCategory[] = [
 		]
 	},
 	{
+		name: 'SQL',
+		icon: '🗄️',
+		seoTitle: 'Free SQL Tools Online — Formatter, Beautifier, JSON to SQL, JOIN Visualizer',
+		description:
+			'Free SQL tools online: SQL formatter and beautifier, SQL minifier, SQL validator, JSON to SQL INSERT, string escape, query diff, JOIN visualizer, LIKE tester, and a SQL cheat sheet. Pretty-print PostgreSQL, MySQL, SQLite, SQL Server, BigQuery, and Snowflake in your browser. Nothing is uploaded.',
+		items: [
+			{
+				name: 'SQL Formatter',
+				href: '/sql/formatter',
+				description:
+					'SQL formatter and beautifier online. Pretty print PostgreSQL, MySQL, SQLite, SQL Server, BigQuery, or Snowflake SQL. Free SQL pretty print in your browser.',
+				icon: '✨',
+				keywords: [
+					'sql formatter',
+					'sql beautifier',
+					'pretty print sql',
+					'format sql online',
+					'sql pretty print',
+					'beautify sql',
+					'sql formatter online',
+					'postgresql formatter',
+					'mysql formatter'
+				]
+			},
+			{
+				name: 'SQL Minifier',
+				href: '/sql/minifier',
+				description:
+					'SQL minifier online. Compress SQL by stripping comments and extra whitespace while keeping string literals intact. Free SQL compressor in your browser.',
+				icon: '📦',
+				keywords: ['sql minifier', 'minify sql', 'compress sql', 'sql compressor', 'sql minify online']
+			},
+			{
+				name: 'SQL Validator',
+				href: '/sql/validator',
+				description:
+					'SQL validator online. Check SQL syntax, find unclosed quotes and parentheses, and see parse errors with line numbers. Free SQL checker, no upload.',
+				icon: '✓',
+				keywords: [
+					'sql validator',
+					'validate sql',
+					'check sql syntax',
+					'sql checker',
+					'sql syntax checker',
+					'sql validator online'
+				]
+			},
+			{
+				name: 'JSON to SQL Converter',
+				href: '/sql/from-json',
+				description:
+					'Convert JSON to SQL online. Turn a JSON array of objects into INSERT statements, optionally with CREATE TABLE. Free JSON to SQL converter in your browser.',
+				icon: '←',
+				keywords: [
+					'json to sql',
+					'convert json to sql',
+					'json to insert',
+					'json to sql converter',
+					'json to mysql',
+					'json to postgresql'
+				]
+			},
+			{
+				name: 'SQL Escape',
+				href: '/sql/escape',
+				description:
+					'SQL escape and identifier quoting online. Quote string literals and column names for PostgreSQL, MySQL, SQLite, or SQL Server. Unescape pasted SQL too.',
+				icon: '🔐',
+				keywords: [
+					'sql escape',
+					'sql string escape',
+					'sql quote identifier',
+					'escape sql string',
+					'sql unescape'
+				]
+			},
+			{
+				name: 'SQL Diff',
+				href: '/sql/diff',
+				description:
+					'Compare two SQL queries online. Format both, then diff. Whitespace and keyword case do not count as changes. Free SQL compare tool.',
+				icon: '⇄',
+				keywords: ['sql diff', 'compare sql', 'sql compare', 'sql difference', 'diff sql queries']
+			},
+			{
+				name: 'SQL JOIN Visualizer',
+				href: '/sql/joins',
+				description:
+					'SQL JOIN visualizer online. See INNER, LEFT, RIGHT, FULL, CROSS, SEMI, and ANTI joins with sample tables and result rows. Free SQL join explainer.',
+				icon: '🔗',
+				keywords: [
+					'sql join visualizer',
+					'sql joins',
+					'inner join vs left join',
+					'sql join explainer',
+					'left join example'
+				]
+			},
+			{
+				name: 'SQL LIKE Tester',
+				href: '/sql/like',
+				description:
+					'SQL LIKE tester online. Test % and _ wildcards, ESCAPE, and case-insensitive ILIKE against sample strings. Free LIKE pattern matcher.',
+				icon: '🎯',
+				keywords: ['sql like', 'sql like tester', 'sql ilike', 'sql wildcard', 'like pattern', 'sql like example']
+			},
+			{
+				name: 'SQL Explainer',
+				href: '/sql/explainer',
+				description:
+					'SQL query explainer online. Break a SELECT, INSERT, UPDATE, or DELETE into clauses in plain English. Free SQL explainer in your browser.',
+				icon: '📖',
+				keywords: ['sql explainer', 'explain sql query', 'sql to english', 'what does this sql do', 'sql query explainer']
+			},
+			{
+				name: 'SQL Cheat Sheet',
+				href: '/sql/cheatsheet',
+				description:
+					'SQL cheat sheet online. Joins, data types, window functions, dates, and NULL handling for PostgreSQL, MySQL, and SQLite. Free searchable SQL reference.',
+				icon: '📋',
+				keywords: ['sql cheat sheet', 'sql cheatsheet', 'sql reference', 'sql commands', 'sql syntax cheat sheet']
+			}
+		]
+	},
+	{
 		name: 'Break',
 		icon: '☕',
 		description: 'Take a break from coding with relaxation tools. Pomodoro timer for focus sessions, ambient sounds, breathing exercises, and calming visuals—free productivity and wellness tools.',

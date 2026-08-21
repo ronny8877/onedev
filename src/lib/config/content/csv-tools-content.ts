@@ -308,6 +308,7 @@ export const csvToolsContent: Record<string, CsvToolContent> = {
 			}
 		],
 		relatedTools: [
+			{ name: 'JSON to SQL', path: '/sql/from-json', description: 'INSERT from a JSON array' },
 			{ name: 'CSV to JSON', path: '/csv/to-json', description: 'Prefer JSON for app seeds' },
 			{ name: 'CSV Viewer', path: '/csv/viewer', description: 'Check columns first' }
 		],
