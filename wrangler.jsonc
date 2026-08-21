@@ -14,5 +14,11 @@
   },
   "observability": {
     "enabled": true
+  },
+  // Keep sql-formatter and CodeMirror SQL out of the Worker. They are client-only
+  // and the compressed Worker is already near Cloudflare's 3 MiB limit.
+  "alias": {
+    "sql-formatter": "./src/lib/stubs/sql-formatter.js",
+    "@codemirror/lang-sql": "./src/lib/stubs/codemirror-lang-sql.js"
   }
 }
