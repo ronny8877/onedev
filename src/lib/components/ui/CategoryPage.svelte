@@ -7,6 +7,7 @@
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 
 	interface Props {
 		category: ToolCategory;
@@ -67,7 +68,9 @@
 	<!-- Header -->
 	<div class="mb-8">
 		<div class="mb-3 flex items-center gap-3">
-			<span class="text-4xl">{category.icon}</span>
+			<span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+				<AppIcon name={category.icon} size={24} />
+			</span>
 			<h1 class="text-3xl font-bold tracking-tight text-base-content">{category.name} Tools</h1>
 		</div>
 		{#if category.description}
@@ -102,7 +105,9 @@
 			>
 				<div class="flex items-start gap-3">
 					{#if tool.icon}
-						<span class="mt-0.5 text-xl shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">{tool.icon}</span>
+						<span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-base-200 text-primary group-hover:bg-primary/10 transition-colors">
+							<AppIcon name={tool.icon} size={18} />
+						</span>
 					{/if}
 					<div class="min-w-0">
 						<h3 class="font-semibold text-base-content group-hover:text-primary transition-colors leading-snug">
@@ -116,7 +121,7 @@
 					</div>
 				</div>
 				<div class="mt-3 flex items-center gap-1 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity font-medium">
-					Open tool <span aria-hidden="true">→</span>
+					Open tool <AppIcon name={'→'} size={16} />
 				</div>
 			</a>
 		{/each}

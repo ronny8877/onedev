@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -245,7 +246,7 @@ contact@business.io`;
 			<div class="card-body">
 				<div class="flex items-center gap-3 mb-4">
 					<div class="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center">
-						<span class="text-xl">🎯</span>
+						<AppIcon name={'🎯'} size={20} />
 					</div>
 					<div>
 						<h3 class="font-bold">Pattern with Capture Groups</h3>
@@ -531,7 +532,7 @@ contact@business.io`;
 			<div class="card bg-base-200 rounded-xl">
 				<div class="card-body py-4">
 					<h4 class="text-sm font-semibold mb-3 flex items-center gap-2">
-						<span>📋</span> Quick Copy
+						<AppIcon name={'📋'} size={16} /> Quick Copy
 					</h4>
 					<div class="grid sm:grid-cols-3 gap-3">
 						<div class="bg-base-100 p-3 rounded-lg">

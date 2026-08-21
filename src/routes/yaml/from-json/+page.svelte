@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -90,7 +91,7 @@
 		<div class="flex justify-center">
 			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
 				<span class="text-sm font-medium">YAML Indent:</span>
-				<select bind:value={yamlIndent} class="select select-sm select-ghost">
+				<select bind:value={yamlIndent} class="select select-sm select-bordered bg-base-100">
 					<option value={2}>2 spaces</option>
 					<option value={4}>4 spaces</option>
 				</select>
@@ -123,7 +124,7 @@
 					<div class="flex items-center justify-between mb-3">
 						<div class="flex items-center gap-2">
 							<div class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center">
-								<span>📄</span>
+								<AppIcon name={'📄'} size={16} />
 							</div>
 							<h3 class="font-bold">YAML Output</h3>
 						</div>
@@ -155,7 +156,7 @@
 		<div class="flex justify-center">
 			<div class="flex items-center gap-4 text-sm text-base-content/60">
 				<span class="badge badge-lg badge-primary">JSON</span>
-				<span class="text-xl">→</span>
+				<AppIcon name={'→'} size={20} />
 				<span class="badge badge-lg badge-ghost">YAML</span>
 			</div>
 		</div>

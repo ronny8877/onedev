@@ -157,6 +157,39 @@ export const toolCategories: ToolCategory[] = [
 		]
 	},
 	{
+		name: 'XML',
+		icon: '⟨/⟩',
+		description: 'Format, validate, minify, convert, and query XML in this browser. SOAP, RSS, and config files are not uploaded.',
+		items: [
+			{ name: 'XML Formatter', href: '/xml/formatter', description: 'Pretty-print XML with 2- or 4-space indent. Parse errors stay on the first bad token — nothing is uploaded.', icon: '✨' },
+			{ name: 'XML Validator', href: '/xml/validator', description: 'Check well-formed XML, see element counts, depth, and namespaces. Schema files are not fetched.', icon: '✓' },
+			{ name: 'XML Minifier', href: '/xml/minifier', description: 'Strip insignificant whitespace from XML payloads while keeping comments and CDATA.', icon: '📦' },
+			{ name: 'XML → JSON', href: '/xml/to-json', description: 'Convert XML to JSON. Attributes become @keys, repeating tags become arrays.', icon: '→' },
+			{ name: 'JSON → XML', href: '/xml/from-json', description: 'Turn a JSON object or array into well-formed XML with a root name you choose.', icon: '←' },
+			{ name: 'XML → CSV', href: '/xml/to-csv', description: 'Flatten repeating child records under the root into a CSV table.', icon: '📊' },
+			{ name: 'XML Escape', href: '/xml/escape', description: 'Escape or unescape &, <, >, quotes, and numeric character references.', icon: '🔐' },
+			{ name: 'XPath Tester', href: '/xml/xpath', description: 'Run XPath 1.0 against pasted XML and inspect matching nodes.', icon: '🔍' },
+			{ name: 'XML Diff', href: '/xml/diff', description: 'Compare two XML documents structurally. Indent and tag order do not count as changes.', icon: '⇄' }
+		]
+	},
+	{
+		name: 'CSV',
+		icon: '▤',
+		description: 'Parse, view, validate, and convert CSV and TSV in this tab. Spreadsheets are not uploaded.',
+		items: [
+			{ name: 'CSV → JSON', href: '/csv/to-json', description: 'Convert CSV to an array of JSON objects. Auto-detects comma, semicolon, tab, or pipe.', icon: '→' },
+			{ name: 'JSON → CSV', href: '/csv/from-json', description: 'Turn a JSON array of objects into CSV with the delimiter you pick.', icon: '←' },
+			{ name: 'CSV Viewer', href: '/csv/viewer', description: 'Open CSV as a table in the browser. Large files preview the first 250 rows.', icon: '👁️' },
+			{ name: 'CSV Validator', href: '/csv/validator', description: 'Catch unclosed quotes, duplicate headers, empty rows, and ragged columns.', icon: '✓' },
+			{ name: 'Delimiter Converter', href: '/csv/delimiter', description: 'Convert between comma, semicolon, tab (TSV), and pipe without splitting quoted fields.', icon: '↔️' },
+			{ name: 'CSV → XML', href: '/csv/to-xml', description: 'Wrap each CSV row as an XML element with sanitized tag names.', icon: '⟨/⟩' },
+			{ name: 'CSV → SQL', href: '/csv/to-sql', description: 'Generate INSERT statements from a CSV for local Postgres, SQLite, or MySQL seeds.', icon: '🗃️' },
+			{ name: 'CSV → Markdown', href: '/csv/to-markdown', description: 'Render CSV as a GitHub-flavored Markdown table for READMEs and PRs.', icon: '📝' },
+			{ name: 'CSV Diff', href: '/csv/diff', description: 'Compare two CSV files cell by cell and list added, removed, and changed rows.', icon: '⇄' },
+			{ name: 'CSV Transpose', href: '/csv/transpose', description: 'Swap rows and columns so wide exports become tall tables.', icon: '🔄' }
+		]
+	},
+	{
 		name: 'Break',
 		icon: '☕',
 		description: 'Take a break from coding with relaxation tools. Pomodoro timer for focus sessions, ambient sounds, breathing exercises, and calming visuals—free productivity and wellness tools.',
@@ -182,6 +215,21 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Number Base', href: '/convert/number-base', description: 'Convert between binary, decimal, hexadecimal, and octal, with a bit-by-bit view.', icon: '🔢' },
 			{ name: 'Typography', href: '/convert/typography', description: 'Convert px, pt, em, and rem for typography, and preview line-height and type scale.', icon: '🔤' },
 			{ name: 'Color', href: '/convert/color', description: 'Convert between HEX, RGB, RGBA, HSL, HSLA, and HSB, with a live color preview.', icon: '🎨' }
+		]
+	},
+	{
+		name: 'Date & Time',
+		icon: '📅',
+		description: 'Unix timestamps, time zones, ISO 8601, and calendar math in this browser. Convert → Time is duration units, not epoch.',
+		items: [
+			{ name: 'Unix Timestamp', href: '/date/timestamp', description: 'Convert Unix seconds or milliseconds to UTC and local time, or paste ISO the other way.', icon: '⏱️' },
+			{ name: 'Timezone Converter', href: '/date/timezone', description: 'Show one instant in multiple IANA time zones, with DST-aware offsets.', icon: '🌍' },
+			{ name: 'ISO 8601', href: '/date/iso', description: 'Parse ISO datetimes and durations such as P3DT4H. Instant vs duration, called out.', icon: '📅' },
+			{ name: 'Date Calculator', href: '/date/calculator', description: 'Add or subtract years, months, days, and hours from a Unix or ISO start.', icon: '➕' },
+			{ name: 'Relative Time', href: '/date/relative', description: 'Turn an instant into “3 hours ago” with Intl.RelativeTimeFormat, plus the exact ISO.', icon: '⏳' },
+			{ name: 'World Clock', href: '/date/world-clock', description: 'Live wall clocks for UTC and major cities. Uses this device clock, not a time API.', icon: '🕐' },
+			{ name: 'Duration', href: '/date/duration', description: 'Elapsed time between two instants as days, hours, minutes, and an ISO duration.', icon: '📏' },
+			{ name: 'Date Formats', href: '/date/formats', description: 'One instant as ISO, RFC 2822, Unix, Excel serial, and ISO week. Copy any field.', icon: '📋' }
 		]
 	},
 	{
@@ -223,13 +271,13 @@ export const toolCategories: ToolCategory[] = [
 		icon: '🤖',
 		description: 'Estimate tokens and API cost for common chat models from published tokenizers and price lists. We do not call those APIs with your prompt.',
 		items: [
-			{ name: 'Token Counter', href: '/ai/token-counter', description: 'AI token counter online. Count tokens for GPT-4, Claude, Gemini and more. Character count and cost estimation—free LLM token calculator.', icon: '🔢' },
-			{ name: 'Token Visualizer', href: '/ai/token-visualizer', description: 'AI token visualizer online. See how AI models break text into tokens. Understand tokenization visually—free token boundary viewer.', icon: '🎨' },
-			{ name: 'Context Estimator', href: '/ai/context-estimator', description: 'AI context window calculator online. Calculate tokens for prompts, system messages, chat history. Check remaining context—free tool.', icon: '📊' },
-			{ name: 'Prompt Trimmer', href: '/ai/prompt-trimmer', description: 'AI prompt trimmer online. Trim text to fit token limits. Sentence-aware and paragraph-aware modes—reduce prompt length free.', icon: '✂️' },
-			{ name: 'Embedding Estimator', href: '/ai/embedding-estimator', description: 'AI embedding calculator online. Estimate tokens and vector dimensions for embedding models. Plan vector DB storage—free embeddings tool.', icon: '📐' },
-			{ name: 'Cost Estimator', href: '/ai/cost-estimator', description: 'AI API cost calculator online. Estimate costs for GPT-4, Claude, Gemini APIs. Input and output token pricing—free LLM cost tool.', icon: '💰' },
-			{ name: 'Cost Compare', href: '/ai/cost-compare', description: 'Compare AI API costs online. Estimate daily limits and monthly pricing across top LLM models like GPT-4o, Claude 3.5, Gemini, DeepSeek, and Kimi. Free LLM comparison grid.', icon: '⚖️' }
+			{ name: 'Token Counter', href: '/ai/token-counter', description: 'AI token counter online. Count tokens for GPT-5.6, Claude 5, Gemini 3.x, Grok 4.6, and DeepSeek V4. Character count and cost estimation in this browser.', icon: '🔢' },
+			{ name: 'Token Visualizer', href: '/ai/token-visualizer', description: 'AI token visualizer online. See how current models break text into tokens. Understand tokenization visually, free, in this tab.', icon: '🎨' },
+			{ name: 'Context Estimator', href: '/ai/context-estimator', description: 'AI context window calculator. Tokens for prompts, system messages, and chat history against GPT-5.6, Claude 5, and Gemini 1M windows.', icon: '📊' },
+			{ name: 'Prompt Trimmer', href: '/ai/prompt-trimmer', description: 'AI prompt trimmer. Trim text to fit token limits with sentence-aware and paragraph-aware modes. Nothing is uploaded.', icon: '✂️' },
+			{ name: 'Embedding Estimator', href: '/ai/embedding-estimator', description: 'AI embedding calculator. Estimate tokens, dimensions, and vector DB size for text-embedding-4-large, Gemini Embedding 2, and Cohere.', icon: '📐' },
+			{ name: 'Cost Estimator', href: '/ai/cost-estimator', description: 'AI API cost calculator. Estimate GPT-5.6, Claude 5, Gemini 3.7 Flash, and DeepSeek V4 bills from published rates (updated 20 Aug 2026).', icon: '💰' },
+			{ name: 'Cost Compare', href: '/ai/cost-compare', description: 'Compare AI API costs. Monthly pricing across GPT-5.6 Sol/Terra/Luna, Claude Fable 5 / Opus 5 / Sonnet 5, Gemini 3.x, Grok 4.6, and DeepSeek V4.', icon: '⚖️' }
 		]
 	},
 	{
@@ -429,7 +477,8 @@ export function getCategorySlug(cat: ToolCategory): string {
 		'CSS Layout': 'css-layout',
 		'ID Tools': 'id',
 		'QR & Barcode': 'qr',
-		'Kubernetes': 'k8s'
+		'Kubernetes': 'k8s',
+		'Date & Time': 'date'
 	};
 	return overrides[cat.name] ?? cat.name.toLowerCase().replace(/\s+/g, '-');
 }

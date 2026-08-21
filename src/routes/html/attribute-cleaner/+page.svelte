@@ -130,12 +130,12 @@
 		<div class="grid gap-6 lg:grid-cols-2">
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">Input</h3>
-				<CodeMirrorEditor bind:value={input} placeholder="Paste your HTML here..." />
+				<CodeMirrorEditor bind:value={input} language="html" placeholder="Paste your HTML here..." />
 			</div>
 
 			<div>
 				<h3 class="mb-2 text-sm font-medium text-base-content/70">Cleaned Output</h3>
-				<CodeMirrorEditor value={output} readonly placeholder="Cleaned HTML will appear here..." />
+				<CodeMirrorEditor value={output} language="html" readonly placeholder="Cleaned HTML will appear here..." />
 			</div>
 		</div>
 

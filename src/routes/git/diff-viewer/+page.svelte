@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -162,7 +163,7 @@ async function getUser(id) {
 		<div class="flex flex-wrap items-center gap-2">
 			<ToolActions onSample={loadSample} onClear={clearAll} />
 			<button type="button" class="btn btn-ghost btn-sm gap-1" onclick={swapTexts}>
-				<span>⇄</span>
+				<AppIcon name={'⇄'} size={16} />
 				Swap
 			</button>
 		</div>
@@ -247,7 +248,7 @@ async function getUser(id) {
 				<div class="card-body py-4">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2">
-							<span>📊</span>
+							<AppIcon name={'📊'} size={16} />
 							Diff View
 						</h3>
 						<CopyButton text={unifiedDiff} label="Copy Unified" size="sm" />

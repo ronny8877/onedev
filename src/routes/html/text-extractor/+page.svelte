@@ -76,7 +76,7 @@
 		<!-- Input -->
 		<div>
 			<h3 class="mb-2 text-sm font-medium text-base-content/70">HTML Input</h3>
-			<CodeMirrorEditor bind:value={input} placeholder="Paste your HTML here..." />
+			<CodeMirrorEditor bind:value={input} language="html" placeholder="Paste your HTML here..." />
 		</div>
 
 		<!-- Output -->

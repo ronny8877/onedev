@@ -1,4 +1,6 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
+
 	interface CopyFormat {
 		label: string;
 		value: string;
@@ -85,7 +87,7 @@
 								class="flex items-center gap-2 text-sm rounded-2xl"
 								onclick={() => copyToClipboard(format.value)}
 							>
-								<span>{format.icon}</span>
+								<AppIcon name={format.icon} size={14} />
 								<span>{format.label}</span>
 							</button>
 						</li>

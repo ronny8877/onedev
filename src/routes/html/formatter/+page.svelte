@@ -134,7 +134,7 @@
 
 			<div class="flex items-center gap-2 px-3 py-1.5 bg-base-200 rounded-lg">
 				<label for="indent" class="text-xs text-base-content/50">Indent:</label>
-				<select id="indent" class="select select-ghost select-xs w-16" bind:value={indentSize}>
+				<select id="indent" class="select select-bordered select-xs w-16 bg-base-100" bind:value={indentSize}>
 					<option value={2}>2</option>
 					<option value={4}>4</option>
 					<option value={8}>8</option>
@@ -189,7 +189,7 @@
 					<h3 class="text-sm font-medium text-base-content/70">Input</h3>
 					<span class="text-xs text-base-content/40">{inputStats.lines} lines</span>
 				</div>
-				<CodeMirrorEditor bind:value={input} placeholder="Paste your HTML here..." />
+				<CodeMirrorEditor bind:value={input} language="html" placeholder="Paste your HTML here..." />
 			</div>
 
 			<div>
@@ -197,7 +197,7 @@
 					<h3 class="text-sm font-medium text-base-content/70">Output</h3>
 					<span class="text-xs text-base-content/40">{outputStats.lines} lines</span>
 				</div>
-				<CodeMirrorEditor value={output} readonly placeholder="Formatted HTML will appear here..." />
+				<CodeMirrorEditor value={output} language="html" readonly placeholder="Formatted HTML will appear here..." />
 			</div>
 		</div>
 		<!-- Content Sections -->

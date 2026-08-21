@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
@@ -241,7 +242,7 @@
 					<div class="card bg-base-200 rounded-xl {value ? '' : 'opacity-50'}">
 						<div class="card-body p-4">
 							<div class="flex items-center gap-2 mb-2">
-								<span class="text-2xl">{claim.icon}</span>
+								<span class="text-2xl"><AppIcon name={claim.icon} size={24} /></span>
 								<div>
 									<h3 class="font-bold text-sm">{claim.label}</h3>
 									<code class="text-xs text-base-content/50">{claim.key}</code>
@@ -268,7 +269,7 @@
 			<div class="card bg-gradient-to-r from-base-200 to-base-300 rounded-xl">
 				<div class="card-body py-4">
 					<h4 class="text-sm font-semibold flex items-center gap-2 mb-4">
-						<span>📊</span> Token Lifecycle Timeline
+						<AppIcon name={'📊'} size={16} /> Token Lifecycle Timeline
 					</h4>
 					<div class="relative">
 						<!-- Timeline bar -->

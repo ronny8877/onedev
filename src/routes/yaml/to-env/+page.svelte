@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -105,7 +106,7 @@ features:
 		<div class="flex flex-wrap gap-4 items-center justify-center">
 			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
 				<span class="text-sm font-medium">Separator:</span>
-				<select bind:value={separator} class="select select-sm select-ghost">
+				<select bind:value={separator} class="select select-sm select-bordered bg-base-100">
 					<option value="_">Underscore (_)</option>
 					<option value="__">Double underscore (__)</option>
 					<option value=".">Dot (.)</option>
@@ -117,7 +118,7 @@ features:
 					type="text"
 					bind:value={prefix}
 					placeholder="Optional"
-					class="input input-sm input-ghost w-24"
+					class="input input-sm input-bordered w-24 bg-base-100"
 				/>
 			</div>
 		</div>
@@ -128,7 +129,7 @@ features:
 				<div class="card-body p-4">
 					<div class="flex items-center gap-2 mb-3">
 						<div class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center">
-							<span>📄</span>
+							<AppIcon name={'📄'} size={16} />
 						</div>
 						<h3 class="font-bold">YAML Input</h3>
 					</div>
@@ -148,7 +149,7 @@ features:
 					<div class="flex items-center justify-between mb-3">
 						<div class="flex items-center gap-2">
 							<div class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
-								<span>📝</span>
+								<AppIcon name={'📝'} size={16} />
 							</div>
 							<h3 class="font-bold">.env Output</h3>
 							{#if result.keyCount > 0}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { countTokens, getModelConfig } from '$lib/utils/tokenizer';
@@ -13,12 +14,12 @@
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
 	const content = aiToolsContent['context-estimator'];
-	import { CHAT_MODELS, formatNumber, getProviderColor } from '$lib/config/ai-models';
+	import { CHAT_MODELS, formatNumber, getProviderColor, PRICING_LAST_UPDATED } from '$lib/config/ai-models';
 
 	let systemMessage = $state('');
 	let userPrompt = $state('');
 	let chatHistory = $state('');
-	let selectedModel = $state('gpt-5.4');
+	let selectedModel = $state('gpt-5.6-terra');
 	
 	let customContextWindow = $state(128000);
 	let customMaxOutput = $state(8192);
@@ -109,7 +110,7 @@
 
 <ToolWrapper
 	keywords={['context window', 'token budget', 'LLM context', 'prompt tokens', 'AI context limit']}
-	lastUpdated={content.lastUpdated}
+	lastUpdated={PRICING_LAST_UPDATED}
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
@@ -222,7 +223,7 @@
 				<div class="card-body py-5 px-5">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2 text-base">
-							<div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center text-lg shadow-sm">⚙️</div>
+							<div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center text-lg shadow-sm"><AppIcon name={'⚙️'} size={18} /></div>
 							System Message
 						</h3>
 						<span class="badge badge-ghost font-mono text-xs border-base-content/20 group-hover:border-blue-500/30 transition-colors">
@@ -243,7 +244,7 @@
 				<div class="card-body py-5 px-5">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2 text-base">
-							<div class="w-8 h-8 rounded-lg bg-green-500/10 text-green-500 flex items-center justify-center text-lg shadow-sm">💬</div>
+							<div class="w-8 h-8 rounded-lg bg-green-500/10 text-green-500 flex items-center justify-center text-lg shadow-sm"><AppIcon name={'💬'} size={18} /></div>
 							User Prompt
 						</h3>
 						<span class="badge badge-ghost font-mono text-xs border-base-content/20 group-hover:border-green-500/30 transition-colors">
@@ -264,7 +265,7 @@
 				<div class="card-body py-5 px-5">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2 text-base">
-							<div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center text-lg shadow-sm">📜</div>
+							<div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center text-lg shadow-sm"><AppIcon name={'📜'} size={18} /></div>
 							Chat History
 						</h3>
 						<span class="badge badge-ghost font-mono text-xs border-base-content/20 group-hover:border-purple-500/30 transition-colors">

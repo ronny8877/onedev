@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import ConversionCard from '$lib/components/ui/ConversionCard.svelte';
@@ -197,8 +198,7 @@
 							></div>
 						</label>
 						<div class="absolute -bottom-1 -right-1 bg-primary text-primary-content text-xs px-2 py-0.5 rounded-full shadow-md font-medium">
-							🎨
-						</div>
+							<AppIcon name={'🎨'} size={16} /></div>
 					</div>
 					<div class="flex-1">
 						<div class="text-xs text-base-content/60 mb-1 font-medium">Visual Color Picker</div>
@@ -460,7 +460,7 @@
 		{:else}
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body items-center text-center py-12">
-					<span class="text-4xl mb-2">🎨</span>
+					<AppIcon name={'🎨'} size={32} />
 					<p class="text-base-content/60">Enter a color code to see conversions</p>
 					<p class="text-xs text-base-content/40 mt-1">Supports HEX, RGB, HSL, CMYK</p>
 				</div>

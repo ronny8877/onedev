@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
@@ -243,7 +244,7 @@ valid = bcrypt.checkpw(password.encode(), hash)` }
 						<ul class="space-y-1 text-sm">
 							{#each policy().requirements as req}
 								<li class="flex items-start gap-1">
-									<span class="text-success">✓</span>
+									<AppIcon name={'✓'} size={16} />
 									{req}
 								</li>
 							{/each}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { cssSnippets } from '$lib/utils/css-utils';
@@ -41,7 +42,7 @@
 					class:btn-primary={activeTab === tab.id}
 					onclick={() => activeTab = tab.id}
 				>
-					<span>{tab.icon}</span>
+					<span><AppIcon name={tab.icon} size={16} /></span>
 					{tab.label}
 				</button>
 			{/each}

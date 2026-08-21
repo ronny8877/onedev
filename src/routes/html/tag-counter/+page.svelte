@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
@@ -83,7 +84,7 @@
 				<div class="p-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl border border-primary/20">
 					<div class="flex items-center gap-3">
 						<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-							<span class="text-2xl">🔢</span>
+							<AppIcon name={'🔢'} size={24} />
 						</div>
 						<div>
 							<div class="text-2xl font-bold text-primary">{totalCount.toLocaleString()}</div>
@@ -95,7 +96,7 @@
 				<div class="p-4 bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-2xl border border-secondary/20">
 					<div class="flex items-center gap-3">
 						<div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center">
-							<span class="text-2xl">🏷️</span>
+							<AppIcon name={'🏷️'} size={24} />
 						</div>
 						<div>
 							<div class="text-2xl font-bold text-secondary">{tags.length}</div>
@@ -108,7 +109,7 @@
 					<div class="p-4 bg-gradient-to-br from-accent/10 to-accent/5 rounded-2xl border border-accent/20">
 						<div class="flex items-center gap-3">
 							<div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
-								<span class="text-2xl">🥇</span>
+								<AppIcon name={'🥇'} size={24} />
 							</div>
 							<div>
 								<div class="text-2xl font-bold text-accent font-mono">&lt;{tags[0].tag}&gt;</div>
@@ -121,7 +122,7 @@
 				<div class="p-4 bg-gradient-to-br from-info/10 to-info/5 rounded-2xl border border-info/20">
 					<div class="flex items-center gap-3">
 						<div class="w-12 h-12 rounded-xl bg-info/10 flex items-center justify-center">
-							<span class="text-2xl">📊</span>
+							<AppIcon name={'📊'} size={24} />
 						</div>
 						<div>
 							<div class="text-2xl font-bold text-info">{(totalCount / tags.length).toFixed(1)}</div>
@@ -137,7 +138,7 @@
 			<div class="flex items-center justify-between mb-2">
 				<h3 class="text-sm font-medium text-base-content/70">HTML Input</h3>
 			</div>
-			<CodeMirrorEditor bind:value={input} placeholder="Paste your HTML here..." />
+			<CodeMirrorEditor bind:value={input} language="html" placeholder="Paste your HTML here..." />
 		</div>
 
 		<!-- Results -->
@@ -241,7 +242,7 @@
 		{:else if input.trim()}
 			<div class="flex flex-col items-center justify-center py-12 text-center">
 				<div class="w-16 h-16 rounded-2xl bg-base-200 flex items-center justify-center mb-4">
-					<span class="text-3xl">📊</span>
+					<AppIcon name={'📊'} size={16} />
 				</div>
 				<p class="text-base-content/50">No HTML elements found</p>
 			</div>

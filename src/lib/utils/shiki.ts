@@ -12,7 +12,7 @@ async function getHighlighter(): Promise<Highlighter> {
 	if (!initPromise) {
 		initPromise = createHighlighter({
 			themes: ['min-light', 'github-dark'],
-			langs: ['json', 'typescript', 'go', 'javascript']
+			langs: ['json', 'typescript', 'go', 'javascript', 'xml', 'html']
 		});
 	}
 
@@ -29,7 +29,7 @@ async function getHighlighter(): Promise<Highlighter> {
  */
 export async function highlight(
 	code: string,
-	lang: 'json' | 'typescript' | 'go' | 'javascript' = 'json',
+	lang: 'json' | 'typescript' | 'go' | 'javascript' | 'xml' | 'html' = 'json',
 	theme: 'min-light' | 'github-dark' = 'min-light'
 ): Promise<string> {
 	const hl = await getHighlighter();

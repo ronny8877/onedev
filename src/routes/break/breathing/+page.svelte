@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
@@ -181,7 +182,7 @@
 		<!-- Breath Counter -->
 		{#if breathCount > 0 || isRunning}
 			<div class="badge badge-lg badge-ghost gap-2">
-				<span class="text-lg">🌬️</span>
+				<AppIcon name={'🌬️'} size={18} />
 				{breathCount} breath{breathCount !== 1 ? 's' : ''}
 			</div>
 		{/if}

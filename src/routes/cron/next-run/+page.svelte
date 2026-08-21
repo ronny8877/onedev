@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { Cron } from 'croner';
@@ -128,7 +129,7 @@
 			<div class="card-body p-5">
 				<div class="flex items-center gap-3 mb-4">
 					<div class="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
-						<span class="text-xl">📅</span>
+						<AppIcon name={'📅'} size={20} />
 					</div>
 					<div>
 						<h3 class="font-bold">Cron Expression</h3>
@@ -167,23 +168,30 @@
 
 		<!-- Settings Row -->
 		<div class="flex flex-wrap gap-4 items-center justify-center">
-			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
-				<span class="text-sm">🌍</span>
-				<select bind:value={timezone} class="select select-sm select-ghost font-medium">
+			<label class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
+				<AppIcon name={'🌍'} size={16} />
+				<select bind:value={timezone} class="select select-sm select-bordered bg-base-100 font-medium min-w-44">
 					{#each allTimezones as tz}
 						<option value={tz}>{tz.replace(/_/g, ' ')}</option>
 					{/each}
 				</select>
-			</div>
-			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
-				<span class="text-sm">📊</span>
-				<span class="text-sm font-medium">Show {runCount}</span>
+			</label>
+			<div class="flex items-center gap-3 bg-base-200 rounded-xl px-4 py-2 min-w-64 flex-1 max-w-md">
+				<AppIcon name={'📊'} size={16} />
+				<span class="text-sm font-medium whitespace-nowrap">Show</span>
 				<input
 					type="range"
 					bind:value={runCount}
 					min="5"
 					max="20"
-					class="range range-xs range-primary w-20"
+					class="range range-sm range-primary min-w-0 flex-1"
+				/>
+				<input
+					type="number"
+					bind:value={runCount}
+					min="5"
+					max="20"
+					class="input input-bordered input-sm w-16 shrink-0 text-center tabular-nums bg-base-100"
 				/>
 			</div>
 		</div>
@@ -201,7 +209,7 @@
 				<div class="card-body p-5">
 					<div class="flex items-center justify-between mb-4">
 						<h3 class="font-bold flex items-center gap-2">
-							<span>🗓️</span> Next {result.runs.length} Runs
+							<AppIcon name={'🗓️'} size={16} /> Next {result.runs.length} Runs
 						</h3>
 						<span class="badge badge-primary badge-sm">{timezone.replace(/_/g, ' ')}</span>
 					</div>

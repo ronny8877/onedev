@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import { untrack } from 'svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
@@ -543,7 +544,7 @@
 					{:else if !error}
 						<!-- Empty state -->
 						<div class="empty-state">
-							<div class="empty-icon">🔗</div>
+							<AppIcon name={'🔗'} size={16} />
 							<h3 class="text-lg font-semibold text-base-content/70 mb-1">No JSON Data</h3>
 							<p class="text-sm text-base-content/40 max-w-xs text-center">Paste JSON in the editor or load sample data to visualize relationships</p>
 						</div>

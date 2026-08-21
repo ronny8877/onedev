@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -145,7 +146,7 @@
 		<!-- Branch Type Selection -->
 		<div>
 			<h3 class="text-sm font-medium text-base-content/70 mb-3 flex items-center gap-2">
-				<span>🌿</span>
+				<AppIcon name={'🌿'} size={16} />
 				Branch Type
 			</h3>
 			<div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
@@ -252,7 +253,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold mb-3 flex items-center gap-2">
-					<span>🔀</span>
+					<AppIcon name={'🔀'} size={16} />
 					Segment Order
 					<span class="text-xs font-normal text-base-content/50">(drag or use arrows)</span>
 				</h4>
@@ -293,7 +294,7 @@
 				<div class="card-body py-4">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2">
-							<span>🌿</span>
+							<AppIcon name={'🌿'} size={16} />
 							Branch Name
 						</h3>
 						<CopyButton text={branchName} label="Copy" size="sm" />

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
+
 	interface Props {
 		tips: string[];
 	}
@@ -7,7 +9,10 @@
 </script>
 
 <section class="rounded-xl border border-base-300 bg-base-100 p-6 shadow-sm">
-	<h2 class="mb-4 text-xl font-bold text-base-content">💡 Tips</h2>
+	<h2 class="mb-4 flex items-center gap-2 text-xl font-bold text-base-content">
+		<AppIcon name="lightbulb" size={20} class="text-warning" />
+		Tips
+	</h2>
 	<ul class="grid gap-3 sm:grid-cols-2">
 		{#each tips as tip}
 			<li class="flex items-start gap-2">

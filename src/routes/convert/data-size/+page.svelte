@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import ConversionCard from '$lib/components/ui/ConversionCard.svelte';
@@ -276,7 +277,7 @@
 		{:else}
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body items-center text-center py-12">
-					<span class="text-4xl mb-2">💾</span>
+					<AppIcon name={'💾'} size={32} />
 					<p class="text-base-content/60">Enter a value above to see conversions</p>
 				</div>
 			</div>

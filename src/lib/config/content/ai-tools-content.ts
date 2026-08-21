@@ -11,7 +11,7 @@ interface AIToolContent {
 export const aiToolsContent: Record<string, AIToolContent> = {
 	'token-counter': {
 		features: [
-			'Highly accurate token counting for modern LLMs including GPT-4o, Claude 3.5, and Gemini',
+			'Highly accurate token counting for modern LLMs including GPT-5.6, Claude 5, Gemini 3.x, Grok 4.6, and DeepSeek V4',
 			'Real-time, instant character, word, and token calculations as you type',
 			'Built-in API cost estimation based on the latest provider pricing tiers',
 			'Support for multiple tokenizer encodings (cl100k_base for OpenAI, custom variants)',
@@ -33,7 +33,7 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 			
 			<p><strong>Common Tokenizer Encodings:</strong></p>
 			<ul>
-				<li><strong>cl100k_base:</strong> The modern standard used by OpenAI for GPT-4, GPT-4o, and the <code>text-embedding-3</code> models. It is highly efficient, utilizing a massive vocabulary of 100,000 unique tokens.</li>
+				<li><strong>cl100k_base / o200k-class:</strong> OpenAI encodings used across GPT-4.1, GPT-5.4, GPT-5.5, and GPT-5.6. They pack English more densely than older GPT-3 encodings. This counter uses an OpenAI BPE port, then scales Anthropic counts with a tokenizer factor.</li>
 				<li><strong>p50k_base / r50k_base:</strong> Older legacy encodings used for GPT-3 and early Codex models, which were less efficient at packing text into smaller token counts.</li>
 				<li><strong>Llama / Mistral Tokenizers:</strong> Open-source models use their own custom SentencePiece or BPE tokenizers, meaning a prompt sent to Llama 3 will yield a slightly different token count than the exact same prompt sent to GPT-4.</li>
 			</ul>`
@@ -87,7 +87,7 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 		features: [
 			'Interactive color-coded token visualization mapping text exact to model vocabularies',
 			'Detailed hover tooltips displaying the exact Integer Token ID and raw byte string',
-			'Granular support for both modern (GPT-4o cl100k_base) and legacy tokenizers',
+			'Granular support for current GPT-5.6 encodings plus a tokenizer-factor adjustment for Claude 5',
 			'Advanced toggle to visualize hidden special control tokens (e.g., <|endoftext|>)',
 			'One-click export to copy the exact token array as structured JSON for backend testing',
 			'Deep insight into how whitespace, punctuation, and emojis are fragmented'
@@ -159,7 +159,7 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 	'context-estimator': {
 		features: [
 			'Calculate exact token usage for System, User, and Assistant message blocks',
-			'Built-in presets for modern LLMs (GPT-4o, Claude 3.5 Sonnet, DeepSeek V3)',
+			'Built-in presets for current LLMs (GPT-5.6 Sol/Terra/Luna, Claude Sonnet 5 / Opus 5, Gemini 3.7 Flash, DeepSeek V4)',
 			'Visual token progress bar showing current context window usage',
 			'Dynamic remaining token calculation with safety buffer warnings',
 			'Support for custom context configurations for local AI models (Llama, Mistral)'
@@ -213,7 +213,7 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 			},
 			{
 				question: 'How do "Reasoning Tokens" affect the context window?',
-				answer: 'For reasoning models like OpenAI\'s o1/o3 or DeepSeek R1, the model generates internal "thinking" tokens before outputting the final answer. These invisible reasoning tokens share the same context window as your input and output. Therefore, complex reasoning tasks require significantly more headroom in the context window.'
+				answer: 'For reasoning models like GPT-5.6 Sol, Claude Opus 5, or DeepSeek V4 Pro, the model generates internal thinking tokens before outputting the final answer. Those tokens share the same context window as your input and output. Complex reasoning needs more headroom.'
 			},
 			{
 				question: 'Why does message formatting add token overhead?',
@@ -284,7 +284,7 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 			},
 			{
 				question: 'Is it better to trim the text or summarize it?',
-				answer: 'If you have the compute budget, passing the overflowing text through a cheaper, faster model (like Claude 3 Haiku or GPT-4o-mini) to summarize it is usually superior to outright trimming. Trimming is best used as an absolute failsafe to prevent API crashes.'
+				answer: 'If you have the compute budget, passing the overflowing text through a cheaper, faster model (like Claude Haiku 4.5, GPT-5.6 Luna, or Gemini 3.5 Flash-Lite) to summarize it is usually superior to outright trimming. Trimming is best used as an absolute failsafe to prevent API crashes.'
 			}
 		],
 		relatedTools: [
@@ -300,7 +300,7 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 	'embedding-estimator': {
 		features: [
 			'Calculate precise vector database storage requirements (in MB/GB) based on dimensionality and precision',
-			'Built-in presets for top embedding models: text-embedding-3-large, text-embedding-ada-002, and Cohere English',
+			'Built-in presets for top embedding models: text-embedding-4-large, Gemini Embedding 2, text-embedding-3-large, and Cohere English',
 			'Dynamic memory overhead estimation mapping HNSW (Hierarchical Navigable Small World) index costs',
 			'Toggle between Float32, Float16, and Int8 (quantization) to see exact compression savings',
 			'Calculate scaling costs for managed cloud vector databases like Pinecone, Milvus, and Qdrant',
@@ -371,16 +371,16 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 		features: [
 			'Highly accurate, up-to-date pricing algorithms for top-tier LLM providers (OpenAI, Anthropic, Google, Meta, Mistral)',
 			'Distinct calculation streams for Input (Prompt) tokens versus Output (Completion) tokens',
-			'Advanced support for calculating Prompt Caching discounts (e.g., Anthropic Claude 3.5 cached input rates)',
+			'Advanced support for calculating Prompt Caching discounts (e.g., Claude Sonnet 5 cache hits at $0.20 / 1M)',
 			'Dynamic monthly SaaS budgeting based on projected Daily Active Users (DAU) and batch API scaling',
 			'Direct pasting support: paste raw text to instantly calculate both the token count and the exact monetary cost',
 			'Interactive side-by-side model comparison to instantly identify the most cost-effective AI engine'
 		],
 		useCases: [
 			'Pitching AI feature integrations to stakeholders by providing exact monthly API budget forecasts',
-			'Performing a rigorous cost-benefit analysis between using a flagship model (GPT-4o) versus a fast model (GPT-4o-mini)',
+			'Performing a rigorous cost-benefit analysis between using a flagship model (GPT-5.6 Sol or Claude Opus 5) versus a fast model (GPT-5.6 Luna or Gemini 3.7 Flash)',
 			'Calculating the exact monetary cost of processing a massive 1-million-token RAG context window',
-			'Estimating the overhead of "invisible" reasoning tokens generated by models like OpenAI o1 or DeepSeek R1',
+			'Estimating the overhead of "invisible" reasoning tokens generated by models like GPT-5.6 Sol, Claude Opus 5, or DeepSeek V4 Pro',
 			'Budgeting for massive offline batch processing jobs (which often receive a 50% API discount)'
 		],
 		concept: {
@@ -390,7 +390,7 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 			<p><strong>The Core Pricing Dynamics:</strong></p>
 			<ul>
 				<li><strong>Asymmetric Billing (Input vs Output):</strong> The computational power required to <em>read</em> text (Input) is drastically lower than the power required to <em>generate</em> new text (Output). Therefore, Output tokens are typically priced 3x to 5x higher than Input tokens.</li>
-				<li><strong>The Intelligence Premium:</strong> Frontier, reasoning-capable models (like Claude 3.5 Sonnet or GPT-4o) command an immense premium—often costing 20x to 50x more per token than their smaller, faster counterparts (like Claude 3.5 Haiku or GPT-4o-mini).</li>
+				<li><strong>The Intelligence Premium:</strong> Frontier models (Claude Fable 5 at $10/$50, GPT-5.6 Sol at $5/$30, Claude Opus 5 at $5/$25) still cost many times more per token than Luna ($0.20/$1.20), Gemini 3.7 Flash ($0.75/$3.75 intro), or DeepSeek V4 Flash peak ($0.44/$1.32).</li>
 				<li><strong>Prompt Caching Discounts:</strong> Modern APIs now offer massive discounts (often 50% to 90% off) for <em>Cached Input</em>. If you repeatedly send the exact same massive system prompt or RAG document within a short time window, the provider caches the initial computation, drastically dropping your bill.</li>
 			</ul>`
 		},
@@ -421,12 +421,12 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 				answer: 'These are the legacy terms used by OpenAI. The "Prompt" is your Input—the text, history, and instructions you send to the server. The "Completion" is the Output—the novel text the AI model generates and sends back to you.'
 			},
 			{
-				question: 'How are reasoning tokens (like in OpenAI o1 or DeepSeek R1) billed?',
-				answer: 'Models equipped with Chain-of-Thought (CoT) reasoning generate thousands of internal, invisible tokens before they output the final answer. Providers bill these invisible reasoning tokens at the exact same high rate as standard Output tokens, making reasoning models significantly more expensive to run in production.'
+				question: 'How are reasoning tokens (like in GPT-5.6 Sol or DeepSeek V4 Pro) billed?',
+				answer: 'Models equipped with Chain-of-Thought (CoT) reasoning generate thousands of internal, invisible tokens before they output the final answer. Providers bill these invisible reasoning tokens at the exact same high rate as standard Output tokens, making Sol, Opus 5, and similar reasoning models significantly more expensive to run in production.'
 			},
 			{
 				question: 'What are the best strategies to reduce my monthly AI API bill?',
-				answer: '1. Model Routing: Use cheap models (like Llama 3 8B or GPT-4o-mini) for 80% of simple tasks, and route only the hardest 20% to flagship models. 2. Implement Semantic Caching to avoid querying the API for identical user questions. 3. Utilize the Batch API for non-urgent background tasks (which guarantees a 50% discount).'
+				answer: '1. Model Routing: Use cheap models (GPT-5.6 Luna, Gemini 3.5 Flash-Lite, DeepSeek V4 Flash) for 80% of simple tasks, and route only the hardest 20% to Sol, Opus 5, or Fable 5. 2. Implement Semantic Caching to avoid querying the API for identical user questions. 3. Utilize the Batch API for non-urgent background tasks (OpenAI and Anthropic still list 50% off).'
 			}
 		],
 		relatedTools: [
@@ -441,9 +441,9 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 	},
 	'cost-compare': {
 		features: [
-			'Comprehensive matrix comparing 30+ leading models across OpenAI, Anthropic, Google, Meta, Mistral, and xAI',
+			'Comprehensive matrix comparing 40+ current models across OpenAI, Anthropic, Google, DeepSeek, xAI, Moonshot, Meta, and Mistral',
 			'Dynamic recalculation of monthly SaaS bills based on adjustable Input/Output ratio sliders',
-			'Instant cross-provider scaling: instantly see the financial impact of moving from GPT-4 to Llama 3',
+			'Instant cross-provider scaling: instantly see the financial impact of moving from GPT-5.6 Sol to Luna, Gemini 3.7 Flash, or DeepSeek V4',
 			'Visual indicators for the most cost-effective routing options based on real-time token economics',
 			'Granular filtering to isolate reasoning models, vision models, or ultra-fast sub-second latency models'
 		],
@@ -451,7 +451,7 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 			'Auditing a massive cloud AI bill to find exact drop-in replacement models that cut costs by 90%',
 			'Presenting a comparative financial dashboard to executive teams when requesting a monthly generative AI budget',
 			'Developing a Dynamic Model Routing system (LLM Router) that falls back to cheaper APIs for simple classification tasks',
-			'Evaluating whether the massive price premium of "Reasoning" models (like o1) is justified over fast "Pro" models',
+			'Evaluating whether the price premium of reasoning flagships (Sol, Opus 5, Fable 5) is justified over Luna or Flash',
 			'Calculating the profit margins of an AI wrapper application by modeling cost-per-user per month'
 		],
 		concept: {
@@ -460,27 +460,27 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 			
 			<p><strong>The Three Tiers of AI Economics:</strong></p>
 			<ul>
-				<li><strong>Frontier/Reasoning Models (Premium):</strong> Examples include GPT-4o, Claude 3.5 Sonnet, and OpenAI o1. They cost between $3.00 and $15.00 per million tokens. Use these strictly for complex coding, deep logical reasoning, or final copy generation.</li>
-				<li><strong>Fast/Mini Models (Commodity):</strong> Examples include GPT-4o-mini, Claude 3 Haiku, and Gemini 1.5 Flash. They cost between $0.15 and $0.60 per million tokens (often 50x cheaper than the premium tier). They are incredibly fast and perfectly capable of handling 80% of daily tasks like JSON extraction, summarization, and basic chat.</li>
-				<li><strong>Open-Source Local Models (Free Compute):</strong> Examples include Llama 3.1 8B or Mistral. If you host them on your own GPU, you pay zero token API costs, paying only for the raw server electricity and hardware depreciation.</li>
+				<li><strong>Frontier/Reasoning Models (Premium):</strong> GPT-5.6 Sol ($5 / $30), Claude Opus 5 ($5 / $25), Claude Fable 5 ($10 / $50). Use these for hard coding, long agents, and work where a miss is expensive.</li>
+				<li><strong>Fast/Mini Models (Commodity):</strong> GPT-5.6 Luna ($0.20 / $1.20), Gemini 3.7 Flash ($0.75 / $3.75 intro through Dec 2026), Claude Haiku 4.5 ($1 / $5), DeepSeek V4 Flash peak ($0.44 / $1.32). They handle most extraction, classification, and chat.</li>
+				<li><strong>Open-Source Local Models (Free Compute):</strong> Llama 3.3 70B or Qwen 2.5 72B on your own GPU. You skip per-token API fees and pay for the box instead.</li>
 			</ul>`
 		},
 		examples: [
 			{
 				label: 'Tier 1 Routing (Complex)',
-				code: 'Task: Write a full React application.\nModel: Claude 3.5 Sonnet ($3.00 In / $15.00 Out)\nResult: Expensive, but produces working code.',
+				code: 'Task: Write a full React application.\nModel: Claude Sonnet 5 ($2.00 In / $10.00 Out) or GPT-5.6 Terra ($2.00 / $12.00)\nResult: Production default, not the cheapest, usually the right first pick.',
 				isValid: true
 			},
 			{
 				label: 'Tier 2 Routing (Simple)',
-				code: 'Task: Extract names from this text into JSON.\nModel: GPT-4o-mini ($0.150 In / $0.600 Out)\nResult: Nearly free, highly accurate for data extraction.',
+				code: 'Task: Extract names from this text into JSON.\nModel: GPT-5.6 Luna ($0.20 In / $1.20 Out) or DeepSeek V4 Flash peak ($0.44 / $1.32)\nResult: Cheap enough that volume, not the rate card, is the real budget line.',
 				isValid: true
 			}
 		],
 		faqs: [
 			{
 				question: 'How much cheaper are "Mini" or "Flash" models compared to the flagship models?',
-				answer: 'They are astonishingly cheaper. For example, GPT-4o-mini is roughly 33x cheaper than GPT-4o. If your application processes 100 million tokens a month, switching from a flagship model to a mini model can drop your cloud bill from $1,000 to just $30.'
+				answer: 'Often by an order of magnitude or more. GPT-5.6 Luna input is $0.20 vs Sol at $5.00 (25x). DeepSeek V4 Flash peak is $0.44 / $1.32 vs Opus 5 at $5 / $25. If you process 100 million input tokens a month, Sol is about $500 and Luna is about $20 before output.'
 			},
 			{
 				question: 'Are open-source models always cheaper?',

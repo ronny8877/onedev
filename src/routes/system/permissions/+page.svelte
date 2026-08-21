@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { systemToolsContent } from '$lib/config/content/system-tools-content';
@@ -173,7 +174,7 @@
 						{#each permissions as perm}
 							<div class="flex items-center justify-between p-3 rounded-xl bg-base-300/50">
 								<div class="flex items-center gap-3">
-									<span class="text-lg">{perm.icon}</span>
+									<span class="text-lg"><AppIcon name={perm.icon} size={18} /></span>
 									<div>
 										<span class="font-medium text-sm">{perm.name}</span>
 										<div class="badge {getStateBadge(perm.state)} badge-sm ml-2">

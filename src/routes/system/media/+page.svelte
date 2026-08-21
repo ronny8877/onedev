@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { fade, slide, scale } from 'svelte/transition';
@@ -300,7 +301,7 @@
 			<div class="card-body">
 				<div class="flex items-center justify-between">
 					<h3 class="font-semibold text-lg flex items-center gap-2">
-						<span>📷</span>
+						<AppIcon name={'📷'} size={16} />
 						Cameras
 					</h3>
 					{#if !cameraChecked}
@@ -370,7 +371,7 @@
 			<div class="card-body">
 				<div class="flex items-center justify-between">
 					<h3 class="font-semibold text-lg flex items-center gap-2">
-						<span>🎤</span>
+						<AppIcon name={'🎤'} size={16} />
 						Microphones
 					</h3>
 					{#if !micChecked}

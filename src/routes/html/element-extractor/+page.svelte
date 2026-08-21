@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -178,7 +179,7 @@
 						onclick={() => elementType = preset.value}
 						title={preset.description}
 					>
-						<span class="text-xl">{preset.icon}</span>
+						<span class="text-xl"><AppIcon name={preset.icon} size={20} /></span>
 						<span class="text-xs font-medium">{preset.label}</span>
 					</button>
 				{/each}
@@ -228,7 +229,7 @@
 		<!-- Input -->
 		<div>
 			<h3 class="mb-2 text-sm font-medium text-base-content/70">HTML Input</h3>
-			<CodeMirrorEditor bind:value={input} placeholder="Paste your HTML here..." />
+			<CodeMirrorEditor bind:value={input} language="html" placeholder="Paste your HTML here..." />
 		</div>
 
 		<!-- Results -->
@@ -383,7 +384,7 @@
 		{:else if input.trim() && selector.trim()}
 			<div class="flex flex-col items-center justify-center py-12 text-center">
 				<div class="w-16 h-16 rounded-2xl bg-base-200 flex items-center justify-center mb-4">
-					<span class="text-3xl">🔍</span>
+					<AppIcon name={'🔍'} size={16} />
 				</div>
 				<p class="text-base-content/50 mb-2">No elements found</p>
 				<code class="text-sm font-mono text-base-content/30">{selector}</code>

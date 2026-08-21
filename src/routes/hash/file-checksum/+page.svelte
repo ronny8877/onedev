@@ -120,11 +120,11 @@
 
 		<!-- Expected Hash Input -->
 		<div>
-			<div class="flex items-center justify-between mb-2">
+			<div class="flex flex-wrap items-center justify-between gap-2 mb-2">
 				<h3 class="text-sm font-medium text-base-content/70">Expected Hash (optional)</h3>
 				<select
 					bind:value={algorithm}
-					class="select select-bordered select-sm"
+					class="select select-bordered select-sm w-auto bg-base-100 shrink-0"
 					onchange={() => {
 						if (fileInfo && fileInput?.files?.[0]) {
 							processFile(fileInput.files[0]);

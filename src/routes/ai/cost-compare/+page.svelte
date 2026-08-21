@@ -11,7 +11,7 @@
 	import Tips from '$lib/components/content/Tips.svelte';
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 
-	import { CHAT_MODELS, calculateChatCost, formatCurrency, getProviderColor, formatNumber } from '$lib/config/ai-models';
+	import { CHAT_MODELS, calculateChatCost, formatCurrency, getProviderColor, formatNumber, PRICING_LAST_UPDATED } from '$lib/config/ai-models';
 
 	const content = aiToolsContent['cost-compare'];
 
@@ -65,8 +65,8 @@
 </script>
 
 <ToolWrapper
-	keywords={['AI cost comparison', 'LLM pricing', 'GPT-4 cost', 'Claude pricing', 'Gemini cost', 'DeepSeek pricing']}
-	lastUpdated={content.lastUpdated}
+	keywords={['AI cost comparison', 'LLM pricing', 'GPT-5.6 cost', 'Claude Opus 5 pricing', 'Gemini 3.7 Flash cost', 'DeepSeek V4 pricing']}
+	lastUpdated={PRICING_LAST_UPDATED}
 >
 	<div class="flex flex-col gap-6">
 		<ToolActions onClear={reset} />

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import { systemToolsContent } from '$lib/config/content/system-tools-content';
@@ -384,7 +385,7 @@
 				<div class="card bg-base-200 rounded-2xl">
 					<div class="card-body py-4">
 						<h3 class="font-semibold text-base flex items-center gap-2 mb-2">
-							<span>{group.icon}</span>
+							<span><AppIcon name={group.icon} size={16} /></span>
 							{group.name}
 						</h3>
 						<div class="grid gap-1.5 sm:grid-cols-2">

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import { goto } from '$app/navigation';
@@ -278,7 +279,7 @@
 					class:btn-outline={activeCategory !== cat.id}
 					onclick={() => scrollToCategory(cat.id)}
 				>
-					<span>{cat.icon}</span>
+					<span><AppIcon name={cat.icon} size={16} /></span>
 					{cat.name}
 				</button>
 			{/each}
@@ -288,7 +289,7 @@
 		{#if shouldShowCategory('classes')}
 			<section id="category-classes">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-success/20 to-success/10 flex items-center justify-center text-xl">🔤</span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-success/20 to-success/10 flex items-center justify-center text-xl"><AppIcon name={'🔤'} size={20} /></span>
 					Character Classes
 				</h2>
 				<div class="overflow-x-auto">
@@ -333,7 +334,7 @@
 		{#if shouldShowCategory('quantifiers')}
 			<section id="category-quantifiers">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-warning/20 to-warning/10 flex items-center justify-center text-xl">🔢</span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-warning/20 to-warning/10 flex items-center justify-center text-xl"><AppIcon name={'🔢'} size={20} /></span>
 					Quantifiers
 				</h2>
 				<div class="overflow-x-auto">
@@ -371,7 +372,7 @@
 		{#if shouldShowCategory('anchors')}
 			<section id="category-anchors">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-info/20 to-info/10 flex items-center justify-center text-xl">⚓</span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-info/20 to-info/10 flex items-center justify-center text-xl"><AppIcon name={'⚓'} size={20} /></span>
 					Anchors
 				</h2>
 				<div class="overflow-x-auto">
@@ -416,7 +417,7 @@
 		{#if shouldShowCategory('groups')}
 			<section id="category-groups">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-xl">📦</span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-xl"><AppIcon name={'📦'} size={20} /></span>
 					Groups & Lookarounds
 				</h2>
 				<div class="overflow-x-auto">
@@ -454,14 +455,14 @@
 		{#if shouldShowCategory('flags')}
 			<section id="category-flags">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center text-xl">🚩</span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center text-xl"><AppIcon name={'🚩'} size={20} /></span>
 					Flags
 				</h2>
 				<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
 					{#each filteredFlags as item}
 						<div class="card bg-gradient-to-br from-base-200 to-base-300 rounded-xl p-4 hover:shadow-lg transition-all group">
 							<div class="flex items-center gap-3 mb-2">
-								<span class="text-2xl">{item.icon}</span>
+								<span class="text-2xl"><AppIcon name={item.icon} size={24} /></span>
 								<div class="flex items-center gap-2">
 									<code class="text-xl font-mono font-bold text-accent">{item.flag}</code>
 									<span class="font-semibold">{item.name}</span>
@@ -478,7 +479,7 @@
 		{#if shouldShowCategory('common')}
 			<section id="category-common">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center text-xl">⭐</span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center text-xl"><AppIcon name={'⭐'} size={20} /></span>
 					Common Patterns
 				</h2>
 				<div class="grid gap-3">
@@ -487,7 +488,7 @@
 							<div class="flex flex-wrap items-start justify-between gap-3">
 								<div class="flex-1 min-w-0">
 									<div class="flex items-center gap-2 mb-2">
-										<span class="text-xl">{item.icon}</span>
+										<span class="text-xl"><AppIcon name={item.icon} size={20} /></span>
 										<span class="font-semibold">{item.name}</span>
 										<span class="text-xs text-base-content/50">{item.description}</span>
 										<button 

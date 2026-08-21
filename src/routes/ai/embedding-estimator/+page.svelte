@@ -16,7 +16,7 @@
 	import { EMBEDDING_MODELS, getEmbeddingModel, calculateEmbeddingCost, estimateVectorBytes, formatCurrency, getProviderColor, formatNumber, PRICING_LAST_UPDATED } from '$lib/config/ai-models';
 
 	let input = $state('');
-	let selectedModel = $state('text-embedding-3-small');
+	let selectedModel = $state('text-embedding-4-large');
 	let batchCount = $state(1);
 
 	const sampleText = `Machine learning is a branch of artificial intelligence that focuses on building applications that learn from data and improve their accuracy over time without being programmed to do so.`;
@@ -56,7 +56,7 @@
 
 <ToolWrapper
 	keywords={['embedding estimator', 'vector size', 'embedding tokens', 'vector database', 'embedding dimensions']}
-	lastUpdated={content.lastUpdated}
+	lastUpdated={PRICING_LAST_UPDATED}
 >
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->

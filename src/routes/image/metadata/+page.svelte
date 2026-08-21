@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
@@ -253,7 +254,7 @@
 			<div class="card bg-base-200 rounded-xl">
 				<div class="card-body py-4">
 					<h4 class="flex items-center gap-2 text-sm font-semibold">
-						<span>📁</span>
+						<AppIcon name={'📁'} size={16} />
 						File Information
 					</h4>
 					<div class="mt-2 grid gap-2">
@@ -274,7 +275,7 @@
 						<div class="card bg-base-200 rounded-xl">
 							<div class="card-body py-4">
 								<h4 class="flex items-center gap-2 text-sm font-semibold">
-									<span>{group.icon}</span>
+									<span><AppIcon name={group.icon} size={16} /></span>
 									{group.name}
 								</h4>
 								<div class="mt-2 grid gap-2 overflow-y-auto">

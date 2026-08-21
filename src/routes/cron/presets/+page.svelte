@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 
@@ -158,7 +159,7 @@
 					class="btn btn-sm {activeCategory === cat.name ? 'btn-primary' : 'btn-ghost'}"
 					onclick={() => activeCategory = activeCategory === cat.name ? null : cat.name}
 				>
-					{cat.icon} {cat.name}
+					<AppIcon name={cat.icon} size={16} /> {cat.name}
 				</button>
 			{/each}
 		</div>
@@ -170,7 +171,7 @@
 					<div class="card bg-base-200 rounded-2xl">
 						<div class="card-body p-4">
 							<div class="flex items-center gap-2 mb-4">
-								<span class="text-2xl">{category.icon}</span>
+								<span class="text-2xl"><AppIcon name={category.icon} size={24} /></span>
 								<h3 class="font-bold text-lg">{category.name}</h3>
 								<span class="badge badge-sm badge-ghost">{category.presets.length}</span>
 							</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
@@ -195,7 +196,7 @@
 
 				{#if claims.standard.length === 0}
 					<div class="text-center py-8 text-base-content/50">
-						<span class="text-4xl">📭</span>
+						<AppIcon name={'📭'} size={32} />
 						<p class="mt-2">No standard claims found</p>
 					</div>
 				{/if}
@@ -223,7 +224,7 @@
 
 				{#if claims.custom.length === 0}
 					<div class="text-center py-8 text-base-content/50">
-						<span class="text-4xl">📭</span>
+						<AppIcon name={'📭'} size={32} />
 						<p class="mt-2">No custom claims found</p>
 					</div>
 				{/if}

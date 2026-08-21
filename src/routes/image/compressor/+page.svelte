@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
@@ -288,7 +289,7 @@
 								<div class="text-xs text-base-content/50 uppercase tracking-wide">Original</div>
 								<div class="font-mono text-xl font-bold">{formatFileSize(originalFile.size)}</div>
 							</div>
-							<div class="text-2xl text-base-content/30">→</div>
+							<AppIcon name={'→'} size={24} />
 							<div>
 								<div class="text-xs text-base-content/50 uppercase tracking-wide">Compressed</div>
 								<div class="font-mono text-xl font-bold text-primary">{formatFileSize(processedBlob?.size || 0)}</div>

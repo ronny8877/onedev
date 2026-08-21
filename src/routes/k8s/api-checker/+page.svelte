@@ -302,7 +302,7 @@ spec:
 		<div class="flex justify-center">
 			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
 				<span class="text-sm font-medium">Target K8s Version:</span>
-				<select bind:value={targetVersion} class="select select-sm select-ghost font-bold">
+				<select bind:value={targetVersion} class="select select-sm select-bordered bg-base-100 font-semibold">
 					{#each k8sVersions as version}
 						<option value={version}>{version}</option>
 					{/each}

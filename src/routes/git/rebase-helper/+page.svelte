@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import Features from '$lib/components/content/Features.svelte';
@@ -145,7 +146,7 @@ pick c3d4e5f docs: update API documentation`);
 			<div class="card-body py-4">
 				<div class="flex items-center justify-between mb-3">
 					<h3 class="font-semibold flex items-center gap-2">
-						<span>⌨️</span>
+						<AppIcon name={'⌨️'} size={16} />
 						Command
 					</h3>
 					<CopyButton text={rebaseCommand} label="Copy" size="sm" />
@@ -161,7 +162,7 @@ pick c3d4e5f docs: update API documentation`);
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-4 flex items-center gap-2">
-						<span>📋</span>
+						<AppIcon name={'📋'} size={16} />
 						Interactive Rebase Actions
 					</h3>
 					<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -182,7 +183,7 @@ pick c3d4e5f docs: update API documentation`);
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-3 flex items-center gap-2">
-						<span>📝</span>
+						<AppIcon name={'📝'} size={16} />
 						Example Todo List
 					</h3>
 					<pre class="font-mono text-sm p-4 bg-base-300/50 rounded-xl whitespace-pre-wrap">{exampleTodoList}</pre>
@@ -228,7 +229,7 @@ pick c3d4e5f docs: update API documentation`);
 					{#each commonScenarios as scenario}
 						<div class="p-4 rounded-xl bg-base-300/50">
 							<h4 class="font-semibold flex items-center gap-2">
-								<span>{scenario.icon}</span>
+								<span><AppIcon name={scenario.icon} size={16} /></span>
 								{scenario.title}
 							</h4>
 							<ol class="mt-2 space-y-1 text-sm text-base-content/70 list-decimal list-inside">
@@ -246,7 +247,7 @@ pick c3d4e5f docs: update API documentation`);
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-4 flex items-center gap-2">
-					<span>🌿</span>
+					<AppIcon name={'🌿'} size={16} />
 					Before vs After Rebase
 				</h3>
 				<div class="grid md:grid-cols-2 gap-4">

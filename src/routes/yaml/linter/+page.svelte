@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import yaml from 'js-yaml';
@@ -151,7 +152,7 @@ features:
 				<div class="card-body p-4">
 					<div class="flex items-center gap-2 mb-3">
 						<div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-							<span>📄</span>
+							<AppIcon name={'📄'} size={16} />
 						</div>
 						<h3 class="font-bold">YAML Input</h3>
 					</div>
@@ -171,7 +172,7 @@ features:
 					<div class="flex items-center justify-between mb-3">
 						<div class="flex items-center gap-2">
 							<div class="w-8 h-8 rounded-lg bg-warning/20 flex items-center justify-center">
-								<span>🔍</span>
+								<AppIcon name={'🔍'} size={16} />
 							</div>
 							<h3 class="font-bold">Lint Results</h3>
 						</div>
@@ -196,7 +197,7 @@ features:
 						</div>
 					{:else if result.issues.length === 0}
 						<div class="text-center py-12">
-							<span class="text-5xl">✓</span>
+							<AppIcon name={'✓'} size={16} />
 							<p class="font-bold text-success mt-2">No issues found!</p>
 							<p class="text-sm text-base-content/60">Your YAML looks clean</p>
 						</div>

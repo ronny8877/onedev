@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
@@ -187,7 +188,7 @@
 			<div class="card-body py-4">
 				<div class="flex items-center justify-between mb-3">
 					<h3 class="font-semibold flex items-center gap-2">
-						<span>{categoryLabels[activeCategory].icon}</span>
+						<span><AppIcon name={categoryLabels[activeCategory].icon} size={16} /></span>
 						{categoryLabels[activeCategory].label}
 					</h3>
 					<div class="flex gap-2">
@@ -214,7 +215,7 @@
 									</svg>
 								</div>
 							{/if}
-							<span class="text-2xl mb-2">{preset.icon}</span>
+							<span class="text-2xl mb-2"><AppIcon name={preset.icon} size={24} /></span>
 							<span class="text-sm font-medium text-center">{preset.name}</span>
 							<span class="text-xs text-base-content/50 mt-1">{preset.patterns.length} rules</span>
 						</button>
@@ -231,7 +232,7 @@
 					<div class="flex flex-wrap gap-2">
 						{#each Object.values(presets).flat().filter(p => selectedPresets.has(p.id)) as preset}
 							<div class="badge badge-lg gap-2 bg-primary/20 border-primary/30">
-								<span>{preset.icon}</span>
+								<span><AppIcon name={preset.icon} size={16} /></span>
 								{preset.name}
 								<button
 									type="button"
@@ -266,7 +267,7 @@
 				<div class="card-body py-4">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2">
-							<span>📄</span>
+							<AppIcon name={'📄'} size={16} />
 							.gitignore Preview
 						</h3>
 						<div class="flex gap-2">

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
 	import Features from '$lib/components/content/Features.svelte';
@@ -232,7 +233,7 @@ For more information, please refer to <https://unlicense.org>`
 					onclick={() => selectedLicense = license.id}
 				>
 					<div class="flex items-center gap-2 mb-2">
-						<span class="text-2xl">{license.icon}</span>
+						<span class="text-2xl"><AppIcon name={license.icon} size={24} /></span>
 						<span class="font-semibold">{license.name}</span>
 					</div>
 					<p class="text-sm text-base-content/70">{license.summary}</p>
@@ -244,7 +245,7 @@ For more information, please refer to <https://unlicense.org>`
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold flex items-center gap-2 mb-4">
-					<span>{activeLicense.icon}</span>
+					<span><AppIcon name={activeLicense.icon} size={16} /></span>
 					{activeLicense.name}
 				</h3>
 				
@@ -267,7 +268,7 @@ For more information, please refer to <https://unlicense.org>`
 					<!-- Conditions -->
 					<div class="p-3 rounded-xl bg-info/10 border border-info/30">
 						<h4 class="text-sm font-semibold text-info mb-2 flex items-center gap-1">
-							<span>📋</span> Conditions
+							<AppIcon name={'📋'} size={16} /> Conditions
 						</h4>
 						<ul class="space-y-1 text-sm">
 							{#if activeLicense.conditions.length > 0}
@@ -333,7 +334,7 @@ For more information, please refer to <https://unlicense.org>`
 			<div class="card-body py-4">
 				<div class="flex items-center justify-between mb-3">
 					<h3 class="font-semibold flex items-center gap-2">
-						<span>📄</span>
+						<AppIcon name={'📄'} size={16} />
 						LICENSE
 					</h3>
 					<div class="flex gap-2">
