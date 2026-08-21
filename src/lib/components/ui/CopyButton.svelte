@@ -70,7 +70,7 @@
 		<div class="dropdown dropdown-end">
 			<button
 				type="button"
-				class="btn btn-ghost btn-{size} btn-square rounded-r-none border-r-0"
+				class="btn btn-ghost btn-{size}"
 				onclick={() => dropdownOpen = !dropdownOpen}
 				aria-label="More copy options"
 			>
@@ -99,9 +99,8 @@
 	
 	<button
 		type="button"
-		class="btn btn-{size}"
+		class="btn btn-{size} rounded-xl"
 		class:btn-success={copied}
-		class:rounded-l-none={showFormats && isUrl}
 		onclick={copyDefault}
 		disabled={!copyValue}
 	>
