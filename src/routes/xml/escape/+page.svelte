@@ -10,6 +10,7 @@
 
 	let input = $state('');
 	let mode = $state('escape-text');
+	const sample = 'Price < $5 & "special"';
 
 	let output = $derived.by(() => {
 		if (!input) return '';
@@ -21,7 +22,7 @@
 
 <ToolWrapper lastUpdated="2026-08-20">
 	<div class="flex flex-col gap-6">
-		<ToolActions onSample={() => (input = 'Price < $5 & "special"')} onClear={() => (input = '')} copyText={output} />
+		<ToolActions onSample={() => (input = sample)} onClear={() => (input = '')} copyText={output} />
 		<div class="flex justify-center">
 			<Segmented
 				bind:value={mode}
