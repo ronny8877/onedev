@@ -720,6 +720,42 @@ export const categoryGuides: Record<string, CategoryGuide> = {
 			}
 		]
 	},
+	sql: {
+		intro: `<p><strong>Free SQL tools online</strong> to format, check, and convert queries in your browser. The <strong>SQL formatter</strong> (SQL beautifier / pretty print SQL) indents PostgreSQL, MySQL, SQLite, SQL Server, BigQuery, and Snowflake. Minify SQL, validate syntax, convert <strong>JSON to SQL INSERT</strong>, escape strings, diff two queries, visualize JOINs, test LIKE patterns, explain a statement in English, or open the SQL cheat sheet.</p>
+<p>Nothing is uploaded and nothing is executed. There is no database behind these pages. That is the point when the query contains customer emails, production table names, or credentials in a comment.</p>`,
+		whenToUse: [
+			'Pretty-print a one-line query from an ORM or slow-query log',
+			'Turn a JSON API sample into INSERT statements for a local seed',
+			'See INNER vs LEFT vs FULL JOIN with a concrete result table',
+			'Test a LIKE or ILIKE pattern before you ship it',
+			'Explain a JOIN-heavy SELECT to a teammate without running it'
+		],
+		howItWorks: `<p>The formatter and validator use a dialect-aware SQL parser in this tab. The minifier, LIKE tester, explainer, and JSON converter tokenize strings and comments so literals are not rewritten. JOIN results are computed from a small fixed sample (users and orders), not from your data. Queries never leave the browser.</p>`,
+		pitfalls: [
+			'A syntax check is not EXPLAIN. Valid SQL can still fail at runtime.',
+			'Pick the dialect that matches your engine. Postgres dollar quotes are not MySQL.',
+			'JSON to SQL infers types from the sample. It will not add indexes or SERIAL.',
+			'Mega-scripts can freeze the tab. Split them or use a local CLI.'
+		],
+		faqs: [
+			{
+				question: 'How do I format SQL online?',
+				answer: '<p>Open the SQL Formatter, paste the query, pick PostgreSQL, MySQL, SQLite, SQL Server, BigQuery, or Snowflake, and copy the pretty-printed SQL. Nothing is uploaded.</p>'
+			},
+			{
+				question: 'How do I convert JSON to SQL INSERT?',
+				answer: '<p>Open JSON to SQL Converter, paste an array of objects, set the table name and dialect, and copy the INSERT statements. Enable CREATE TABLE if you need a matching schema guess.</p>'
+			},
+			{
+				question: 'Do you run my SQL against a database?',
+				answer: '<p>No. There is no Postgres, MySQL, or SQLite here. The tools only format, parse, and transform text in this tab.</p>'
+			},
+			{
+				question: 'Is it safe to paste production queries?',
+				answer: '<p>The text never leaves this browser tab. A compromised extension could still read the page. For highly sensitive SQL, prefer a local editor.</p>'
+			}
+		]
+	},
 	date: {
 		intro: `<p><strong>Free date and time tools</strong> to convert timestamps, time zones, and date formats in your browser. The <strong>Unix timestamp converter</strong> turns epoch time into a human date (and the other way). Convert time zones, check a <strong>world clock</strong>, add days with the date calculator, parse ISO 8601, see “time ago”, or get Excel and RFC date formats.</p>
 <p>Unix time is always UTC. A 10-digit number in the 2020s is usually seconds. A 13-digit number is milliseconds. Mixing those up is the usual “year 57000” bug. These pages do not call a time API; they use this device’s clock.</p>`,

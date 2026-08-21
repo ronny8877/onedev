@@ -73,6 +73,7 @@
 				{ icon: '{ }', title: 'JSON Tools', desc: 'Format, validate, diff, convert, and visually explore JSON structures with our suite of 8 JSON utilities.' },
 				{ icon: '⟨/⟩', title: 'XML Tools', desc: 'Format, validate, minify, convert XML to JSON or CSV, escape entities, run XPath 1.0, and diff two documents. Parsing stays in this tab.' },
 				{ icon: '▤', title: 'CSV Tools', desc: 'View, validate, transpose, and convert CSV or TSV to JSON, XML, SQL, and Markdown. Quoted commas and Excel BOMs are handled locally.' },
+				{ icon: '🗄️', title: 'SQL Tools', desc: 'Format, minify, and validate SQL, convert JSON to INSERT statements, visualize JOINs, test LIKE patterns, and explain queries. PostgreSQL, MySQL, SQLite, SQL Server, BigQuery, and Snowflake. Nothing is uploaded.' },
 				{ icon: '📅', title: 'Date & Time', desc: 'Unix timestamps, IANA time zones, ISO 8601 instants and durations, relative time, world clocks, and calendar math. Convert → Time is duration units, not epoch.' },
 				{ icon: '🔒', title: 'Security Tools', desc: 'CSP generators, CORS builders, password testers, JWT decoders, hash generators, and security header references.' },
 				{ icon: '🔀', title: 'Git Tools', desc: 'Gitignore generators, commit formatters, branch name builders, diff viewers, and README generators.' },

@@ -48,6 +48,7 @@
 	"dependencies": {
 		"@codemirror/lang-html": "^6.4.12",
 		"@codemirror/lang-json": "^6.0.2",
+		"@codemirror/lang-sql": "^6.10.0",
 		"@codemirror/lang-xml": "^6.1.0",
 		"@codemirror/language": "^6.12.3",
 		"@codemirror/state": "^6.6.0",
@@ -71,6 +72,7 @@
 		"pdfjs-dist": "^5.7.284",
 		"qr-code-styling": "^1.9.2",
 		"shiki": "^3.23.0",
+		"sql-formatter": "^15.8.2",
 		"svelte-codemirror-editor": "^2.1.0",
 		"ulid": "^3.0.2",
 		"uuid": "^13.0.0",

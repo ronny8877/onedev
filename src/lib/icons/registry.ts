@@ -330,6 +330,7 @@ export const EMOJI_TO_ICON: Record<string, string> = {
 	'🖥️': 'monitor',
 	'🖼️': 'image',
 	'🗃️': 'archive',
+	'🗄️': 'database',
 	'🗑️': 'trash-2',
 	'🗓️': 'calendar',
 	'😈': 'smile',
