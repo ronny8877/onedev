@@ -649,98 +649,110 @@ export const categoryGuides: Record<string, CategoryGuide> = {
 		]
 	},
 	xml: {
-		intro: `<p>XML tools format, validate well-formedness, minify, convert to JSON and CSV, build XML from JSON, escape entities, run XPath 1.0, and diff two documents. Parsing uses the browser <code>DOMParser</code>. We do not fetch DTDs, XSDs, or the URLs inside your document.</p>
-<p>Use these pages for SOAP samples, RSS, Maven POMs, Android manifests, and generic config. HTML is a different parser; a <code>&lt;br&gt;</code> without a close is fine in HTML and an error here. Schema validity (does this match the XSD) is still a job for CI.</p>`,
+		intro: `<p><strong>Free XML tools online</strong> to format, validate, convert, and compare XML in your browser. Use the <strong>XML formatter</strong> (also called an XML beautifier) to pretty print XML. Use the <strong>XML validator</strong> to check if XML is valid. Convert <strong>XML to JSON</strong>, <strong>JSON to XML</strong>, or <strong>XML to CSV</strong> for Excel. Minify XML, escape special characters, test XPath, or compare two XML files.</p>
+<p>Everything runs on this page. SOAP, RSS feeds, Android layouts, and config files are not uploaded. HTML is a different language: a lone <code>&lt;br&gt;</code> is fine in HTML and an error in XML. Checking an XSD schema still belongs in your own CI.</p>`,
 		whenToUse: [
-			'Pretty-print a minified SOAP fault before you file a ticket',
-			'See why a feed or POM fails to parse',
-			'Turn a catalog of repeating elements into CSV for a spreadsheet',
-			'Test an XPath before you write XSLT',
-			'Diff two configs without indent noise'
+			'Pretty print minified XML so you can read a SOAP or RSS response',
+			'Validate XML and find the first syntax error',
+			'Convert XML to JSON for an API mock or frontend',
+			'Turn an XML product list into CSV for Excel',
+			'Compare two XML configs without indent noise'
 		],
-		howItWorks: `<p>Well-formedness is whatever this browser’s XML parser accepts. Conversion to JSON uses <code>@</code> for attributes and arrays for repeated tags. XPath is 1.0 via <code>document.evaluate</code>. Diff walks the JSON projection, so comments are ignored. Large documents stay in this tab’s memory.</p>`,
+		howItWorks: `<p>The XML formatter, validator, and converters parse with this browser’s XML parser. XML to JSON uses <code>@</code> for attributes and arrays for repeated tags. XPath is 1.0. XML diff compares structure, not whitespace. Large files stay in this tab’s memory and are never sent to a server.</p>`,
 		pitfalls: [
-			'Default namespaces make //foo match nothing. Use local-name() or bind prefixes in your own code.',
-			'A raw & in text is not well-formed. Escape it.',
-			'JSON round-trips drop comments and mixed-content whitespace.',
-			'Megabyte dumps can freeze the tab. Use xmllint locally for those.'
+			'A raw & in text is invalid XML. Escape it first.',
+			'HTML and XML are not the same. Use the HTML tools for HTML.',
+			'XML to JSON drops comments. Keep a copy if you need them.',
+			'Huge files can freeze the tab. Split them or use a local CLI.'
 		],
 		faqs: [
 			{
-				question: 'Do you download my XSD?',
-				answer: '<p>No. There is no network request from these tools.</p>'
+				question: 'How do I pretty print XML online?',
+				answer: '<p>Open the XML Formatter, paste your XML, and pick 2-space or 4-space indent. The XML beautifier formats the document in your browser. Nothing is uploaded.</p>'
 			},
 			{
-				question: 'Is this HTML?',
-				answer: '<p>No. Use the HTML tools for HTML. XML is strict about closes, quotes, and entities.</p>'
+				question: 'How do I convert XML to JSON?',
+				answer: '<p>Use XML to JSON Converter. Paste XML and copy the JSON. Attributes become <code>@</code> keys. Repeated tags become arrays.</p>'
 			},
 			{
-				question: 'Can I verify a digital signature?',
-				answer: '<p>No. Minifying or formatting a signed envelope will also break a byte signature. Re-sign after you change bytes.</p>'
+				question: 'Is this XML validator checking my XSD?',
+				answer: '<p>No. It checks that the XML is well-formed (tags close, quotes are valid). Schema files are not downloaded.</p>'
+			},
+			{
+				question: 'Can I convert XML to Excel?',
+				answer: '<p>Use XML to CSV, then open the CSV in Excel or Google Sheets.</p>'
 			}
 		]
 	},
 	csv: {
-		intro: `<p>CSV tools parse RFC 4180-style tables in the browser: convert to JSON, XML, SQL, and Markdown, view as a table, validate quotes and ragged rows, change delimiters (including TSV), diff two files, and transpose. Excel exports with a UTF-8 BOM are stripped automatically.</p>
-<p>There is no single CSV standard in the wild. We treat the first row as headers, pad or trim ragged rows with a warning, and keep every cell as a string so ZIP codes do not lose leading zeros. Huge sheets still belong in a CLI if they are tens of megabytes.</p>`,
+		intro: `<p><strong>Free CSV tools online</strong> to open, check, and convert spreadsheet files in your browser. Convert <strong>CSV to JSON</strong> or <strong>JSON to CSV</strong> (including Excel exports). View a CSV as a table without Excel. Validate CSV, change comma to semicolon or TSV, convert CSV to SQL, XML, or a Markdown table, compare two CSV files, or transpose rows and columns.</p>
+<p>The first row is treated as headers. Every cell stays text so ZIP codes and IDs keep leading zeros. Excel’s UTF-8 BOM is stripped automatically. Files are not uploaded.</p>`,
 		whenToUse: [
-			'Turn a CRM export into JSON for a mock API',
-			'Open a CSV when you do not have Excel',
-			'Switch comma CSV to semicolon for a European Excel',
-			'Seed a local SQLite with INSERT statements',
-			'Paste a small table into a README as Markdown'
+			'Convert a CSV export to JSON for an API or script',
+			'Turn JSON into a CSV you can open in Excel',
+			'Open a CSV online when you do not have Excel',
+			'Change comma CSV to semicolon for European Excel',
+			'Generate SQL INSERT statements from a spreadsheet'
 		],
-		howItWorks: `<p>A single-pass parser handles quoted commas, escaped quotes, and newlines in fields. Delimiter detection looks at the first few lines. The viewer renders at most 250 rows so the DOM stays cheap; counts and download still include the full parse. SQL typing is a guess, not a schema.</p>`,
+		howItWorks: `<p>A CSV parser in this tab handles quoted commas, escaped quotes, and line breaks inside cells. The CSV viewer shows the first 250 rows so the page stays fast; counts and downloads still use the full file. Delimiter detection looks at the first lines. Nothing is sent to a server.</p>`,
 		pitfalls: [
-			'Duplicate headers overwrite each other in JSON objects.',
-			'sep=, from Excel is not a real header. Remove it.',
-			'Diff is by row index, not a primary key. Sort first if you have an id.',
-			'Character encoding (Latin-1 vs UTF-8) is not a delimiter problem.'
+			'Duplicate column names overwrite each other in JSON.',
+			'Excel sometimes adds a sep=, line. Remove it before converting.',
+			'CSV compare lines up rows by order, not by an ID column. Sort first if you have an id.',
+			'Broken character encoding (Latin-1 vs UTF-8) is not a delimiter issue.'
 		],
 		faqs: [
 			{
-				question: 'Is TSV supported?',
-				answer: '<p>Yes. Tabs are detected, and the delimiter converter can emit TSV on purpose.</p>'
+				question: 'How do I convert CSV to JSON online?',
+				answer: '<p>Open CSV to JSON Converter, paste your CSV (or Excel export), and copy the JSON. Delimiter is auto-detected, including tabs and semicolons.</p>'
 			},
 			{
-				question: 'Do numbers stay numbers in JSON?',
-				answer: '<p>No. Cells stay strings so IDs and ZIP codes survive. Parse types in your app.</p>'
+				question: 'How do I convert JSON to CSV for Excel?',
+				answer: '<p>Open JSON to CSV Converter, paste a JSON array of objects, pick comma or semicolon, and download the .csv file.</p>'
 			},
 			{
-				question: 'Will a 200,000-row file work?',
-				answer: '<p>The parser will try. The table preview will cap rows. Memory is the limit. Use miller or csvkit for huge files.</p>'
+				question: 'Can I open a CSV file in my browser?',
+				answer: '<p>Yes. CSV Viewer shows the file as a table. Nothing is uploaded.</p>'
+			},
+			{
+				question: 'Do you support TSV?',
+				answer: '<p>Yes. Tabs are detected, and the delimiter converter can output TSV on purpose.</p>'
 			}
 		]
 	},
 	date: {
-		intro: `<p>Date and time tools convert Unix timestamps, time zones, ISO 8601 instants and durations, relative language, world clocks, calendar add/subtract, elapsed time, and common string formats. They use <code>Intl</code> and <code>Date</code> in this tab. Convert → Time is duration units (hours ↔ ms), not epoch conversion.</p>
-<p>Unix time is UTC. Civil time needs an IANA zone like <code>America/New_York</code>, not a frozen “EST” label. JavaScript stores milliseconds; a 10-digit value in the 2020s is almost always seconds. Mixing those up is the usual off-by-a-thousand-years bug.</p>`,
+		intro: `<p><strong>Free date and time tools</strong> to convert timestamps, time zones, and date formats in your browser. The <strong>Unix timestamp converter</strong> turns epoch time into a human date (and the other way). Convert time zones, check a <strong>world clock</strong>, add days with the date calculator, parse ISO 8601, see “time ago”, or get Excel and RFC date formats.</p>
+<p>Unix time is always UTC. A 10-digit number in the 2020s is usually seconds. A 13-digit number is milliseconds. Mixing those up is the usual “year 57000” bug. These pages do not call a time API; they use this device’s clock.</p>`,
 		whenToUse: [
-			'Decode 1690000000 from a log or JWT exp',
-			'See the same instant in Tokyo and London',
-			'Parse P3DT4H from an API',
-			'Add 14 days to a trial start',
-			'Get RFC 2822 and Excel serial for one instant'
+			'Convert a Unix timestamp to a date from a log or JWT',
+			'Convert a meeting time between New York, London, and Tokyo',
+			'Add 14 days to a start date',
+			'See the current time in several cities',
+			'Get ISO, RFC 2822, and Excel serial for one instant'
 		],
-		howItWorks: `<p>Digit length guesses Unix unit (s / ms / µs / ns). ISO instants go through <code>Date.parse</code>. Durations use an ISO 8601 P… parser with approximate months. Time zones come from <code>Intl.supportedValuesOf('timeZone')</code> when the engine has it. World clocks tick once a second from this device’s clock, not NTP.</p>`,
+		howItWorks: `<p>The timestamp converter guesses seconds vs milliseconds from digit length. Time zone conversion uses the zone list in your browser. World clocks tick from this device, not from a world-time server. Convert → Time is a duration unit converter (hours to milliseconds). These Date & Time pages convert calendar dates and epochs.</p>`,
 		pitfalls: [
-			'A 13-digit Unix is milliseconds. Treat it as seconds and you land in the 50th millennium.',
-			'ISO date-time without Z is local in some engines and UTC in others. Put an offset.',
-			'DST gaps and overlaps still confuse “9am local”. Store UTC.',
-			'Excel 1900 leap-year oddities are not fully emulated.'
+			'13-digit Unix is milliseconds. Treat it as seconds and the date is nonsense.',
+			'A date-time without Z or an offset is parsed differently in some browsers. Add Z or +00:00.',
+			'Daylight saving still shifts “9am local”. Store UTC when you can.',
+			'Excel’s old 1900 leap-year quirk is not fully copied.'
 		],
 		faqs: [
 			{
+				question: 'How do I convert a Unix timestamp to a date?',
+				answer: '<p>Paste the number into Unix Timestamp Converter. You get UTC, local time, and ISO. 10 digits are seconds; 13 digits are milliseconds.</p>'
+			},
+			{
+				question: 'How do I convert time zones online?',
+				answer: '<p>Open Time Zone Converter, paste a time (or “now”), and pick cities. Offsets include daylight saving for that date.</p>'
+			},
+			{
 				question: 'Is this the same as Convert → Time?',
-				answer: '<p>No. Convert → Time turns 3600000 ms into hours. These pages turn epochs and ISO strings into calendar dates and zones.</p>'
+				answer: '<p>No. Convert → Time turns 3600000 ms into hours. These pages turn timestamps and ISO strings into calendar dates and time zones.</p>'
 			},
 			{
-				question: 'Do you call a world clock API?',
-				answer: '<p>No. Formatting is local. If the OS clock is wrong, the world clock is wrong.</p>'
-			},
-			{
-				question: 'Leap seconds?',
-				answer: '<p>POSIX Unix time ignores leap seconds. So does JavaScript Date. We follow that.</p>'
+				question: 'Do you use a world clock API?',
+				answer: '<p>No. Times are formatted on this device. If your computer clock is wrong, the world clock is wrong.</p>'
 			}
 		]
 	},

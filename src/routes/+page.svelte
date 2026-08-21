@@ -35,7 +35,7 @@
 	<title>OneDev Tools — {allTools.length} Free Developer Tools | JSON, XML, CSV, Dates, AI</title>
 	<meta
 		name="description"
-		content="Client-side developer tools for JSON, XML, CSV, Unix timestamps, hashes, JWTs, regex, PDFs, QR codes, and more. No signup. Tool input stays in your browser."
+		content="Free online developer tools: JSON formatter, XML formatter, CSV to JSON converter, Unix timestamp converter, timezone converter, hash generator, JWT decoder, and more. No signup. Nothing is uploaded."
 	/>
 	<meta name="author" content="OneDev Tools" />
 	<meta name="robots" content="index, follow" />
@@ -45,13 +45,13 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="OneDev Tools" />
 	<meta property="og:title" content="OneDev Tools - Free Online Developer Tools" />
-	<meta property="og:description" content="Client-side developer tools for JSON, XML, CSV, Unix timestamps, hashes, JWTs, regex, PDFs, QR codes, and AI cost estimates. No sign-up. Input stays in your browser." />
+	<meta property="og:description" content="Free XML formatter, CSV to JSON converter, Unix timestamp converter, timezone converter, JSON tools, hashes, JWTs, and more. No sign-up. Input stays in your browser." />
 	<meta property="og:url" content="{BASE_URL}/" />
 	
 	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="OneDev Tools - Free Online Developer Tools" />
-	<meta name="twitter:description" content="Client-side developer tools for JSON, XML, CSV, Unix timestamps, hashes, JWTs, regex, PDFs, QR codes, and AI cost estimates." />
+	<meta name="twitter:description" content="Free XML formatter, CSV to JSON converter, Unix timestamp converter, timezone converter, JSON tools, hashes, and JWTs. No sign-up." />
 	
 	<!-- Structured Data -->
 	{@html `<script type="application/ld+json">
@@ -60,7 +60,7 @@
 		"@type": "WebApplication",
 		"name": "OneDev Tools",
 		"url": "${BASE_URL}",
-		"description": "Client-side developer tools for JSON, XML, CSV, Unix timestamps, hashes, JWTs, and more.",
+		"description": "Free online developer tools: JSON formatter, XML formatter, CSV to JSON converter, Unix timestamp converter, timezone converter, hashes, JWTs, and more.",
 		"applicationCategory": "DeveloperApplication",
 		"operatingSystem": "Any",
 		"offers": {

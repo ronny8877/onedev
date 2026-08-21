@@ -11,24 +11,24 @@ export interface DateToolContent {
 export const dateToolsContent: Record<string, DateToolContent> = {
 	timestamp: {
 		features: [
+			'Unix timestamp converter online (epoch to date and date to epoch)',
 			'Convert Unix seconds, milliseconds, microseconds, or nanoseconds',
-			'Paste ISO 8601 or RFC 2822 and get Unix back',
-			'Type now to lock the current instant',
-			'See UTC, a chosen IANA zone, ISO week, Excel serial, and relative time',
+			'Paste ISO 8601 or a date string and get Unix time back',
+			'See UTC, local time, ISO week, Excel serial, and relative time',
 			'Copy any format with one click',
-			'All math is in this tab. Log timestamps never leave the machine'
+			'Free timestamp to date converter. Log timestamps never leave this device'
 		],
 		useCases: [
-			'Decode a JWT exp or iat you already copied',
-			'Translate a log line like 1690000000 into a clock time',
+			'Convert a Unix timestamp to a date from a log or JWT',
+			'Translate 1690000000 into a clock time',
 			'Check whether a value is seconds or milliseconds',
-			'Produce an epoch for a database seed',
+			'Convert a date to Unix for a database or API',
 			'Convert ISO from an API into Unix for a query'
 		],
 		concept: {
-			title: 'Unix time is UTC, not your wall clock',
-			content: `<p>Unix time counts seconds (or a fraction) since 1970-01-01T00:00:00Z, ignoring leap seconds in the usual POSIX definition. A 10-digit value around 1.7e9 is seconds in the 2020s. 13 digits are milliseconds. Getting that wrong shifts the date by centuries or into 1970.</p>
-<p class="mt-2">JavaScript <code>Date</code> stores milliseconds. Very old or far-future values can overflow. We guess the unit from digit length, and you can override by pasting ISO instead.</p>`
+			title: 'How to convert a Unix timestamp to a date',
+			content: `<p>A <strong>Unix timestamp converter</strong> (also called an epoch converter) turns a number of seconds since 1 Jan 1970 UTC into a human date, and the other way around. Search “timestamp to date” or “epoch converter”: paste the number, read the date.</p>
+<p class="mt-2">A 10-digit value around 1.7e9 is seconds in the 2020s. 13 digits are milliseconds. Getting that wrong shifts the date by centuries or into 1970. This page guesses the unit from digit length. You can also paste ISO 8601. All math stays in this tab.</p>`
 		},
 		examples: [
 			{ label: 'Seconds (2023)', code: '1690000000', isValid: true },
@@ -36,6 +36,10 @@ export const dateToolsContent: Record<string, DateToolContent> = {
 			{ label: 'Not a date', code: 'hello', isValid: false }
 		],
 		faqs: [
+			{
+				question: 'How do I convert a Unix timestamp to a date?',
+				answer: '<p>Paste the number into this Unix timestamp converter. 10 digits are seconds; 13 digits are milliseconds. You get UTC, local time, and ISO.</p>'
+			},
 			{
 				question: 'Is this the same as epochconverter.com?',
 				answer: '<p>Same job: Unix ↔ human time. This page does not phone home. Leap seconds are not applied; POSIX Unix time does not include them.</p>'
@@ -61,28 +65,32 @@ export const dateToolsContent: Record<string, DateToolContent> = {
 	},
 	timezone: {
 		features: [
-			'Show one instant in any IANA time zone',
-			'List zones from the browser (Intl.supportedValuesOf)',
-			'Offset and short name for that date (DST aware)',
-			'Search/filter the zone list',
-			'Uses the timestamp you paste, or now'
+			'Time zone converter online for any city',
+			'Show one time in New York, London, Tokyo, UTC, and more',
+			'Daylight saving offsets for that date',
+			'Search the zone list',
+			'Paste a timestamp or use now. Nothing is uploaded'
 		],
 		useCases: [
-			'Schedule a meeting across London and Tokyo',
-			'See what 09:00 America/New_York is in UTC',
-			'Debug a CronJob that fired “at the wrong hour”',
-			'Check DST on a date in the spring-forward gap',
-			'Convert a support ticket timestamp to the customer zone'
+			'Convert a meeting time across London and Tokyo',
+			'See what 9:00 AM New York is in UTC',
+			'Debug a job that fired at the wrong hour',
+			'Check daylight saving on a spring-forward date',
+			'Convert a support ticket timestamp to the customer time zone'
 		],
 		concept: {
-			title: 'IANA names, not GMT+2 stickers',
-			content: `<p>Use <code>America/New_York</code>, not “EST”. EST ignores daylight saving. The IANA database knows the rules for that civil date. Offsets on this page come from <code>Intl</code> for the instant you picked, so they change across DST.</p>`
+			title: 'How to convert time zones online',
+			content: `<p>A <strong>time zone converter</strong> shows the same moment in more than one city. Use names like America/New_York, not a frozen “EST” label. EST ignores daylight saving. Offsets on this page come from your browser for the instant you picked, so they change across DST.</p>`
 		},
 		examples: [
 			{ label: 'Zone id', code: 'Europe/Berlin', isValid: true },
 			{ label: 'Not a zone', code: 'GMT+2', isValid: false }
 		],
 		faqs: [
+			{
+				question: 'How do I convert time zones online?',
+				answer: '<p>Paste a time or “now”, then pick cities such as New York, London, or Tokyo. You see local time and the offset for that date, including daylight saving.</p>'
+			},
 			{
 				question: 'Why is the zone missing?',
 				answer: '<p>The list is what this browser ships. Very old engines may have a short fallback list.</p>'
@@ -142,11 +150,11 @@ export const dateToolsContent: Record<string, DateToolContent> = {
 	},
 	calculator: {
 		features: [
-			'Add or subtract years, months, weeks, days, hours, minutes, seconds',
-			'Start from now, Unix, or ISO',
-			'UTC calendar arithmetic for months and years',
+			'Date calculator online: add or subtract days, weeks, months, or years',
+			'Start from now, a Unix timestamp, or an ISO date',
+			'UTC calendar math for months and years',
 			'See the result in ISO and Unix',
-			'No server'
+			'Free add-days-to-date tool. No server'
 		],
 		useCases: [
 			'Compute trial-end = now + 14 days',
@@ -163,6 +171,10 @@ export const dateToolsContent: Record<string, DateToolContent> = {
 			{ label: 'Plus 7 days', code: 'now + 7 days', isValid: true }
 		],
 		faqs: [
+			{
+				question: 'How do I add days to a date?',
+				answer: '<p>Paste a start date (or use now), enter how many days, pick “days”, and read the result. Same idea for weeks and months.</p>'
+			},
 			{
 				question: 'Is this business days?',
 				answer: '<p>No. Weekends and holidays are not skipped. Use a business-day library for that.</p>'
@@ -208,9 +220,10 @@ export const dateToolsContent: Record<string, DateToolContent> = {
 	},
 	'world-clock': {
 		features: [
-			'Live clocks for major cities, ticking once a second',
-			'UTC plus a dozen IANA zones',
+			'World clock online for UTC and major cities',
+			'Live clocks that tick once a second',
 			'Offset shown per city',
+			'Current time in New York, London, Tokyo, and more',
 			'Stays in this tab. No world-time API'
 		],
 		useCases: [
@@ -227,6 +240,10 @@ export const dateToolsContent: Record<string, DateToolContent> = {
 			{ label: 'UTC always listed', code: 'UTC', isValid: true }
 		],
 		faqs: [
+			{
+				question: 'Where can I see the current time in other cities?',
+				answer: '<p>This world clock shows UTC and common cities. For any zone, use Time Zone Converter.</p>'
+			},
 			{
 				question: 'Can I add a custom city?',
 				answer: '<p>Use the timezone converter and pick any IANA id. This page is a fixed wall of common zones.</p>'

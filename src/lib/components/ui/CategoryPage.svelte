@@ -19,7 +19,9 @@
 	const canonicalUrl = $derived(`${BASE_URL}/${slug}`);
 	const guide = $derived(getCategoryGuide(slug));
 
-	const title = $derived(`${category.name} Tools — Free Online ${category.name} Utilities`);
+	const title = $derived(
+		category.seoTitle ?? `${category.name} Tools — Free Online ${category.name} Utilities`
+	);
 	const description = $derived(
 		category.description ??
 			`Free online ${category.name.toLowerCase()} tools. ${category.items.length} utilities running entirely in your browser — no signup, no uploads.`
