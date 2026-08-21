@@ -2,6 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import ToolContent from '$lib/components/content/ToolContent.svelte';
+	import SelectMenu from '$lib/components/ui/SelectMenu.svelte';
 	import { parseInstant, addToDate, formatBundle } from '$lib/utils/datetime';
 	import { dateToolsContent } from '$lib/config/content/date-tools-content';
 
@@ -21,15 +22,18 @@
 		<input bind:value={input} class="input input-bordered font-mono" placeholder="Start instant" />
 		<div class="flex flex-wrap gap-3 items-center">
 			<input type="number" bind:value={amount} class="input input-bordered w-28" />
-			<select bind:value={unit} class="select select-bordered">
-				<option value="years">years</option>
-				<option value="months">months</option>
-				<option value="weeks">weeks</option>
-				<option value="days">days</option>
-				<option value="hours">hours</option>
-				<option value="minutes">minutes</option>
-				<option value="seconds">seconds</option>
-			</select>
+			<SelectMenu
+				bind:value={unit}
+				options={[
+					{ value: 'years', label: 'years' },
+					{ value: 'months', label: 'months' },
+					{ value: 'weeks', label: 'weeks' },
+					{ value: 'days', label: 'days' },
+					{ value: 'hours', label: 'hours' },
+					{ value: 'minutes', label: 'minutes' },
+					{ value: 'seconds', label: 'seconds' }
+				]}
+			/>
 			<span class="text-sm text-base-content/60">UTC calendar add</span>
 		</div>
 		{#if parsed && 'error' in parsed}

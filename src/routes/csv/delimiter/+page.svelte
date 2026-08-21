@@ -2,6 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import ToolContent from '$lib/components/content/ToolContent.svelte';
+	import SelectMenu from '$lib/components/ui/SelectMenu.svelte';
 	import { parseCsv, stringifyCsv, SAMPLE_CSV, type CsvDelimiter } from '$lib/utils/csv';
 	import { csvToolsContent } from '$lib/config/content/csv-tools-content';
 
@@ -30,15 +31,18 @@
 <ToolWrapper lastUpdated="2026-08-20">
 	<div class="flex flex-col gap-6">
 		<ToolActions onSample={() => (input = SAMPLE_CSV)} onClear={() => (input = '')} copyText={result.output} />
-		<label class="flex items-center gap-2 justify-center">
-			<span class="text-sm">Output delimiter</span>
-			<select bind:value={target} class="select select-sm select-bordered">
-				<option value=",">Comma</option>
-				<option value=";">Semicolon</option>
-				<option value={'\t'}>Tab (TSV)</option>
-				<option value="|">Pipe</option>
-			</select>
-		</label>
+		<div class="flex justify-center">
+			<SelectMenu
+				bind:value={target}
+				label="Output delimiter"
+				options={[
+					{ value: ',', label: 'Comma' },
+					{ value: ';', label: 'Semicolon' },
+					{ value: '\t', label: 'Tab (TSV)' },
+					{ value: '|', label: 'Pipe' }
+				]}
+			/>
+		</div>
 		<div class="grid gap-6 lg:grid-cols-2">
 			<div class="card bg-base-200 rounded-2xl"><div class="card-body p-4">
 				<h3 class="font-bold mb-3">Input</h3>

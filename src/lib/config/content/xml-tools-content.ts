@@ -11,25 +11,25 @@ export interface XmlToolContent {
 export const xmlToolsContent: Record<string, XmlToolContent> = {
 	formatter: {
 		features: [
-			'Pretty-print XML with 2- or 4-space indent in this browser',
-			'Keep the XML declaration when the source has one',
-			'Preserve attributes, comments, and CDATA sections',
-			'Surface the first parse error instead of rewriting broken input',
-			'Copy or download the formatted document',
-			'Nothing is uploaded. SOAP envelopes and config files stay on this tab'
+			'XML formatter and beautifier that pretty prints XML in your browser',
+			'Choose 2-space or 4-space indent like other code formatters',
+			'See the first XML parse error instead of rewriting broken input',
+			'Keep the XML declaration, comments, attributes, and CDATA',
+			'Copy or download formatted XML with one click',
+			'Free XML pretty print online. Nothing is uploaded'
 		],
 		useCases: [
-			'Make a minified SOAP or RSS payload readable before you file a bug',
-			'Normalize indent before a code review of a Maven POM or Android manifest',
-			'Pretty-print an API error body that arrived as a single line',
-			'Prepare a sample XML fixture for a unit test',
-			'Inspect nested namespaces without squinting at a 4 KB line'
+			'Pretty print minified XML from an API or SOAP response',
+			'Format XML so a code review is readable',
+			'Beautify an RSS feed, Maven POM, or Android layout',
+			'Fix “one long line” XML before you debug it',
+			'Prepare a sample XML file for a test'
 		],
 		concept: {
-			title: 'What XML formatting actually changes',
-			content: `<p><strong>XML</strong> (Extensible Markup Language) is a tagged tree. Formatting inserts whitespace between elements so humans can see parent and child relationships. Parsers ignore insignificant whitespace between tags, so a pretty-printed document is the same tree as the minified one.</p>
-<p class="mt-2">This formatter parses with the browser <code>DOMParser</code>, then serializes the tree with a consistent indent. It is not an XML editor: it will not “fix” a missing close tag. If the parser rejects the input, you get the error instead of a guess.</p>
-<p class="mt-2">Comments and CDATA are kept. Attribute order follows what the parser exposed. Insignificant whitespace inside mixed-content elements is trimmed when we rewrite the tree.</p>`
+			title: 'What is an XML formatter (XML beautifier)?',
+			content: `<p>An <strong>XML formatter</strong> (also called an XML beautifier or XML pretty printer) adds line breaks and indentation so you can read the tree. Search for “pretty print XML” or “format XML online” and this is the job: take compressed XML and make tags nest visually.</p>
+<p class="mt-2">Formatting does not change the meaning of element-only XML. Parsers ignore extra spaces between tags. This tool parses in your browser, then writes the tree with a consistent indent. It will not invent a missing close tag. If the XML is invalid, you get the error instead of a guess.</p>
+<p class="mt-2">Comments and CDATA are kept. Use this page as a free XML formatter online for SOAP, RSS, config files, and any well-formed XML. Nothing is uploaded.</p>`
 		},
 		examples: [
 			{ label: 'Minified (valid)', code: '<root><item id="1">Hello</item></root>', isValid: true },
@@ -37,6 +37,10 @@ export const xmlToolsContent: Record<string, XmlToolContent> = {
 			{ label: 'With declaration', code: '<?xml version="1.0" encoding="UTF-8"?>\n<root/>', isValid: true }
 		],
 		faqs: [
+			{
+				question: 'How do I pretty print XML online?',
+				answer: '<p>Paste XML into this XML formatter, pick 2 or 4 spaces, and copy the result. That is the same as an XML beautifier or “XML pretty print” tool.</p>'
+			},
 			{
 				question: 'Does formatting change the meaning of my XML?',
 				answer: '<p>Not for element-only documents. Mixed content (text and child tags in the same parent) can lose extra spaces we treat as insignificant. If a schema cares about that whitespace, keep a copy of the original.</p>'
@@ -68,11 +72,11 @@ export const xmlToolsContent: Record<string, XmlToolContent> = {
 	},
 	validator: {
 		features: [
-			'Validate XML well-formedness with the browser parser',
-			'Show line and column when the engine reports them',
+			'XML validator online: check if XML is valid as you type',
+			'Find XML syntax errors with line and column when the parser reports them',
 			'Count elements, attributes, text nodes, comments, and depth',
 			'List namespace URIs on the document',
-			'Live check as you type, no upload',
+			'Validate XML files free in this browser, no upload',
 			'Works for SOAP, RSS, SVG, Maven POMs, and generic XML'
 		],
 		useCases: [
@@ -83,10 +87,10 @@ export const xmlToolsContent: Record<string, XmlToolContent> = {
 			'Catch a raw ampersand that should have been &amp;amp;'
 		],
 		concept: {
-			title: 'Well-formed vs valid against a schema',
-			content: `<p>This tool checks <strong>well-formedness</strong>: tags nest, attributes are quoted, there is one root, special characters are escaped. That is the XML 1.0 bar a parser needs before it will build a tree.</p>
-<p class="mt-2"><strong>Schema validity</strong> (XSD, DTD, Relax NG) is a second step. A document can be well-formed and still miss a required element your API expects. We do not fetch remote DTDs or XSDs, on purpose: that would be a network call and a tracking surface.</p>
-<p class="mt-2">If you need schema checks, run them in CI with the official XSD. Use this page to catch broken markup in the paste you already have.</p>`
+			title: 'How to check if XML is valid',
+			content: `<p>An <strong>XML validator</strong> answers “is this XML legal?” This page checks <strong>well-formedness</strong>: tags nest, attributes are quoted, there is one root, special characters are escaped. That is what people mean when they search “validate XML” or “XML checker” for a paste they already have.</p>
+<p class="mt-2"><strong>Schema validity</strong> (XSD, DTD) is a second step. A document can be well-formed and still miss a required element your API expects. We do not fetch remote DTDs or XSDs, on purpose: that would be a network call.</p>
+<p class="mt-2">If you need schema checks, run them in CI with the official XSD. Use this free XML validator online to catch broken markup in the paste you already have.</p>`
 		},
 		examples: [
 			{ label: 'Well-formed', code: '<note><to>Ada</to></note>', isValid: true },
@@ -94,6 +98,10 @@ export const xmlToolsContent: Record<string, XmlToolContent> = {
 			{ label: 'Unescaped ampersand', code: '<a>Tom & Jerry</a>', isValid: false }
 		],
 		faqs: [
+			{
+				question: 'How do I validate XML online?',
+				answer: '<p>Paste the XML into this XML validator. If tags do not match or a character is not escaped, you get the error. The file never leaves your browser.</p>'
+			},
 			{
 				question: 'Does this download my company’s XSD?',
 				answer: '<p>No. There is no network request. External entities and DTD fetches are not performed.</p>'
@@ -165,24 +173,24 @@ export const xmlToolsContent: Record<string, XmlToolContent> = {
 	},
 	'to-json': {
 		features: [
-			'Convert XML elements to JSON objects in this tab',
-			'Attributes become @name keys, matching a common xml2js style',
+			'XML to JSON converter that runs in this tab',
+			'Convert XML to JSON instantly, no signup',
+			'Attributes become @name keys, a common xml2js style',
 			'Repeated sibling tags become JSON arrays',
-			'Numbers and booleans are coerced when the text is an obvious scalar',
-			'Pretty-printed JSON output you can copy',
+			'Pretty-printed JSON you can copy or paste into a JSON formatter',
 			'Comments are dropped on purpose. JSON has no comment node'
 		],
 		useCases: [
-			'Turn an RSS or custom XML API into JSON for a frontend mock',
-			'Feed a SOAP-ish payload into a JSONPath tool',
-			'Inspect a Maven POM as nested objects',
+			'Convert XML to JSON for a frontend mock or Postman test',
+			'Turn an RSS or SOAP-style payload into JSON',
 			'Move XML config into a JSON-first pipeline',
-			'Debug how attributes vs child elements will look after conversion'
+			'Inspect a Maven POM as nested objects',
+			'See how XML attributes look after conversion'
 		],
 		concept: {
-			title: 'XML and JSON are not 1:1',
-			content: `<p>XML has attributes, mixed content, namespaces, and document order. JSON has objects, arrays, and a single untyped map per object. Any converter picks a convention.</p>
-<p class="mt-2">Here, attributes are prefixed with <code>@</code>, repeated tags become arrays, and a lone text child becomes a string or number. Namespaces stay on the tag name the parser exposed. That is enough for most config and list documents. It is not a lossless Infoset round-trip.</p>`
+			title: 'How to convert XML to JSON online',
+			content: `<p>People search “XML to JSON converter” when they have an XML file and need JSON for JavaScript, an API, or a database. XML has attributes, mixed content, and namespaces. JSON has objects and arrays. Any converter picks a convention.</p>
+<p class="mt-2">Here, attributes are prefixed with <code>@</code>, repeated tags become arrays, and a lone text child becomes a string or number. Paste XML, copy JSON. Nothing is uploaded. This is enough for most config and list documents. It is not a lossless round-trip of every XML detail.</p>`
 		},
 		examples: [
 			{ label: 'Element with attribute', code: '<book id="1"><title>Go</title></book>', isValid: true },
@@ -190,6 +198,10 @@ export const xmlToolsContent: Record<string, XmlToolContent> = {
 			{ label: 'Not XML', code: '{"a":1}', isValid: false }
 		],
 		faqs: [
+			{
+				question: 'How do I convert XML to JSON?',
+				answer: '<p>Paste XML into this XML to JSON converter and copy the JSON on the right. Use JSON to XML Converter if you need the other direction.</p>'
+			},
 			{
 				question: 'Why is my single child sometimes an object and sometimes an array?',
 				answer: '<p>One sibling stays a single value. Two or more of the same tag become an array. If a schema sometimes has one item, normalize in code after convert.</p>'

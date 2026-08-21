@@ -20,6 +20,7 @@
 	const toolData = $derived(getToolByPath($page.url.pathname));
 	const finalTitle = $derived(title ?? toolData?.name ?? 'Tool');
 	const finalDescription = $derived(description ?? toolData?.description ?? '');
+	const finalKeywords = $derived(keywords.length > 0 ? keywords : (toolData?.keywords ?? []));
 
 	let canonicalUrl = $derived(`${BASE_URL}${$page.url.pathname}`);
 
@@ -76,8 +77,8 @@
 	{#if finalDescription}
 		<meta name="description" content={finalDescription} />
 	{/if}
-	{#if keywords.length > 0}
-		<meta name="keywords" content={keywords.join(', ')} />
+	{#if finalKeywords.length > 0}
+		<meta name="keywords" content={finalKeywords.join(', ')} />
 	{/if}
 
 	<!-- Canonical URL -->

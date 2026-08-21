@@ -11,24 +11,24 @@ export interface CsvToolContent {
 export const csvToolsContent: Record<string, CsvToolContent> = {
 	'to-json': {
 		features: [
-			'Convert CSV to an array of JSON objects using the header row as keys',
-			'Auto-detect comma, semicolon, tab, or pipe delimiters',
-			'RFC 4180 quoting: commas and newlines inside quotes are fine',
+			'CSV to JSON converter online, free in your browser',
+			'Turn Excel CSV exports into a JSON array of objects',
+			'Auto-detect comma, semicolon, tab (TSV), or pipe',
+			'Quoted commas and line breaks inside cells stay intact',
 			'Pretty-printed JSON you can copy or download',
-			'UTF-8 BOM is stripped so Excel exports parse cleanly',
-			'Runs in this tab. Spreadsheets with emails stay local'
+			'UTF-8 BOM from Excel is stripped. Nothing is uploaded'
 		],
 		useCases: [
-			'Turn a CRM export into JSON for a mock API',
-			'Load a CSV fixture into a JS test',
-			'Move a Google Sheets download into a Node script',
+			'Convert CSV to JSON for an API mock or Node script',
+			'Turn a Google Sheets or Excel download into JSON',
+			'Load a CSV fixture into a JavaScript test',
 			'Convert European semicolon CSV without changing the file first',
-			'Inspect how duplicate headers will look as object keys'
+			'See how duplicate headers will look as object keys'
 		],
 		concept: {
-			title: 'CSV is a table, JSON is objects',
-			content: `<p>The first row becomes property names. Each following row becomes one object. Empty cells are empty strings, not <code>null</code>, so you can tell “missing column” from “empty value” after you decide a convention in your app.</p>
-<p class="mt-2">Delimiter detection looks at the first few lines. If it guesses wrong, pick the delimiter on the formatter page and paste that output here, or start from the viewer.</p>`
+			title: 'How to convert CSV to JSON online',
+			content: `<p>A <strong>CSV to JSON converter</strong> turns a spreadsheet (CSV or Excel export) into JSON objects. The first row becomes property names. Each following row becomes one object. Empty cells are empty strings, not <code>null</code>.</p>
+<p class="mt-2">Paste CSV, copy JSON. Delimiter detection looks at the first few lines. If it guesses wrong, pick comma, semicolon, tab, or pipe. ZIP codes and IDs stay as text so leading zeros are not lost. Files never leave this tab.</p>`
 		},
 		examples: [
 			{ label: 'Simple table', code: 'id,name\n1,Ada\n2,Grace', isValid: true },
@@ -36,6 +36,10 @@ export const csvToolsContent: Record<string, CsvToolContent> = {
 			{ label: 'Unclosed quote', code: 'name,city\n"Ada,London', isValid: false }
 		],
 		faqs: [
+			{
+				question: 'How do I convert CSV to JSON?',
+				answer: '<p>Paste your CSV (or Excel export) into this CSV to JSON converter and copy the JSON. Use JSON to CSV Converter for the reverse.</p>'
+			},
 			{
 				question: 'Are numbers converted to JSON numbers?',
 				answer: '<p>No. Every cell stays a string so leading zeros (ZIP codes, IDs) are not destroyed. Parse in your app when you know the type.</p>'
@@ -61,23 +65,24 @@ export const csvToolsContent: Record<string, CsvToolContent> = {
 	},
 	'from-json': {
 		features: [
-			'Convert a JSON array of objects into CSV',
+			'JSON to CSV converter online, free in your browser',
+			'Turn a JSON array of objects into a CSV you can open in Excel',
 			'Union of all keys becomes the header, so sparse objects still align',
-			'Nested objects are JSON-stringified into the cell',
 			'Choose comma, semicolon, tab, or pipe',
-			'Download a .csv Excel can open',
-			'Client-side only'
+			'Download a .csv file',
+			'Nested objects are stored as JSON text in the cell. Nothing is uploaded'
 		],
 		useCases: [
+			'Convert JSON to CSV for Excel or Google Sheets',
 			'Export an API response to a spreadsheet',
-			'Give product a CSV from a JSON dump',
-			'Flatten test fixtures for a non-developer',
+			'Give a teammate a CSV from a JSON dump',
 			'Produce semicolon CSV for locales that use comma as decimal',
 			'Round-trip after CSV to JSON'
 		],
 		concept: {
-			title: 'How keys become columns',
-			content: `<p>We walk every object and collect keys in first-seen order. Missing keys become empty cells. Arrays of arrays get generated headers (<code>column_1</code>…). A JSON object that is not an array is rejected because CSV has no obvious row list.</p>`
+			title: 'How to convert JSON to CSV (and Excel)',
+			content: `<p>A <strong>JSON to CSV converter</strong> walks every object and collects keys in first-seen order. Missing keys become empty cells. Paste a JSON array, pick a delimiter, download CSV, and open it in Excel.</p>
+<p class="mt-2">A JSON object that is not an array is rejected because CSV needs a list of rows. Nested objects are stringified into one cell. Flatten first if you need nested fields as columns.</p>`
 		},
 		examples: [
 			{ label: 'Array of objects', code: '[{"id":1,"name":"Ada"}]', isValid: true },
@@ -85,6 +90,10 @@ export const csvToolsContent: Record<string, CsvToolContent> = {
 			{ label: 'Not an array', code: '{"id":1}', isValid: false }
 		],
 		faqs: [
+			{
+				question: 'How do I convert JSON to CSV for Excel?',
+				answer: '<p>Paste a JSON array of objects, pick comma or semicolon, and download the CSV. Excel and Google Sheets open it as a table.</p>'
+			},
 			{
 				question: 'Will nested JSON become extra columns?',
 				answer: '<p>No. Nested objects and arrays are stringified in one cell. Flatten first if you need nested fields as columns.</p>'
@@ -106,23 +115,23 @@ export const csvToolsContent: Record<string, CsvToolContent> = {
 	},
 	viewer: {
 		features: [
-			'Render CSV as a sortable-looking HTML table',
-			'Auto-detect delimiter',
-			'Show the first 250 rows so a 50k-line paste does not freeze the tab',
-			'Row and column counts for the full parse, not only the preview',
-			'Download the normalized CSV',
-			'Warnings for ragged rows'
+			'CSV viewer online: open a CSV file as a table in your browser',
+			'View Excel CSV without installing Excel',
+			'Auto-detect comma, semicolon, tab, or pipe',
+			'Show the first 250 rows so a large paste stays fast',
+			'Row and column counts for the full file',
+			'Download the normalized CSV. Nothing is uploaded'
 		],
 		useCases: [
-			'Open a CSV when you do not have Excel',
+			'Open a CSV online when you do not have Excel',
 			'Check whether a delimiter guess looks right',
 			'Skim an export before converting to JSON',
 			'See empty rows and ragged columns',
 			'Confirm quoting survived an email forward'
 		],
 		concept: {
-			title: 'Preview vs full parse',
-			content: `<p>The whole paste is parsed in memory. The table UI only draws a cap of rows so layout stays cheap. Counts at the top are for every row, including those not drawn. That is the performance tradeoff: parse once, paint little.</p>`
+			title: 'Open a CSV file in your browser',
+			content: `<p>A <strong>CSV viewer</strong> shows spreadsheet data as a table without Excel. Paste CSV or a Google Sheets export and scan columns. The whole paste is parsed in memory. The table only draws a cap of rows so the page stays cheap. Counts at the top include every row.</p>`
 		},
 		examples: [
 			{ label: 'Normal table', code: 'a,b\n1,2\n3,4', isValid: true },
@@ -130,6 +139,10 @@ export const csvToolsContent: Record<string, CsvToolContent> = {
 			{ label: 'Broken quotes', code: 'a,b\n"1,2', isValid: false }
 		],
 		faqs: [
+			{
+				question: 'Can I open a CSV file online without Excel?',
+				answer: '<p>Yes. This CSV viewer shows the file as a table in your browser. Nothing is uploaded.</p>'
+			},
 			{
 				question: 'Can I edit cells?',
 				answer: '<p>This is a viewer. Copy the CSV, edit in a sheet, paste again.</p>'

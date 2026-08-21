@@ -3,6 +3,7 @@
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import ToolContent from '$lib/components/content/ToolContent.svelte';
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
+	import SelectMenu from '$lib/components/ui/SelectMenu.svelte';
 	import { formatXml, SAMPLE_XML } from '$lib/utils/xml';
 	import { xmlToolsContent } from '$lib/config/content/xml-tools-content';
 
@@ -32,12 +33,16 @@
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={result.output} {stats} />
 
 		<div class="flex flex-wrap items-center gap-3">
-			<div class="flex items-center gap-2 rounded-lg bg-base-200 px-3 py-1.5">
-				<span class="text-xs text-base-content/50">Indent</span>
-				<select bind:value={indent} class="select select-bordered select-xs w-24">
-					<option value={2}>2 spaces</option>
-					<option value={4}>4 spaces</option>
-				</select>
+			<div class="rounded-lg bg-base-200 px-3 py-1.5">
+				<SelectMenu
+					bind:value={indent}
+					size="xs"
+					label="Indent"
+					options={[
+						{ value: 2, label: '2 spaces' },
+						{ value: 4, label: '4 spaces' }
+					]}
+				/>
 			</div>
 		</div>
 

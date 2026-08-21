@@ -7,12 +7,14 @@ export interface ToolItem {
 	description?: string;
 	icon?: string;
 	active?: boolean; // defaults to true
+	keywords?: string[];
 }
 
 export interface ToolCategory {
 	name: string;
 	icon: string;
 	description?: string; // SEO-rich category intro
+	seoTitle?: string;
 	active?: boolean; // defaults to true
 	items: ToolItem[];
 }
@@ -159,34 +161,239 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'XML',
 		icon: '⟨/⟩',
-		description: 'Format, validate, minify, convert, and query XML in this browser. SOAP, RSS, and config files are not uploaded.',
+		seoTitle: 'Free XML Tools Online — Formatter, Beautifier, XML to JSON',
+		description:
+			'Free XML tools online: XML formatter and beautifier, XML validator, XML to JSON converter, JSON to XML, XML to CSV, minifier, XPath tester, and XML compare. Pretty print XML in your browser with no upload.',
 		items: [
-			{ name: 'XML Formatter', href: '/xml/formatter', description: 'Pretty-print XML with 2- or 4-space indent. Parse errors stay on the first bad token — nothing is uploaded.', icon: '✨' },
-			{ name: 'XML Validator', href: '/xml/validator', description: 'Check well-formed XML, see element counts, depth, and namespaces. Schema files are not fetched.', icon: '✓' },
-			{ name: 'XML Minifier', href: '/xml/minifier', description: 'Strip insignificant whitespace from XML payloads while keeping comments and CDATA.', icon: '📦' },
-			{ name: 'XML → JSON', href: '/xml/to-json', description: 'Convert XML to JSON. Attributes become @keys, repeating tags become arrays.', icon: '→' },
-			{ name: 'JSON → XML', href: '/xml/from-json', description: 'Turn a JSON object or array into well-formed XML with a root name you choose.', icon: '←' },
-			{ name: 'XML → CSV', href: '/xml/to-csv', description: 'Flatten repeating child records under the root into a CSV table.', icon: '📊' },
-			{ name: 'XML Escape', href: '/xml/escape', description: 'Escape or unescape &, <, >, quotes, and numeric character references.', icon: '🔐' },
-			{ name: 'XPath Tester', href: '/xml/xpath', description: 'Run XPath 1.0 against pasted XML and inspect matching nodes.', icon: '🔍' },
-			{ name: 'XML Diff', href: '/xml/diff', description: 'Compare two XML documents structurally. Indent and tag order do not count as changes.', icon: '⇄' }
+			{
+				name: 'XML Formatter',
+				href: '/xml/formatter',
+				description:
+					'XML formatter and beautifier online. Pretty print XML, format messy SOAP or RSS, and see the first parse error instantly. Free XML pretty print in your browser.',
+				icon: '✨',
+				keywords: [
+					'xml formatter',
+					'xml beautifier',
+					'pretty print xml',
+					'format xml online',
+					'xml pretty print',
+					'beautify xml',
+					'xml formatter online'
+				]
+			},
+			{
+				name: 'XML Validator',
+				href: '/xml/validator',
+				description:
+					'XML validator online. Check if XML is valid, find syntax errors, and validate XML files free in your browser. No upload.',
+				icon: '✓',
+				keywords: [
+					'xml validator',
+					'validate xml',
+					'check xml',
+					'xml checker',
+					'xml syntax checker',
+					'xml validator online'
+				]
+			},
+			{
+				name: 'XML Minifier',
+				href: '/xml/minifier',
+				description:
+					'XML minifier online. Compress XML by removing extra spaces. Minify XML files free in your browser.',
+				icon: '📦',
+				keywords: ['xml minifier', 'minify xml', 'compress xml', 'xml compressor', 'xml minify online']
+			},
+			{
+				name: 'XML to JSON Converter',
+				href: '/xml/to-json',
+				description:
+					'Convert XML to JSON online. Paste XML and get JSON instantly. Free XML to JSON converter in your browser, no signup.',
+				icon: '→',
+				keywords: [
+					'xml to json',
+					'convert xml to json',
+					'xml to json converter',
+					'xml json converter',
+					'xml to json online'
+				]
+			},
+			{
+				name: 'JSON to XML Converter',
+				href: '/xml/from-json',
+				description:
+					'Convert JSON to XML online. Turn JSON into well-formed XML. Free JSON to XML converter in your browser.',
+				icon: '←',
+				keywords: [
+					'json to xml',
+					'convert json to xml',
+					'json to xml converter',
+					'json xml converter',
+					'json to xml online'
+				]
+			},
+			{
+				name: 'XML to CSV Converter',
+				href: '/xml/to-csv',
+				description:
+					'Convert XML to CSV online. Turn XML lists into a spreadsheet table you can open in Excel. Free XML to CSV converter.',
+				icon: '📊',
+				keywords: [
+					'xml to csv',
+					'convert xml to csv',
+					'xml to excel',
+					'xml to csv converter',
+					'xml to spreadsheet'
+				]
+			},
+			{
+				name: 'XML Escape',
+				href: '/xml/escape',
+				description:
+					'XML escape and unescape online. Encode or decode &, <, >, and quotes for XML text. Free XML encoder in your browser.',
+				icon: '🔐',
+				keywords: [
+					'xml escape',
+					'xml encode',
+					'escape xml characters',
+					'xml unescape',
+					'xml entity encoder'
+				]
+			},
+			{
+				name: 'XPath Tester',
+				href: '/xml/xpath',
+				description:
+					'XPath tester online. Test XPath queries against XML and see matching nodes. Free XPath evaluator in your browser.',
+				icon: '🔍',
+				keywords: ['xpath tester', 'xpath online', 'xpath evaluator', 'test xpath', 'xpath query tool']
+			},
+			{
+				name: 'XML Diff',
+				href: '/xml/diff',
+				description:
+					'Compare two XML files online. See what changed between XML documents. Free XML diff and XML compare tool.',
+				icon: '⇄',
+				keywords: ['xml diff', 'compare xml', 'xml compare', 'xml difference', 'diff xml files']
+			}
 		]
 	},
 	{
 		name: 'CSV',
 		icon: '▤',
-		description: 'Parse, view, validate, and convert CSV and TSV in this tab. Spreadsheets are not uploaded.',
+		seoTitle: 'Free CSV Tools Online — CSV to JSON, Viewer, Excel Converter',
+		description:
+			'Free CSV tools online: CSV to JSON converter, JSON to CSV, CSV viewer, open CSV in browser, CSV to Excel-friendly tables, CSV to SQL, CSV to Markdown, TSV converter, and CSV compare. Convert CSV files with no upload.',
 		items: [
-			{ name: 'CSV → JSON', href: '/csv/to-json', description: 'Convert CSV to an array of JSON objects. Auto-detects comma, semicolon, tab, or pipe.', icon: '→' },
-			{ name: 'JSON → CSV', href: '/csv/from-json', description: 'Turn a JSON array of objects into CSV with the delimiter you pick.', icon: '←' },
-			{ name: 'CSV Viewer', href: '/csv/viewer', description: 'Open CSV as a table in the browser. Large files preview the first 250 rows.', icon: '👁️' },
-			{ name: 'CSV Validator', href: '/csv/validator', description: 'Catch unclosed quotes, duplicate headers, empty rows, and ragged columns.', icon: '✓' },
-			{ name: 'Delimiter Converter', href: '/csv/delimiter', description: 'Convert between comma, semicolon, tab (TSV), and pipe without splitting quoted fields.', icon: '↔️' },
-			{ name: 'CSV → XML', href: '/csv/to-xml', description: 'Wrap each CSV row as an XML element with sanitized tag names.', icon: '⟨/⟩' },
-			{ name: 'CSV → SQL', href: '/csv/to-sql', description: 'Generate INSERT statements from a CSV for local Postgres, SQLite, or MySQL seeds.', icon: '🗃️' },
-			{ name: 'CSV → Markdown', href: '/csv/to-markdown', description: 'Render CSV as a GitHub-flavored Markdown table for READMEs and PRs.', icon: '📝' },
-			{ name: 'CSV Diff', href: '/csv/diff', description: 'Compare two CSV files cell by cell and list added, removed, and changed rows.', icon: '⇄' },
-			{ name: 'CSV Transpose', href: '/csv/transpose', description: 'Swap rows and columns so wide exports become tall tables.', icon: '🔄' }
+			{
+				name: 'CSV to JSON Converter',
+				href: '/csv/to-json',
+				description:
+					'Convert CSV to JSON online. Turn Excel or CSV exports into JSON. Free CSV to JSON converter in your browser.',
+				icon: '→',
+				keywords: [
+					'csv to json',
+					'convert csv to json',
+					'csv to json converter',
+					'excel to json',
+					'csv json converter'
+				]
+			},
+			{
+				name: 'JSON to CSV Converter',
+				href: '/csv/from-json',
+				description:
+					'Convert JSON to CSV online. Download a CSV you can open in Excel. Free JSON to CSV converter in your browser.',
+				icon: '←',
+				keywords: [
+					'json to csv',
+					'convert json to csv',
+					'json to csv converter',
+					'json to excel',
+					'json csv converter'
+				]
+			},
+			{
+				name: 'CSV Viewer',
+				href: '/csv/viewer',
+				description:
+					'CSV viewer online. Open a CSV file as a table in your browser. View Excel CSV without uploading.',
+				icon: '👁️',
+				keywords: [
+					'csv viewer',
+					'open csv online',
+					'view csv file',
+					'csv table viewer',
+					'excel csv viewer'
+				]
+			},
+			{
+				name: 'CSV Validator',
+				href: '/csv/validator',
+				description:
+					'CSV validator online. Check CSV files for errors, broken quotes, and missing columns. Validate CSV free.',
+				icon: '✓',
+				keywords: ['csv validator', 'validate csv', 'check csv file', 'csv checker', 'csv syntax']
+			},
+			{
+				name: 'CSV Delimiter Converter',
+				href: '/csv/delimiter',
+				description:
+					'Convert CSV delimiters online. Change comma to semicolon, tab (TSV), or pipe. Free CSV to TSV converter.',
+				icon: '↔️',
+				keywords: [
+					'csv delimiter',
+					'csv to tsv',
+					'comma to semicolon csv',
+					'tsv converter',
+					'change csv delimiter'
+				]
+			},
+			{
+				name: 'CSV to XML Converter',
+				href: '/csv/to-xml',
+				description:
+					'Convert CSV to XML online. Turn spreadsheet rows into XML. Free CSV to XML converter in your browser.',
+				icon: '⟨/⟩',
+				keywords: ['csv to xml', 'convert csv to xml', 'csv to xml converter', 'excel to xml']
+			},
+			{
+				name: 'CSV to SQL Converter',
+				href: '/csv/to-sql',
+				description:
+					'Convert CSV to SQL online. Generate INSERT statements from a CSV file. Free CSV to SQL converter.',
+				icon: '🗃️',
+				keywords: ['csv to sql', 'csv to insert', 'convert csv to sql', 'csv to mysql', 'excel to sql']
+			},
+			{
+				name: 'CSV to Markdown',
+				href: '/csv/to-markdown',
+				description:
+					'Convert CSV to Markdown table online. Paste CSV and get a GitHub Markdown table. Free CSV to MD converter.',
+				icon: '📝',
+				keywords: [
+					'csv to markdown',
+					'csv to markdown table',
+					'excel to markdown',
+					'markdown table generator'
+				]
+			},
+			{
+				name: 'CSV Diff',
+				href: '/csv/diff',
+				description:
+					'Compare two CSV files online. See added, removed, and changed rows. Free CSV compare and CSV diff tool.',
+				icon: '⇄',
+				keywords: ['csv diff', 'compare csv files', 'csv compare', 'excel compare', 'diff csv']
+			},
+			{
+				name: 'CSV Transpose',
+				href: '/csv/transpose',
+				description:
+					'Transpose CSV online. Swap rows and columns in a CSV file. Free CSV transpose tool.',
+				icon: '🔄',
+				keywords: ['csv transpose', 'swap csv rows columns', 'transpose excel csv', 'pivot csv']
+			}
 		]
 	},
 	{
@@ -220,16 +427,112 @@ export const toolCategories: ToolCategory[] = [
 	{
 		name: 'Date & Time',
 		icon: '📅',
-		description: 'Unix timestamps, time zones, ISO 8601, and calendar math in this browser. Convert → Time is duration units, not epoch.',
+		seoTitle: 'Free Date and Time Tools — Unix Timestamp Converter, Time Zone, World Clock',
+		description:
+			'Free date and time tools: Unix timestamp converter (epoch to date), time zone converter, world clock, date calculator, ISO 8601 parser, and time ago. Convert timestamp to date in your browser, no signup.',
 		items: [
-			{ name: 'Unix Timestamp', href: '/date/timestamp', description: 'Convert Unix seconds or milliseconds to UTC and local time, or paste ISO the other way.', icon: '⏱️' },
-			{ name: 'Timezone Converter', href: '/date/timezone', description: 'Show one instant in multiple IANA time zones, with DST-aware offsets.', icon: '🌍' },
-			{ name: 'ISO 8601', href: '/date/iso', description: 'Parse ISO datetimes and durations such as P3DT4H. Instant vs duration, called out.', icon: '📅' },
-			{ name: 'Date Calculator', href: '/date/calculator', description: 'Add or subtract years, months, days, and hours from a Unix or ISO start.', icon: '➕' },
-			{ name: 'Relative Time', href: '/date/relative', description: 'Turn an instant into “3 hours ago” with Intl.RelativeTimeFormat, plus the exact ISO.', icon: '⏳' },
-			{ name: 'World Clock', href: '/date/world-clock', description: 'Live wall clocks for UTC and major cities. Uses this device clock, not a time API.', icon: '🕐' },
-			{ name: 'Duration', href: '/date/duration', description: 'Elapsed time between two instants as days, hours, minutes, and an ISO duration.', icon: '📏' },
-			{ name: 'Date Formats', href: '/date/formats', description: 'One instant as ISO, RFC 2822, Unix, Excel serial, and ISO week. Copy any field.', icon: '📋' }
+			{
+				name: 'Unix Timestamp Converter',
+				href: '/date/timestamp',
+				description:
+					'Unix timestamp converter online. Convert epoch time to date, or date to Unix seconds and milliseconds. Free timestamp to date converter.',
+				icon: '⏱️',
+				keywords: [
+					'unix timestamp converter',
+					'epoch converter',
+					'timestamp to date',
+					'unix time converter',
+					'epoch to date',
+					'convert timestamp'
+				]
+			},
+			{
+				name: 'Time Zone Converter',
+				href: '/date/timezone',
+				description:
+					'Time zone converter online. Convert a time between New York, London, Tokyo, and any city. Free timezone converter in your browser.',
+				icon: '🌍',
+				keywords: [
+					'timezone converter',
+					'time zone converter',
+					'convert time zones',
+					'est to pst',
+					'utc converter',
+					'world time converter'
+				]
+			},
+			{
+				name: 'ISO 8601 Date Converter',
+				href: '/date/iso',
+				description:
+					'ISO 8601 converter online. Parse ISO dates and durations like P3DT4H. Free ISO 8601 date format tool.',
+				icon: '📅',
+				keywords: [
+					'iso 8601',
+					'iso date converter',
+					'iso 8601 format',
+					'iso timestamp',
+					'iso 8601 parser'
+				]
+			},
+			{
+				name: 'Date Calculator',
+				href: '/date/calculator',
+				description:
+					'Date calculator online. Add or subtract days, weeks, or months from a date. Free add days to date tool.',
+				icon: '➕',
+				keywords: [
+					'date calculator',
+					'add days to date',
+					'date plus days',
+					'subtract days from date',
+					'date math calculator'
+				]
+			},
+			{
+				name: 'Time Ago',
+				href: '/date/relative',
+				description:
+					'Time ago calculator online. Convert a timestamp into "3 hours ago" or "in 2 days". Free relative time converter.',
+				icon: '⏳',
+				keywords: ['time ago', 'relative time', 'hours ago calculator', 'time from now', 'pretty time']
+			},
+			{
+				name: 'World Clock',
+				href: '/date/world-clock',
+				description:
+					'World clock online. See the current time in UTC, New York, London, Tokyo, and more. Free world clock.',
+				icon: '🕐',
+				keywords: ['world clock', 'world time', 'current time in cities', 'utc clock', 'international clock']
+			},
+			{
+				name: 'Duration Calculator',
+				href: '/date/duration',
+				description:
+					'Duration calculator online. Find the time between two dates. Free date difference and elapsed time calculator.',
+				icon: '📏',
+				keywords: [
+					'duration calculator',
+					'time between dates',
+					'date difference',
+					'days between dates',
+					'elapsed time calculator'
+				]
+			},
+			{
+				name: 'Date Format Converter',
+				href: '/date/formats',
+				description:
+					'Date format converter online. Get ISO, RFC 2822, Unix, Excel serial, and more from one date. Free date format tool.',
+				icon: '📋',
+				keywords: [
+					'date format converter',
+					'date formats',
+					'rfc 2822 date',
+					'excel date serial',
+					'convert date format'
+				]
+			}
 		]
 	},
 	{
