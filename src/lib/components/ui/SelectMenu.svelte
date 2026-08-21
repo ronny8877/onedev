@@ -44,17 +44,18 @@
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div class="fixed inset-0 z-30" onclick={close} onkeydown={() => {}}></div>
 		<ul
-			class="select-menu-panel absolute left-0 top-full z-40 mt-1 min-w-full"
+			class="absolute left-0 top-full z-40 mt-1 min-w-full overflow-hidden rounded-lg border border-base-300 bg-base-100 py-1 shadow-lg"
 			role="listbox"
 		>
 			{#each options as option}
-				<li>
+				<li class="m-0 p-0">
 					<button
 						type="button"
 						role="option"
 						aria-selected={value === option.value}
-						class="select-menu-option"
-						class:is-active={value === option.value}
+						class="block w-full !rounded-none !border-0 !shadow-none px-3 py-2 text-left text-sm {value === option.value
+							? 'bg-base-200 font-semibold text-primary'
+							: 'bg-transparent text-base-content hover:bg-base-200'}"
 						onclick={() => pick(option.value)}
 					>
 						{option.label}
