@@ -33,7 +33,7 @@
 	{/if}
 	<button
 		type="button"
-		class="select select-bordered select-{size} cursor-pointer text-left min-w-[7rem] w-full"
+		class="select-trigger select select-bordered select-{size} cursor-pointer text-left min-w-[7rem] w-full"
 		aria-haspopup="listbox"
 		aria-expanded={open}
 		onclick={() => (open = !open)}
