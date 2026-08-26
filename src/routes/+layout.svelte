@@ -57,7 +57,7 @@
 	<link rel="icon" type="image/png" sizes="32x32" href={favicon32} />
 	<link rel="icon" type="image/png" sizes="16x16" href={favicon16} />
 	<link rel="manifest" href={siteWebmanifest} />
-	<meta name="theme-color" content={currentTheme === 'dark' ? '#1d232a' : '#ffffff'} />
+	<meta name="theme-color" content={currentTheme === 'dark' ? '#302b2b' : '#ffffff'} />
 
 	<!-- Sitewide OG/Social defaults (overridden by individual pages) -->
 	<meta property="og:site_name" content="OneDev Tools" />
