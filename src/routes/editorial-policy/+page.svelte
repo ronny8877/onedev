@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BASE_URL } from '$lib/config/tools';
+	import { SITE_ORIGIN } from '$lib/config/indexing';
 </script>
 
 <svelte:head>
@@ -8,9 +8,9 @@
 		name="description"
 		content="OneDev Tools editorial policy. How we maintain accuracy, handle AI-assisted content, update pricing data, and ensure tool quality."
 	/>
-	<link rel="canonical" href="{BASE_URL}/editorial-policy" />
+	<link rel="canonical" href="{SITE_ORIGIN}/editorial-policy" />
 	<meta property="og:title" content="Editorial Policy — OneDev Tools" />
-	<meta property="og:url" content="{BASE_URL}/editorial-policy" />
+	<meta property="og:url" content="{SITE_ORIGIN}/editorial-policy" />
 	<meta property="og:type" content="website" />
 </svelte:head>
 

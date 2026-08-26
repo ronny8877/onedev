@@ -1,10 +1,9 @@
-import { BASE_URL } from '$lib/config/tools';
-import { getSitemapEntries } from '$lib/config/indexing';
+import { SITE_ORIGIN, getSitemapEntries } from '$lib/config/indexing';
 
 export async function GET() {
 	const urls = getSitemapEntries().map(
 		(entry) => `<url>
-    <loc>${entry.path === '/' ? `${BASE_URL}/` : `${BASE_URL}${entry.path}`}</loc>
+    <loc>${entry.path === '/' ? `${SITE_ORIGIN}/` : `${SITE_ORIGIN}${entry.path}`}</loc>
     <changefreq>${entry.changefreq}</changefreq>
     <priority>${entry.priority}</priority>
   </url>`

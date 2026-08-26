@@ -1,4 +1,4 @@
-import { BASE_URL } from '$lib/config/tools';
+export const SITE_ORIGIN = 'https://onedev.tools';
 
 export const INDEXABLE_TOOLS = [
 	'/json/formatter',
@@ -90,10 +90,30 @@ export function getCanonicalPath(pathname: string): string {
 	return path;
 }
 
-export function getCanonicalUrl(baseUrl: string, pathname: string): string {
-	const canonical = getCanonicalPath(pathname);
-	if (canonical === '/') return `${baseUrl}/`;
-	return `${baseUrl}${canonical}`;
+export function isCanonicalFold(pathname: string): boolean {
+	const path = normalizePath(pathname);
+	return getCanonicalPath(path) !== path;
+}
+
+function absoluteUrl(path: string): string {
+	if (path === '/') return `${SITE_ORIGIN}/`;
+	return `${SITE_ORIGIN}${path}`;
+}
+
+export function getCanonicalUrl(_baseUrl: string, pathname: string): string {
+	return absoluteUrl(getCanonicalPath(pathname));
+}
+
+export function getPageCanonicalUrl(pathname: string): string | null {
+	const path = normalizePath(pathname);
+	const folded = getCanonicalPath(path);
+	if (folded !== path) {
+		return absoluteUrl(folded);
+	}
+	if (isIndexablePath(path)) {
+		return absoluteUrl(path);
+	}
+	return null;
 }
 
 export function getLastUpdatedForPath(pathname: string, fallback?: string): string | undefined {
@@ -121,13 +141,13 @@ export function getSitemapEntries(): SitemapEntry[] {
 	return entries;
 }
 
-export function getIndexableAbsoluteUrls(baseUrl: string = BASE_URL): string[] {
+export function getIndexableAbsoluteUrls(baseUrl: string = SITE_ORIGIN): string[] {
 	return getSitemapEntries().map((entry) =>
 		entry.path === '/' ? `${baseUrl}/` : `${baseUrl}${entry.path}`
 	);
 }
 
-export function getRobotsTxt(sitemapUrl: string = `${BASE_URL}/sitemap.xml`): string {
+export function getRobotsTxt(sitemapUrl: string = `${SITE_ORIGIN}/sitemap.xml`): string {
 	const disallows = ROBOTS_DISALLOW_PATHS.map((p) => `Disallow: ${p}`).join('\n');
 	return `# Robots.txt for OneDev Tools
 # https://onedev.tools

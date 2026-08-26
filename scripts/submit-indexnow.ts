@@ -1,10 +1,8 @@
 
-import { BASE_URL } from '../src/lib/config/tools';
-import { getIndexableAbsoluteUrls } from '../src/lib/config/indexing';
+import { SITE_ORIGIN, getIndexableAbsoluteUrls } from '../src/lib/config/indexing';
 
 const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/indexnow';
-// Remove protocol to get host (e.g., https://onedev.tools -> onedev.tools)
-const HOST = new URL(BASE_URL).host;
+const HOST = new URL(SITE_ORIGIN).host;
 
 async function main() {
     const args = process.argv.slice(2);
@@ -25,7 +23,7 @@ async function main() {
 
     console.log(`\n🚀 Preparing IndexNow submission for ${HOST}...`);
 
-    const urls = getIndexableAbsoluteUrls(BASE_URL);
+    const urls = getIndexableAbsoluteUrls(SITE_ORIGIN);
 
     console.log(`Found ${urls.length} URLs to submit.`);
 

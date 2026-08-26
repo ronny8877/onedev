@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BASE_URL } from '$lib/config/tools';
+	import { SITE_ORIGIN } from '$lib/config/indexing';
 	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 </script>
 
@@ -9,10 +9,10 @@
 		name="description"
 		content="OneDev Tools is a free collection of 160+ developer utilities built by developers, for developers. No sign-up, no data collection — everything runs locally in your browser."
 	/>
-	<link rel="canonical" href="{BASE_URL}/about" />
+	<link rel="canonical" href="{SITE_ORIGIN}/about" />
 	<meta property="og:title" content="About OneDev Tools" />
 	<meta property="og:description" content="Free developer tools built for privacy. 160+ utilities, no sign-up required." />
-	<meta property="og:url" content="{BASE_URL}/about" />
+	<meta property="og:url" content="{SITE_ORIGIN}/about" />
 	<meta property="og:type" content="website" />
 </svelte:head>
 

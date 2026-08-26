@@ -1,5 +1,5 @@
 import type { Handle } from '@sveltejs/kit';
-import { shouldNoindex } from '$lib/config/indexing';
+import { getPageCanonicalUrl, shouldNoindex } from '$lib/config/indexing';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
@@ -9,6 +9,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 	if (shouldNoindex(path)) {
 		response.headers.set('X-Robots-Tag', 'noindex, follow');
+	}
+	const canonical = getPageCanonicalUrl(path);
+	if (canonical) {
+		response.headers.set('Link', `<${canonical}>; rel="canonical"`);
 	}
 	return response;
 };

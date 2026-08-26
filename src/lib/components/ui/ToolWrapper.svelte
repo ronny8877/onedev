@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { page } from '$app/stores';
-	import { BASE_URL, getToolByPath } from '$lib/config/tools';
+	import { getToolByPath } from '$lib/config/tools';
 	import {
-		getCanonicalUrl,
+		SITE_ORIGIN,
 		getLastUpdatedForPath,
+		getPageCanonicalUrl,
 		shouldNoindex
 	} from '$lib/config/indexing';
 	import JsonLd from '$lib/components/content/JsonLd.svelte';
@@ -16,30 +17,30 @@
 		keywords?: string[];
 		lastUpdated?: string;
 		noindex?: boolean;
+		canonicalHref?: string;
 		children: Snippet;
 	}
 
-	let { title, description, keywords = [], lastUpdated, noindex = false, children }: Props = $props();
+	let { title, description, keywords = [], lastUpdated, noindex = false, canonicalHref, children }: Props = $props();
 
 	const toolData = $derived(getToolByPath($page.url.pathname));
 	const finalTitle = $derived(title ?? toolData?.name ?? 'Tool');
 	const finalDescription = $derived(description ?? toolData?.description ?? '');
 	const finalKeywords = $derived(keywords.length > 0 ? keywords : (toolData?.keywords ?? []));
 	const pageNoindex = $derived(noindex || shouldNoindex($page.url.pathname));
-	const canonicalUrl = $derived(getCanonicalUrl(BASE_URL, $page.url.pathname));
+	const canonicalUrl = $derived(canonicalHref ?? getPageCanonicalUrl($page.url.pathname));
 	const resolvedLastUpdated = $derived(getLastUpdatedForPath($page.url.pathname, lastUpdated));
 
-	// Build breadcrumb from URL path e.g. /json/formatter → Home > JSON > Formatter
 	const breadcrumbs = $derived.by(() => {
 		const segments = $page.url.pathname.split('/').filter(Boolean);
-		const crumbs = [{ name: 'Home', item: BASE_URL + '/', path: '/' }];
+		const crumbs = [{ name: 'Home', item: SITE_ORIGIN + '/', path: '/' }];
 		let cumulativePath = '';
 		for (const seg of segments) {
 			cumulativePath += '/' + seg;
 			const label = seg
 				.replace(/-/g, ' ')
 				.replace(/\b\w/g, (c) => c.toUpperCase());
-			crumbs.push({ name: label, item: BASE_URL + cumulativePath, path: cumulativePath });
+			crumbs.push({ name: label, item: SITE_ORIGIN + cumulativePath, path: cumulativePath });
 		}
 		return crumbs;
 	});
@@ -47,7 +48,7 @@
 	const applicationData = $derived({
 		name: finalTitle,
 		description: finalDescription,
-		url: canonicalUrl
+		url: canonicalUrl ?? SITE_ORIGIN + $page.url.pathname
 	});
 
 	// Format lastUpdated for display
@@ -84,13 +85,15 @@
 		<meta name="keywords" content={finalKeywords.join(', ')} />
 	{/if}
 
-	<!-- Canonical URL -->
-	<link rel="canonical" href={canonicalUrl} />
+	{#if canonicalUrl}
+		<link rel="canonical" href={canonicalUrl} />
+	{/if}
 
-	<!-- Open Graph -->
 	<meta property="og:title" content="{finalTitle} | OneDev Tools" />
 	<meta property="og:description" content={finalDescription} />
-	<meta property="og:url" content={canonicalUrl} />
+	{#if canonicalUrl}
+		<meta property="og:url" content={canonicalUrl} />
+	{/if}
 	<meta property="og:type" content="website" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="{finalTitle} | OneDev Tools" />

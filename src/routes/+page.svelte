@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { getActiveCategories, getAllActiveTools, BASE_URL } from '$lib/config/tools';
+	import { getActiveCategories, getAllActiveTools } from '$lib/config/tools';
+	import { SITE_ORIGIN } from '$lib/config/indexing';
 	import logo from '$lib/assets/logo.png';
 	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	// Get tools from centralized config
@@ -40,14 +41,14 @@
 	/>
 	<meta name="author" content="OneDev Tools" />
 	<meta name="robots" content="index, follow" />
-	<link rel="canonical" href="{BASE_URL}/" />
+	<link rel="canonical" href="{SITE_ORIGIN}/" />
 	
 	<!-- Open Graph -->
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="OneDev Tools" />
 	<meta property="og:title" content="OneDev Tools - Free Online Developer Tools" />
 	<meta property="og:description" content="Free SQL formatter, XML formatter, CSV to JSON converter, Unix timestamp converter, timezone converter, JSON tools, hashes, JWTs, and more. No sign-up. Input stays in your browser." />
-	<meta property="og:url" content="{BASE_URL}/" />
+	<meta property="og:url" content="{SITE_ORIGIN}/" />
 	
 	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image" />
@@ -60,7 +61,7 @@
 		"@context": "https://schema.org",
 		"@type": "WebApplication",
 		"name": "OneDev Tools",
-		"url": "${BASE_URL}",
+		"url": "${SITE_ORIGIN}",
 		"description": "Free online developer tools: JSON formatter, XML formatter, CSV to JSON converter, SQL formatter, Unix timestamp converter, timezone converter, hashes, JWTs, and more.",
 		"applicationCategory": "DeveloperApplication",
 		"operatingSystem": "Any",
