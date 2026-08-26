@@ -354,7 +354,7 @@
 	}
 
 	.editor-container :global(.onedev-cm-search button[aria-pressed='true']) {
-		color: var(--color-primary);
-		background: color-mix(in oklch, var(--color-primary) 18%, transparent);
+		color: var(--color-base-content);
+		background: var(--color-base-300);
 	}
 </style>

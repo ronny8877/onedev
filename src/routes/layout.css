@@ -101,10 +101,31 @@ body {
   padding-inline: 0;
 }
 
+.btn-ghost {
+  --btn-fg: var(--color-base-content);
+  color: var(--color-base-content);
+}
+
 .btn.btn-ghost:hover:not(:disabled) {
   --btn-bg: var(--color-base-200);
   --btn-border: var(--color-base-200);
   background-color: var(--color-base-200);
+  color: var(--color-base-content);
+}
+
+.btn-primary {
+  --btn-fg: var(--color-primary-content);
+  color: var(--color-primary-content);
+}
+
+html[data-theme='emerald'] .btn-primary {
+  --btn-fg: var(--color-primary-content);
+  color: var(--color-primary-content);
+}
+
+html[data-theme='forest'] .btn-primary {
+  --btn-fg: var(--color-base-content);
+  color: var(--color-base-content);
 }
 
 .btn-square {
