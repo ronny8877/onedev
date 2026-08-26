@@ -255,77 +255,68 @@ export const pdfToolsContent: Record<string, PdfToolContent> = {
 
 	'compress': {
 		features: [
-			'Reduce PDF file size while preserving quality',
-			'Compression level control (low, medium, high)',
-			'Display before and after file sizes',
-			'Calculate percentage reduction',
-			'Downsample embedded images',
-			'100% client-side compression'
+			'The PDF never leaves this device: no Adobe, Smallpdf, or iLovePDF upload',
+			'Downsample embedded images at low / medium / high settings',
+			'Before/after byte counts so you can see if the file was already compressed',
+			'Text stays selectable; we are not rasterizing pages into a scan'
 		],
 		useCases: [
-			'Compress PDFs to meet email attachment limits',
-			'Reduce file size for web uploads and sharing',
-			'Optimize PDFs for faster download on websites',
-			'Shrink scanned documents that are too large',
-			'Batch compress for archiving or storage'
+			'Shrink a scanned contract that Gmail rejects at 25 MB, without an upload queue',
+			'Compress a deck that contains huge PNG exports',
+			'Avoid dropping a confidential PDF on a third-party compressor',
+			'See that a text-only PDF barely shrinks (images are the lever)'
 		],
 		concept: {
-			title: 'PDF Compression Explained',
-			content: `<p><strong>PDF compression</strong> reduces the file size of a PDF document by optimizing images, removing redundant data, and using efficient encoding. This makes PDFs faster to upload, download, and share.</p>
-			<p><strong>Compression methods:</strong> The main approach is downsampling embedded images—reducing their resolution while maintaining visual quality. Text and vector graphics are typically small and don\'t benefit as much from compression. Unused objects and metadata can also be stripped to save space.</p>
-			<p><strong>Compression levels:</strong> Low compression preserves most quality with modest size reduction. Medium balances quality and size. High compression aggressively downsamples images for maximum savings—best when file size is the priority.</p>
-			<p><strong>What to expect:</strong> PDFs with many high-resolution images will see the biggest reductions (50-80%). Text-heavy PDFs with few images may only shrink 5-15%. Scanned documents benefit significantly from compression.</p>`
+			title: 'Compress without the Adobe / Smallpdf upload',
+			content: `<p>Search "compress PDF" and the SERP is Adobe Acrobat, Smallpdf, iLovePDF: you upload the file, they transcode, you download. That is the product. It is also a copy of your document on someone else's disk, with an account wall or a watermark on the free tier.</p>
+<p><strong>This page's gap is that the bytes stay in the tab.</strong> Compression is image downsampling plus rewriting the PDF in the browser. A 40 MB scan of a passport or a term sheet should not need a SaaS inbox. If your threat model is "I do not want this file on Adobe's servers," that is the reason to use a local compressor, not a prettier spinner.</p>
+<p>What actually shrinks: embedded photos and page images. Vector text and fonts are already compact. High compression is visibly softer on photos; medium is the usual email target. Compress <em>once</em> from the original. Re-compressing a lossy result stacks artifacts. Password-encrypted PDFs may refuse to open here; decrypt locally first if you have the owner password.</p>
+<p>Limits: a huge scanned book can exhaust tab memory. Desktop Ghostscript still wins at 500-page 600 DPI archives. For a 15-page attachment, local downsample is enough.</p>`
 		},
 		examples: [
 			{
-				label: 'Compress a scanned document',
-				code: 'Original: 25MB scanned PDF (300 DPI images)\nCompression: Medium\nResult: ~8MB (68% reduction)',
+				label: 'Image-heavy scan (this is where size comes from)',
+				code: 'Original: ~25 MB, 300 DPI page images\nMedium downsample → often well under 10 MB\nText layer remains searchable',
 				isValid: true
 			},
 			{
-				label: 'Optimize for email',
-				code: 'Original: 18MB PDF\nTarget: Under 10MB for email\nCompression: High → 6.5MB result',
+				label: 'Text-only PDF (little to gain)',
+				code: 'Original: 180 KB of vector text\nHigh compression → still ~150-180 KB\nDo not expect a 10x win',
 				isValid: true
 			},
 			{
-				label: 'Minimal compression for quality',
-				code: 'Original: 12MB presentation PDF\nCompression: Low\nResult: ~9MB (25% reduction, near-original quality)',
-				isValid: true
+				label: 'Do not stack lossy passes',
+				code: 'original.pdf → compress high → compress high again\nSecond pass hurts photos, barely saves bytes',
+				isValid: false
 			}
 		],
 		faqs: [
 			{
-				question: 'Will compression reduce the visual quality?',
-				answer: '<p>At <strong>low and medium</strong> settings, quality loss is minimal and barely noticeable. At <strong>high</strong> compression, you may see slight image degradation. Text and vector graphics remain sharp at all levels.</p>'
+				question: 'How is this different from Smallpdf or Adobe online?',
+				answer: '<p>Those services upload your PDF to their servers. This compressor runs in the page. Same job (smaller file), different place the bytes sit. That is the point for anything you would not attach to a random web form.</p>'
 			},
 			{
-				question: 'How much can I reduce my PDF size?',
-				answer: '<p>Results vary: <strong>Image-heavy PDFs</strong> can shrink 50-80%. <strong>Text-only PDFs</strong> may only compress 5-15%. <strong>Scanned documents</strong> benefit most since they contain large embedded images.</p>'
+				question: 'Will text stay selectable?',
+				answer: '<p>Yes, if the original had a text layer. We downsample images, not OCR. A pure scan without OCR stays a scan, just with smaller pictures.</p>'
 			},
 			{
-				question: 'Can I compress a PDF multiple times?',
-				answer: '<p><strong>No!</strong> Each compression pass may further degrade image quality. Compress once from the original at your desired level. If the result isn\'t small enough, go back to the original and use a higher compression level.</p>'
+				question: 'Why did a 200 KB PDF barely change?',
+				answer: '<p>It was already mostly text or already compressed images. The lever is large rasters. Check the before/after numbers instead of picking High by habit.</p>'
 			},
 			{
-				question: 'Does compression affect text searchability?',
-				answer: '<p>No. Text content is preserved during compression. Your PDF will remain searchable and selectable at all compression levels. Only embedded images are affected.</p>'
-			},
-			{
-				question: 'What compression level should I choose?',
-				answer: '<p><strong>Low</strong> for archival/preservation. <strong>Medium</strong> for general sharing and web use. <strong>High</strong> for email attachments or when file size is the primary concern. Start with medium and adjust based on results.</p>'
+				question: 'Can I compress an encrypted PDF?',
+				answer: '<p>Only if the library can open it. Owner-password files often fail. Decrypt with a tool you trust, then compress the unprotected copy.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'PDF Merger', path: '/pdf/merge', description: 'Combine PDFs before compressing' },
-			{ name: 'PDF Viewer', path: '/pdf/viewer', description: 'Preview compressed result' },
-			{ name: 'PDF Splitter', path: '/pdf/split', description: 'Split large PDFs into parts' },
-			{ name: 'Image Compressor', path: '/image/compressor', description: 'Compress images before PDF' }
+			{ name: 'PDF Splitter', path: '/pdf/split', description: 'Drop unused pages before compressing images' },
+			{ name: 'PDF Merger', path: '/pdf/merge', description: 'Combine then compress once from the originals' },
+			{ name: 'Hash Generator', path: '/hash/generator', description: 'SHA-256 the result if you need an integrity check after compress' }
 		],
 		tips: [
-			'Start with medium compression and test—adjust up or down as needed',
-			'Always review the compressed PDF for acceptable quality',
-			'Image-heavy PDFs benefit most from compression',
-			'Keep the original uncompressed file for archival purposes'
+			'Keep the uncompressed original. Email the compressed copy.',
+			'Start at medium. High is for attachment caps, not archival.',
+			'If the tab freezes, the file is too large for in-memory pdf-lib; split first.'
 		]
 	},
 

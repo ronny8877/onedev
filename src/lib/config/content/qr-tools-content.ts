@@ -12,70 +12,61 @@ export interface QrToolContent {
 export const qrToolsContent: Record<string, QrToolContent> = {
 	generator: {
 		features: [
-			'Generate QR codes from text, URLs, email, phone, SMS, WiFi, or a vCard',
-			'Customize dot style, corner squares, colors, size, and quiet zone',
-			'Drop a logo in the center with automatic high error correction',
-			'Download PNG, SVG, or JPEG without sending data to a server',
-			'Copy the encoded payload so you can inspect exactly what will be scanned',
-			'Works entirely in the browser — nothing is uploaded'
+			'Static QR: the payload never expires unless you change the URL behind it',
+			'WiFi payload is WIFI:T:...;P:password;; treat it like printing the password',
+			'SVG download for print; PNG for screens',
+			'Error correction H when a logo covers modules'
 		],
 		useCases: [
-			'Put a styled QR on packaging, posters, or a conference badge',
-			'Share a URL, WiFi network, or contact card without typing',
-			'Brand a QR with your logo while keeping it scannable',
-			'Export SVG for print so the code stays sharp at any size',
-			'Preview how error correction and a logo affect density before you print'
+			'Print a poster QR that must still work in five years',
+			'Share WiFi without typing, knowing the code is the PSK',
+			'Export SVG so a 2-meter vinyl stays scannable',
+			'See how a logo forces higher error correction'
 		],
 		concept: {
-			title: 'How a QR code stores data',
-			content: `<p>A <strong>QR code</strong> (Quick Response code) is a 2D barcode defined by ISO/IEC 18004. Data is encoded into a grid of dark and light modules, with three finder patterns in the corners so scanners can locate and orient the code.</p>
-<p class="mt-2"><strong>Error correction</strong> (Reed–Solomon) lets a scanner recover from damage. Level L recovers about 7% of the code, M about 15%, Q about 25%, and H about 30%. A center logo covers modules, so this tool raises correction to H when you add an image.</p>
-<p class="mt-2">Styling the dots and corners does not change the payload. Scanners still read the same modules. Keep contrast high (dark on light), leave a quiet zone around the code, and avoid covering the finder patterns.</p>`
+			title: 'Static QR, WiFi as a password, SVG for print',
+			content: `<p>A QR code is a snapshot of a string. <strong>It does not expire.</strong> If you encode <code>https://example.com/deal</code>, every print still opens that URL until you take the site down or change the path. There is no "QR account" that can revoke a static code. If you need to change the destination later, encode a short URL you control and redirect. Dynamic QR products are just that redirect plus analytics.</p>
+<p>A <strong>WiFi QR</strong> is the network password in a public format: <code>WIFI:T:WPA;S:ssid;P:the-password;H:false;;</code>. Anyone who photographs the fridge magnet has the PSK. Rotate the WiFi password if that code leaked. Do not put a corporate WPA2 key on a conference slide.</p>
+<p><strong>SVG for print.</strong> PNG is a bitmap. Enlarge it and module edges blur; cheap phone cameras fail. SVG is vectors: the same file can be a sticker or a billboard. JPEG is worse because DCT smear eats finder patterns. Keep a quiet zone (light margin) of at least four modules. Dark-on-light still scans more reliably than inverted colors.</p>`
 		},
 		examples: [
-			{ label: 'URL payload', code: 'https://onedev.tools/qr/generator', isValid: true },
-			{ label: 'WiFi payload', code: 'WIFI:T:WPA;S:OneDev Guest;P:tools-are-local;H:false;;', isValid: true },
+			{ label: 'Static URL (lives as long as the URL does)', code: 'https://onedev.tools/qr/generator', isValid: true },
+			{ label: 'WiFi payload is the password', code: 'WIFI:T:WPA;S:GuestNet;P:change-me-now;H:false;;', isValid: true },
 			{ label: 'Empty payload will not scan', code: '', isValid: false }
 		],
 		faqs: [
 			{
-				question: 'Does adding a logo make the QR code unscannable?',
-				answer: '<p>Not if error correction is high enough and the logo stays in the center. This tool switches to level H when a logo is present and can hide modules behind the image. Keep the logo under about 30% of the code and do not cover the three corner squares.</p>'
+				question: 'Can I expire or edit a QR after printing?',
+				answer: '<p>Not a static one. The bits are the payload. To change destination, print a new code or encode a redirect you still own. Stickers on a warehouse wall from 2019 still open whatever URL they encoded.</p>'
 			},
 			{
-				question: 'PNG or SVG for printing?',
-				answer: '<p>Use <strong>SVG</strong> for print and large signage. It stays sharp at any size. Use PNG for the web, email, or slides. JPEG is a last resort because compression can blur module edges.</p>'
+				question: 'Is a WiFi QR safe to post in a cafe window?',
+				answer: '<p>It is equivalent to writing the password on the glass. Fine for a guest SSID you expect to share. Not fine for a network that also reaches file shares. Use a guest VLAN if you must print it.</p>'
 			},
 			{
-				question: 'Is my data uploaded?',
-				answer: '<p>No. The QR is drawn in your browser with client-side JavaScript. The text, WiFi password, or vCard never leaves this page.</p>'
+				question: 'PNG or SVG for a poster?',
+				answer: '<p>SVG. Scale freely. PNG only if the size in pixels is already larger than the print at 300 DPI. Never JPEG for a QR.</p>'
 			},
 			{
-				question: 'Why does a styled QR still scan as plain text?',
-				answer: '<p>Dot and corner styles are visual only. The scanner reads module positions, not the rounded corners. The payload is the string shown under Content.</p>'
-			},
-			{
-				question: 'How much data can a QR code hold?',
-				answer: '<p>Version 40 with level L can hold up to 4,296 alphanumeric characters. In practice, keep URLs and vCards short. Longer payloads make denser codes that fail on cheap cameras or small prints.</p>'
+				question: 'Does a logo break scanning?',
+				answer: '<p>Only if it covers finder squares or too many modules. This generator raises error correction toward H when a logo is present. Keep the mark in the center, under about 30% of the code.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'QR Reader', path: '/qr/reader', description: 'Decode a QR from an image or camera' },
-			{ name: 'WiFi QR', path: '/qr/wifi', description: 'Encode a WiFi network for one-tap join' },
-			{ name: 'vCard QR', path: '/qr/vcard', description: 'Turn a contact into a scannable card' },
-			{ name: 'Barcode Generator', path: '/qr/barcode', description: 'Create CODE128, EAN-13, and UPC barcodes' }
+			{ name: 'WiFi QR', path: '/qr/wifi', description: 'Dedicated WIFI:T:S:P: builder; still a printed password' },
+			{ name: 'QR Reader', path: '/qr/reader', description: 'Decode a print to confirm the payload before you order 10k stickers' },
+			{ name: 'URL Encode', path: '/url/encode-decode', description: 'If the URL in the QR has query spaces, encode them first' }
 		],
 		tips: [
-			'Print a test at the real size and scan it with a phone before you order a large run.',
-			'Keep at least four modules of quiet space around the code.',
-			'Dark modules on a light background scan more reliably than inverted colors.',
-			'If you need a dedicated WiFi or contact code, the WiFi QR and vCard QR tools use the same styling controls.'
+			'Print a test at real size and scan with a phone before a large run.',
+			'Guest WiFi SSID + password on a QR is a feature; corporate PSK on a QR is an incident.',
+			'Short URLs make sparse codes that survive cheap cameras.'
 		],
 		commonMistakes: [
-			'Covering a finder square with a logo so phones cannot lock onto the code',
-			'Using low contrast colors (light gray on white) that fail outdoors',
-			'Printing a dense vCard QR too small on a business card',
-			'Encoding a URL without https:// and expecting every scanner to guess the scheme'
+			'Encoding a campaign URL you cannot redirect later',
+			'Printing a corporate WiFi password as a QR',
+			'Using a small JPEG on a large poster',
+			'Covering a finder square with a logo'
 		]
 	},
 

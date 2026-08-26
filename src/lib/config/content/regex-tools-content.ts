@@ -7,96 +7,86 @@ export interface RegexToolContent {
 	faqs: Array<{ question: string; answer: string }>;
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
+	commonMistakes?: string[];
 }
 
 export const regexToolsContent: Record<string, RegexToolContent> = {
 	tester: {
 		features: [
-			'Live highlighting of all matches as you type',
-			'Toggle flags: global (g), case-insensitive (i), multiline (m), dotall (s), unicode (u)',
-			'Detailed match results table with index, length, and capture groups',
-			'Pattern history saved in localStorage',
-			'Quick templates: Email, URL, Phone, Date, IP, Hex colors',
-			'Shareable URL encoding for patterns and test strings',
-			'Execution time display for performance awareness',
+			'JavaScript RegExp only (the flavor in browsers and Node)',
+			'Live match highlight with g i m s u flags',
+			'Capture groups listed with index and length',
+			'Shows a syntax error from `new RegExp`, not a PCRE diagnostic',
+			'Does not emulate Python, Go RE2, .NET, or POSIX'
 		],
 		useCases: [
-			'Validate user input formats (emails, phone numbers, postal codes)',
-			'Extract structured data from raw text',
-			'Debug complex regular expressions step-by-step',
-			'Learning and experimenting with regex syntax interactively',
-			'Generate shareable regex test cases for code reviews',
+			'Debug a pattern that will run in the browser or in Node',
+			'See why lookbehind works here but failed in an old engine',
+			'Check that /g does not hide a lastIndex surprise',
+			'Prototype a validator before pasting it into application code'
 		],
 		concept: {
-			title: 'What is a Regular Expression?',
-			content: `<p>A <strong>regular expression</strong> (regex or regexp) is a sequence of characters that defines a search pattern. It is a powerful tool for matching, searching, and validating text.</p>
-<p class="mt-2">In JavaScript (and most languages), a regex is written between forward slashes: <code>/pattern/flags</code>. The <strong>pattern</strong> describes what to match, and <strong>flags</strong> modify how matching is performed (e.g., <code>g</code> for finding all matches, <code>i</code> for case-insensitive).</p>
-<p class="mt-2">Regular expressions are used across virtually every programming language and tool — from code editors and command-line tools to database queries and web application validation.</p>`,
+			title: 'This tester is JavaScript, not PCRE',
+			content: `<p>The engine here is <code>new RegExp(pattern, flags)</code>. That is ECMAScript regular expressions: the same syntax as <code>/pattern/flags</code> in the browser and in Node. It is <strong>not</strong> PCRE, not Python <code>re</code>, not Go <code>regexp</code>, not .NET, not POSIX. If you need those flavors, use regex101 and pick the flavor. This page will not pretend to cover them.</p>
+<p>Failure modes that bite people moving from PCRE: possessive quantifiers (<code>++</code>, <code>*+</code>) are syntax errors in JS. <code>\\A</code> / <code>\\Z</code> are not start/end anchors here (<code>^</code> / <code>$</code> plus the <code>m</code> flag are). Named groups use <code>(?&lt;name&gt;...)</code> in modern JS, not Python\'s <code>(?P&lt;name&gt;...)</code>. Atomic groups <code>(?&gt;...)</code> do not exist.</p>
+<p>JavaScript-specific traps: without <code>g</code> you only get the first match. With <code>g</code>, <code>exec</code> advances <code>lastIndex</code>, so a reused regex object can skip input. <code>.</code> does not match newlines unless <code>s</code> (dotAll) is on. Catastrophic backtracking still exists in JS: nested quantifiers like <code>(a+)+b</code> on a long string of <code>a</code>s can freeze the tab.</p>`
 		},
 		examples: [
 			{
-				label: 'Email Address',
-				code: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}',
-				isValid: true,
+				label: 'JS named group (valid here)',
+				code: '(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})',
+				isValid: true
 			},
 			{
-				label: 'US Phone Number',
-				code: '\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}',
-				isValid: true,
+				label: 'Python named group (invalid in JS)',
+				code: '(?P<year>\\d{4})',
+				isValid: false
 			},
 			{
-				label: 'URL (http/https)',
-				code: 'https?://[\\w.-]+(?:/[\\w./-]*)?',
-				isValid: true,
+				label: 'PCRE possessive + (invalid in JS)',
+				code: '\\d++',
+				isValid: false
 			},
-			{ label: 'IPv4 Address', code: '\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}', isValid: true },
+			{
+				label: 'Lookbehind (JS; not in older IE, fine in modern engines)',
+				code: '(?<=@)\\w+',
+				isValid: true
+			}
 		],
 		faqs: [
 			{
-				question: 'What do the flags g, i, m, s, u mean?',
-				answer:
-					'<p><code>g</code> (global) — find all matches, not just the first. <code>i</code> (case-insensitive) — ignore uppercase/lowercase. <code>m</code> (multiline) — <code>^</code> and <code>$</code> match start/end of each line. <code>s</code> (dotall) — <code>.</code> matches newline characters too. <code>u</code> (unicode) — enables full Unicode support.</p>',
+				question: 'Can I test a Python or PHP (PCRE) pattern here?',
+				answer: '<p>Only if the syntax happens to overlap. Possessive quantifiers, <code>\\A</code>, <code>(?P&lt;name&gt;)</code>, and many PCRE verbs will throw in JavaScript. For those flavors, regex101 is the right tool. This page exists to show what <em>this</em> engine will do.</p>'
 			},
 			{
-				question: 'Why does my regex match nothing?',
-				answer:
-					"<p>Common causes: <ul class='list-disc pl-5 mt-1 space-y-1'><li>A missing <code>g</code> flag when expecting multiple matches</li><li>Unescaped special characters like <code>.</code>, <code>*</code>, <code>(</code>, <code>)</code> — use a backslash to escape them</li><li>Incorrect anchors — <code>^</code> anchors to start, <code>$</code> to end of string (or line with <code>m</code>)</li></ul></p>",
+				question: 'Why does my PCRE pattern throw a syntax error?',
+				answer: '<p>JS has no possessive <code>++</code>, no atomic groups, and a smaller set of lookaround and backreference features depending on the engine version. Read the error from <code>new RegExp</code>. Translate the construct to JS or keep the pattern in the original language.</p>'
 			},
 			{
-				question: 'How do I match a literal dot or parenthesis?',
-				answer:
-					'<p>Escape it with a backslash: <code>\\.</code> matches a literal dot, <code>\\(</code> matches a literal opening parenthesis. Without the backslash, <code>.</code> is a wildcard that matches any character except newline.</p>',
+				question: 'What do the flags g, i, m, s, u mean in JavaScript?',
+				answer: '<p><code>g</code> all matches (and lastIndex). <code>i</code> case-insensitive. <code>m</code> makes <code>^</code> and <code>$</code> match line edges. <code>s</code> lets <code>.</code> match newline. <code>u</code> Unicode mode (needed for some property escapes). There is no PCRE <code>x</code> (extended / ignore whitespace) flag here.</p>'
 			},
 			{
-				question: 'What is the difference between + and *?',
-				answer:
-					'<p><code>*</code> means "zero or more" — the preceding element can appear any number of times, including zero. <code>+</code> means "one or more" — the preceding element must appear at least once. Use <code>?</code> for "zero or one" (optional).</p>',
-			},
-			{
-				question: 'Are regex patterns case-sensitive by default?',
-				answer:
-					'<p>Yes. By default, <code>/hello/</code> will not match "Hello" or "HELLO". Add the <code>i</code> flag — <code>/hello/i</code> — to make the match case-insensitive.</p>',
-			},
-			{
-				question: 'Can I share a regex test case with someone?',
-				answer:
-					'<p>Yes! Use the <strong>Share</strong> button to copy a URL that encodes your pattern, flags, and test string. Anyone who opens the link will see the same pattern and input pre-loaded.</p>',
-			},
+				question: 'Why did a second exec() skip my string?',
+				answer: '<p>A regex with <code>g</code> stores <code>lastIndex</code> on the object. In application code, create a new RegExp per test or reset <code>lastIndex = 0</code>. This tester builds a fresh expression each run so the UI does not carry lastIndex across keystrokes.</p>'
+			}
 		],
 		relatedTools: [
-			{ name: 'Regex Explainer', path: '/regex/explainer', description: 'Understand any regex token by token' },
-			{ name: 'Regex Replacer', path: '/regex/replacer', description: 'Find and replace with regex' },
-			{ name: 'Regex Matcher', path: '/regex/matcher', description: 'Extract capture groups from text' },
-			{ name: 'Regex Cheatsheet', path: '/regex/cheatsheet', description: 'Quick reference for all syntax' },
+			{ name: 'Regex Explainer', path: '/regex/explainer', description: 'Token breakdown of the same JS pattern' },
+			{ name: 'Regex Replacer', path: '/regex/replacer', description: 'JS String.replace with $1, $2 (not PCRE replacements)' },
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'When the test fixture is a JSON string that itself needs escaping' }
 		],
 		tips: [
-			'Start simple: build your pattern incrementally, adding one piece at a time.',
-			'Use <code>\\b</code> (word boundary) to avoid matching substrings inside words — e.g., <code>\\bcat\\b</code> won\'t match "catch".',
-			'Test edge cases: empty strings, very long inputs, special characters, and Unicode characters.',
-			'Prefer specific character classes over the wildcard <code>.</code> to avoid unexpected matches.',
-			'For performance-sensitive code, avoid catastrophic backtracking by using atomic groups or possessive quantifiers.',
-			'Use the <code>g</code> flag with <code>exec()</code> carefully — the regex\'s <code>lastIndex</code> advances with each call.',
+			'If the pattern came from a Java, PHP, or Python codebase, assume it is PCRE-ish until you prove each construct exists in JS.',
+			'Avoid (a+)+b and similar nested greedy quantifiers on untrusted input.',
+			'Escape literal dots: host\\.example\\.com, not host.example.com.'
 		],
+		commonMistakes: [
+			'Pasting a PCRE pattern with ++ or (?P<name>) and expecting it to run',
+			'Assuming ^ and $ are \\A and \\Z',
+			'Forgetting the g flag and thinking there is only one match',
+			'Reusing a /g regex in a loop without resetting lastIndex'
+		]
 	},
 
 	explainer: {

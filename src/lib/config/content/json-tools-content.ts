@@ -22,110 +22,102 @@ interface ToolContent {
 		path: string;
 		description: string;
 	}>;
+	tips?: string[];
+	commonMistakes?: string[];
 }
 
 export const jsonToolsContent: Record<string, ToolContent> = {
 	formatter: {
 		features: [
-			'Instant JSON formatting with syntax validation',
-			'Customizable indentation (2, 4, or 8 spaces)',
-			'One-click minification for production',
-			'Real-time error detection with line numbers',
-			'Copy formatted output instantly',
-			'Swap input/output for easy re-formatting'
+			'First syntax error reported with a line and column, not a generic "Unexpected token"',
+			'Pretty-print or minify after the document actually parses',
+			'Indent of 2, 4, or 8 spaces so diffs stay consistent with the repo',
+			'Refuses JSONC: comments and trailing commas are errors, not silently stripped',
+			'Shows what JSON.parse did with duplicate keys (last write wins)',
+			'Flags integers past Number.MAX_SAFE_INTEGER that JS will round'
 		],
 		useCases: [
-			'Format minified API responses for debugging',
-			'Beautify compressed JSON config files',
-			'Prepare JSON for code reviews',
-			'Validate JSON syntax before deployment',
-			'Reduce file size with minification'
+			'Find the exact line a minified API body failed to parse',
+			'See why a VS Code settings.json (JSONC) is not valid JSON',
+			'Catch a duplicate key that overwrote a config value',
+			'Check whether a 64-bit id survived JSON.parse as a Number',
+			'Pretty-print a payload before a code review without changing values'
 		],
 		concept: {
-			title: 'Understanding JSON Formatting',
-			content: `
-				<p><strong>JSON (JavaScript Object Notation)</strong> is a lightweight data format that's human-readable and machine-parseable. JSON formatting adds whitespace and indentation to make the structure visible.</p>
-				
-				<p><strong>Why format JSON?</strong></p>
-				<ul>
-					<li><strong>Debugging</strong> - See the structure of API responses clearly</li>
-					<li><strong>Readability</strong> - Understand nested objects and arrays</li>
-					<li><strong>Validation</strong> - Spot syntax errors like missing commas or brackets</li>
-					<li><strong>Development</strong> - Work with configuration files more easily</li>
-				</ul>
-				
-				<p><strong>Minified vs Formatted:</strong> Minified JSON removes whitespace for smaller file size (production), while formatted JSON adds indentation for readability (development).</p>
-			`
+			title: 'What JSON.parse actually does to your paste',
+			content: `<p>Pretty-printing JSON is <code>JSON.parse</code> then <code>JSON.stringify</code> with an indent. If parse fails, this page stops and shows the <strong>first syntax error with a line number</strong>. It will not invent a missing comma or guess a close brace.</p>
+<p><strong>JSONC is not JSON.</strong> <code>// comments</code>, <code>/* blocks */</code>, and trailing commas are legal in VS Code <code>settings.json</code>, tsconfig, and some linters. RFC 8259 forbids all three. Paste a JSONC file here and you should get a parse error at the comment or the extra comma, not a quietly stripped document.</p>
+<p><strong>Duplicate keys:</strong> the spec says names should be unique. <code>JSON.parse</code> does not throw. For <code>{"a":1,"a":2}</code> the result is <code>{"a":2}</code>. The first value is gone. Formatters that round-trip through parse will drop it. If you need both, the document is already wrong.</p>
+<p><strong>Big numbers:</strong> JavaScript Numbers are IEEE-754 doubles. Integers above <code>Number.MAX_SAFE_INTEGER</code> (9007199254740991) lose low bits. A 64-bit snowflake id like <code>12345678901234567890</code> will not survive parse-then-stringify. Keep those ids as strings, or use a parser with BigInt.</p>`
 		},
 		examples: [
 			{
-				label: 'Valid JSON',
+				label: 'Valid object (will pretty-print)',
+				code: '{"id":"usr_01","ok":true,"n":42}',
+				isValid: true
+			},
+			{
+				label: 'Trailing comma (JSONC, not JSON)',
 				code: `{
-  "name": "John Doe",
-  "age": 30,
-  "active": true
+  "items": [1, 2, 3,],
+}`,
+				isValid: false
+			},
+			{
+				label: 'JSONC comment (will not parse)',
+				code: `{
+  // feature flag
+  "enabled": true
+}`,
+				isValid: false
+			},
+			{
+				label: 'Duplicate key: last write wins',
+				code: `{
+  "port": 3000,
+  "port": 8080
 }`,
 				isValid: true
 			},
 			{
-				label: 'Missing comma',
+				label: 'Unsafe integer (precision lost in JS)',
 				code: `{
-  "name": "John"
-  "age": 30
+  "snowflake": 12345678901234567890
 }`,
-				isValid: false
-			},
-			{
-				label: 'Trailing comma',
-				code: `{
-  "items": [1, 2, 3,]
-}`,
-				isValid: false
-			},
-			{
-				label: 'Single quotes',
-				code: `{'name': 'John'}`,
-				isValid: false
+				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'What is the difference between formatting and validation?',
-				answer: '<p>Formatting adds indentation for readability, while validation checks syntax correctness. Our tool does both simultaneously.</p>'
+				question: 'Why do I only see the first error, not all of them?',
+				answer: '<p><code>JSON.parse</code> stops at the first illegal token. A missing comma on line 12 can make the rest of the file look like garbage. Fix that line, format again, then the next real error (if any) appears. This is the same behavior as Node and browsers, not a linter pass.</p>'
 			},
 			{
-				question: 'Should I use 2 or 4 spaces for indentation?',
-				answer: '<p>Use <strong>2 spaces</strong> for JavaScript/TypeScript projects and <strong>4 spaces</strong> for Python/Java. Consistency within your project matters most.</p>'
+				question: 'My tsconfig.json works in the editor. Why does it fail here?',
+				answer: '<p>TypeScript config is JSONC: comments and trailing commas are allowed. This formatter speaks RFC JSON. Strip comments, remove the last comma in each list, or keep the file as JSONC in the editor. Do not ship JSONC to an API that calls <code>JSON.parse</code>.</p>'
 			},
 			{
-				question: 'Does minifying affect functionality?',
-				answer: '<p>No, minified and formatted JSON are functionally identical. Minifying only removes whitespace to reduce file size.</p>'
+				question: 'What happens to duplicate keys?',
+				answer: '<p>Parse succeeds. The last occurrence wins. <code>{"role":"user","role":"admin"}</code> becomes <code>{"role":"admin"}</code>. Pretty-printing will not restore the first value. If a merge tool produced two keys, treat it as a data bug, not a formatting issue.</p>'
 			},
 			{
-				question: 'Can JSON have comments?',
-				answer: '<p>Standard JSON does not support comments. Some parsers accept JSONC (JSON with Comments), but it\'s not part of the official spec.</p>'
+				question: 'Why did my 19-digit id change after format?',
+				answer: '<p>It went through JavaScript <code>Number</code>. Anything above <code>Number.MAX_SAFE_INTEGER</code> (2<sup>53</sup>−1) is rounded. Quote the id as a string, or use a BigInt-aware parser. <code>JSON.stringify</code> cannot emit a JSON number that JS already rounded.</p>'
 			},
 			{
-				question: 'Why does my JSON show errors?',
-				answer: '<p>Common causes: missing commas, trailing commas, single quotes instead of double quotes, or unescaped special characters. Check the line number in the error message.</p>'
-			},
-			{
-				question: 'Is my data safe?',
-				answer: '<p>Yes! Everything runs in your browser - no data is sent to servers. Completely safe for sensitive information.</p>'
-			},
-			{
-				question: 'How do I fix "Unexpected token" errors?',
-				answer: '<p>Check for syntax issues at the error line: missing commas, extra commas, incorrect quotes, or NaN/undefined values.</p>'
-			},
-			{
-				question: 'Can I format large JSON files?',
-				answer: '<p>Yes, though very large files (10MB+) may take a moment. For huge files, consider a desktop JSON editor.</p>'
+				question: 'Does minifying change values?',
+				answer: '<p>Only whitespace and key order as <code>JSON.stringify</code> emits them. Duplicate keys collapse. Unsafe integers stay rounded. <code>NaN</code>, <code>Infinity</code>, and <code>undefined</code> are not JSON and will throw or become <code>null</code> if you built the value in JS instead of parsing text.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'JSON Validator', path: '/json/validator', description: 'Validate JSON syntax before formatting' },
-			{ name: 'JSON Visualizer', path: '/json/visualizer', description: 'View JSON structure in tree format' },
-			{ name: 'Base64 Encode', path: '/base64/encode-decode', description: 'Encode JSON for safe transmission' }
+			{ name: 'JSON Validator', path: '/json/validator', description: 'Same parse errors without rewriting whitespace' },
+			{ name: 'JWT Decoder', path: '/jwt/decoder', description: 'JWT payloads are JSON objects with the same parse rules' },
+			{ name: 'YAML to JSON', path: '/yaml/to-json', description: 'YAML is not JSON: Norway NO and comments fail differently' }
+		],
+		commonMistakes: [
+			'Pasting tsconfig JSONC and expecting comments to parse',
+			'Trusting a duplicate key after pretty-print (last write already won)',
+			'Storing 64-bit ids as JSON numbers in JavaScript'
 		]
 	},
 	

@@ -27,7 +27,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: '{ }',
 		description: 'Format, validate, compare, and convert JSON in this browser. Nothing is uploaded.',
 		items: [
-			{ name: 'JSON Formatter', href: '/json/formatter', description: 'Pretty-print or minify JSON and surface the first syntax error with a line number.', icon: '{ }' },
+			{ name: 'JSON Formatter', href: '/json/formatter', description: 'Pretty-print JSON and jump to the first syntax error. JSONC comments, trailing commas, duplicate keys, and integers past MAX_SAFE_INTEGER are called out.', icon: '{ }', keywords: ['json formatter', 'json parse error line', 'jsonc trailing comma', 'duplicate json keys', 'max safe integer json'] },
 			{ name: 'JSON Validator', href: '/json/validator', description: 'Check whether a document is valid JSON and jump to the first parse error.', icon: '✓' },
 			{ name: 'JSON Diff', href: '/json/diff', description: 'Compare two JSON values structurally. Key order and whitespace do not count as changes.', icon: '≠' },
 			{ name: 'JSON → Table', href: '/json/table', description: 'Turn a JSON array of objects into a sortable table you can copy as CSV or Markdown.', icon: '📊' },
@@ -45,7 +45,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'PDF Viewer', href: '/pdf/viewer', description: 'View PDF files right in your browser with page navigation and zoom — nothing is uploaded.', icon: '👁️' },
 			{ name: 'PDF Splitter', href: '/pdf/split', description: 'Split a PDF or pull out specific pages by range, then download the result.', icon: '✂️' },
 			{ name: 'PDF Merger', href: '/pdf/merge', description: 'Combine several PDFs into one document and drag pages to reorder them before saving.', icon: '🔗' },
-			{ name: 'PDF Compressor', href: '/pdf/compress', description: 'Reduce PDF file size while keeping quality, so documents are easier to email or host.', icon: '📦' },
+			{ name: 'PDF Compressor', href: '/pdf/compress', description: 'Compress a PDF by downsampling images in this tab. No Adobe or Smallpdf upload: the file never leaves the device.', icon: '📦', keywords: ['compress pdf', 'pdf compressor no upload', 'shrink pdf without uploading', 'smallpdf alternative', 'compress pdf locally'] },
 			{ name: 'PDF Watermark', href: '/pdf/watermark', description: 'Add a text or image watermark to PDF pages, with control over opacity, position, and rotation.', icon: '💧' },
 			{ name: 'PDF Page Numbers', href: '/pdf/page-numbers', description: 'Add page numbers to a PDF with your choice of position, font size, and starting number.', icon: '🔢' },
 			{ name: 'PDF Redact', href: '/pdf/redact', description: 'Permanently remove sensitive text and images from a PDF by drawing redaction boxes.', icon: '🖍️' },
@@ -59,7 +59,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: '⚡',
 		description: 'Encode and decode Base64 for text, files, and images. Encoding is not encryption.',
 		items: [
-			{ name: 'Encode / Decode', href: '/base64/encode-decode', description: 'Base64 encoder and decoder online. Encode text to Base64 or decode Base64 strings instantly in your browser with automatic input detection.', icon: '🔄' },
+			{ name: 'Encode / Decode', href: '/base64/encode-decode', description: 'Base64 encode and decode. Encoding is not encryption. Covers URL-safe alphabet and the btoa Unicode / UTF-8 failure.', icon: '🔄', keywords: ['base64 encode', 'base64 decode', 'base64 not encryption', 'url-safe base64', 'btoa unicode'] },
 			{ name: 'Image to Base64', href: '/base64/image-encoder', description: 'Image to Base64 converter online. Convert PNG, JPG, WebP, and SVG images to Base64 data URIs for HTML/CSS embedding. Free image encoder tool.', icon: '🖼️' },
 			{ name: 'File to Base64', href: '/base64/file-encoder', description: 'Encode files to Base64 online. Convert any file to Base64 content for embedding in HTML, JSON, or XML. Free file to Base64 converter.', icon: '📁' },
 			{ name: 'Image Preview', href: '/base64/image-preview', description: 'Base64 image viewer online. Paste Base64 image data and preview instantly. Supports PNG, JPG, WebP, GIF—decode and view Base64 images free.', icon: '🖼️' },
@@ -74,7 +74,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: '🔗',
 		description: 'Encode, decode, parse, build, and normalize URLs. Encoding is per component, not the whole string.',
 		items: [
-			{ name: 'Encode / Decode', href: '/url/encode-decode', description: 'URL encoder and decoder online. Encode special characters or decode percent-encoded URLs instantly. Auto-detects input type—free browser tool.', icon: '🔐' },
+			{ name: 'Encode / Decode', href: '/url/encode-decode', description: 'Percent-encode and decode. encodeURI vs encodeURIComponent, and when + is a space vs %20.', icon: '🔐', keywords: ['url encode', 'encodeuricomponent', 'encodeuri vs encodeuricomponent', 'percent encoding', 'plus vs %20'] },
 			{ name: 'Query Parser', href: '/url/query-parser', description: 'URL query string parser online. Parse query parameters into a key-value table instantly. Export as JSON or CSV—free URL parameter extractor.', icon: '📋' },
 			{ name: 'URL Builder', href: '/url/builder', description: 'URL builder online. Build URLs with query parameters visually. Paste existing URLs to parse and edit them—generate URLs free in your browser.', icon: '🔧' },
 			{ name: 'Validator', href: '/url/validator', description: 'URL validator online. Check if a URL is valid and see protocol, domain, port, and path breakdown. Validate URLs instantly—free browser tool.', icon: '✓' },
@@ -106,7 +106,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: '▦',
 		description: 'Create and read QR codes and 1D barcodes in the browser. Treat a WiFi QR like the password it encodes.',
 		items: [
-			{ name: 'QR Generator', href: '/qr/generator', description: 'QR code generator online. Create custom QR codes with logos, colors, and dot styles. Download PNG or SVG — free, no signup, runs in your browser.', icon: '▦' },
+			{ name: 'QR Generator', href: '/qr/generator', description: 'Create a static QR that never expires. A WiFi QR is the password in the payload. Download SVG for print.', icon: '▦', keywords: ['qr code generator', 'static qr', 'wifi qr password', 'qr svg print', 'qr code'] },
 			{ name: 'QR Reader', href: '/qr/reader', description: 'QR code reader online. Decode a QR code from an image or your camera. See the payload instantly — nothing is uploaded.', icon: '📷' },
 			{ name: 'WiFi QR', href: '/qr/wifi', description: 'WiFi QR code generator. Encode your network name, password, and security type so phones can join with a scan.', icon: '📶' },
 			{ name: 'vCard QR', href: '/qr/vcard', description: 'vCard QR code generator. Turn a name, phone, email, and company into a contact QR that phones can save.', icon: '👤' },
@@ -208,14 +208,13 @@ export const toolCategories: ToolCategory[] = [
 				name: 'XML to JSON Converter',
 				href: '/xml/to-json',
 				description:
-					'Convert XML to JSON online. Paste XML and get JSON instantly. Free XML to JSON converter in your browser, no signup.',
+					'Convert XML to JSON using @attributes and #text. Repeated sibling tags become arrays; a single sibling stays an object.',
 				icon: '→',
 				keywords: [
 					'xml to json',
-					'convert xml to json',
-					'xml to json converter',
-					'xml json converter',
-					'xml to json online'
+					'xml attributes to json',
+					'xml @id #text',
+					'repeating xml elements json array'
 				]
 			},
 			{
@@ -289,14 +288,14 @@ export const toolCategories: ToolCategory[] = [
 				name: 'CSV to JSON Converter',
 				href: '/csv/to-json',
 				description:
-					'Convert CSV to JSON online. Turn Excel or CSV exports into JSON. Free CSV to JSON converter in your browser.',
+					'Convert CSV to JSON with RFC 4180 quotes, EU Excel semicolons, leading zeros as strings, and an array (not NDJSON).',
 				icon: '→',
 				keywords: [
 					'csv to json',
-					'convert csv to json',
-					'csv to json converter',
-					'excel to json',
-					'csv json converter'
+					'rfc 4180 csv',
+					'excel semicolon csv',
+					'csv leading zeros',
+					'ndjson vs json array'
 				]
 			},
 			{
@@ -407,18 +406,14 @@ export const toolCategories: ToolCategory[] = [
 				name: 'SQL Formatter',
 				href: '/sql/formatter',
 				description:
-					'SQL formatter and beautifier online. Pretty print PostgreSQL, MySQL, SQLite, SQL Server, BigQuery, or Snowflake SQL. Free SQL pretty print in your browser.',
+					'Pretty-print PostgreSQL, MySQL, SQLite, SQL Server, BigQuery, or Snowflake. Dialect is required; generic SQL will reject $$ or backticks.',
 				icon: '✨',
 				keywords: [
 					'sql formatter',
-					'sql beautifier',
-					'pretty print sql',
-					'format sql online',
-					'sql pretty print',
-					'beautify sql',
-					'sql formatter online',
 					'postgresql formatter',
-					'mysql formatter'
+					'mysql formatter',
+					'sql dialect formatter',
+					'dollar quote sql'
 				]
 			},
 			{
@@ -560,15 +555,14 @@ export const toolCategories: ToolCategory[] = [
 				name: 'Unix Timestamp Converter',
 				href: '/date/timestamp',
 				description:
-					'Unix timestamp converter online. Convert epoch time to date, or date to Unix seconds and milliseconds. Free timestamp to date converter.',
+					'Convert Unix seconds (10 digits) vs milliseconds (13 digits). Y2038 notes, plus Postgres, MySQL, and date(1) snippets.',
 				icon: '⏱️',
 				keywords: [
-					'unix timestamp converter',
-					'epoch converter',
-					'timestamp to date',
-					'unix time converter',
-					'epoch to date',
-					'convert timestamp'
+					'unix timestamp',
+					'10 digit vs 13 digit timestamp',
+					'y2038',
+					'to_timestamp postgres',
+					'from_unixtime'
 				]
 			},
 			{
@@ -713,7 +707,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: '#️⃣',
 		description: 'Compute MD5, SHA-1, SHA-256, SHA-512, CRC32, and HMAC checksums, or check a digest against published test vectors. Hashes are not encryption.',
 		items: [
-			{ name: 'Hash Generator', href: '/hash/generator', description: 'Generate MD5, SHA-1, SHA-256, SHA-512, and CRC32 hashes from text or files, all in one place.', icon: '🔐' },
+			{ name: 'Hash Generator', href: '/hash/generator', description: 'MD5 and SHA-1 are collision-broken. SHA-256 for file checksums. Do not hash passwords here.', icon: '🔐', keywords: ['sha256 checksum', 'md5 broken', 'sha1 broken', 'hash not for passwords', 'file hash'] },
 			{ name: 'MD5 Checksum', href: '/hash/md5', description: 'Create an MD5 checksum from text or a file. MD5 is fine for accidental corruption checks, not for passwords.', icon: '🔒' },
 			{ name: 'SHA-256 Hash', href: '/hash/sha256', description: 'Generate secure 256-bit SHA-256 hashes from text or files.', icon: '🔒' },
 			{ name: 'SHA-512 Hash', href: '/hash/sha512', description: 'Generate 512-bit SHA-512 hashes when you need maximum strength.', icon: '🔒' },
@@ -755,7 +749,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: '.*',
 		description: 'Test, extract, replace, and explain JavaScript regular expressions. Flavor differences vs PCRE are called out.',
 		items: [
-			{ name: 'Regex Tester', href: '/regex/tester', description: 'Test regular expressions with live highlighting, flag toggles (g i m s u), and a match count.', icon: '🧪' },
+			{ name: 'Regex Tester', href: '/regex/tester', description: 'Test JavaScript regular expressions only. Not PCRE, Python, or Go. regex101 owns the other flavors.', icon: '🧪', keywords: ['javascript regex tester', 'js regexp', 'pcre vs javascript regex', 'regex lastIndex'] },
 			{ name: 'Regex Matcher', href: '/regex/matcher', description: 'Regex match extractor online. Extract all matches and capture groups from text. Export matches as JSON, CSV, or plain list—free regex extraction tool.', icon: '🎯' },
 			{ name: 'Regex Replacer', href: '/regex/replacer', description: 'Find and replace with regular expressions, with live preview and capture-group support ($1, $2).', icon: '🔄' },
 			{ name: 'Regex Explainer', href: '/regex/explainer', description: 'Regex explainer online. Break down regex patterns into tokens with plain English explanations. Understand any regex visually—free regex breakdown tool.', icon: '📖' },
@@ -767,7 +761,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: '🔐',
 		description: 'Decode JWT header and payload, inspect claims and expiry, mint unsigned tokens for UI tests. Decoding is not verification.',
 		items: [
-			{ name: 'JWT Decoder', href: '/jwt/decoder', description: 'Decode a JWT header and payload to view the algorithm, claims, and expiry as pretty JSON — decoding only, no signature verification.', icon: '🔓' },
+			{ name: 'JWT Decoder', href: '/jwt/decoder', description: 'Decode a JWT header and payload. Decoding is not verification. alg=none is unsigned. Use fake fixture tokens, not production ones.', icon: '🔓', keywords: ['jwt decoder', 'jwt decode not verify', 'alg none jwt', 'jwt payload'] },
 			{ name: 'Expiration Checker', href: '/jwt/expiration', description: 'JWT expiration checker online. Check if your JWT is expired, see time remaining, and view exp/iat/nbf timestamps in human-readable format with timezone support.', icon: '⏱️' },
 			{ name: 'Claims Viewer', href: '/jwt/claims', description: 'JWT claims viewer online. View and understand all JWT claims with descriptions. Highlights standard claims (iss, sub, aud, exp) and flags missing recommended claims.', icon: '📋' },
 			{ name: 'JWT Generator', href: '/jwt/generator', description: 'JWT generator online for testing. Create unsigned or demo JWT tokens for UI testing. NOT for production—generates test tokens with custom header and payload.', icon: '⚡' },
@@ -779,7 +773,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: '🆔',
 		description: 'Generate UUID v4/v7, NanoID, and ULID, and validate UUID layout.',
 		items: [
-			{ name: 'UUID Generator', href: '/id/uuid-generator', description: 'Generate UUID v4 (random) or v7 (time-ordered) in bulk, then copy or export as JSON.', icon: '🔑' },
+			{ name: 'UUID Generator', href: '/id/uuid-generator', description: 'Generate UUID v4 (random) or v7 (time-ordered) per RFC 9562. v7 is the better SQL primary key; v4 does not leak created-at.', icon: '🔑', keywords: ['uuid v7', 'uuid v4 vs v7', 'rfc 9562', 'uuid primary key'] },
 			{ name: 'UUID Validator', href: '/id/uuid-validator', description: 'Check whether a UUID is valid, detect its version (v1–v7), and see why one fails.', icon: '✓' },
 			{ name: 'NanoID Generator', href: '/id/nanoid-generator', description: 'Generate compact, URL-safe NanoIDs with a custom length and alphabet.', icon: '⚡' },
 			{ name: 'ULID Generator', href: '/id/ulid-generator', description: 'Generate sortable ULIDs with a timestamp component, and see how sorting works.', icon: '📊' }
@@ -791,7 +785,7 @@ export const toolCategories: ToolCategory[] = [
 		description: 'Build, explain, and preview cron expressions, including timezone and DST caveats.',
 		items: [
 			{ name: 'Cron Generator', href: '/cron/generator', description: 'Build 5-field or Quartz cron expressions with a visual builder and presets.', icon: '🛠️' },
-			{ name: 'Cron Explainer', href: '/cron/explainer', description: 'Cron expression explainer online. Convert cron to plain English with field breakdown. Understand any cron schedule—explain cron expressions free.', icon: '📖' },
+			{ name: 'Cron Explainer', href: '/cron/explainer', description: 'Explain crontab: Vixie DOM+DOW is OR, Quartz is 6-field with seconds first, and DST can skip or double a fire.', icon: '📖', keywords: ['cron explainer', 'vixie cron or', 'quartz cron 6 field', 'cron dst'] },
 			{ name: 'Next Run Calculator', href: '/cron/next-run', description: 'Cron next run calculator online. Show next 10 scheduled runs with timezone support. DST-safe cron schedule preview—free cron calculator.', icon: '📅' },
 			{ name: 'Cron Validator', href: '/cron/validator', description: 'Validate cron syntax, check field ranges, and get helpful error messages.', icon: '✓' },
 			{ name: 'Cron Presets', href: '/cron/presets', description: 'Cron expression examples and presets. Copy-paste ready cron expressions for common schedules. Every minute, daily, weekly, monthly—cron cheat sheet.', icon: '📋' },
@@ -805,7 +799,7 @@ export const toolCategories: ToolCategory[] = [
 		items: [
 			{ name: 'YAML Validator', href: '/yaml/validator', description: 'Validate YAML syntax with clear line-and-column error messages.', icon: '✓' },
 			{ name: 'YAML Formatter', href: '/yaml/formatter', description: 'Format and beautify YAML with the indentation you prefer.', icon: '✨' },
-			{ name: 'YAML to JSON', href: '/yaml/to-json', description: 'Convert YAML into clean, readable JSON and copy or download the result.', icon: '→' },
+			{ name: 'YAML to JSON', href: '/yaml/to-json', description: 'Convert YAML to JSON. Unquoted NO becomes false, comments are dropped, and anchors are inlined.', icon: '→', keywords: ['yaml to json', 'norway problem yaml', 'yaml no boolean', 'yaml anchors json'] },
 			{ name: 'JSON to YAML', href: '/yaml/from-json', description: 'Convert JSON into tidy YAML, with control over indentation.', icon: '←' },
 			{ name: 'YAML Diff', href: '/yaml/diff', description: 'Compare two YAML files side by side with structural change highlighting.', icon: '⇄' },
 			{ name: 'YAML Linter', href: '/yaml/linter', description: 'Catch duplicate keys, indentation problems, and trailing spaces in YAML.', icon: '🔍' },

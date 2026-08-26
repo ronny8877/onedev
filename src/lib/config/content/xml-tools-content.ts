@@ -6,6 +6,7 @@ export interface XmlToolContent {
 	faqs: Array<{ question: string; answer: string }>;
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
+	commonMistakes?: string[];
 }
 
 export const xmlToolsContent: Record<string, XmlToolContent> = {
@@ -173,56 +174,62 @@ export const xmlToolsContent: Record<string, XmlToolContent> = {
 	},
 	'to-json': {
 		features: [
-			'XML to JSON converter that runs in this tab',
-			'Convert XML to JSON instantly, no signup',
-			'Attributes become @name keys, a common xml2js style',
-			'Repeated sibling tags become JSON arrays',
-			'Pretty-printed JSON you can copy or paste into a JSON formatter',
-			'Comments are dropped on purpose. JSON has no comment node'
+			'Attributes become @name keys (xml2js-style), not flattened onto the parent',
+			'Element text lives in #text when the element also has attributes or children',
+			'Repeated sibling tags become JSON arrays; a single sibling stays an object',
+			'Comments are dropped; JSON has no comment node'
 		],
 		useCases: [
-			'Convert XML to JSON for a frontend mock or Postman test',
-			'Turn an RSS or SOAP-style payload into JSON',
-			'Move XML config into a JSON-first pipeline',
-			'Inspect a Maven POM as nested objects',
-			'See how XML attributes look after conversion'
+			'See why <book id="1">Hello</book> is {"@id":"1","#text":"Hello"}',
+			'Predict whether item is an object or an array after one vs two siblings',
+			'Convert a SOAP-like tree without pretending namespaces round-trip',
+			'Inspect RSS item lists as arrays of objects'
 		],
 		concept: {
-			title: 'How to convert XML to JSON online',
-			content: `<p>People search “XML to JSON converter” when they have an XML file and need JSON for JavaScript, an API, or a database. XML has attributes, mixed content, and namespaces. JSON has objects and arrays. Any converter picks a convention.</p>
-<p class="mt-2">Here, attributes are prefixed with <code>@</code>, repeated tags become arrays, and a lone text child becomes a string or number. Paste XML, copy JSON. Nothing is uploaded. This is enough for most config and list documents. It is not a lossless round-trip of every XML detail.</p>`
+			title: '@attributes, #text, and repeating siblings',
+			content: `<p>XML has attributes, mixed content, and repeating child names. JSON has objects and arrays. This converter uses a common convention: attributes are keys prefixed with <code>@</code>, and character data is <code>#text</code> when it would otherwise collide with children or attributes.</p>
+<p><code>&lt;book id="1"&gt;Dune&lt;/book&gt;</code> becomes <code>{"book":{"@id":"1","#text":"Dune"}}</code> (wrapped in the root). If you expected <code>{"book":"Dune","id":"1"}</code>, you will write the wrong client. Bare text with no attributes can stay a string.</p>
+<p><strong>Repeating siblings:</strong> one <code>&lt;item&gt;</code> is an object. Two <code>&lt;item&gt;</code> siblings become an array. Code that always does <code>item.name</code> will break on the second sample. If a schema sometimes has one item, normalize to an array in your app after convert.</p>
+<p>Namespaces stay in the tag names as pasted (prefix included). Mixed content (text plus child elements) is lossy. Comments vanish. This is not a lossless Infoset dump.</p>`
 		},
 		examples: [
-			{ label: 'Element with attribute', code: '<book id="1"><title>Go</title></book>', isValid: true },
-			{ label: 'Repeating siblings become an array', code: '<list><i>a</i><i>b</i></list>', isValid: true },
+			{ label: 'Attribute + text', code: '<book id="1">Dune</book>', isValid: true },
+			{ label: 'One sibling stays an object', code: '<list><item>a</item></list>', isValid: true },
+			{ label: 'Two siblings become an array', code: '<list><item>a</item><item>b</item></list>', isValid: true },
 			{ label: 'Not XML', code: '{"a":1}', isValid: false }
 		],
 		faqs: [
 			{
-				question: 'How do I convert XML to JSON?',
-				answer: '<p>Paste XML into this XML to JSON converter and copy the JSON on the right. Use JSON to XML Converter if you need the other direction.</p>'
+				question: 'Why is there an @ on my keys?',
+				answer: '<p>Those are XML attributes. <code>@id</code> was <code>id="..."</code> on the tag. Element children keep unprefixed names. This is the xml2js default-ish convention so attributes and children can coexist.</p>'
 			},
 			{
-				question: 'Why is my single child sometimes an object and sometimes an array?',
-				answer: '<p>One sibling stays a single value. Two or more of the same tag become an array. If a schema sometimes has one item, normalize in code after convert.</p>'
+				question: 'When do I get #text?',
+				answer: '<p>When an element has both attributes (or child elements) and character data. A leaf with only text can be a JSON string. Do not assume every element is a string.</p>'
 			},
 			{
-				question: 'Where did comments go?',
-				answer: '<p>JSON cannot hold them. Use the formatter if you need comments kept.</p>'
+				question: 'Why is item sometimes an object and sometimes an array?',
+				answer: '<p>One sibling stays a single value. Two or more of the same tag become an array. If production XML can have one or many, always coerce to an array in code.</p>'
 			},
 			{
 				question: 'Can I go back to XML?',
-				answer: '<p>Yes, JSON to XML understands <code>@</code> attributes and arrays of the same key. Mixed content and original namespace prefixes may not round-trip perfectly.</p>'
+				answer: '<p>The JSON-to-XML tool understands <code>@</code> and arrays of the same key. Mixed content, original namespace prefixes, and comments will not round-trip perfectly.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'JSON to XML', path: '/xml/from-json', description: 'Convert the other direction' },
-			{ name: 'XML to CSV', path: '/xml/to-csv', description: 'Flatten repeating records' },
-			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Pretty-print the result' }
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Pretty-print; duplicate keys still last-write-wins' },
+			{ name: 'CSV to JSON', path: '/csv/to-json', description: 'Rows become objects without @attribute rules' },
+			{ name: 'YAML to JSON', path: '/yaml/to-json', description: 'YAML has Norway/anchors instead of attributes' }
 		],
 		tips: [
-			'If you need a stable array, ensure the sample has at least two sibling tags of that name.',
-			'Namespaces: check the tag names in the JSON. You may want to strip prefixes in your app.'
+			'If you need a stable array, ensure the sample has at least two sibling tags of that name, or wrap in code.',
+			'Look at @ and #text before writing TypeScript interfaces from a single example.',
+			'Namespaces: check the tag names in the JSON. You may want to strip prefixes in the app.'
+		],
+		commonMistakes: [
+			'Assuming a single child is already an array',
+			'Looking for id instead of @id',
+			'Expecting comments or xmlns prefixes to survive as XML did'
 		]
 	},
 	'from-json': {

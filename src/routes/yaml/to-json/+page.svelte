@@ -166,5 +166,8 @@ settings:
 		{#if content.tips}
 			<Tips tips={content.tips} />
 		{/if}
+		{#if content.commonMistakes}
+			<CommonMistakes mistakes={content.commonMistakes} />
+		{/if}
 	</div>
 </ToolWrapper>

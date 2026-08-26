@@ -17,7 +17,7 @@
 	let token = $state('');
 
 	// Sample JWT with exp in the future
-	const sampleToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE5MTYyMzkwMjIsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+	const sampleToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyX2Zha2VfMDEiLCJuYW1lIjoiVGVzdCBVc2VyIiwiZXhwIjoxOTE2MjM5MDIyLCJpc3MiOiJodHRwczovL2F1dGgudGVzdC5leGFtcGxlIn0.signature-not-verified';
 
 	interface DecodedJWT {
 		header: Record<string, unknown>;

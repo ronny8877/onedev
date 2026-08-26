@@ -11,42 +11,48 @@ export interface DateToolContent {
 export const dateToolsContent: Record<string, DateToolContent> = {
 	timestamp: {
 		features: [
-			'Unix timestamp converter online (epoch to date and date to epoch)',
-			'Convert Unix seconds, milliseconds, microseconds, or nanoseconds',
-			'Paste ISO 8601 or a date string and get Unix time back',
-			'See UTC, local time, ISO week, Excel serial, and relative time',
-			'Copy any format with one click',
-			'Free timestamp to date converter. Log timestamps never leave this device'
+			'Detects 10-digit seconds vs 13-digit milliseconds from the digit length',
+			'Shows the Y2038 boundary for 32-bit time_t (2038-01-19 03:14:07 UTC)',
+			'Postgres, MySQL, and Unix date snippets for the same instant',
+			'ISO 8601 in, Unix out (and the reverse)',
+			'UTC, local, and relative views of one instant'
 		],
 		useCases: [
-			'Convert a Unix timestamp to a date from a log or JWT',
-			'Translate 1690000000 into a clock time',
-			'Check whether a value is seconds or milliseconds',
-			'Convert a date to Unix for a database or API',
-			'Convert ISO from an API into Unix for a query'
+			'Decide if a log value is seconds or milliseconds before you query',
+			'Convert JWT exp (always seconds) without treating it as JS Date ms',
+			'Generate to_timestamp / FROM_UNIXTIME SQL for a known instant',
+			'See whether a 32-bit column will overflow in 2038'
 		],
 		concept: {
-			title: 'How to convert a Unix timestamp to a date',
-			content: `<p>A <strong>Unix timestamp converter</strong> (also called an epoch converter) turns a number of seconds since 1 Jan 1970 UTC into a human date, and the other way around. Search “timestamp to date” or “epoch converter”: paste the number, read the date.</p>
-<p class="mt-2">A 10-digit value around 1.7e9 is seconds in the 2020s. 13 digits are milliseconds. Getting that wrong shifts the date by centuries or into 1970. This page guesses the unit from digit length. You can also paste ISO 8601. All math stays in this tab.</p>`
+			title: '10 digits, 13 digits, and 2038',
+			content: `<p>Unix time counts seconds since 1970-01-01 00:00:00 UTC. In the 2020s a <strong>10-digit</strong> integer (~1.7e9) is seconds. <strong>13 digits</strong> are milliseconds (JS <code>Date.now()</code>). Mix them up and you get 1970 or the year 56000. This page guesses the unit from digit length. JWT <code>exp</code> is seconds. JavaScript <code>new Date(n)</code> wants milliseconds.</p>
+<p><strong>Y2038:</strong> signed 32-bit <code>time_t</code> overflows at 2<sup>31</sup>−1 = 2147483647, which is 2038-01-19 03:14:07 UTC. After that, old 32-bit Linux, some MySQL TIMESTAMP columns, and embedded devices wrap to 1901. Postgres <code>timestamptz</code> and 64-bit time_t do not have this limit. If you store Unix time in an INT, plan for it.</p>
+<p>Leap seconds are not in POSIX Unix time. Excel serials are a different epoch (1899/1900, with the Lotus leap-year bug). This converter is POSIX seconds/ms, not Excel.</p>
+<p>Snippets for the same instant <code>1690000000</code>:</p>
+<pre><code>Postgres:  SELECT to_timestamp(1690000000);
+MySQL:     SELECT FROM_UNIXTIME(1690000000);
+           SELECT UNIX_TIMESTAMP('2023-07-22 00:26:40');
+Unix:      date -d @1690000000 -u
+           date -r 1690000000          # BSD/macOS</code></pre>`
 		},
 		examples: [
-			{ label: 'Seconds (2023)', code: '1690000000', isValid: true },
-			{ label: 'ISO', code: '2026-08-20T21:00:00Z', isValid: true },
-			{ label: 'Not a date', code: 'hello', isValid: false }
+			{ label: 'Seconds (10 digits, 2023)', code: '1690000000', isValid: true },
+			{ label: 'Milliseconds (13 digits, same era)', code: '1690000000000', isValid: true },
+			{ label: 'Y2038 last 32-bit second', code: '2147483647', isValid: true },
+			{ label: 'Seconds fed to JS Date (looks like 1970)', code: 'new Date(1690000000)  // 1970-01-20, wrong unit', isValid: false }
 		],
 		faqs: [
 			{
-				question: 'How do I convert a Unix timestamp to a date?',
-				answer: '<p>Paste the number into this Unix timestamp converter. 10 digits are seconds; 13 digits are milliseconds. You get UTC, local time, and ISO.</p>'
+				question: 'How do I know seconds from milliseconds?',
+				answer: '<p>Count digits. ~10 means seconds for current dates. ~13 means milliseconds. 16 is microseconds (Python <code>time.time_ns()//1000</code> style). JWT <code>exp</code> is always seconds. If a "date" lands in 1970, you passed seconds to an API that wanted ms (or the reverse).</p>'
 			},
 			{
-				question: 'Is this the same as epochconverter.com?',
-				answer: '<p>Same job: Unix ↔ human time. This page does not phone home. Leap seconds are not applied; POSIX Unix time does not include them.</p>'
+				question: 'What is the Year 2038 problem?',
+				answer: '<p>Signed 32-bit Unix time maxes at 2147483647 (19 Jan 2038 03:14:07 UTC). MySQL <code>TIMESTAMP</code> historically had this ceiling. <code>DATETIME</code> and Postgres <code>timestamptz</code> do not. Storing epoch in a 32-bit INT will wrap.</p>'
 			},
 			{
-				question: 'Why is my millisecond value a 1970 date?',
-				answer: '<p>You probably pasted seconds into a tool that assumed ms, or the reverse. 10 digits ≈ seconds. 13 digits ≈ ms.</p>'
+				question: 'Postgres vs MySQL vs date(1)?',
+				answer: '<p><code>to_timestamp(seconds)</code> in Postgres. <code>FROM_UNIXTIME(seconds)</code> and <code>UNIX_TIMESTAMP(datetime)</code> in MySQL. GNU <code>date -d @seconds -u</code>; macOS <code>date -r seconds</code>. Milliseconds: divide by 1000 first in SQL (<code>to_timestamp(ms/1000.0)</code>).</p>'
 			},
 			{
 				question: 'Does Convert → Time do this?',
@@ -54,13 +60,14 @@ export const dateToolsContent: Record<string, DateToolContent> = {
 			}
 		],
 		relatedTools: [
-			{ name: 'Timezone converter', path: '/date/timezone', description: 'Same instant in another zone' },
-			{ name: 'ISO 8601 tools', path: '/date/iso', description: 'Durations and strict ISO parse' },
-			{ name: 'JWT Expiration', path: '/jwt/expiration', description: 'exp/iat on a token' }
+			{ name: 'JWT Decoder', path: '/jwt/decoder', description: 'exp and iat are Unix seconds, not JS milliseconds' },
+			{ name: 'Timezone converter', path: '/date/timezone', description: 'Same instant in another zone after you have Unix time' },
+			{ name: 'ISO 8601 tools', path: '/date/iso', description: 'When the log is 2026-08-27T12:00:00Z instead of a number' }
 		],
 		tips: [
-			'When a log is ambiguous, check both seconds and ms. One of them will be a nonsense year.',
-			'Store UTC in databases. Convert to a zone only at display time.'
+			'When a log is ambiguous, interpret as both seconds and ms. One of them is a nonsense year.',
+			'Store UTC in the database. Convert to a zone only at display time.',
+			'Do not pass JWT exp straight into new Date(exp) without multiplying by 1000.'
 		]
 	},
 	timezone: {
