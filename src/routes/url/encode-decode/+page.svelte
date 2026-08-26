@@ -111,28 +111,24 @@
 
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
-			<div class="flex gap-3">
+			<div class="flex flex-wrap items-center gap-2">
 				<button
 					type="button"
-					class="btn"
-					class:btn-info={mode === 'auto'}
+					class="btn h-8 min-h-8 rounded-lg {mode === 'auto' ? 'btn-primary' : 'btn-ghost'}"
 					onclick={() => (mode = 'auto')}
 				>
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
 					Auto
 				</button>
 				<button
 					type="button"
-					class="btn"
-					class:btn-info={mode === 'encode'}
+					class="btn h-8 min-h-8 rounded-lg {mode === 'encode' ? 'btn-primary' : 'btn-ghost'}"
 					onclick={() => (mode = 'encode')}
 				>
 					Encode
 				</button>
 				<button
 					type="button"
-					class="btn"
-					class:btn-info={mode === 'decode'}
+					class="btn h-8 min-h-8 rounded-lg {mode === 'decode' ? 'btn-primary' : 'btn-ghost'}"
 					onclick={() => (mode = 'decode')}
 				>
 					Decode
@@ -154,8 +150,8 @@
 			{/if}
 
 			{#if output}
-				<button type="button" class="btn btn-ghost btn-sm ml-auto" onclick={swapInputOutput}>
-					Swap Inputs 
+				<button type="button" class="btn btn-ghost h-8 min-h-8 rounded-lg ml-auto" onclick={swapInputOutput}>
+					Swap Inputs
 				</button>
 			{/if}
 		</div>

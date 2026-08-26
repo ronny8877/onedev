@@ -99,7 +99,7 @@
 	
 	<button
 		type="button"
-		class="btn btn-{size} h-8 min-h-8 rounded-lg gap-1.5"
+		class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5"
 		class:btn-success={copied}
 		onclick={copyDefault}
 		disabled={!copyValue}

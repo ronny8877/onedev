@@ -9,6 +9,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import { urlToolsContent } from '$lib/config/content/url-tools-content';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 
 	const content = urlToolsContent['json-converter'];
 
@@ -125,27 +126,25 @@
 
 		<!-- Mode Selector -->
 		<div class="flex flex-wrap items-center gap-3">
-			<div class="join">
+			<div class="flex flex-wrap items-center gap-2">
 				<button
 					type="button"
-					class="btn join-item"
-					class:btn-info={mode === 'query-to-json'}
+					class="btn h-8 min-h-8 rounded-lg {mode === 'query-to-json' ? 'btn-primary' : 'btn-ghost'}"
 					onclick={() => mode = 'query-to-json'}
 				>
 					Query → JSON
 				</button>
 				<button
 					type="button"
-					class="btn join-item"
-					class:btn-info={mode === 'json-to-query'}
+					class="btn h-8 min-h-8 rounded-lg {mode === 'json-to-query' ? 'btn-primary' : 'btn-ghost'}"
 					onclick={() => mode = 'json-to-query'}
 				>
 					JSON → Query
 				</button>
 			</div>
 
-			<button type="button" class="btn btn-ghost btn-sm ml-auto" onclick={swapMode}>
-				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
+			<button type="button" class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5 ml-auto" onclick={swapMode}>
+				<AppIcon name="arrow-left-right" class="size-4" />
 				Swap Inputs
 			</button>
 		</div>

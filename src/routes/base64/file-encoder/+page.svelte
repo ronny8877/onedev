@@ -186,10 +186,10 @@ import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 
 				<!-- Actions -->
 				<div class="flex gap-2">
-					<button type="button" class="btn btn-primary" onclick={copyBase64}>
+					<button type="button" class="btn btn-primary h-8 min-h-8 rounded-lg" onclick={copyBase64}>
 						Copy Raw Base64
 					</button>
-					<button type="button" class="btn btn-secondary" onclick={copyDataUrl}>
+					<button type="button" class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={copyDataUrl}>
 						Copy Data URL
 					</button>
 				</div>

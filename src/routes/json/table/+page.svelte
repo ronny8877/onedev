@@ -11,6 +11,7 @@
 import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import { jsonToTable, tableToCSV, type TableData, type ParseError } from '$lib/utils/json';
 	import { jsonToolsContent } from '$lib/config/content/json-tools-content';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 
 	const content = jsonToolsContent.table;
 
@@ -78,28 +79,14 @@ import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
-			<button type="button" class="btn btn-primary" onclick={handleConvert}>
-				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-					></path>
-				</svg>
+			<button type="button" class="btn btn-primary h-8 min-h-8 rounded-lg gap-1.5" onclick={handleConvert}>
+				<AppIcon name="table" class="size-4" />
 				Convert to Table
 			</button>
 
 			{#if tableData && tableData.rows.length > 0}
-				<button type="button" class="btn btn-secondary" onclick={handleExportCSV}>
-					<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-						></path>
-					</svg>
+				<button type="button" class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5" onclick={handleExportCSV}>
+					<AppIcon name="download" class="size-4" />
 					Export CSV
 				</button>
 			{/if}

@@ -12,6 +12,7 @@
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 	import { formatJSON, minifyJSON, validateJSON, type ParseError } from '$lib/utils/json';
 	import { jsonToolsContent } from '$lib/config/content/json-tools-content';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 
 	const content = jsonToolsContent.formatter;
 
@@ -126,33 +127,19 @@
 
 		<!-- Controls -->
 		<div class="flex flex-wrap items-center gap-3">
-			<button type="button" class="btn btn-primary" onclick={handlePrettify}>
-				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M4 6h16M4 10h16M4 14h16M4 18h16"
-					></path>
-				</svg>
+			<button type="button" class="btn btn-primary h-8 min-h-8 rounded-lg gap-1.5" onclick={handlePrettify}>
+				<AppIcon name="list" class="size-4" />
 				Prettify
 			</button>
 
-			<button type="button" class="btn btn-secondary" onclick={handleMinify}>
-				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M20 12H4"
-					></path>
-				</svg>
+			<button type="button" class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5" onclick={handleMinify}>
+				<AppIcon name="minus" class="size-4" />
 				Minify
 			</button>
 
 			<div class="flex items-center gap-2">
-				<label for="indent" class="text-sm text-base-content/70">Indent:</label>
-				<select id="indent" class="select select-bordered select-sm w-20" bind:value={indentSize}>
+				<label for="indent" class="text-sm text-muted">Indent:</label>
+				<select id="indent" class="select select-bordered h-8 min-h-8 rounded-lg w-20" bind:value={indentSize}>
 					<option value={2}>2</option>
 					<option value={4}>4</option>
 					<option value={8}>8</option>
@@ -160,15 +147,8 @@
 			</div>
 
 			{#if output}
-				<button type="button" class="btn btn-ghost btn-sm" onclick={handleSwap}>
-					<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
-						></path>
-					</svg>
+				<button type="button" class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5" onclick={handleSwap}>
+					<AppIcon name="arrow-left-right" class="size-4" />
 					Use Output as Input
 				</button>
 			{/if}

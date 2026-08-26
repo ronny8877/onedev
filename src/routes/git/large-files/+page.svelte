@@ -236,9 +236,15 @@ package.json                        1.2 KB`;
 
 		<!-- Actions -->
 		<div class="flex items-center gap-2 flex-wrap">
-			<button class="btn btn-sm btn-primary" onclick={loadSample}>📄 Sample (ls format)</button>
-			<button class="btn btn-sm btn-secondary" onclick={loadDuSample}>📄 Sample (du format)</button>
-			<button class="btn btn-sm btn-ghost" onclick={clearAll}>Clear</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5" onclick={loadSample}>
+				<AppIcon name="file-text" class="size-4" />
+				Sample (ls format)
+			</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5" onclick={loadDuSample}>
+				<AppIcon name="file-text" class="size-4" />
+				Sample (du format)
+			</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={clearAll}>Clear</button>
 		</div>
 
 		<!-- Input -->
