@@ -108,7 +108,7 @@
 		<nav aria-label="Breadcrumb" class="mb-3 flex items-center gap-1 text-xs text-muted">
 			{#each breadcrumbs as crumb, i}
 				{#if i < breadcrumbs.length - 1}
-					<a href={crumb.path} class="hover:text-primary transition-colors truncate max-w-[120px]">{crumb.name}</a>
+					<a href={crumb.path} class="hover:text-base-content transition-colors truncate max-w-[120px]">{crumb.name}</a>
 					<span aria-hidden="true">/</span>
 				{:else}
 					<span class="font-medium truncate max-w-[160px]">{crumb.name}</span>
@@ -122,7 +122,7 @@
 		<div class="flex flex-wrap items-start justify-between gap-3">
 			<div class="flex items-center gap-3 min-w-0">
 				{#if toolData?.icon}
-					<span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+					<span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-base-200 text-base-content">
 						<AppIcon name={toolData.icon} class="size-4" />
 					</span>
 				{/if}

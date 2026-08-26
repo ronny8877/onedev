@@ -69,7 +69,7 @@
 
 	<!-- Breadcrumb -->
 	<nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-1 text-xs text-muted">
-		<a href="/" class="hover:text-primary transition-colors">Home</a>
+		<a href="/" class="hover:text-base-content transition-colors">Home</a>
 		<span>/</span>
 		<span class="font-medium">{category.name}</span>
 	</nav>
@@ -77,7 +77,7 @@
 	<!-- Header -->
 	<div class="mb-8">
 		<div class="mb-3 flex items-center gap-3">
-			<span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+			<span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-base-200 text-base-content">
 				<AppIcon name={category.icon} size={24} />
 			</span>
 			<h1 class="text-3xl font-bold tracking-tight text-base-content">{category.name} Tools</h1>
@@ -96,7 +96,7 @@
 	{#if guide}
 		<section class="mb-10 rounded-xl border border-base-300 bg-base-100 p-6 shadow-sm">
 			<h2 class="mb-3 text-xl font-bold text-base-content">About these {category.name} tools</h2>
-			<div class="prose prose-sm max-w-none prose-p:text-base-content/80 prose-code:text-primary">
+			<div class="prose prose-sm max-w-none prose-p:text-base-content/80 prose-code:text-base-content">
 				{@html guide.intro}
 			</div>
 		</section>
@@ -108,16 +108,16 @@
 		{#each category.items.filter(i => i.active !== false) as tool}
 			<a
 				href={tool.href}
-				class="group card bg-base-100 border border-base-300/60 p-5 hover:border-primary/40 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
+				class="group card bg-base-100 border border-base-300 p-5 hover:border-base-content/20 hover:shadow-md transition-all duration-200"
 			>
 				<div class="flex items-start gap-3">
 					{#if tool.icon}
-						<span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-base-200 text-primary group-hover:bg-primary/10 transition-colors">
+						<span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-base-200 text-base-content">
 							<AppIcon name={tool.icon} size={18} />
 						</span>
 					{/if}
 					<div class="min-w-0">
-						<h3 class="font-semibold text-base-content group-hover:text-primary transition-colors leading-snug">
+						<h3 class="font-semibold text-base-content leading-snug">
 							{tool.name}
 						</h3>
 						{#if tool.description}
@@ -127,7 +127,7 @@
 						{/if}
 					</div>
 				</div>
-				<div class="mt-3 flex items-center gap-1 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+				<div class="mt-3 flex items-center gap-1 text-xs text-muted opacity-0 group-hover:opacity-100 transition-opacity font-medium">
 					Open tool <AppIcon name="arrow-right" class="size-4" />
 				</div>
 			</a>
@@ -148,7 +148,7 @@
 		<p class="text-sm text-base-content/50 mb-3">Related tools on OneDev Tools</p>
 		<div class="flex flex-wrap gap-2">
 			{#each relatedCategories as cat}
-				<a href="/{getCategorySlug(cat)}" class="badge badge-ghost border border-base-300 hover:border-primary hover:text-primary transition-colors text-xs py-2.5 px-3">
+				<a href="/{getCategorySlug(cat)}" class="badge badge-ghost border border-base-300 hover:border-base-content/30 hover:text-base-content transition-colors text-xs py-2.5 px-3">
 					{cat.name}
 				</a>
 			{/each}
@@ -157,10 +157,10 @@
 
 	<!-- Footer trust links -->
 	<div class="mt-8 flex flex-wrap gap-4 text-xs text-base-content/40">
-		<a href="/about" class="hover:text-primary transition-colors">About</a>
-		<a href="/privacy" class="hover:text-primary transition-colors">Privacy Policy</a>
-		<a href="/contact" class="hover:text-primary transition-colors">Contact</a>
-		<a href="/editorial-policy" class="hover:text-primary transition-colors">Editorial Policy</a>
-		<a href="/" class="hover:text-primary transition-colors">← All Tools</a>
+		<a href="/about" class="hover:text-base-content transition-colors">About</a>
+		<a href="/privacy" class="hover:text-base-content transition-colors">Privacy Policy</a>
+		<a href="/contact" class="hover:text-base-content transition-colors">Contact</a>
+		<a href="/editorial-policy" class="hover:text-base-content transition-colors">Editorial Policy</a>
+		<a href="/" class="hover:text-base-content transition-colors">← All Tools</a>
 	</div>
 </div>

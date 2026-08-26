@@ -162,7 +162,7 @@
 			{#if filteredTools().length > 0}
 				{#each filteredTools() as tool, i}
 					<button
-						class="result-item {i === selectedIndex ? 'bg-primary/15 text-primary' : 'hover:bg-primary/15'}"
+						class="result-item {i === selectedIndex ? 'bg-base-300 text-base-content' : 'hover:bg-base-200'}"
 						onclick={() => navigateTo(tool)}
 						onmouseenter={() => selectedIndex = i}
 					>

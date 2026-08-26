@@ -55,27 +55,27 @@
 		language === 'xml' ? xml() : language === 'html' ? html() : language === 'sql' ? sqlLang : json()
 	);
 
-	// Syntax highlighting theme with vibrant colors that read well on both themes
+	// Syntax highlighting follows Daisy tokens so forest vs light actually changes.
 	const highlightStyle = HighlightStyle.define([
-		{ tag: tags.string, color: '#22c55e' },
-		{ tag: tags.number, color: '#f59e0b' },
-		{ tag: tags.bool, color: '#3b82f6' },
-		{ tag: tags.null, color: '#a78bfa' },
-		{ tag: tags.propertyName, color: '#ec4899', fontWeight: '500' },
-		{ tag: [tags.punctuation, tags.bracket, tags.separator], color: '#94a3b8' },
-		{ tag: tags.tagName, color: '#ec4899', fontWeight: '500' },
-		{ tag: tags.attributeName, color: '#3b82f6' },
-		{ tag: tags.attributeValue, color: '#22c55e' },
-		{ tag: tags.angleBracket, color: '#94a3b8' },
-		{ tag: tags.comment, color: '#94a3b8', fontStyle: 'italic' },
-		{ tag: tags.processingInstruction, color: '#a78bfa' },
-		{ tag: tags.documentMeta, color: '#a78bfa' },
-		{ tag: tags.keyword, color: '#c084fc', fontWeight: '600' },
-		{ tag: tags.typeName, color: '#38bdf8' },
-		{ tag: tags.operatorKeyword, color: '#c084fc' },
-		{ tag: tags.operator, color: '#94a3b8' },
-		{ tag: tags.function(tags.variableName), color: '#818cf8' },
-		{ tag: tags.standard(tags.name), color: '#38bdf8' }
+		{ tag: tags.keyword, color: 'var(--cm-keyword)', fontWeight: '600' },
+		{ tag: tags.operatorKeyword, color: 'var(--cm-keyword)' },
+		{ tag: tags.string, color: 'var(--cm-string)' },
+		{ tag: tags.attributeValue, color: 'var(--cm-string)' },
+		{ tag: tags.comment, color: 'var(--cm-comment)', fontStyle: 'italic' },
+		{ tag: tags.propertyName, color: 'var(--cm-name)', fontWeight: '500' },
+		{ tag: tags.tagName, color: 'var(--cm-name)', fontWeight: '500' },
+		{ tag: tags.attributeName, color: 'var(--cm-name)' },
+		{ tag: tags.number, color: 'var(--cm-name)' },
+		{ tag: tags.bool, color: 'var(--cm-name)' },
+		{ tag: tags.null, color: 'var(--cm-name)' },
+		{ tag: tags.typeName, color: 'var(--cm-name)' },
+		{ tag: tags.function(tags.variableName), color: 'var(--cm-name)' },
+		{ tag: tags.standard(tags.name), color: 'var(--cm-name)' },
+		{ tag: tags.processingInstruction, color: 'var(--cm-punct)' },
+		{ tag: tags.documentMeta, color: 'var(--cm-punct)' },
+		{ tag: [tags.punctuation, tags.bracket, tags.separator], color: 'var(--cm-punct)' },
+		{ tag: tags.angleBracket, color: 'var(--cm-punct)' },
+		{ tag: tags.operator, color: 'var(--cm-punct)' }
 	]);
 
 	// Error line highlighting
@@ -103,7 +103,6 @@
 	// Theme-aware editor styling driven by daisyUI CSS variables so it adapts to
 	// light/dark automatically (color-mix gives us tinted overlays).
 	const bc = (pct: number) => `color-mix(in oklch, var(--color-base-content) ${pct}%, transparent)`;
-	const primary = (pct: number) => `color-mix(in oklch, var(--color-primary) ${pct}%, transparent)`;
 
 	const baseTheme = EditorView.theme({
 		'&': {
@@ -139,36 +138,34 @@
 			color: bc(40),
 			cursor: 'pointer'
 		},
-		'.cm-foldGutter .cm-gutterElement:hover': { color: 'var(--color-primary)' },
+		'.cm-foldGutter .cm-gutterElement:hover': { color: 'var(--color-base-content)' },
 		'.cm-activeLineGutter': {
-			backgroundColor: primary(14),
-			color: 'var(--color-primary)',
+			backgroundColor: bc(8),
+			color: 'var(--color-base-content)',
 			fontWeight: '600'
 		},
-		'.cm-activeLine': { backgroundColor: primary(6) },
+		'.cm-activeLine': { backgroundColor: bc(6) },
 		'.cm-selectionBackground, .cm-content ::selection': {
-			backgroundColor: `${primary(22)} !important`
+			backgroundColor: `${bc(18)} !important`
 		},
-		'&.cm-focused .cm-selectionBackground': { backgroundColor: `${primary(28)} !important` },
+		'&.cm-focused .cm-selectionBackground': { backgroundColor: `${bc(22)} !important` },
 		'.cm-cursor, .cm-dropCursor': {
 			borderLeftColor: 'var(--color-primary)',
 			borderLeftWidth: '2px'
 		},
 		'.cm-placeholder': { color: bc(35) },
-		// Bracket matching + selection match highlights
 		'.cm-matchingBracket': {
-			backgroundColor: primary(20),
-			outline: `1px solid ${primary(45)}`,
+			backgroundColor: bc(12),
+			outline: `1px solid ${bc(28)}`,
 			borderRadius: '3px'
 		},
 		'.cm-nonmatchingBracket': {
 			backgroundColor: 'color-mix(in oklch, var(--color-error) 22%, transparent)'
 		},
 		'.cm-selectionMatch': {
-			backgroundColor: 'color-mix(in oklch, var(--color-warning) 22%, transparent)',
+			backgroundColor: bc(14),
 			borderRadius: '3px'
 		},
-		// Error line highlight
 		'.cm-error-line': {
 			backgroundColor: 'color-mix(in oklch, var(--color-error) 14%, transparent)'
 		},
@@ -180,11 +177,10 @@
 		'.cm-panels.cm-panels-top': { borderBottom: '1px solid var(--color-base-300)' },
 		'.cm-panels.cm-panels-bottom': { borderTop: '1px solid var(--color-base-300)' },
 		'.cm-searchMatch': {
-			backgroundColor: 'color-mix(in oklch, var(--color-warning) 28%, transparent)',
+			backgroundColor: bc(16),
 			borderRadius: '2px'
 		},
-		'.cm-searchMatch-selected': { backgroundColor: primary(45) },
-		// Autocomplete tooltip
+		'.cm-searchMatch-selected': { backgroundColor: bc(28) },
 		'.cm-tooltip': {
 			backgroundColor: 'var(--color-base-100)',
 			border: `1px solid ${bc(12)}`,
@@ -193,8 +189,8 @@
 			overflow: 'hidden'
 		},
 		'.cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected]': {
-			backgroundColor: 'var(--color-primary)',
-			color: 'var(--color-primary-content)'
+			backgroundColor: 'var(--color-base-300)',
+			color: 'var(--color-base-content)'
 		}
 	});
 
@@ -227,7 +223,7 @@
 </script>
 
 <div
-	class="codemirror-wrapper overflow-hidden rounded-xl border border-base-300 bg-base-200 shadow-sm transition-all duration-200 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20"
+	class="codemirror-wrapper overflow-hidden rounded-xl border border-base-300 bg-base-200 shadow-sm focus-within:border-primary"
 >
 	<!-- Toolbar -->
 	<div
@@ -355,7 +351,6 @@
 	.editor-container :global(.onedev-cm-search-field input:focus) {
 		outline: none;
 		border-color: var(--color-primary);
-		box-shadow: 0 0 0 2px color-mix(in oklch, var(--color-primary) 20%, transparent);
 	}
 
 	.editor-container :global(.onedev-cm-search button[aria-pressed='true']) {

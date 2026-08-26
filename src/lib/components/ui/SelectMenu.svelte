@@ -57,7 +57,7 @@
 						role="option"
 						aria-selected={value === option.value}
 						class="block w-full !rounded-none !border-0 !shadow-none px-3 py-2 text-left text-sm {value === option.value
-							? 'bg-base-200 font-semibold text-primary'
+							? 'bg-base-200 font-semibold text-base-content'
 							: 'bg-transparent text-base-content hover:bg-base-200'}"
 						onclick={() => pick(option.value)}
 					>

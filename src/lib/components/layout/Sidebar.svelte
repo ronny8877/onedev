@@ -64,7 +64,7 @@
 	<!-- App Title -->
 	<div class="sidebar-header justify-center flex sticky top-0 z-10 bg-base-100/95 backdrop-blur-sm border-b border-base-200 px-6 py-5">
 		<a href="/" class="flex items-center gap-0.5 text-3xl font-bold tracking-tight hover:opacity-80 transition-opacity" onclick={() => handleLinkClick('Home')}>
-			<span class="text-primary">One</span><span class="text-base-content">dev</span><span class="text-base-content/40 font-normal">.tools</span>
+			<span class="text-base-content">Onedev</span><span class="text-base-content/40 font-normal">.tools</span>
 		</a>
 	</div>
 
@@ -100,29 +100,29 @@
 						<!-- svelte-ignore a11y_click_events_have_key_events -->
 						<!-- svelte-ignore a11y_no_static_element_interactions -->
 						<div
-							class="w-full flex items-center justify-between py-2 px-3 mt-1 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-base-200 {active ? 'bg-primary/5 text-primary' : ''}"
+							class="w-full flex items-center justify-between py-2 px-3 mt-1 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-base-200 {active ? 'bg-base-200' : ''}"
 							onclick={() => toggleAccordion(accordion.name)}
 						>
 							<div class="flex items-center gap-3">
 								{#if accordion.icon}
-									<AppIcon name={accordion.icon} class="size-4 {active ? 'text-primary' : ''}" />
+									<AppIcon name={accordion.icon} class="size-4" />
 								{/if}
-								<span class="font-semibold text-sm tracking-wide text-base-content" class:text-primary={active}>{accordion.name}</span>
+								<span class="font-semibold text-sm tracking-wide text-base-content">{accordion.name}</span>
 							</div>
 							<AppIcon
 								name="chevron-down"
-								class="size-4 transition-transform duration-200 {openAccordions[accordion.name] ? 'rotate-180' : ''} {active ? 'text-primary' : ''}"
+								class="size-4 transition-transform duration-200 {openAccordions[accordion.name] ? 'rotate-180' : ''}"
 							/>
 						</div>
 
 						<!-- Items List -->
 						{#if openAccordions[accordion.name]}
-							<ul class="menu menu-sm w-full mt-1 gap-1  bg-primary/5 rounded-3xl p-2">
+							<ul class="menu menu-sm w-full mt-1 gap-1 bg-base-200 rounded-3xl p-2">
 								{#each accordion.items as item}
 									<li>
 										<a 
 											href={item.href} 
-											class="py-2 rounded-lg hover:bg-primary/10 transition-colors {isActive(item.href) ? 'bg-primary/10 text-primary' : ''}"
+											class="py-2 rounded-lg hover:bg-base-300 transition-colors {isActive(item.href) ? 'bg-base-300 text-base-content' : ''}"
 											class:active={isActive(item.href)}
 											onclick={() => handleLinkClick(item.name, accordion.name)}
 										>
@@ -144,13 +144,13 @@
 	<!-- Sidebar Footer — Trust Links -->
 	<div class="border-t border-base-200 px-4 py-3 mt-auto">
 		<div class="flex flex-wrap gap-x-3 gap-y-1 justify-center">
-			<a href="/about" class="text-xs text-base-content/40 hover:text-primary transition-colors">About</a>
+			<a href="/about" class="text-xs text-base-content/40 hover:text-base-content transition-colors">About</a>
 			<span class="text-base-content/20 text-xs">·</span>
-			<a href="/privacy" class="text-xs text-base-content/40 hover:text-primary transition-colors">Privacy</a>
+			<a href="/privacy" class="text-xs text-base-content/40 hover:text-base-content transition-colors">Privacy</a>
 			<span class="text-base-content/20 text-xs">·</span>
-			<a href="/contact" class="text-xs text-base-content/40 hover:text-primary transition-colors">Contact</a>
+			<a href="/contact" class="text-xs text-base-content/40 hover:text-base-content transition-colors">Contact</a>
 			<span class="text-base-content/20 text-xs">·</span>
-			<a href="/editorial-policy" class="text-xs text-base-content/40 hover:text-primary transition-colors">Editorial</a>
+			<a href="/editorial-policy" class="text-xs text-base-content/40 hover:text-base-content transition-colors">Editorial</a>
 		</div>
 	</div>
 </aside>

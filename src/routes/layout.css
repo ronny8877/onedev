@@ -21,6 +21,11 @@
   --radius-field: 0.75rem;
   --radius-box: 1rem;
   --muted: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+  --cm-keyword: var(--color-primary);
+  --cm-string: oklch(40% 0.055 148);
+  --cm-comment: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+  --cm-name: var(--color-base-content);
+  --cm-punct: color-mix(in oklab, var(--color-base-content) 55%, transparent);
 }
 
 html {
@@ -35,6 +40,11 @@ html[data-theme='forest'] {
   --muted: color-mix(in oklab, var(--color-base-content) 70%, transparent);
   /* Forest ships 300 darker than 100, so borders vanish. Keep forest's hue, raise the edge. */
   --color-base-300: oklch(34% 0.012 17.911);
+  --cm-keyword: var(--color-primary);
+  --cm-string: oklch(72% 0.055 148);
+  --cm-comment: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+  --cm-name: var(--color-base-content);
+  --cm-punct: color-mix(in oklab, var(--color-base-content) 55%, transparent);
 }
 
 html[data-theme='light'] {
@@ -43,6 +53,11 @@ html[data-theme='light'] {
   --radius-field: 0.75rem;
   --radius-box: 1rem;
   --muted: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+  --cm-keyword: var(--color-primary);
+  --cm-string: oklch(40% 0.055 148);
+  --cm-comment: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+  --cm-name: var(--color-base-content);
+  --cm-punct: color-mix(in oklab, var(--color-base-content) 55%, transparent);
 }
 
 .text-muted {
@@ -85,7 +100,23 @@ body {
 }
 
 .btn.h-8 {
+  /* Daisy sets height via --size in the utilities layer, so h-8 alone loses. */
+  --size: 2rem;
+  height: 2rem;
+  min-height: 2rem;
   border-radius: 0.5rem;
+}
+
+.btn.w-8 {
+  width: 2rem;
+  min-width: 2rem;
+  padding-inline: 0;
+}
+
+.btn.btn-ghost:hover:not(:disabled) {
+  --btn-bg: var(--color-base-200);
+  --btn-border: var(--color-base-200);
+  background-color: var(--color-base-200);
 }
 
 .btn-square {
@@ -97,7 +128,7 @@ body {
 }
 
 .input:focus, .textarea:focus, .select:focus {
-  @apply border-primary outline-none ring-2 ring-primary/20;
+  @apply border-primary outline-none;
 }
 
 html[data-theme='forest'] .input,
@@ -291,7 +322,7 @@ html[data-theme='light'] ::placeholder {
 }
 
 .sidebar-container .menu li a.active {
-  @apply bg-primary/10 text-primary font-bold;
+  @apply bg-base-300 text-base-content font-bold;
 }
 
 /* Dropdown panels: one solid sheet, flat rows. */
@@ -359,7 +390,7 @@ html[data-theme='light'] ::placeholder {
 
 .select-menu-option.is-active {
   background-color: var(--color-base-200) !important;
-  color: var(--color-primary);
+  color: var(--color-base-content);
   font-weight: 600;
   border-radius: 0 !important;
 }
