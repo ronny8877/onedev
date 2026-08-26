@@ -215,7 +215,7 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 			'Approved for high-security and classified data'
 		],
 		useCases: [
-			'Hashing passwords in Linux shadow files (`/etc/shadow`)',
+			'Checksum a large file when you want a 512-bit digest',
 			'High-security applications requiring maximum collision resistance',
 			'Post-quantum cryptography preparation',
 			'Generating long, unpredictable seed values for random number generators'
@@ -240,7 +240,7 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 			},
 			{
 				question: 'Is SHA-512 used for passwords?',
-				answer: '<p>Yes, but usually not in its raw form. Many Linux distributions use `crypt` with SHA-512 (often denoted as `$6$` in `/etc/shadow`) combined with a salt and thousands of rounds of iterative hashing to protect user passwords.</p>'
+				answer: '<p>Raw SHA-512 is not a password hash. Linux <code>$6$</code> is SHA-512-crypt: a salted, iterated construction, not a single digest from this page. For new password storage use Argon2id or bcrypt.</p>'
 			}
 		],
 		tips: [

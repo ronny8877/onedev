@@ -257,9 +257,9 @@
 				<h4 class="text-sm font-semibold">About SHA-512</h4>
 				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
 					<li>• <strong>Output:</strong> 512-bit (128 hex characters)</li>
-					<li>• <strong>Security:</strong> Maximum security, more resistant to brute force than SHA-256</li>
+					<li>• <strong>Security:</strong> 512-bit SHA-2 digest. Longer than SHA-256. Still not a password KDF.</li>
 					<li>• <strong>Performance:</strong> Faster on 64-bit systems than SHA-256</li>
-					<li>• <strong>Use cases:</strong> Password hashing, high-security file verification, cryptographic protocols</li>
+					<li>• <strong>Use cases:</strong> File checksums, protocols that specify SHA-512. Not password storage.</li>
 				</ul>
 			</div>
 		</div>

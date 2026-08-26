@@ -710,7 +710,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Hash Generator', href: '/hash/generator', description: 'MD5 and SHA-1 are collision-broken. SHA-256 for file checksums. Do not hash passwords here.', icon: '🔐', keywords: ['sha256 checksum', 'md5 broken', 'sha1 broken', 'hash not for passwords', 'file hash'] },
 			{ name: 'MD5 Checksum', href: '/hash/md5', description: 'Create an MD5 checksum from text or a file. MD5 is fine for accidental corruption checks, not for passwords.', icon: '🔒' },
 			{ name: 'SHA-256 Hash', href: '/hash/sha256', description: 'Generate secure 256-bit SHA-256 hashes from text or files.', icon: '🔒' },
-			{ name: 'SHA-512 Hash', href: '/hash/sha512', description: 'Generate 512-bit SHA-512 hashes when you need maximum strength.', icon: '🔒' },
+			{ name: 'SHA-512 Hash', href: '/hash/sha512', description: 'SHA-512 checksum (512-bit). Longer SHA-2 digest than SHA-256. Not a password KDF.', icon: '🔒' },
 			{ name: 'SHA-1 Hash', href: '/hash/sha1', description: 'Create 160-bit SHA-1 hashes, still handy for Git commits and file verification.', icon: '🔒' },
 			{ name: 'CRC32 Checksum', href: '/hash/crc32', description: 'Calculate a CRC32 checksum for quick file-integrity checks.', icon: '✓' },
 			{ name: 'Hash Identifier', href: '/hash/identifier', description: 'Not sure what a hash is? Detect whether it looks like MD5, SHA-256, bcrypt, or another type.', icon: '🔍' },

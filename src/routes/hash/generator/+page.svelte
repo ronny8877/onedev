@@ -45,7 +45,7 @@
 		MD5: { bits: 128, color: 'warning', description: 'Fast but not secure for cryptographic use' },
 		'SHA-1': { bits: 160, color: 'info', description: 'Legacy, used in Git commits' },
 		'SHA-256': { bits: 256, color: 'success', description: 'Industry standard, used in Bitcoin' },
-		'SHA-512': { bits: 512, color: 'primary', description: 'Maximum security, slower' },
+		'SHA-512': { bits: 512, color: 'primary', description: '512-bit SHA-2 digest, not a password hash' },
 		CRC32: { bits: 32, color: 'neutral', description: 'Checksum for data integrity' }
 	};
 
@@ -350,7 +350,7 @@
 					<li>• <strong>MD5</strong> (128-bit) - Fast checksum, not for security. Collisions possible.</li>
 					<li>• <strong>SHA-1</strong> (160-bit) - Used in Git. Deprecated for security.</li>
 					<li>• <strong>SHA-256</strong> (256-bit) - Industry standard. Bitcoin, TLS, file verification.</li>
-					<li>• <strong>SHA-512</strong> (512-bit) - Maximum security for passwords and sensitive data.</li>
+					<li>• <strong>SHA-512</strong> (512-bit) - Longer SHA-2 digest than SHA-256. Still not for storing passwords.</li>
 					<li>• <strong>CRC32</strong> (32-bit) - Fast error detection, not cryptographic.</li>
 				</ul>
 			</div>
