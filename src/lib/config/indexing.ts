@@ -15,7 +15,12 @@ export const INDEXABLE_TOOLS = [
 	'/qr/generator',
 	'/pdf/compress',
 	'/hash/generator',
-	'/url/encode-decode'
+	'/url/encode-decode',
+	'/ai/token-visualizer',
+	'/ai/context-estimator',
+	'/hash/compare',
+	'/jwt/size',
+	'/html/dom-visualizer'
 ] as const;
 
 export type IndexableToolPath = (typeof INDEXABLE_TOOLS)[number];
@@ -31,6 +36,12 @@ export const INDEXABLE_CONTENT_LAST_UPDATED = '2026-08-27';
 
 const HASH_CANONICAL = '/hash/generator';
 const JWT_CANONICAL = '/jwt/decoder';
+
+export const HASH_FOLD_EXCEPTIONS = ['/hash/compare'] as const;
+export const JWT_FOLD_EXCEPTIONS = ['/jwt/size'] as const;
+
+const HASH_SELF_CANONICAL = new Set<string>([HASH_CANONICAL, ...HASH_FOLD_EXCEPTIONS]);
+const JWT_SELF_CANONICAL = new Set<string>([JWT_CANONICAL, ...JWT_FOLD_EXCEPTIONS]);
 
 export const ROBOTS_DISALLOW_PATHS = ['/api/', '/_app/', '/break'] as const;
 
@@ -81,10 +92,12 @@ export function shouldNoindex(pathname: string): boolean {
 
 export function getCanonicalPath(pathname: string): string {
 	const path = normalizePath(pathname);
-	if (path.startsWith('/hash/') && path !== HASH_CANONICAL) {
+	if (path.startsWith('/hash/')) {
+		if (HASH_SELF_CANONICAL.has(path)) return path;
 		return HASH_CANONICAL;
 	}
-	if (path.startsWith('/jwt/') && path !== JWT_CANONICAL) {
+	if (path.startsWith('/jwt/')) {
+		if (JWT_SELF_CANONICAL.has(path)) return path;
 		return JWT_CANONICAL;
 	}
 	return path;
@@ -101,17 +114,17 @@ function absoluteUrl(path: string): string {
 }
 
 export function getCanonicalUrl(_baseUrl: string, pathname: string): string {
-	return absoluteUrl(getCanonicalPath(pathname));
+	return getPageCanonicalUrl(pathname) ?? absoluteUrl(getCanonicalPath(pathname));
 }
 
 export function getPageCanonicalUrl(pathname: string): string | null {
 	const path = normalizePath(pathname);
+	if (isIndexablePath(path)) {
+		return absoluteUrl(path);
+	}
 	const folded = getCanonicalPath(path);
 	if (folded !== path) {
 		return absoluteUrl(folded);
-	}
-	if (isIndexablePath(path)) {
-		return absoluteUrl(path);
 	}
 	return null;
 }
