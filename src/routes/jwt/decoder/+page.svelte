@@ -13,6 +13,7 @@
 	const jwtContent = jwtToolsContent['decoder'];
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import { base64UrlDecode } from '$lib/utils/jwt';
 
 	let token = $state('');
 
@@ -29,20 +30,6 @@
 	interface DecodeResult {
 		decoded: DecodedJWT | null;
 		error: string | null;
-	}
-
-	// Base64URL decode helper
-	function base64UrlDecode(str: string): string {
-		let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
-		const padding = base64.length % 4;
-		if (padding) {
-			base64 += '='.repeat(4 - padding);
-		}
-		try {
-			return atob(base64);
-		} catch {
-			throw new Error('Invalid Base64URL encoding');
-		}
 	}
 
 	// Return both decoded result and error from derived
