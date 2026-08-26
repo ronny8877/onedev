@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { icons, Wrench, type LucideIcon } from '@lucide/svelte';
+	import { Wrench } from '@lucide/svelte';
+	import { lucideIcons } from './lucide-icons';
 
 	interface Props {
 		name?: string | null;
@@ -17,17 +18,7 @@
 		title
 	}: Props = $props();
 
-	const ICON_MAP = icons as unknown as Record<string, LucideIcon | undefined>;
-
-	function kebabToPascal(value: string): string {
-		return value
-			.split('-')
-			.filter(Boolean)
-			.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-			.join('');
-	}
-
-	const Icon = $derived(ICON_MAP[kebabToPascal(name ?? '')] ?? Wrench);
+	const Icon = $derived(lucideIcons[name ?? ''] ?? Wrench);
 </script>
 
 <Icon
