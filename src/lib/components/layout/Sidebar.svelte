@@ -62,7 +62,7 @@
 
 <aside class="sidebar-container bg-base-100 border-r border-base-300 h-screen w-80 fixed top-0 left-0 z-40 overflow-y-auto overflow-x-hidden flex flex-col supports-[height:100cqh]:h-[100cqh] supports-[height:100svh]:h-[100svh]">
 	<!-- App Title -->
-	<div class="sidebar-header justify-center flex sticky top-0 z-10 bg-base-100/95 backdrop-blur-sm border-b border-base-200 px-6 py-5">
+	<div class="sidebar-header justify-center flex sticky top-0 z-10 bg-base-100 border-b border-base-200 px-6 py-5">
 		<a href="/" class="flex items-center gap-0.5 text-3xl font-bold tracking-tight hover:opacity-80 transition-opacity" onclick={() => handleLinkClick('Home')}>
 			<span class="text-base-content">Onedev</span><span class="text-base-content/40 font-normal">.tools</span>
 		</a>
@@ -117,7 +117,7 @@
 
 						<!-- Items List -->
 						{#if openAccordions[accordion.name]}
-							<ul class="menu menu-sm w-full mt-1 gap-1 bg-base-200 rounded-3xl p-2">
+							<ul class="menu menu-sm w-full mt-1 gap-1 bg-base-200 rounded-lg p-2">
 								{#each accordion.items as item}
 									<li>
 										<a 

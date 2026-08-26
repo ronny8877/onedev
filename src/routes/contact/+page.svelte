@@ -50,9 +50,6 @@
 <div class="mx-auto max-w-2xl px-4 py-10 animate-fade-in">
 
 	<div class="mb-8">
-		<div class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary mb-4">
-			Get In Touch
-		</div>
 		<h1 class="text-4xl font-bold tracking-tight text-base-content mb-3">Contact Us</h1>
 		<p class="text-base-content/70 leading-relaxed">
 			Found a bug? Have a feature idea? Noticed outdated AI pricing data? We'd love to hear from you.

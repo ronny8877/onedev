@@ -77,7 +77,7 @@
 	<!-- Header -->
 	<div class="mb-8">
 		<div class="mb-3 flex items-center gap-3">
-			<span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-base-200 text-base-content">
+			<span class="flex h-12 w-12 items-center justify-center rounded-lg bg-base-200 text-base-content">
 				<AppIcon name={category.icon} size={24} />
 			</span>
 			<h1 class="text-3xl font-bold tracking-tight text-base-content">{category.name} Tools</h1>
@@ -86,11 +86,9 @@
 			<p class="text-base-content/70 leading-relaxed max-w-3xl">{category.description}</p>
 		{/if}
 
-		<!-- Privacy badge -->
-		<div class="mt-4 inline-flex items-center gap-2 rounded-full bg-success/10 px-4 py-1.5 text-sm text-success">
-			<AppIcon name="shield" class="size-4" />
+		<p class="mt-4 text-sm text-muted">
 			{category.items.filter(i => i.active !== false).length} tools · 100% browser-based · No uploads · No signup
-		</div>
+		</p>
 	</div>
 
 	{#if guide}
@@ -112,7 +110,7 @@
 			>
 				<div class="flex items-start gap-3">
 					{#if tool.icon}
-						<span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-base-200 text-base-content">
+						<span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-base-200 text-base-content">
 							<AppIcon name={tool.icon} size={18} />
 						</span>
 					{/if}
@@ -148,7 +146,7 @@
 		<p class="text-sm text-base-content/50 mb-3">Related tools on OneDev Tools</p>
 		<div class="flex flex-wrap gap-2">
 			{#each relatedCategories as cat}
-				<a href="/{getCategorySlug(cat)}" class="badge badge-ghost border border-base-300 hover:border-base-content/30 hover:text-base-content transition-colors text-xs py-2.5 px-3">
+				<a href="/{getCategorySlug(cat)}" class="rounded-lg border border-base-300 px-3 py-1.5 text-xs text-muted hover:border-base-content/30 hover:text-base-content transition-colors">
 					{cat.name}
 				</a>
 			{/each}

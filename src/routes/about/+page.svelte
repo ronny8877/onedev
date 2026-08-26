@@ -20,9 +20,6 @@
 
 	<!-- Header -->
 	<div class="mb-10">
-		<div class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary mb-4">
-			About Us
-		</div>
 		<h1 class="text-4xl font-bold tracking-tight text-base-content mb-4">
 			Built by Developers, for Developers
 		</h1>

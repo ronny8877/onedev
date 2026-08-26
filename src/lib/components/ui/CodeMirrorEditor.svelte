@@ -55,7 +55,8 @@
 		language === 'xml' ? xml() : language === 'html' ? html() : language === 'sql' ? sqlLang : json()
 	);
 
-	// Syntax highlighting follows Daisy tokens so emerald vs forest actually changes.
+	// Syntax highlighting follows theme CSS variables. Light keywords stay
+	// base-content so Daisy light's indigo primary does not paint the editor.
 	const highlightStyle = HighlightStyle.define([
 		{ tag: tags.keyword, color: 'var(--cm-keyword)', fontWeight: '600' },
 		{ tag: tags.operatorKeyword, color: 'var(--cm-keyword)' },
@@ -223,7 +224,7 @@
 </script>
 
 <div
-	class="codemirror-wrapper overflow-hidden rounded-xl border border-base-300 bg-base-200 shadow-sm focus-within:border-primary"
+	class="codemirror-wrapper overflow-hidden rounded-lg border border-base-300 bg-base-200 shadow-sm focus-within:border-primary"
 >
 	<!-- Toolbar -->
 	<div

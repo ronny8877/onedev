@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { getAllActiveTools, type ToolItem, getActiveCategories } from '$lib/config/tools';
-	import { fade, scale } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { trackEvent, trackToolSelect } from '$lib/utils/analytics';
 	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 
@@ -124,8 +124,8 @@
 {#if open}
 	<!-- Backdrop -->
 	<div
-		class="fixed inset-0 bg-black/50 z-100 backdrop-blur-sm"
-		transition:fade={{ duration: 150 }}
+		class="fixed inset-0 bg-black/50 z-100"
+		transition:fade={{ duration: 100 }}
 		onclick={closeModal}
 		onkeydown={(e) => e.key === 'Escape' && closeModal()}
 		role="button"
@@ -134,8 +134,7 @@
 
 	<!-- Modal -->
 	<div
-		class="command-palette bg-base-200"
-		transition:scale={{ duration: 150, start: 0.95 }}
+		class="command-palette bg-base-100"
 		onkeydown={handleKeydown}
 		role="dialog"
 		aria-modal="true"
@@ -205,8 +204,8 @@
 		width: 100%;
 		max-width: 32rem;
 		border: 1px solid var(--color-base-300);
-		border-radius: 1rem;
-		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+		border-radius: 0.5rem;
+		box-shadow: 0 8px 24px -8px rgb(0 0 0 / 0.35);
 		z-index: 101;
 		overflow: hidden;
 	}

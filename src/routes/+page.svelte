@@ -55,67 +55,17 @@
 		<h1 class="mb-4 text-4xl font-bold tracking-tight text-base-content lg:text-5xl">
 			OneDev Tools
 		</h1>
-		<img src={logo} alt="OneDev Tools Logo" class="w-96 h-60 rounded-3xl mx-auto mb-4" />
+		<img src={logo} alt="OneDev Tools Logo" class="w-96 h-60 rounded-lg mx-auto mb-4" />
 		<p class="text-lg text-base-content/70 leading-relaxed">
 			Free, fast, and privacy-focused developer tools.
 			<br />
 			No sign-up required. Everything runs in your browser.
 		</p>
-	</div>
-
-	<!-- Features -->
-	<div class="mb-12 flex flex-wrap justify-center gap-4">
-		<div class="flex items-center gap-2">
-			<div class="badge badge-success gap-1.5 px-3 py-3">
-				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M5 13l4 4L19 7"
-					></path>
-				</svg>
-				100% Free
-			</div>
-		</div>
-		<div class="flex items-center gap-2">
-			<div class="badge badge-info gap-1.5 px-3 py-3">
-				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-					></path>
-				</svg>
-				Privacy First
-			</div>
-		</div>
-		<div class="flex items-center gap-2">
-			<div class="badge badge-warning gap-1.5 px-3 py-3">
-				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M13 10V3L4 14h7v7l9-11h-7z"
-					></path>
-				</svg>
-				Lightning Fast
-			</div>
-		</div>
-	</div>
-
-	<!-- Tool Count -->
-	<div class="mb-8 text-center">
-		<div class="inline-flex items-center gap-2 bg-base-200 px-4 py-2 rounded-full border border-base-300">
-			<span class="text-2xl font-bold text-base-content">{allTools.length}</span>
-			<span class="text-base-content/70">tools and counting</span>
-		</div>
+		<p class="mt-4 text-sm text-muted">{allTools.length} tools · Free · Runs in your browser</p>
 	</div>
 
 	<!-- Original copy so the homepage is not only a card grid -->
-	<section class="mb-12 rounded-2xl border border-base-300 bg-base-100 p-6 sm:p-8 text-left">
+	<section class="mb-12 rounded-lg border border-base-300 bg-base-100 p-6 sm:p-8 text-left">
 		<h2 class="text-2xl font-bold text-base-content mb-4">Developer tools that stay on your machine</h2>
 		<div class="prose prose-sm sm:prose-base max-w-none text-base-content/80">
 			<p>
@@ -163,7 +113,7 @@
 						class="card bg-base-200 border border-base-300 transition-all duration-200 hover:border-base-content/20 hover:shadow-md"
 					>
 						<div class="card-body p-5">
-							<div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-base-300 text-base-content">
+							<div class="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-base-300 text-base-content">
 								<AppIcon name={tool.icon} size={20} />
 							</div>
 							<h3 class="card-title text-base font-semibold">{tool.name}</h3>
