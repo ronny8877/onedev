@@ -5,7 +5,7 @@
 }
 @plugin '@tailwindcss/typography';
 @plugin "daisyui" {
-  themes: light, forest;
+  themes: forest, silk;
 }
 
 
@@ -47,7 +47,7 @@ html[data-theme='forest'] {
   --cm-punct: color-mix(in oklab, var(--color-base-content) 55%, transparent);
 }
 
-html[data-theme='light'] {
+html[data-theme='silk'] {
   color-scheme: light;
   --radius-selector: 0.75rem;
   --radius-field: 0.75rem;
@@ -83,10 +83,10 @@ html[data-theme='forest'] .select option {
   color: var(--color-base-content);
 }
 
-html[data-theme='light'] select option,
-html[data-theme='light'] .select option {
-  background-color: #ffffff;
-  color: #1f2937;
+html[data-theme='silk'] select option,
+html[data-theme='silk'] .select option {
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
 }
 
 body {
@@ -143,12 +143,24 @@ html[data-theme='forest'] .card {
   border: 1px solid var(--color-base-300);
 }
 
+html[data-theme='silk'] .input,
+html[data-theme='silk'] .textarea,
+html[data-theme='silk'] .select {
+  background-color: var(--color-base-100);
+  border-color: var(--color-base-300);
+}
+
+html[data-theme='silk'] .card {
+  background-color: var(--color-base-200);
+  border: 1px solid var(--color-base-300);
+}
+
 html[data-theme='forest'] ::placeholder {
   color: color-mix(in oklab, var(--color-base-content) 50%, transparent);
   opacity: 1;
 }
 
-html[data-theme='light'] ::placeholder {
+html[data-theme='silk'] ::placeholder {
   color: color-mix(in oklab, var(--color-base-content) 45%, transparent);
   opacity: 1;
 }
