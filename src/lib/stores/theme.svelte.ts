@@ -1,23 +1,16 @@
-type Theme = 'light' | 'dark';
+import { THEME_KEY, daisyTheme, type ThemePreference } from '$lib/theme-daisy';
 
-const THEME_KEY = 'onedev-theme';
-
-// DaisyUI theme names. Dark uses official `forest`, not `night` or a custom palette.
-function dataTheme(theme: Theme): 'light' | 'forest' {
-	return theme === 'light' ? 'light' : 'forest';
-}
+type Theme = ThemePreference;
 
 function getStoredTheme(): Theme {
 	if (typeof window === 'undefined' || typeof localStorage === 'undefined') return 'dark';
-	const stored = localStorage.getItem(THEME_KEY);
-	if (stored === 'light' || stored === 'dark') return stored;
-	if (stored === 'forest') return 'dark';
-	return 'dark';
+	return localStorage.getItem(THEME_KEY) === 'light' ? 'light' : 'dark';
 }
 
 function applyTheme(theme: Theme) {
 	if (typeof document === 'undefined') return;
-	document.documentElement.setAttribute('data-theme', dataTheme(theme));
+	const name = daisyTheme(theme);
+	document.documentElement.setAttribute('data-theme', name);
 	document.documentElement.style.colorScheme = theme === 'light' ? 'light' : 'dark';
 	const meta = document.querySelector('meta[name="theme-color"]');
 	if (meta) {
@@ -49,4 +42,4 @@ export function initTheme() {
 	applyTheme(stored);
 }
 
-export const themeKey = THEME_KEY;
+export { THEME_KEY };
