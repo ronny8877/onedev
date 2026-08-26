@@ -14,62 +14,69 @@ interface JwtToolContent {
 export const jwtToolsContent: Record<string, JwtToolContent> = {
 	decoder: {
 		features: [
-			'Instantly decodes the header and payload of any JWT',
-			'Shows the signing algorithm and warns when a token uses "none"',
-			'Turns Unix timestamps like iat and exp into readable dates',
-			'Runs entirely in your browser — tokens are never sent anywhere',
-			'Pretty-prints the raw JSON so nested claims are easy to read'
+			'Splits header.payload.signature and Base64URL-decodes the first two parts',
+			'Does not verify the signature. A decoded token is not a trusted token',
+			'Flags alg none and other unsigned-looking headers',
+			'Turns exp, iat, and nbf Unix seconds into readable dates',
+			'Pretty-prints claims so nested JSON is readable'
 		],
 		useCases: [
-			'Checking what claims an auth server actually put in a token',
-			'Debugging login issues by inspecting the payload during development',
-			'Confirming the algorithm and key id (kid) a token was signed with',
-			'Teaching teammates how the three parts of a JWT fit together'
+			'See which alg and kid a staging token actually carries',
+			'Confirm a 401 is an expired exp, not a parse failure',
+			'Teach that anyone with the token can read the payload',
+			'Inspect a fixture JWT before wiring a real verifier'
 		],
 		concept: {
-			title: 'What a JWT actually contains',
-			content: `<p>A JSON Web Token (JWT) is just three Base64URL-encoded strings joined by dots: <code>header.payload.signature</code>. The header says which algorithm signed the token, the payload holds the claims (who the user is, when the token expires, and so on), and the signature lets a server confirm the token hasn't been changed.</p>
-			<p>The important thing to understand is that a JWT is <strong>encoded, not encrypted</strong>. Anyone who has the token can read the header and payload — this decoder simply does that decoding for you. The signature is the only part that needs a secret, and it can only be <em>verified</em> on the server that holds the key.</p>
-			<p>Because the contents are readable by anyone, you should never put passwords, secrets, or sensitive personal data in a payload.</p>`
+			title: 'Decode is not verify',
+			content: `<p>A JWT is three Base64URL segments: <code>header.payload.signature</code>. This page decodes the header and payload. It does <strong>not</strong> check the signature. If the bytes parse, you will see claims even when the signature is garbage, stripped, or signed with the wrong key.</p>
+<p><strong>alg=none</strong> means there is no signature. Some old libraries treated <code>{"alg":"none"}</code> as valid. If you see <code>none</code>, the token is an assertion anyone could have written. HS256 vs RS256 confusion is the other classic failure: a token that looks fine here can still be rejected (or worse, accepted) by a sloppy verifier.</p>
+<p>The payload is encoded, not encrypted. Treat it as public. Do not put passwords, session secrets, or full PANs in claims. <strong>Do not paste live production tokens into examples or screenshots.</strong> Use a fixture with fake sub/email values. A still-valid access token in a ticket is a credential leak.</p>
+<p>Expiry is a Unix second in <code>exp</code>. Decoding it here does not enforce it. The server that holds the key is the only place verification belongs.</p>`
 		},
 		examples: [
 			{
-				label: 'A normal token with three parts',
-				code: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwibmFtZSI6IkpvaG4ifQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+				label: 'Fixture token (obviously fake claims, HS256 header)',
+				code: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyX2Zha2VfMDEiLCJuYW1lIjoiVGVzdCBVc2VyIiwiZXhwIjoxOTE2MjM5MDIyLCJpc3MiOiJodHRwczovL2F1dGgudGVzdC5leGFtcGxlIn0.signature-not-verified',
 				isValid: true
 			},
 			{
-				label: 'Missing the signature part',
-				code: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0In0',
+				label: 'alg none: unsigned, not trustworthy',
+				code: 'eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJhdHRhY2tlciIsInJvbGUiOiJhZG1pbiJ9.',
+				isValid: true
+			},
+			{
+				label: 'Only two parts (missing signature segment)',
+				code: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyX2Zha2VfMDEifQ',
 				isValid: false
 			}
 		],
 		faqs: [
 			{
 				question: 'Does this tool verify the signature?',
-				answer: 'No. It only decodes the header and payload so you can read them. Verifying the signature requires the secret or public key and should always happen on your server.'
+				answer: '<p>No. Verification needs the HMAC secret or the issuer public key, and it belongs on your server. This page only Base64URL-decodes header and payload. A green decode means the JSON parsed, not that the token is authentic.</p>'
 			},
 			{
-				question: 'Is it safe to paste a real token here?',
-				answer: 'Decoding happens entirely in your browser and nothing is uploaded. That said, treat live tokens like passwords — if a token is still valid, avoid pasting it into any tool you do not control.'
+				question: 'What does alg none mean?',
+				answer: '<p>The header says the token is unsigned. Anyone can mint a payload with <code>alg: none</code>. Reject it in production verifiers. If you decode one here, treat every claim as attacker-controlled.</p>'
+			},
+			{
+				question: 'Can I paste a production access token?',
+				answer: '<p>Do not. A live token is a credential. Use a fixture: fake <code>sub</code>, obviously fake email, expired or far-future <code>exp</code>. If you already pasted a real token, rotate it. Screenshots, HARs, and chat logs leak tokens even when the page itself does not upload them.</p>'
 			},
 			{
 				question: 'Why can I read the payload without a key?',
-				answer: 'JWTs are Base64URL-encoded, not encrypted. Encoding only changes the format of the data, so anyone can decode it. Never store secrets in a JWT payload.'
-			},
-			{
-				question: 'What does the "alg" field mean?',
-				answer: 'It is the algorithm used to sign the token, such as HS256 (HMAC + SHA-256) or RS256 (RSA + SHA-256). A value of "none" means the token is unsigned and should never be trusted.'
+				answer: '<p>Base64URL is encoding. There is no confidentiality. JWE (encrypted JWT) is a different format. This decoder is for JWS compact serialization, the three-part tokens APIs usually send.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'JWT Claims Viewer', path: '/jwt/claims', description: 'See every claim explained in plain English' },
-			{ name: 'JWT Expiration Checker', path: '/jwt/expiration', description: 'Check whether a token is expired or still valid' },
-			{ name: 'JWT Size Analyzer', path: '/jwt/size', description: 'Measure token length and header vs payload size' }
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'JWT claims are JSON: same parse rules, duplicate keys, big numbers' },
+			{ name: 'Unix Timestamp', path: '/date/timestamp', description: 'Convert exp and iat seconds (10 digits, not 13)' },
+			{ name: 'Hash Generator', path: '/hash/generator', description: 'HS256 is HMAC-SHA-256, not a password hash' }
 		],
 		tips: [
-			'If the payload looks empty, check that you pasted all three dot-separated parts.',
-			'A token that decodes fine can still be expired — check the exp claim separately.'
+			'If the payload looks empty, you probably pasted two segments instead of three.',
+			'A token that decodes can still be expired, wrong-aud, or signed with a leaked HS256 secret.',
+			'Never put real production tokens in docs, issue templates, or this page\'s sample field.'
 		]
 	},
 

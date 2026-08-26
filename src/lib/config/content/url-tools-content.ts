@@ -28,87 +28,72 @@ export interface URLToolContent {
 export const urlToolsContent: Record<string, URLToolContent> = {
 	'encode-decode': {
 		features: [
-			'Instant URL encoding and decoding',
-			'Automatic input detection (plain text or encoded)',
-			'Multiple encoding modes (Component, Full URL, Query)',
-			'Support for UTF-8 and special characters',
-			'Client-side processing (no server uploads)',
-			'Copy encoded/decoded output with one click'
+			'encodeURIComponent vs encodeURI: what each leaves unescaped',
+			'application/x-www-form-urlencoded + vs RFC 3986 %20 for spaces',
+			'Decode that does not treat + as space unless you pick query mode',
+			'UTF-8 percent sequences for non-ASCII (café → caf%C3%A9)'
 		],
 		useCases: [
-			'Encode query parameters for API requests',
-			'Decode URL-encoded strings from logs',
-			'Fix broken URLs with special characters',
-			'Encode spaces and symbols for web forms',
-			'Debug URL encoding issues in applications'
+			'Encode a query value that contains &, =, or /',
+			'See why encodeURI left ? and # intact and broke your param',
+			'Translate + from a form body into a space',
+			'Avoid double-encoding %20 into %2520'
 		],
 		concept: {
-			title: 'Understanding URL Encoding',
-			content: `
-				<p><strong>URL encoding</strong> (also called percent-encoding) converts characters into a format that can be safely transmitted over the internet. Special characters are replaced with % followed by hexadecimal values.</p>
-				
-				<p><strong>Why URL encoding?</strong></p>
-				<ul>
-					<li><strong>Reserved characters</strong> - Characters like ?, &, =, / have special meaning in URLs</li>
-					<li><strong>Space handling</strong> - Spaces must be encoded as %20 or +</li>
-					<li><strong>Unicode support</strong> - Non-ASCII characters need encoding for compatibility</li>
-					<li><strong>Data safety</strong> - Prevents URL interpretation errors</li>
-				</ul>
-				
-				<p><strong>Encoding modes:</strong></p>
-				<ul>
-					<li><strong>Component</strong> - Encodes all special characters (best for query parameters)</li>
-					<li><strong>Full URL</strong> - Preserves URL structure characters (://?#)</li>
-					<li><strong>Query</strong> - Like component, but uses + for spaces</li>
-				</ul>
-				
-				<p><strong>Example:</strong> "Hello World!" becomes "Hello%20World%21" (component mode) or "Hello+World%21" (query mode).</p>
-			`
+			title: 'encodeURI vs encodeURIComponent, and + vs %20',
+			content: `<p>JavaScript has two standard encoders. <code>encodeURI</code> is for a full URL. It leaves <code>;,/?:@&=+$</code> unescaped so the structure still parses. <code>encodeURIComponent</code> is for a single query value or path segment. It encodes those reserved characters. If you <code>encodeURI</code> a search term that contains <code>&amp;</code>, the <code>&amp;</code> still splits query parameters. That is the usual bug.</p>
+<p><strong>Spaces:</strong> RFC 3986 percent-encoding uses <code>%20</code>. HTML form encoding (<code>application/x-www-form-urlencoded</code>) uses <code>+</code> in the query. <code>decodeURIComponent('a+b')</code> yields <code>a+b</code>, not <code>a b</code>. You must replace <code>+</code> with a space before decode if the source was a form. Mixing the two is how logs show literal plus signs in names.</p>
+<p>Do not encode the whole URL including <code>https://</code> with encodeURIComponent; you will encode the colons and slashes and the request will not go where you think. Encode each component, then join. Double-encoding: running encodeURIComponent on an already encoded string turns <code>%20</code> into <code>%2520</code>.</p>`
 		},
 		examples: [
 			{
-				label: 'Encoding text with spaces',
-				code: 'Input: Hello World!\nOutput: Hello%20World%21\n// Space → %20, ! → %21',
+				label: 'encodeURIComponent on a query value',
+				code: "encodeURIComponent('a&b=c')\n→ a%26b%3Dc",
 				isValid: true
 			},
 			{
-				label: 'Decoding URL-encoded string',
-				code: 'Input: Hello%20World%21\nOutput: Hello World!\n// %20 → space, %21 → !',
+				label: 'encodeURI leaves & = ? (wrong for a param)',
+				code: "encodeURI('q=a&b')\n→ q=a&b   // still two params",
+				isValid: false
+			},
+			{
+				label: '+ vs %20',
+				code: 'query form: q=hello+world  → space\ncomponent:  q=hello%20world → space\ndecodeURIComponent("hello+world") → hello+world',
 				isValid: true
 			},
 			{
-				label: 'Query mode (space as +)',
-				code: 'Input: search query\nComponent: search%20query\nQuery: search+query',
-				isValid: true
+				label: 'Double-encoding',
+				code: 'hello world → hello%20world → hello%2520world',
+				isValid: false
 			}
 		],
 		faqs: [
 			{
-				question: 'What is URL encoding used for?',
-				answer: '<p>URL encoding ensures that special characters don\'t break URLs. It\'s essential for <strong>query parameters</strong>, <strong>form data</strong>, and <strong>API requests</strong>. Common uses include encoding search queries, filenames, user input, and international characters in URLs.</p>'
+				question: 'When do I use encodeURI vs encodeURIComponent?',
+				answer: '<p>Component: one query value, one path segment, anything that must not keep <code>&amp;</code>, <code>=</code>, <code>?</code>, <code>/</code>. URI: a complete URL you only need to escape spaces and non-ASCII in. Almost every API param wants Component.</p>'
 			},
 			{
-				question: 'What\'s the difference between %20 and + for spaces?',
-				answer: '<p><strong>%20</strong> is the standard percent-encoding for spaces, used with <code>encodeURIComponent()</code>. The <strong>+</strong> character is specific to <strong>application/x-www-form-urlencoded</strong> format (HTML forms). Both decode to spaces, but %20 is safer for general URL use.</p>'
+				question: 'Why is + still a plus after decode?',
+				answer: '<p><code>decodeURIComponent</code> does not treat <code>+</code> as space. Form bodies do. Replace <code>+</code> with <code>%20</code> or space first if the string came from <code>application/x-www-form-urlencoded</code>.</p>'
 			},
 			{
-				question: 'When should I use different encoding modes?',
-				answer: '<p>Use <strong>Component</strong> for query parameters and form data (encodes everything). Use <strong>Full URL</strong> when encoding complete URLs (preserves ://). Use <strong>Query</strong> for form submissions (space as +). Most cases need Component mode.</p>'
+				question: 'What is %2520?',
+				answer: '<p>A percent that was encoded twice. <code>%20</code> encoded again is <code>%2520</code>. Decode once to get <code>%20</code>, twice to get a space. Fix the encoder, do not keep stacking.</p>'
 			},
 			{
-				question: 'Can URL encoding handle unicode characters?',
-				answer: '<p>Yes! URL encoding converts unicode to <strong>UTF-8 bytes</strong>, then encodes each byte as %XX. For example, "café" becomes "caf%C3%A9". This ensures international characters work correctly in URLs across all systems.</p>'
-			},
-			{
-				question: 'Do I need to encode the entire URL?',
-				answer: '<p><strong>No.</strong> Only encode the <strong>dynamic parts</strong> like query parameters, not the protocol or domain. Example: <code>https://example.com/api?q=Hello%20World</code> - only "Hello World" needs encoding, not the base URL.</p>'
+				question: 'Does this encode a whole URL including https?',
+				answer: '<p>The component mode will, and that is usually wrong. Only encode the parts you interpolate: path segments and query values, not the scheme and host.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'Query Parser', path: '/url/query-parser', description: 'Parse URL query parameters' },
-			{ name: 'URL Builder', path: '/url/builder', description: 'Build URLs with parameters' },
-			{ name: 'URL Validator', path: '/url/validator', description: 'Validate URL format' },
-			{ name: 'Base64 Encode/Decode', path: '/base64/encode-decode', description: 'Encode data to Base64' }
+			{ name: 'Base64 Encode', path: '/base64/encode-decode', description: 'Different alphabet; URL-safe Base64 is not percent-encoding' },
+			{ name: 'QR Generator', path: '/qr/generator', description: 'Encode query spaces before putting a URL in a QR' },
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'When the value you are encoding is a JSON blob' }
+		],
+		tips: [
+			'encodeURIComponent for params. encodeURI almost never for values.',
+			'If a log shows +, decide whether the producer was a form or a URI.',
+			'Decode once. If you still see %HH, decode again only if you know it was double-encoded on purpose.'
 		]
 	},
 

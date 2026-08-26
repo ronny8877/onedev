@@ -6,6 +6,7 @@
 	import FAQSection from './FAQSection.svelte';
 	import RelatedTools from './RelatedTools.svelte';
 	import Tips from './Tips.svelte';
+	import CommonMistakes from './CommonMistakes.svelte';
 
 	interface ToolContentShape {
 		features: string[];
@@ -15,6 +16,7 @@
 		faqs: Array<{ question: string; answer: string }>;
 		relatedTools: Array<{ name: string; path: string; description: string }>;
 		tips?: string[];
+		commonMistakes?: string[];
 	}
 
 	interface Props {
@@ -30,6 +32,9 @@
 	<ConceptExplainer title={content.concept.title} content={content.concept.content} />
 	<Examples examples={content.examples} />
 	<FAQSection faqs={content.faqs} />
+	{#if content.commonMistakes}
+		<CommonMistakes mistakes={content.commonMistakes} />
+	{/if}
 	<RelatedTools relatedTools={content.relatedTools} />
 	{#if content.tips}
 		<Tips tips={content.tips} />

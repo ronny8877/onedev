@@ -109,7 +109,7 @@
 </script>
 
 <ToolWrapper
-	keywords={['context window', 'token budget', 'LLM context', 'prompt tokens', 'AI context limit']}
+	keywords={['context window remaining', 'max_tokens overflow', 'rag context budget', 'not a token counter']}
 	lastUpdated={PRICING_LAST_UPDATED}
 >
 	<div class="flex flex-col gap-6">
@@ -419,24 +419,24 @@
 			<div class="card-body py-5 px-6">
 				<h4 class="text-sm font-bold flex items-center gap-2 mb-3">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-					About Context Windows
+					About the window, not a token count
 				</h4>
 				<ul class="space-y-2 text-sm text-base-content/80">
 					<li class="flex items-start gap-2">
 						<span class="text-primary/70 mt-1">•</span>
-						<span><strong class="font-medium text-base-content">Context window</strong> represents the maximum sum of input tokens + output tokens a model can handle in one request.</span>
+						<span><strong class="font-medium text-base-content">Budget:</strong> system + history + user + markup + output must fit. Remaining is what the completion can use.</span>
 					</li>
 					<li class="flex items-start gap-2">
 						<span class="text-primary/70 mt-1">•</span>
-						<span><strong class="font-medium text-base-content">Message formatting</strong> (such as conversational headers) adds approximately 4 tokens overhead per message behind the scenes.</span>
+						<span><strong class="font-medium text-base-content">Markup</strong> is about 4 tokens per message. A raw string count misses it.</span>
 					</li>
 					<li class="flex items-start gap-2">
 						<span class="text-primary/70 mt-1">•</span>
-						<span>Always leave sufficient headroom for the model's <strong class="font-medium text-base-content">Max Output</strong> generation.</span>
+						<span>If remaining is under <strong class="font-medium text-base-content">max_tokens</strong>, expect a 400 or a truncated answer.</span>
 					</li>
 					<li class="flex items-start gap-2">
 						<span class="text-primary/70 mt-1">•</span>
-						<span>Longer contexts may increase latency and API token costs proportionally.</span>
+						<span>This is not a token counter. The counter page totals one string. This page subtracts from the window.</span>
 					</li>
 				</ul>
 			</div>

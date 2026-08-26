@@ -7,6 +7,7 @@ export interface YamlToolContent {
 	faqs: Array<{ question: string; answer: string }>;
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
+	commonMistakes?: string[];
 }
 
 export const yamlToolsContent: Record<string, YamlToolContent> = {
@@ -303,58 +304,63 @@ export const yamlToolsContent: Record<string, YamlToolContent> = {
 
 	'to-json': {
 		features: [
-			'Convert YAML to JSON with pretty-printing',
-			'Handles YAML anchors, aliases, and merge keys',
-			'Resolves multi-document YAML (<code>---</code>) into a JSON array',
-			'Syntax error reporting with line numbers',
-			'Minify or pretty-print the JSON output',
-			'Copy converted JSON to clipboard',
+			'Parses YAML then JSON.stringify: comments never survive',
+			'Anchors and aliases are inlined (duplicated values, no &/* left)',
+			'Country code NO (Norway) becomes boolean false unless quoted',
+			'Multi-document --- files become a JSON array of documents'
 		],
 		useCases: [
-			'Convert Kubernetes manifests or Helm values to JSON for API calls',
-			'Use YAML-authored config in applications that require JSON input',
-			'Convert OpenAPI YAML specs to JSON for tools that prefer it',
-			'Process YAML configuration files in languages with better JSON support',
-			'Migrate YAML-based secrets to JSON for environment variable injection',
+			'See why a Helm values country: NO became false in JSON',
+			'Confirm comments you needed for humans are gone after convert',
+			'Expand YAML anchors before an API that only speaks JSON',
+			'Turn a multi-doc Kubernetes dump into a JSON array'
 		],
 		concept: {
-			title: 'YAML to JSON Conversion',
-			content: `<p>Converting YAML to JSON parses the YAML into a data structure and serializes it as JSON. Because JSON is a strict subset of YAML, this conversion may encounter YAML features that have no direct JSON equivalent:</p>
-<ul class="mt-2 space-y-1 list-disc pl-5 text-base-content/80">
-  <li><strong>Comments</strong> — YAML comments are discarded (JSON has no comments)</li>
-  <li><strong>Anchors &amp; aliases</strong> — Resolved to their referenced values in the JSON output</li>
-  <li><strong>Multi-document</strong> — Multiple <code>---</code>-separated documents are output as a JSON array</li>
-  <li><strong>Binary data</strong> — YAML binary scalars are base64-encoded as JSON strings</li>
-</ul>`,
+			title: 'Norway, comments, and inlined anchors',
+			content: `<p>YAML to JSON is parse-then-serialize. YAML features that JSON cannot represent are dropped or expanded. That is not a bug in the converter; it is the type system.</p>
+<p><strong>The Norway problem:</strong> YAML 1.1 (and many parsers still in 1.1 mode) treat <code>NO</code>, <code>No</code>, <code>off</code>, <code>yes</code>, <code>on</code> as booleans. A country code field <code>country: NO</code> becomes <code>"country": false</code> in JSON. Quote it: <code>country: "NO"</code>. ISO country lists and Travis-style <code>on</code>/<code>off</code> keys are the usual victims. YAML 1.2 is stricter; js-yaml historically followed 1.1-ish rules for these scalars.</p>
+<p><strong>Comments</strong> (<code># ...</code>) have no JSON equivalent. Re-serialize and they are gone. If the comment was the only documentation, keep the YAML as source of truth.</p>
+<p><strong>Anchors</strong> (<code>&name</code>) and <strong>aliases</strong> (<code>*name</code>) are inlined. The JSON repeats the mapped value. Merge keys (<code>&lt;&lt;: *defaults</code>) are expanded too. You cannot round-trip back to the original YAML with aliases intact.</p>`
 		},
 		examples: [
-			{ label: 'YAML input', code: 'name: my-app\nreplicas: 3\nenabled: true', isValid: true },
-			{ label: 'JSON output', code: '{\n  "name": "my-app",\n  "replicas": 3,\n  "enabled": true\n}', isValid: true },
+			{ label: 'Norway: unquoted NO becomes false', code: 'country: NO\n# JSON: {"country": false}', isValid: true },
+			{ label: 'Quoted NO stays a string', code: 'country: "NO"\n# JSON: {"country": "NO"}', isValid: true },
+			{ label: 'Comment is dropped', code: 'port: 8080  # listen port\n# JSON has no comment', isValid: true },
+			{ label: 'Anchor inlined', code: 'defaults: &def\n  retries: 3\nsvc:\n  <<: *def\n# JSON: svc.retries is 3, no &def', isValid: true }
 		],
 		faqs: [
 			{
-				question: 'Are YAML comments preserved in JSON output?',
-				answer: '<p>No. JSON does not support comments, so all YAML comments are discarded during conversion. If you need to preserve comments for documentation, keep the YAML source file as the canonical version and generate JSON from it as needed.</p>',
+				question: 'Why is my country code false?',
+				answer: '<p>Unquoted <code>NO</code>, <code>No</code>, or <code>no</code> is a boolean in YAML 1.1. Quote it. The same trap exists for <code>yes</code>, <code>on</code>, <code>off</code>, and sometimes <code>null</code>/<code>~</code>.</p>'
 			},
 			{
-				question: 'What happens to YAML anchors in the JSON output?',
-				answer: '<p>Anchors (<code>&name</code>) and aliases (<code>*name</code>) are resolved: the alias is replaced by the full value of its anchor target. The JSON output contains the fully expanded data with no references.</p>',
+				question: 'Where did my comments go?',
+				answer: '<p>JSON has no comment syntax. Conversion discards them. Keep YAML if humans need those notes; generate JSON as a build artifact.</p>'
 			},
 			{
-				question: 'Can I convert a multi-document YAML file?',
-				answer: '<p>Yes. A YAML file with multiple <code>---</code>-separated documents is converted to a JSON array where each element corresponds to one document. If you need a single object, ensure your YAML file contains only one document.</p>',
+				question: 'What happens to YAML anchors?',
+				answer: '<p>They are inlined. Each alias becomes a full copy of the anchored node. Shared structure becomes duplicated JSON. That can inflate large Helm values files.</p>'
 			},
+			{
+				question: 'Can I convert a multi-document file?',
+				answer: '<p>Documents separated by <code>---</code> become a JSON array, one element per document. A single document stays an object or array, not wrapped.</p>'
+			}
 		],
 		relatedTools: [
-			{ name: 'JSON to YAML', path: '/yaml/from-json', description: 'Convert JSON back to YAML' },
-			{ name: 'YAML Formatter', path: '/yaml/formatter', description: 'Format YAML before converting' },
-			{ name: 'JSON Tools', path: '/json', description: 'Validate and format JSON' },
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Pretty-print after convert; watch duplicate keys and big numbers' },
+			{ name: 'YAML Formatter', path: '/yaml/formatter', description: 'Quote NO/yes before converting' },
+			{ name: 'CSV to JSON', path: '/csv/to-json', description: 'Tabular convert with a different set of traps (leading zeros)' }
 		],
 		tips: [
-			'Use minified JSON output when embedding in environment variables or API payloads.',
-			'If the YAML uses custom tags (e.g., <code>!!binary</code>), verify the JSON output handles them as expected.',
-			'For Kubernetes resources, converting to JSON enables you to use <code>kubectl apply -f -</code> with JSON piped from a script.',
+			'Quote any scalar that looks like a boolean, null, or number but is an identifier (NO, on, 01).',
+			'Do not expect comments or anchors to survive a round-trip.',
+			'If JSON output shows false for a country field, that is Norway, not a missing value.'
 		],
+		commonMistakes: [
+			'Leaving country: NO unquoted',
+			'Expecting # comments in the JSON',
+			'Assuming aliases remain references instead of copies'
+		]
 	},
 
 	'to-env': {

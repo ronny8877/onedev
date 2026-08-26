@@ -13,11 +13,12 @@
 	const jwtContent = jwtToolsContent['decoder'];
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import { base64UrlDecode } from '$lib/utils/jwt';
 
 	let token = $state('');
 
 	// Sample JWT with exp in the future
-	const sampleToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE5MTYyMzkwMjIsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+	const sampleToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyX2Zha2VfMDEiLCJuYW1lIjoiVGVzdCBVc2VyIiwiZXhwIjoxOTE2MjM5MDIyLCJpc3MiOiJodHRwczovL2F1dGgudGVzdC5leGFtcGxlIn0.signature-not-verified';
 
 	interface DecodedJWT {
 		header: Record<string, unknown>;
@@ -29,20 +30,6 @@
 	interface DecodeResult {
 		decoded: DecodedJWT | null;
 		error: string | null;
-	}
-
-	// Base64URL decode helper
-	function base64UrlDecode(str: string): string {
-		let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
-		const padding = base64.length % 4;
-		if (padding) {
-			base64 += '='.repeat(4 - padding);
-		}
-		try {
-			return atob(base64);
-		} catch {
-			throw new Error('Invalid Base64URL encoding');
-		}
 	}
 
 	// Return both decoded result and error from derived

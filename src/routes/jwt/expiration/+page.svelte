@@ -13,6 +13,7 @@
 	const jwtContent = jwtToolsContent['expiration'];
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import { base64UrlDecode } from '$lib/utils/jwt';
 
 	let token = $state('');
 	let showUtc = $state(false);
@@ -24,14 +25,6 @@
 		exp?: number;
 		iat?: number;
 		nbf?: number;
-	}
-
-	// Base64URL decode
-	function base64UrlDecode(str: string): string {
-		let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
-		const padding = base64.length % 4;
-		if (padding) base64 += '='.repeat(4 - padding);
-		return atob(base64);
 	}
 
 	let timeInfo = $derived.by((): { info: TimeInfo; error: string | null } => {

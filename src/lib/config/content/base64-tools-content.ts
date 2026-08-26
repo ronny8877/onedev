@@ -27,82 +27,69 @@ export interface Base64ToolContent {
 export const base64ToolsContent: Record<string, Base64ToolContent> = {
 	'encode-decode': {
 		features: [
-			'Instant Base64 encoding and decoding',
-			'Automatic input detection (text or Base64)',
-			'Support for UTF-8 text encoding',
-			'Character and byte count statistics',
-			'Client-side processing (no server uploads)',
-			'Copy encoded/decoded output with one click'
+			'Standard Base64 (A-Z a-z 0-9 + /) and a reminder that + / break URLs',
+			'URL-safe alphabet uses - _ instead of + / (RFC 4648 §5)',
+			'UTF-8 encode before btoa so emoji and non-Latin text do not throw',
+			'Padding = is explained, not silently invented on decode unless needed',
+			'Encoding is reversible by anyone. It is not a cipher'
 		],
 		useCases: [
-			'Encode credentials for HTTP Basic Authentication',
-			'Embed small files in HTML, CSS, or JSON',
-			'Decode Base64 strings from API responses',
-			'Convert binary data to text-safe format',
-			'Share text data in URL-safe format'
+			'Decode a Basic-auth header without treating it as a secret store',
+			'See why a JWT-looking string fails standard atob (+ vs -)',
+			'Fix InvalidCharacterError from btoa("café")',
+			'Check padding on a PEM-style or MIME line'
 		],
 		concept: {
-			title: 'Understanding Base64 Encoding',
-			content: `
-				<p><strong>Base64</strong> is a binary-to-text encoding scheme that converts binary data into ASCII text using 64 printable characters. It's widely used for transmitting binary data over text-only channels.</p>
-				
-				<p><strong>Why Base64?</strong></p>
-				<ul>
-					<li><strong>Text-safe</strong> - Converts binary data to ASCII characters</li>
-					<li><strong>Email compatible</strong> - Works in MIME email attachments</li>
-					<li><strong>URL embedding</strong> - Embed images and files in HTML/CSS</li>
-					<li><strong>API transmission</strong> - Send binary data in JSON</li>
-				</ul>
-				
-				<p><strong>How it works:</strong> Base64 takes every 3 bytes (24 bits) of input and divides them into four 6-bit groups. Each 6-bit group is mapped to one of 64 characters (A-Z, a-z, 0-9, +, /).</p>
-				
-				<p><strong>Note:</strong> Base64 increases data size by approximately 33% due to encoding overhead.</p>
-			`
+			title: 'Base64 is encoding, not encryption',
+			content: `<p>Anyone who has the string can decode it. Base64 exists so binary can travel through text protocols. It is not access control. Putting an API key in Base64 is the same as putting it in plaintext with extra characters.</p>
+<p><strong>Alphabets:</strong> Standard Base64 uses <code>+</code> and <code>/</code>, plus <code>=</code> padding. Those three are unsafe in URLs and filenames. URL-safe Base64 (RFC 4648 §5) swaps them for <code>-</code> and <code>_</code> and often drops padding. JWTs use URL-safe without padding. If you <code>atob</code> a JWT segment, you must map <code>-</code>/<code>_</code> back first or decode fails.</p>
+<p><strong>btoa Unicode:</strong> In browsers, <code>btoa</code> only accepts bytes as a "binary string". <code>btoa("✓")</code> or <code>btoa("café")</code> throws <code>InvalidCharacterError</code>. The fix is UTF-8 then Base64: encode the string to bytes (TextEncoder), then Base64 those bytes. Decoding must reverse that. Latin-1 <code>escape/unescape</code> hacks mis-decode emoji.</p>
+<p>Size grows by about 4/3. Padding: input length mod 3 of 1 needs <code>==</code>, mod 3 of 2 needs <code>=</code>. Some decoders accept missing padding; strict ones do not.</p>`
 		},
 		examples: [
 			{
-				label: 'Encoding text to Base64',
-				code: 'Input: Hello, World!\nOutput: SGVsbG8sIFdvcmxkIQ==',
+				label: 'ASCII round-trip',
+				code: 'Hello, World!\n→ SGVsbG8sIFdvcmxkIQ==',
 				isValid: true
 			},
 			{
-				label: 'Decoding Base64 string',
-				code: 'Input: SGVsbG8sIFdvcmxkIQ==\nOutput: Hello, World!',
+				label: 'URL-safe vs standard (same bytes)',
+				code: 'standard:  ab+c/d==\nurl-safe:  ab-c_d',
 				isValid: true
 			},
 			{
-				label: 'Invalid Base64 (incorrect padding)',
-				code: 'SGVsbG8sIFdvcmxkIQ=\n// Missing one = padding character',
+				label: 'btoa Unicode pitfall',
+				code: 'btoa("café")  // InvalidCharacterError in browsers\n// UTF-8 bytes of café → Y2Fmw6k=',
 				isValid: false
+			},
+			{
+				label: 'This is not secret',
+				code: 'c2Vuc2l0aXZlLXBhc3N3b3Jk\n→ sensitive-password',
+				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'What is Base64 encoding used for?',
-				answer: '<p>Base64 encoding converts binary data into ASCII text, making it safe for transmission over text-only protocols like email, JSON, and XML. Common uses include encoding images for HTML/CSS embedding, transmitting file data in APIs, and encoding credentials for HTTP Basic Authentication.</p>'
+				question: 'Is Base64 encryption?',
+				answer: '<p>No. It is a reversible alphabet mapping. If the string is in a repo, a JWT, or a URL, assume anyone can decode it. Use TLS plus a real cipher or a secret store when you need confidentiality.</p>'
 			},
 			{
-				question: 'Does Base64 provide encryption or security?',
-				answer: '<p><strong>No.</strong> Base64 is an <em>encoding</em> scheme, not encryption. It makes data text-safe but offers zero security. Anyone can decode Base64 instantly. Never use Base64 alone to protect sensitive data—use proper encryption instead.</p>'
+				question: 'Why did atob fail on a JWT or URL token?',
+				answer: '<p>JWT uses URL-safe Base64 without padding. <code>+</code>/<code>/</code> became <code>-</code>/<code>_</code>, and <code>=</code> is omitted. Map the alphabet back and add padding until the length is a multiple of 4, then decode. This page\'s URL-safe converter exists for that swap.</p>'
 			},
 			{
-				question: 'Why does Base64 increase file size?',
-				answer: '<p>Base64 encoding increases data size by approximately 33%. This happens because it converts every 3 bytes (24 bits) into 4 Base64 characters (32 bits). The overhead is necessary to ensure the output uses only printable ASCII characters.</p>'
+				question: 'Why does btoa throw on my string?',
+				answer: '<p>The string has a code unit above 255. Encode to UTF-8 bytes first. <code>unescape(encodeURIComponent(s))</code> is the old trick; <code>TextEncoder</code> is the correct one. Decoding must use UTF-8, not Latin-1, or you get mojibake.</p>'
 			},
 			{
-				question: 'What are the = characters at the end of Base64 strings?',
-				answer: '<p>The <code>=</code> characters are <strong>padding</strong>. Base64 processes data in 3-byte chunks. If the input isn\'t divisible by 3, padding (= or ==) is added to complete the final group. Some decoders are lenient with missing padding, but proper Base64 should include it.</p>'
-			},
-			{
-				question: 'Can Base64 encode any type of file?',
-				answer: '<p>Yes! Base64 can encode any binary data—images, PDFs, videos, ZIP files, executables, etc. However, for large files, Base64 is inefficient due to the 33% size increase. It\'s best suited for small files and embedding data directly in text formats.</p>'
+				question: 'Do I need the = padding?',
+				answer: '<p>Strict Base64 yes. Many JWT and URL-safe libraries omit it. A decoder that requires padding will reject a valid JWT segment until you append <code>=</code> or <code>==</code>.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'File Encoder', path: '/base64/file-encoder', description: 'Encode files to Base64' },
-			{ name: 'Base64 Validator', path: '/base64/validator', description: 'Validate Base64 strings' },
-			{ name: 'URL-safe Converter', path: '/base64/url-safe', description: 'Convert to URL-safe format' },
-			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Format JSON for encoding' }
+			{ name: 'URL-safe Converter', path: '/base64/url-safe', description: 'Swap +/ with -_ for tokens and query values' },
+			{ name: 'JWT Decoder', path: '/jwt/decoder', description: 'JWT parts are URL-safe Base64 without padding' },
+			{ name: 'URL Encode', path: '/url/encode-decode', description: 'Percent-encoding is a different alphabet than Base64' }
 		]
 	},
 

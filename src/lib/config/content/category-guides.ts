@@ -322,7 +322,7 @@ export const categoryGuides: Record<string, CategoryGuide> = {
 			},
 			{
 				question: 'Why are some break pages not in Google search?',
-				answer: '<p>Clock, ambient, and zen motion are rest UIs. We noindex them so they do not look like empty doorway pages. Pomodoro and breathing stay indexable because they document a technique.</p>'
+				answer: '<p>Every /break page is noindex. Clock, ambient, zen motion, Pomodoro, and breathing are rest UIs, not search destinations. Use them in the tab; they are omitted from the sitemap.</p>'
 			},
 			{
 				question: 'Can I customize Pomodoro lengths beyond 25/5 and 50/10?',

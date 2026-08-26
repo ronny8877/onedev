@@ -12,82 +12,74 @@ interface HashToolContent {
 
 export const hashToolsContent: Record<string, HashToolContent> = {
 	'generator': {
-		lastUpdated: '2026-05-07',
+		lastUpdated: '2026-08-27',
 		features: [
-			'Support for MD5, SHA-1, SHA-256, SHA-512, CRC32, and more',
-			'Real-time hash generation as you type',
-			'File hashing support (client-side processing for large files)',
-			'Compare multiple algorithms simultaneously',
-			'One-click copy for all outputs',
-			'Secure processing (no data leaves your browser)'
+			'MD5, SHA-1, SHA-256, SHA-512, CRC32 side by side so lengths differ on purpose',
+			'File digest for checksum comparison against a published SHA-256',
+			'Will not store a password; these functions are not bcrypt/Argon2',
+			'Hex and Base64 views of the same digest'
 		],
 		useCases: [
-			'Verify file integrity after downloading software',
-			'Generate checksums for software releases or package managers',
-			'Create unique cache identifiers for data payloads',
-			'Compare the output lengths and formats of different hashing algorithms',
-			'Quickly generate test hashes for database seeding or unit tests'
+			'Match a downloaded ISO against a published SHA-256',
+			'See that MD5("password") is still in every rainbow table',
+			'Compare SHA-1 vs SHA-256 length before picking a Git-era checksum',
+			'HMAC belongs on the HMAC page; this page is unkeyed hashes'
 		],
 		concept: {
-			title: 'Understanding Cryptographic Hashing',
-			content: `<p><strong>Hashing</strong> is a mathematical algorithm that maps data of arbitrary size to a fixed-size string of characters, called a hash or digest. It is a fundamental component of modern cryptography and data integrity.</p>
-			<p><strong>Key Properties of a Good Hash Function:</strong></p>
-			<ul>
-				<li><strong>Deterministic:</strong> The exact same input will always produce the exact same hash output.</li>
-				<li><strong>Pre-image Resistance (One-way):</strong> It is computationally infeasible to reverse the hash back to the original input.</li>
-				<li><strong>Avalanche Effect:</strong> Changing even a single bit of the input produces a completely different hash output.</li>
-				<li><strong>Collision Resistance:</strong> It should be extremely difficult to find two different inputs that produce the same hash.</li>
-			</ul>
-			<p>While some algorithms like MD5 and SHA-1 are fast, they are no longer collision-resistant and should only be used for non-security checksums. SHA-256 and SHA-512 remain the industry standard for cryptographic security.</p>`
+			title: 'MD5 and SHA-1 are broken; hashes are not for passwords',
+			content: `<p><strong>MD5</strong> (1992) and <strong>SHA-1</strong> (1995) are collision-broken. Chosen-prefix collisions are practical. Browsers and CAs rejected SHA-1 certificates years ago. Git still uses SHA-1 historically; that is not a reason to hash passwords or sign new artifacts with it. For integrity of a file you already trust the publisher of, SHA-256 is the default. CRC32 is an error-detecting checksum, not a cryptographic hash at all.</p>
+<p><strong>Do not hash passwords with anything on this page.</strong> MD5(password), SHA-1(password), even SHA-256(password) are fast and unsalted. Attackers use GPUs and rainbow tables. Password storage needs a slow KDF: Argon2id, bcrypt, or scrypt, with a unique salt per user. The security tools section covers that. A 32-character hex SHA-256 of "admin123" is a demo of the avalanche effect, not a login scheme.</p>
+<p>Hashing is one-way. Encryption is two-way with a key. You cannot "decrypt" a digest. If two files share an MD5, that can be an attack, not a coincidence you ignore.</p>`
 		},
 		examples: [
 			{
-				label: 'MD5 (Legacy Checksum)',
-				code: 'Input: "admin123"\nMD5: 0192023a7bbd73250516f069df18b500',
+				label: 'MD5 of a common password (rainbow-table bait)',
+				code: 'Input: password\nMD5: 5f4dcc3b5aa765d61d8327deb882cf99\nDo not store this.',
 				isValid: true
 			},
 			{
-				label: 'SHA-256 (Modern Standard)',
-				code: 'Input: "admin123"\nSHA-256: 240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
+				label: 'SHA-256 of empty string (known test vector)',
+				code: 'SHA-256("") =\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
 				isValid: true
 			},
 			{
-				label: 'Avalanche Effect Demonstration',
-				code: 'Input 1: "Hello"\nSHA-256: 185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969\n\nInput 2: "hello" (lowercase h)\nSHA-256: 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824',
+				label: 'Avalanche: one bit of case',
+				code: 'SHA-256("Hello") != SHA-256("hello")',
 				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'What is the difference between hashing and encryption?',
-				answer: '<p>Encryption is a two-way function: data is scrambled using a key and can be decrypted back to its original form using the same (or a related) key. Hashing is a one-way function: data is scrambled into a fixed-size digest, and it cannot be reversed to reveal the original data.</p>'
+				question: 'Can I use MD5 for passwords?',
+				answer: '<p>No. MD5 is fast and broken for collisions. Unsalted SHA-256 is also wrong for passwords. Use Argon2id or bcrypt in the application, never a general-purpose digest from this page.</p>'
 			},
 			{
-				question: 'Which hashing algorithm should I use?',
-				answer: '<p>For security purposes (passwords, certificates, digital signatures), use <strong>SHA-256</strong> or <strong>SHA-512</strong>. For quick file integrity checks where malicious tampering is not a concern, <strong>MD5</strong> or <strong>CRC32</strong> are faster but cryptographically insecure.</p>'
+				question: 'Is SHA-1 OK for Git?',
+				answer: '<p>Git still names commits with SHA-1 (and is moving). That is a content address, not password storage and not a TLS certificate. For new file checksums you publish, prefer SHA-256.</p>'
 			},
 			{
-				question: 'Is it safe to hash files on this website?',
-				answer: '<p>Yes. This tool uses the Web Crypto API to process files entirely locally within your browser. The file data is never uploaded to a server, making it safe for sensitive or proprietary files.</p>'
+				question: 'Why does CRC32 look short?',
+				answer: '<p>32 bits. Fine for zip/ethernet-style accidental corruption. Trivial to collide on purpose. Do not use it to authenticate.</p>'
 			},
 			{
-				question: 'Can a hash be "cracked"?',
-				answer: '<p>Technically, hashes cannot be "decrypted". However, attackers use techniques like dictionary attacks or rainbow tables (precomputed lists of hashes for common words) to guess the original input. This is why passwords should always be hashed with a unique "salt" to prevent rainbow table attacks.</p>'
+				question: 'Hash vs HMAC vs encryption?',
+				answer: '<p>Hash: unkeyed digest. HMAC: keyed digest (API signatures). Encryption: reversible with a key. This generator is unkeyed hashes only.</p>'
 			}
 		],
 		tips: [
-			'When hashing passwords for a database, never use raw MD5, SHA-1, or SHA-256. Instead, use purpose-built password hashing functions like bcrypt, Argon2, or scrypt, which include salting and intentional computational delays.',
-			'If you are hashing files, comparing a SHA-256 hash is the most robust way to ensure a large download wasn\'t corrupted over the network.'
+			'Publish SHA-256 checksums next to downloads. MD5 as the only checksum is 2005 advice.',
+			'If you need a password hash, leave this page. Argon2id is the current default recommendation.',
+			'Hex vs Base64 is presentation. The bits are the same digest.'
 		],
 		commonMistakes: [
-			'Using MD5 or SHA-1 for passwords or security tokens. Both are vulnerable to collision attacks.',
-			'Forgetting that hashes are case-sensitive. "password" and "Password" yield completely different hashes.',
-			'Assuming hashing is the same as encryption and expecting to "decode" the hash later.'
+			'Storing SHA-256(password) in a user table',
+			'Treating MD5 as "good enough" because the output looks random',
+			'Confusing a hash with encryption and asking how to decode it'
 		],
 		relatedTools: [
-			{ name: 'Hash Identifier', path: '/hash/identifier', description: 'Analyze unknown hashes to detect the algorithm used.' },
-			{ name: 'File Checksum', path: '/hash/file-checksum', description: 'Verify file integrity by calculating and comparing hashes.' },
-			{ name: 'HMAC Generator', path: '/hash/hmac', description: 'Generate keyed hashes for API authentication.' }
+			{ name: 'JWT Decoder', path: '/jwt/decoder', description: 'HS256 is HMAC-SHA-256 of the token, not a password hash' },
+			{ name: 'PDF Compress', path: '/pdf/compress', description: 'Checksum the file after you shrink it' },
+			{ name: 'UUID Generator', path: '/id/uuid-generator', description: 'Need a unique id, not a digest of content' }
 		]
 	},
 	'md5': {
@@ -223,7 +215,7 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 			'Approved for high-security and classified data'
 		],
 		useCases: [
-			'Hashing passwords in Linux shadow files (`/etc/shadow`)',
+			'Checksum a large file when you want a 512-bit digest',
 			'High-security applications requiring maximum collision resistance',
 			'Post-quantum cryptography preparation',
 			'Generating long, unpredictable seed values for random number generators'
@@ -248,7 +240,7 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 			},
 			{
 				question: 'Is SHA-512 used for passwords?',
-				answer: '<p>Yes, but usually not in its raw form. Many Linux distributions use `crypt` with SHA-512 (often denoted as `$6$` in `/etc/shadow`) combined with a salt and thousands of rounds of iterative hashing to protect user passwords.</p>'
+				answer: '<p>Raw SHA-512 is not a password hash. Linux <code>$6$</code> is SHA-512-crypt: a salted, iterated construction, not a single digest from this page. For new password storage use Argon2id or bcrypt.</p>'
 			}
 		],
 		tips: [

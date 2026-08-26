@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ToolCategory } from '$lib/config/tools';
-	import { BASE_URL, getCategorySlug, getActiveCategories } from '$lib/config/tools';
+	import { getCategorySlug, getActiveCategories } from '$lib/config/tools';
+	import { SITE_ORIGIN, getPageCanonicalUrl, shouldNoindex } from '$lib/config/indexing';
 	import { getCategoryGuide } from '$lib/config/content/category-guides';
 	import JsonLd from '$lib/components/content/JsonLd.svelte';
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
@@ -16,7 +17,8 @@
 	let { category }: Props = $props();
 
 	const slug = $derived(getCategorySlug(category));
-	const canonicalUrl = $derived(`${BASE_URL}/${slug}`);
+	const canonicalUrl = $derived(getPageCanonicalUrl(`/${slug}`));
+	const pageNoindex = $derived(shouldNoindex(`/${slug}`));
 	const guide = $derived(getCategoryGuide(slug));
 
 	const title = $derived(
@@ -28,14 +30,14 @@
 	);
 
 	const breadcrumbs = $derived([
-		{ name: 'Home', item: BASE_URL + '/' },
-		{ name: category.name, item: canonicalUrl }
+		{ name: 'Home', item: SITE_ORIGIN + '/' },
+		{ name: category.name, item: canonicalUrl ?? `${SITE_ORIGIN}/${slug}` }
 	]);
 
 	const applicationData = $derived({
 		name: title,
 		description,
-		url: canonicalUrl
+		url: canonicalUrl ?? `${SITE_ORIGIN}/${slug}`
 	});
 
 	const relatedCategories = $derived(
@@ -47,11 +49,16 @@
 
 <svelte:head>
 	<title>{title} | OneDev Tools</title>
+	<meta name="robots" content={pageNoindex ? 'noindex, follow' : 'index, follow'} />
 	<meta name="description" content={description} />
-	<link rel="canonical" href={canonicalUrl} />
+	{#if canonicalUrl}
+		<link rel="canonical" href={canonicalUrl} />
+	{/if}
 	<meta property="og:title" content={title} />
 	<meta property="og:description" content={description} />
-	<meta property="og:url" content={canonicalUrl} />
+	{#if canonicalUrl}
+		<meta property="og:url" content={canonicalUrl} />
+	{/if}
 	<meta property="og:type" content="website" />
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>

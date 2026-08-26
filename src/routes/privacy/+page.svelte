@@ -1,6 +1,6 @@
 <script lang="ts">
 	import AppIcon from '$lib/components/ui/AppIcon.svelte';
-	import { BASE_URL } from '$lib/config/tools';
+	import { SITE_ORIGIN } from '$lib/config/indexing';
 </script>
 
 <svelte:head>
@@ -9,9 +9,9 @@
 		name="description"
 		content="OneDev Tools Privacy Policy. All tool processing happens in your browser. We do not collect or store the data you enter into any tool."
 	/>
-	<link rel="canonical" href="{BASE_URL}/privacy" />
+	<link rel="canonical" href="{SITE_ORIGIN}/privacy" />
 	<meta property="og:title" content="Privacy Policy — OneDev Tools" />
-	<meta property="og:url" content="{BASE_URL}/privacy" />
+	<meta property="og:url" content="{SITE_ORIGIN}/privacy" />
 	<meta property="og:type" content="website" />
 </svelte:head>
 

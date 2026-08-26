@@ -185,6 +185,11 @@
 						{/if}
 
 						{#if payload}
+							{#if type === 'wifi'}
+								<div class="rounded-lg border border-warning/40 bg-warning/10 p-3 text-sm text-base-content">
+									<strong>This QR is the password.</strong> The payload prints <code>P:</code> in plaintext. Anyone who scans, photographs, or copies it can join the network.
+								</div>
+							{/if}
 							<div class="flex items-center justify-between gap-2 rounded-lg bg-base-300/50 p-2">
 								<code class="text-xs break-all text-base-content/70">{payload}</code>
 								<CopyButton text={payload} size="xs" label="Copy" />
@@ -215,8 +220,13 @@
 
 			<div class="lg:sticky lg:top-20 h-fit">
 				<div class="card bg-base-100 border border-base-300 rounded-2xl">
-					<div class="card-body p-4">
+					<div class="card-body p-4 space-y-3">
 						<h3 class="font-bold mb-2">Preview</h3>
+						{#if type === 'wifi' && payload}
+							<p class="text-xs text-warning leading-relaxed">
+								Treat the PNG/SVG download like the Wi-Fi password. Hiding the form field does not hide the code.
+							</p>
+						{/if}
 						<QrPreview
 							data={payload}
 							{size}

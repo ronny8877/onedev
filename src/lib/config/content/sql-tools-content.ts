@@ -18,67 +18,68 @@ const relatedCore = [
 export const sqlToolsContent: Record<string, SqlToolContent> = {
 	formatter: {
 		features: [
-			'Pretty-print SQL with 2- or 4-space indent in this browser',
-			'Dialect support: PostgreSQL, MySQL, MariaDB, SQLite, SQL Server, BigQuery, Snowflake',
-			'Uppercase, lowercase, or preserve keywords',
-			'Standard or tabular indent for SELECT lists',
-			'Surface the first parse error with a line number',
-			'Copy or download. Queries never leave this tab'
+			'Dialect selector: PostgreSQL, MySQL/MariaDB, SQLite, SQL Server, BigQuery, Snowflake',
+			'Keyword case and indent without running the statement',
+			'Parse errors tied to the selected dialect, not generic SQL',
+			'Preserves string literals, dollar quotes, backticks, and brackets'
 		],
 		useCases: [
-			'Make a one-line ORM query readable before a code review',
-			'Normalize keyword case before a Git diff',
-			'Pretty-print a slow-query log line from Postgres or MySQL',
-			'Format a BigQuery or Snowflake script for a ticket',
-			'Clean up generated SQL from a GUI builder'
+			'Pretty-print a Postgres query that MySQL dialect would reject ($$, ILIKE)',
+			'Format a BigQuery script without treating backticks as MySQL errors',
+			'Normalize keyword case before a Git diff in one dialect',
+			'See why a T-SQL [bracket] identifier failed under PostgreSQL'
 		],
 		concept: {
-			title: 'What an SQL formatter actually changes',
-			content: `<p>An <strong>SQL formatter</strong> (also called an SQL beautifier or pretty printer) rewrites whitespace and keyword case so humans can see clauses. It does not run the query. <code>SELECT * FROM t</code> and a 20-line pretty version are the same statement to the engine.</p>
-<p class="mt-2">Dialects matter. PostgreSQL <code>$$</code> dollar quotes, MySQL backticks, and SQL Server <code>[brackets]</code> are not interchangeable. Pick the dialect that matches the engine you will run against, or the formatter may treat a valid token as an error.</p>
-<p class="mt-2">This page formats in the tab with <code>sql-formatter</code>. Nothing is uploaded. It will not “fix” a missing comma. If the parser rejects the input, you get the error instead of a guess.</p>`
+			title: 'Format by dialect, not generic SQL',
+			content: `<p>There is no single SQL. A formatter that assumes ANSI will mangle or reject real queries. This page uses sql-formatter with an explicit dialect. Pick the engine you will run against. Whitespace and keyword case change; the statement is not executed.</p>
+<p><strong>What breaks across dialects:</strong> PostgreSQL <code>$$</code> dollar quotes and <code>ILIKE</code>. MySQL/MariaDB backticks and <code>#</code> comments. SQL Server <code>[brackets]</code> and <code>N'strings'</code>. BigQuery backticks for project.dataset.table. Snowflake identifier quoting. SQLite is a subset, still not Postgres.</p>
+<p>If you format Postgres with the MySQL dialect, <code>$$body$$</code> looks like illegal syntax and you get a parse error instead of a pretty function body. The reverse: MySQL backticks become weird identifiers under Postgres rules.</p>
+<p>Formatting will not fix a missing comma. If the dialect parser rejects the input, you get the error, not a guess. Do not format a query if a downstream system hashes the exact bytes.</p>`
 		},
 		examples: [
 			{
-				label: 'Minified (valid)',
-				code: "select id,name from users where active=true order by name;",
+				label: 'Postgres dollar quote (needs PostgreSQL dialect)',
+				code: "SELECT $$it's a string$$;",
 				isValid: true
 			},
-			{ label: 'Unclosed string', code: "SELECT * FROM users WHERE name = 'Ada", isValid: false },
 			{
-				label: 'Formatted (2-space, upper keywords)',
-				code: "SELECT\n  id,\n  name\nFROM users\nWHERE active = TRUE\nORDER BY name;",
+				label: 'MySQL backticks',
+				code: 'SELECT `order` FROM `user`;',
 				isValid: true
+			},
+			{
+				label: 'Unclosed string (any dialect)',
+				code: "SELECT * FROM users WHERE name = 'Ada",
+				isValid: false
 			}
 		],
 		faqs: [
 			{
-				question: 'How do I pretty print SQL online?',
-				answer: '<p>Open the SQL Formatter, paste your query, pick a dialect (PostgreSQL, MySQL, SQLite, SQL Server, BigQuery, or Snowflake), and choose indent and keyword case. The SQL beautifier runs in your browser. Nothing is uploaded.</p>'
+				question: 'Why did a valid Postgres query fail here?',
+				answer: '<p>The dialect dropdown is probably MySQL or the default. Switch to PostgreSQL for <code>$$</code>, <code>ILIKE</code>, <code>::</code> casts, and some type names. The formatter is not a lowest-common-denominator SQL engine.</p>'
 			},
 			{
-				question: 'Does formatting change the meaning of my query?',
-				answer: '<p>Not for ordinary statements. The formatter changes whitespace and optional keyword case. String literals and quoted identifiers stay as they are. Do not format a query if a downstream system hashes the exact bytes.</p>'
+				question: 'Does formatting change the meaning?',
+				answer: '<p>Not for ordinary statements in the chosen dialect. Whitespace and optional keyword case change. String literals stay. Identifier quoting stays. Do not format if something hashes the exact SQL text.</p>'
 			},
 			{
-				question: 'Why did my PostgreSQL query fail the MySQL dialect?',
-				answer: '<p>Dollar-quoted strings (<code>$$...$$</code>), <code>ILIKE</code>, and some type names are Postgres-specific. Switch the dialect dropdown to PostgreSQL.</p>'
+				question: 'Can I format T-SQL and BigQuery on the same setting?',
+				answer: '<p>No. Pick SQL Server or BigQuery separately. Bracket identifiers vs backticks vs double quotes are different languages that happen to look like SQL.</p>'
 			},
 			{
-				question: 'Can I format a 5 MB dump?',
-				answer: '<p>The work happens in this tab’s memory. Very large scripts can freeze the page. Split the file or use a local CLI such as <code>pg_format</code> or <code>sql-formatter</code> on the command line.</p>'
+				question: 'Will this run my DELETE?',
+				answer: '<p>No. There is no database connection. Pretty-print only.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'SQL Minifier', path: '/sql/minifier', description: 'Compress for logs' },
-			{ name: 'SQL Validator', path: '/sql/validator', description: 'Check syntax without rewriting' },
-			{ name: 'SQL Diff', path: '/sql/diff', description: 'Compare two formatted queries' },
-			{ name: 'SQL Explainer', path: '/sql/explainer', description: 'Read the query in English' }
+			{ name: 'SQL Validator', path: '/sql/validator', description: 'Syntax check without rewriting' },
+			{ name: 'SQL Minifier', path: '/sql/minifier', description: 'Collapse whitespace after you chose a dialect' },
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'When the SQL is actually a JSON string in an API body' }
 		],
 		tips: [
-			'Use 2-space indent for diffs. 4-space indent is easier to read, noisier in Git.',
-			'Uppercase keywords is the usual SQL style. Preserve if you need a byte-stable format.',
-			'If the error mentions the default sql dialect, pick PostgreSQL or MySQL instead.'
+			'2-space indent for diffs; 4-space if the team already uses it.',
+			'If the error mentions the default sql dialect, pick PostgreSQL or MySQL instead.',
+			'Dollar-quoted bodies need PostgreSQL. Backticks need MySQL or BigQuery.'
 		]
 	},
 	minifier: {

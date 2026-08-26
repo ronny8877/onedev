@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BASE_URL } from '$lib/config/tools';
+	import { SITE_ORIGIN } from '$lib/config/indexing';
 
 	let name = $state('');
 	let email = $state('');
@@ -41,9 +41,9 @@
 		name="description"
 		content="Contact the OneDev Tools team. Report bugs, request features, ask about tool accuracy, or send general feedback."
 	/>
-	<link rel="canonical" href="{BASE_URL}/contact" />
+	<link rel="canonical" href="{SITE_ORIGIN}/contact" />
 	<meta property="og:title" content="Contact — OneDev Tools" />
-	<meta property="og:url" content="{BASE_URL}/contact" />
+	<meta property="og:url" content="{SITE_ORIGIN}/contact" />
 	<meta property="og:type" content="website" />
 </svelte:head>
 

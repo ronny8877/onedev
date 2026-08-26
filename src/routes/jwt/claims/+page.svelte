@@ -13,6 +13,7 @@
 	const jwtContent = jwtToolsContent['claims'];
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
+	import { base64UrlDecode } from '$lib/utils/jwt';
 
 	let token = $state('');
 
@@ -30,14 +31,6 @@
 	};
 
 	const recommendedClaims = ['iss', 'sub', 'aud', 'exp', 'iat'];
-
-	// Base64URL decode
-	function base64UrlDecode(str: string): string {
-		let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
-		const padding = base64.length % 4;
-		if (padding) base64 += '='.repeat(4 - padding);
-		return atob(base64);
-	}
 
 	interface ParseResult {
 		payload: Record<string, unknown> | null;

@@ -7,86 +7,68 @@ export interface IdToolContent {
 	faqs: Array<{ question: string; answer: string }>;
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
+	commonMistakes?: string[];
 }
 
 export const idToolsContent: Record<string, IdToolContent> = {
 	'uuid-generator': {
 		features: [
-			'Generate UUID v4 (random, 122-bit entropy) and v7 (Unix timestamp-ordered)',
-			'Generate 1 to 10,000 UUIDs in a single operation with chunked rendering',
-			'Toggle uppercase/lowercase output and hyphens on/off',
-			'Collision probability calculator using Birthday Problem math',
-			'Export results as .txt or .json',
-			'Copy all generated UUIDs to clipboard with one click',
-			'Timestamp decoding for UUID v7 entries',
+			'UUID v4 (random) and UUID v7 (Unix-ms time-ordered) per RFC 9562',
+			'Bulk generate, with v7 timestamps decoded from the first 48 bits',
+			'Hyphens on/off; case toggle for systems that store 32 hex chars',
+			'Collision notes: v4 is 122 random bits; v7 collisions are per millisecond'
 		],
 		useCases: [
-			'Generate primary keys for databases (PostgreSQL, MySQL, MongoDB)',
-			'Create unique identifiers for distributed system messages or events',
-			'Seed test data with realistic-looking IDs for development and staging',
-			'Generate correlation IDs for request tracing and logging',
-			'Produce stable unique IDs for content addressable storage',
+			'Pick v7 as a SQL primary key when B-tree locality matters',
+			'Keep v4 when the id must not leak creation time',
+			'Seed fixtures with a known version nibble (4 or 7)',
+			'See why v4 PKs fragment Postgres indexes under insert load'
 		],
 		concept: {
-			title: 'What is a UUID?',
-			content: `<p>A <strong>UUID</strong> (Universally Unique Identifier) is a 128-bit label standardized by RFC 4122. It is written as 32 hexadecimal digits in 5 groups separated by hyphens: <code>xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx</code>, where <strong>M</strong> indicates the version and <strong>N</strong> indicates the variant.</p>
-<p class="mt-2"><strong>UUID v4</strong> uses 122 bits of cryptographically secure randomness. The probability of generating two identical v4 UUIDs is astronomically small, making collisions practically impossible at any realistic scale.</p>
-<p class="mt-2"><strong>UUID v7</strong> embeds a 48-bit Unix millisecond timestamp in the first 12 hexadecimal characters, making UUIDs naturally sortable by creation time. This is ideal for database indexes, where timestamp-ordered IDs dramatically improve write performance (no index fragmentation) and allow extraction of creation time from the ID itself.</p>`,
+			title: 'UUID v4 vs v7 as primary keys (RFC 9562)',
+			content: `<p>RFC 9562 (the 2024 UUID document, successor to RFC 4122) defines <strong>v7</strong> as a 48-bit Unix millisecond timestamp plus random bits. <strong>v4</strong> is 122 bits of random with a version nibble of 4. Both are 128-bit values in the 8-4-4-4-12 hex layout.</p>
+<p>As a <strong>primary key</strong>, v4 is uniformly random. Sequential inserts hop around the B-tree, which causes index fragmentation and write amplification on Postgres and InnoDB at scale. v7 is roughly monotonic, so new rows land near the right edge of the index, similar to a bigserial, while remaining unique across machines without a central sequence.</p>
+<p>The cost of v7: the id leaks when it was created (millisecond resolution). Do not use v7 as a secret, a session token, or a public unguessable capability. v4 is still the right choice when the identifier must not encode time (shareable document ids you do not want enumerated by timestamp).</p>
+<p>Neither is a password hash. Sortable alternatives: ULID (Crockford Base32) and UUIDv7. NanoID is shorter but not RFC 9562.</p>`
 		},
 		examples: [
-			{ label: 'UUID v4 (random)', code: '550e8400-e29b-41d4-a716-446655440000', isValid: true },
-			{
-				label: 'UUID v7 (time-ordered)',
-				code: '018e5c4c-8b3a-7000-8000-000000000001',
-				isValid: true,
-			},
-			{ label: 'UUID uppercase, no hyphens', code: '550E8400E29B41D4A716446655440000', isValid: true },
+			{ label: 'UUID v4 (version nibble 4)', code: '550e8400-e29b-41d4-a716-446655440000', isValid: true },
+			{ label: 'UUID v7 (version nibble 7, time in first 12 hex chars)', code: '018e5c4c-8b3a-7000-8000-000000000001', isValid: true },
+			{ label: 'Hyphenless 32 hex (same bits)', code: '550e8400e29b41d4a716446655440000', isValid: true }
 		],
 		faqs: [
 			{
-				question: 'Should I use UUID v4 or v7?',
-				answer:
-					'<p>Use <strong>UUID v4</strong> when you need fully random, unpredictable IDs with no embedded metadata — for example, session tokens or public-facing identifiers. Use <strong>UUID v7</strong> when sortability matters, especially for database primary keys. v7 UUIDs are monotonically increasing, which avoids B-tree index fragmentation in SQL databases and generally yields better INSERT performance at scale.</p>',
+				question: 'Should my Postgres PK be v4 or v7?',
+				answer: '<p>Prefer <strong>v7</strong> for new tables that will take a high insert rate. RFC 9562 designed v7 for that. Use <code>uuid</code> columns; btree likes sequential keys. Keep v4 when you must not leak created-at, or when an existing API already promised random ids.</p>'
 			},
 			{
-				question: 'Are UUIDs truly unique?',
-				answer:
-					'<p>In practice, yes. A UUID v4 has 122 random bits (≈5.3 × 10<sup>36</sup> possibilities). To have a 1% chance of a collision, you would need to generate roughly 2.6 × 10<sup>18</sup> UUIDs — far beyond any real-world application. However, do not use UUIDs as cryptographic secrets; they are not secrets, just unique labels.</p>',
+				question: 'What did RFC 9562 change?',
+				answer: '<p>It obsoletes RFC 4122 and standardizes v6 (reordered v1) and v7 (Unix-ms) plus v8 for custom layouts. v4 and v1 remain. New systems that wanted "time ordered UUID" should implement v7, not a homemade timestamp prefix.</p>'
 			},
 			{
-				question: 'Can I store UUIDs without hyphens?',
-				answer:
-					'<p>Yes. The hyphenless format (32 hex characters) is semantically identical and often used in storage-constrained environments. Toggle "With hyphens" off in this tool to generate the compact format. Ensure your validation code handles both forms.</p>',
+				question: 'Can I extract created-at from v7?',
+				answer: '<p>Yes. The first 48 bits are Unix milliseconds: <code>parseInt(uuid.replace(/-/g,\'\').slice(0,12), 16)</code>. That is a feature for indexes and a privacy leak for public ids.</p>'
 			},
 			{
-				question: 'What is the UUID format exactly?',
-				answer:
-					'<p>The standard format is <code>8-4-4-4-12</code> hex characters: <code>xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx</code>. The 13th character (M) is the version (4 or 7). The 17th character (N) is 8, 9, a, or b (indicating the RFC 4122 variant).</p>',
-			},
-			{
-				question: 'Is it safe to generate UUIDs in the browser?',
-				answer:
-					'<p>Yes. This tool uses the Web Crypto API (<code>crypto.getRandomValues</code>) via the <code>uuid</code> npm package, which provides cryptographically secure randomness — the same source used by the operating system\'s random number generator. No data is sent to any server.</p>',
-			},
-			{
-				question: 'Can I extract the timestamp from a UUID v7?',
-				answer:
-					'<p>Yes. The first 12 hex characters of a UUID v7 encode a 48-bit Unix millisecond timestamp. This tool decodes and displays that timestamp next to each v7 UUID in the results list. In code: <code>parseInt(uuid.replace(/-/g, \'\').substring(0, 12), 16)</code> gives you the milliseconds since the Unix epoch.</p>',
-			},
+				question: 'Are UUIDs secrets?',
+				answer: '<p>No. v4 is hard to guess but still an identifier. v7 is easier to enumerate around a known time. Do not use either as an API key.</p>'
+			}
 		],
 		relatedTools: [
-			{ name: 'UUID Validator', path: '/id/uuid-validator', description: 'Validate and decode UUIDs' },
-			{ name: 'ULID Generator', path: '/id/ulid-generator', description: 'Sortable, Crockford Base32 IDs' },
-			{ name: 'NanoID Generator', path: '/id/nanoid-generator', description: 'Compact, customizable IDs' },
-			{ name: 'Hash Generator', path: '/hash', description: 'MD5, SHA-256, and more' },
+			{ name: 'UUID Validator', path: '/id/uuid-validator', description: 'Read version/variant nibbles on an existing id' },
+			{ name: 'ULID Generator', path: '/id/ulid-generator', description: 'Crockford Base32 sortable ids, not RFC 9562' },
+			{ name: 'Hash Generator', path: '/hash/generator', description: 'Need a digest of content, not a unique label' }
 		],
 		tips: [
-			'For new projects using PostgreSQL, consider UUID v7 as your primary key type — it performs significantly better than v4 due to sequential ordering.',
-			'Never expose UUIDs as security tokens. They are unique identifiers, not secrets.',
-			'If you need a shorter ID for display in URLs, consider NanoID instead — same entropy in far fewer characters.',
-			'Use the export as JSON feature when seeding a database or test fixture file that imports IDs programmatically.',
-			'For high-throughput systems generating thousands of IDs per second, UUID v7 avoids clock-sequence collisions through monotonic increment.',
+			'Postgres: uuid v7 as PK, plus a created_at timestamptz if you need human time without decoding the id.',
+			'Do not mix v4 and v7 in one unique column if you depend on sort order meaning created-at.',
+			'UUIDs are not encryption and not password hashes.'
 		],
+		commonMistakes: [
+			'Using v4 as a high-volume PK and wondering why indexes bloat',
+			'Exposing v7 as an unguessable secret (it encodes time)',
+			'Treating hyphenless vs hyphenated forms as different ids'
+		]
 	},
 
 	'ulid-generator': {

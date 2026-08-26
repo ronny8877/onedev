@@ -6,6 +6,7 @@ export interface ToolContent {
 	faqs: Array<{ question: string; answer: string }>;
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
+	commonMistakes?: string[];
 }
 
 export const cronToolsContent: Record<string, ToolContent> = {
@@ -83,71 +84,78 @@ export const cronToolsContent: Record<string, ToolContent> = {
 	},
 	explainer: {
 		features: [
-			'Instantly convert complex cron expressions into human-readable English text',
-			'Detailed breakdown of each individual field (Minute, Hour, Day, etc.)',
-			'Automatically flags syntax or boundary errors',
-			'Supports standard 5-part and prolonged 6-part Quartz expressions',
-			'Recognizes day and month abbreviations (e.g., MON, DEC)'
+			'Plain-English read of 5-field Vixie cron and 6-field Quartz',
+			'Calls out DOM + DOW both restricted: Vixie ORs those fields',
+			'Flags DST skips and repeats around the spring/fall transition',
+			'Field-by-field breakdown (minute hour DOM month DOW, plus seconds for Quartz)'
 		],
 		useCases: [
-			'Decoding inherited legacy cron configurations from an old codebase',
-			'Verifying that a scheduled job runs exactly when you intend before deploying',
-			'Teaching junior developers how to read server job configurations',
-			'Documenting existing scheduled operations for system infrastructure reports'
+			'Decode a crontab before you assume it means AND on day-of-month and weekday',
+			'Tell a 6-field Spring/Quartz string from a 5-field Linux crontab',
+			'Check whether 0 2 * * * fires twice or not at all on a DST night',
+			'Document a legacy schedule without running it'
 		],
 		concept: {
-			title: 'Translating Cron to English',
-			content: `<p>A <strong>Cron Explainer</strong> reverse-engineers a raw cron string back into human terms by analyzing the relationships between its temporal fields.</p>
-			
-			<p>For example, the expression <code>30 4 * * 1-5</code> evaluates each component left-to-right:</p>
-			<ul>
-				<li><strong>30:</strong> At minute 30</li>
-				<li><strong>4:</strong> Past hour 4 (4:30 AM)</li>
-				<li><strong>*:</strong> Every day of the month</li>
-				<li><strong>*:</strong> Every month</li>
-				<li><strong>1-5:</strong> Only on Monday through Friday</li>
-			</ul>
-			<p><strong>Result:</strong> "At 04:30 AM, Monday through Friday."</p>`
+			title: 'Vixie OR, Quartz 6-field, and DST',
+			content: `<p><strong>Vixie cron</strong> (Linux crontab, most Unix) is five fields: minute hour day-of-month month day-of-week. When <em>both</em> DOM and DOW are restricted (neither is <code>*</code>), Vixie treats them as <strong>OR</strong>. <code>0 0 1 * 1</code> means "midnight on the 1st of the month, <em>or</em> midnight every Monday", not "Mondays that are also the 1st". People coming from Quartz or from English "and" get this wrong.</p>
+<p><strong>Quartz</strong> (Spring, many Java schedulers) is usually six fields with <strong>seconds first</strong>: second minute hour DOM month DOW, sometimes a seventh year. <code>0 0 12 * * ?</code> is noon every day in Quartz. Paste that into Vixie and the fields shift. Quartz uses <code>?</code> for "no value" on DOM or DOW because it does not OR those fields the Vixie way. <code>L</code>, <code>W</code>, and <code>#</code> are Quartz (and some AWS) extensions, not standard crontab.</p>
+<p><strong>DST:</strong> cron uses the machine timezone. At spring-forward, 02:30 may never exist; the job is skipped. At fall-back, 01:30 may exist twice; some crons fire twice, some once. Kubernetes CronJobs and GitHub Actions use UTC. Do not schedule a local 2 AM job in a DST zone and assume it is daily.</p>`
 		},
 		examples: [
 			{
-				label: 'Complex Offset',
-				code: '15,45 8-18 * * *',
+				label: 'Vixie OR: 1st of month OR Mondays (not AND)',
+				code: '0 0 1 * 1',
 				isValid: true
 			},
 			{
-				label: 'Last Day Logic',
-				code: '0 12 L * *',
+				label: 'Weekdays only (DOW restricted, DOM is *)',
+				code: '30 4 * * 1-5',
 				isValid: true
 			},
 			{
-				label: 'Invalid Syntax Warning',
+				label: 'Quartz 6-field noon (seconds first, ? for DOM)',
+				code: '0 0 12 * * ?',
+				isValid: true
+			},
+			{
+				label: 'Minute 65 is invalid',
 				code: '65 * * * *',
 				isValid: false
 			}
 		],
 		faqs: [
 			{
-				question: 'What does the asterisk `*` mean?',
-				answer: 'The asterisk acts as a wildcard meaning "every". If placed in the hour field (`0 * * * *`), the job runs every hour at minute zero.'
+				question: 'Why did 0 0 1 * 1 run on a Monday that was not the 1st?',
+				answer: '<p>Vixie cron ORs day-of-month and day-of-week when both are restricted. That expression is "the 1st, or Mondays". Quartz does not work that way; it uses <code>?</code> on one of those fields. Read the man page for crontab(5) if the daemon is Vixie/cronie.</p>'
 			},
 			{
-				question: 'Why does my string say invalid?',
-				answer: 'Strings can fail validation if a number exceeds the temporal bounds (like minute 61) or if there are an incorrect number of spaces (for instance, 4 fields instead of 5).'
+				question: 'Is 0 0 12 * * ? valid on Linux crontab?',
+				answer: '<p>No. That is Quartz (seconds + <code>?</code>). Linux wants five fields and has no <code>?</code>. Six numbers in Vixie will shift every field or be rejected.</p>'
 			},
 			{
-				question: 'Can I translate Quartz and AWS CloudWatch schedules?',
-				answer: 'Yes! The explainer dynamically detects if a 6th field is provided (seconds or year) and parses it using Quartz/AWS specific constraints.'
+				question: 'Will my 2 AM job run on DST change weekend?',
+				answer: '<p>Maybe not, or twice. Spring-forward skips the missing hour. Fall-back can duplicate it. Schedule in UTC (K8s, GitHub Actions) or pick 3:30 AM local if you must use a DST zone.</p>'
+			},
+			{
+				question: 'Sunday is 0 or 7?',
+				answer: '<p>Vixie accepts both 0 and 7 as Sunday. Some parsers only accept 0-6. Do not assume <code>7</code> works in Quartz (often 1-7 with 1 = Sunday).</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'Cron Generator', path: '/cron/generator', description: 'Visually build cron syntax' },
-			{ name: 'Cron Validator', path: '/cron/validator', description: 'Strict syntax checking' },
-			{ name: 'Next Run', path: '/cron/next-run', description: 'Preview future execution times' }
+			{ name: 'Cron Generator', path: '/cron/generator', description: 'Build 5-field or Quartz strings with the same field rules' },
+			{ name: 'Next Run Calculator', path: '/cron/next-run', description: 'Preview upcoming fires, including DST-affected hours' },
+			{ name: 'Unix Timestamp', path: '/date/timestamp', description: 'Convert a fire time to epoch after you know the timezone' }
 		],
 		tips: [
-			'Use the explainer output as a comment directly above your cron job configuration in your code to help future developers.',
-			'Watch out for `Day of Month` vs `Day of Week` conflicts. Often, setting both to restricted values can act as an `OR` union depending on the daemon.'
+			'If both DOM and DOW are not *, assume OR on Linux until you prove the daemon is Quartz.',
+			'GitHub Actions and K8s CronJobs are UTC. Write the expression for UTC, not your laptop timezone.',
+			'Avoid 0 2 * * * in America/New_York. Use 30 7 * * * UTC instead.'
+		],
+		commonMistakes: [
+			'Reading Vixie DOM+DOW as AND',
+			'Pasting a Quartz 6-field string into crontab',
+			'Assuming 2 AM local always exists',
+			'Treating Sunday as 7 on a parser that only allows 0-6'
 		]
 	},
 	validator: {

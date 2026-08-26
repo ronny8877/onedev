@@ -11,56 +11,58 @@ export interface CsvToolContent {
 export const csvToolsContent: Record<string, CsvToolContent> = {
 	'to-json': {
 		features: [
-			'CSV to JSON converter online, free in your browser',
-			'Turn Excel CSV exports into a JSON array of objects',
-			'Auto-detect comma, semicolon, tab (TSV), or pipe',
-			'Quoted commas and line breaks inside cells stay intact',
-			'Pretty-printed JSON you can copy or download',
-			'UTF-8 BOM from Excel is stripped. Nothing is uploaded'
+			'RFC 4180 quoted fields: commas and newlines inside quotes stay in the cell',
+			'Delimiter detect for comma vs EU Excel semicolon vs tab',
+			'Every cell stays a string so ZIP codes keep leading zeros',
+			'Output is a JSON array of objects, not NDJSON (one object per line)'
 		],
 		useCases: [
-			'Convert CSV to JSON for an API mock or Node script',
-			'Turn a Google Sheets or Excel download into JSON',
-			'Load a CSV fixture into a JavaScript test',
-			'Convert European semicolon CSV without changing the file first',
-			'See how duplicate headers will look as object keys'
+			'Turn a German Excel CSV (semicolon, decimal comma in the UI) into JSON',
+			'Keep 07701 as a string instead of the number 7701',
+			'See how a quoted comma does not split a column',
+			'Know you got an array, not newline-delimited JSON, for fetch().json()'
 		],
 		concept: {
-			title: 'How to convert CSV to JSON online',
-			content: `<p>A <strong>CSV to JSON converter</strong> turns a spreadsheet (CSV or Excel export) into JSON objects. The first row becomes property names. Each following row becomes one object. Empty cells are empty strings, not <code>null</code>.</p>
-<p class="mt-2">Paste CSV, copy JSON. Delimiter detection looks at the first few lines. If it guesses wrong, pick comma, semicolon, tab, or pipe. ZIP codes and IDs stay as text so leading zeros are not lost. Files never leave this tab.</p>`
+			title: 'Quotes, semicolons, NDJSON, and leading zeros',
+			content: `<p><strong>RFC 4180</strong> says a field that contains the delimiter, a quote, or a line break must be wrapped in double quotes, and a literal quote is doubled (<code>""</code>). <code>name,city</code> plus a row <code>"Lovelace, Ada",London</code> is two columns, not three. An unclosed quote is an error, not a creative parse.</p>
+<p><strong>EU Excel</strong> often exports with <strong>semicolon</strong> because comma is the decimal mark. Auto-detect looks at the first lines. If it guesses comma on a <code>;</code> file, every row becomes one column. Switch the delimiter. A UTF-8 BOM from Excel is stripped so the first header is not <code>\\uFEFFid</code>.</p>
+<p><strong>NDJSON vs array:</strong> this converter emits one JSON <strong>array</strong> of objects. That is what <code>JSON.parse</code> of the whole paste expects. NDJSON is one object per line with no wrapping <code>[ ]</code>, used by log pipelines. Pasting this output into a tool that reads NDJSON will fail, and pasting NDJSON here will not look like CSV.</p>
+<p><strong>Leading zeros:</strong> cells stay strings. <code>00123</code> does not become <code>123</code>. Parse to numbers in your app when you know the column type. Duplicate headers: later column wins on the object, same as JSON.parse duplicate keys.</p>`
 		},
 		examples: [
-			{ label: 'Simple table', code: 'id,name\n1,Ada\n2,Grace', isValid: true },
-			{ label: 'Quoted comma', code: 'name,city\n"Lovelace, Ada",London', isValid: true },
+			{ label: 'RFC 4180 quoted comma', code: 'name,city\n"Lovelace, Ada",London', isValid: true },
+			{ label: 'EU Excel semicolon', code: 'id;stadt\n1;München', isValid: true },
+			{ label: 'Leading zeros kept as strings', code: 'zip,name\n07701,Ada', isValid: true },
+			{ label: 'Not NDJSON (this is the array we emit)', code: '[{"zip":"07701","name":"Ada"}]', isValid: true },
 			{ label: 'Unclosed quote', code: 'name,city\n"Ada,London', isValid: false }
 		],
 		faqs: [
 			{
-				question: 'How do I convert CSV to JSON?',
-				answer: '<p>Paste your CSV (or Excel export) into this CSV to JSON converter and copy the JSON. Use JSON to CSV Converter for the reverse.</p>'
+				question: 'Why is my whole row one field?',
+				answer: '<p>The file is probably semicolon-delimited (Excel in many EU locales) and the parser expected commas. Set the delimiter to semicolon. Tabs are TSV; pipes show up in some exports.</p>'
 			},
 			{
-				question: 'Are numbers converted to JSON numbers?',
-				answer: '<p>No. Every cell stays a string so leading zeros (ZIP codes, IDs) are not destroyed. Parse in your app when you know the type.</p>'
+				question: 'Will ZIP codes lose the leading zero?',
+				answer: '<p>Not here. Every value is a JSON string. If you later <code>JSON.parse</code> then treat the field as a Number, <em>that</em> drop happens in your code.</p>'
 			},
 			{
-				question: 'What if two columns share a header?',
-				answer: '<p>JSON objects cannot have duplicate keys. The later column overwrites the earlier one. Rename headers in the viewer first.</p>'
+				question: 'Is the output NDJSON?',
+				answer: '<p>No. It is a single JSON array. NDJSON would be one object per line without brackets. Use an array for typical REST mocks; use NDJSON only if your consumer is a log shipper that reads lines.</p>'
 			},
 			{
-				question: 'Is TSV supported?',
-				answer: '<p>Yes. Tabs are detected. You can also use the delimiter converter.</p>'
+				question: 'How do quoted quotes work?',
+				answer: '<p>Inside a quoted field, <code>""</code> is one <code>"</code>. Example: <code>"She said ""hi"""</code> is the cell <code>She said "hi"</code>.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'JSON to CSV', path: '/csv/from-json', description: 'The reverse conversion' },
-			{ name: 'CSV Viewer', path: '/csv/viewer', description: 'Preview as a table first' },
-			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Pretty-print the JSON' }
+			{ name: 'JSON Formatter', path: '/json/formatter', description: 'Pretty-print the array; duplicate keys still last-write-wins' },
+			{ name: 'XML to JSON', path: '/xml/to-json', description: 'Different shape: attributes and repeating siblings' },
+			{ name: 'YAML to JSON', path: '/yaml/to-json', description: 'If the source is YAML, Norway NO is the trap, not semicolons' }
 		],
 		tips: [
 			'Keep a header row. Headerless CSV becomes column_1, column_2.',
-			'For huge files, convert the first N rows locally with a CLI. A tab will run out of RAM before miller or csvkit does.'
+			'If Excel opened the CSV and wrecked leading zeros, convert from the original export, not the resaved xlsx.',
+			'Do not paste NDJSON logs into a CSV converter.'
 		]
 	},
 	'from-json': {
