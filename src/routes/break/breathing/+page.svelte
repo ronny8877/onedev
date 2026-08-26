@@ -182,7 +182,7 @@
 		<!-- Breath Counter -->
 		{#if breathCount > 0 || isRunning}
 			<div class="badge badge-lg badge-ghost gap-2">
-				<AppIcon name={'🌬️'} size={18} />
+				<AppIcon name="wind" size={18} />
 				{breathCount} breath{breathCount !== 1 ? 's' : ''}
 			</div>
 		{/if}

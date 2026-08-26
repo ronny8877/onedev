@@ -15,8 +15,8 @@
 	let fullscreenVideoRef: HTMLVideoElement | null = $state(null);
 
 	const scenes: { id: AmbientScene; name: string; icon: string; audio: string; video: string }[] = [
-		{ id: 'rain', name: 'Rain', icon: '🌧️', audio: '/rain-ambiance.mp3', video: '/rain-ambiance.mp4' },
-		{ id: 'cafe', name: 'Café', icon: '☕', audio: '/cafe-ambiance.mp3', video: '/cafe-ambiance.mp4' }
+		{ id: 'rain', name: 'Rain', icon: 'cloud-rain', audio: '/rain-ambiance.mp3', video: '/rain-ambiance.mp4' },
+		{ id: 'cafe', name: 'Café', icon: 'coffee', audio: '/cafe-ambiance.mp3', video: '/cafe-ambiance.mp4' }
 	];
 
 	function getCurrentScene() {

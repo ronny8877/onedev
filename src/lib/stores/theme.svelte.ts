@@ -1,21 +1,20 @@
-type Theme = 'light' | 'dark';
+import { THEME_KEY, daisyTheme, type ThemePreference } from '$lib/theme-daisy';
 
-const THEME_KEY = 'onedev-theme';
+type Theme = ThemePreference;
 
 function getStoredTheme(): Theme {
 	if (typeof window === 'undefined' || typeof localStorage === 'undefined') return 'dark';
-	const stored = localStorage.getItem(THEME_KEY);
-	if (stored === 'light' || stored === 'dark') return stored;
-	return 'dark';
+	return localStorage.getItem(THEME_KEY) === 'light' ? 'light' : 'dark';
 }
 
 function applyTheme(theme: Theme) {
 	if (typeof document === 'undefined') return;
-	document.documentElement.setAttribute('data-theme', theme);
-	document.documentElement.style.colorScheme = theme;
+	const name = daisyTheme(theme);
+	document.documentElement.setAttribute('data-theme', name);
+	document.documentElement.style.colorScheme = theme === 'light' ? 'light' : 'dark';
 	const meta = document.querySelector('meta[name="theme-color"]');
 	if (meta) {
-		meta.setAttribute('content', theme === 'dark' ? '#1d232a' : '#ffffff');
+		meta.setAttribute('content', theme === 'dark' ? '#302b2b' : '#ffffff');
 	}
 }
 
@@ -43,4 +42,4 @@ export function initTheme() {
 	applyTheme(stored);
 }
 
-export const themeKey = THEME_KEY;
+export { THEME_KEY };

@@ -5,9 +5,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script>
 			(function() {
-				var theme = localStorage.getItem('onedev-theme') || 'dark';
+				// Keep in sync with daisyTheme() in src/lib/theme-daisy.ts (blocking script cannot import it).
+				var stored = localStorage.getItem('onedev-theme');
+				var theme = stored === 'light' ? 'emerald' : 'forest';
 				document.documentElement.setAttribute('data-theme', theme);
-				document.documentElement.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+				document.documentElement.style.colorScheme = stored === 'light' ? 'light' : 'dark';
 			})();
 		</script>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-79EL2FS0FS"></script>

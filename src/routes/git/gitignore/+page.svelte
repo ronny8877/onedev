@@ -18,47 +18,47 @@
 	// Gitignore presets organized by category
 	const presets = {
 		languages: [
-			{ id: 'node', name: 'Node.js', icon: '🟢', patterns: ['node_modules/', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*', '.npm', '.yarn-integrity', '.env', '.env.local', '.env.*.local', 'dist/', 'build/', '.cache/', '*.tsbuildinfo'] },
-			{ id: 'python', name: 'Python', icon: '🐍', patterns: ['__pycache__/', '*.py[cod]', '*$py.class', '*.so', '.Python', 'build/', 'develop-eggs/', 'dist/', 'downloads/', 'eggs/', '.eggs/', 'lib/', 'lib64/', 'parts/', 'sdist/', 'var/', 'wheels/', '*.egg-info/', '.installed.cfg', '*.egg', 'venv/', 'ENV/', '.env', '.venv'] },
-			{ id: 'java', name: 'Java', icon: '☕', patterns: ['*.class', '*.log', '*.jar', '*.war', '*.ear', '*.zip', '*.tar.gz', '*.rar', 'target/', 'build/', '.gradle/', 'gradle-app.setting', '!gradle-wrapper.jar', '.gradletasknamecache', 'out/', '.idea/', '*.iml'] },
-			{ id: 'go', name: 'Go', icon: '🐹', patterns: ['*.exe', '*.exe~', '*.dll', '*.so', '*.dylib', '*.test', '*.out', 'go.work', 'vendor/', 'bin/', 'pkg/'] },
-			{ id: 'rust', name: 'Rust', icon: '🦀', patterns: ['/target/', 'Cargo.lock', '**/*.rs.bk', '*.pdb'] },
-			{ id: 'ruby', name: 'Ruby', icon: '💎', patterns: ['*.gem', '*.rbc', '/.config', '/coverage/', '/InstalledFiles', '/pkg/', '/spec/reports/', '/spec/examples.txt', '/test/tmp/', '/test/version_tmp/', '/tmp/', '.bundle/', 'vendor/bundle/', '/.yardoc/', '/_yardoc/', '/doc/', '/rdoc/'] },
-			{ id: 'php', name: 'PHP', icon: '🐘', patterns: ['vendor/', 'composer.lock', '.env', '*.log', 'storage/', 'bootstrap/cache/', '.phpunit.result.cache'] },
-			{ id: 'csharp', name: 'C#/.NET', icon: '🔷', patterns: ['[Bb]in/', '[Oo]bj/', '[Ll]og/', '[Ll]ogs/', '.vs/', '*.user', '*.suo', '*.cache', '*.dll', '*.pdb', '*.exe'] },
-			{ id: 'swift', name: 'Swift', icon: '🍎', patterns: ['.build/', 'Packages/', 'xcuserdata/', '*.xccheckout', '*.moved-aside', '*.xcuserstate', 'DerivedData/', '.swiftpm/'] },
-			{ id: 'kotlin', name: 'Kotlin', icon: '🟣', patterns: ['*.class', '*.log', '*.jar', '.gradle/', 'build/', '.idea/', '*.iml', 'out/'] }
+			{ id: 'node', name: 'Node.js', icon: 'circle', patterns: ['node_modules/', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*', '.npm', '.yarn-integrity', '.env', '.env.local', '.env.*.local', 'dist/', 'build/', '.cache/', '*.tsbuildinfo'] },
+			{ id: 'python', name: 'Python', icon: 'worm', patterns: ['__pycache__/', '*.py[cod]', '*$py.class', '*.so', '.Python', 'build/', 'develop-eggs/', 'dist/', 'downloads/', 'eggs/', '.eggs/', 'lib/', 'lib64/', 'parts/', 'sdist/', 'var/', 'wheels/', '*.egg-info/', '.installed.cfg', '*.egg', 'venv/', 'ENV/', '.env', '.venv'] },
+			{ id: 'java', name: 'Java', icon: 'coffee', patterns: ['*.class', '*.log', '*.jar', '*.war', '*.ear', '*.zip', '*.tar.gz', '*.rar', 'target/', 'build/', '.gradle/', 'gradle-app.setting', '!gradle-wrapper.jar', '.gradletasknamecache', 'out/', '.idea/', '*.iml'] },
+			{ id: 'go', name: 'Go', icon: 'rabbit', patterns: ['*.exe', '*.exe~', '*.dll', '*.so', '*.dylib', '*.test', '*.out', 'go.work', 'vendor/', 'bin/', 'pkg/'] },
+			{ id: 'rust', name: 'Rust', icon: 'bug', patterns: ['/target/', 'Cargo.lock', '**/*.rs.bk', '*.pdb'] },
+			{ id: 'ruby', name: 'Ruby', icon: 'gem', patterns: ['*.gem', '*.rbc', '/.config', '/coverage/', '/InstalledFiles', '/pkg/', '/spec/reports/', '/spec/examples.txt', '/test/tmp/', '/test/version_tmp/', '/tmp/', '.bundle/', 'vendor/bundle/', '/.yardoc/', '/_yardoc/', '/doc/', '/rdoc/'] },
+			{ id: 'php', name: 'PHP', icon: 'box', patterns: ['vendor/', 'composer.lock', '.env', '*.log', 'storage/', 'bootstrap/cache/', '.phpunit.result.cache'] },
+			{ id: 'csharp', name: 'C#/.NET', icon: 'diamond', patterns: ['[Bb]in/', '[Oo]bj/', '[Ll]og/', '[Ll]ogs/', '.vs/', '*.user', '*.suo', '*.cache', '*.dll', '*.pdb', '*.exe'] },
+			{ id: 'swift', name: 'Swift', icon: 'apple', patterns: ['.build/', 'Packages/', 'xcuserdata/', '*.xccheckout', '*.moved-aside', '*.xcuserstate', 'DerivedData/', '.swiftpm/'] },
+			{ id: 'kotlin', name: 'Kotlin', icon: 'circle', patterns: ['*.class', '*.log', '*.jar', '.gradle/', 'build/', '.idea/', '*.iml', 'out/'] }
 		],
 		frameworks: [
-			{ id: 'react', name: 'React', icon: '⚛️', patterns: ['node_modules/', 'build/', '.env.local', '.env.development.local', '.env.test.local', '.env.production.local', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*'] },
-			{ id: 'vue', name: 'Vue.js', icon: '🟩', patterns: ['node_modules/', 'dist/', '.env.local', '.env.*.local', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*', 'pnpm-debug.log*', '*.local'] },
-			{ id: 'angular', name: 'Angular', icon: '🅰️', patterns: ['node_modules/', 'dist/', 'tmp/', 'out-tsc/', 'bazel-out/', '.angular/', '.sass-cache/', 'connect.lock', 'coverage/', 'libpeerconnection.log'] },
-			{ id: 'svelte', name: 'Svelte', icon: '🔥', patterns: ['node_modules/', '.svelte-kit/', 'build/', '.env', '.env.*', '!.env.example', 'package/', '.vercel/'] },
-			{ id: 'nextjs', name: 'Next.js', icon: '▲', patterns: ['node_modules/', '.next/', 'out/', '.env*.local', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*', '.vercel/'] },
-			{ id: 'django', name: 'Django', icon: '🎸', patterns: ['*.log', '*.pot', '*.pyc', '__pycache__/', 'local_settings.py', 'db.sqlite3', 'media/', 'staticfiles/', '.env', 'venv/'] },
-			{ id: 'rails', name: 'Rails', icon: '🛤️', patterns: ['*.rbc', 'capybara-*.html', '.rspec', '/db/*.sqlite3', '/db/*.sqlite3-*', '/log/*', '/tmp/', '/storage/', '.byebug_history', 'config/master.key', 'config/credentials.yml.enc'] },
-			{ id: 'laravel', name: 'Laravel', icon: '🔴', patterns: ['/vendor/', 'node_modules/', 'npm-debug.log', 'yarn-error.log', '.env', '.env.backup', 'Homestead.json', 'Homestead.yaml', 'storage/*.key', '/public/hot', '/public/storage', '/.idea/'] },
-			{ id: 'flutter', name: 'Flutter', icon: '💙', patterns: ['.dart_tool/', '.packages', 'build/', '.flutter-plugins', '.flutter-plugins-dependencies', '.pub-cache/', '.pub/', 'pubspec.lock'] },
-			{ id: 'dotnet', name: 'ASP.NET', icon: '🟦', patterns: ['[Bb]in/', '[Oo]bj/', '[Ll]ogs/', '.vs/', '*.user', '*.suo', 'project.lock.json', 'appsettings.*.json', '!appsettings.json'] }
+			{ id: 'react', name: 'React', icon: 'atom', patterns: ['node_modules/', 'build/', '.env.local', '.env.development.local', '.env.test.local', '.env.production.local', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*'] },
+			{ id: 'vue', name: 'Vue.js', icon: 'square', patterns: ['node_modules/', 'dist/', '.env.local', '.env.*.local', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*', 'pnpm-debug.log*', '*.local'] },
+			{ id: 'angular', name: 'Angular', icon: 'type', patterns: ['node_modules/', 'dist/', 'tmp/', 'out-tsc/', 'bazel-out/', '.angular/', '.sass-cache/', 'connect.lock', 'coverage/', 'libpeerconnection.log'] },
+			{ id: 'svelte', name: 'Svelte', icon: 'flame', patterns: ['node_modules/', '.svelte-kit/', 'build/', '.env', '.env.*', '!.env.example', 'package/', '.vercel/'] },
+			{ id: 'nextjs', name: 'Next.js', icon: 'arrow-up', patterns: ['node_modules/', '.next/', 'out/', '.env*.local', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*', '.vercel/'] },
+			{ id: 'django', name: 'Django', icon: 'guitar', patterns: ['*.log', '*.pot', '*.pyc', '__pycache__/', 'local_settings.py', 'db.sqlite3', 'media/', 'staticfiles/', '.env', 'venv/'] },
+			{ id: 'rails', name: 'Rails', icon: 'train-track', patterns: ['*.rbc', 'capybara-*.html', '.rspec', '/db/*.sqlite3', '/db/*.sqlite3-*', '/log/*', '/tmp/', '/storage/', '.byebug_history', 'config/master.key', 'config/credentials.yml.enc'] },
+			{ id: 'laravel', name: 'Laravel', icon: 'circle', patterns: ['/vendor/', 'node_modules/', 'npm-debug.log', 'yarn-error.log', '.env', '.env.backup', 'Homestead.json', 'Homestead.yaml', 'storage/*.key', '/public/hot', '/public/storage', '/.idea/'] },
+			{ id: 'flutter', name: 'Flutter', icon: 'heart', patterns: ['.dart_tool/', '.packages', 'build/', '.flutter-plugins', '.flutter-plugins-dependencies', '.pub-cache/', '.pub/', 'pubspec.lock'] },
+			{ id: 'dotnet', name: 'ASP.NET', icon: 'square', patterns: ['[Bb]in/', '[Oo]bj/', '[Ll]ogs/', '.vs/', '*.user', '*.suo', 'project.lock.json', 'appsettings.*.json', '!appsettings.json'] }
 		],
 		os: [
-			{ id: 'macos', name: 'macOS', icon: '🍏', patterns: ['.DS_Store', '.AppleDouble', '.LSOverride', 'Icon', '._*', '.DocumentRevisions-V100', '.fseventsd', '.Spotlight-V100', '.TemporaryItems', '.Trashes', '.VolumeIcon.icns', '.com.apple.timemachine.donotpresent'] },
-			{ id: 'windows', name: 'Windows', icon: '🪟', patterns: ['Thumbs.db', 'Thumbs.db:encryptable', 'ehthumbs.db', 'ehthumbs_vista.db', '*.stackdump', '[Dd]esktop.ini', '$RECYCLE.BIN/', '*.cab', '*.msi', '*.msix', '*.msm', '*.msp', '*.lnk'] },
-			{ id: 'linux', name: 'Linux', icon: '🐧', patterns: ['*~', '.fuse_hidden*', '.directory', '.Trash-*', '.nfs*'] }
+			{ id: 'macos', name: 'macOS', icon: 'apple', patterns: ['.DS_Store', '.AppleDouble', '.LSOverride', 'Icon', '._*', '.DocumentRevisions-V100', '.fseventsd', '.Spotlight-V100', '.TemporaryItems', '.Trashes', '.VolumeIcon.icns', '.com.apple.timemachine.donotpresent'] },
+			{ id: 'windows', name: 'Windows', icon: 'app-window', patterns: ['Thumbs.db', 'Thumbs.db:encryptable', 'ehthumbs.db', 'ehthumbs_vista.db', '*.stackdump', '[Dd]esktop.ini', '$RECYCLE.BIN/', '*.cab', '*.msi', '*.msix', '*.msm', '*.msp', '*.lnk'] },
+			{ id: 'linux', name: 'Linux', icon: 'bird', patterns: ['*~', '.fuse_hidden*', '.directory', '.Trash-*', '.nfs*'] }
 		],
 		editors: [
-			{ id: 'vscode', name: 'VS Code', icon: '💻', patterns: ['.vscode/*', '!.vscode/settings.json', '!.vscode/tasks.json', '!.vscode/launch.json', '!.vscode/extensions.json', '*.code-workspace', '.history/'] },
-			{ id: 'jetbrains', name: 'JetBrains', icon: '🧠', patterns: ['.idea/', '*.iws', '*.iml', '*.ipr', 'out/', '.idea_modules/', 'atlassian-ide-plugin.xml', 'com_crashlytics_export_strings.xml'] },
-			{ id: 'vim', name: 'Vim', icon: '📝', patterns: ['[._]*.s[a-v][a-z]', '!*.svg', '[._]*.sw[a-p]', '[._]s[a-rt-v][a-z]', '[._]ss[a-gi-z]', '[._]sw[a-p]', 'Session.vim', 'Sessionx.vim', '.netrwhist', '*~', 'tags', '[._]*.un~'] },
-			{ id: 'emacs', name: 'Emacs', icon: '📜', patterns: ['*~', '\\#*\\#', '/.emacs.desktop', '/.emacs.desktop.lock', '*.elc', 'auto-save-list', 'tramp', '.\\#*', '.org-id-locations', '*_archive', '*_flymake.*', '/eshell/history', '/eshell/lastdir'] },
-			{ id: 'sublime', name: 'Sublime Text', icon: '🟠', patterns: ['*.tmlanguage.cache', '*.tmPreferences.cache', '*.stTheme.cache', '*.sublime-workspace', '*.sublime-project', 'sftp-config.json', 'sftp-config-alt*.json', 'Package Control.last-run', 'Package Control.ca-list'] }
+			{ id: 'vscode', name: 'VS Code', icon: 'monitor', patterns: ['.vscode/*', '!.vscode/settings.json', '!.vscode/tasks.json', '!.vscode/launch.json', '!.vscode/extensions.json', '*.code-workspace', '.history/'] },
+			{ id: 'jetbrains', name: 'JetBrains', icon: 'brain', patterns: ['.idea/', '*.iws', '*.iml', '*.ipr', 'out/', '.idea_modules/', 'atlassian-ide-plugin.xml', 'com_crashlytics_export_strings.xml'] },
+			{ id: 'vim', name: 'Vim', icon: 'file-pen', patterns: ['[._]*.s[a-v][a-z]', '!*.svg', '[._]*.sw[a-p]', '[._]s[a-rt-v][a-z]', '[._]ss[a-gi-z]', '[._]sw[a-p]', 'Session.vim', 'Sessionx.vim', '.netrwhist', '*~', 'tags', '[._]*.un~'] },
+			{ id: 'emacs', name: 'Emacs', icon: 'scroll', patterns: ['*~', '\\#*\\#', '/.emacs.desktop', '/.emacs.desktop.lock', '*.elc', 'auto-save-list', 'tramp', '.\\#*', '.org-id-locations', '*_archive', '*_flymake.*', '/eshell/history', '/eshell/lastdir'] },
+			{ id: 'sublime', name: 'Sublime Text', icon: 'circle', patterns: ['*.tmlanguage.cache', '*.tmPreferences.cache', '*.stTheme.cache', '*.sublime-workspace', '*.sublime-project', 'sftp-config.json', 'sftp-config-alt*.json', 'Package Control.last-run', 'Package Control.ca-list'] }
 		],
 		misc: [
-			{ id: 'logs', name: 'Logs', icon: '📋', patterns: ['*.log', 'logs/', '*.log.*', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*', 'pnpm-debug.log*', 'lerna-debug.log*'] },
-			{ id: 'env', name: 'Environment', icon: '🔐', patterns: ['.env', '.env.local', '.env.*.local', '.env.development', '.env.test', '.env.production', '*.env', '.envrc'] },
-			{ id: 'coverage', name: 'Coverage', icon: '📊', patterns: ['coverage/', '.nyc_output/', '*.lcov', '.coverage', 'htmlcov/', 'coverage.xml', 'coverage.json'] },
-			{ id: 'docker', name: 'Docker', icon: '🐳', patterns: ['docker-compose*.yml', '!docker-compose.yml', '!docker-compose.override.yml', '.docker/'] },
-			{ id: 'terraform', name: 'Terraform', icon: '🏗️', patterns: ['**/.terraform/*', '*.tfstate', '*.tfstate.*', 'crash.log', 'crash.*.log', '*.tfvars', '*.tfvars.json', 'override.tf', 'override.tf.json', '*_override.tf', '*_override.tf.json'] }
+			{ id: 'logs', name: 'Logs', icon: 'clipboard', patterns: ['*.log', 'logs/', '*.log.*', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*', 'pnpm-debug.log*', 'lerna-debug.log*'] },
+			{ id: 'env', name: 'Environment', icon: 'lock-keyhole', patterns: ['.env', '.env.local', '.env.*.local', '.env.development', '.env.test', '.env.production', '*.env', '.envrc'] },
+			{ id: 'coverage', name: 'Coverage', icon: 'chart-column', patterns: ['coverage/', '.nyc_output/', '*.lcov', '.coverage', 'htmlcov/', 'coverage.xml', 'coverage.json'] },
+			{ id: 'docker', name: 'Docker', icon: 'container', patterns: ['docker-compose*.yml', '!docker-compose.yml', '!docker-compose.override.yml', '.docker/'] },
+			{ id: 'terraform', name: 'Terraform', icon: 'construction', patterns: ['**/.terraform/*', '*.tfstate', '*.tfstate.*', 'crash.log', 'crash.*.log', '*.tfvars', '*.tfvars.json', 'override.tf', 'override.tf.json', '*_override.tf', '*_override.tf.json'] }
 		]
 	};
 
@@ -69,11 +69,11 @@
 	let activeCategory = $state<CategoryKey>('languages');
 
 	const categoryLabels: Record<CategoryKey, { label: string; icon: string }> = {
-		languages: { label: 'Languages', icon: '💻' },
-		frameworks: { label: 'Frameworks', icon: '🚀' },
-		os: { label: 'Operating Systems', icon: '🖥️' },
-		editors: { label: 'Editors & IDEs', icon: '✏️' },
-		misc: { label: 'Miscellaneous', icon: '📦' }
+		languages: { label: 'Languages', icon: 'monitor' },
+		frameworks: { label: 'Frameworks', icon: 'rocket' },
+		os: { label: 'Operating Systems', icon: 'monitor' },
+		editors: { label: 'Editors & IDEs', icon: 'pencil' },
+		misc: { label: 'Miscellaneous', icon: 'package' }
 	};
 
 	function togglePreset(id: string) {
@@ -267,7 +267,7 @@
 				<div class="card-body py-4">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2">
-							<AppIcon name={'📄'} size={16} />
+							<AppIcon name="file-text" size={16} />
 							.gitignore Preview
 						</h3>
 						<div class="flex gap-2">

@@ -19,7 +19,7 @@
 	const workflows = {
 		gitflow: {
 			name: 'Git Flow',
-			icon: '🌊',
+			icon: 'waves-horizontal',
 			description: 'A branching model with dedicated branches for features, releases, and hotfixes.',
 			branches: [
 				{ name: 'main', color: 'success', description: 'Production-ready code' },
@@ -41,7 +41,7 @@
 		},
 		trunk: {
 			name: 'Trunk-Based Development',
-			icon: '🌳',
+			icon: 'tree-deciduous',
 			description: 'Developers collaborate on a single branch with short-lived feature branches.',
 			branches: [
 				{ name: 'main/trunk', color: 'success', description: 'Single source of truth' },
@@ -58,7 +58,7 @@
 		},
 		github: {
 			name: 'GitHub Flow',
-			icon: '🐙',
+			icon: 'bug',
 			description: 'A lightweight workflow focused on pull requests and continuous deployment.',
 			branches: [
 				{ name: 'main', color: 'success', description: 'Always deployable' },
@@ -75,7 +75,7 @@
 		},
 		feature: {
 			name: 'Feature Branch',
-			icon: '🌿',
+			icon: 'leaf',
 			description: 'Basic workflow where each feature is developed in its own branch.',
 			branches: [
 				{ name: 'main', color: 'success', description: 'Stable code' },
@@ -126,7 +126,7 @@
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-4 flex items-center gap-2">
-					<AppIcon name={'🌿'} size={16} />
+					<AppIcon name="leaf" size={16} />
 					Branch Structure
 				</h3>
 				<div class="space-y-3">
@@ -147,7 +147,7 @@
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-4 flex items-center gap-2">
-					<AppIcon name={'📊'} size={16} />
+					<AppIcon name="chart-column" size={16} />
 					Visual Flow
 				</h3>
 				<div class="overflow-x-auto">
@@ -232,7 +232,7 @@
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-4 flex items-center gap-2">
-					<AppIcon name={'⌨️'} size={16} />
+					<AppIcon name="keyboard" size={16} />
 					Common Commands
 				</h3>
 				<div class="space-y-3">
@@ -288,19 +288,19 @@
 				<h4 class="text-sm font-semibold mb-3">When to Use Each Workflow</h4>
 				<div class="grid gap-2 text-sm">
 					<div class="flex items-center gap-3 p-2 rounded-lg bg-base-300/50">
-						<AppIcon name={'🌊'} size={16} />
+						<AppIcon name="waves-horizontal" size={16} />
 						<span><strong>Git Flow</strong> - Large teams, versioned releases, enterprise</span>
 					</div>
 					<div class="flex items-center gap-3 p-2 rounded-lg bg-base-300/50">
-						<AppIcon name={'🌳'} size={16} />
+						<AppIcon name="tree-deciduous" size={16} />
 						<span><strong>Trunk-Based</strong> - CI/CD focused, experienced teams, web apps</span>
 					</div>
 					<div class="flex items-center gap-3 p-2 rounded-lg bg-base-300/50">
-						<AppIcon name={'🐙'} size={16} />
+						<AppIcon name="bug" size={16} />
 						<span><strong>GitHub Flow</strong> - Small teams, continuous deployment, SaaS</span>
 					</div>
 					<div class="flex items-center gap-3 p-2 rounded-lg bg-base-300/50">
-						<AppIcon name={'🌿'} size={16} />
+						<AppIcon name="leaf" size={16} />
 						<span><strong>Feature Branch</strong> - Simple projects, beginners, small teams</span>
 					</div>
 				</div>

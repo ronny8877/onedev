@@ -42,10 +42,10 @@
 			out:fade={{ duration: 150 }}
 			animate:flip={{ duration: 200 }}
 		>
-			<AppIcon name={getIcon(t.type)} size={18} />
+			<AppIcon name={getIcon(t.type)} class="size-4" />
 			<span class="text-sm font-medium">{t.message}</span>
-			<button class="btn btn-ghost btn-xs btn-circle" onclick={() => toast.remove(t.id)} aria-label="Dismiss">
-				<AppIcon name="x" size={14} />
+			<button class="btn btn-ghost h-8 w-8 min-h-8 min-w-8 p-0 rounded-lg" onclick={() => toast.remove(t.id)} aria-label="Dismiss">
+				<AppIcon name="x" class="size-4" />
 			</button>
 		</div>
 	{/each}

@@ -301,7 +301,7 @@
 			<div class="card-body">
 				<div class="flex items-center justify-between">
 					<h3 class="font-semibold text-lg flex items-center gap-2">
-						<AppIcon name={'📷'} size={16} />
+						<AppIcon name="camera" size={16} />
 						Cameras
 					</h3>
 					{#if !cameraChecked}
@@ -371,7 +371,7 @@
 			<div class="card-body">
 				<div class="flex items-center justify-between">
 					<h3 class="font-semibold text-lg flex items-center gap-2">
-						<AppIcon name={'🎤'} size={16} />
+						<AppIcon name="mic" size={16} />
 						Microphones
 					</h3>
 					{#if !micChecked}

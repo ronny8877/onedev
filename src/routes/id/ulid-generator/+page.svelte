@@ -222,7 +222,7 @@
 			<div class="card-body p-4">
 				<div class="flex items-center gap-2 mb-3">
 					<div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-						<AppIcon name={'⚙️'} size={16} />
+						<AppIcon name="settings" size={16} />
 					</div>
 					<h3 class="font-bold">Configuration</h3>
 				</div>
@@ -290,7 +290,7 @@
 
 					<div class="p-3 bg-base-300/50 rounded-lg flex items-center gap-3 border border-base-content/5">
 						<div class="w-10 h-10 rounded-lg bg-base-100 flex items-center justify-center shrink-0 text-lg shadow-sm">
-							<AppIcon name={'⏳'} size={18} /></div>
+							<AppIcon name="hourglass" size={18} /></div>
 						<div>
 							<p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">Time to 1% Risk</p>
 							<div class="font-bold text-lg leading-tight">
@@ -341,7 +341,7 @@
 				<div class="card-body p-4">
 					<div class="flex items-center gap-2 mb-3">
 						<div class="w-8 h-8 rounded-lg bg-success/20 flex items-center justify-center">
-							<AppIcon name={'📊'} size={16} />
+							<AppIcon name="chart-column" size={16} />
 						</div>
 						<h3 class="font-bold text-success">Sortability Demo</h3>
 						<span class="badge badge-sm badge-success">Live</span>
@@ -383,7 +383,7 @@
 					<div class="flex items-center justify-between mb-3">
 						<div class="flex items-center gap-2">
 							<div class="w-8 h-8 rounded-lg bg-info/20 flex items-center justify-center">
-								<AppIcon name={'🆔'} size={16} />
+								<AppIcon name="fingerprint-pattern" size={16} />
 							</div>
 							<h3 class="font-bold">Generated ULIDs</h3>
 							<span class="badge badge-sm badge-ghost">{generatedUlids.length}</span>

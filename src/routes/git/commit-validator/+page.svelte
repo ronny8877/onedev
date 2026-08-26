@@ -322,7 +322,7 @@ this is a very long line that exceeds the recommended maximum length for commit 
 		<div class="card bg-gradient-to-br from-primary/10 to-secondary/10 rounded-xl border border-primary/20">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold flex items-center gap-2">
-					<AppIcon name={'📖'} size={16} />
+					<AppIcon name="book-open" size={16} />
 					Conventional Commits Spec
 				</h4>
 				<div class="mt-2 text-sm text-base-content/70 space-y-2">

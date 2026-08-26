@@ -39,14 +39,14 @@
 
 	// Token type configuration with icons and colors
 	const tokenConfig: Record<string, { color: string; icon: string; bgClass: string }> = {
-		literal: { color: 'text-base-content', icon: '📝', bgClass: 'bg-base-300' },
-		anchor: { color: 'text-info', icon: '⚓', bgClass: 'bg-info/20' },
-		quantifier: { color: 'text-warning', icon: '🔢', bgClass: 'bg-warning/20' },
-		class: { color: 'text-success', icon: '📦', bgClass: 'bg-success/20' },
-		group: { color: 'text-primary', icon: '🔗', bgClass: 'bg-primary/20' },
-		escape: { color: 'text-secondary', icon: '🔐', bgClass: 'bg-secondary/20' },
-		alternation: { color: 'text-accent', icon: '🔀', bgClass: 'bg-accent/20' },
-		lookaround: { color: 'text-error', icon: '👀', bgClass: 'bg-error/20' }
+		literal: { color: 'text-base-content', icon: 'file-pen', bgClass: 'bg-base-300' },
+		anchor: { color: 'text-info', icon: 'anchor', bgClass: 'bg-info/20' },
+		quantifier: { color: 'text-warning', icon: 'hash', bgClass: 'bg-warning/20' },
+		class: { color: 'text-success', icon: 'package', bgClass: 'bg-success/20' },
+		group: { color: 'text-primary', icon: 'link', bgClass: 'bg-primary/20' },
+		escape: { color: 'text-secondary', icon: 'lock-keyhole', bgClass: 'bg-secondary/20' },
+		alternation: { color: 'text-accent', icon: 'shuffle', bgClass: 'bg-accent/20' },
+		lookaround: { color: 'text-error', icon: 'eye', bgClass: 'bg-error/20' }
 	};
 
 	let tokens = $derived.by(() => {
@@ -118,29 +118,29 @@
 			
 			// Anchors
 			if (char === '^') {
-				result.push({ text: '^', type: 'anchor', explanation: 'Matches the start of the string (or line in multiline mode)', icon: '⚓', start, end: i + 1 });
+				result.push({ text: '^', type: 'anchor', explanation: 'Matches the start of the string (or line in multiline mode)', icon: 'anchor', start, end: i + 1 });
 				i++;
 				continue;
 			}
 			if (char === '$') {
-				result.push({ text: '$', type: 'anchor', explanation: 'Matches the end of the string (or line in multiline mode)', icon: '⚓', start, end: i + 1 });
+				result.push({ text: '$', type: 'anchor', explanation: 'Matches the end of the string (or line in multiline mode)', icon: 'anchor', start, end: i + 1 });
 				i++;
 				continue;
 			}
 			
 			// Quantifiers
 			if (char === '*') {
-				result.push({ text: '*', type: 'quantifier', explanation: 'Matches 0 or more of the preceding token (greedy)', icon: '🔢', start, end: i + 1 });
+				result.push({ text: '*', type: 'quantifier', explanation: 'Matches 0 or more of the preceding token (greedy)', icon: 'hash', start, end: i + 1 });
 				i++;
 				continue;
 			}
 			if (char === '+') {
-				result.push({ text: '+', type: 'quantifier', explanation: 'Matches 1 or more of the preceding token (greedy)', icon: '🔢', start, end: i + 1 });
+				result.push({ text: '+', type: 'quantifier', explanation: 'Matches 1 or more of the preceding token (greedy)', icon: 'hash', start, end: i + 1 });
 				i++;
 				continue;
 			}
 			if (char === '?') {
-				result.push({ text: '?', type: 'quantifier', explanation: 'Matches 0 or 1 of the preceding token (optional)', icon: '🔢', start, end: i + 1 });
+				result.push({ text: '?', type: 'quantifier', explanation: 'Matches 0 or 1 of the preceding token (optional)', icon: 'hash', start, end: i + 1 });
 				i++;
 				continue;
 			}
@@ -158,7 +158,7 @@
 					} else {
 						explanation = `Matches between ${min} and ${max} of the preceding token`;
 					}
-					result.push({ text: full, type: 'quantifier', explanation, icon: '🔢', start, end: i + full.length });
+					result.push({ text: full, type: 'quantifier', explanation, icon: 'hash', start, end: i + full.length });
 					i += full.length;
 					continue;
 				}
@@ -184,7 +184,7 @@
 					explanation: negated 
 						? `Matches any character NOT in: ${content}`
 						: `Matches any character in: ${content}`,
-					icon: '📦',
+					icon: 'package',
 					start,
 					end: j + 1
 				});
@@ -196,63 +196,63 @@
 			if (char === '(') {
 				// Check for special groups
 				if (pattern.slice(i, i + 3) === '(?:') {
-					result.push({ text: '(?:', type: 'group', explanation: 'Non-capturing group - groups without capturing for back-reference', icon: '🔗', start, end: i + 3 });
+					result.push({ text: '(?:', type: 'group', explanation: 'Non-capturing group - groups without capturing for back-reference', icon: 'link', start, end: i + 3 });
 					i += 3;
 					continue;
 				}
 				if (pattern.slice(i, i + 3) === '(?=') {
-					result.push({ text: '(?=', type: 'lookaround', explanation: 'Positive lookahead - asserts that what follows matches the pattern', icon: '👀', start, end: i + 3 });
+					result.push({ text: '(?=', type: 'lookaround', explanation: 'Positive lookahead - asserts that what follows matches the pattern', icon: 'eye', start, end: i + 3 });
 					i += 3;
 					continue;
 				}
 				if (pattern.slice(i, i + 3) === '(?!') {
-					result.push({ text: '(?!', type: 'lookaround', explanation: 'Negative lookahead - asserts that what follows does NOT match', icon: '👀', start, end: i + 3 });
+					result.push({ text: '(?!', type: 'lookaround', explanation: 'Negative lookahead - asserts that what follows does NOT match', icon: 'eye', start, end: i + 3 });
 					i += 3;
 					continue;
 				}
 				if (pattern.slice(i, i + 4) === '(?<=') {
-					result.push({ text: '(?<=', type: 'lookaround', explanation: 'Positive lookbehind - asserts that what precedes matches the pattern', icon: '👀', start, end: i + 4 });
+					result.push({ text: '(?<=', type: 'lookaround', explanation: 'Positive lookbehind - asserts that what precedes matches the pattern', icon: 'eye', start, end: i + 4 });
 					i += 4;
 					continue;
 				}
 				if (pattern.slice(i, i + 4) === '(?<!') {
-					result.push({ text: '(?<!', type: 'lookaround', explanation: 'Negative lookbehind - asserts that what precedes does NOT match', icon: '👀', start, end: i + 4 });
+					result.push({ text: '(?<!', type: 'lookaround', explanation: 'Negative lookbehind - asserts that what precedes does NOT match', icon: 'eye', start, end: i + 4 });
 					i += 4;
 					continue;
 				}
 				// Named group (?<name>...)
 				const namedMatch = pattern.slice(i).match(/^\(\?<(\w+)>/);
 				if (namedMatch) {
-					result.push({ text: namedMatch[0], type: 'group', explanation: `Named capturing group "${namedMatch[1]}"`, icon: '🔗', start, end: i + namedMatch[0].length });
+					result.push({ text: namedMatch[0], type: 'group', explanation: `Named capturing group "${namedMatch[1]}"`, icon: 'link', start, end: i + namedMatch[0].length });
 					i += namedMatch[0].length;
 					continue;
 				}
-				result.push({ text: '(', type: 'group', explanation: 'Capturing group - captures matched text for back-reference', icon: '🔗', start, end: i + 1 });
+				result.push({ text: '(', type: 'group', explanation: 'Capturing group - captures matched text for back-reference', icon: 'link', start, end: i + 1 });
 				i++;
 				continue;
 			}
 			if (char === ')') {
-				result.push({ text: ')', type: 'group', explanation: 'End of group', icon: '🔗', start, end: i + 1 });
+				result.push({ text: ')', type: 'group', explanation: 'End of group', icon: 'link', start, end: i + 1 });
 				i++;
 				continue;
 			}
 			
 			// Alternation
 			if (char === '|') {
-				result.push({ text: '|', type: 'alternation', explanation: 'Alternative - matches either the expression before OR after', icon: '🔀', start, end: i + 1 });
+				result.push({ text: '|', type: 'alternation', explanation: 'Alternative - matches either the expression before OR after', icon: 'shuffle', start, end: i + 1 });
 				i++;
 				continue;
 			}
 			
 			// Dot
 			if (char === '.') {
-				result.push({ text: '.', type: 'class', explanation: 'Matches any character except newline (unless dotall/s flag is set)', icon: '📦', start, end: i + 1 });
+				result.push({ text: '.', type: 'class', explanation: 'Matches any character except newline (unless dotall/s flag is set)', icon: 'package', start, end: i + 1 });
 				i++;
 				continue;
 			}
 			
 			// Literal character
-			result.push({ text: char, type: 'literal', explanation: `Matches the literal character "${char}"`, icon: '📝', start, end: i + 1 });
+			result.push({ text: char, type: 'literal', explanation: `Matches the literal character "${char}"`, icon: 'file-pen', start, end: i + 1 });
 			i++;
 		}
 		
@@ -364,7 +364,7 @@
 				<div class="flex items-center justify-between mb-4">
 					<div class="flex items-center gap-3">
 						<div class="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-							<AppIcon name={'📖'} size={20} />
+							<AppIcon name="book-open" size={20} />
 						</div>
 						<div>
 							<h3 class="font-bold">Pattern to Explain</h3>
@@ -456,7 +456,7 @@
 		{#if summary && !regexError}
 			<div class="card bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl p-4 border border-primary/20">
 				<div class="flex items-start gap-3">
-					<AppIcon name={'💬'} size={24} />
+					<AppIcon name="message-circle" size={24} />
 					<div>
 						<h4 class="text-sm font-semibold text-primary mb-1">In Plain English</h4>
 						<p class="text-sm text-base-content/80">{summary}</p>
@@ -470,7 +470,7 @@
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-4 flex items-center gap-2">
-						<AppIcon name={'🧩'} size={16} /> Pattern Breakdown
+						<AppIcon name="puzzle" size={16} /> Pattern Breakdown
 					</h3>
 					
 					<!-- Interactive Token Display -->
@@ -525,7 +525,7 @@
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-3 flex items-center gap-2">
-						<AppIcon name={'📋'} size={16} /> Complete Token List
+						<AppIcon name="clipboard" size={16} /> Complete Token List
 					</h3>
 					<div class="overflow-x-auto">
 						<table class="table table-sm table-zebra">
@@ -570,7 +570,7 @@
 		<div class="card bg-gradient-to-r from-base-200 to-base-300 rounded-xl">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold flex items-center gap-2">
-					<AppIcon name={'🎨'} size={16} /> Token Types Legend
+					<AppIcon name="palette" size={16} /> Token Types Legend
 				</h4>
 				<div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
 					{#each Object.entries(tokenConfig) as [type, config]}

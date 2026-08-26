@@ -248,7 +248,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<AppIcon name={'✨'} size={16} />
+					<AppIcon name="sparkles" size={16} />
 					Add Custom Alias
 				</h3>
 				<div class="flex flex-wrap gap-3">
@@ -282,7 +282,7 @@
 				<div class="card-body py-4">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2">
-							<AppIcon name={'📋'} size={16} />
+							<AppIcon name="clipboard" size={16} />
 							Commands ({selectedAliases.length} aliases)
 						</h3>
 						<CopyButton text={commands} label="Copy All" size="sm" />

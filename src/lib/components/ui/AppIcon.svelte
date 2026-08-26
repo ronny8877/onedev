@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { getIconMarkup } from '$lib/icons/registry';
+	import { Wrench } from '@lucide/svelte';
+	import { lucideIcons } from './lucide-icons';
 
 	interface Props {
 		name?: string | null;
@@ -11,31 +12,21 @@
 
 	let {
 		name = '',
-		size = 18,
+		size = 16,
 		class: className = '',
 		strokeWidth = 2,
 		title
 	}: Props = $props();
 
-	const markup = $derived(getIconMarkup(name));
+	const Icon = $derived(lucideIcons[name ?? ''] ?? Wrench);
 </script>
 
-<svg
-	xmlns="http://www.w3.org/2000/svg"
-	width={size}
-	height={size}
-	viewBox="0 0 24 24"
-	fill="none"
-	stroke="currentColor"
-	stroke-width={strokeWidth}
-	stroke-linecap="round"
-	stroke-linejoin="round"
+<Icon
+	{size}
+	{strokeWidth}
 	class="shrink-0 {className}"
-	aria-hidden={title ? undefined : 'true'}
+	color="currentColor"
+	aria-hidden={title ? undefined : true}
 	role={title ? 'img' : undefined}
->
-	{#if title}
-		<title>{title}</title>
-	{/if}
-	{@html markup}
-</svg>
+	{title}
+/>

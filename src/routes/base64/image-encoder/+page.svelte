@@ -9,6 +9,7 @@
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import { formatFileSize } from '$lib/utils/base64';
 	import { base64ToolsContent } from '$lib/config/content/base64-tools-content';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 
 	const content = base64ToolsContent['image-encoder'];
 
@@ -217,12 +218,12 @@
 					<div class="space-y-4">
 						<!-- Actions -->
 						<div class="flex flex-wrap gap-2">
-							<button type="button" class="btn btn-primary" onclick={copyDataUrl}>
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+							<button type="button" class="btn btn-primary h-8 min-h-8 rounded-lg gap-1.5" onclick={copyDataUrl}>
+								<AppIcon name="copy" class="size-4" />
 								Copy Data URL
 							</button>
-							<button type="button" class="btn btn-secondary" onclick={copyBase64}>
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+							<button type="button" class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5" onclick={copyBase64}>
+								<AppIcon name="copy" class="size-4" />
 								Copy Raw Base64
 							</button>
 						</div>

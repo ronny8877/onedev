@@ -544,7 +544,7 @@
 					{:else if !error}
 						<!-- Empty state -->
 						<div class="empty-state">
-							<AppIcon name={'🔗'} size={16} />
+							<AppIcon name="link" size={16} />
 							<h3 class="text-lg font-semibold text-base-content/70 mb-1">No JSON Data</h3>
 							<p class="text-sm text-base-content/40 max-w-xs text-center">Paste JSON in the editor or load sample data to visualize relationships</p>
 						</div>

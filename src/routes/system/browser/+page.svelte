@@ -98,16 +98,16 @@
 		const browser = getBrowserName();
 
 		browserInfo = [
-			{ label: 'Browser', value: browser.name, icon: '🌐' },
-			{ label: 'Version', value: browser.version, icon: '📋' },
-			{ label: 'Engine', value: getEngine(), icon: '⚙️' },
-			{ label: 'Languages', value: getLanguages(), icon: '🌍' },
-			{ label: 'Timezone', value: getTimezone(), icon: '🕐' },
-			{ label: 'Cookies', value: getCookiesEnabled(), icon: '🍪' },
-			{ label: 'Do Not Track', value: getDoNotTrack(), icon: '👁️' },
-			{ label: 'PDF Viewer', value: getPDFViewer(), icon: '📄' },
-			{ label: 'Java', value: getJavaEnabled(), icon: '☕' },
-			{ label: 'Online', value: navigator.onLine ? 'Yes' : 'No', icon: '📶' }
+			{ label: 'Browser', value: browser.name, icon: 'globe' },
+			{ label: 'Version', value: browser.version, icon: 'clipboard' },
+			{ label: 'Engine', value: getEngine(), icon: 'settings' },
+			{ label: 'Languages', value: getLanguages(), icon: 'globe' },
+			{ label: 'Timezone', value: getTimezone(), icon: 'clock' },
+			{ label: 'Cookies', value: getCookiesEnabled(), icon: 'cookie' },
+			{ label: 'Do Not Track', value: getDoNotTrack(), icon: 'eye' },
+			{ label: 'PDF Viewer', value: getPDFViewer(), icon: 'file-text' },
+			{ label: 'Java', value: getJavaEnabled(), icon: 'coffee' },
+			{ label: 'Online', value: navigator.onLine ? 'Yes' : 'No', icon: 'wifi' }
 		];
 
 		isLoading = false;
@@ -162,7 +162,7 @@
 				<div class="card-body">
 					<div class="flex items-center justify-between mb-2">
 						<h3 class="font-semibold text-lg flex items-center gap-2">
-							<AppIcon name={'📝'} size={16} />
+							<AppIcon name="file-pen" size={16} />
 							User Agent String
 						</h3>
 						<button class="btn btn-sm btn-ghost gap-1" onclick={copyUserAgent}>

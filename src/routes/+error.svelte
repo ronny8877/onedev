@@ -25,12 +25,12 @@
 		<p class="text-sm text-base-content/50 uppercase tracking-widest font-semibold mb-4">Popular Tools</p>
 		<div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
 			{#each [
-				{ name: 'JSON Formatter', href: '/json/formatter', icon: '{ }' },
-				{ name: 'Token Counter', href: '/ai/token-counter', icon: '🔢' },
-				{ name: 'Base64 Encode', href: '/base64/encode-decode', icon: '⚡' },
-				{ name: 'Hash Generator', href: '/hash/generator', icon: '🔐' },
-				{ name: 'Regex Tester', href: '/regex/tester', icon: '.*' },
-				{ name: 'CSS Gradient', href: '/css/gradient', icon: '🌈' },
+				{ name: 'JSON Formatter', href: '/json/formatter', icon: 'braces' },
+				{ name: 'Token Counter', href: '/ai/token-counter', icon: 'hash' },
+				{ name: 'Base64 Encode', href: '/base64/encode-decode', icon: 'zap' },
+				{ name: 'Hash Generator', href: '/hash/generator', icon: 'lock-keyhole' },
+				{ name: 'Regex Tester', href: '/regex/tester', icon: 'regex' },
+				{ name: 'CSS Gradient', href: '/css/gradient', icon: 'palette' },
 			] as tool}
 				<a href={tool.href} class="btn btn-ghost btn-sm border border-base-300 justify-start gap-2 font-normal">
 					<AppIcon name={tool.icon} size={16} />

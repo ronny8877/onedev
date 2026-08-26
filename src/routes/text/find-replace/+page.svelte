@@ -158,10 +158,10 @@ Foxes are clever animals.`;
 
 		<!-- Tool Actions -->
 		<div class="flex flex-wrap gap-2">
-			<button class="btn btn-primary btn-sm" onclick={replaceAll} disabled={!findText || !input || highlightOnly}>
+			<button class="btn btn-primary h-8 min-h-8 rounded-lg" onclick={replaceAll} disabled={!findText || !input || highlightOnly}>
 				Replace All
 			</button>
-			<button class="btn btn-secondary btn-sm" onclick={replaceFirst} disabled={!findText || !input || highlightOnly}>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={replaceFirst} disabled={!findText || !input || highlightOnly}>
 				Replace First
 			</button>
 			{#if matches.length > 0}

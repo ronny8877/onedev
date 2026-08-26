@@ -198,7 +198,7 @@ package.json                        1.2 KB`;
 		<div class="card bg-info/10 border border-info/30 rounded-xl">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold text-info flex items-center gap-2 mb-3">
-					<AppIcon name={'📋'} size={16} />
+					<AppIcon name="clipboard" size={16} />
 					Copy a Command, Run It, Paste the Output Below
 				</h4>
 				<div class="space-y-2">
@@ -236,9 +236,15 @@ package.json                        1.2 KB`;
 
 		<!-- Actions -->
 		<div class="flex items-center gap-2 flex-wrap">
-			<button class="btn btn-sm btn-primary" onclick={loadSample}>📄 Sample (ls format)</button>
-			<button class="btn btn-sm btn-secondary" onclick={loadDuSample}>📄 Sample (du format)</button>
-			<button class="btn btn-sm btn-ghost" onclick={clearAll}>Clear</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5" onclick={loadSample}>
+				<AppIcon name="file-text" class="size-4" />
+				Sample (ls format)
+			</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5" onclick={loadDuSample}>
+				<AppIcon name="file-text" class="size-4" />
+				Sample (du format)
+			</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={clearAll}>Clear</button>
 		</div>
 
 		<!-- Input -->
@@ -259,7 +265,7 @@ package.json                        1.2 KB`;
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<AppIcon name={'⚙️'} size={16} />
+					<AppIcon name="settings" size={16} />
 					Size Threshold
 				</h3>
 				
@@ -300,7 +306,7 @@ package.json                        1.2 KB`;
 					<div class="card-body py-4">
 						<div class="flex items-center gap-4">
 							<div class="w-14 h-14 rounded-full bg-warning/20 flex items-center justify-center shrink-0">
-								<AppIcon name={'📦'} size={24} />
+								<AppIcon name="package" size={24} />
 							</div>
 							<div>
 								<h3 class="font-semibold text-warning text-lg">
@@ -345,7 +351,7 @@ package.json                        1.2 KB`;
 									{#if isLarge}
 										<span class="text-warning">⚠️</span>
 									{:else}
-										<AppIcon name={'✓'} size={16} />
+										<AppIcon name="check" size={16} />
 									{/if}
 								</div>
 								<div class="flex-1 min-w-0">

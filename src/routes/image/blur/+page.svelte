@@ -613,7 +613,7 @@
 					<div class="flex gap-2">
 						<button
 							class="btn btn-sm flex-1"
-							class:btn-secondary={mode === 'blur'}
+							class:btn-primary={mode === 'blur'}
 							class:btn-ghost={mode !== 'blur'}
 							onclick={() => { mode = 'blur'; if (applyMode === 'full' || patches.length > 0) process(); }}
 						>
@@ -621,7 +621,7 @@
 						</button>
 						<button
 							class="btn btn-sm flex-1"
-							class:btn-secondary={mode === 'pixelate'}
+							class:btn-primary={mode === 'pixelate'}
 							class:btn-ghost={mode !== 'pixelate'}
 							onclick={() => { mode = 'pixelate'; if (applyMode === 'full' || patches.length > 0) process(); }}
 						>

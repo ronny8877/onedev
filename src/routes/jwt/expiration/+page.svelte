@@ -134,9 +134,9 @@
 	}
 
 	const claims = [
-		{ key: 'exp', label: 'Expiration Time', icon: '⏰', description: 'Token expires after this time' },
-		{ key: 'iat', label: 'Issued At', icon: '📅', description: 'When the token was created' },
-		{ key: 'nbf', label: 'Not Before', icon: '⏳', description: 'Token not valid before this time' }
+		{ key: 'exp', label: 'Expiration Time', icon: 'clock', description: 'Token expires after this time' },
+		{ key: 'iat', label: 'Issued At', icon: 'calendar', description: 'When the token was created' },
+		{ key: 'nbf', label: 'Not Before', icon: 'hourglass', description: 'Token not valid before this time' }
 	] as const;
 </script>
 
@@ -262,7 +262,7 @@
 			<div class="card bg-gradient-to-r from-base-200 to-base-300 rounded-xl">
 				<div class="card-body py-4">
 					<h4 class="text-sm font-semibold flex items-center gap-2 mb-4">
-						<AppIcon name={'📊'} size={16} /> Token Lifecycle Timeline
+						<AppIcon name="chart-column" size={16} /> Token Lifecycle Timeline
 					</h4>
 					<div class="relative">
 						<!-- Timeline bar -->

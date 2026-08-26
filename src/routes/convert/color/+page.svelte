@@ -198,7 +198,7 @@
 							></div>
 						</label>
 						<div class="absolute -bottom-1 -right-1 bg-primary text-primary-content text-xs px-2 py-0.5 rounded-full shadow-md font-medium">
-							<AppIcon name={'🎨'} size={16} /></div>
+							<AppIcon name="palette" size={16} /></div>
 					</div>
 					<div class="flex-1">
 						<div class="text-xs text-base-content/60 mb-1 font-medium">Visual Color Picker</div>
@@ -460,7 +460,7 @@
 		{:else}
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body items-center text-center py-12">
-					<AppIcon name={'🎨'} size={32} />
+					<AppIcon name="palette" size={32} />
 					<p class="text-base-content/60">Enter a color code to see conversions</p>
 					<p class="text-xs text-base-content/40 mt-1">Supports HEX, RGB, HSL, CMYK</p>
 				</div>

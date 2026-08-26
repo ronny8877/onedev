@@ -69,19 +69,19 @@
 		<h2 class="text-2xl font-bold text-base-content mb-6">What's Inside</h2>
 		<div class="grid gap-4 sm:grid-cols-2">
 			{#each [
-				{ icon: '🤖', title: 'AI & LLM Utilities', desc: 'Token counters, cost estimators, context planners, and embedding calculators for GPT-5.6, Claude 5, Gemini 3.x, Grok 4.6, and DeepSeek V4. Rates updated 20 Aug 2026.' },
-				{ icon: '{ }', title: 'JSON Tools', desc: 'Format, validate, diff, convert, and visually explore JSON structures with our suite of 8 JSON utilities.' },
-				{ icon: '⟨/⟩', title: 'XML Tools', desc: 'Format, validate, minify, convert XML to JSON or CSV, escape entities, run XPath 1.0, and diff two documents. Parsing stays in this tab.' },
-				{ icon: '▤', title: 'CSV Tools', desc: 'View, validate, transpose, and convert CSV or TSV to JSON, XML, SQL, and Markdown. Quoted commas and Excel BOMs are handled locally.' },
-				{ icon: '🗄️', title: 'SQL Tools', desc: 'Format, minify, and validate SQL, convert JSON to INSERT statements, visualize JOINs, test LIKE patterns, and explain queries. PostgreSQL, MySQL, SQLite, SQL Server, BigQuery, and Snowflake. Nothing is uploaded.' },
-				{ icon: '📅', title: 'Date & Time', desc: 'Unix timestamps, IANA time zones, ISO 8601 instants and durations, relative time, world clocks, and calendar math. Convert → Time is duration units, not epoch.' },
-				{ icon: '🔒', title: 'Security Tools', desc: 'CSP generators, CORS builders, password testers, JWT decoders, hash generators, and security header references.' },
-				{ icon: '🔀', title: 'Git Tools', desc: 'Gitignore generators, commit formatters, branch name builders, diff viewers, and README generators.' },
-				{ icon: '🎨', title: 'CSS Generators', desc: 'Visual builders for gradients, box shadows, animations, flexbox, grid, and CSS layout utilities.' },
-				{ icon: '🔄', title: 'Converters', desc: 'Unit converters for CSS, length, data size, time, color, typography, number base, and screen resolution.' },
-				{ icon: '📝', title: 'Text Tools', desc: 'Case converters, diff checkers, regex testers, word counters, line sorters, and lorem ipsum generators.' },
-				{ icon: '🖼️', title: 'Image Tools', desc: 'Browser-side image compression, resizing, cropping, format conversion, and EXIF metadata viewer.' },
-				{ icon: '▦', title: 'QR & Barcode', desc: 'Generate customizable QR codes with logos and styles, scan QR codes, create WiFi and vCard codes, and generate or read barcodes.' }
+				{ icon: 'bot', title: 'AI & LLM Utilities', desc: 'Token counters, cost estimators, context planners, and embedding calculators for GPT-5.6, Claude 5, Gemini 3.x, Grok 4.6, and DeepSeek V4. Rates updated 20 Aug 2026.' },
+				{ icon: 'braces', title: 'JSON Tools', desc: 'Format, validate, diff, convert, and visually explore JSON structures with our suite of 8 JSON utilities.' },
+				{ icon: 'code-xml', title: 'XML Tools', desc: 'Format, validate, minify, convert XML to JSON or CSV, escape entities, run XPath 1.0, and diff two documents. Parsing stays in this tab.' },
+				{ icon: 'table', title: 'CSV Tools', desc: 'View, validate, transpose, and convert CSV or TSV to JSON, XML, SQL, and Markdown. Quoted commas and Excel BOMs are handled locally.' },
+				{ icon: 'database', title: 'SQL Tools', desc: 'Format, minify, and validate SQL, convert JSON to INSERT statements, visualize JOINs, test LIKE patterns, and explain queries. PostgreSQL, MySQL, SQLite, SQL Server, BigQuery, and Snowflake. Nothing is uploaded.' },
+				{ icon: 'calendar', title: 'Date & Time', desc: 'Unix timestamps, IANA time zones, ISO 8601 instants and durations, relative time, world clocks, and calendar math. Convert → Time is duration units, not epoch.' },
+				{ icon: 'lock', title: 'Security Tools', desc: 'CSP generators, CORS builders, password testers, JWT decoders, hash generators, and security header references.' },
+				{ icon: 'shuffle', title: 'Git Tools', desc: 'Gitignore generators, commit formatters, branch name builders, diff viewers, and README generators.' },
+				{ icon: 'palette', title: 'CSS Generators', desc: 'Visual builders for gradients, box shadows, animations, flexbox, grid, and CSS layout utilities.' },
+				{ icon: 'refresh-cw', title: 'Converters', desc: 'Unit converters for CSS, length, data size, time, color, typography, number base, and screen resolution.' },
+				{ icon: 'file-pen', title: 'Text Tools', desc: 'Case converters, diff checkers, regex testers, word counters, line sorters, and lorem ipsum generators.' },
+				{ icon: 'image', title: 'Image Tools', desc: 'Browser-side image compression, resizing, cropping, format conversion, and EXIF metadata viewer.' },
+				{ icon: 'qr-code', title: 'QR & Barcode', desc: 'Generate customizable QR codes with logos and styles, scan QR codes, create WiFi and vCard codes, and generate or read barcodes.' }
 			] as cat}
 				<div class="card bg-base-200 border border-base-300/50 p-4">
 					<div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">

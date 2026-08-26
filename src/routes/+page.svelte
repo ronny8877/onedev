@@ -3,34 +3,8 @@
 	import { SITE_ORIGIN } from '$lib/config/indexing';
 	import logo from '$lib/assets/logo.png';
 	import AppIcon from '$lib/components/ui/AppIcon.svelte';
-	// Get tools from centralized config
 	const categories = getActiveCategories();
 	const allTools = getAllActiveTools();
-
-	// Category colors and icons
-	const categoryStyles: Record<string, { color: string; hoverBorder: string; bgClass: string; textClass: string }> = {
-		'JSON': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10', textClass: 'text-primary' },
-		'Base64': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10', textClass: 'text-warning' },
-		'URL': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10', textClass: 'text-info' },
-		'Image': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10', textClass: 'text-secondary' },
-		'System': { color: 'accent', hoverBorder: 'hover:border-accent/20', bgClass: 'bg-accent/10', textClass: 'text-accent' },
-		'Text': { color: 'success', hoverBorder: 'hover:border-success/20', bgClass: 'bg-success/10', textClass: 'text-success' },
-		'HTML': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10', textClass: 'text-error' },
-		'Break': { color: 'neutral', hoverBorder: 'hover:border-neutral/20', bgClass: 'bg-neutral/10', textClass: 'text-neutral' },
-		'Convert': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10', textClass: 'text-info' },
-		'CSS': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10', textClass: 'text-secondary' },
-		'AI Utilities': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10', textClass: 'text-warning' },
-		'Hash': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10', textClass: 'text-primary' },
-		'QR & Barcode': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10', textClass: 'text-secondary' },
-		'XML': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10', textClass: 'text-error' },
-		'CSV': { color: 'success', hoverBorder: 'hover:border-success/20', bgClass: 'bg-success/10', textClass: 'text-success' },
-		'SQL': { color: 'primary', hoverBorder: 'hover:border-primary/20', bgClass: 'bg-primary/10', textClass: 'text-primary' },
-		'Date & Time': { color: 'info', hoverBorder: 'hover:border-info/20', bgClass: 'bg-info/10', textClass: 'text-info' },
-		'PDF': { color: 'error', hoverBorder: 'hover:border-error/20', bgClass: 'bg-error/10', textClass: 'text-error' },
-		'YAML': { color: 'warning', hoverBorder: 'hover:border-warning/20', bgClass: 'bg-warning/10', textClass: 'text-warning' },
-		'JWT': { color: 'accent', hoverBorder: 'hover:border-accent/20', bgClass: 'bg-accent/10', textClass: 'text-accent' },
-		'Git': { color: 'secondary', hoverBorder: 'hover:border-secondary/20', bgClass: 'bg-secondary/10', textClass: 'text-secondary' }
-	};
 </script>
 
 <svelte:head>
@@ -79,7 +53,7 @@
 	<!-- Hero Section -->
 	<div class="mb-12 text-center">
 		<h1 class="mb-4 text-4xl font-bold tracking-tight text-base-content lg:text-5xl">
-			<span class="text-primary">One</span>Dev Tools
+			OneDev Tools
 		</h1>
 		<img src={logo} alt="OneDev Tools Logo" class="w-96 h-60 rounded-3xl mx-auto mb-4" />
 		<p class="text-lg text-base-content/70 leading-relaxed">
@@ -135,7 +109,7 @@
 	<!-- Tool Count -->
 	<div class="mb-8 text-center">
 		<div class="inline-flex items-center gap-2 bg-base-200 px-4 py-2 rounded-full border border-base-300">
-			<span class="text-2xl font-bold text-primary">{allTools.length}</span>
+			<span class="text-2xl font-bold text-base-content">{allTools.length}</span>
 			<span class="text-base-content/70">tools and counting</span>
 		</div>
 	</div>
@@ -171,10 +145,9 @@
 
 	<!-- Tool Categories (from centralized config) -->
 	{#each categories as category}
-		{@const style = categoryStyles[category.name] || categoryStyles['JSON']}
 		<section class="mb-12">
 			<h2 class="mb-2 flex items-center gap-3 text-xl font-bold">
-				<span class="flex h-9 w-9 items-center justify-center rounded-lg {style.bgClass} {style.textClass}">
+				<span class="flex h-9 w-9 items-center justify-center rounded-lg bg-base-200 text-base-content">
 					<AppIcon name={category.icon} size={18} />
 				</span>
 				{category.name} Tools
@@ -187,10 +160,10 @@
 				{#each category.items as tool}
 					<a
 						href={tool.href}
-						class="card bg-base-200 border border-base-300/50 transition-all duration-200 hover:-translate-y-1 hover:bg-base-200/80 hover:shadow-lg {style.hoverBorder}"
+						class="card bg-base-200 border border-base-300 transition-all duration-200 hover:border-base-content/20 hover:shadow-md"
 					>
 						<div class="card-body p-5">
-							<div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl {style.bgClass} {style.textClass}">
+							<div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-base-300 text-base-content">
 								<AppIcon name={tool.icon} size={20} />
 							</div>
 							<h3 class="card-title text-base font-semibold">{tool.name}</h3>
@@ -210,10 +183,10 @@
 				<p class="text-sm text-base-content/50">All processing happens locally in your browser. Your data never leaves your device.</p>
 			</div>
 			<nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-base-content/50">
-				<a href="/about" class="hover:text-primary transition-colors">About</a>
-				<a href="/privacy" class="hover:text-primary transition-colors">Privacy Policy</a>
-				<a href="/contact" class="hover:text-primary transition-colors">Contact</a>
-				<a href="/editorial-policy" class="hover:text-primary transition-colors">Editorial Policy</a>
+				<a href="/about" class="hover:text-base-content transition-colors">About</a>
+				<a href="/privacy" class="hover:text-base-content transition-colors">Privacy Policy</a>
+				<a href="/contact" class="hover:text-base-content transition-colors">Contact</a>
+				<a href="/editorial-policy" class="hover:text-base-content transition-colors">Editorial Policy</a>
 			</nav>
 		</div>
 		<p class="mt-6 text-xs text-base-content/30 text-center inline-flex items-center justify-center gap-1 w-full">© {new Date().getFullYear()} OneDev Tools. Built with Svelte, DaisyUI, and <AppIcon name="heart" size={12} class="inline text-error" /></p>

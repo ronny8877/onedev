@@ -97,15 +97,15 @@ Elderberry`;
 
 		<!-- Tool Actions -->
 		<div class="flex flex-wrap gap-2">
-			<button class="btn btn-primary btn-sm" onclick={sortAZ}>Sort A→Z</button>
-			<button class="btn btn-primary btn-sm" onclick={sortZA}>Sort Z→A</button>
-			<button class="btn btn-secondary btn-sm" onclick={removeDuplicates}>Remove Duplicates</button>
-			<button class="btn btn-secondary btn-sm" onclick={trimWhitespace}>Trim Whitespace</button>
-			<button class="btn btn-secondary btn-sm" onclick={removeEmptyLines}>Remove Empty</button>
-			<button class="btn btn-accent btn-sm" onclick={reverseLines}>Reverse</button>
-			<button class="btn btn-accent btn-sm" onclick={shuffleLines}>Shuffle</button>
-			<button class="btn btn-info btn-sm" onclick={numberLines}>Number Lines</button>
-			<button class="btn btn-ghost btn-sm" onclick={removeNumbers}>Remove Numbers</button>
+			<button class="btn btn-primary h-8 min-h-8 rounded-lg" onclick={sortAZ}>Sort A→Z</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={sortZA}>Sort Z→A</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={removeDuplicates}>Remove Duplicates</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={trimWhitespace}>Trim Whitespace</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={removeEmptyLines}>Remove Empty</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={reverseLines}>Reverse</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={shuffleLines}>Shuffle</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={numberLines}>Number Lines</button>
+			<button class="btn btn-ghost h-8 min-h-8 rounded-lg" onclick={removeNumbers}>Remove Numbers</button>
 		</div>
 
 		<!-- Stats -->

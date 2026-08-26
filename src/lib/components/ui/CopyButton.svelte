@@ -36,14 +36,14 @@
 
 	function generateFormats(targetUrl: string): CopyFormat[] {
 		return [
-			{ label: 'URL', value: targetUrl, icon: '🔗' },
-			{ label: 'cURL', value: `curl '${targetUrl}'`, icon: '💻' },
-			{ label: 'Fetch', value: `fetch('${targetUrl}')`, icon: '📦' },
-			{ label: 'Axios', value: `axios.get('${targetUrl}')`, icon: '⚡' },
-			{ label: 'wget', value: `wget '${targetUrl}'`, icon: '📥' },
-			{ label: 'HTTPie', value: `http GET '${targetUrl}'`, icon: '🌐' },
-			{ label: 'Markdown', value: `[Link](${targetUrl})`, icon: '📝' },
-			{ label: 'HTML', value: `<a href="${targetUrl}">${targetUrl}</a>`, icon: '🏷️' }
+			{ label: 'URL', value: targetUrl, icon: 'link' },
+			{ label: 'cURL', value: `curl '${targetUrl}'`, icon: 'monitor' },
+			{ label: 'Fetch', value: `fetch('${targetUrl}')`, icon: 'package' },
+			{ label: 'Axios', value: `axios.get('${targetUrl}')`, icon: 'zap' },
+			{ label: 'wget', value: `wget '${targetUrl}'`, icon: 'download' },
+			{ label: 'HTTPie', value: `http GET '${targetUrl}'`, icon: 'globe' },
+			{ label: 'Markdown', value: `[Link](${targetUrl})`, icon: 'file-pen' },
+			{ label: 'HTML', value: `<a href="${targetUrl}">${targetUrl}</a>`, icon: 'tag' }
 		];
 	}
 
@@ -70,11 +70,11 @@
 		<div class="dropdown dropdown-end">
 			<button
 				type="button"
-				class="btn btn-ghost btn-{size}"
+				class="btn btn-ghost h-8 w-8 min-h-8 min-w-8 p-0 rounded-lg"
 				onclick={() => dropdownOpen = !dropdownOpen}
 				aria-label="More copy options"
 			>
-				<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+				<AppIcon name="chevron-down" class="size-4" />
 			</button>
 			{#if dropdownOpen}
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -87,7 +87,7 @@
 								class="flex items-center gap-2 text-sm"
 								onclick={() => copyToClipboard(format.value)}
 							>
-								<AppIcon name={format.icon} size={14} />
+								<AppIcon name={format.icon} class="size-4" />
 								<span>{format.label}</span>
 							</button>
 						</li>
@@ -99,16 +99,16 @@
 	
 	<button
 		type="button"
-		class="btn btn-{size} rounded-xl"
+		class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5"
 		class:btn-success={copied}
 		onclick={copyDefault}
 		disabled={!copyValue}
 	>
 		{#if copied}
-			<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+			<AppIcon name="check" class="size-4" />
 			{#if label}Copied!{/if}
 		{:else}
-			<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+			<AppIcon name="copy" class="size-4" />
 			{#if label}{label}{/if}
 		{/if}
 	</button>

@@ -201,11 +201,11 @@ test123@test.io`;
 
 	// Flag button configuration
 	const flagButtons = [
-		{ key: 'g', label: 'g', title: 'Global - find all matches', icon: '🌐' },
-		{ key: 'i', label: 'i', title: 'Case insensitive', icon: '🔤' },
-		{ key: 'm', label: 'm', title: 'Multiline - ^ and $ match line starts/ends', icon: '📝' },
-		{ key: 's', label: 's', title: 'Dotall - . matches newlines', icon: '⏎' },
-		{ key: 'u', label: 'u', title: 'Unicode - enable unicode support', icon: '🌍' }
+		{ key: 'g', label: 'g', title: 'Global - find all matches', icon: 'globe' },
+		{ key: 'i', label: 'i', title: 'Case insensitive', icon: 'case-sensitive' },
+		{ key: 'm', label: 'm', title: 'Multiline - ^ and $ match line starts/ends', icon: 'file-pen' },
+		{ key: 's', label: 's', title: 'Dotall - . matches newlines', icon: 'corner-down-left' },
+		{ key: 'u', label: 'u', title: 'Unicode - enable unicode support', icon: 'globe' }
 	];
 
 	function toggleFlag(key: string) {
@@ -285,7 +285,7 @@ test123@test.io`;
 				<div class="flex items-center justify-between mb-4">
 					<div class="flex items-center gap-3">
 						<div class="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
-							<AppIcon name={'🧪'} size={20} />
+							<AppIcon name="flask-conical" size={20} />
 						</div>
 						<div>
 							<h3 class="font-bold">Regular Expression</h3>

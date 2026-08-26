@@ -35,12 +35,12 @@
 	];
 
 	const presets = [
-		{ name: 'Oneline', icon: '📜', format: '%h %s', description: 'Compact single line' },
-		{ name: 'Short', icon: '📝', format: '%h - %s (%ar)', description: 'Hash, subject, date' },
-		{ name: 'Medium', icon: '📋', format: '%h - %an, %ar : %s', description: 'With author' },
-		{ name: 'Full', icon: '📄', format: 'commit %H%nAuthor: %an <%ae>%nDate:   %ad%n%n    %s%n', description: 'Standard format' },
-		{ name: 'Graph', icon: '🌳', format: '%C(bold blue)%h%C(reset) - %C(green)(%ar)%C(reset) %s %C(dim)- %an%C(reset)%C(auto)%d%C(reset)', description: 'Colorful graph' },
-		{ name: 'Changelog', icon: '📰', format: '- %s (%h) by %an', description: 'Release notes style' }
+		{ name: 'Oneline', icon: 'scroll', format: '%h %s', description: 'Compact single line' },
+		{ name: 'Short', icon: 'file-pen', format: '%h - %s (%ar)', description: 'Hash, subject, date' },
+		{ name: 'Medium', icon: 'clipboard', format: '%h - %an, %ar : %s', description: 'With author' },
+		{ name: 'Full', icon: 'file-text', format: 'commit %H%nAuthor: %an <%ae>%nDate:   %ad%n%n    %s%n', description: 'Standard format' },
+		{ name: 'Graph', icon: 'tree-deciduous', format: '%C(bold blue)%h%C(reset) - %C(green)(%ar)%C(reset) %s %C(dim)- %an%C(reset)%C(auto)%d%C(reset)', description: 'Colorful graph' },
+		{ name: 'Changelog', icon: 'newspaper', format: '- %s (%h) by %an', description: 'Release notes style' }
 	];
 
 	const dateFormats = [
@@ -184,7 +184,7 @@
 		<!-- Presets -->
 		<div>
 			<h3 class="text-sm font-medium text-base-content/70 mb-3 flex items-center gap-2">
-				<AppIcon name={'⚡'} size={16} />
+				<AppIcon name="zap" size={16} />
 				Quick Presets
 			</h3>
 			<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
@@ -293,7 +293,7 @@
 			<div class="card-body py-4">
 				<div class="flex items-center justify-between mb-3">
 					<h3 class="font-semibold flex items-center gap-2">
-						<AppIcon name={'⌨️'} size={16} />
+						<AppIcon name="keyboard" size={16} />
 						Git Command
 					</h3>
 					<CopyButton text={command} label="Copy" size="sm" />
@@ -308,7 +308,7 @@
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<AppIcon name={'👁️'} size={16} />
+					<AppIcon name="eye" size={16} />
 					Example Output
 				</h3>
 				<pre class="font-mono text-sm p-4 bg-base-300/50 rounded-xl whitespace-pre-wrap">{exampleOutput}</pre>

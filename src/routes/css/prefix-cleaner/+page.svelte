@@ -73,7 +73,7 @@
 		{#if inputCSS}
 			<div class="card bg-info/10 rounded-2xl">
 				<div class="card-body p-4 flex-row items-center gap-4">
-					<AppIcon name={'🧹'} size={16} />
+					<AppIcon name="broom" size={16} />
 					<div>
 						<div class="text-lg font-bold">{prefixCount()} prefixes found</div>
 						<div class="text-sm text-base-content/60">

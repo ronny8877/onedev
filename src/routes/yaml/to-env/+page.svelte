@@ -129,7 +129,7 @@ features:
 				<div class="card-body p-4">
 					<div class="flex items-center gap-2 mb-3">
 						<div class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center">
-							<AppIcon name={'📄'} size={16} />
+							<AppIcon name="file-text" size={16} />
 						</div>
 						<h3 class="font-bold">YAML Input</h3>
 					</div>
@@ -149,7 +149,7 @@ features:
 					<div class="flex items-center justify-between mb-3">
 						<div class="flex items-center gap-2">
 							<div class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
-								<AppIcon name={'📝'} size={16} />
+								<AppIcon name="file-pen" size={16} />
 							</div>
 							<h3 class="font-bold">.env Output</h3>
 							{#if result.keyCount > 0}

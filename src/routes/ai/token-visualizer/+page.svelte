@@ -122,7 +122,7 @@
 
 		{#if tokenizerFactor !== 1 && tokens.length > 0}
 			<div class="alert bg-warning/10 border border-warning/30 text-sm">
-				<AppIcon name={'🔤'} size={16} />
+				<AppIcon name="case-sensitive" size={16} />
 				<span>
 					The blocks below show OpenAI's BPE tokenization. <span class="font-semibold capitalize">{providerName}</span>'s
 					own tokenizer is denser — this text is closer to
@@ -149,7 +149,7 @@
 				<div class="card-body py-4">
 					<div class="flex items-center justify-between mb-4">
 						<h3 class="font-semibold flex items-center gap-2">
-							<AppIcon name={'🎨'} size={16} /> Token Breakdown
+							<AppIcon name="palette" size={16} /> Token Breakdown
 						</h3>
 						<div class="text-sm text-base-content/60">
 							Hover over tokens to see details
@@ -196,7 +196,7 @@
 			</div>
 		{:else}
 			<div class="text-center py-12 text-base-content/50 border-2 border-dashed border-base-300 rounded-2xl">
-				<AppIcon name={'✨'} size={32} />
+				<AppIcon name="sparkles" size={32} />
 				<div>Enter text above to see how it tokenizes</div>
 			</div>
 		{/if}

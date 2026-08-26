@@ -197,30 +197,25 @@ import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 			<div class="flex gap-5">
 				<button
 					type="button"
-					class="btn join-item"
-					class:btn-primary={mode === 'auto'}
+					class="btn h-8 min-h-8 rounded-lg {mode === 'auto' ? 'btn-primary' : 'btn-ghost'}"
 					onclick={() => (mode = 'auto')}
 				>
 					Auto
 				</button>
-				<div class="flex gap-1">
-					<button
-						type="button"
-						class="btn join-item"
-						class:btn-primary={mode === 'encode'}
-						onclick={() => (mode = 'encode')}
+				<button
+					type="button"
+					class="btn h-8 min-h-8 rounded-lg {mode === 'encode' ? 'btn-primary' : 'btn-ghost'}"
+					onclick={() => (mode = 'encode')}
 				>
 					Encode
 				</button>
 				<button
 					type="button"
-					class="btn join-item"
-					class:btn-primary={mode === 'decode'}
+					class="btn h-8 min-h-8 rounded-lg {mode === 'decode' ? 'btn-primary' : 'btn-ghost'}"
 					onclick={() => (mode = 'decode')}
 				>
 					Decode
 				</button>
-				</div>
 			</div>
 
 			{#if mode === 'auto' && input.trim()}
@@ -230,7 +225,7 @@ import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 			{/if}
 
 			{#if output && !decodeFile}
-				<button type="button" class="btn btn-ghost btn-sm ml-auto" onclick={swapInputOutput}>
+				<button type="button" class="btn btn-ghost h-8 min-h-8 rounded-lg ml-auto" onclick={swapInputOutput}>
 					Swap Inputs
 				</button>
 			{/if}

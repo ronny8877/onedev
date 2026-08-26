@@ -157,7 +157,7 @@
 			<div class="card-body">
 				<div class="flex items-center gap-3 mb-4">
 					<div class="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
-						<AppIcon name={'🔐'} size={20} />
+						<AppIcon name="lock-keyhole" size={20} />
 					</div>
 					<div>
 						<h3 class="font-bold">JWT Token</h3>
@@ -194,7 +194,7 @@
 						<div class="flex items-center justify-between mb-3">
 							<div class="flex items-center gap-2">
 								<div class="w-8 h-8 rounded-lg bg-info/20 flex items-center justify-center">
-									<AppIcon name={'📋'} size={16} />
+									<AppIcon name="clipboard" size={16} />
 								</div>
 								<h3 class="font-bold">Header</h3>
 								<span class="badge badge-sm badge-ghost font-mono">{decoded.parts[0].length} chars</span>
@@ -228,7 +228,7 @@
 						<div class="flex items-center justify-between mb-3">
 							<div class="flex items-center gap-2">
 								<div class="w-8 h-8 rounded-lg bg-success/20 flex items-center justify-center">
-									<AppIcon name={'📦'} size={16} />
+									<AppIcon name="package" size={16} />
 								</div>
 								<h3 class="font-bold">Payload</h3>
 								<span class="badge badge-sm badge-ghost font-mono">{decoded.parts[1].length} chars</span>
@@ -275,7 +275,7 @@
 					<div class="flex items-center justify-between">
 						<div class="flex items-center gap-2">
 							<div class="w-8 h-8 rounded-lg bg-warning/20 flex items-center justify-center">
-								<AppIcon name={'🔒'} size={16} />
+								<AppIcon name="lock" size={16} />
 							</div>
 							<div>
 								<h3 class="font-bold">Signature</h3>
@@ -295,7 +295,7 @@
 			<div class="card bg-gradient-to-r from-base-200 to-base-300 rounded-xl">
 				<div class="card-body py-4">
 					<h4 class="text-sm font-semibold flex items-center gap-2 mb-3">
-						<AppIcon name={'🧱'} size={16} /> Token Structure
+						<AppIcon name="brick-wall" size={16} /> Token Structure
 					</h4>
 					<div class="flex gap-1 text-xs font-mono overflow-x-auto pb-2">
 						<div class="flex-1 min-w-0 p-2 rounded-l-lg bg-info/20 border-2 border-info/40">

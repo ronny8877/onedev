@@ -143,15 +143,13 @@
 	>
 		<!-- Search Input -->
 		<div class="flex items-center gap-3 px-4 py-3 border-b border-base-300">
-			<svg class="w-5 h-5 text-base-content/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-			</svg>
+			<AppIcon name="search" class="size-4 text-muted" />
 			<input
 				bind:this={inputRef}
 				bind:value={searchQuery}
 				type="text"
 				placeholder="Search tools..."
-				class="flex-1 bg-transparent outline-none text-base-content placeholder:text-base-content/40 input input-ghost"
+				class="flex-1 bg-transparent outline-none text-base-content input input-ghost"
 			/>
 			<kbd class="kbd kbd-sm">ESC</kbd>
 		</div>
@@ -164,12 +162,12 @@
 			{#if filteredTools().length > 0}
 				{#each filteredTools() as tool, i}
 					<button
-						class="result-item {i === selectedIndex ? 'bg-primary/15 text-primary' : 'hover:bg-primary/15'}"
+						class="result-item {i === selectedIndex ? 'bg-base-300 text-base-content' : 'hover:bg-base-200'}"
 						onclick={() => navigateTo(tool)}
 						onmouseenter={() => selectedIndex = i}
 					>
 						<div class="flex items-center gap-3">
-							<AppIcon name={tool.icon} size={18} class="opacity-80" />
+							<AppIcon name={tool.icon} class="size-4" />
 							<div class="text-left">
 								<div class="font-medium text-sm">{tool.name}</div>
 								<div class="text-xs text-base-content/50">{toolCategoryMap.get(tool.href)}</div>
@@ -206,22 +204,13 @@
 		transform: translateX(-50%);
 		width: 100%;
 		max-width: 32rem;
-		border: 1px solid var(--fallback-bc, oklch(var(--bc) / 0.15));
+		border: 1px solid var(--color-base-300);
 		border-radius: 1rem;
 		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
 		z-index: 101;
 		overflow: hidden;
 	}
 
-	/* Fallback for browsers that don't support oklch */
-	@supports not (color: oklch(0 0 0)) {
-		.command-palette {
-			background-color: hsl(220 13% 18%);
-			border-color: hsl(220 13% 30%);
-		}
-	}
-
-	/* result-item styles moved to markup to avoid @apply issues with daisyui classes */
 	.result-item {
 		display: flex;
 		align-items: center;

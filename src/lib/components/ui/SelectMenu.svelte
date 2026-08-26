@@ -1,4 +1,6 @@
 <script lang="ts" generics="T extends string | number">
+	import AppIcon from './AppIcon.svelte';
+
 	interface Option {
 		value: T;
 		label: string;
@@ -12,7 +14,7 @@
 		label?: string;
 	}
 
-	let { value = $bindable(), options, size = 'sm', class: className = '', label }: Props = $props();
+	let { value = $bindable(), options, size: _size = 'sm', class: className = '', label }: Props = $props();
 
 	let open = $state(false);
 	const selected = $derived(options.find((option) => option.value === value) ?? options[0]);
@@ -29,16 +31,17 @@
 
 <div class="relative inline-flex items-center gap-2 {className}">
 	{#if label}
-		<span class="text-xs text-base-content/50 shrink-0">{label}</span>
+		<span class="text-xs text-muted shrink-0">{label}</span>
 	{/if}
 	<button
 		type="button"
-		class="select-trigger select select-bordered select-{size} cursor-pointer text-left min-w-[7rem] w-full"
+		class="inline-flex h-8 min-h-8 w-full min-w-[7rem] cursor-pointer items-center justify-between gap-2 rounded-lg border border-base-300 bg-base-100 px-3 text-left text-sm"
 		aria-haspopup="listbox"
 		aria-expanded={open}
 		onclick={() => (open = !open)}
 	>
-		{selected?.label ?? ''}
+		<span class="truncate">{selected?.label ?? ''}</span>
+		<AppIcon name="chevron-down" class="size-4 shrink-0 {open ? 'rotate-180' : ''}" />
 	</button>
 	{#if open}
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -54,7 +57,7 @@
 						role="option"
 						aria-selected={value === option.value}
 						class="block w-full !rounded-none !border-0 !shadow-none px-3 py-2 text-left text-sm {value === option.value
-							? 'bg-base-200 font-semibold text-primary'
+							? 'bg-base-200 font-semibold text-base-content'
 							: 'bg-transparent text-base-content hover:bg-base-200'}"
 						onclick={() => pick(option.value)}
 					>

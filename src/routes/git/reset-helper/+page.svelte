@@ -18,7 +18,7 @@
 		{
 			id: 'soft',
 			name: 'Soft Reset',
-			icon: '🟢',
+			icon: 'circle',
 			color: 'success',
 			flag: '--soft',
 			description: 'Keeps changes staged (in index)',
@@ -29,7 +29,7 @@
 		{
 			id: 'mixed',
 			name: 'Mixed Reset',
-			icon: '🟡',
+			icon: 'circle',
 			color: 'warning',
 			flag: '--mixed',
 			description: 'Keeps changes unstaged (default)',
@@ -40,7 +40,7 @@
 		{
 			id: 'hard',
 			name: 'Hard Reset',
-			icon: '🔴',
+			icon: 'circle',
 			color: 'error',
 			flag: '--hard',
 			description: 'Discards all changes (DESTRUCTIVE)',
@@ -91,7 +91,7 @@
 		<!-- Reset Type Selection -->
 		<div>
 			<h3 class="text-sm font-medium text-base-content/70 mb-3 flex items-center gap-2">
-				<AppIcon name={'🔧'} size={16} />
+				<AppIcon name="wrench" size={16} />
 				Reset Type
 			</h3>
 			<div class="grid md:grid-cols-3 gap-4">
@@ -116,7 +116,7 @@
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-4 flex items-center gap-2">
-					<AppIcon name={'📊'} size={16} />
+					<AppIcon name="chart-column" size={16} />
 					What Gets Affected
 				</h3>
 				<div class="overflow-x-auto">
@@ -166,7 +166,7 @@
 					<!-- Working Directory -->
 					<div class="flex flex-col items-center min-w-[100px]">
 						<div class="w-20 h-20 rounded-lg border-2 flex items-center justify-center {activeReset.affects.workingDir ? 'border-error bg-error/10' : 'border-success bg-success/10'}">
-							<AppIcon name={'📁'} size={24} />
+							<AppIcon name="folder" size={24} />
 						</div>
 						<span class="text-xs mt-2 text-center">Working<br/>Directory</span>
 						{#if activeReset.affects.workingDir}
@@ -176,12 +176,12 @@
 						{/if}
 					</div>
 					
-					<AppIcon name={'→'} size={24} />
+					<AppIcon name="arrow-right" size={24} />
 					
 					<!-- Staging -->
 					<div class="flex flex-col items-center min-w-[100px]">
 						<div class="w-20 h-20 rounded-lg border-2 flex items-center justify-center {activeReset.affects.staging ? 'border-error bg-error/10' : 'border-success bg-success/10'}">
-							<AppIcon name={'📋'} size={24} />
+							<AppIcon name="clipboard" size={24} />
 						</div>
 						<span class="text-xs mt-2 text-center">Staging<br/>Area</span>
 						{#if activeReset.affects.staging}
@@ -191,12 +191,12 @@
 						{/if}
 					</div>
 					
-					<AppIcon name={'→'} size={24} />
+					<AppIcon name="arrow-right" size={24} />
 					
 					<!-- HEAD -->
 					<div class="flex flex-col items-center min-w-[100px]">
 						<div class="w-20 h-20 rounded-lg border-2 border-warning bg-warning/10 flex items-center justify-center">
-							<AppIcon name={'🔖'} size={24} />
+							<AppIcon name="bookmark" size={24} />
 						</div>
 						<span class="text-xs mt-2 text-center">HEAD<br/>Pointer</span>
 						<span class="badge badge-warning badge-xs mt-1">Moved</span>

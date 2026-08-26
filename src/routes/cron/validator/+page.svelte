@@ -110,7 +110,7 @@
 			<div class="card-body p-5">
 				<div class="flex items-center gap-3 mb-4">
 					<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-warning/30 to-warning/10 flex items-center justify-center">
-						<AppIcon name={'✓'} size={20} />
+						<AppIcon name="check" size={20} />
 					</div>
 					<div>
 						<h3 class="font-bold">Validate Cron Expression</h3>

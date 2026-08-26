@@ -4,6 +4,7 @@
 	import TopBar from '$lib/components/layout/TopBar.svelte';
 	import Toast from '$lib/components/ui/Toast.svelte';
 	import CommandPalette from '$lib/components/ui/CommandPalette.svelte';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import { page } from '$app/stores';
 	import { afterNavigate } from '$app/navigation';
 	import { getSidebarAccordions, getToolNamesRecord } from '$lib/config/tools';
@@ -56,7 +57,7 @@
 	<link rel="icon" type="image/png" sizes="32x32" href={favicon32} />
 	<link rel="icon" type="image/png" sizes="16x16" href={favicon16} />
 	<link rel="manifest" href={siteWebmanifest} />
-	<meta name="theme-color" content={currentTheme === 'dark' ? '#1d232a' : '#ffffff'} />
+	<meta name="theme-color" content={currentTheme === 'dark' ? '#302b2b' : '#ffffff'} />
 
 	<!-- Sitewide OG/Social defaults (overridden by individual pages) -->
 	<meta property="og:site_name" content="OneDev Tools" />
@@ -80,23 +81,10 @@
 		<!-- Mobile menu button -->
 		<label
 			for="main-drawer"
-			class="btn fixed top-2 left-4 z-50 btn-square btn-ghost lg:hidden"
+			class="btn btn-ghost fixed top-2 left-4 z-50 h-8 w-8 min-h-8 min-w-8 p-0 rounded-lg lg:hidden"
 			aria-label="Open menu"
 		>
-			<svg
-				class="h-6 w-6"
-				fill="none"
-				stroke="currentColor"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M4 6h16M4 12h16M4 18h16"
-				></path>
-			</svg>
+			<AppIcon name="menu" class="size-4" />
 		</label>
 
 		<!-- Main Content -->
