@@ -90,7 +90,7 @@
 <svelte:window onmousemove={handleMouseMove} />
 
 <ToolWrapper
-	keywords={['token visualizer', 'tokenization', 'GPT tokens', 'BPE tokenizer', 'AI tokens visualization']}
+	keywords={['bpe split', 'token id leading space', 'openai bpe visualizer', 'camelcase tokens', 'not a token counter']}
 	lastUpdated={PRICING_LAST_UPDATED}
 >
 	<div class="flex flex-col gap-6">
@@ -204,13 +204,12 @@
 		<!-- Educational Info -->
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Understanding Tokenization</h4>
+				<h4 class="text-sm font-semibold">How this encoding splits text</h4>
 				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• <strong>Tokens</strong> are the smallest units AI models process (not always whole words)</li>
-					<li>• Common words are often single tokens, while rare words get split</li>
-					<li>• Spaces are usually attached to the following word token</li>
-					<li>• Numbers often get split digit-by-digit</li>
-					<li>• Understanding tokenization helps optimize prompts and costs</li>
+					<li>• <strong>Not a token counter.</strong> The colors are cuts. The number is a side effect.</li>
+					<li>• <code>"Hello"</code> and <code>" Hello"</code> are different ids. The space is fused.</li>
+					<li>• Claude/Gemini rows scale the count. The blocks are still OpenAI BPE.</li>
+					<li>• CamelCase, digits, CJK, and emoji fragment. English words often do not.</li>
 				</ul>
 			</div>
 		</div>

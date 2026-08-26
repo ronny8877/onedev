@@ -6,6 +6,8 @@ interface AIToolContent {
 	faqs: Array<{ question: string; answer: string }>;
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
+	commonMistakes?: string[];
+	lastUpdated?: string;
 }
 
 export const aiToolsContent: Record<string, AIToolContent> = {
@@ -84,154 +86,143 @@ export const aiToolsContent: Record<string, AIToolContent> = {
 		]
 	},
 	'token-visualizer': {
+		lastUpdated: '2026-08-27',
 		features: [
-			'Interactive color-coded token visualization mapping text exact to model vocabularies',
-			'Detailed hover tooltips displaying the exact Integer Token ID and raw byte string',
-			'Granular support for current GPT-5.6 encodings plus a tokenizer-factor adjustment for Claude 5',
-			'Advanced toggle to visualize hidden special control tokens (e.g., <|endoftext|>)',
-			'One-click export to copy the exact token array as structured JSON for backend testing',
-			'Deep insight into how whitespace, punctuation, and emojis are fragmented'
+			'Colored blocks are this encoding\'s slices, not a word or character count',
+			'Hover shows the integer id. "Hello" and " Hello" are different ids',
+			'Claude/Gemini rows scale the count; the cuts you see are still OpenAI BPE',
+			'CamelCase, URLs, digits, and CJK fragment. A counter that only prints N hides that'
 		],
 		useCases: [
-			'Debugging why a specific AI model struggles to rhyme or spell a specific word (due to sub-word tokenization)',
-			'Optimizing massive prompts by replacing expensive, heavily fragmented words with single-token synonyms',
-			'Understanding the underlying mechanics of NLP (Natural Language Processing) byte-pair encoding',
-			'Analyzing how differently open-source models handle non-English characters compared to OpenAI models',
-			'Visualizing exactly how code indentation (tabs vs spaces) impacts your overall API spend'
+			'See why a rhyme or spelling prompt fails: the word is three ids, not one',
+			'Catch a leading space that changed the id before you blame the model',
+			'Compare these splits to the token-counter page, which only prints a number',
+			'Watch emoji and CJK eat more ids than English of the same length'
 		],
 		concept: {
-			title: 'The Anatomy of a Token Array',
-			content: `<p>To an AI model, text does not exist. The very first step of processing a prompt is converting your readable text into an array of integers (Token IDs). <strong>Tokenization</strong> is the algorithm that determines where to slice the text.</p>
-			
-			<p><strong>Common Byte-Pair Encoding (BPE) Behaviors:</strong></p>
-			<ul>
-				<li><strong>Whole Words:</strong> Highly common words (like "the", "apple", "computer") are usually assigned a single token ID.</li>
-				<li><strong>Sub-words:</strong> Complex, rare, or compound words (like "unbelievable") are sliced into smaller morphological chunks (e.g., "un" + "believ" + "able").</li>
-				<li><strong>Whitespace Merging:</strong> In modern tokenizers, a space character is rarely its own token. It is almost always fused to the beginning of the next word (e.g., the string " Hello" is a completely different token than "Hello").</li>
-			</ul>
-			<p>Our visualizer uses alternating background colors to expose exactly where these invisible slices occur, allowing you to "see" text exactly how an LLM sees it.</p>`
+			title: 'How this encoding splits text, not a generic token counter',
+			content: `<p>A token counter prints one integer. This page shows <strong>where this encoding cuts</strong>. The colored blocks are OpenAI BPE (the <code>gpt-tokenizer</code> port used here). Common English often lands on one id. A leading space is fused into the next piece, so <code>"Hello"</code> and <code>" Hello"</code> are different ids. CamelCase, URLs, and rare names fall back to subwords or bytes. CJK and emoji usually take more ids than the same number of Latin letters.</p>
+<p>The model dropdown changes which published window and tokenizer factor you are thinking about. For Claude and some others, the count is scaled because those vocabularies are denser. <strong>The colored boundaries are still OpenAI BPE.</strong> If you need Anthropic's actual cuts, this is an estimate of length, not a picture of their tokenizer. That is the failure mode a generic "token visualizer online" copy hides.</p>
+<p>Case is part of the id. <code>Apple</code> is not <code>apple</code>. Digits often split. This is not a word counter and not a substitute for the provider's tokenizer in production billing.</p>`
 		},
 		examples: [
 			{
-				label: 'CamelCase Fragmentation',
-				code: 'tokenVisualizerTool',
+				label: 'Leading space is a different id',
+				code: '"Hello" vs " Hello"\nSame letters. Different token id because the space is fused.',
 				isValid: true
 			},
 			{
-				label: 'URL & Email Splitting',
-				code: 'contact@example.com / https://example.com/path',
+				label: 'CamelCase fragments',
+				code: 'tokenVisualizerTool\nUsually several ids, not one identifier.',
 				isValid: true
 			},
 			{
-				label: 'Whitespace & Indentation',
-				code: 'def test():\n    print("Notice the space tokens!")',
+				label: 'CJK denser than English of similar glyph count',
+				code: '東京 vs Tokyo\nExpect more ids on the Japanese side in this BPE.',
 				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'What exactly is a Token ID?',
-				answer: 'A Token ID is the unique integer assigned to a specific string of characters in the model\'s predefined dictionary (vocabulary). For instance, in OpenAI\'s `cl100k_base` tokenizer, the word "apple" might be mapped to ID `4321`. The LLM only ever processes these integer IDs, never the raw letters.'
+				question: 'Is this the same as a token counter?',
+				answer: '<p>No. The counter page answers "how many." This page answers "where does this encoding cut." Two strings with the same character length can have different splits. Use the counter for a budget. Use this when a model misspells, fails to rhyme, or treats a leading space as a new token.</p>'
 			},
 			{
-				question: 'Why are names and typos split into so many tiny colors?',
-				answer: 'LLMs have a finite vocabulary (usually between 30,000 to 100,000 tokens). If a word is not in that dictionary—like a unique surname, a typo, or highly technical jargon—the tokenizer falls back to splitting it into smaller sub-tokens it does recognize, sometimes breaking it down all the way to individual letters or raw UTF-8 bytes.'
+				question: 'I picked Claude. Why do the colors still look like OpenAI?',
+				answer: '<p>The blocks are OpenAI BPE. Claude rows apply a tokenizer factor to the count because Anthropic\'s vocabulary is denser. The picture is still OpenAI slices. Do not treat the colors as Claude\'s official tokenizer.</p>'
 			},
 			{
-				question: 'Does capitalization change the token boundaries?',
-				answer: 'Yes, drastically. Tokenizers are strictly case-sensitive. The word "Apple" with a capital A has a completely different Token ID than "apple" with a lowercase a. Depending on the context, changing the case can sometimes cause a word to be split into multiple tokens instead of one.'
+				question: 'Why did adding a space change the id?',
+				answer: '<p>Modern BPE usually attaches a leading space to the next word. <code>" Hello"</code> is not <code>"Hello"</code> plus a space token. That is why copy-paste from a document with a leftover indent changes behavior.</p>'
 			},
 			{
-				question: 'How do emojis map to tokens?',
-				answer: 'Emojis are rarely stored as single tokens. Because they are complex Unicode characters, they are often broken down into 2 to 4 raw byte tokens. You will often see emojis split across multiple blocks in the visualizer.'
+				question: 'Does capitalization change splits?',
+				answer: '<p>Yes. Token ids are case-sensitive. <code>Apple</code> and <code>apple</code> are different entries. A case change can also turn one id into several.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Get the raw token count and cost estimate for your text' },
-			{ name: 'Prompt Trimmer', path: '/ai/prompt-trimmer', description: 'Automatically truncate text exactly at token boundaries' },
-			{ name: 'String Compare', path: '/text/string-compare', description: 'Find exact character differences between two texts' }
+			{ name: 'Context Estimator', path: '/ai/context-estimator', description: 'Window math: what still fits after system + history + output' },
+			{ name: 'Token Counter', path: '/ai/token-counter', description: 'A single count and cost estimate, not the split picture' },
+			{ name: 'Prompt Trimmer', path: '/ai/prompt-trimmer', description: 'Cut on token boundaries once you have seen the splits' }
 		],
 		tips: [
-			'Hover over any colored block in the visualizer to reveal its exact integer Token ID and the raw string it represents.',
-			'Look closely at the leading spaces on words. You will notice that " word" and "word" are completely different entities to the AI.'
+			'Hover a block for the integer id and the raw string, including the fused leading space.',
+			'If Claude is selected, trust the scaled count more than the colored cuts.'
+		],
+		commonMistakes: [
+			'Treating this as a generic token counter because it also shows a number',
+			'Assuming Claude/Gemini dropdowns redraw Anthropic or Google splits',
+			'Ignoring a leading space that changed every id after it'
 		]
 	},
 	'context-estimator': {
+		lastUpdated: '2026-08-27',
 		features: [
-			'Calculate exact token usage for System, User, and Assistant message blocks',
-			'Built-in presets for current LLMs (GPT-5.6 Sol/Terra/Luna, Claude Sonnet 5 / Opus 5, Gemini 3.7 Flash, DeepSeek V4)',
-			'Visual token progress bar showing current context window usage',
-			'Dynamic remaining token calculation with safety buffer warnings',
-			'Support for custom context configurations for local AI models (Llama, Mistral)'
+			'Adds system + history + user, then ~4 tokens of chat markup per message',
+			'Subtracts from the published window so you see what is left for the completion',
+			'Warns when remaining is under max_tokens: 400 or truncate, not "almost fits"',
+			'Custom window for local models. This is budget math, not a token counter'
 		],
 		useCases: [
-			'Architecting Retrieval-Augmented Generation (RAG) chunking strategies',
-			'Planning conversation history truncation logic for long-running AI chatbots',
-			'Debugging API "context length exceeded" 400 Bad Request errors',
-			'Comparing context capacities and constraints between top-tier provider models',
-			'Optimizing massive system prompts to maximize space for user interactions'
+			'A 128k window with 120k of RAG leaves almost nothing for the answer',
+			'Chatbots that keep full history until "context length exceeded"',
+			'Reasoning models that spend hidden tokens inside the same window',
+			'Compare GPT vs Claude vs Gemini windows for the same prompt stack'
 		],
 		concept: {
-			title: 'Understanding the LLM Context Window',
-			content: `<p>The <strong>Context Window</strong> represents the absolute maximum amount of textual information (measured in tokens) an AI model can process in a single interaction. You can think of it as the model's short-term memory.</p>
-			
-			<p>Every single API request is stateless, meaning the entire context window must be rebuilt and processed every time you send a message. This window is shared by four distinct components:</p>
-			<ol>
-				<li><strong>System Instructions:</strong> The foundational behavior rules, persona definitions, and overarching guidelines you provide to the model.</li>
-				<li><strong>Conversation History:</strong> The backlog of past User and Assistant messages required to maintain the illusion of an ongoing chat.</li>
-				<li><strong>Current Input:</strong> The immediate new prompt or question being asked.</li>
-				<li><strong>Target Output:</strong> The space required for the model to generate its response (also known as <code>max_tokens</code>).</li>
-			</ol>
-			
-			<p><strong>The Golden Rule of Context:</strong> <code>Total Input Tokens + Expected Output Tokens ≤ Context Window Limit</code>. If your input leaves no room for output, the model will fail to generate a complete answer, resulting in truncated text or immediate API errors.</p>`
+			title: 'Window math: what still fits, not a token counter',
+			content: `<p>A token counter answers "how many tokens is this string." This page answers <strong>what still fits in the window</strong>. The budget is <code>system + history + current + role markup + expected output ≤ context window</code>. Every request is stateless: the server does not remember last turn. You resend the whole stack.</p>
+<p>If a model is 8,192 and your input is 8,000, you do not have 8,192 left for the answer. You have 192. Set <code>max_tokens</code> above that and the API returns 400 or the completion cuts off. This tool adds about 4 tokens per message for chat role markers. Ignore that and a "it counted as 7,900" prompt still overflows.</p>
+<p>Reasoning models spend hidden thinking tokens in the same window. A 1M Gemini window does not mean your 900k RAG dump plus a long answer is free. Long-context tiers also change price. Use the token-counter page for a single string. Use this page for the subtraction.</p>`
 		},
 		examples: [
 			{
-				label: 'Standard Chat Context',
-				code: 'System: You are an expert programmer.\nHistory: [400 tokens of past code]\nUser: Can you refactor this function?',
+				label: 'Input leaves no room for max_tokens',
+				code: 'Window 8192, input 8000, max_tokens 4096\n8000 + 4096 > 8192. The request does not fit.',
+				isValid: false
+			},
+			{
+				label: 'RAG eats the window',
+				code: 'System + 50k retrieved PDF + user question\nRemaining must still cover the summary you asked for.',
 				isValid: true
 			},
 			{
-				label: 'Heavy RAG Context',
-				code: 'System: Answer based only on the context.\nContext: [50,000 tokens of scraped PDF data]\nUser: Summarize the Q3 financials.',
-				isValid: true
-			},
-			{
-				label: 'Few-Shot Classification',
-				code: 'User: Input: "Happy" -> Output: Positive\nUser: Input: "Sad" -> Output: Negative\nUser: Input: "Angry" -> Output: ?',
+				label: 'History is part of the budget',
+				code: 'Each User/Assistant pair is resent. Old turns are not free.',
 				isValid: true
 			}
 		],
 		faqs: [
 			{
-				question: 'What happens if my prompt exceeds the context window?',
-				answer: 'If the total token count of your input exceeds the maximum context window of the model, the API provider (like OpenAI or Anthropic) will reject the request outright, typically returning an HTTP 400 Bad Request error. You must implement a strategy to truncate old messages or compress the prompt before sending it.'
+				question: 'Is this a token counter?',
+				answer: '<p>No. The counter page totals one blob of text. This page subtracts system, history, user, and markup from a published window and asks whether the completion still fits. Same tokenizer family, different question.</p>'
 			},
 			{
-				question: 'Does the generated output count towards the context limit?',
-				answer: 'Yes, absolutely. The context window is the sum of both the input prompt and the generated completion. For example, if a model has an 8,192 token limit and your input is 8,000 tokens, the model can only generate a maximum of 192 tokens before abruptly stopping (truncating).'
+				question: 'Does output count against the window?',
+				answer: '<p>Yes. Input plus completion must fit. If remaining is 200 and you request 4,096 output tokens, expect a 400 or a truncated answer. The warning on this page is that remainder check.</p>'
 			},
 			{
-				question: 'How do "Reasoning Tokens" affect the context window?',
-				answer: 'For reasoning models like GPT-5.6 Sol, Claude Opus 5, or DeepSeek V4 Pro, the model generates internal thinking tokens before outputting the final answer. Those tokens share the same context window as your input and output. Complex reasoning needs more headroom.'
+				question: 'What is the per-message overhead?',
+				answer: '<p>Chat APIs inject role markers. This estimator adds about 4 tokens per system/user/assistant message. A naive character/4 count misses that and overflows in production.</p>'
 			},
 			{
-				question: 'Why does message formatting add token overhead?',
-				answer: 'When you use Chat Completion APIs, the provider automatically injects special control tokens (such as `<|im_start|>` and `<|im_end|>`) to delineate the boundaries between the System, User, and Assistant roles. This typically adds 3 to 5 tokens of invisible overhead per structural message.'
-			},
-			{
-				question: 'Is it cheaper to use a smaller context window?',
-				answer: 'For most providers, pricing is strictly based on the number of tokens processed, regardless of the maximum theoretical window size. However, some providers (like Google or Anthropic) apply tiered pricing—charging double per token if your prompt exceeds a specific threshold (e.g., 128k or 200k tokens).'
+				question: 'Do reasoning tokens use the same window?',
+				answer: '<p>Yes. Hidden thinking shares the budget with your prompt and the visible answer. Leave headroom on reasoning rows or the model spends the remainder thinking and returns little text.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'Cost Estimator', path: '/ai/cost-estimator', description: 'Calculate precise API pricing based on token usage' },
-			{ name: 'Prompt Trimmer', path: '/ai/prompt-trimmer', description: 'Safely truncate text to fit within your token budget' },
-			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Count exact tokens for different tokenizer models' }
+			{ name: 'Token Visualizer', path: '/ai/token-visualizer', description: 'See where this encoding cuts, not just whether the stack fits' },
+			{ name: 'Prompt Trimmer', path: '/ai/prompt-trimmer', description: 'Drop old turns or RAG chunks when remaining is too small' },
+			{ name: 'Token Counter', path: '/ai/token-counter', description: 'Count one string. Not window math.' }
 		],
 		tips: [
-			'Always reserve at least 15-20% of your total context window as a safety buffer to ensure the model has ample space to generate a complete, high-quality response.',
-			'Implement a sliding window algorithm in your chatbots: automatically drop the oldest User/Assistant message pairs when the context usage reaches 85%.'
+			'If remaining is under max_tokens, shrink history or RAG before you raise the output cap.',
+			'Drop oldest User/Assistant pairs when usage crosses ~85%. The window is not a log file.'
+		],
+		commonMistakes: [
+			'Calling this a token counter and ignoring remaining vs max_tokens',
+			'Filling a 1M window with retrieval and leaving no room for the answer',
+			'Forgetting that each past turn is resent on every request'
 		]
 	},
 	'prompt-trimmer': {
