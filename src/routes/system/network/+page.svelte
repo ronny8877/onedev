@@ -170,7 +170,7 @@
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold text-lg flex items-center gap-2 mb-3">
-						<AppIcon name={'📶'} size={16} />
+						<AppIcon name="wifi" size={16} />
 						Connection Details
 					</h3>
 					<div class="grid gap-2 sm:grid-cols-2">
@@ -194,7 +194,7 @@
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold text-lg flex items-center gap-2 mb-2">
-						<AppIcon name={'🌐'} size={16} />
+						<AppIcon name="globe" size={16} />
 						IP Address & Location
 					</h3>
 

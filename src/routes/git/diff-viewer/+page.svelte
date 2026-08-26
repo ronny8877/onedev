@@ -163,7 +163,7 @@ async function getUser(id) {
 		<div class="flex flex-wrap items-center gap-2">
 			<ToolActions onSample={loadSample} onClear={clearAll} />
 			<button type="button" class="btn btn-ghost btn-sm gap-1" onclick={swapTexts}>
-				<AppIcon name={'⇄'} size={16} />
+				<AppIcon name="arrow-left-right" size={16} />
 				Swap
 			</button>
 		</div>
@@ -248,7 +248,7 @@ async function getUser(id) {
 				<div class="card-body py-4">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2">
-							<AppIcon name={'📊'} size={16} />
+							<AppIcon name="chart-column" size={16} />
 							Diff View
 						</h3>
 						<CopyButton text={unifiedDiff} label="Copy Unified" size="sm" />

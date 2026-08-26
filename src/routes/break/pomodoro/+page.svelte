@@ -172,7 +172,7 @@
 		<!-- Session Counter -->
 		{#if sessions > 0}
 			<div class="badge badge-lg badge-ghost gap-2">
-				<AppIcon name={'🍅'} size={18} />
+				<AppIcon name="circle" size={18} />
 				{sessions} session{sessions > 1 ? 's' : ''} completed
 			</div>
 		{/if}

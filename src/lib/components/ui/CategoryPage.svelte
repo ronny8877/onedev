@@ -68,10 +68,10 @@
 <div class="mx-auto max-w-5xl animate-fade-in">
 
 	<!-- Breadcrumb -->
-	<nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-1 text-xs text-base-content/40">
+	<nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-1 text-xs text-muted">
 		<a href="/" class="hover:text-primary transition-colors">Home</a>
 		<span>/</span>
-		<span class="text-base-content/60 font-medium">{category.name}</span>
+		<span class="font-medium">{category.name}</span>
 	</nav>
 
 	<!-- Header -->
@@ -88,9 +88,7 @@
 
 		<!-- Privacy badge -->
 		<div class="mt-4 inline-flex items-center gap-2 rounded-full bg-success/10 px-4 py-1.5 text-sm text-success">
-			<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-			</svg>
+			<AppIcon name="shield" class="size-4" />
 			{category.items.filter(i => i.active !== false).length} tools · 100% browser-based · No uploads · No signup
 		</div>
 	</div>
@@ -130,7 +128,7 @@
 					</div>
 				</div>
 				<div class="mt-3 flex items-center gap-1 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity font-medium">
-					Open tool <AppIcon name={'→'} size={16} />
+					Open tool <AppIcon name="arrow-right" class="size-4" />
 				</div>
 			</a>
 		{/each}

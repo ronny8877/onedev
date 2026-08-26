@@ -23,14 +23,14 @@
 	}
 
 	let permissions = $state<PermissionStatus[]>([
-		{ name: 'Camera', icon: '📷', state: 'loading', canRequest: true },
-		{ name: 'Microphone', icon: '🎤', state: 'loading', canRequest: true },
-		{ name: 'Geolocation', icon: '📍', state: 'loading', canRequest: true },
-		{ name: 'Notifications', icon: '🔔', state: 'loading', canRequest: true },
-		{ name: 'Clipboard Read', icon: '📋', state: 'loading', canRequest: true },
-		{ name: 'Clipboard Write', icon: '✏️', state: 'loading', canRequest: true },
-		{ name: 'Persistent Storage', icon: '💾', state: 'loading', canRequest: true },
-		{ name: 'Background Sync', icon: '🔄', state: 'loading', canRequest: false }
+		{ name: 'Camera', icon: 'camera', state: 'loading', canRequest: true },
+		{ name: 'Microphone', icon: 'mic', state: 'loading', canRequest: true },
+		{ name: 'Geolocation', icon: 'map-pin', state: 'loading', canRequest: true },
+		{ name: 'Notifications', icon: 'bell', state: 'loading', canRequest: true },
+		{ name: 'Clipboard Read', icon: 'clipboard', state: 'loading', canRequest: true },
+		{ name: 'Clipboard Write', icon: 'pencil', state: 'loading', canRequest: true },
+		{ name: 'Persistent Storage', icon: 'save', state: 'loading', canRequest: true },
+		{ name: 'Background Sync', icon: 'refresh-cw', state: 'loading', canRequest: false }
 	]);
 
 	let isLoading = $state(true);

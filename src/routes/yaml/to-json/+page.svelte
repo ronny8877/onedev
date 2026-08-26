@@ -99,7 +99,7 @@ settings:
 				<div class="card-body p-4">
 					<div class="flex items-center gap-2 mb-3">
 						<div class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center">
-							<AppIcon name={'📄'} size={16} />
+							<AppIcon name="file-text" size={16} />
 						</div>
 						<h3 class="font-bold">YAML Input</h3>
 					</div>
@@ -151,7 +151,7 @@ settings:
 		<div class="flex justify-center">
 			<div class="flex items-center gap-4 text-sm text-base-content/60">
 				<span class="badge badge-lg badge-ghost">YAML</span>
-				<AppIcon name={'→'} size={20} />
+				<AppIcon name="arrow-right" size={20} />
 				<span class="badge badge-lg badge-primary">JSON</span>
 			</div>
 		</div>

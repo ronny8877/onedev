@@ -18,7 +18,7 @@
 		{
 			id: 'MIT',
 			name: 'MIT License',
-			icon: '📜',
+			icon: 'scroll',
 			color: 'success',
 			summary: 'Simple and permissive. Do whatever you want, just include the copyright notice.',
 			permissions: ['Commercial use', 'Modification', 'Distribution', 'Private use'],
@@ -49,7 +49,7 @@ SOFTWARE.`
 		{
 			id: 'Apache-2.0',
 			name: 'Apache License 2.0',
-			icon: '🪶',
+			icon: 'feather',
 			color: 'info',
 			summary: 'Permissive with patent protection. Good for larger projects.',
 			permissions: ['Commercial use', 'Modification', 'Distribution', 'Patent use', 'Private use'],
@@ -76,7 +76,7 @@ limitations under the License.`
 		{
 			id: 'GPL-3.0',
 			name: 'GNU GPL v3',
-			icon: '🦬',
+			icon: 'dog',
 			color: 'warning',
 			summary: 'Copyleft license. Derivatives must also be open source under GPL.',
 			permissions: ['Commercial use', 'Modification', 'Distribution', 'Patent use', 'Private use'],
@@ -103,7 +103,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.`
 		{
 			id: 'BSD-3-Clause',
 			name: 'BSD 3-Clause',
-			icon: '😈',
+			icon: 'face-slightly-smiling',
 			color: 'secondary',
 			summary: 'Similar to MIT but prohibits use of project name for endorsement.',
 			permissions: ['Commercial use', 'Modification', 'Distribution', 'Private use'],
@@ -141,7 +141,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.`
 		{
 			id: 'ISC',
 			name: 'ISC License',
-			icon: '📄',
+			icon: 'file-text',
 			color: 'primary',
 			summary: 'Simpler version of MIT. Preferred by npm and Node.js.',
 			permissions: ['Commercial use', 'Modification', 'Distribution', 'Private use'],
@@ -166,7 +166,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.`
 		{
 			id: 'Unlicense',
 			name: 'The Unlicense',
-			icon: '🔓',
+			icon: 'lock-open',
 			color: 'neutral',
 			summary: 'Public domain dedication. No restrictions whatsoever.',
 			permissions: ['Commercial use', 'Modification', 'Distribution', 'Private use'],
@@ -268,7 +268,7 @@ For more information, please refer to <https://unlicense.org>`
 					<!-- Conditions -->
 					<div class="p-3 rounded-xl bg-info/10 border border-info/30">
 						<h4 class="text-sm font-semibold text-info mb-2 flex items-center gap-1">
-							<AppIcon name={'📋'} size={16} /> Conditions
+							<AppIcon name="clipboard" size={16} /> Conditions
 						</h4>
 						<ul class="space-y-1 text-sm">
 							{#if activeLicense.conditions.length > 0}
@@ -334,7 +334,7 @@ For more information, please refer to <https://unlicense.org>`
 			<div class="card-body py-4">
 				<div class="flex items-center justify-between mb-3">
 					<h3 class="font-semibold flex items-center gap-2">
-						<AppIcon name={'📄'} size={16} />
+						<AppIcon name="file-text" size={16} />
 						LICENSE
 					</h3>
 					<div class="flex gap-2">

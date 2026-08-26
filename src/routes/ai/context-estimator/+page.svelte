@@ -223,7 +223,7 @@
 				<div class="card-body py-5 px-5">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2 text-base">
-							<div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center text-lg shadow-sm"><AppIcon name={'⚙️'} size={18} /></div>
+							<div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center text-lg shadow-sm"><AppIcon name="settings" size={18} /></div>
 							System Message
 						</h3>
 						<span class="badge badge-ghost font-mono text-xs border-base-content/20 group-hover:border-blue-500/30 transition-colors">
@@ -244,7 +244,7 @@
 				<div class="card-body py-5 px-5">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2 text-base">
-							<div class="w-8 h-8 rounded-lg bg-green-500/10 text-green-500 flex items-center justify-center text-lg shadow-sm"><AppIcon name={'💬'} size={18} /></div>
+							<div class="w-8 h-8 rounded-lg bg-green-500/10 text-green-500 flex items-center justify-center text-lg shadow-sm"><AppIcon name="message-circle" size={18} /></div>
 							User Prompt
 						</h3>
 						<span class="badge badge-ghost font-mono text-xs border-base-content/20 group-hover:border-green-500/30 transition-colors">
@@ -265,7 +265,7 @@
 				<div class="card-body py-5 px-5">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2 text-base">
-							<div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center text-lg shadow-sm"><AppIcon name={'📜'} size={18} /></div>
+							<div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center text-lg shadow-sm"><AppIcon name="scroll" size={18} /></div>
 							Chat History
 						</h3>
 						<span class="badge badge-ghost font-mono text-xs border-base-content/20 group-hover:border-purple-500/30 transition-colors">

@@ -131,7 +131,7 @@
 		<!-- Type Selection -->
 		<div>
 			<h3 class="text-sm font-medium text-base-content/70 mb-3 flex items-center gap-2">
-				<AppIcon name={'📋'} size={16} />
+				<AppIcon name="clipboard" size={16} />
 				Commit Type
 			</h3>
 			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
@@ -257,7 +257,7 @@
 				<div class="card-body py-4">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="font-semibold flex items-center gap-2">
-							<AppIcon name={'📝'} size={16} />
+							<AppIcon name="file-pen" size={16} />
 							Commit Message
 							{#if !headerValid}
 								<span class="badge badge-sm badge-error">Header too long</span>
@@ -294,7 +294,7 @@
 		<div class="card bg-gradient-to-br from-primary/10 to-secondary/10 rounded-xl border border-primary/20">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold flex items-center gap-2">
-					<AppIcon name={'📖'} size={16} />
+					<AppIcon name="book-open" size={16} />
 					Conventional Commits Format
 				</h4>
 				<div class="mt-2 grid gap-2 text-sm text-base-content/70">

@@ -289,7 +289,7 @@
 								<div class="text-xs text-base-content/50 uppercase tracking-wide">Original</div>
 								<div class="font-mono text-xl font-bold">{formatFileSize(originalFile.size)}</div>
 							</div>
-							<AppIcon name={'→'} size={24} />
+							<AppIcon name="arrow-right" size={24} />
 							<div>
 								<div class="text-xs text-base-content/50 uppercase tracking-wide">Compressed</div>
 								<div class="font-mono text-xl font-bold text-primary">{formatFileSize(processedBlob?.size || 0)}</div>

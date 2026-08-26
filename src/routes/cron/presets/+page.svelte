@@ -19,7 +19,7 @@
 	const presetCategories = [
 		{
 			name: 'Every X Minutes',
-			icon: '⏱️',
+			icon: 'timer',
 			presets: [
 				{ expression: '* * * * *', description: 'Every minute' },
 				{ expression: '*/5 * * * *', description: 'Every 5 minutes' },
@@ -30,7 +30,7 @@
 		},
 		{
 			name: 'Hourly',
-			icon: '🕐',
+			icon: 'clock',
 			presets: [
 				{ expression: '0 * * * *', description: 'Every hour (at :00)' },
 				{ expression: '30 * * * *', description: 'Every hour (at :30)' },
@@ -41,7 +41,7 @@
 		},
 		{
 			name: 'Daily',
-			icon: '📅',
+			icon: 'calendar',
 			presets: [
 				{ expression: '0 0 * * *', description: 'Daily at midnight' },
 				{ expression: '0 6 * * *', description: 'Daily at 6:00 AM' },
@@ -53,7 +53,7 @@
 		},
 		{
 			name: 'Weekdays',
-			icon: '💼',
+			icon: 'briefcase',
 			presets: [
 				{ expression: '0 9 * * 1-5', description: 'Weekdays at 9:00 AM' },
 				{ expression: '0 8 * * 1-5', description: 'Weekdays at 8:00 AM' },
@@ -64,7 +64,7 @@
 		},
 		{
 			name: 'Weekend',
-			icon: '🌴',
+			icon: 'tree-deciduous',
 			presets: [
 				{ expression: '0 9 * * 0,6', description: 'Weekends at 9:00 AM' },
 				{ expression: '0 10 * * 0,6', description: 'Weekends at 10:00 AM' },
@@ -74,7 +74,7 @@
 		},
 		{
 			name: 'Weekly',
-			icon: '📆',
+			icon: 'calendar',
 			presets: [
 				{ expression: '0 0 * * 0', description: 'Weekly on Sunday at midnight' },
 				{ expression: '0 0 * * 1', description: 'Weekly on Monday at midnight' },
@@ -84,7 +84,7 @@
 		},
 		{
 			name: 'Monthly',
-			icon: '🗓️',
+			icon: 'calendar',
 			presets: [
 				{ expression: '0 0 1 * *', description: '1st day of month at midnight' },
 				{ expression: '0 9 1 * *', description: '1st day of month at 9:00 AM' },
@@ -95,7 +95,7 @@
 		},
 		{
 			name: 'Yearly',
-			icon: '🎆',
+			icon: 'sparkles',
 			presets: [
 				{ expression: '0 0 1 1 *', description: 'January 1st at midnight' },
 				{ expression: '0 0 1 1,7 *', description: 'Jan 1 and Jul 1 at midnight' },

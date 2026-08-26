@@ -236,7 +236,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<AppIcon name={'📋'} size={16} />
+					<AppIcon name="clipboard" size={16} />
 					Project Info
 				</h3>
 				<div class="grid md:grid-cols-2 gap-4">
@@ -272,7 +272,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<AppIcon name={'📝'} size={16} />
+					<AppIcon name="file-pen" size={16} />
 					Sections
 				</h3>
 				<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -290,7 +290,7 @@
 		<div class="card bg-base-200 rounded-xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-3 flex items-center gap-2">
-					<AppIcon name={'🏷️'} size={16} />
+					<AppIcon name="tag" size={16} />
 					Badges
 				</h3>
 				<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -310,7 +310,7 @@
 				<div class="flex items-center justify-between mb-3">
 					<div class="flex items-center gap-4">
 						<h3 class="font-semibold flex items-center gap-2">
-							<AppIcon name={'👁️'} size={16} />
+							<AppIcon name="eye" size={16} />
 							Preview
 						</h3>
 						<div class="join">

@@ -34,7 +34,7 @@
 	const commonScenarios = [
 		{
 			title: 'Squash Last 3 Commits',
-			icon: '📦',
+			icon: 'package',
 			steps: [
 				'git rebase -i HEAD~3',
 				'Change 2nd and 3rd line to "squash" or "s"',
@@ -43,7 +43,7 @@
 		},
 		{
 			title: 'Reword a Commit Message',
-			icon: '✏️',
+			icon: 'pencil',
 			steps: [
 				'git rebase -i HEAD~n (where n includes your commit)',
 				'Change "pick" to "reword" for target commit',
@@ -52,7 +52,7 @@
 		},
 		{
 			title: 'Remove a Commit',
-			icon: '🗑️',
+			icon: 'trash-2',
 			steps: [
 				'git rebase -i HEAD~n',
 				'Change "pick" to "drop" or delete the line',
@@ -61,7 +61,7 @@
 		},
 		{
 			title: 'Reorder Commits',
-			icon: '🔀',
+			icon: 'shuffle',
 			steps: [
 				'git rebase -i HEAD~n',
 				'Rearrange the lines in desired order',
@@ -146,7 +146,7 @@ pick c3d4e5f docs: update API documentation`);
 			<div class="card-body py-4">
 				<div class="flex items-center justify-between mb-3">
 					<h3 class="font-semibold flex items-center gap-2">
-						<AppIcon name={'⌨️'} size={16} />
+						<AppIcon name="keyboard" size={16} />
 						Command
 					</h3>
 					<CopyButton text={rebaseCommand} label="Copy" size="sm" />
@@ -162,7 +162,7 @@ pick c3d4e5f docs: update API documentation`);
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-4 flex items-center gap-2">
-						<AppIcon name={'📋'} size={16} />
+						<AppIcon name="clipboard" size={16} />
 						Interactive Rebase Actions
 					</h3>
 					<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -183,7 +183,7 @@ pick c3d4e5f docs: update API documentation`);
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-3 flex items-center gap-2">
-						<AppIcon name={'📝'} size={16} />
+						<AppIcon name="file-pen" size={16} />
 						Example Todo List
 					</h3>
 					<pre class="font-mono text-sm p-4 bg-base-300/50 rounded-xl whitespace-pre-wrap">{exampleTodoList}</pre>
@@ -247,7 +247,7 @@ pick c3d4e5f docs: update API documentation`);
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-4 flex items-center gap-2">
-					<AppIcon name={'🌿'} size={16} />
+					<AppIcon name="leaf" size={16} />
 					Before vs After Rebase
 				</h3>
 				<div class="grid md:grid-cols-2 gap-4">

@@ -220,7 +220,7 @@ Sales: sales@business.net`;
 			<div class="card-body">
 				<div class="flex items-center gap-3 mb-4">
 					<div class="w-10 h-10 rounded-xl bg-warning/20 flex items-center justify-center">
-						<AppIcon name={'🔄'} size={20} />
+						<AppIcon name="refresh-cw" size={20} />
 					</div>
 					<div>
 						<h3 class="font-bold">Find & Replace</h3>
@@ -517,7 +517,7 @@ Sales: sales@business.net`;
 		<div class="card bg-gradient-to-r from-base-200 to-base-300 rounded-xl">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold flex items-center gap-2">
-					<AppIcon name={'📝'} size={16} /> Replacement Patterns
+					<AppIcon name="file-pen" size={16} /> Replacement Patterns
 				</h4>
 				<div class="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
 					<div class="bg-base-100 p-2 rounded-lg flex items-center gap-2">

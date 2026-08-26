@@ -43,11 +43,11 @@ e5f6g7h8 (Alice Brown 2024-04-05 08:20:15 +0530 14)   );
 c3d4e5f6 (John Doe  2024-03-15 16:45:00 +0530 15) }`;
 
 	const blameFields = [
-		{ name: 'Commit SHA', field: 'sha', icon: '🔖', description: 'Unique identifier of the commit that last modified this line. The ^ prefix indicates the initial commit.' },
-		{ name: 'Author', field: 'author', icon: '👤', description: 'Name of the person who made the change to this line.' },
-		{ name: 'Date', field: 'date', icon: '📅', description: 'When the change was committed (YYYY-MM-DD HH:MM:SS timezone).' },
-		{ name: 'Line Number', field: 'lineNumber', icon: '🔢', description: 'Line number in the current file.' },
-		{ name: 'Content', field: 'content', icon: '📝', description: 'The actual content of the line.' }
+		{ name: 'Commit SHA', field: 'sha', icon: 'bookmark', description: 'Unique identifier of the commit that last modified this line. The ^ prefix indicates the initial commit.' },
+		{ name: 'Author', field: 'author', icon: 'user', description: 'Name of the person who made the change to this line.' },
+		{ name: 'Date', field: 'date', icon: 'calendar', description: 'When the change was committed (YYYY-MM-DD HH:MM:SS timezone).' },
+		{ name: 'Line Number', field: 'lineNumber', icon: 'hash', description: 'Line number in the current file.' },
+		{ name: 'Content', field: 'content', icon: 'file-pen', description: 'The actual content of the line.' }
 	];
 
 	function parseBlame() {
@@ -177,7 +177,7 @@ c3d4e5f6 (John Doe  2024-03-15 16:45:00 +0530 15) }`;
 		<div class="card bg-base-200 rounded-2xl">
 			<div class="card-body py-4">
 				<h3 class="font-semibold mb-4 flex items-center gap-2">
-					<AppIcon name={'📖'} size={16} />
+					<AppIcon name="book-open" size={16} />
 					Blame Output Fields Explained
 				</h3>
 				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -199,7 +199,7 @@ c3d4e5f6 (John Doe  2024-03-15 16:45:00 +0530 15) }`;
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-4 flex items-center gap-2">
-						<AppIcon name={'🔍'} size={16} />
+						<AppIcon name="search" size={16} />
 						Parsed Blame
 					</h3>
 					

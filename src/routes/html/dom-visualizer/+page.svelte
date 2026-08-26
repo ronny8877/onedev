@@ -188,7 +188,7 @@
 			<div class="flex flex-wrap items-center gap-3 p-4 bg-gradient-to-r from-base-200 to-base-200/50 rounded-2xl border border-base-300/50">
 				<div class="flex items-center gap-2">
 					<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-						<AppIcon name={'🌲'} size={18} />
+						<AppIcon name="tree-deciduous" size={18} />
 					</div>
 					<div>
 						<div class="text-xl font-bold text-primary">{totalNodes}</div>
@@ -198,7 +198,7 @@
 				<div class="w-px h-8 bg-base-300 hidden sm:block"></div>
 				<div class="flex items-center gap-2">
 					<div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center">
-						<AppIcon name={'🏷️'} size={18} />
+						<AppIcon name="tag" size={18} />
 					</div>
 					<div>
 						<div class="text-xl font-bold text-secondary">{tagStats.length}</div>
@@ -275,7 +275,7 @@
 		{:else}
 			<div class="flex flex-col items-center justify-center py-12 px-4 bg-base-200/30 rounded-2xl border border-dashed border-base-300">
 				<div class="w-16 h-16 rounded-2xl bg-base-200 flex items-center justify-center mb-4">
-					<AppIcon name={'🌲'} size={16} />
+					<AppIcon name="tree-deciduous" size={16} />
 				</div>
 				<p class="text-base-content/50 text-center">
 					Paste HTML above to visualize the DOM tree

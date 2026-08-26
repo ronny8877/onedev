@@ -257,7 +257,7 @@ spec:
 			<div class="card bg-base-200 rounded-2xl h-fit">
 				<div class="card-body p-4">
 					<div class="flex items-center gap-2 mb-3">
-						<AppIcon name={'☸️'} size={18} />
+						<AppIcon name="ship-wheel" size={18} />
 						<h3 class="font-bold">Kubernetes YAML</h3>
 					</div>
 

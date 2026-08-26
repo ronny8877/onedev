@@ -158,7 +158,7 @@
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body">
 					<h3 class="font-bold flex items-center gap-2 mb-4">
-						<AppIcon name={'📊'} size={16} /> Size Breakdown
+						<AppIcon name="chart-column" size={16} /> Size Breakdown
 					</h3>
 
 					<!-- Visual Bar -->

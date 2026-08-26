@@ -148,13 +148,13 @@
 				<h3 class="font-bold text-center mb-4">How often should it run?</h3>
 				<div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
 					{#each [
-						{ val: 'every-x-minutes', icon: '⚡', label: 'Every X min' },
-						{ val: 'every-x-hours', icon: '🕐', label: 'Every X hours' },
-						{ val: 'daily', icon: '☀️', label: 'Daily' },
-						{ val: 'weekly', icon: '📅', label: 'Weekly' },
-						{ val: 'monthly', icon: '🗓️', label: 'Monthly' },
-						{ val: 'yearly', icon: '🎆', label: 'Yearly' },
-						{ val: 'custom', icon: '✏️', label: 'Custom' }
+						{ val: 'every-x-minutes', icon: 'zap', label: 'Every X min' },
+						{ val: 'every-x-hours', icon: 'clock', label: 'Every X hours' },
+						{ val: 'daily', icon: 'sun', label: 'Daily' },
+						{ val: 'weekly', icon: 'calendar', label: 'Weekly' },
+						{ val: 'monthly', icon: 'calendar', label: 'Monthly' },
+						{ val: 'yearly', icon: 'sparkles', label: 'Yearly' },
+						{ val: 'custom', icon: 'pencil', label: 'Custom' }
 					] as opt}
 						<button
 							type="button"

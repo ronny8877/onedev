@@ -236,7 +236,7 @@
 		{:else}
 			<div class="card bg-base-200 rounded-2xl">
 				<div class="card-body items-center text-center py-12">
-					<AppIcon name={'🔢'} size={32} />
+					<AppIcon name="hash" size={32} />
 					<p class="text-base-content/60">Enter a number above to see conversions</p>
 				</div>
 			</div>

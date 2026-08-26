@@ -143,15 +143,13 @@
 	>
 		<!-- Search Input -->
 		<div class="flex items-center gap-3 px-4 py-3 border-b border-base-300">
-			<svg class="w-5 h-5 text-base-content/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-			</svg>
+			<AppIcon name="search" class="size-4 text-muted" />
 			<input
 				bind:this={inputRef}
 				bind:value={searchQuery}
 				type="text"
 				placeholder="Search tools..."
-				class="flex-1 bg-transparent outline-none text-base-content placeholder:text-base-content/40 input input-ghost"
+				class="flex-1 bg-transparent outline-none text-base-content input input-ghost"
 			/>
 			<kbd class="kbd kbd-sm">ESC</kbd>
 		</div>
@@ -169,7 +167,7 @@
 						onmouseenter={() => selectedIndex = i}
 					>
 						<div class="flex items-center gap-3">
-							<AppIcon name={tool.icon} size={18} class="opacity-80" />
+							<AppIcon name={tool.icon} class="size-4" />
 							<div class="text-left">
 								<div class="font-medium text-sm">{tool.name}</div>
 								<div class="text-xs text-base-content/50">{toolCategoryMap.get(tool.href)}</div>

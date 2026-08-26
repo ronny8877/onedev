@@ -256,7 +256,7 @@
 						<div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-xl">
 							<input type="checkbox" bind:checked={showSettings} /> 
 							<div class="collapse-title text-sm font-medium flex items-center gap-2">
-								<AppIcon name={'⚙️'} size={18} /> Configuration & Viewport
+								<AppIcon name="settings" size={18} /> Configuration & Viewport
 							</div>
 							<div class="collapse-content">
 								<div class="pt-2 space-y-4">
@@ -436,7 +436,7 @@
 			{:else}
 				<div class="card bg-base-200 border border-base-300 rounded-2xl">
 					<div class="card-body items-center text-center py-12">
-						<AppIcon name={'📐'} size={32} />
+						<AppIcon name="ruler" size={32} />
 						<p class="text-base-content/60">Enter a value to see real-time conversions</p>
 					</div>
 				</div>
@@ -450,7 +450,7 @@
 					<div class="card bg-base-200 shadow-sm rounded-2xl border border-base-300">
 						<div class="card-body p-4 sm:p-6">
 							<h3 class="font-semibold flex items-center gap-2 mb-4">
-								<AppIcon name={'🛠️'} size={20} /> Configuration
+								<AppIcon name="wrench" size={20} /> Configuration
 							</h3>
 
 							<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">

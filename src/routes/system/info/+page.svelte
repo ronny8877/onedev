@@ -299,7 +299,7 @@
 		groups = [
 			{
 				name: 'Device',
-				icon: '💻',
+				icon: 'monitor',
 				items: [
 					{ label: 'Operating System', value: os.name + (os.version ? ` ${os.version}` : ''), raw: os.name },
 					{ label: 'Architecture', value: os.architecture, raw: os.architecture, note: 'May not be accurate on all browsers' },
@@ -309,32 +309,32 @@
 			},
 			{
 				name: 'Battery',
-				icon: '🔋',
+				icon: 'battery',
 				items: batteryInfo
 			},
 			{
 				name: 'Browser',
-				icon: '🌐',
+				icon: 'globe',
 				items: getBrowserInfo()
 			},
 			{
 				name: 'Display',
-				icon: '🖥️',
+				icon: 'monitor',
 				items: getScreenInfo()
 			},
 			{
 				name: 'Graphics (WebGL)',
-				icon: '🎮',
+				icon: 'gamepad',
 				items: getGPUInfo()
 			},
 			{
 				name: 'Storage',
-				icon: '💾',
+				icon: 'save',
 				items: getStorageInfo()
 			},
 			{
 				name: 'Feature Support',
-				icon: '⚡',
+				icon: 'zap',
 				items: getFeatureSupport()
 			}
 		];

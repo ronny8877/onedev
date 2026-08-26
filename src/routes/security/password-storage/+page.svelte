@@ -244,7 +244,7 @@ valid = bcrypt.checkpw(password.encode(), hash)` }
 						<ul class="space-y-1 text-sm">
 							{#each policy().requirements as req}
 								<li class="flex items-start gap-1">
-									<AppIcon name={'✓'} size={16} />
+									<AppIcon name="check" size={16} />
 									{req}
 								</li>
 							{/each}

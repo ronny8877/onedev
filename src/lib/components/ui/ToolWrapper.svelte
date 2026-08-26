@@ -105,13 +105,13 @@
 <div class="flex h-full flex-col">
 	<!-- Breadcrumb Nav -->
 	{#if breadcrumbs.length > 1}
-		<nav aria-label="Breadcrumb" class="mb-3 flex items-center gap-1 text-xs text-base-content/40">
+		<nav aria-label="Breadcrumb" class="mb-3 flex items-center gap-1 text-xs text-muted">
 			{#each breadcrumbs as crumb, i}
 				{#if i < breadcrumbs.length - 1}
 					<a href={crumb.path} class="hover:text-primary transition-colors truncate max-w-[120px]">{crumb.name}</a>
 					<span aria-hidden="true">/</span>
 				{:else}
-					<span class="text-base-content/60 font-medium truncate max-w-[160px]">{crumb.name}</span>
+					<span class="font-medium truncate max-w-[160px]">{crumb.name}</span>
 				{/if}
 			{/each}
 		</nav>
@@ -122,23 +122,21 @@
 		<div class="flex flex-wrap items-start justify-between gap-3">
 			<div class="flex items-center gap-3 min-w-0">
 				{#if toolData?.icon}
-					<span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-						<AppIcon name={toolData.icon} size={20} />
+					<span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+						<AppIcon name={toolData.icon} class="size-4" />
 					</span>
 				{/if}
 				<h1 class="text-2xl font-bold tracking-tight text-base-content">{finalTitle}</h1>
 			</div>
 			{#if lastUpdatedDisplay}
-				<span class="inline-flex items-center gap-1 rounded-full bg-base-200 px-3 py-1 text-xs text-base-content/50 shrink-0" title="Content last verified">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-					</svg>
+				<span class="inline-flex items-center gap-1 rounded-full bg-base-200 px-3 py-1 text-xs text-muted shrink-0" title="Content last verified">
+					<AppIcon name="calendar" class="size-4" />
 					Updated {lastUpdatedDisplay}
 				</span>
 			{/if}
 		</div>
 		{#if finalDescription}
-			<p class="mt-2 text-base-content/60 leading-relaxed">{finalDescription}</p>
+			<p class="mt-2 text-muted leading-relaxed">{finalDescription}</p>
 		{/if}
 	</div>
 

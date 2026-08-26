@@ -78,11 +78,11 @@ ${Object.entries(breakpoints).map(([name, width]) => `      '${name}': '${width}
 	let currentOutput = $derived(outputMode === 'css' ? cssOutput : outputMode === 'scss' ? scssOutput : tailwindOutput);
 
 	const deviceIcons = [
-		{ w: 640, icon: '📱' },
-		{ w: 768, icon: '📖' },
-		{ w: 1024, icon: '💻' },
-		{ w: 1280, icon: '🖥️' },
-		{ w: 1536, icon: '📺' }
+		{ w: 640, icon: 'smartphone' },
+		{ w: 768, icon: 'book-open' },
+		{ w: 1024, icon: 'monitor' },
+		{ w: 1280, icon: 'monitor' },
+		{ w: 1536, icon: 'tv' }
 	];
 </script>
 

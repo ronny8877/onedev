@@ -254,7 +254,7 @@
 			<div class="card bg-base-200 rounded-xl">
 				<div class="card-body py-4">
 					<h4 class="flex items-center gap-2 text-sm font-semibold">
-						<AppIcon name={'📁'} size={16} />
+						<AppIcon name="folder" size={16} />
 						File Information
 					</h4>
 					<div class="mt-2 grid gap-2">

@@ -31,16 +31,16 @@
 	});
 
 	const presets = [
-		{ value: 'a', label: 'Links', icon: '🔗', description: 'All <a> tags with href' },
-		{ value: 'img', label: 'Images', icon: '🖼️', description: 'All <img> tags' },
-		{ value: 'script[src]', label: 'Scripts', icon: '📜', description: 'External script files' },
-		{ value: 'link[rel="stylesheet"], style', label: 'Styles', icon: '🎨', description: 'CSS files and inline styles' },
-		{ value: 'meta', label: 'Meta', icon: '📋', description: 'Meta tags' },
-		{ value: 'input, textarea, select, button', label: 'Forms', icon: '📝', description: 'Form elements' },
-		{ value: 'h1, h2, h3, h4, h5, h6', label: 'Headings', icon: '📰', description: 'All heading levels' },
-		{ value: '[id]', label: 'With ID', icon: '#️⃣', description: 'Elements with ID attribute' },
-		{ value: '[class]', label: 'With Class', icon: '🏷️', description: 'Elements with class attribute' },
-		{ value: 'custom', label: 'Custom', icon: '🔍', description: 'Write your own CSS selector' }
+		{ value: 'a', label: 'Links', icon: 'link', description: 'All <a> tags with href' },
+		{ value: 'img', label: 'Images', icon: 'image', description: 'All <img> tags' },
+		{ value: 'script[src]', label: 'Scripts', icon: 'scroll', description: 'External script files' },
+		{ value: 'link[rel="stylesheet"], style', label: 'Styles', icon: 'palette', description: 'CSS files and inline styles' },
+		{ value: 'meta', label: 'Meta', icon: 'clipboard', description: 'Meta tags' },
+		{ value: 'input, textarea, select, button', label: 'Forms', icon: 'file-pen', description: 'Form elements' },
+		{ value: 'h1, h2, h3, h4, h5, h6', label: 'Headings', icon: 'newspaper', description: 'All heading levels' },
+		{ value: '[id]', label: 'With ID', icon: 'hash', description: 'Elements with ID attribute' },
+		{ value: '[class]', label: 'With Class', icon: 'tag', description: 'Elements with class attribute' },
+		{ value: 'custom', label: 'Custom', icon: 'search', description: 'Write your own CSS selector' }
 	];
 
 	// Advanced common selectors
@@ -384,7 +384,7 @@
 		{:else if input.trim() && selector.trim()}
 			<div class="flex flex-col items-center justify-center py-12 text-center">
 				<div class="w-16 h-16 rounded-2xl bg-base-200 flex items-center justify-center mb-4">
-					<AppIcon name={'🔍'} size={16} />
+					<AppIcon name="search" size={16} />
 				</div>
 				<p class="text-base-content/50 mb-2">No elements found</p>
 				<code class="text-sm font-mono text-base-content/30">{selector}</code>

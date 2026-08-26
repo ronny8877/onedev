@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import { hashToolsContent } from '$lib/config/content/hash-tools-content';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
@@ -90,8 +91,9 @@
 				<input type="checkbox" bind:checked={ignoreSpaces} class="checkbox checkbox-sm" />
 				<span class="text-sm">Ignore whitespace</span>
 			</label>
-			<button type="button" class="btn btn-ghost btn-sm" onclick={swapHashes}>
-				⇄ Swap
+			<button type="button" class="btn btn-ghost h-8 min-h-8 rounded-lg gap-1.5" onclick={swapHashes}>
+				<AppIcon name="arrow-left-right" class="size-4" />
+				Swap
 			</button>
 		</div>
 

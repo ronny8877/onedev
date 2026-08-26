@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getIconMarkup } from '$lib/icons/registry';
+	import { icons, Wrench, type LucideIcon } from '@lucide/svelte';
 
 	interface Props {
 		name?: string | null;
@@ -11,31 +11,31 @@
 
 	let {
 		name = '',
-		size = 18,
+		size = 16,
 		class: className = '',
 		strokeWidth = 2,
 		title
 	}: Props = $props();
 
-	const markup = $derived(getIconMarkup(name));
+	const ICON_MAP = icons as unknown as Record<string, LucideIcon | undefined>;
+
+	function kebabToPascal(value: string): string {
+		return value
+			.split('-')
+			.filter(Boolean)
+			.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+			.join('');
+	}
+
+	const Icon = $derived(ICON_MAP[kebabToPascal(name ?? '')] ?? Wrench);
 </script>
 
-<svg
-	xmlns="http://www.w3.org/2000/svg"
-	width={size}
-	height={size}
-	viewBox="0 0 24 24"
-	fill="none"
-	stroke="currentColor"
-	stroke-width={strokeWidth}
-	stroke-linecap="round"
-	stroke-linejoin="round"
+<Icon
+	{size}
+	{strokeWidth}
 	class="shrink-0 {className}"
-	aria-hidden={title ? undefined : 'true'}
+	color="currentColor"
+	aria-hidden={title ? undefined : true}
 	role={title ? 'img' : undefined}
->
-	{#if title}
-		<title>{title}</title>
-	{/if}
-	{@html markup}
-</svg>
+	{title}
+/>

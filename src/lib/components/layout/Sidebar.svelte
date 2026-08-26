@@ -81,7 +81,7 @@
 							class="font-medium"
 						>
 							{#if item.icon}
-								<AppIcon name={item.icon} size={16} class="opacity-80" />
+								<AppIcon name={item.icon} class="size-4" />
 							{/if}
 							<span>{item.name}</span>
 						</a>
@@ -105,21 +105,14 @@
 						>
 							<div class="flex items-center gap-3">
 								{#if accordion.icon}
-									<AppIcon name={accordion.icon} size={16} class="opacity-80 {active ? 'opacity-100 text-primary' : ''}" />
+									<AppIcon name={accordion.icon} class="size-4 {active ? 'text-primary' : ''}" />
 								{/if}
-								<span class="font-semibold text-sm tracking-wide" class:opacity-100={active}>{accordion.name}</span>
+								<span class="font-semibold text-sm tracking-wide text-base-content" class:text-primary={active}>{accordion.name}</span>
 							</div>
-							<svg
-								class="size-4 opacity-50 transition-transform duration-200"
-								class:rotate-180={openAccordions[accordion.name]}
-								class:text-primary={active}
-								class:opacity-100={active}
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-							</svg>
+							<AppIcon
+								name="chevron-down"
+								class="size-4 transition-transform duration-200 {openAccordions[accordion.name] ? 'rotate-180' : ''} {active ? 'text-primary' : ''}"
+							/>
 						</div>
 
 						<!-- Items List -->
@@ -134,7 +127,7 @@
 											onclick={() => handleLinkClick(item.name, accordion.name)}
 										>
 											{#if item.icon}
-												<AppIcon name={item.icon} size={15} class="opacity-70" />
+												<AppIcon name={item.icon} class="size-4" />
 											{/if}
 											<span class:font-medium={isActive(item.href)}>{item.name}</span>
 										</a>

@@ -18,14 +18,14 @@
 	let activeTab = $state<'centering' | 'truncate' | 'aspect' | 'sticky' | 'a11y' | 'effects' | 'modern' | 'elements'>('centering');
 
 	const tabs = [
-		{ id: 'centering', label: 'Centering', icon: '⊕' },
-		{ id: 'truncate', label: 'Truncate', icon: '...' },
-		{ id: 'aspect', label: 'Aspect Ratio', icon: '▭' },
-		{ id: 'sticky', label: 'Sticky Footer', icon: '📌' },
-		{ id: 'a11y', label: 'Accessibility', icon: '♿' },
-		{ id: 'effects', label: 'Effects', icon: '✨' },
-		{ id: 'modern', label: 'Modern CSS', icon: '🆕' },
-		{ id: 'elements', label: 'UI Elements', icon: '🧩' },
+		{ id: 'centering', label: 'Centering', icon: 'plus' },
+		{ id: 'truncate', label: 'Truncate', icon: 'list' },
+		{ id: 'aspect', label: 'Aspect Ratio', icon: 'panels-top-left' },
+		{ id: 'sticky', label: 'Sticky Footer', icon: 'pin' },
+		{ id: 'a11y', label: 'Accessibility', icon: 'accessibility' },
+		{ id: 'effects', label: 'Effects', icon: 'sparkles' },
+		{ id: 'modern', label: 'Modern CSS', icon: 'sparkles' },
+		{ id: 'elements', label: 'UI Elements', icon: 'puzzle' },
 	] as const;
 </script>
 

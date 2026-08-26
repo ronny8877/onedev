@@ -31,10 +31,10 @@
 			<h2 class="text-xl font-bold text-base-content">Summary</h2>
 			<div class="rounded-xl bg-success/5 border border-success/20 p-5 not-prose">
 				<ul class="space-y-2 text-sm text-base-content/80">
-					<li class="flex items-start gap-2"><AppIcon name={'✓'} size={16} /> All tool processing runs in your browser. Your input data is never sent to our servers.</li>
-					<li class="flex items-start gap-2"><AppIcon name={'✓'} size={16} /> We do not require accounts or collect personal information to use any tool.</li>
-					<li class="flex items-start gap-2"><AppIcon name={'✓'} size={16} /> We use Google Analytics to see which pages are used. Tool input is never sent to analytics.</li>
-					<li class="flex items-start gap-2"><AppIcon name={'✓'} size={16} /> We do not currently show ads. If Google ads are added later, third-party cookies will be disclosed here and in How Google uses data.</li>
+					<li class="flex items-start gap-2"><AppIcon name="check" size={16} /> All tool processing runs in your browser. Your input data is never sent to our servers.</li>
+					<li class="flex items-start gap-2"><AppIcon name="check" size={16} /> We do not require accounts or collect personal information to use any tool.</li>
+					<li class="flex items-start gap-2"><AppIcon name="check" size={16} /> We use Google Analytics to see which pages are used. Tool input is never sent to analytics.</li>
+					<li class="flex items-start gap-2"><AppIcon name="check" size={16} /> We do not currently show ads. If Google ads are added later, third-party cookies will be disclosed here and in How Google uses data.</li>
 				</ul>
 			</div>
 		</section>

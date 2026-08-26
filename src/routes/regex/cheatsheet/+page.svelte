@@ -86,37 +86,37 @@
 	];
 
 	const flags = [
-		{ flag: 'g', name: 'Global', description: 'Find all matches, not just the first', icon: '🌐' },
-		{ flag: 'i', name: 'Case Insensitive', description: 'Match both upper and lowercase', icon: '🔤' },
-		{ flag: 'm', name: 'Multiline', description: '^ and $ match line start/end, not just string start/end', icon: '📝' },
-		{ flag: 's', name: 'Dotall', description: '. matches newline characters too', icon: '⏎' },
-		{ flag: 'u', name: 'Unicode', description: 'Enable full Unicode support', icon: '🌍' },
-		{ flag: 'y', name: 'Sticky', description: 'Match only at lastIndex position', icon: '📍' }
+		{ flag: 'g', name: 'Global', description: 'Find all matches, not just the first', icon: 'globe' },
+		{ flag: 'i', name: 'Case Insensitive', description: 'Match both upper and lowercase', icon: 'case-sensitive' },
+		{ flag: 'm', name: 'Multiline', description: '^ and $ match line start/end, not just string start/end', icon: 'file-pen' },
+		{ flag: 's', name: 'Dotall', description: '. matches newline characters too', icon: 'corner-down-left' },
+		{ flag: 'u', name: 'Unicode', description: 'Enable full Unicode support', icon: 'globe' },
+		{ flag: 'y', name: 'Sticky', description: 'Match only at lastIndex position', icon: 'map-pin' }
 	];
 
 	const commonPatterns = [
-		{ name: 'Email', pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}', description: 'Basic email validation', icon: '📧' },
-		{ name: 'URL', pattern: 'https?://[\\w.-]+(?:/[\\w./-]*)?', description: 'HTTP/HTTPS URLs', icon: '🔗' },
-		{ name: 'Phone (US)', pattern: '\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}', description: 'US phone numbers', icon: '📱' },
-		{ name: 'Date (YYYY-MM-DD)', pattern: '\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])', description: 'ISO date format', icon: '📅' },
-		{ name: 'Date (MM/DD/YYYY)', pattern: '(?:0[1-9]|1[0-2])/(?:0[1-9]|[12]\\d|3[01])/\\d{4}', description: 'US date format', icon: '📆' },
-		{ name: 'Time (24h)', pattern: '(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?', description: '24-hour time', icon: '🕐' },
-		{ name: 'IP Address', pattern: '(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)', description: 'IPv4 address', icon: '🌐' },
-		{ name: 'Hex Color', pattern: '#(?:[0-9a-fA-F]{3}){1,2}', description: 'Hex color codes (#fff, #ffffff)', icon: '🎨' },
-		{ name: 'Username', pattern: '^[a-zA-Z][a-zA-Z0-9_]{2,19}$', description: 'Username: 3-20 chars, starts with letter', icon: '👤' },
-		{ name: 'Strong Password', pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$', description: 'Min 8 chars, upper, lower, digit, special', icon: '🔒' },
-		{ name: 'Credit Card', pattern: '\\d{4}[- ]?\\d{4}[- ]?\\d{4}[- ]?\\d{4}', description: 'Credit card number format', icon: '💳' },
-		{ name: 'Zip Code (US)', pattern: '\\d{5}(?:-\\d{4})?', description: 'US zip code (12345 or 12345-6789)', icon: '📮' }
+		{ name: 'Email', pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}', description: 'Basic email validation', icon: 'mail' },
+		{ name: 'URL', pattern: 'https?://[\\w.-]+(?:/[\\w./-]*)?', description: 'HTTP/HTTPS URLs', icon: 'link' },
+		{ name: 'Phone (US)', pattern: '\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}', description: 'US phone numbers', icon: 'smartphone' },
+		{ name: 'Date (YYYY-MM-DD)', pattern: '\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])', description: 'ISO date format', icon: 'calendar' },
+		{ name: 'Date (MM/DD/YYYY)', pattern: '(?:0[1-9]|1[0-2])/(?:0[1-9]|[12]\\d|3[01])/\\d{4}', description: 'US date format', icon: 'calendar' },
+		{ name: 'Time (24h)', pattern: '(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?', description: '24-hour time', icon: 'clock' },
+		{ name: 'IP Address', pattern: '(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)', description: 'IPv4 address', icon: 'globe' },
+		{ name: 'Hex Color', pattern: '#(?:[0-9a-fA-F]{3}){1,2}', description: 'Hex color codes (#fff, #ffffff)', icon: 'palette' },
+		{ name: 'Username', pattern: '^[a-zA-Z][a-zA-Z0-9_]{2,19}$', description: 'Username: 3-20 chars, starts with letter', icon: 'user' },
+		{ name: 'Strong Password', pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$', description: 'Min 8 chars, upper, lower, digit, special', icon: 'lock' },
+		{ name: 'Credit Card', pattern: '\\d{4}[- ]?\\d{4}[- ]?\\d{4}[- ]?\\d{4}', description: 'Credit card number format', icon: 'credit-card' },
+		{ name: 'Zip Code (US)', pattern: '\\d{5}(?:-\\d{4})?', description: 'US zip code (12345 or 12345-6789)', icon: 'inbox' }
 	];
 
 	// Categories for navigation
 	const categories = [
-		{ id: 'classes', name: 'Character Classes', icon: '🔤', color: 'from-success/20 to-success/10' },
-		{ id: 'quantifiers', name: 'Quantifiers', icon: '🔢', color: 'from-warning/20 to-warning/10' },
-		{ id: 'anchors', name: 'Anchors', icon: '⚓', color: 'from-info/20 to-info/10' },
-		{ id: 'groups', name: 'Groups', icon: '📦', color: 'from-primary/20 to-primary/10' },
-		{ id: 'flags', name: 'Flags', icon: '🚩', color: 'from-accent/20 to-accent/10' },
-		{ id: 'common', name: 'Common Patterns', icon: '⭐', color: 'from-secondary/20 to-secondary/10' }
+		{ id: 'classes', name: 'Character Classes', icon: 'case-sensitive', color: 'from-success/20 to-success/10' },
+		{ id: 'quantifiers', name: 'Quantifiers', icon: 'hash', color: 'from-warning/20 to-warning/10' },
+		{ id: 'anchors', name: 'Anchors', icon: 'anchor', color: 'from-info/20 to-info/10' },
+		{ id: 'groups', name: 'Groups', icon: 'package', color: 'from-primary/20 to-primary/10' },
+		{ id: 'flags', name: 'Flags', icon: 'flag', color: 'from-accent/20 to-accent/10' },
+		{ id: 'common', name: 'Common Patterns', icon: 'star', color: 'from-secondary/20 to-secondary/10' }
 	];
 
 	function tryInTester(pattern: string) {
@@ -289,7 +289,7 @@
 		{#if shouldShowCategory('classes')}
 			<section id="category-classes">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-success/20 to-success/10 flex items-center justify-center text-xl"><AppIcon name={'🔤'} size={20} /></span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-success/20 to-success/10 flex items-center justify-center text-xl"><AppIcon name="case-sensitive" size={20} /></span>
 					Character Classes
 				</h2>
 				<div class="overflow-x-auto">
@@ -334,7 +334,7 @@
 		{#if shouldShowCategory('quantifiers')}
 			<section id="category-quantifiers">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-warning/20 to-warning/10 flex items-center justify-center text-xl"><AppIcon name={'🔢'} size={20} /></span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-warning/20 to-warning/10 flex items-center justify-center text-xl"><AppIcon name="hash" size={20} /></span>
 					Quantifiers
 				</h2>
 				<div class="overflow-x-auto">
@@ -372,7 +372,7 @@
 		{#if shouldShowCategory('anchors')}
 			<section id="category-anchors">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-info/20 to-info/10 flex items-center justify-center text-xl"><AppIcon name={'⚓'} size={20} /></span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-info/20 to-info/10 flex items-center justify-center text-xl"><AppIcon name="anchor" size={20} /></span>
 					Anchors
 				</h2>
 				<div class="overflow-x-auto">
@@ -417,7 +417,7 @@
 		{#if shouldShowCategory('groups')}
 			<section id="category-groups">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-xl"><AppIcon name={'📦'} size={20} /></span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-xl"><AppIcon name="package" size={20} /></span>
 					Groups & Lookarounds
 				</h2>
 				<div class="overflow-x-auto">
@@ -455,7 +455,7 @@
 		{#if shouldShowCategory('flags')}
 			<section id="category-flags">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center text-xl"><AppIcon name={'🚩'} size={20} /></span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center text-xl"><AppIcon name="flag" size={20} /></span>
 					Flags
 				</h2>
 				<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -479,7 +479,7 @@
 		{#if shouldShowCategory('common')}
 			<section id="category-common">
 				<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center text-xl"><AppIcon name={'⭐'} size={20} /></span>
+					<span class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center text-xl"><AppIcon name="star" size={20} /></span>
 					Common Patterns
 				</h2>
 				<div class="grid gap-3">

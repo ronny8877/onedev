@@ -189,7 +189,7 @@
 
 				{#if claims.standard.length === 0}
 					<div class="text-center py-8 text-base-content/50">
-						<AppIcon name={'📭'} size={32} />
+						<AppIcon name="inbox" size={32} />
 						<p class="mt-2">No standard claims found</p>
 					</div>
 				{/if}
@@ -217,7 +217,7 @@
 
 				{#if claims.custom.length === 0}
 					<div class="text-center py-8 text-base-content/50">
-						<AppIcon name={'📭'} size={32} />
+						<AppIcon name="inbox" size={32} />
 						<p class="mt-2">No custom claims found</p>
 					</div>
 				{/if}
