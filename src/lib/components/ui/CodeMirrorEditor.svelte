@@ -55,7 +55,7 @@
 		language === 'xml' ? xml() : language === 'html' ? html() : language === 'sql' ? sqlLang : json()
 	);
 
-	// Syntax highlighting follows Daisy tokens so forest vs light actually changes.
+	// Syntax highlighting follows Daisy tokens so emerald vs forest actually changes.
 	const highlightStyle = HighlightStyle.define([
 		{ tag: tags.keyword, color: 'var(--cm-keyword)', fontWeight: '600' },
 		{ tag: tags.operatorKeyword, color: 'var(--cm-keyword)' },

@@ -204,22 +204,13 @@
 		transform: translateX(-50%);
 		width: 100%;
 		max-width: 32rem;
-		border: 1px solid var(--fallback-bc, oklch(var(--bc) / 0.15));
+		border: 1px solid var(--color-base-300);
 		border-radius: 1rem;
 		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
 		z-index: 101;
 		overflow: hidden;
 	}
 
-	/* Fallback for browsers that don't support oklch */
-	@supports not (color: oklch(0 0 0)) {
-		.command-palette {
-			background-color: hsl(220 13% 18%);
-			border-color: hsl(220 13% 30%);
-		}
-	}
-
-	/* result-item styles moved to markup to avoid @apply issues with daisyui classes */
 	.result-item {
 		display: flex;
 		align-items: center;
