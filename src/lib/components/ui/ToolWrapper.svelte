@@ -2,6 +2,11 @@
 	import type { Snippet } from 'svelte';
 	import { page } from '$app/stores';
 	import { BASE_URL, getToolByPath } from '$lib/config/tools';
+	import {
+		getCanonicalUrl,
+		getLastUpdatedForPath,
+		shouldNoindex
+	} from '$lib/config/indexing';
 	import JsonLd from '$lib/components/content/JsonLd.svelte';
 	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 
@@ -9,20 +14,20 @@
 		title?: string;
 		description?: string;
 		keywords?: string[];
-		lastUpdated?: string; // 'YYYY-MM-DD' — shown as freshness badge
-		noindex?: boolean;    // noindex this page from search
+		lastUpdated?: string;
+		noindex?: boolean;
 		children: Snippet;
 	}
 
 	let { title, description, keywords = [], lastUpdated, noindex = false, children }: Props = $props();
 
-	// Auto-fetch from tools.ts if not provided
 	const toolData = $derived(getToolByPath($page.url.pathname));
 	const finalTitle = $derived(title ?? toolData?.name ?? 'Tool');
 	const finalDescription = $derived(description ?? toolData?.description ?? '');
 	const finalKeywords = $derived(keywords.length > 0 ? keywords : (toolData?.keywords ?? []));
-
-	let canonicalUrl = $derived(`${BASE_URL}${$page.url.pathname}`);
+	const pageNoindex = $derived(noindex || shouldNoindex($page.url.pathname));
+	const canonicalUrl = $derived(getCanonicalUrl(BASE_URL, $page.url.pathname));
+	const resolvedLastUpdated = $derived(getLastUpdatedForPath($page.url.pathname, lastUpdated));
 
 	// Build breadcrumb from URL path e.g. /json/formatter → Home > JSON > Formatter
 	const breadcrumbs = $derived.by(() => {
@@ -47,13 +52,13 @@
 
 	// Format lastUpdated for display
 	const lastUpdatedDisplay = $derived.by(() => {
-		if (!lastUpdated) return null;
+		if (!resolvedLastUpdated) return null;
 		try {
-			return new Date(lastUpdated).toLocaleDateString('en-US', {
+			return new Date(resolvedLastUpdated).toLocaleDateString('en-US', {
 				year: 'numeric', month: 'long', day: 'numeric'
 			});
 		} catch {
-			return lastUpdated;
+			return resolvedLastUpdated;
 		}
 	});
 
@@ -71,9 +76,7 @@
 
 <svelte:head>
 	<title>{finalTitle} | OneDev Tools</title>
-	{#if noindex}
-		<meta name="robots" content="noindex, follow" />
-	{/if}
+	<meta name="robots" content={pageNoindex ? 'noindex, follow' : 'index, follow'} />
 	{#if finalDescription}
 		<meta name="description" content={finalDescription} />
 	{/if}

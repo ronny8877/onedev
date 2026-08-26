@@ -1,5 +1,6 @@
 
-import { getAllActiveTools, BASE_URL } from '../src/lib/config/tools';
+import { BASE_URL } from '../src/lib/config/tools';
+import { getIndexableAbsoluteUrls } from '../src/lib/config/indexing';
 
 const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/indexnow';
 // Remove protocol to get host (e.g., https://onedev.tools -> onedev.tools)
@@ -24,12 +25,7 @@ async function main() {
 
     console.log(`\n🚀 Preparing IndexNow submission for ${HOST}...`);
 
-    // 1. Get all URLs
-    const tools = getAllActiveTools();
-    const urls = [
-        `${BASE_URL}/`, // Homepage
-        ...tools.map(tool => `${BASE_URL}${tool.href}`)
-    ];
+    const urls = getIndexableAbsoluteUrls(BASE_URL);
 
     console.log(`Found ${urls.length} URLs to submit.`);
 

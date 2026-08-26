@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ToolCategory } from '$lib/config/tools';
 	import { BASE_URL, getCategorySlug, getActiveCategories } from '$lib/config/tools';
+	import { shouldNoindex } from '$lib/config/indexing';
 	import { getCategoryGuide } from '$lib/config/content/category-guides';
 	import JsonLd from '$lib/components/content/JsonLd.svelte';
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
@@ -17,6 +18,7 @@
 
 	const slug = $derived(getCategorySlug(category));
 	const canonicalUrl = $derived(`${BASE_URL}/${slug}`);
+	const pageNoindex = $derived(shouldNoindex(`/${slug}`));
 	const guide = $derived(getCategoryGuide(slug));
 
 	const title = $derived(
@@ -47,6 +49,7 @@
 
 <svelte:head>
 	<title>{title} | OneDev Tools</title>
+	<meta name="robots" content={pageNoindex ? 'noindex, follow' : 'index, follow'} />
 	<meta name="description" content={description} />
 	<link rel="canonical" href={canonicalUrl} />
 	<meta property="og:title" content={title} />
