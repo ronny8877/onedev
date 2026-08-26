@@ -8,6 +8,9 @@
 	import { StateField, StateEffect } from '@codemirror/state';
 	import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 	import { tags } from '@lezer/highlight';
+	import { search } from '@codemirror/search';
+	import AppIcon from '$lib/components/ui/AppIcon.svelte';
+	import { createSearchPanel } from '$lib/components/ui/codemirror-search-panel';
 
 	export type EditorLanguage = 'json' | 'xml' | 'html' | 'sql';
 	export type SqlEditorDialect = 'postgresql' | 'mysql' | 'mariadb' | 'sqlite' | 'transactsql' | 'standard';
@@ -120,7 +123,6 @@
 			caretColor: 'var(--color-primary)'
 		},
 		'.cm-line': { padding: '0 14px' },
-		// Gutters (line numbers + fold) — the key dark-mode fix
 		'.cm-gutters': {
 			backgroundColor: 'var(--color-base-200)',
 			color: bc(45),
@@ -170,21 +172,13 @@
 		'.cm-error-line': {
 			backgroundColor: 'color-mix(in oklch, var(--color-error) 14%, transparent)'
 		},
-		// Search panel (opened with Ctrl/Cmd+F)
 		'.cm-panels': {
 			backgroundColor: 'var(--color-base-200)',
 			color: 'var(--color-base-content)',
 			border: 'none'
 		},
-		'.cm-panels.cm-panels-bottom': { borderTop: `1px solid ${bc(10)}` },
-		'.cm-panel.cm-search': { padding: '8px 10px' },
-		'.cm-panel input, .cm-panel button': {
-			backgroundColor: 'var(--color-base-100)',
-			color: 'var(--color-base-content)',
-			border: `1px solid ${bc(15)}`,
-			borderRadius: '6px',
-			padding: '2px 8px'
-		},
+		'.cm-panels.cm-panels-top': { borderBottom: '1px solid var(--color-base-300)' },
+		'.cm-panels.cm-panels-bottom': { borderTop: '1px solid var(--color-base-300)' },
 		'.cm-searchMatch': {
 			backgroundColor: 'color-mix(in oklch, var(--color-warning) 28%, transparent)',
 			borderRadius: '2px'
@@ -208,7 +202,8 @@
 		syntaxHighlighting(highlightStyle),
 		baseTheme,
 		errorLineField,
-		EditorView.lineWrapping
+		EditorView.lineWrapping,
+		search({ top: true, createPanel: createSearchPanel })
 	];
 
 	// Capture the EditorView so error-line highlighting stays in sync with the prop.
@@ -238,9 +233,9 @@
 	<div
 		class="flex items-center justify-between gap-2 border-b border-base-300/60 bg-base-300/30 px-4 py-2"
 	>
-		<div class="flex items-center gap-2 text-xs text-base-content/50">
+		<div class="flex items-center gap-2 text-xs text-muted">
 			<span class="inline-flex items-center gap-1.5 font-medium">
-				<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+				<AppIcon name="code-xml" class="size-4" />
 				{lineCount} line{lineCount !== 1 ? 's' : ''}
 			</span>
 			<span class="text-base-content/25">·</span>
@@ -253,25 +248,24 @@
 			{/if}
 		</div>
 		<div class="flex items-center gap-1">
-			<span class="mr-1 hidden text-[11px] text-base-content/35 sm:inline">⌘/Ctrl+F to search</span>
+			<span class="mr-1 hidden text-[11px] text-muted sm:inline">⌘/Ctrl+F to search</span>
 			<button
 				type="button"
-				class="btn btn-ghost btn-xs gap-1 hover:bg-base-content/10"
+				class="btn btn-ghost h-8 w-8 min-h-8 min-w-8 p-0 rounded-lg"
 				onclick={copyToClipboard}
 				title="Copy to clipboard"
 				aria-label="Copy to clipboard"
 			>
 				{#if copied}
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-success"><path d="M20 6 9 17l-5-5"/></svg>
-					<span class="text-success">Copied</span>
+					<AppIcon name="check" class="size-4 text-success" />
 				{:else}
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+					<AppIcon name="copy" class="size-4" />
 				{/if}
 			</button>
 			{#if !readonly}
 				<button
 					type="button"
-					class="btn btn-ghost btn-xs hover:bg-base-content/10"
+					class="btn btn-ghost h-8 w-8 min-h-8 min-w-8 p-0 rounded-lg"
 					onclick={() => {
 						value = '';
 						onInput?.('');
@@ -279,7 +273,7 @@
 					title="Clear"
 					aria-label="Clear editor"
 				>
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+					<AppIcon name="rotate-ccw" class="size-4" />
 				</button>
 			{/if}
 		</div>
@@ -320,5 +314,52 @@
 		left: 0 !important;
 		z-index: 50 !important;
 		background-color: var(--color-base-200) !important;
+	}
+
+	.editor-container :global(.onedev-cm-search) {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 0.75rem;
+		background: var(--color-base-200);
+		color: var(--color-base-content);
+		border-bottom: 1px solid var(--color-base-300);
+	}
+
+	.editor-container :global(.onedev-cm-search-field) {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--color-base-content);
+		font-size: 0.8125rem;
+		font-weight: 500;
+	}
+
+	.editor-container :global(.onedev-cm-search-field input) {
+		height: 32px;
+		min-width: 10rem;
+		border-radius: 0.5rem;
+		border: 1px solid var(--color-base-300);
+		background: var(--color-base-100);
+		color: var(--color-base-content);
+		padding: 0 0.75rem;
+		font-size: 0.8125rem;
+	}
+
+	.editor-container :global(.onedev-cm-search-field input::placeholder) {
+		color: var(--muted);
+		opacity: 1;
+	}
+
+	.editor-container :global(.onedev-cm-search-field input:focus) {
+		outline: none;
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 2px color-mix(in oklch, var(--color-primary) 20%, transparent);
+	}
+
+	.editor-container :global(.onedev-cm-search button[aria-pressed='true']) {
+		color: var(--color-primary);
+		background: color-mix(in oklch, var(--color-primary) 18%, transparent);
 	}
 </style>
