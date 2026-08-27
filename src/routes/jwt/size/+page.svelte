@@ -8,6 +8,8 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 	import { jwtToolsContent } from '$lib/config/content/jwt-tools-content';
 
 	const jwtContent = jwtToolsContent['size'];
@@ -99,6 +101,10 @@
 
 <ToolWrapper>
 	<div class="flex flex-col gap-6">
+		{#if jwtContent.howTo}
+			<HowTo lede={jwtContent.howTo.lede} steps={jwtContent.howTo.steps} breaks={jwtContent.howTo.breaks} />
+		{/if}
+
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} />
 
@@ -237,38 +243,8 @@
 					</div>
 				</div>
 			</div>
-
-			<!-- Tips for Reducing Size -->
-			{#if analysis.payload.chars > 500}
-				<div class="alert bg-info/10 border border-info/30 rounded-xl">
-					<svg class="h-5 w-5 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-					</svg>
-					<div>
-						<p class="font-semibold text-info">Tips to Reduce JWT Size</p>
-						<ul class="text-sm text-base-content/70 mt-1">
-							<li>• Use short claim names (e.g., <code>uid</code> instead of <code>userId</code>)</li>
-							<li>• Store only essential data in the token</li>
-							<li>• Reference IDs instead of embedding full objects</li>
-							<li>• Consider storing large data server-side with a reference</li>
-						</ul>
-					</div>
-				</div>
-			{/if}
 		{/if}
 
-		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
-			<div class="card-body py-4">
-				<h4 class="text-sm font-semibold">Why JWT Size Matters</h4>
-				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
-					<li>• JWTs are sent with every HTTP request in the Authorization header</li>
-					<li>• Large tokens increase bandwidth and can exceed server header limits</li>
-					<li>• Some proxies and load balancers have strict header size limits</li>
-					<li>• Cookies have a ~4KB limit if you're storing JWTs there</li>
-				</ul>
-			</div>
-		</div>
 		<!-- Content Sections -->
 		<div class="mt-12 space-y-6">
 			<Features features={jwtContent.features} />
@@ -278,6 +254,9 @@
 			<FAQSection faqs={jwtContent.faqs} />
 			{#if jwtContent.tips}
 				<Tips tips={jwtContent.tips} />
+			{/if}
+			{#if jwtContent.commonMistakes}
+				<CommonMistakes mistakes={jwtContent.commonMistakes} />
 			{/if}
 			<RelatedTools relatedTools={jwtContent.relatedTools} />
 		</div>

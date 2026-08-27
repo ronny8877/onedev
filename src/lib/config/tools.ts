@@ -27,7 +27,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: 'braces',
 		description: 'Format, validate, compare, and convert JSON in this browser. Nothing is uploaded.',
 		items: [
-			{ name: 'JSON Formatter', href: '/json/formatter', description: 'Pretty-print JSON and jump to the first syntax error. JSONC comments, trailing commas, duplicate keys, and integers past MAX_SAFE_INTEGER are called out.', icon: 'braces', keywords: ['json formatter', 'json parse error line', 'jsonc trailing comma', 'duplicate json keys', 'max safe integer json'] },
+			{ name: 'JSON Formatter', href: '/json/formatter', description: 'Pretty-print is not the hard part. The first syntax error is, and JSON will not mention the second one until you fix the first.', icon: 'braces', keywords: ['json formatter', 'json parse error line', 'jsonc trailing comma', 'duplicate json keys', 'max safe integer json'] },
 			{ name: 'JSON Validator', href: '/json/validator', description: 'Check whether a document is valid JSON and jump to the first parse error.', icon: 'check' },
 			{ name: 'JSON Diff', href: '/json/diff', description: 'Compare two JSON values structurally. Key order and whitespace do not count as changes.', icon: 'git-compare' },
 			{ name: 'JSON → Table', href: '/json/table', description: 'Turn a JSON array of objects into a sortable table you can copy as CSV or Markdown.', icon: 'chart-column' },
@@ -152,7 +152,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'HTML Formatter', href: '/html/formatter', description: 'HTML formatter and beautifier online. Format, prettify, or minify HTML with proper indentation. HTML pretty print free in your browser.', icon: 'braces' },
 			{ name: 'HTML → Text', href: '/html/text-extractor', description: 'HTML to plain text converter online. Strip all HTML tags and extract text content only. Remove HTML tags free—get clean text instantly.', icon: 'file-pen' },
 			{ name: 'Element Extractor', href: '/html/element-extractor', description: 'HTML element extractor online. Extract all links, images, meta tags, or scripts from HTML. Parse HTML elements free in your browser.', icon: 'search' },
-			{ name: 'DOM Visualizer', href: '/html/dom-visualizer', description: 'HTML DOM tree viewer online. Interactive tree view of HTML structure with search and copy. Visualize DOM hierarchy free.', icon: 'tree-deciduous' },
+			{ name: 'DOM Visualizer', href: '/html/dom-visualizer', description: 'Nested HTML is easy to write and hard to see. If a selector "should work" and doesn\'t, the tree is the problem, not CSS.', icon: 'tree-deciduous' },
 			{ name: 'HTML → JSON', href: '/html/to-json', description: 'HTML to JSON converter online. Convert HTML DOM structure to JSON representation. Parse HTML to JSON object free in your browser.', icon: 'refresh-cw' },
 			{ name: 'Attribute Cleaner', href: '/html/attribute-cleaner', description: 'HTML attribute remover online. Remove inline styles, data attributes, classes, or empty attributes. Clean HTML code free in your browser.', icon: 'broom' },
 			{ name: 'Tag Counter', href: '/html/tag-counter', description: 'HTML tag counter online. Count occurrences of each HTML tag and see element distribution. Analyze HTML structure free.', icon: 'chart-column' }
@@ -714,7 +714,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'SHA-1 Hash', href: '/hash/sha1', description: 'Create 160-bit SHA-1 hashes, still handy for Git commits and file verification.', icon: 'lock' },
 			{ name: 'CRC32 Checksum', href: '/hash/crc32', description: 'Calculate a CRC32 checksum for quick file-integrity checks.', icon: 'check' },
 			{ name: 'Hash Identifier', href: '/hash/identifier', description: 'Not sure what a hash is? Detect whether it looks like MD5, SHA-256, bcrypt, or another type.', icon: 'search' },
-			{ name: 'Compare Hashes', href: '/hash/compare', description: 'Compare two hashes with case-insensitive matching and a clear match indicator.', icon: 'scale' },
+			{ name: 'Compare Hashes', href: '/hash/compare', description: 'Two hashes can look the same and still differ by one character, and they can look different and still be the same bytes. Eyeballing a 64-character hex string is how a bad ISO ships.', icon: 'scale' },
 			{ name: 'File Checksum', href: '/hash/file-checksum', description: 'Verify a downloaded file hash against the expected value to confirm integrity.', icon: 'folder' },
 			{ name: 'Hash Test Vectors', href: '/hash/lookup', description: 'Check whether a digest matches published RFC 1321 / FIPS 180 example strings. Not a password cracker.', icon: 'clipboard' },
 			{ name: 'HMAC Generator', href: '/hash/hmac', description: 'Generate keyed HMAC-SHA256 and HMAC-SHA512 authentication codes.', icon: 'key' },
@@ -765,7 +765,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'Expiration Checker', href: '/jwt/expiration', description: 'JWT expiration checker online. Check if your JWT is expired, see time remaining, and view exp/iat/nbf timestamps in human-readable format with timezone support.', icon: 'timer' },
 			{ name: 'Claims Viewer', href: '/jwt/claims', description: 'JWT claims viewer online. View and understand all JWT claims with descriptions. Highlights standard claims (iss, sub, aud, exp) and flags missing recommended claims.', icon: 'clipboard' },
 			{ name: 'JWT Generator', href: '/jwt/generator', description: 'JWT generator online for testing. Create unsigned or demo JWT tokens for UI testing. NOT for production—generates test tokens with custom header and payload.', icon: 'zap' },
-			{ name: 'Size Analyzer', href: '/jwt/size', description: 'JWT size analyzer online. Check JWT token length in characters and bytes. See header vs payload size breakdown and get warnings for oversized tokens.', icon: 'ruler' }
+			{ name: 'Size Analyzer', href: '/jwt/size', description: 'The JWT spec has no size limit. Your cookie jar and your reverse proxy do.', icon: 'ruler' }
 		]
 	},
 	{
