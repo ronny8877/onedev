@@ -6,6 +6,12 @@ export interface DateToolContent {
 	faqs: Array<{ question: string; answer: string }>;
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
+	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const dateToolsContent: Record<string, DateToolContent> = {
@@ -24,16 +30,11 @@ export const dateToolsContent: Record<string, DateToolContent> = {
 			'See whether a 32-bit column will overflow in 2038'
 		],
 		concept: {
-			title: '10 digits, 13 digits, and 2038',
-			content: `<p>Unix time counts seconds since 1970-01-01 00:00:00 UTC. In the 2020s a <strong>10-digit</strong> integer (~1.7e9) is seconds. <strong>13 digits</strong> are milliseconds (JS <code>Date.now()</code>). Mix them up and you get 1970 or the year 56000. This page guesses the unit from digit length. JWT <code>exp</code> is seconds. JavaScript <code>new Date(n)</code> wants milliseconds.</p>
-<p><strong>Y2038:</strong> signed 32-bit <code>time_t</code> overflows at 2<sup>31</sup>−1 = 2147483647, which is 2038-01-19 03:14:07 UTC. After that, old 32-bit Linux, some MySQL TIMESTAMP columns, and embedded devices wrap to 1901. Postgres <code>timestamptz</code> and 64-bit time_t do not have this limit. If you store Unix time in an INT, plan for it.</p>
-<p>Leap seconds are not in POSIX Unix time. Excel serials are a different epoch (1899/1900, with the Lotus leap-year bug). This converter is POSIX seconds/ms, not Excel.</p>
-<p>Snippets for the same instant <code>1690000000</code>:</p>
-<pre><code>Postgres:  SELECT to_timestamp(1690000000);
-MySQL:     SELECT FROM_UNIXTIME(1690000000);
-           SELECT UNIX_TIMESTAMP('2023-07-22 00:26:40');
-Unix:      date -d @1690000000 -u
-           date -r 1690000000          # BSD/macOS</code></pre>`
+			title: 'Ten digits is seconds. Thirteen is milliseconds.',
+			content: `<p>Ten digits is seconds. Thirteen is milliseconds. Mix them up and you get 1970, or the year 56000, and then you debug the database for an hour.</p>
+<p>Paste a timestamp, a date, or <code>now</code>. Read the unit first. If the number is 13 digits, it is not what Postgres <code>to_timestamp</code> wants.</p>
+<p>Seconds are 10 digits (until 2286). Milliseconds are 13. Microseconds are 16. If you aren't sure, check the length before you convert. <code>Y2038</code> is real on 32-bit <code>time_t</code>. <code>2147483647</code> is 2038-01-19 03:14:07 UTC. After that, a signed 32-bit clock wraps to 1901.</p>
+<p>Postgres <code>to_timestamp(1740000000)</code> is seconds. MySQL <code>FROM_UNIXTIME(1740000000)</code> is seconds. JS <code>new Date(1740000000)</code> is milliseconds, so that same number is Jan 1970. <code>date +%s</code> is seconds. Java <code>System.currentTimeMillis()</code> is milliseconds. Don't copy one into the other.</p>`
 		},
 		examples: [
 			{ label: 'Seconds (10 digits, 2023)', code: '1690000000', isValid: true },
@@ -43,20 +44,20 @@ Unix:      date -d @1690000000 -u
 		],
 		faqs: [
 			{
-				question: 'How do I know seconds from milliseconds?',
-				answer: '<p>Count digits. ~10 means seconds for current dates. ~13 means milliseconds. 16 is microseconds (Python <code>time.time_ns()//1000</code> style). JWT <code>exp</code> is always seconds. If a "date" lands in 1970, you passed seconds to an API that wanted ms (or the reverse).</p>'
+				question: 'How do I tell seconds from milliseconds?',
+				answer: '<p>Ten digits is seconds. Thirteen is milliseconds. Mix them up and you get 1970, or the year 56000, and then you debug the database for an hour. Seconds are 10 digits (until 2286). Milliseconds are 13. Microseconds are 16. If you aren\'t sure, check the length before you convert.</p>'
 			},
 			{
-				question: 'What is the Year 2038 problem?',
-				answer: '<p>Signed 32-bit Unix time maxes at 2147483647 (19 Jan 2038 03:14:07 UTC). MySQL <code>TIMESTAMP</code> historically had this ceiling. <code>DATETIME</code> and Postgres <code>timestamptz</code> do not. Storing epoch in a 32-bit INT will wrap.</p>'
+				question: 'What is Y2038?',
+				answer: '<p><code>Y2038</code> is real on 32-bit <code>time_t</code>. <code>2147483647</code> is 2038-01-19 03:14:07 UTC. After that, a signed 32-bit clock wraps to 1901.</p>'
 			},
 			{
-				question: 'Postgres vs MySQL vs date(1)?',
-				answer: '<p><code>to_timestamp(seconds)</code> in Postgres. <code>FROM_UNIXTIME(seconds)</code> and <code>UNIX_TIMESTAMP(datetime)</code> in MySQL. GNU <code>date -d @seconds -u</code>; macOS <code>date -r seconds</code>. Milliseconds: divide by 1000 first in SQL (<code>to_timestamp(ms/1000.0)</code>).</p>'
+				question: 'Is Postgres to_timestamp seconds or milliseconds? What about JS Date?',
+				answer: '<p>Postgres <code>to_timestamp(1740000000)</code> is seconds. MySQL <code>FROM_UNIXTIME(1740000000)</code> is seconds. JS <code>new Date(1740000000)</code> is milliseconds, so that same number is Jan 1970. <code>date +%s</code> is seconds. Java <code>System.currentTimeMillis()</code> is milliseconds. Don\'t copy one into the other. If the number is 13 digits, it is not what Postgres <code>to_timestamp</code> wants.</p>'
 			},
 			{
-				question: 'Does Convert → Time do this?',
-				answer: '<p>No. That page converts durations (hours to milliseconds). This page converts instants on the calendar.</p>'
+				question: 'Is a negative timestamp an error? What about leap seconds?',
+				answer: '<p>A negative timestamp is before 1970, not an error. Leap seconds are ignored by Unix time. Don\'t use this to schedule “exactly 23:59:60.” Local vs UTC is the other classic miss. This conversion is UTC unless you say otherwise.</p>'
 			}
 		],
 		relatedTools: [
@@ -68,7 +69,29 @@ Unix:      date -d @1690000000 -u
 			'When a log is ambiguous, interpret as both seconds and ms. One of them is a nonsense year.',
 			'Store UTC in the database. Convert to a zone only at display time.',
 			'Do not pass JWT exp straight into new Date(exp) without multiplying by 1000.'
-		]
+		],
+		commonMistakes: [
+			'A negative timestamp is before 1970, not an error.',
+			'Leap seconds are ignored by Unix time. Don\'t use this to schedule “exactly 23:59:60.”',
+			'Local vs UTC is the other classic miss. This conversion is UTC unless you say otherwise.'
+		],
+		howTo: {
+			lede: [
+				'Ten digits is seconds. Thirteen is milliseconds. Mix them up and you get 1970, or the year 56000, and then you debug the database for an hour.',
+				'Paste a timestamp, a date, or `now`. Read the unit first. If the number is 13 digits, it is not what Postgres `to_timestamp` wants.'
+			],
+			steps: [
+				'Seconds are 10 digits (until 2286). Milliseconds are 13. Microseconds are 16. If you aren\'t sure, check the length before you convert.',
+				'`Y2038` is real on 32-bit `time_t`. `2147483647` is 2038-01-19 03:14:07 UTC. After that, a signed 32-bit clock wraps to 1901.',
+				'Postgres `to_timestamp(1740000000)` is seconds. MySQL `FROM_UNIXTIME(1740000000)` is seconds. JS `new Date(1740000000)` is milliseconds, so that same number is Jan 1970.',
+				'`date +%s` is seconds. Java `System.currentTimeMillis()` is milliseconds. Don\'t copy one into the other.'
+			],
+			breaks: [
+				'A negative timestamp is before 1970, not an error.',
+				'Leap seconds are ignored by Unix time. Don\'t use this to schedule “exactly 23:59:60.”',
+				'Local vs UTC is the other classic miss. This conversion is UTC unless you say otherwise.'
+			]
+		}
 	},
 	timezone: {
 		features: [

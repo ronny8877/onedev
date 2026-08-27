@@ -6,6 +6,12 @@ export interface SqlToolContent {
 	faqs: Array<{ question: string; answer: string }>;
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
+	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 const relatedCore = [
@@ -30,11 +36,11 @@ export const sqlToolsContent: Record<string, SqlToolContent> = {
 			'See why a T-SQL [bracket] identifier failed under PostgreSQL'
 		],
 		concept: {
-			title: 'Format by dialect, not generic SQL',
-			content: `<p>There is no single SQL. A formatter that assumes ANSI will mangle or reject real queries. This page uses sql-formatter with an explicit dialect. Pick the engine you will run against. Whitespace and keyword case change; the statement is not executed.</p>
-<p><strong>What breaks across dialects:</strong> PostgreSQL <code>$$</code> dollar quotes and <code>ILIKE</code>. MySQL/MariaDB backticks and <code>#</code> comments. SQL Server <code>[brackets]</code> and <code>N'strings'</code>. BigQuery backticks for project.dataset.table. Snowflake identifier quoting. SQLite is a subset, still not Postgres.</p>
-<p>If you format Postgres with the MySQL dialect, <code>$$body$$</code> looks like illegal syntax and you get a parse error instead of a pretty function body. The reverse: MySQL backticks become weird identifiers under Postgres rules.</p>
-<p>Formatting will not fix a missing comma. If the dialect parser rejects the input, you get the error, not a guess. Do not format a query if a downstream system hashes the exact bytes.</p>`
+			title: 'SQL is not one language',
+			content: `<p>SQL is not one language. Pretty-print without a dialect will “fix” Postgres into MySQL, then you paste it into prod.</p>
+<p>Pick the dialect first. Then paste. Read the output for the identifier quotes and the limit clause, not for the commas.</p>
+<p>Set dialect before format. Postgres uses <code>"identifiers"</code> and <code>LIMIT</code>. MySQL uses backticks and <code>LIMIT</code>. SQL Server uses <code>[brackets]</code> and <code>TOP</code> / <code>OFFSET FETCH</code>. SQLite is its own mix. <code>LIMIT 10</code> is not <code>TOP 10</code> is not <code>FETCH FIRST 10 ROWS ONLY</code>. A formatter that rewrites that without asking is lying.</p>
+<p>Trailing commas in <code>SELECT</code> lists are not SQL. They're a copy-paste from JS. The error will point at the next keyword, not the comma. Comments: <code>--</code> to end of line, <code>/* */</code> block. A <code>#</code> comment is MySQL. Don't ship it to Postgres.</p>`
 		},
 		examples: [
 			{
@@ -55,20 +61,20 @@ export const sqlToolsContent: Record<string, SqlToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'Why did a valid Postgres query fail here?',
-				answer: '<p>The dialect dropdown is probably MySQL or the default. Switch to PostgreSQL for <code>$$</code>, <code>ILIKE</code>, <code>::</code> casts, and some type names. The formatter is not a lowest-common-denominator SQL engine.</p>'
+				question: 'Why pick a dialect before format?',
+				answer: '<p>SQL is not one language. Pretty-print without a dialect will “fix” Postgres into MySQL, then you paste it into prod. Set dialect before format. Postgres uses <code>"identifiers"</code> and <code>LIMIT</code>. MySQL uses backticks and <code>LIMIT</code>. SQL Server uses <code>[brackets]</code> and <code>TOP</code> / <code>OFFSET FETCH</code>. SQLite is its own mix.</p>'
 			},
 			{
-				question: 'Does formatting change the meaning?',
-				answer: '<p>Not for ordinary statements in the chosen dialect. Whitespace and optional keyword case change. String literals stay. Identifier quoting stays. Do not format if something hashes the exact SQL text.</p>'
+				question: 'Will the formatter rewrite LIMIT into TOP?',
+				answer: '<p><code>LIMIT 10</code> is not <code>TOP 10</code> is not <code>FETCH FIRST 10 ROWS ONLY</code>. A formatter that rewrites that without asking is lying.</p>'
 			},
 			{
-				question: 'Can I format T-SQL and BigQuery on the same setting?',
-				answer: '<p>No. Pick SQL Server or BigQuery separately. Bracket identifiers vs backticks vs double quotes are different languages that happen to look like SQL.</p>'
+				question: 'Why does a trailing comma fail? What about # comments?',
+				answer: '<p>Trailing commas in <code>SELECT</code> lists are not SQL. They\'re a copy-paste from JS. The error will point at the next keyword, not the comma. Comments: <code>--</code> to end of line, <code>/* */</code> block. A <code>#</code> comment is MySQL. Don\'t ship it to Postgres.</p>'
 			},
 			{
-				question: 'Will this run my DELETE?',
-				answer: '<p>No. There is no database connection. Pretty-print only.</p>'
+				question: 'Will this make a bad query fast?',
+				answer: '<p>Reserved words as column names need quoting in that dialect, not in general. <code>user</code> and <code>order</code> are the usual victims. This will not make a bad query fast. It will not bind parameters for you. It will not catch <code>SELECT *</code> as a problem. Don\'t format a migration and assume the dialect you clicked matches the database that will run it.</p>'
 			}
 		],
 		relatedTools: [
@@ -80,7 +86,29 @@ export const sqlToolsContent: Record<string, SqlToolContent> = {
 			'2-space indent for diffs; 4-space if the team already uses it.',
 			'If the error mentions the default sql dialect, pick PostgreSQL or MySQL instead.',
 			'Dollar-quoted bodies need PostgreSQL. Backticks need MySQL or BigQuery.'
-		]
+		],
+		commonMistakes: [
+			'Reserved words as column names need quoting in that dialect, not in general. `user` and `order` are the usual victims.',
+			'This will not make a bad query fast. It will not bind parameters for you. It will not catch `SELECT *` as a problem.',
+			'Don\'t format a migration and assume the dialect you clicked matches the database that will run it.'
+		],
+		howTo: {
+			lede: [
+				'SQL is not one language. Pretty-print without a dialect will “fix” Postgres into MySQL, then you paste it into prod.',
+				'Pick the dialect first. Then paste. Read the output for the identifier quotes and the limit clause, not for the commas.'
+			],
+			steps: [
+				'Set dialect before format. Postgres uses `"identifiers"` and `LIMIT`. MySQL uses backticks and `LIMIT`. SQL Server uses `[brackets]` and `TOP` / `OFFSET FETCH`. SQLite is its own mix.',
+				'`LIMIT 10` is not `TOP 10` is not `FETCH FIRST 10 ROWS ONLY`. A formatter that rewrites that without asking is lying.',
+				'Trailing commas in `SELECT` lists are not SQL. They\'re a copy-paste from JS. The error will point at the next keyword, not the comma.',
+				'Comments: `--` to end of line, `/* */` block. A `#` comment is MySQL. Don\'t ship it to Postgres.'
+			],
+			breaks: [
+				'Reserved words as column names need quoting in that dialect, not in general. `user` and `order` are the usual victims.',
+				'This will not make a bad query fast. It will not bind parameters for you. It will not catch `SELECT *` as a problem.',
+				'Don\'t format a migration and assume the dialect you clicked matches the database that will run it.'
+			]
+		}
 	},
 	minifier: {
 		features: [

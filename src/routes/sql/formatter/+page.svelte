@@ -12,6 +12,7 @@
 		type KeywordCase
 	} from '$lib/utils/sql';
 	import { sqlToolsContent } from '$lib/config/content/sql-tools-content';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 
 	const content = sqlToolsContent['formatter'];
 
@@ -35,6 +36,10 @@
 
 <ToolWrapper lastUpdated="2026-08-21">
 	<div class="flex flex-col gap-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<ToolActions
 			onSample={() => (input = SAMPLE_SQL)}
 			onClear={() => (input = '')}

@@ -7,6 +7,11 @@ export interface ToolContent {
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
 	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const cronToolsContent: Record<string, ToolContent> = {
@@ -96,10 +101,11 @@ export const cronToolsContent: Record<string, ToolContent> = {
 			'Document a legacy schedule without running it'
 		],
 		concept: {
-			title: 'Vixie OR, Quartz 6-field, and DST',
-			content: `<p><strong>Vixie cron</strong> (Linux crontab, most Unix) is five fields: minute hour day-of-month month day-of-week. When <em>both</em> DOM and DOW are restricted (neither is <code>*</code>), Vixie treats them as <strong>OR</strong>. <code>0 0 1 * 1</code> means "midnight on the 1st of the month, <em>or</em> midnight every Monday", not "Mondays that are also the 1st". People coming from Quartz or from English "and" get this wrong.</p>
-<p><strong>Quartz</strong> (Spring, many Java schedulers) is usually six fields with <strong>seconds first</strong>: second minute hour DOM month DOW, sometimes a seventh year. <code>0 0 12 * * ?</code> is noon every day in Quartz. Paste that into Vixie and the fields shift. Quartz uses <code>?</code> for "no value" on DOM or DOW because it does not OR those fields the Vixie way. <code>L</code>, <code>W</code>, and <code>#</code> are Quartz (and some AWS) extensions, not standard crontab.</p>
-<p><strong>DST:</strong> cron uses the machine timezone. At spring-forward, 02:30 may never exist; the job is skipped. At fall-back, 01:30 may exist twice; some crons fire twice, some once. Kubernetes CronJobs and GitHub Actions use UTC. Do not schedule a local 2 AM job in a DST zone and assume it is daily.</p>`
+			title: 'Five fields is Vixie. Six is Quartz.',
+			content: `<p>Five fields is Vixie. Six is Quartz. If you paste a Quartz expression into crontab, the minutes become hours and the job runs all day.</p>
+<p>Paste the expression. Read the next few run times. If those times look insane, you have the wrong flavor, not a wrong clock.</p>
+<p>Vixie/crontab is <code>minute hour day-of-month month day-of-week</code> (0–6, Sunday = 0 or 7). Quartz is <code>seconds minute hour day-of-month month day-of-week</code> and often a year. In Vixie, day-of-month and day-of-week are OR, not AND. <code>0 0 1 * 1</code> is “the 1st of the month, or every Monday,” not “Monday the 1st.”</p>
+<p><code>*</code> vs <code>?</code>: Quartz needs <code>?</code> in one of the day fields. Vixie has no <code>?</code>. If you see a question mark, this is not crontab. <code>@hourly</code> / <code>@daily</code> are wrappers, not expressions. They are not portable to Quartz.</p>`
 		},
 		examples: [
 			{
@@ -125,20 +131,20 @@ export const cronToolsContent: Record<string, ToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'Why did 0 0 1 * 1 run on a Monday that was not the 1st?',
-				answer: '<p>Vixie cron ORs day-of-month and day-of-week when both are restricted. That expression is "the 1st, or Mondays". Quartz does not work that way; it uses <code>?</code> on one of those fields. Read the man page for crontab(5) if the daemon is Vixie/cronie.</p>'
+				question: 'Why did my Quartz expression wreck crontab?',
+				answer: '<p>Five fields is Vixie. Six is Quartz. If you paste a Quartz expression into crontab, the minutes become hours and the job runs all day. Vixie/crontab is <code>minute hour day-of-month month day-of-week</code> (0–6, Sunday = 0 or 7). Quartz is <code>seconds minute hour day-of-month month day-of-week</code> and often a year.</p>'
 			},
 			{
-				question: 'Is 0 0 12 * * ? valid on Linux crontab?',
-				answer: '<p>No. That is Quartz (seconds + <code>?</code>). Linux wants five fields and has no <code>?</code>. Six numbers in Vixie will shift every field or be rejected.</p>'
+				question: 'Is day-of-month AND day-of-week, or OR?',
+				answer: '<p>In Vixie, day-of-month and day-of-week are OR, not AND. <code>0 0 1 * 1</code> is “the 1st of the month, or every Monday,” not “Monday the 1st.”</p>'
 			},
 			{
-				question: 'Will my 2 AM job run on DST change weekend?',
-				answer: '<p>Maybe not, or twice. Spring-forward skips the missing hour. Fall-back can duplicate it. Schedule in UTC (K8s, GitHub Actions) or pick 3:30 AM local if you must use a DST zone.</p>'
+				question: 'What does a question mark mean? What about @hourly?',
+				answer: '<p><code>*</code> vs <code>?</code>: Quartz needs <code>?</code> in one of the day fields. Vixie has no <code>?</code>. If you see a question mark, this is not crontab. <code>@hourly</code> / <code>@daily</code> are wrappers, not expressions. They are not portable to Quartz.</p>'
 			},
 			{
-				question: 'Sunday is 0 or 7?',
-				answer: '<p>Vixie accepts both 0 and 7 as Sunday. Some parsers only accept 0-6. Do not assume <code>7</code> works in Quartz (often 1-7 with 1 = Sunday).</p>'
+				question: 'Will a job at 02:30 run on DST changeover?',
+				answer: '<p>DST: a job at 02:30 either skips or runs twice on the changeover. Don\'t schedule inside the missing hour. Sunday is 0 or 7 in Vixie and 1 or 7 in Quartz depending on the docs you read. Check the next-run list, don\'t argue with the number. This explains the schedule. It will not tell you if the box was asleep and missed it.</p>'
 			}
 		],
 		relatedTools: [
@@ -152,11 +158,27 @@ export const cronToolsContent: Record<string, ToolContent> = {
 			'Avoid 0 2 * * * in America/New_York. Use 30 7 * * * UTC instead.'
 		],
 		commonMistakes: [
-			'Reading Vixie DOM+DOW as AND',
-			'Pasting a Quartz 6-field string into crontab',
-			'Assuming 2 AM local always exists',
-			'Treating Sunday as 7 on a parser that only allows 0-6'
-		]
+			'DST: a job at 02:30 either skips or runs twice on the changeover. Don\'t schedule inside the missing hour.',
+			'Sunday is 0 or 7 in Vixie and 1 or 7 in Quartz depending on the docs you read. Check the next-run list, don\'t argue with the number.',
+			'This explains the schedule. It will not tell you if the box was asleep and missed it.'
+		],
+		howTo: {
+			lede: [
+				'Five fields is Vixie. Six is Quartz. If you paste a Quartz expression into crontab, the minutes become hours and the job runs all day.',
+				'Paste the expression. Read the next few run times. If those times look insane, you have the wrong flavor, not a wrong clock.'
+			],
+			steps: [
+				'Vixie/crontab is `minute hour day-of-month month day-of-week` (0–6, Sunday = 0 or 7). Quartz is `seconds minute hour day-of-month month day-of-week` and often a year.',
+				'In Vixie, day-of-month and day-of-week are OR, not AND. `0 0 1 * 1` is “the 1st of the month, or every Monday,” not “Monday the 1st.”',
+				'`*` vs `?`: Quartz needs `?` in one of the day fields. Vixie has no `?`. If you see a question mark, this is not crontab.',
+				'`@hourly` / `@daily` are wrappers, not expressions. They are not portable to Quartz.'
+			],
+			breaks: [
+				'DST: a job at 02:30 either skips or runs twice on the changeover. Don\'t schedule inside the missing hour.',
+				'Sunday is 0 or 7 in Vixie and 1 or 7 in Quartz depending on the docs you read. Check the next-run list, don\'t argue with the number.',
+				'This explains the schedule. It will not tell you if the box was asleep and missed it.'
+			]
+		}
 	},
 	validator: {
 		features: [

@@ -152,7 +152,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'HTML Formatter', href: '/html/formatter', description: 'HTML formatter and beautifier online. Format, prettify, or minify HTML with proper indentation. HTML pretty print free in your browser.', icon: 'braces' },
 			{ name: 'HTML → Text', href: '/html/text-extractor', description: 'HTML to plain text converter online. Strip all HTML tags and extract text content only. Remove HTML tags free—get clean text instantly.', icon: 'file-pen' },
 			{ name: 'Element Extractor', href: '/html/element-extractor', description: 'HTML element extractor online. Extract all links, images, meta tags, or scripts from HTML. Parse HTML elements free in your browser.', icon: 'search' },
-			{ name: 'DOM Visualizer', href: '/html/dom-visualizer', description: 'Nested HTML is easy to write and hard to see. If a selector "should work" and doesn\'t, the tree is the problem, not CSS.', icon: 'tree-deciduous' },
+			{ name: 'DOM Visualizer', href: '/html/dom-visualizer', description: 'Nested HTML is easy to write and hard to see. If a selector “should work” and doesn’t, the tree is the problem, not CSS.', icon: 'tree-deciduous' },
 			{ name: 'HTML → JSON', href: '/html/to-json', description: 'HTML to JSON converter online. Convert HTML DOM structure to JSON representation. Parse HTML to JSON object free in your browser.', icon: 'refresh-cw' },
 			{ name: 'Attribute Cleaner', href: '/html/attribute-cleaner', description: 'HTML attribute remover online. Remove inline styles, data attributes, classes, or empty attributes. Clean HTML code free in your browser.', icon: 'broom' },
 			{ name: 'Tag Counter', href: '/html/tag-counter', description: 'HTML tag counter online. Count occurrences of each HTML tag and see element distribution. Analyze HTML structure free.', icon: 'chart-column' }
@@ -288,7 +288,7 @@ export const toolCategories: ToolCategory[] = [
 				name: 'CSV to JSON Converter',
 				href: '/csv/to-json',
 				description:
-					'Convert CSV to JSON with RFC 4180 quotes, EU Excel semicolons, leading zeros as strings, and an array (not NDJSON).',
+					'A comma is not the only separator. Excel in Europe exports semicolons, and a leading zero in a zip code is data until JSON turns it into a number.',
 				icon: 'arrow-right',
 				keywords: [
 					'csv to json',
@@ -406,7 +406,7 @@ export const toolCategories: ToolCategory[] = [
 				name: 'SQL Formatter',
 				href: '/sql/formatter',
 				description:
-					'Pretty-print PostgreSQL, MySQL, SQLite, SQL Server, BigQuery, or Snowflake. Dialect is required; generic SQL will reject $$ or backticks.',
+					'SQL is not one language. Pretty-print without a dialect will “fix” Postgres into MySQL, then you paste it into prod.',
 				icon: 'sparkles',
 				keywords: [
 					'sql formatter',
@@ -555,7 +555,7 @@ export const toolCategories: ToolCategory[] = [
 				name: 'Unix Timestamp Converter',
 				href: '/date/timestamp',
 				description:
-					'Convert Unix seconds (10 digits) vs milliseconds (13 digits). Y2038 notes, plus Postgres, MySQL, and date(1) snippets.',
+					'Ten digits is seconds. Thirteen is milliseconds.',
 				icon: 'timer',
 				keywords: [
 					'unix timestamp',
@@ -773,7 +773,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: 'fingerprint-pattern',
 		description: 'Generate UUID v4/v7, NanoID, and ULID, and validate UUID layout.',
 		items: [
-			{ name: 'UUID Generator', href: '/id/uuid-generator', description: 'Generate UUID v4 (random) or v7 (time-ordered) per RFC 9562. v7 is the better SQL primary key; v4 does not leak created-at.', icon: 'key', keywords: ['uuid v7', 'uuid v4 vs v7', 'rfc 9562', 'uuid primary key'] },
+			{ name: 'UUID Generator', href: '/id/uuid-generator', description: 'v4 is random. v7 is time-ordered.', icon: 'key', keywords: ['uuid v7', 'uuid v4 vs v7', 'rfc 9562', 'uuid primary key'] },
 			{ name: 'UUID Validator', href: '/id/uuid-validator', description: 'Check whether a UUID is valid, detect its version (v1–v7), and see why one fails.', icon: 'check' },
 			{ name: 'NanoID Generator', href: '/id/nanoid-generator', description: 'Generate compact, URL-safe NanoIDs with a custom length and alphabet.', icon: 'zap' },
 			{ name: 'ULID Generator', href: '/id/ulid-generator', description: 'Generate sortable ULIDs with a timestamp component, and see how sorting works.', icon: 'chart-column' }
@@ -785,7 +785,7 @@ export const toolCategories: ToolCategory[] = [
 		description: 'Build, explain, and preview cron expressions, including timezone and DST caveats.',
 		items: [
 			{ name: 'Cron Generator', href: '/cron/generator', description: 'Build 5-field or Quartz cron expressions with a visual builder and presets.', icon: 'wrench' },
-			{ name: 'Cron Explainer', href: '/cron/explainer', description: 'Explain crontab: Vixie DOM+DOW is OR, Quartz is 6-field with seconds first, and DST can skip or double a fire.', icon: 'book-open', keywords: ['cron explainer', 'vixie cron or', 'quartz cron 6 field', 'cron dst'] },
+			{ name: 'Cron Explainer', href: '/cron/explainer', description: 'Five fields is Vixie. Six is Quartz.', icon: 'book-open', keywords: ['cron explainer', 'vixie cron or', 'quartz cron 6 field', 'cron dst'] },
 			{ name: 'Next Run Calculator', href: '/cron/next-run', description: 'Cron next run calculator online. Show next 10 scheduled runs with timezone support. DST-safe cron schedule preview—free cron calculator.', icon: 'calendar' },
 			{ name: 'Cron Validator', href: '/cron/validator', description: 'Validate cron syntax, check field ranges, and get helpful error messages.', icon: 'check' },
 			{ name: 'Cron Presets', href: '/cron/presets', description: 'Cron expression examples and presets. Copy-paste ready cron expressions for common schedules. Every minute, daily, weekly, monthly—cron cheat sheet.', icon: 'clipboard' },
@@ -799,7 +799,7 @@ export const toolCategories: ToolCategory[] = [
 		items: [
 			{ name: 'YAML Validator', href: '/yaml/validator', description: 'Validate YAML syntax with clear line-and-column error messages.', icon: 'check' },
 			{ name: 'YAML Formatter', href: '/yaml/formatter', description: 'Format and beautify YAML with the indentation you prefer.', icon: 'sparkles' },
-			{ name: 'YAML to JSON', href: '/yaml/to-json', description: 'Convert YAML to JSON. Unquoted NO becomes false, comments are dropped, and anchors are inlined.', icon: 'arrow-right', keywords: ['yaml to json', 'norway problem yaml', 'yaml no boolean', 'yaml anchors json'] },
+			{ name: 'YAML to JSON', href: '/yaml/to-json', description: 'YAML is not JSON with comments. `NO` is false, `on` is true, and Norway\'s country code will disappear into a boolean if you don\'t quote it.', icon: 'arrow-right', keywords: ['yaml to json', 'norway problem yaml', 'yaml no boolean', 'yaml anchors json'] },
 			{ name: 'JSON to YAML', href: '/yaml/from-json', description: 'Convert JSON into tidy YAML, with control over indentation.', icon: 'arrow-left' },
 			{ name: 'YAML Diff', href: '/yaml/diff', description: 'Compare two YAML files side by side with structural change highlighting.', icon: 'arrow-left-right' },
 			{ name: 'YAML Linter', href: '/yaml/linter', description: 'Catch duplicate keys, indentation problems, and trailing spaces in YAML.', icon: 'search' },
