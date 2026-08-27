@@ -129,8 +129,7 @@
 				<h1 class="text-2xl font-bold tracking-tight text-base-content">{finalTitle}</h1>
 			</div>
 			{#if lastUpdatedDisplay}
-				<span class="inline-flex items-center gap-1 rounded-full bg-base-200 px-3 py-1 text-xs text-muted shrink-0" title="Content last verified">
-					<AppIcon name="calendar" class="size-4" />
+				<span class="text-xs text-muted shrink-0" title="Content last verified">
 					Updated {lastUpdatedDisplay}
 				</span>
 			{/if}

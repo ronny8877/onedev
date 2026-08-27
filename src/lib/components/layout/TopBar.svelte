@@ -20,7 +20,7 @@
 </script>
 
 <header
-	class="bg-base-100/80 fixed top-0 right-0 left-0 lg:left-80 z-50 flex h-[var(--topbar-height)] items-center border-b border-base-300 px-6 backdrop-blur-md"
+	class="bg-base-100 fixed top-0 right-0 left-0 lg:left-80 z-50 flex h-[var(--topbar-height)] items-center border-b border-base-300 px-6"
 >
 	<div class="flex w-full items-center justify-between">
 		<div class="flex items-center gap-3 pl-12 md:pl-0">
