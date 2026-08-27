@@ -104,7 +104,7 @@
 				<textarea
 					bind:value={hashA}
 					placeholder="Paste first hash..."
-					class="textarea textarea-bordered w-full min-h-[100px] font-mono text-sm rounded-xl resize-none"
+					class="textarea textarea-bordered w-full min-h-[100px] font-mono text-sm bg-base-100 border border-base-300 rounded-lg text-base-content resize-none"
 					spellcheck="false"
 				></textarea>
 				<p class="text-xs text-base-content/50 mt-1">{hashA.trim().length} chars</p>
@@ -114,7 +114,7 @@
 				<textarea
 					bind:value={hashB}
 					placeholder="Paste second hash..."
-					class="textarea textarea-bordered w-full min-h-[100px] font-mono text-sm rounded-xl resize-none"
+					class="textarea textarea-bordered w-full min-h-[100px] font-mono text-sm bg-base-100 border border-base-300 rounded-lg text-base-content resize-none"
 					spellcheck="false"
 				></textarea>
 				<p class="text-xs text-base-content/50 mt-1">{hashB.trim().length} chars</p>
@@ -173,7 +173,7 @@
 		{/if}
 
 		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
+		<div class="card bg-base-100 border border-base-300 rounded-lg">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold">Tips</h4>
 				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
@@ -200,3 +200,13 @@
 		</div>
 	</div>
 </ToolWrapper>
+
+<style>
+	/* Theme .card fills base-200. Keep this Tips card on Hash A/B paper. */
+	.card.rounded-lg {
+		border-radius: 0.5rem;
+	}
+	:global(html[data-theme='lemonade']) .card.rounded-lg {
+		background-color: var(--color-base-100);
+	}
+</style>
