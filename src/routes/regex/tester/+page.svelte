@@ -12,6 +12,7 @@
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 	import { regexToolsContent } from '$lib/config/content/regex-tools-content';
 
 	const content = regexToolsContent['tester'];
@@ -275,6 +276,10 @@ test123@test.io`;
 
 <ToolWrapper>
 	<div class="flex flex-col gap-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} {stats} />
 

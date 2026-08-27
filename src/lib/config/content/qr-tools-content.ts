@@ -7,6 +7,11 @@ export interface QrToolContent {
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
 	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const qrToolsContent: Record<string, QrToolContent> = {
@@ -24,10 +29,11 @@ export const qrToolsContent: Record<string, QrToolContent> = {
 			'See how a logo forces higher error correction'
 		],
 		concept: {
-			title: 'Static QR, WiFi as a password, SVG for print',
-			content: `<p>A QR code is a snapshot of a string. <strong>It does not expire.</strong> If you encode <code>https://example.com/deal</code>, every print still opens that URL until you take the site down or change the path. There is no "QR account" that can revoke a static code. If you need to change the destination later, encode a short URL you control and redirect. Dynamic QR products are just that redirect plus analytics.</p>
-<p>A <strong>WiFi QR</strong> is the network password in a public format: <code>WIFI:T:WPA;S:ssid;P:the-password;H:false;;</code>. Anyone who photographs the fridge magnet has the PSK. Rotate the WiFi password if that code leaked. Do not put a corporate WPA2 key on a conference slide.</p>
-<p><strong>SVG for print.</strong> PNG is a bitmap. Enlarge it and module edges blur; cheap phone cameras fail. SVG is vectors: the same file can be a sticker or a billboard. JPEG is worse because DCT smear eats finder patterns. Keep a quiet zone (light margin) of at least four modules. Dark-on-light still scans more reliably than inverted colors.</p>`
+			title: 'A printed QR does not expire',
+			content: `<p>A printed QR does not expire. If you put a Wi‑Fi password or a one-time login in it, that secret lives as long as the paper does.</p>
+<p>Type the payload. Download SVG for print, PNG for screens. If this is a Wi‑Fi code, treat the PNG like a sticky note with the password on it.</p>
+<p>Static QR, static payload. Changing the URL later means printing again, or using a short link you control. Wi‑Fi QR is <code>WIFI:T:WPA;S:network;P:password;;</code>. The password is in the code. Anyone who scans joins. Don’t tape it on a café window unless that’s the point.</p>
+<p>SVG for print. PNG for slides and chat. A 200px PNG on a poster is why people can’t scan it from a metre away. Error correction (L/M/Q/H) lets you cover a corner with a logo. H survives more damage and makes a denser code. Don’t crank H and then shrink it.</p>`
 		},
 		examples: [
 			{ label: 'Static URL (lives as long as the URL does)', code: 'https://onedev.tools/qr/generator', isValid: true },
@@ -37,19 +43,19 @@ export const qrToolsContent: Record<string, QrToolContent> = {
 		faqs: [
 			{
 				question: 'Can I expire or edit a QR after printing?',
-				answer: '<p>Not a static one. The bits are the payload. To change destination, print a new code or encode a redirect you still own. Stickers on a warehouse wall from 2019 still open whatever URL they encoded.</p>'
+				answer: '<p>A printed QR does not expire. If you put a Wi‑Fi password or a one-time login in it, that secret lives as long as the paper does. Static QR, static payload. Changing the URL later means printing again, or using a short link you control.</p>'
 			},
 			{
-				question: 'Is a WiFi QR safe to post in a cafe window?',
-				answer: '<p>It is equivalent to writing the password on the glass. Fine for a guest SSID you expect to share. Not fine for a network that also reaches file shares. Use a guest VLAN if you must print it.</p>'
+				question: 'Is a Wi‑Fi QR safe to post in a café window?',
+				answer: '<p>Wi‑Fi QR is <code>WIFI:T:WPA;S:network;P:password;;</code>. The password is in the code. Anyone who scans joins. Don’t tape it on a café window unless that’s the point. If this is a Wi‑Fi code, treat the PNG like a sticky note with the password on it.</p>'
 			},
 			{
 				question: 'PNG or SVG for a poster?',
-				answer: '<p>SVG. Scale freely. PNG only if the size in pixels is already larger than the print at 300 DPI. Never JPEG for a QR.</p>'
+				answer: '<p>SVG for print. PNG for slides and chat. A 200px PNG on a poster is why people can’t scan it from a metre away. Error correction (L/M/Q/H) lets you cover a corner with a logo. H survives more damage and makes a denser code. Don’t crank H and then shrink it.</p>'
 			},
 			{
-				question: 'Does a logo break scanning?',
-				answer: '<p>Only if it covers finder squares or too many modules. This generator raises error correction toward H when a logo is present. Keep the mark in the center, under about 30% of the code.</p>'
+				question: 'Why won’t phones scan it?',
+				answer: '<p>Too much text (a full vCard with a photo) makes a dense code that cheap cameras miss. Shorten the payload, don’t just enlarge the PNG. Screen-of-a-screen scans fail. Don’t photograph a QR off another monitor if you can paste the URL. This does not make a tracking link. If you need “this poster vs that poster,” use two URLs, not two colors.</p>'
 			}
 		],
 		relatedTools: [
@@ -63,11 +69,27 @@ export const qrToolsContent: Record<string, QrToolContent> = {
 			'Short URLs make sparse codes that survive cheap cameras.'
 		],
 		commonMistakes: [
-			'Encoding a campaign URL you cannot redirect later',
-			'Printing a corporate WiFi password as a QR',
-			'Using a small JPEG on a large poster',
-			'Covering a finder square with a logo'
-		]
+			'Too much text (a full vCard with a photo) makes a dense code that cheap cameras miss. Shorten the payload, don’t just enlarge the PNG.',
+			'Screen-of-a-screen scans fail. Don’t photograph a QR off another monitor if you can paste the URL.',
+			'This does not make a tracking link. If you need “this poster vs that poster,” use two URLs, not two colors.'
+		],
+		howTo: {
+			lede: [
+				'A printed QR does not expire. If you put a Wi‑Fi password or a one-time login in it, that secret lives as long as the paper does.',
+				'Type the payload. Download SVG for print, PNG for screens. If this is a Wi‑Fi code, treat the PNG like a sticky note with the password on it.'
+			],
+			steps: [
+				'Static QR, static payload. Changing the URL later means printing again, or using a short link you control.',
+				'Wi‑Fi QR is `WIFI:T:WPA;S:network;P:password;;`. The password is in the code. Anyone who scans joins. Don’t tape it on a café window unless that’s the point.',
+				'SVG for print. PNG for slides and chat. A 200px PNG on a poster is why people can’t scan it from a metre away.',
+				'Error correction (L/M/Q/H) lets you cover a corner with a logo. H survives more damage and makes a denser code. Don’t crank H and then shrink it.'
+			],
+			breaks: [
+				'Too much text (a full vCard with a photo) makes a dense code that cheap cameras miss. Shorten the payload, don’t just enlarge the PNG.',
+				'Screen-of-a-screen scans fail. Don’t photograph a QR off another monitor if you can paste the URL.',
+				'This does not make a tracking link. If you need “this poster vs that poster,” use two URLs, not two colors.'
+			]
+		}
 	},
 
 	reader: {

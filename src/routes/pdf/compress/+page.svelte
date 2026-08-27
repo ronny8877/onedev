@@ -10,6 +10,8 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 	import type { PDFDocument } from 'pdf-lib';
 
 	const content = pdfToolsContent.compress;
@@ -54,6 +56,10 @@
 
 <ToolWrapper lastUpdated="2025-06-01">
 	<div class="flex flex-col gap-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<ToolActions onSample={loadSample} onClear={reset} />
 
 		{#if !file}
@@ -96,6 +102,9 @@
 			<ConceptExplainer title={content.concept.title} content={content.concept.content} />
 			<Examples examples={content.examples} />
 			<FAQSection faqs={content.faqs} />
+			{#if content.commonMistakes}
+				<CommonMistakes mistakes={content.commonMistakes} />
+			{/if}
 			{#if content.tips}<Tips tips={content.tips} />{/if}
 			<RelatedTools relatedTools={content.relatedTools} />
 		</div>

@@ -6,6 +6,12 @@ export interface CsvToolContent {
 	faqs: Array<{ question: string; answer: string }>;
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
+	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const csvToolsContent: Record<string, CsvToolContent> = {
@@ -23,11 +29,11 @@ export const csvToolsContent: Record<string, CsvToolContent> = {
 			'Know you got an array, not newline-delimited JSON, for fetch().json()'
 		],
 		concept: {
-			title: 'Quotes, semicolons, NDJSON, and leading zeros',
-			content: `<p><strong>RFC 4180</strong> says a field that contains the delimiter, a quote, or a line break must be wrapped in double quotes, and a literal quote is doubled (<code>""</code>). <code>name,city</code> plus a row <code>"Lovelace, Ada",London</code> is two columns, not three. An unclosed quote is an error, not a creative parse.</p>
-<p><strong>EU Excel</strong> often exports with <strong>semicolon</strong> because comma is the decimal mark. Auto-detect looks at the first lines. If it guesses comma on a <code>;</code> file, every row becomes one column. Switch the delimiter. A UTF-8 BOM from Excel is stripped so the first header is not <code>\\uFEFFid</code>.</p>
-<p><strong>NDJSON vs array:</strong> this converter emits one JSON <strong>array</strong> of objects. That is what <code>JSON.parse</code> of the whole paste expects. NDJSON is one object per line with no wrapping <code>[ ]</code>, used by log pipelines. Pasting this output into a tool that reads NDJSON will fail, and pasting NDJSON here will not look like CSV.</p>
-<p><strong>Leading zeros:</strong> cells stay strings. <code>00123</code> does not become <code>123</code>. Parse to numbers in your app when you know the column type. Duplicate headers: later column wins on the object, same as JSON.parse duplicate keys.</p>`
+			title: 'A comma is not the only separator',
+			content: `<p>A comma is not the only separator. Excel in Europe exports semicolons, and a leading zero in a zip code is data until JSON turns it into a number.</p>
+<p>Paste the CSV. Check the first object. If <code>06401</code> became <code>6401</code>, the types are wrong, not the file.</p>
+<p>RFC 4180 is comma-separated, <code>"</code> to quote, doubled <code>""</code> for a literal quote. If your file uses <code>;</code>, that's EU Excel. Switch the delimiter before you convert. Keep leading zeros as strings. Zip codes, phone numbers, account IDs. A number has no leading zero.</p>
+<p>A header row becomes keys. Two headers with the same name collide. Empty headers become <code>field2</code>, <code>field3</code>, not useful names. NDJSON (one JSON object per line) is not CSV. If every line already starts with <code>{</code>, you're in the wrong tool.</p>`
 		},
 		examples: [
 			{ label: 'RFC 4180 quoted comma', code: 'name,city\n"Lovelace, Ada",London', isValid: true },
@@ -38,20 +44,20 @@ export const csvToolsContent: Record<string, CsvToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'Why is my whole row one field?',
-				answer: '<p>The file is probably semicolon-delimited (Excel in many EU locales) and the parser expected commas. Set the delimiter to semicolon. Tabs are TSV; pipes show up in some exports.</p>'
+				question: 'Why did 06401 become 6401?',
+				answer: '<p>A comma is not the only separator. Excel in Europe exports semicolons, and a leading zero in a zip code is data until JSON turns it into a number. Paste the CSV. Check the first object. If <code>06401</code> became <code>6401</code>, the types are wrong, not the file. Keep leading zeros as strings. Zip codes, phone numbers, account IDs. A number has no leading zero.</p>'
 			},
 			{
-				question: 'Will ZIP codes lose the leading zero?',
-				answer: '<p>Not here. Every value is a JSON string. If you later <code>JSON.parse</code> then treat the field as a Number, <em>that</em> drop happens in your code.</p>'
+				question: 'My file uses semicolons. Is that CSV?',
+				answer: '<p>RFC 4180 is comma-separated, <code>"</code> to quote, doubled <code>""</code> for a literal quote. If your file uses <code>;</code>, that\'s EU Excel. Switch the delimiter before you convert.</p>'
 			},
 			{
-				question: 'Is the output NDJSON?',
-				answer: '<p>No. It is a single JSON array. NDJSON would be one object per line without brackets. Use an array for typical REST mocks; use NDJSON only if your consumer is a log shipper that reads lines.</p>'
+				question: 'What happens to headers? Is NDJSON CSV?',
+				answer: '<p>A header row becomes keys. Two headers with the same name collide. Empty headers become <code>field2</code>, <code>field3</code>, not useful names. NDJSON (one JSON object per line) is not CSV. If every line already starts with <code>{</code>, you\'re in the wrong tool.</p>'
 			},
 			{
-				question: 'How do quoted quotes work?',
-				answer: '<p>Inside a quoted field, <code>""</code> is one <code>"</code>. Example: <code>"She said ""hi"""</code> is the cell <code>She said "hi"</code>.</p>'
+				question: 'Why does a quoted newline look like a broken row?',
+				answer: '<p>A newline inside a quoted field is legal CSV and looks like a broken row. Don\'t split on <code>\\n</code> yourself. Mixed line endings (CRLF from Windows Excel) usually parse. A stray UTF-8 BOM in the first key does not. If the first key is <code>\\ufeffName</code>, strip the BOM. This does not make a schema. Types are guessed. Guessing is how zip codes die.</p>'
 			}
 		],
 		relatedTools: [
@@ -63,7 +69,29 @@ export const csvToolsContent: Record<string, CsvToolContent> = {
 			'Keep a header row. Headerless CSV becomes column_1, column_2.',
 			'If Excel opened the CSV and wrecked leading zeros, convert from the original export, not the resaved xlsx.',
 			'Do not paste NDJSON logs into a CSV converter.'
-		]
+		],
+		commonMistakes: [
+			'A newline inside a quoted field is legal CSV and looks like a broken row. Don\'t split on `\\n` yourself.',
+			'Mixed line endings (CRLF from Windows Excel) usually parse. A stray UTF-8 BOM in the first key does not. If the first key is `\\ufeffName`, strip the BOM.',
+			'This does not make a schema. Types are guessed. Guessing is how zip codes die.'
+		],
+		howTo: {
+			lede: [
+				'A comma is not the only separator. Excel in Europe exports semicolons, and a leading zero in a zip code is data until JSON turns it into a number.',
+				'Paste the CSV. Check the first object. If `06401` became `6401`, the types are wrong, not the file.'
+			],
+			steps: [
+				'RFC 4180 is comma-separated, `"` to quote, doubled `""` for a literal quote. If your file uses `;`, that\'s EU Excel. Switch the delimiter before you convert.',
+				'Keep leading zeros as strings. Zip codes, phone numbers, account IDs. A number has no leading zero.',
+				'A header row becomes keys. Two headers with the same name collide. Empty headers become `field2`, `field3`, not useful names.',
+				'NDJSON (one JSON object per line) is not CSV. If every line already starts with `{`, you\'re in the wrong tool.'
+			],
+			breaks: [
+				'A newline inside a quoted field is legal CSV and looks like a broken row. Don\'t split on `\\n` yourself.',
+				'Mixed line endings (CRLF from Windows Excel) usually parse. A stray UTF-8 BOM in the first key does not. If the first key is `\\ufeffName`, strip the BOM.',
+				'This does not make a schema. Types are guessed. Guessing is how zip codes die.'
+			]
+		}
 	},
 	'from-json': {
 		features: [

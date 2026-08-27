@@ -8,6 +8,11 @@ interface HashToolContent {
 	tips?: string[];
 	commonMistakes?: string[];
 	lastUpdated?: string;
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const hashToolsContent: Record<string, HashToolContent> = {
@@ -26,10 +31,11 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 			'HMAC belongs on the HMAC page; this page is unkeyed hashes'
 		],
 		concept: {
-			title: 'MD5 and SHA-1 are broken; hashes are not for passwords',
-			content: `<p><strong>MD5</strong> (1992) and <strong>SHA-1</strong> (1995) are collision-broken. Chosen-prefix collisions are practical. Browsers and CAs rejected SHA-1 certificates years ago. Git still uses SHA-1 historically; that is not a reason to hash passwords or sign new artifacts with it. For integrity of a file you already trust the publisher of, SHA-256 is the default. CRC32 is an error-detecting checksum, not a cryptographic hash at all.</p>
-<p><strong>Do not hash passwords with anything on this page.</strong> MD5(password), SHA-1(password), even SHA-256(password) are fast and unsalted. Attackers use GPUs and rainbow tables. Password storage needs a slow KDF: Argon2id, bcrypt, or scrypt, with a unique salt per user. The security tools section covers that. A 32-character hex SHA-256 of "admin123" is a demo of the avalanche effect, not a login scheme.</p>
-<p>Hashing is one-way. Encryption is two-way with a key. You cannot "decrypt" a digest. If two files share an MD5, that can be an attack, not a coincidence you ignore.</p>`
+			title: 'SHA-512 is not password storage',
+			content: `<p>SHA-512 is not password storage. MD5 is not integrity. A hex digest is a fingerprint of bytes, not a lock, and treating it as either is how leaks happen.</p>
+<p>Paste the text (or pick a file). Read the algorithm name before you copy the hex. If this is a password, stop and use Argon2 or bcrypt instead.</p>
+<p>Checksums for “did the download match”: SHA-256 or SHA-512. Compare against the vendor’s published digest on <code>/hash/compare</code>. MD5 and SHA-1 are broken for anything adversarial. They still catch accidental bit flips. They do not stop someone who wanted a collision. Same bytes, same digest, always. One flipped bit, a different digest. If two files match on SHA-256, they are the same bytes.</p>
+<p>Hex vs Base64 is encoding of the digest, not a different hash. Don’t mix them in a compare.</p>`
 		},
 		examples: [
 			{
@@ -50,20 +56,20 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'Can I use MD5 for passwords?',
-				answer: '<p>No. MD5 is fast and broken for collisions. Unsalted SHA-256 is also wrong for passwords. Use Argon2id or bcrypt in the application, never a general-purpose digest from this page.</p>'
+				question: 'Can I use SHA-512 or SHA-256 for passwords?',
+				answer: '<p>SHA-512 is not password storage. MD5 is not integrity. A hex digest is a fingerprint of bytes, not a lock, and treating it as either is how leaks happen. If this is a password, stop and use Argon2 or bcrypt instead. Do not hash passwords with SHA-256 or SHA-512, “even with a salt you invented.” Use a password hash (Argon2, bcrypt, scrypt). Fast hashes are a feature for checksums and a bug for passwords.</p>'
 			},
 			{
-				question: 'Is SHA-1 OK for Git?',
-				answer: '<p>Git still names commits with SHA-1 (and is moving). That is a content address, not password storage and not a TLS certificate. For new file checksums you publish, prefer SHA-256.</p>'
+				question: 'Which algorithm should I use for a download checksum?',
+				answer: '<p>Checksums for “did the download match”: SHA-256 or SHA-512. Compare against the vendor’s published digest on <code>/hash/compare</code>. MD5 and SHA-1 are broken for anything adversarial. They still catch accidental bit flips. They do not stop someone who wanted a collision.</p>'
 			},
 			{
-				question: 'Why does CRC32 look short?',
-				answer: '<p>32 bits. Fine for zip/ethernet-style accidental corruption. Trivial to collide on purpose. Do not use it to authenticate.</p>'
+				question: 'If two SHA-256 hashes match, are the files the same?',
+				answer: '<p>Same bytes, same digest, always. One flipped bit, a different digest. If two files match on SHA-256, they are the same bytes. Hex vs Base64 is encoding of the digest, not a different hash. Don’t mix them in a compare.</p>'
 			},
 			{
-				question: 'Hash vs HMAC vs encryption?',
-				answer: '<p>Hash: unkeyed digest. HMAC: keyed digest (API signatures). Encryption: reversible with a key. This generator is unkeyed hashes only.</p>'
+				question: 'Is this HMAC? Why did a large file freeze the tab?',
+				answer: '<p>HMAC is not this page. If you needed a signature with a secret, you needed HMAC, not a raw digest. File hashing should not freeze the tab. If it does, the work is still on the main thread; that’s a bug in the tool, not in your file.</p>'
 			}
 		],
 		tips: [
@@ -72,10 +78,27 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 			'Hex vs Base64 is presentation. The bits are the same digest.'
 		],
 		commonMistakes: [
-			'Storing SHA-256(password) in a user table',
-			'Treating MD5 as "good enough" because the output looks random',
-			'Confusing a hash with encryption and asking how to decode it'
+			'Do not hash passwords with SHA-256 or SHA-512, “even with a salt you invented.” Use a password hash (Argon2, bcrypt, scrypt). Fast hashes are a feature for checksums and a bug for passwords.',
+			'HMAC is not this page. If you needed a signature with a secret, you needed HMAC, not a raw digest.',
+			'File hashing should not freeze the tab. If it does, the work is still on the main thread; that’s a bug in the tool, not in your file.'
 		],
+		howTo: {
+			lede: [
+				'SHA-512 is not password storage. MD5 is not integrity. A hex digest is a fingerprint of bytes, not a lock, and treating it as either is how leaks happen.',
+				'Paste the text (or pick a file). Read the algorithm name before you copy the hex. If this is a password, stop and use Argon2 or bcrypt instead.'
+			],
+			steps: [
+				'Checksums for “did the download match”: SHA-256 or SHA-512. Compare against the vendor’s published digest on `/hash/compare`.',
+				'MD5 and SHA-1 are broken for anything adversarial. They still catch accidental bit flips. They do not stop someone who wanted a collision.',
+				'Same bytes, same digest, always. One flipped bit, a different digest. If two files match on SHA-256, they are the same bytes.',
+				'Hex vs Base64 is encoding of the digest, not a different hash. Don’t mix them in a compare.'
+			],
+			breaks: [
+				'Do not hash passwords with SHA-256 or SHA-512, “even with a salt you invented.” Use a password hash (Argon2, bcrypt, scrypt). Fast hashes are a feature for checksums and a bug for passwords.',
+				'HMAC is not this page. If you needed a signature with a secret, you needed HMAC, not a raw digest.',
+				'File hashing should not freeze the tab. If it does, the work is still on the main thread; that’s a bug in the tool, not in your file.'
+			]
+		},
 		relatedTools: [
 			{ name: 'JWT Decoder', path: '/jwt/decoder', description: 'HS256 is HMAC-SHA-256 of the token, not a password hash' },
 			{ name: 'PDF Compress', path: '/pdf/compress', description: 'Checksum the file after you shrink it' },
@@ -421,23 +444,24 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 	'compare': {
 		lastUpdated: '2026-05-07',
 		features: [
-			'Side-by-side hash comparison for quick visual verification',
-			'Automatic case-insensitive matching (handles uppercase vs lowercase hex)',
-			'Automatic whitespace and newline trimming',
-			'Clear visual diff indicators (Green/Red validation)',
-			'Client-side processing for privacy'
+			'Side-by-side Hash A and Hash B with a clear match or mismatch',
+			'Ignore case is on for hex: `5D41…` and `5d41…` are the same digest',
+			'Ignore whitespace is on so a trailing newline is not a mismatch',
+			'Character-level visual diff when the normalized strings still differ',
+			'Does not treat SHA-512 as password storage'
 		],
 		useCases: [
-			'Manually verifying a downloaded Linux ISO or software binary',
-			'Comparing a generated webhook signature against an expected signature',
-			'Checking if two files are identical by comparing their MD5 or SHA-256 hashes',
-			'Debugging encoding issues across different systems'
+			'Checking a downloaded ISO checksum without eyeballing 64 hex characters',
+			'Comparing two digests that differ only in case or a trailing newline',
+			'Catching MD5 vs SHA-256 or hex vs Base64 before calling it a mismatch',
+			'Seeing that Windows CRLF and Linux LF hash as two different files'
 		],
 		concept: {
-			title: 'Understanding Hash Comparison',
-			content: `<p>A core property of cryptographic hashing is that hashes must match <strong>exactly</strong>. A single bit difference in the source data results in a completely different hash string (the avalanche effect). Therefore, comparing hashes is the definitive way to prove two pieces of data are identical without comparing the data itself.</p>
-			<p>However, hash <em>strings</em> can sometimes differ in their visual representation without altering their underlying byte value. For example, <code>AABBCC</code> (uppercase hexadecimal) represents the exact same bytes as <code>aabbcc</code> (lowercase). Furthermore, copying a hash from a website often accidentally includes trailing spaces or hidden newline characters.</p>
-			<p>This tool normalizes the text (removing whitespace and unifying case) before performing a strict comparison, preventing false negatives caused by formatting artifacts.</p>`
+			title: 'Two hashes can look the same and still differ',
+			content: `<p>Two hashes can look the same and still differ by one character, and they can look different and still be the same bytes. Eyeballing a 64-character hex string is how a bad ISO ships.</p>
+			<p>Paste Hash A and Hash B. Ignore case and ignore whitespace are on because a checksum page almost always adds a newline or switches case. Leave Ignore case on for hex. <code>5D41…</code> and <code>5d41…</code> are the same digest. Leave Ignore whitespace on. A trailing newline is not a mismatch.</p>
+			<p>Same algorithm, same encoding. MD5 vs SHA-256 never matches. Hex vs Base64 of the same digest never matches until you decode one. If they still fail, the inputs were not the same bytes. Windows CRLF vs Linux LF hashes as two different files.</p>
+			<p>A match on SHA-256 or SHA-512 means the bytes are the same. A match on MD5 or SHA-1 is almost certainly the same file, unless someone engineered a collision. This is not password checking. Do not treat SHA-512 as secure password storage.</p>`
 		},
 		examples: [
 			{
@@ -453,21 +477,51 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'If two hashes match, are the files definitely identical?',
-				answer: '<p>For SHA-256 or SHA-512, yes, you can be mathematically certain the files are identical. For MD5 or SHA-1, it is extremely likely they are identical, unless you are dealing with a highly sophisticated attacker who has intentionally engineered a collision attack.</p>'
+				question: 'If two hashes match, are the files the same?',
+				answer: '<p>A match on SHA-256 or SHA-512 means the bytes are the same. A match on MD5 or SHA-1 is almost certainly the same file, unless someone engineered a collision.</p>'
 			},
 			{
-				question: 'Why does my hash comparison fail even though they look similar?',
-				answer: '<p>Ensure you are comparing the exact same algorithm output. Comparing an MD5 hash to a SHA-256 hash will always fail. Also, check if one hash is Base64 encoded while the other is Hexadecimal encoded.</p>'
+				question: 'Why are Ignore case and Ignore whitespace on?',
+				answer: '<p>Paste Hash A and Hash B. Ignore case and ignore whitespace are on because a checksum page almost always adds a newline or switches case. Leave Ignore case on for hex. <code>5D41…</code> and <code>5d41…</code> are the same digest. Leave Ignore whitespace on. A trailing newline is not a mismatch.</p>'
+			},
+			{
+				question: 'Why do my hashes still fail?',
+				answer: '<p>Same algorithm, same encoding. MD5 vs SHA-256 never matches. Hex vs Base64 of the same digest never matches until you decode one. If they still fail, the inputs were not the same bytes. Windows CRLF vs Linux LF hashes as two different files.</p>'
+			},
+			{
+				question: 'Is this password checking? Is SHA-512 password storage?',
+				answer: '<p>This is not password checking. Do not treat SHA-512 as secure password storage.</p>'
+			},
+			{
+				question: 'Why does a JavaScript === comparison reject hashes that look equal?',
+				answer: '<p>Don\'t <code>===</code> raw hex in JS without normalizing case. That\'s why auth scripts reject hashes that are actually equal.</p>'
 			}
 		],
 		tips: [
-			'When manually checking hashes from software download pages, always use this tool rather than "eyeballing" it. Humans are notoriously bad at spotting a single changed character in a 64-character string.'
+			'Two hashes can look the same and still differ by one character, and they can look different and still be the same bytes. Eyeballing a 64-character hex string is how a bad ISO ships.'
 		],
 		commonMistakes: [
-			'Using `===` in JavaScript or `==` in Python to compare hashes without normalizing to lowercase first, leading to unexpected failures in authentication scripts.',
-			'Comparing hashes of files generated on Windows vs Linux without accounting for line ending differences (CRLF vs LF), which will produce completely different hashes.'
+			'A match on SHA-256 or SHA-512 means the bytes are the same. A match on MD5 or SHA-1 is almost certainly the same file, unless someone engineered a collision.',
+			'This is not password checking. Do not treat SHA-512 as secure password storage.',
+			"Don't `===` raw hex in JS without normalizing case. That's why auth scripts reject hashes that are actually equal."
 		],
+		howTo: {
+			lede: [
+				'Two hashes can look the same and still differ by one character, and they can look different and still be the same bytes.',
+				'Paste Hash A and Hash B. Ignore case and ignore whitespace are on because a checksum page almost always adds a newline or switches case.'
+			],
+			steps: [
+				'Same algorithm, same encoding. MD5 vs SHA-256 never matches. Hex vs Base64 of the same digest never matches until you decode one.',
+				'Leave Ignore case on for hex. `5D41…` and `5d41…` are the same digest.',
+				'Leave Ignore whitespace on. A trailing newline is not a mismatch.',
+				'If they still fail, the inputs were not the same bytes. Windows CRLF vs Linux LF hashes as two different files.'
+			],
+			breaks: [
+				'A match on SHA-256 or SHA-512 means the bytes are the same. A match on MD5 or SHA-1 is almost certainly the same file, unless someone engineered a collision.',
+				'This is not password checking. Do not treat SHA-512 as secure password storage.',
+				"Don't `===` raw hex in JS without normalizing case. That's why auth scripts reject hashes that are actually equal."
+			]
+		},
 		relatedTools: [
 			{ name: 'File Checksum', path: '/hash/file-checksum', description: 'Generate the hash of a file to compare.' },
 			{ name: 'String Compare', path: '/text/string-compare', description: 'Visually highlight the exact character differences between two long strings.' }

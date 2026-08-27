@@ -5,6 +5,7 @@
 	import SelectMenu from '$lib/components/ui/SelectMenu.svelte';
 	import { parseInstant, formatBundle, listTimeZones, toUnix } from '$lib/utils/datetime';
 	import { dateToolsContent } from '$lib/config/content/date-tools-content';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 
 	const content = dateToolsContent['timestamp'];
 	const zones = listTimeZones();
@@ -23,6 +24,10 @@
 
 <ToolWrapper lastUpdated="2026-08-20">
 	<div class="flex flex-col gap-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<ToolActions
 			onSample={() => (input = String(Math.floor(Date.now() / 1000)))}
 			onClear={() => (input = '')}

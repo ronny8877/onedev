@@ -8,6 +8,11 @@ export interface YamlToolContent {
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
 	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const yamlToolsContent: Record<string, YamlToolContent> = {
@@ -316,11 +321,11 @@ export const yamlToolsContent: Record<string, YamlToolContent> = {
 			'Turn a multi-doc Kubernetes dump into a JSON array'
 		],
 		concept: {
-			title: 'Norway, comments, and inlined anchors',
-			content: `<p>YAML to JSON is parse-then-serialize. YAML features that JSON cannot represent are dropped or expanded. That is not a bug in the converter; it is the type system.</p>
-<p><strong>The Norway problem:</strong> YAML 1.1 (and many parsers still in 1.1 mode) treat <code>NO</code>, <code>No</code>, <code>off</code>, <code>yes</code>, <code>on</code> as booleans. A country code field <code>country: NO</code> becomes <code>"country": false</code> in JSON. Quote it: <code>country: "NO"</code>. ISO country lists and Travis-style <code>on</code>/<code>off</code> keys are the usual victims. YAML 1.2 is stricter; js-yaml historically followed 1.1-ish rules for these scalars.</p>
-<p><strong>Comments</strong> (<code># ...</code>) have no JSON equivalent. Re-serialize and they are gone. If the comment was the only documentation, keep the YAML as source of truth.</p>
-<p><strong>Anchors</strong> (<code>&name</code>) and <strong>aliases</strong> (<code>*name</code>) are inlined. The JSON repeats the mapped value. Merge keys (<code>&lt;&lt;: *defaults</code>) are expanded too. You cannot round-trip back to the original YAML with aliases intact.</p>`
+			title: 'YAML is not JSON with comments',
+			content: `<p>YAML is not JSON with comments. <code>NO</code> is false, <code>on</code> is true, and Norway's country code will disappear into a boolean if you don't quote it.</p>
+<p>Paste YAML. Read the JSON. If a value you typed as a string became <code>true</code>, <code>false</code>, or <code>null</code>, quote it and convert again.</p>
+<p>Quote anything that looks like a boolean, null, or number: <code>NO</code>, <code>Yes</code>, <code>off</code>, <code>on</code>, <code>null</code>, <code>1.0</code>, <code>08</code>. Country codes and IDs go in quotes. Always. Comments (<code># …</code>) are dropped. JSON has nowhere to put them. If the comment was the point, don't convert.</p>
+<p>Anchors and aliases (<code>&amp;id</code>, <code>*id</code>) get inlined. The duplicate is real data in JSON, not a reference. Tabs are illegal. Indent with spaces. A tab looks fine in the editor and blows up the parse.</p>`
 		},
 		examples: [
 			{ label: 'Norway: unquoted NO becomes false', code: 'country: NO\n# JSON: {"country": false}', isValid: true },
@@ -330,20 +335,20 @@ export const yamlToolsContent: Record<string, YamlToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'Why is my country code false?',
-				answer: '<p>Unquoted <code>NO</code>, <code>No</code>, or <code>no</code> is a boolean in YAML 1.1. Quote it. The same trap exists for <code>yes</code>, <code>on</code>, <code>off</code>, and sometimes <code>null</code>/<code>~</code>.</p>'
+				question: 'Why did NO become false?',
+				answer: '<p>YAML is not JSON with comments. <code>NO</code> is false, <code>on</code> is true, and Norway\'s country code will disappear into a boolean if you don\'t quote it. Quote anything that looks like a boolean, null, or number: <code>NO</code>, <code>Yes</code>, <code>off</code>, <code>on</code>, <code>null</code>, <code>1.0</code>, <code>08</code>. Country codes and IDs go in quotes. Always. If a value you typed as a string became <code>true</code>, <code>false</code>, or <code>null</code>, quote it and convert again.</p>'
 			},
 			{
-				question: 'Where did my comments go?',
-				answer: '<p>JSON has no comment syntax. Conversion discards them. Keep YAML if humans need those notes; generate JSON as a build artifact.</p>'
+				question: 'Where did my comments and anchors go?',
+				answer: '<p>Comments (<code># …</code>) are dropped. JSON has nowhere to put them. If the comment was the point, don\'t convert. Anchors and aliases (<code>&amp;id</code>, <code>*id</code>) get inlined. The duplicate is real data in JSON, not a reference.</p>'
 			},
 			{
-				question: 'What happens to YAML anchors?',
-				answer: '<p>They are inlined. Each alias becomes a full copy of the anchored node. Shared structure becomes duplicated JSON. That can inflate large Helm values files.</p>'
+				question: 'Why did the parse blow up on a line that looks fine?',
+				answer: '<p>Tabs are illegal. Indent with spaces. A tab looks fine in the editor and blows up the parse.</p>'
 			},
 			{
-				question: 'Can I convert a multi-document file?',
-				answer: '<p>Documents separated by <code>---</code> become a JSON array, one element per document. A single document stays an object or array, not wrapped.</p>'
+				question: 'What about duplicate keys and multiline?',
+				answer: '<p>Duplicate keys: last one wins, quietly. The JSON will not show you the first. Multiline (<code>|</code> vs <code>&gt;</code>): one keeps newlines, one folds them. Pick on purpose. Version 1.1 vs 1.2 boolean rules differ. If <code>NO</code> survived, you got 1.2 or a quoted string. If it died, you got 1.1.</p>'
 			}
 		],
 		relatedTools: [
@@ -357,10 +362,27 @@ export const yamlToolsContent: Record<string, YamlToolContent> = {
 			'If JSON output shows false for a country field, that is Norway, not a missing value.'
 		],
 		commonMistakes: [
-			'Leaving country: NO unquoted',
-			'Expecting # comments in the JSON',
-			'Assuming aliases remain references instead of copies'
-		]
+			'Duplicate keys: last one wins, quietly. The JSON will not show you the first.',
+			'Multiline (`|` vs `>`): one keeps newlines, one folds them. Pick on purpose.',
+			'Version 1.1 vs 1.2 boolean rules differ. If `NO` survived, you got 1.2 or a quoted string. If it died, you got 1.1.'
+		],
+		howTo: {
+			lede: [
+				'YAML is not JSON with comments. `NO` is false, `on` is true, and Norway\'s country code will disappear into a boolean if you don\'t quote it.',
+				'Paste YAML. Read the JSON. If a value you typed as a string became `true`, `false`, or `null`, quote it and convert again.'
+			],
+			steps: [
+				'Quote anything that looks like a boolean, null, or number: `NO`, `Yes`, `off`, `on`, `null`, `1.0`, `08`. Country codes and IDs go in quotes. Always.',
+				'Comments (`# …`) are dropped. JSON has nowhere to put them. If the comment was the point, don\'t convert.',
+				'Anchors and aliases (`&id`, `*id`) get inlined. The duplicate is real data in JSON, not a reference.',
+				'Tabs are illegal. Indent with spaces. A tab looks fine in the editor and blows up the parse.'
+			],
+			breaks: [
+				'Duplicate keys: last one wins, quietly. The JSON will not show you the first.',
+				'Multiline (`|` vs `>`): one keeps newlines, one folds them. Pick on purpose.',
+				'Version 1.1 vs 1.2 boolean rules differ. If `NO` survived, you got 1.2 or a quoted string. If it died, you got 1.1.'
+			]
+		}
 	},
 
 	'to-env': {

@@ -13,6 +13,7 @@
 	import Tips from '$lib/components/content/Tips.svelte';
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
 	import { idToolsContent } from '$lib/config/content/id-tools-content';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 
 	const content = idToolsContent['uuid-generator'];
 
@@ -219,6 +220,10 @@
 
 <ToolWrapper>
 	<div class="flex flex-col gap-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} />
 

@@ -24,6 +24,11 @@ interface ToolContent {
 	}>;
 	tips?: string[];
 	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const jsonToolsContent: Record<string, ToolContent> = {
@@ -44,11 +49,11 @@ export const jsonToolsContent: Record<string, ToolContent> = {
 			'Pretty-print a payload before a code review without changing values'
 		],
 		concept: {
-			title: 'What JSON.parse actually does to your paste',
-			content: `<p>Pretty-printing JSON is <code>JSON.parse</code> then <code>JSON.stringify</code> with an indent. If parse fails, this page stops and shows the <strong>first syntax error with a line number</strong>. It will not invent a missing comma or guess a close brace.</p>
-<p><strong>JSONC is not JSON.</strong> <code>// comments</code>, <code>/* blocks */</code>, and trailing commas are legal in VS Code <code>settings.json</code>, tsconfig, and some linters. RFC 8259 forbids all three. Paste a JSONC file here and you should get a parse error at the comment or the extra comma, not a quietly stripped document.</p>
-<p><strong>Duplicate keys:</strong> the spec says names should be unique. <code>JSON.parse</code> does not throw. For <code>{"a":1,"a":2}</code> the result is <code>{"a":2}</code>. The first value is gone. Formatters that round-trip through parse will drop it. If you need both, the document is already wrong.</p>
-<p><strong>Big numbers:</strong> JavaScript Numbers are IEEE-754 doubles. Integers above <code>Number.MAX_SAFE_INTEGER</code> (9007199254740991) lose low bits. A 64-bit snowflake id like <code>12345678901234567890</code> will not survive parse-then-stringify. Keep those ids as strings, or use a parser with BigInt.</p>`
+			title: 'Pretty-print is not the hard part',
+			content: `<p>Pretty-print is not the hard part. The first syntax error is, and JSON will not mention the second one until you fix the first.</p>
+<p>Paste the blob. Hit Prettify. If it fails, the line number is the only thing that matters. Minify is for the copy you send, not the copy you read.</p>
+<p>Read the first error line. Parsers stop at the first problem: missing comma, trailing comma, single quotes, unquoted keys. Duplicate keys are legal and a footgun. Most engines keep the last one. The formatter will not warn you.</p>
+<p>Integers above <code>Number.MAX_SAFE_INTEGER</code> (2⁵³−1) are not safe in JavaScript. <code>9007199254740993</code> comes back as <code>9007199254740992</code>. Keep big IDs as strings. Comments are not JSON. JSONC (<code>//</code>, <code>/* */</code>) fails here. Strip comments first. Indent 2 for JS/TS unless the repo already uses 4. Minify does not change meaning, only bytes.</p>`
 		},
 		examples: [
 			{
@@ -89,24 +94,24 @@ export const jsonToolsContent: Record<string, ToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'Why do I only see the first error, not all of them?',
-				answer: '<p><code>JSON.parse</code> stops at the first illegal token. A missing comma on line 12 can make the rest of the file look like garbage. Fix that line, format again, then the next real error (if any) appears. This is the same behavior as Node and browsers, not a linter pass.</p>'
+				question: 'Why do I only see the first error?',
+				answer: '<p>Pretty-print is not the hard part. The first syntax error is, and JSON will not mention the second one until you fix the first. Read the first error line. Parsers stop at the first problem: missing comma, trailing comma, single quotes, unquoted keys.</p>'
 			},
 			{
-				question: 'My tsconfig.json works in the editor. Why does it fail here?',
-				answer: '<p>TypeScript config is JSONC: comments and trailing commas are allowed. This formatter speaks RFC JSON. Strip comments, remove the last comma in each list, or keep the file as JSONC in the editor. Do not ship JSONC to an API that calls <code>JSON.parse</code>.</p>'
+				question: 'Will the formatter warn me about duplicate keys?',
+				answer: '<p>Duplicate keys are legal and a footgun. Most engines keep the last one. The formatter will not warn you.</p>'
 			},
 			{
-				question: 'What happens to duplicate keys?',
-				answer: '<p>Parse succeeds. The last occurrence wins. <code>{"role":"user","role":"admin"}</code> becomes <code>{"role":"admin"}</code>. Pretty-printing will not restore the first value. If a merge tool produced two keys, treat it as a data bug, not a formatting issue.</p>'
+				question: 'Why did a large integer change after Prettify?',
+				answer: '<p>Integers above <code>Number.MAX_SAFE_INTEGER</code> (2⁵³−1) are not safe in JavaScript. <code>9007199254740993</code> comes back as <code>9007199254740992</code>. Keep big IDs as strings.</p>'
 			},
 			{
-				question: 'Why did my 19-digit id change after format?',
-				answer: '<p>It went through JavaScript <code>Number</code>. Anything above <code>Number.MAX_SAFE_INTEGER</code> (2<sup>53</sup>−1) is rounded. Quote the id as a string, or use a BigInt-aware parser. <code>JSON.stringify</code> cannot emit a JSON number that JS already rounded.</p>'
+				question: 'Why do comments and trailing commas fail?',
+				answer: '<p>Comments are not JSON. JSONC (<code>//</code>, <code>/* */</code>) fails here. Strip comments first. Trailing commas from JS objects fail. So do single quotes. <code>undefined</code> and <code>NaN</code> are not JSON. You get Unexpected token.</p>'
 			},
 			{
-				question: 'Does minifying change values?',
-				answer: '<p>Only whitespace and key order as <code>JSON.stringify</code> emits them. Duplicate keys collapse. Unsafe integers stay rounded. <code>NaN</code>, <code>Infinity</code>, and <code>undefined</code> are not JSON and will throw or become <code>null</code> if you built the value in JS instead of parsing text.</p>'
+				question: 'Does minify change the meaning? Is pretty JSON valid for my API?',
+				answer: '<p>Indent 2 for JS/TS unless the repo already uses 4. Minify does not change meaning, only bytes. A pretty document can still be the wrong shape for your API. This is syntax, not schema.</p>'
 			}
 		],
 		relatedTools: [
@@ -115,10 +120,28 @@ export const jsonToolsContent: Record<string, ToolContent> = {
 			{ name: 'YAML to JSON', path: '/yaml/to-json', description: 'YAML is not JSON: Norway NO and comments fail differently' }
 		],
 		commonMistakes: [
-			'Pasting tsconfig JSONC and expecting comments to parse',
-			'Trusting a duplicate key after pretty-print (last write already won)',
-			'Storing 64-bit ids as JSON numbers in JavaScript'
-		]
+			'Trailing commas from JS objects fail. So do single quotes.',
+			'`undefined` and `NaN` are not JSON. You get Unexpected token.',
+			'A pretty document can still be the wrong shape for your API. This is syntax, not schema.'
+		],
+		howTo: {
+			lede: [
+				'Pretty-print is not the hard part. The first syntax error is, and JSON will not mention the second one until you fix the first.',
+				'Paste the blob. Hit Prettify. If it fails, the line number is the only thing that matters. Minify is for the copy you send, not the copy you read.'
+			],
+			steps: [
+				'Read the first error line. Parsers stop at the first problem: missing comma, trailing comma, single quotes, unquoted keys.',
+				'Duplicate keys are legal and a footgun. Most engines keep the last one. The formatter will not warn you.',
+				'Integers above `Number.MAX_SAFE_INTEGER` (2⁵³−1) are not safe in JavaScript. `9007199254740993` comes back as `9007199254740992`. Keep big IDs as strings.',
+				'Comments are not JSON. JSONC (`//`, `/* */`) fails here. Strip comments first.',
+				'Indent 2 for JS/TS unless the repo already uses 4. Minify does not change meaning, only bytes.'
+			],
+			breaks: [
+				'Trailing commas from JS objects fail. So do single quotes.',
+				'`undefined` and `NaN` are not JSON. You get Unexpected token.',
+				'A pretty document can still be the wrong shape for your API. This is syntax, not schema.'
+			]
+		}
 	},
 	
 	validator: {

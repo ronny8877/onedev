@@ -5,6 +5,7 @@
 	import CodeMirrorEditor from '$lib/components/ui/CodeMirrorEditor.svelte';
 	import { xmlToJson, SAMPLE_XML } from '$lib/utils/xml';
 	import { xmlToolsContent } from '$lib/config/content/xml-tools-content';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 
 	const content = xmlToolsContent['to-json'];
 
@@ -14,6 +15,10 @@
 
 <ToolWrapper lastUpdated="2026-08-20">
 	<div class="flex flex-col gap-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<ToolActions onSample={() => (input = SAMPLE_XML)} onClear={() => (input = '')} copyText={result.output} stats={{ lines: input ? input.split('\n').length : undefined }} />
 
 		{#if result.error}

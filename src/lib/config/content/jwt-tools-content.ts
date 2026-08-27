@@ -9,6 +9,12 @@ interface JwtToolContent {
 	faqs: Array<{ question: string; answer: string }>;
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
+	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const jwtToolsContent: Record<string, JwtToolContent> = {
@@ -28,10 +34,10 @@ export const jwtToolsContent: Record<string, JwtToolContent> = {
 		],
 		concept: {
 			title: 'Decode is not verify',
-			content: `<p>A JWT is three Base64URL segments: <code>header.payload.signature</code>. This page decodes the header and payload. It does <strong>not</strong> check the signature. If the bytes parse, you will see claims even when the signature is garbage, stripped, or signed with the wrong key.</p>
-<p><strong>alg=none</strong> means there is no signature. Some old libraries treated <code>{"alg":"none"}</code> as valid. If you see <code>none</code>, the token is an assertion anyone could have written. HS256 vs RS256 confusion is the other classic failure: a token that looks fine here can still be rejected (or worse, accepted) by a sloppy verifier.</p>
-<p>The payload is encoded, not encrypted. Treat it as public. Do not put passwords, session secrets, or full PANs in claims. <strong>Do not paste live production tokens into examples or screenshots.</strong> Use a fixture with fake sub/email values. A still-valid access token in a ticket is a credential leak.</p>
-<p>Expiry is a Unix second in <code>exp</code>. Decoding it here does not enforce it. The server that holds the key is the only place verification belongs.</p>`
+			content: `<p>Decode is not verify. A readable payload is not a trusted user. <code>alg: none</code>, an expired <code>exp</code>, and a token you found in a log will all “decode” just fine.</p>
+<p>Paste the token. You get header and payload as JSON. Nothing here checks the signature. If you needed that, you needed your server and the real secret, not this page.</p>
+<p>Read <code>alg</code> first. <code>none</code> means there is no signature. <code>HS256</code> vs <code>RS256</code> is not a style choice. If the header says <code>none</code> and you still trust the claims, that’s the bug. <code>exp</code>, <code>nbf</code>, and <code>iat</code> are Unix seconds, not milliseconds. A <code>exp</code> in 2020 still decodes. It is just dead.</p>
+<p>Three segments: header, payload, signature. Two segments is usually <code>alg: none</code> or a truncated copy-paste.</p>`
 		},
 		examples: [
 			{
@@ -53,19 +59,19 @@ export const jwtToolsContent: Record<string, JwtToolContent> = {
 		faqs: [
 			{
 				question: 'Does this tool verify the signature?',
-				answer: '<p>No. Verification needs the HMAC secret or the issuer public key, and it belongs on your server. This page only Base64URL-decodes header and payload. A green decode means the JSON parsed, not that the token is authentic.</p>'
+				answer: '<p>Decode is not verify. A readable payload is not a trusted user. <code>alg: none</code>, an expired <code>exp</code>, and a token you found in a log will all “decode” just fine. Paste the token. You get header and payload as JSON. Nothing here checks the signature. If you needed that, you needed your server and the real secret, not this page.</p>'
 			},
 			{
 				question: 'What does alg none mean?',
-				answer: '<p>The header says the token is unsigned. Anyone can mint a payload with <code>alg: none</code>. Reject it in production verifiers. If you decode one here, treat every claim as attacker-controlled.</p>'
+				answer: '<p>Read <code>alg</code> first. <code>none</code> means there is no signature. <code>HS256</code> vs <code>RS256</code> is not a style choice. If the header says <code>none</code> and you still trust the claims, that’s the bug. Three segments: header, payload, signature. Two segments is usually <code>alg: none</code> or a truncated copy-paste.</p>'
+			},
+			{
+				question: 'Why does an expired token still decode?',
+				answer: '<p><code>exp</code>, <code>nbf</code>, and <code>iat</code> are Unix seconds, not milliseconds. A <code>exp</code> in 2020 still decodes. It is just dead.</p>'
 			},
 			{
 				question: 'Can I paste a production access token?',
-				answer: '<p>Do not. A live token is a credential. Use a fixture: fake <code>sub</code>, obviously fake email, expired or far-future <code>exp</code>. If you already pasted a real token, rotate it. Screenshots, HARs, and chat logs leak tokens even when the page itself does not upload them.</p>'
-			},
-			{
-				question: 'Why can I read the payload without a key?',
-				answer: '<p>Base64URL is encoding. There is no confidentiality. JWE (encrypted JWT) is a different format. This decoder is for JWS compact serialization, the three-part tokens APIs usually send.</p>'
+				answer: '<p>An invalid Base64url character (a <code>+</code> from standard Base64, a trailing newline) fails the decode. Trim it. This will not tell you if the token is authentic. Anyone can mint a payload. Don’t paste live production tokens. The claims are the data. Treat them that way.</p>'
 			}
 		],
 		relatedTools: [
@@ -77,7 +83,28 @@ export const jwtToolsContent: Record<string, JwtToolContent> = {
 			'If the payload looks empty, you probably pasted two segments instead of three.',
 			'A token that decodes can still be expired, wrong-aud, or signed with a leaked HS256 secret.',
 			'Never put real production tokens in docs, issue templates, or this page\'s sample field.'
-		]
+		],
+		commonMistakes: [
+			'An invalid Base64url character (a `+` from standard Base64, a trailing newline) fails the decode. Trim it.',
+			'This will not tell you if the token is authentic. Anyone can mint a payload.',
+			'Don’t paste live production tokens. The claims are the data. Treat them that way.'
+		],
+		howTo: {
+			lede: [
+				'Decode is not verify. A readable payload is not a trusted user. `alg: none`, an expired `exp`, and a token you found in a log will all “decode” just fine.',
+				'Paste the token. You get header and payload as JSON. Nothing here checks the signature. If you needed that, you needed your server and the real secret, not this page.'
+			],
+			steps: [
+				'Read `alg` first. `none` means there is no signature. `HS256` vs `RS256` is not a style choice. If the header says `none` and you still trust the claims, that’s the bug.',
+				'`exp`, `nbf`, and `iat` are Unix seconds, not milliseconds. A `exp` in 2020 still decodes. It is just dead.',
+				'Three segments: header, payload, signature. Two segments is usually `alg: none` or a truncated copy-paste.'
+			],
+			breaks: [
+				'An invalid Base64url character (a `+` from standard Base64, a trailing newline) fails the decode. Trim it.',
+				'This will not tell you if the token is authentic. Anyone can mint a payload.',
+				'Don’t paste live production tokens. The claims are the data. Treat them that way.'
+			]
+		}
 	},
 
 	claims: {
@@ -240,23 +267,24 @@ export const jwtToolsContent: Record<string, JwtToolContent> = {
 
 	size: {
 		features: [
-			'Measures the total token length in characters and bytes',
-			'Breaks down how much space the header, payload, and signature use',
-			'Warns when a token is large enough to bump into common limits',
-			'Helps you see which claims are inflating the payload',
-			'Runs locally so tokens stay on your machine'
+			'Characters, bytes, and a header / payload / signature split',
+			'Watches the on-wire total: Base64url is about 4/3 of the JSON',
+			'Cookie JWTs need to stay under ~4 KB; Authorization headers are often capped near 8 KB',
+			'Growth is custom claims: permission arrays, profile blobs, long claim names',
+			'Measures size. It does not verify the signature'
 		],
 		useCases: [
-			'Trimming a token that no longer fits inside a cookie',
-			'Investigating why requests fail with header-too-large errors',
-			'Deciding which claims to move out of the token and fetch on demand',
-			'Keeping mobile requests lean where every byte of overhead counts'
+			'A token that still decodes can be why every request returns 431',
+			'A cookie over ~4 KB gets dropped and the user looks logged out',
+			'Finding which claims blew up the payload',
+			'Keeping sub and exp (maybe a role) and fetching the rest from your API'
 		],
 		concept: {
-			title: 'Why token size is worth watching',
-			content: `<p>A JWT is sent on <strong>every request</strong> that needs authentication, usually in the <code>Authorization</code> header. That means the token's size is pure overhead added to each call, so a bloated payload quietly slows things down and eats bandwidth.</p>
-			<p>Size also runs into hard limits. Many web servers cap total header size (commonly around 8&nbsp;KB), reverse proxies and load balancers may be stricter, and if you store the token in a cookie you are bound by the ~4&nbsp;KB per-cookie limit. Tokens usually grow because of large or numerous custom claims.</p>
-			<p>If a token gets too big, the usual fix is to keep only an identifier in the token and look up the rest of the data server-side.</p>`
+			title: 'The JWT spec has no size limit',
+			content: `<p>The JWT spec has no size limit. Your cookie jar and your reverse proxy do. A token that still decodes can be why every request returns 431 or the cookie silently disappears.</p>
+			<p>Paste the token. You get characters, bytes, and a header / payload / signature split. The payload is almost always the part that blew up. Watch the on-wire total. Base64url is about 4/3 of the JSON.</p>
+			<p>Cookie JWTs need to stay under ~4 KB. <code>Authorization</code> tokens share the whole header block, often capped near 8 KB. Header and signature barely move. Growth is custom claims: permission arrays, profile blobs, long claim names. Shrink it. Keep <code>sub</code> and <code>exp</code> (maybe a role) and fetch the rest from your API.</p>
+			<p>431 or a load-balancer 400 is often this token, not your app. A cookie over ~4 KB gets dropped. The user looks logged out. This page measures size. It does not verify the signature. Decode is not verify. Don't paste live production tokens.</p>`
 		},
 		examples: [
 			{
@@ -273,17 +301,47 @@ export const jwtToolsContent: Record<string, JwtToolContent> = {
 		faqs: [
 			{
 				question: 'How big can a JWT be?',
-				answer: 'There is no fixed limit in the spec, but practical limits apply: web servers often cap headers near 8 KB and cookies are limited to about 4 KB. Staying comfortably under a couple of kilobytes is a good target.'
+				answer: '<p>The JWT spec has no size limit. Your cookie jar and your reverse proxy do. Cookie JWTs need to stay under ~4 KB. <code>Authorization</code> tokens share the whole header block, often capped near 8 KB.</p>'
 			},
 			{
 				question: 'What makes a token large?',
-				answer: 'Usually the payload — long custom claims, arrays of permissions, or embedded profile data. The header and signature are small and fairly constant by comparison.'
+				answer: '<p>Paste the token. You get characters, bytes, and a header / payload / signature split. The payload is almost always the part that blew up. Header and signature barely move. Growth is custom claims: permission arrays, profile blobs, long claim names. Watch the on-wire total. Base64url is about 4/3 of the JSON.</p>'
 			},
 			{
 				question: 'How do I shrink a token?',
-				answer: 'Keep only what the client truly needs (like a user id and expiry), use short claim names, and fetch heavier data from your API instead of packing it into the token.'
+				answer: '<p>Shrink it. Keep <code>sub</code> and <code>exp</code> (maybe a role) and fetch the rest from your API.</p>'
+			},
+			{
+				question: 'Why am I seeing 431 or a load-balancer 400?',
+				answer: '<p>431 or a load-balancer 400 is often this token, not your app. A cookie over ~4 KB gets dropped. The user looks logged out.</p>'
+			},
+			{
+				question: 'Does this page verify the signature?',
+				answer: '<p>This page measures size. It does not verify the signature. Decode is not verify. Don\'t paste live production tokens.</p>'
 			}
 		],
+		commonMistakes: [
+			'431 or a load-balancer 400 is often this token, not your app.',
+			'A cookie over ~4 KB gets dropped. The user looks logged out.',
+			'This page measures size. It does not verify the signature. Decode is not verify. Don\'t paste live production tokens.'
+		],
+		howTo: {
+			lede: [
+				'A token that still decodes can be why every request returns 431 or the cookie silently disappears.',
+				'Paste the token. You get characters, bytes, and a header / payload / signature split. The payload is almost always the part that blew up.'
+			],
+			steps: [
+				'Watch the on-wire total. Base64url is about 4/3 of the JSON.',
+				'Cookie JWTs need to stay under ~4 KB. `Authorization` tokens share the whole header block, often capped near 8 KB.',
+				'Header and signature barely move. Growth is custom claims: permission arrays, profile blobs, long claim names.',
+				'Shrink it. Keep `sub` and `exp` (maybe a role) and fetch the rest from your API.'
+			],
+			breaks: [
+				'431 or a load-balancer 400 is often this token, not your app.',
+				'A cookie over ~4 KB gets dropped. The user looks logged out.',
+				'This page measures size. It does not verify the signature. Decode is not verify. Don\'t paste live production tokens.'
+			]
+		},
 		relatedTools: [
 			{ name: 'JWT Decoder', path: '/jwt/decoder', description: 'See exactly which claims are in the payload' },
 			{ name: 'JWT Claims Viewer', path: '/jwt/claims', description: 'Identify claims you could trim' },

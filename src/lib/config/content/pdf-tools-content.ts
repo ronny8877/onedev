@@ -20,6 +20,12 @@ export interface PdfToolContent {
 		description: string;
 	}[];
 	tips?: string[];
+	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const pdfToolsContent: Record<string, PdfToolContent> = {
@@ -267,11 +273,11 @@ export const pdfToolsContent: Record<string, PdfToolContent> = {
 			'See that a text-only PDF barely shrinks (images are the lever)'
 		],
 		concept: {
-			title: 'Compress without the Adobe / Smallpdf upload',
-			content: `<p>Search "compress PDF" and the SERP is Adobe Acrobat, Smallpdf, iLovePDF: you upload the file, they transcode, you download. That is the product. It is also a copy of your document on someone else's disk, with an account wall or a watermark on the free tier.</p>
-<p><strong>This page's gap is that the bytes stay in the tab.</strong> Compression is image downsampling plus rewriting the PDF in the browser. A 40 MB scan of a passport or a term sheet should not need a SaaS inbox. If your threat model is "I do not want this file on Adobe's servers," that is the reason to use a local compressor, not a prettier spinner.</p>
-<p>What actually shrinks: embedded photos and page images. Vector text and fonts are already compact. High compression is visibly softer on photos; medium is the usual email target. Compress <em>once</em> from the original. Re-compressing a lossy result stacks artifacts. Password-encrypted PDFs may refuse to open here; decrypt locally first if you have the owner password.</p>
-<p>Limits: a huge scanned book can exhaust tab memory. Desktop Ghostscript still wins at 500-page 600 DPI archives. For a 15-page attachment, local downsample is enough.</p>`
+			title: 'Adobe and Smallpdf want the file on their server',
+			content: `<p>Adobe and Smallpdf want the file on their server. This page compresses in the tab. If the PDF can’t leave the machine, that’s the whole reason to use it, not a slogan.</p>
+<p>Drop the file. Pick a size you can actually email. Open the result before you send it. Compression that you didn’t check is how a scan becomes unreadable.</p>
+<p>Images are the weight. A 40MB slide deck is photos, not text. Downsampling those is the win. Re-saving text pages barely moves the needle. Pick a target you can defend. “Email” is ~10MB on a lot of gates. “Print” should not be the email preset. Encrypted or permission-locked PDFs won’t compress until you unlock them. That’s the PDF, not the tool.</p>
+<p>Run it twice if you want. The second pass rarely pays. If it’s still huge, the file is scans at 600dpi and you need a lower dpi, not another click.</p>`
 		},
 		examples: [
 			{
@@ -293,19 +299,19 @@ export const pdfToolsContent: Record<string, PdfToolContent> = {
 		faqs: [
 			{
 				question: 'How is this different from Smallpdf or Adobe online?',
-				answer: '<p>Those services upload your PDF to their servers. This compressor runs in the page. Same job (smaller file), different place the bytes sit. That is the point for anything you would not attach to a random web form.</p>'
+				answer: '<p>Adobe and Smallpdf want the file on their server. This page compresses in the tab. If the PDF can’t leave the machine, that’s the whole reason to use it, not a slogan.</p>'
 			},
 			{
-				question: 'Will text stay selectable?',
-				answer: '<p>Yes, if the original had a text layer. We downsample images, not OCR. A pure scan without OCR stays a scan, just with smaller pictures.</p>'
+				question: 'What actually shrinks?',
+				answer: '<p>Images are the weight. A 40MB slide deck is photos, not text. Downsampling those is the win. Re-saving text pages barely moves the needle. Pick a target you can defend. “Email” is ~10MB on a lot of gates. “Print” should not be the email preset.</p>'
 			},
 			{
-				question: 'Why did a 200 KB PDF barely change?',
-				answer: '<p>It was already mostly text or already compressed images. The lever is large rasters. Check the before/after numbers instead of picking High by habit.</p>'
+				question: 'Can I compress an encrypted PDF? Should I run it twice?',
+				answer: '<p>Encrypted or permission-locked PDFs won’t compress until you unlock them. That’s the PDF, not the tool. Run it twice if you want. The second pass rarely pays. If it’s still huge, the file is scans at 600dpi and you need a lower dpi, not another click.</p>'
 			},
 			{
-				question: 'Can I compress an encrypted PDF?',
-				answer: '<p>Only if the library can open it. Owner-password files often fail. Decrypt with a tool you trust, then compress the unprotected copy.</p>'
+				question: 'Will the result still look OK? Is this OCR?',
+				answer: '<p>Already-flattened scans look the same and shrink a lot, or look like mud and shrink a lot. Check page 3, not page 1. Form fields, some links, and bookmarks can vanish depending on the rewrite. If the form has to keep working, don’t flatten it for size. This is not OCR. A compressed scan is still not searchable text.</p>'
 			}
 		],
 		relatedTools: [
@@ -317,7 +323,29 @@ export const pdfToolsContent: Record<string, PdfToolContent> = {
 			'Keep the uncompressed original. Email the compressed copy.',
 			'Start at medium. High is for attachment caps, not archival.',
 			'If the tab freezes, the file is too large for in-memory pdf-lib; split first.'
-		]
+		],
+		commonMistakes: [
+			'Already-flattened scans look the same and shrink a lot, or look like mud and shrink a lot. Check page 3, not page 1.',
+			'Form fields, some links, and bookmarks can vanish depending on the rewrite. If the form has to keep working, don’t flatten it for size.',
+			'This is not OCR. A compressed scan is still not searchable text.'
+		],
+		howTo: {
+			lede: [
+				'Adobe and Smallpdf want the file on their server. This page compresses in the tab. If the PDF can’t leave the machine, that’s the whole reason to use it, not a slogan.',
+				'Drop the file. Pick a size you can actually email. Open the result before you send it. Compression that you didn’t check is how a scan becomes unreadable.'
+			],
+			steps: [
+				'Images are the weight. A 40MB slide deck is photos, not text. Downsampling those is the win. Re-saving text pages barely moves the needle.',
+				'Pick a target you can defend. “Email” is ~10MB on a lot of gates. “Print” should not be the email preset.',
+				'Encrypted or permission-locked PDFs won’t compress until you unlock them. That’s the PDF, not the tool.',
+				'Run it twice if you want. The second pass rarely pays. If it’s still huge, the file is scans at 600dpi and you need a lower dpi, not another click.'
+			],
+			breaks: [
+				'Already-flattened scans look the same and shrink a lot, or look like mud and shrink a lot. Check page 3, not page 1.',
+				'Form fields, some links, and bookmarks can vanish depending on the rewrite. If the form has to keep working, don’t flatten it for size.',
+				'This is not OCR. A compressed scan is still not searchable text.'
+			]
+		}
 	},
 
 	'watermark': {

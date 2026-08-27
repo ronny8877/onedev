@@ -5,6 +5,7 @@
 	import SelectMenu from '$lib/components/ui/SelectMenu.svelte';
 	import { csvToJson, SAMPLE_CSV, type CsvDelimiter } from '$lib/utils/csv';
 	import { csvToolsContent } from '$lib/config/content/csv-tools-content';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 
 	const content = csvToolsContent['to-json'];
 	let input = $state('');
@@ -24,6 +25,10 @@
 
 <ToolWrapper lastUpdated="2026-08-20">
 	<div class="flex flex-col gap-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<ToolActions onSample={() => (input = SAMPLE_CSV)} onClear={() => (input = '')} copyText={result.output} stats={{ lines: result.rows || undefined }} />
 		<div class="flex justify-center">
 			<SelectMenu

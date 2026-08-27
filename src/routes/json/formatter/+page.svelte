@@ -10,6 +10,7 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 	import { formatJSON, minifyJSON, validateJSON, type ParseError } from '$lib/utils/json';
 	import { jsonToolsContent } from '$lib/config/content/json-tools-content';
 	import AppIcon from '$lib/components/ui/AppIcon.svelte';
@@ -122,6 +123,10 @@
 
 <ToolWrapper>
 	<div class="flex flex-col gap-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} stats={stats} />
 

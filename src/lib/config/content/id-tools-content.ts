@@ -8,6 +8,11 @@ export interface IdToolContent {
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
 	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const idToolsContent: Record<string, IdToolContent> = {
@@ -25,11 +30,11 @@ export const idToolsContent: Record<string, IdToolContent> = {
 			'See why v4 PKs fragment Postgres indexes under insert load'
 		],
 		concept: {
-			title: 'UUID v4 vs v7 as primary keys (RFC 9562)',
-			content: `<p>RFC 9562 (the 2024 UUID document, successor to RFC 4122) defines <strong>v7</strong> as a 48-bit Unix millisecond timestamp plus random bits. <strong>v4</strong> is 122 bits of random with a version nibble of 4. Both are 128-bit values in the 8-4-4-4-12 hex layout.</p>
-<p>As a <strong>primary key</strong>, v4 is uniformly random. Sequential inserts hop around the B-tree, which causes index fragmentation and write amplification on Postgres and InnoDB at scale. v7 is roughly monotonic, so new rows land near the right edge of the index, similar to a bigserial, while remaining unique across machines without a central sequence.</p>
-<p>The cost of v7: the id leaks when it was created (millisecond resolution). Do not use v7 as a secret, a session token, or a public unguessable capability. v4 is still the right choice when the identifier must not encode time (shareable document ids you do not want enumerated by timestamp).</p>
-<p>Neither is a password hash. Sortable alternatives: ULID (Crockford Base32) and UUIDv7. NanoID is shorter but not RFC 9562.</p>`
+			title: 'v4 is random. v7 is time-ordered.',
+			content: `<p>v4 is random. v7 is time-ordered. If you're about to use a UUID as a primary key, that difference is the whole page.</p>
+<p>Hit generate. Copy v7 for new tables. Copy v4 only when a spec still demands it.</p>
+<p>v4 is 122 bits of random. Fine for IDs that are never used as a clustered index. v7 encodes a Unix timestamp in the high bits, so inserts append instead of scattering. That's what you want for a PK in Postgres, MySQL, and InnoDB.</p>
+<p>v1 is time + MAC. Don't use it if the machine identity shouldn't leak. v5 is a namespace hash, deterministic. Same input, same UUID, every time. A UUID is 36 characters with hyphens, 32 without, 16 bytes in binary. Store it as <code>uuid</code> (Postgres) or <code>BINARY(16)</code>, not <code>VARCHAR(36)</code>, if you care about size.</p>`
 		},
 		examples: [
 			{ label: 'UUID v4 (version nibble 4)', code: '550e8400-e29b-41d4-a716-446655440000', isValid: true },
@@ -38,20 +43,24 @@ export const idToolsContent: Record<string, IdToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'Should my Postgres PK be v4 or v7?',
-				answer: '<p>Prefer <strong>v7</strong> for new tables that will take a high insert rate. RFC 9562 designed v7 for that. Use <code>uuid</code> columns; btree likes sequential keys. Keep v4 when you must not leak created-at, or when an existing API already promised random ids.</p>'
+				question: 'Should my primary key be v4 or v7?',
+				answer: '<p>v4 is random. v7 is time-ordered. If you\'re about to use a UUID as a primary key, that difference is the whole page. v4 is 122 bits of random. Fine for IDs that are never used as a clustered index. v7 encodes a Unix timestamp in the high bits, so inserts append instead of scattering. That\'s what you want for a PK in Postgres, MySQL, and InnoDB. Copy v7 for new tables. Copy v4 only when a spec still demands it.</p>'
 			},
 			{
-				question: 'What did RFC 9562 change?',
-				answer: '<p>It obsoletes RFC 4122 and standardizes v6 (reordered v1) and v7 (Unix-ms) plus v8 for custom layouts. v4 and v1 remain. New systems that wanted "time ordered UUID" should implement v7, not a homemade timestamp prefix.</p>'
+				question: 'What about v1 and v5?',
+				answer: '<p>v1 is time + MAC. Don\'t use it if the machine identity shouldn\'t leak. v5 is a namespace hash, deterministic. Same input, same UUID, every time.</p>'
 			},
 			{
-				question: 'Can I extract created-at from v7?',
-				answer: '<p>Yes. The first 48 bits are Unix milliseconds: <code>parseInt(uuid.replace(/-/g,\'\').slice(0,12), 16)</code>. That is a feature for indexes and a privacy leak for public ids.</p>'
+				question: 'How should I store a UUID?',
+				answer: '<p>A UUID is 36 characters with hyphens, 32 without, 16 bytes in binary. Store it as <code>uuid</code> (Postgres) or <code>BINARY(16)</code>, not <code>VARCHAR(36)</code>, if you care about size. Uppercase vs lowercase hex is the same ID. Hyphens vs not is the same ID. Don\'t uniqueness-check the string form without normalizing.</p>'
 			},
 			{
-				question: 'Are UUIDs secrets?',
-				answer: '<p>No. v4 is hard to guess but still an identifier. v7 is easier to enumerate around a known time. Do not use either as an API key.</p>'
+				question: 'Why is my huge table slow with v4 as the primary key?',
+				answer: '<p>v4 as a primary key on a huge table is random page splits. The database gets slower as it grows. That\'s the bug, not “UUIDs are slow.”</p>'
+			},
+			{
+				question: 'Is a UUID a secret?',
+				answer: '<p>This is not a secret. A UUID is an identifier, not an auth token.</p>'
 			}
 		],
 		relatedTools: [
@@ -65,10 +74,27 @@ export const idToolsContent: Record<string, IdToolContent> = {
 			'UUIDs are not encryption and not password hashes.'
 		],
 		commonMistakes: [
-			'Using v4 as a high-volume PK and wondering why indexes bloat',
-			'Exposing v7 as an unguessable secret (it encodes time)',
-			'Treating hyphenless vs hyphenated forms as different ids'
-		]
+			'v4 as a primary key on a huge table is random page splits. The database gets slower as it grows. That\'s the bug, not “UUIDs are slow.”',
+			'Uppercase vs lowercase hex is the same ID. Hyphens vs not is the same ID. Don\'t uniqueness-check the string form without normalizing.',
+			'This is not a secret. A UUID is an identifier, not an auth token.'
+		],
+		howTo: {
+			lede: [
+				'v4 is random. v7 is time-ordered. If you\'re about to use a UUID as a primary key, that difference is the whole page.',
+				'Hit generate. Copy v7 for new tables. Copy v4 only when a spec still demands it.'
+			],
+			steps: [
+				'v4 is 122 bits of random. Fine for IDs that are never used as a clustered index.',
+				'v7 encodes a Unix timestamp in the high bits, so inserts append instead of scattering. That\'s what you want for a PK in Postgres, MySQL, and InnoDB.',
+				'v1 is time + MAC. Don\'t use it if the machine identity shouldn\'t leak. v5 is a namespace hash, deterministic. Same input, same UUID, every time.',
+				'A UUID is 36 characters with hyphens, 32 without, 16 bytes in binary. Store it as `uuid` (Postgres) or `BINARY(16)`, not `VARCHAR(36)`, if you care about size.'
+			],
+			breaks: [
+				'v4 as a primary key on a huge table is random page splits. The database gets slower as it grows. That\'s the bug, not “UUIDs are slow.”',
+				'Uppercase vs lowercase hex is the same ID. Hyphens vs not is the same ID. Don\'t uniqueness-check the string form without normalizing.',
+				'This is not a secret. A UUID is an identifier, not an auth token.'
+			]
+		}
 	},
 
 	'ulid-generator': {

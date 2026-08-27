@@ -11,6 +11,7 @@
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 
 	const content = hashToolsContent['compare'];
 
@@ -79,6 +80,10 @@
 	lastUpdated={content.lastUpdated}
 >
 	<div class="flex flex-col gap-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<ToolActions onSample={loadSample} onClear={clearAll} />
 
 		<!-- Options -->

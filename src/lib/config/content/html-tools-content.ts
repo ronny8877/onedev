@@ -6,6 +6,12 @@ interface HtmlToolContent {
 	faqs: Array<{ question: string; answer: string }>;
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
+	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const htmlToolsContent: Record<string, HtmlToolContent> = {
@@ -641,48 +647,24 @@ export const htmlToolsContent: Record<string, HtmlToolContent> = {
 	},
 	'dom-visualizer': {
 		features: [
-			'Interactive tree view of HTML structure',
-			'Expand/collapse DOM nodes',
-			'Search elements by tag name or text',
-			'Copy element paths (CSS selectors)',
-			'Highlight element hierarchy',
-			'Real-time DOM tree rendering'
+			'Paste markup and expand nodes in the tree',
+			'Search by tag, `#id`, or `.class`',
+			'Copy the CSS path off a node (`body > div.container > header > h1`)',
+			'Count depth: more than about 5–7 levels is usually extra divs',
+			'Find which `td` actually wraps the button in email HTML'
 		],
 		useCases: [
-			'Understand complex HTML document structure',
-			'Debug deeply nested HTML layouts',
-			'Visualize email template DOM hierarchy',
-			'Find element ancestry for CSS selectors',
-			'Learn HTML structure through visual exploration'
+			'A selector "should work" and doesn\'t: the tree is the problem, not CSS',
+			'Paste what the browser actually rendered, including framework wrappers',
+			'Count nested divs Grid or Flex would replace',
+			'Email HTML is tables inside tables; find the wrapping `td`'
 		],
 		concept: {
-			title: 'DOM Tree Visualization',
-			content: `<p>The Document Object Model (DOM) is a tree-like representation of HTML structure where each element is a node. Visualizing the DOM as an interactive tree makes it easier to understand complex HTML documents.</p>
-			
-			<p><strong>DOM tree structure:</strong></p>
-			<ul>
-				<li><strong>Root node:</strong> Typically <code>&lt;html&gt;</code> or the outermost element</li>
-				<li><strong>Parent nodes:</strong> Elements containing other elements</li>
-				<li><strong>Child nodes:</strong> Elements nested inside parents</li>
-				<li><strong>Sibling nodes:</strong> Elements at the same nesting level</li>
-				<li><strong>Leaf nodes:</strong> Elements with no children (often text content)</li>
-			</ul>
-			
-			<p><strong>Why visualize the DOM?</strong></p>
-			<ul>
-				<li><strong>Debugging:</strong> Understand why CSS selectors aren't working</li>
-				<li><strong>Learning:</strong> See how HTML nesting creates visual hierarchy</li>
-				<li><strong>Refactoring:</strong> Identify overly deep nesting (>5 levels may be excessive)</li>
-				<li><strong>Documentation:</strong> Share HTML structure visually with team members</li>
-			</ul>
-			
-			<p><strong>Tree visualization features:</strong></p>
-			<ul>
-				<li><strong>Expand/collapse:</strong> Focus on specific sections of the tree</li>
-				<li><strong>Search:</strong> Find elements by tag name, class, or ID</li>
-				<li><strong>Path copying:</strong> Get CSS selector paths to elements</li>
-				<li><strong>Nesting depth:</strong> Visual indicators of element hierarchy levels</li>
-			</ul>`
+			title: 'The tree is the problem, not CSS',
+			content: `<p>Nested HTML is easy to write and hard to see. If a selector "should work" and doesn't, the tree is the problem, not CSS.</p>
+			<p>Paste the markup. Expand nodes. Search by tag, <code>#id</code>, or <code>.class</code>. Copy the path when you find the element you thought was a direct child.</p>
+			<p>Paste what the browser actually rendered, including wrappers your framework injects. Copy the CSS path off a node (<code>body > div.container > header > h1</code>). That's the selector to debug. Count depth. More than about 5–7 levels is usually extra divs Grid or Flex would replace. Email HTML is tables inside tables. The tree is how you find which <code>td</code> actually wraps the button.</p>
+			<p>The selector fails because of a wrapper you didn't paste. Visualize the rendered DOM, not the source snippet. Search only sees the paste. Shadow DOM and iframes won't show up here. Deep trees aren't invalid. They're why <code>div > div > div > span</code> is fragile.</p>`
 		},
 		examples: [
 			{
@@ -703,26 +685,48 @@ export const htmlToolsContent: Record<string, HtmlToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'How deep should my HTML nesting be?',
-				answer: 'There\'s no strict limit, but >5-7 levels of nesting can indicate over-complication. Deeply nested HTML is harder to style, debug, and maintain. Consider flattening the structure.'
+				question: 'Why does my selector fail?',
+				answer: '<p>The selector fails because of a wrapper you didn\'t paste. Visualize the rendered DOM, not the source snippet. Paste what the browser actually rendered, including wrappers your framework injects.</p>'
 			},
 			{
-				question: 'Can I export the tree visualization?',
-				answer: 'The tree view is interactive and visual. To export structure data, use the HTML to JSON tool instead, which creates a programmatic representation of the DOM tree.'
+				question: 'How do I get the CSS path?',
+				answer: '<p>Copy the CSS path off a node (<code>body > div.container > header > h1</code>). That\'s the selector to debug. Copy the path when you find the element you thought was a direct child.</p>'
 			},
 			{
-				question: 'Why visualize HTML instead of just reading it?',
-				answer: 'Visual trees make it easier to understand parent-child relationships at a glance, especially in complex documents. It\'s faster than mentally parsing nested tags.'
+				question: 'How deep should the tree be?',
+				answer: '<p>Count depth. More than about 5–7 levels is usually extra divs Grid or Flex would replace. Deep trees aren\'t invalid. They\'re why <code>div > div > div > span</code> is fragile.</p>'
 			},
 			{
-				question: 'Can I use this to find CSS selector paths?',
-				answer: 'Yes, most DOM visualizers let you click an element to copy its CSS selector path (e.g., "body > div.container > header > h1"). This is useful for writing precise CSS or JavaScript selectors.'
+				question: 'Does search see Shadow DOM or iframes?',
+				answer: '<p>Search only sees the paste. Shadow DOM and iframes won\'t show up here. Search by tag, <code>#id</code>, or <code>.class</code>.</p>'
 			},
 			{
-				question: 'How do I reduce nesting depth?',
-				answer: 'Use CSS Grid and Flexbox instead of nested containers, leverage semantic HTML5 elements to replace meaningless divs, and avoid wrapper divs unless necessary for styling.'
+				question: 'How do I debug email HTML?',
+				answer: '<p>Email HTML is tables inside tables. The tree is how you find which <code>td</code> actually wraps the button.</p>'
 			}
 		],
+		commonMistakes: [
+			'The selector fails because of a wrapper you didn\'t paste. Visualize the rendered DOM, not the source snippet.',
+			'Search only sees the paste. Shadow DOM and iframes won\'t show up here.',
+			'Deep trees aren\'t invalid. They\'re why `div > div > div > span` is fragile.'
+		],
+		howTo: {
+			lede: [
+				'Nested HTML is easy to write and hard to see. If a selector “should work” and doesn’t, the tree is the problem, not CSS.',
+				'Paste the markup. Expand nodes. Search by tag, `#id`, or `.class`. Copy the path when you find the element you thought was a direct child.'
+			],
+			steps: [
+				'Paste what the browser actually rendered, including wrappers your framework injects.',
+				'Copy the CSS path off a node (`body > div.container > header > h1`). That\'s the selector to debug.',
+				'Count depth. More than about 5–7 levels is usually extra divs Grid or Flex would replace.',
+				'Email HTML is tables inside tables. The tree is how you find which `td` actually wraps the button.'
+			],
+			breaks: [
+				'The selector fails because of a wrapper you didn\'t paste. Visualize the rendered DOM, not the source snippet.',
+				'Search only sees the paste. Shadow DOM and iframes won\'t show up here.',
+				'Deep trees aren\'t invalid. They\'re why `div > div > div > span` is fragile.'
+			]
+		},
 		relatedTools: [
 			{ name: 'HTML Validator', path: '/html/validator', description: 'Validate HTML structure and nesting' },
 			{ name: 'HTML to JSON', path: '/html/to-json', description: 'Export DOM as JSON data' },

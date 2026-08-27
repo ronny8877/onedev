@@ -22,7 +22,13 @@ export interface URLToolContent {
 		path: string;
 		description: string;
 	}[];
-	tips?: string[]; // Optional tips for best practices
+	tips?: string[];
+	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const urlToolsContent: Record<string, URLToolContent> = {
@@ -40,10 +46,11 @@ export const urlToolsContent: Record<string, URLToolContent> = {
 			'Avoid double-encoding %20 into %2520'
 		],
 		concept: {
-			title: 'encodeURI vs encodeURIComponent, and + vs %20',
-			content: `<p>JavaScript has two standard encoders. <code>encodeURI</code> is for a full URL. It leaves <code>;,/?:@&=+$</code> unescaped so the structure still parses. <code>encodeURIComponent</code> is for a single query value or path segment. It encodes those reserved characters. If you <code>encodeURI</code> a search term that contains <code>&amp;</code>, the <code>&amp;</code> still splits query parameters. That is the usual bug.</p>
-<p><strong>Spaces:</strong> RFC 3986 percent-encoding uses <code>%20</code>. HTML form encoding (<code>application/x-www-form-urlencoded</code>) uses <code>+</code> in the query. <code>decodeURIComponent('a+b')</code> yields <code>a+b</code>, not <code>a b</code>. You must replace <code>+</code> with a space before decode if the source was a form. Mixing the two is how logs show literal plus signs in names.</p>
-<p>Do not encode the whole URL including <code>https://</code> with encodeURIComponent; you will encode the colons and slashes and the request will not go where you think. Encode each component, then join. Double-encoding: running encodeURIComponent on an already encoded string turns <code>%20</code> into <code>%2520</code>.</p>`
+			title: '`encodeURI` and `encodeURIComponent` are not the same function',
+			content: `<p><code>encodeURI</code> and <code>encodeURIComponent</code> are not the same function. Using the wrong one is why <code>?q=a+b</code> is a space in one API and a plus sign in the other.</p>
+<p>Paste the string. Encode for a query value with encodeURIComponent. Encode a full URL with encodeURI. If you needed <code>+</code> for spaces, that’s form-urlencoded, not a URL.</p>
+<p><code>encodeURIComponent</code> encodes everything that would break a component, including <code>&amp;</code>, <code>=</code>, <code>?</code>, <code>/</code>. Use it on values you drop into a query string. <code>encodeURI</code> leaves <code>?</code>, <code>&amp;</code>, <code>/</code>, <code>:</code> so a whole URL stays a URL. Use it on a complete link, never on a single parameter.</p>
+<p>Spaces become <code>%20</code> in URI encoding. They become <code>+</code> in <code>application/x-www-form-urlencoded</code>. Mixing those is the classic <code>+</code> vs <code>%20</code> bug. Decode once. <code>%2520</code> means someone encoded twice. Decode twice only if you meant to.</p>`
 		},
 		examples: [
 			{
@@ -70,19 +77,19 @@ export const urlToolsContent: Record<string, URLToolContent> = {
 		faqs: [
 			{
 				question: 'When do I use encodeURI vs encodeURIComponent?',
-				answer: '<p>Component: one query value, one path segment, anything that must not keep <code>&amp;</code>, <code>=</code>, <code>?</code>, <code>/</code>. URI: a complete URL you only need to escape spaces and non-ASCII in. Almost every API param wants Component.</p>'
+				answer: '<p><code>encodeURI</code> and <code>encodeURIComponent</code> are not the same function. Using the wrong one is why <code>?q=a+b</code> is a space in one API and a plus sign in the other. <code>encodeURIComponent</code> encodes everything that would break a component, including <code>&amp;</code>, <code>=</code>, <code>?</code>, <code>/</code>. Use it on values you drop into a query string. <code>encodeURI</code> leaves <code>?</code>, <code>&amp;</code>, <code>/</code>, <code>:</code> so a whole URL stays a URL. Use it on a complete link, never on a single parameter.</p>'
 			},
 			{
 				question: 'Why is + still a plus after decode?',
-				answer: '<p><code>decodeURIComponent</code> does not treat <code>+</code> as space. Form bodies do. Replace <code>+</code> with <code>%20</code> or space first if the string came from <code>application/x-www-form-urlencoded</code>.</p>'
+				answer: '<p>Spaces become <code>%20</code> in URI encoding. They become <code>+</code> in <code>application/x-www-form-urlencoded</code>. Mixing those is the classic <code>+</code> vs <code>%20</code> bug. If you needed <code>+</code> for spaces, that’s form-urlencoded, not a URL.</p>'
 			},
 			{
 				question: 'What is %2520?',
-				answer: '<p>A percent that was encoded twice. <code>%20</code> encoded again is <code>%2520</code>. Decode once to get <code>%20</code>, twice to get a space. Fix the encoder, do not keep stacking.</p>'
+				answer: '<p>Decode once. <code>%2520</code> means someone encoded twice. Decode twice only if you meant to.</p>'
 			},
 			{
 				question: 'Does this encode a whole URL including https?',
-				answer: '<p>The component mode will, and that is usually wrong. Only encode the parts you interpolate: path segments and query values, not the scheme and host.</p>'
+				answer: '<p><code>#</code>, <code>?</code>, and <code>&amp;</code> inside a value must be component-encoded or they steal the URL’s structure. Unicode should become UTF-8 percent-bytes (<code>é</code> → <code>%C3%A9</code>), not Latin-1. If you see <code>%E9</code>, that’s the old mess. Don’t encode the <code>https://</code> and then wonder why the browser won’t open it. That’s encodeURIComponent on a full URL.</p>'
 			}
 		],
 		relatedTools: [
@@ -94,7 +101,29 @@ export const urlToolsContent: Record<string, URLToolContent> = {
 			'encodeURIComponent for params. encodeURI almost never for values.',
 			'If a log shows +, decide whether the producer was a form or a URI.',
 			'Decode once. If you still see %HH, decode again only if you know it was double-encoded on purpose.'
-		]
+		],
+		commonMistakes: [
+			'`#`, `?`, and `&` inside a value must be component-encoded or they steal the URL’s structure.',
+			'Unicode should become UTF-8 percent-bytes (`é` → `%C3%A9`), not Latin-1. If you see `%E9`, that’s the old mess.',
+			'Don’t encode the `https://` and then wonder why the browser won’t open it. That’s encodeURIComponent on a full URL.'
+		],
+		howTo: {
+			lede: [
+				'`encodeURI` and `encodeURIComponent` are not the same function. Using the wrong one is why `?q=a+b` is a space in one API and a plus sign in the other.',
+				'Paste the string. Encode for a query value with encodeURIComponent. Encode a full URL with encodeURI. If you needed `+` for spaces, that’s form-urlencoded, not a URL.'
+			],
+			steps: [
+				'`encodeURIComponent` encodes everything that would break a component, including `&`, `=`, `?`, `/`. Use it on values you drop into a query string.',
+				'`encodeURI` leaves `?`, `&`, `/`, `:` so a whole URL stays a URL. Use it on a complete link, never on a single parameter.',
+				'Spaces become `%20` in URI encoding. They become `+` in `application/x-www-form-urlencoded`. Mixing those is the classic `+` vs `%20` bug.',
+				'Decode once. `%2520` means someone encoded twice. Decode twice only if you meant to.'
+			],
+			breaks: [
+				'`#`, `?`, and `&` inside a value must be component-encoded or they steal the URL’s structure.',
+				'Unicode should become UTF-8 percent-bytes (`é` → `%C3%A9`), not Latin-1. If you see `%E9`, that’s the old mess.',
+				'Don’t encode the `https://` and then wonder why the browser won’t open it. That’s encodeURIComponent on a full URL.'
+			]
+		}
 	},
 
 	'query-parser': {

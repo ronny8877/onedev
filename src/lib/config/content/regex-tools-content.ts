@@ -8,6 +8,11 @@ export interface RegexToolContent {
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
 	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const regexToolsContent: Record<string, RegexToolContent> = {
@@ -26,10 +31,11 @@ export const regexToolsContent: Record<string, RegexToolContent> = {
 			'Prototype a validator before pasting it into application code'
 		],
 		concept: {
-			title: 'This tester is JavaScript, not PCRE',
-			content: `<p>The engine here is <code>new RegExp(pattern, flags)</code>. That is ECMAScript regular expressions: the same syntax as <code>/pattern/flags</code> in the browser and in Node. It is <strong>not</strong> PCRE, not Python <code>re</code>, not Go <code>regexp</code>, not .NET, not POSIX. If you need those flavors, use regex101 and pick the flavor. This page will not pretend to cover them.</p>
-<p>Failure modes that bite people moving from PCRE: possessive quantifiers (<code>++</code>, <code>*+</code>) are syntax errors in JS. <code>\\A</code> / <code>\\Z</code> are not start/end anchors here (<code>^</code> / <code>$</code> plus the <code>m</code> flag are). Named groups use <code>(?&lt;name&gt;...)</code> in modern JS, not Python\'s <code>(?P&lt;name&gt;...)</code>. Atomic groups <code>(?&gt;...)</code> do not exist.</p>
-<p>JavaScript-specific traps: without <code>g</code> you only get the first match. With <code>g</code>, <code>exec</code> advances <code>lastIndex</code>, so a reused regex object can skip input. <code>.</code> does not match newlines unless <code>s</code> (dotAll) is on. Catastrophic backtracking still exists in JS: nested quantifiers like <code>(a+)+b</code> on a long string of <code>a</code>s can freeze the tab.</p>`
+			title: 'This is JavaScript regex, not PCRE, not Python, not Go',
+			content: `<p>This is JavaScript regex, not PCRE, not Python, not Go. A pattern that “worked in PHP” can fail here for reasons that look like your test string is wrong.</p>
+<p>Paste the pattern and a sample. Read the matches, not the vibes. If you needed lookbehind-on-Safari-old or POSIX classes, you’re in the wrong engine.</p>
+<p>The flavor is JS (<code>RegExp</code>). No <code>\\A</code> / <code>\\Z</code>, no possessive quantifiers, no <code>(?P&lt;name&gt;…)</code>. Named groups are <code>(?&lt;name&gt;…)</code>. Flags matter. <code>g</code> changes <code>lastIndex</code>. Run twice without resetting and the second run looks like a miss. <code>m</code> makes <code>^</code>/<code>$</code> line-based. <code>s</code> makes <code>.</code> match newlines. <code>i</code> is unicode-aware in modern JS, not a simple ASCII fold.</p>
+<p>Catastrophic backtracking is real. Nested <code>(a+)+</code> on a long near-match will freeze the tab. If it hangs, the pattern is the bug.</p>`
 		},
 		examples: [
 			{
@@ -56,19 +62,19 @@ export const regexToolsContent: Record<string, RegexToolContent> = {
 		faqs: [
 			{
 				question: 'Can I test a Python or PHP (PCRE) pattern here?',
-				answer: '<p>Only if the syntax happens to overlap. Possessive quantifiers, <code>\\A</code>, <code>(?P&lt;name&gt;)</code>, and many PCRE verbs will throw in JavaScript. For those flavors, regex101 is the right tool. This page exists to show what <em>this</em> engine will do.</p>'
+				answer: '<p>This is JavaScript regex, not PCRE, not Python, not Go. A pattern that “worked in PHP” can fail here for reasons that look like your test string is wrong. The flavor is JS (<code>RegExp</code>). No <code>\\A</code> / <code>\\Z</code>, no possessive quantifiers, no <code>(?P&lt;name&gt;…)</code>. Named groups are <code>(?&lt;name&gt;…)</code>.</p>'
 			},
 			{
-				question: 'Why does my PCRE pattern throw a syntax error?',
-				answer: '<p>JS has no possessive <code>++</code>, no atomic groups, and a smaller set of lookaround and backreference features depending on the engine version. Read the error from <code>new RegExp</code>. Translate the construct to JS or keep the pattern in the original language.</p>'
+				question: 'Why did a second run look like a miss?',
+				answer: '<p>Flags matter. <code>g</code> changes <code>lastIndex</code>. Run twice without resetting and the second run looks like a miss. <code>m</code> makes <code>^</code>/<code>$</code> line-based. <code>s</code> makes <code>.</code> match newlines. <code>i</code> is unicode-aware in modern JS, not a simple ASCII fold.</p>'
 			},
 			{
-				question: 'What do the flags g, i, m, s, u mean in JavaScript?',
-				answer: '<p><code>g</code> all matches (and lastIndex). <code>i</code> case-insensitive. <code>m</code> makes <code>^</code> and <code>$</code> match line edges. <code>s</code> lets <code>.</code> match newline. <code>u</code> Unicode mode (needed for some property escapes). There is no PCRE <code>x</code> (extended / ignore whitespace) flag here.</p>'
+				question: 'Why did the tab freeze?',
+				answer: '<p>Catastrophic backtracking is real. Nested <code>(a+)+</code> on a long near-match will freeze the tab. If it hangs, the pattern is the bug. If you needed lookbehind-on-Safari-old or POSIX classes, you’re in the wrong engine.</p>'
 			},
 			{
-				question: 'Why did a second exec() skip my string?',
-				answer: '<p>A regex with <code>g</code> stores <code>lastIndex</code> on the object. In application code, create a new RegExp per test or reset <code>lastIndex = 0</code>. This tester builds a fresh expression each run so the UI does not carry lastIndex across keystrokes.</p>'
+				question: 'Is this the same as Python or Java regex?',
+				answer: '<p>A <code>/</code> inside the pattern is fine in <code>new RegExp(\'…\')</code> and a footgun in <code>/…/</code> literals. This tester is the former. <code>\\d</code> is <code>[0-9]</code> in JS, not “any Unicode number” unless you opted into unicode sets. Don’t debug a Python/Java pattern here and ship the “fix.” Test in the language that will run it.</p>'
 			}
 		],
 		relatedTools: [
@@ -82,11 +88,26 @@ export const regexToolsContent: Record<string, RegexToolContent> = {
 			'Escape literal dots: host\\.example\\.com, not host.example.com.'
 		],
 		commonMistakes: [
-			'Pasting a PCRE pattern with ++ or (?P<name>) and expecting it to run',
-			'Assuming ^ and $ are \\A and \\Z',
-			'Forgetting the g flag and thinking there is only one match',
-			'Reusing a /g regex in a loop without resetting lastIndex'
-		]
+			'A `/` inside the pattern is fine in `new RegExp(\'…\')` and a footgun in `/…/` literals. This tester is the former.',
+			'`\\d` is `[0-9]` in JS, not “any Unicode number” unless you opted into unicode sets.',
+			'Don’t debug a Python/Java pattern here and ship the “fix.” Test in the language that will run it.'
+		],
+		howTo: {
+			lede: [
+				'This is JavaScript regex, not PCRE, not Python, not Go. A pattern that “worked in PHP” can fail here for reasons that look like your test string is wrong.',
+				'Paste the pattern and a sample. Read the matches, not the vibes. If you needed lookbehind-on-Safari-old or POSIX classes, you’re in the wrong engine.'
+			],
+			steps: [
+				'The flavor is JS (`RegExp`). No `\\A` / `\\Z`, no possessive quantifiers, no `(?P<name>…)`. Named groups are `(?<name>…)`.',
+				'Flags matter. `g` changes `lastIndex`. Run twice without resetting and the second run looks like a miss. `m` makes `^`/`$` line-based. `s` makes `.` match newlines. `i` is unicode-aware in modern JS, not a simple ASCII fold.',
+				'Catastrophic backtracking is real. Nested `(a+)+` on a long near-match will freeze the tab. If it hangs, the pattern is the bug.'
+			],
+			breaks: [
+				'A `/` inside the pattern is fine in `new RegExp(\'…\')` and a footgun in `/…/` literals. This tester is the former.',
+				'`\\d` is `[0-9]` in JS, not “any Unicode number” unless you opted into unicode sets.',
+				'Don’t debug a Python/Java pattern here and ship the “fix.” Test in the language that will run it.'
+			]
+		}
 	},
 
 	explainer: {
