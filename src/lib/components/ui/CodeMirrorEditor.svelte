@@ -55,8 +55,7 @@
 		language === 'xml' ? xml() : language === 'html' ? html() : language === 'sql' ? sqlLang : json()
 	);
 
-	// Syntax highlighting follows theme CSS variables. Light keywords stay
-	// base-content so Daisy light's indigo primary does not paint the editor.
+	// Syntax highlighting follows theme CSS variables (--cm-keyword, --cm-string, etc.).
 	const highlightStyle = HighlightStyle.define([
 		{ tag: tags.keyword, color: 'var(--cm-keyword)', fontWeight: '600' },
 		{ tag: tags.operatorKeyword, color: 'var(--cm-keyword)' },

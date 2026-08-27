@@ -1,11 +1,11 @@
 export const THEME_KEY = 'onedev-theme';
 
 export type ThemePreference = 'light' | 'dark';
-export type DaisyTheme = 'light' | 'forest';
+export type DaisyTheme = 'lemonade' | 'forest';
 
-// Stored preference is light | dark. Daisy light is the default light theme,
-// Daisy dark is forest. This is the only mapping. The FOUC boot script in
+// Stored preference is light | dark. daisyTheme() maps light to lemonade and
+// dark to forest. This is the only mapping. The FOUC boot script in
 // src/app.html inlines the same ternary because it cannot import this module.
 export function daisyTheme(preference: string | null | undefined): DaisyTheme {
-	return preference === 'light' ? 'light' : 'forest';
+	return preference === 'light' ? 'lemonade' : 'forest';
 }

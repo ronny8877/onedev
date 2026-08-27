@@ -5,7 +5,7 @@
 }
 @plugin '@tailwindcss/typography';
 @plugin "daisyui" {
-  themes: light, forest;
+  themes: lemonade, forest;
 }
 
 
@@ -47,16 +47,13 @@ html[data-theme='forest'] {
   --cm-punct: color-mix(in oklab, var(--color-base-content) 55%, transparent);
 }
 
-html[data-theme='light'] {
+html[data-theme='lemonade'] {
   color-scheme: light;
   --radius-selector: 0.5rem;
   --radius-field: 0.5rem;
   --radius-box: 0.5rem;
   --muted: color-mix(in oklab, var(--color-base-content) 60%, transparent);
-  /* Forest's own primary, not Daisy light indigo and not a custom neon. */
-  --color-primary: oklch(68.628% 0.185 148.958);
-  --color-primary-content: oklch(0% 0 0);
-  --cm-keyword: var(--color-base-content);
+  --cm-keyword: var(--color-primary);
   --cm-string: oklch(42% 0.05 148);
   --cm-comment: color-mix(in oklab, var(--color-base-content) 70%, transparent);
   --cm-name: var(--color-base-content);
@@ -145,14 +142,14 @@ html[data-theme='forest'] .card {
   border: 1px solid var(--color-base-300);
 }
 
-html[data-theme='light'] .input,
-html[data-theme='light'] .textarea,
-html[data-theme='light'] .select {
+html[data-theme='lemonade'] .input,
+html[data-theme='lemonade'] .textarea,
+html[data-theme='lemonade'] .select {
   background-color: var(--color-base-100);
   border-color: var(--color-base-300);
 }
 
-html[data-theme='light'] .card {
+html[data-theme='lemonade'] .card {
   background-color: var(--color-base-200);
   border: 1px solid var(--color-base-300);
 }
@@ -162,7 +159,7 @@ html[data-theme='forest'] ::placeholder {
   opacity: 1;
 }
 
-html[data-theme='light'] ::placeholder {
+html[data-theme='lemonade'] ::placeholder {
   color: color-mix(in oklab, var(--color-base-content) 45%, transparent);
   opacity: 1;
 }
