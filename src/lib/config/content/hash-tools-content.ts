@@ -489,6 +489,7 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 		],
 		howTo: {
 			lede: [
+				'Two hashes can look the same and still differ by one character, and they can look different and still be the same bytes.',
 				'Paste Hash A and Hash B. Ignore case and ignore whitespace are on because a checksum page almost always adds a newline or switches case.'
 			],
 			steps: [

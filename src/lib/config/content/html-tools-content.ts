@@ -712,6 +712,7 @@ export const htmlToolsContent: Record<string, HtmlToolContent> = {
 		],
 		howTo: {
 			lede: [
+				'Nested HTML is easy to write and hard to see. If a selector “should work” and doesn’t, the tree is the problem, not CSS.',
 				'Paste the markup. Expand nodes. Search by tag, `#id`, or `.class`. Copy the path when you find the element you thought was a direct child.'
 			],
 			steps: [

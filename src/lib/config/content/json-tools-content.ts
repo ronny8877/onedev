@@ -126,6 +126,7 @@ export const jsonToolsContent: Record<string, ToolContent> = {
 		],
 		howTo: {
 			lede: [
+				'Pretty-print is not the hard part. The first syntax error is, and JSON will not mention the second one until you fix the first.',
 				'Paste the blob. Hit Prettify. If it fails, the line number is the only thing that matters. Minify is for the copy you send, not the copy you read.'
 			],
 			steps: [
