@@ -7,6 +7,8 @@
 	import Examples from '$lib/components/content/Examples.svelte';
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 	import { encodeURL, decodeURL, isLikelyEncoded } from '$lib/utils/url';
 	import { urlToolsContent } from '$lib/config/content/url-tools-content';
 
@@ -106,6 +108,10 @@
 
 <ToolWrapper>
 	<div class="flex flex-col gap-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output} {stats} />
 
@@ -214,6 +220,9 @@
 		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
 		<Examples examples={content.examples} />
 		<FAQSection faqs={content.faqs} />
+		{#if content.commonMistakes}
+			<CommonMistakes mistakes={content.commonMistakes} />
+		{/if}
 		<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

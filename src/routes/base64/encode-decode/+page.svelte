@@ -6,7 +6,9 @@
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
 	import Examples from '$lib/components/content/Examples.svelte';
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
-import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 	import { encodeBase64, decodeBase64, decodeBase64ToBytes, isLikelyBase64, validateBase64, detectMimeType, formatFileSize } from '$lib/utils/base64';
 	import { base64ToolsContent } from '$lib/config/content/base64-tools-content';
 
@@ -189,6 +191,10 @@ import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 
 <ToolWrapper>
 	<div class="flex flex-col gap-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} copyText={output || (decodeFile ? 'Binary file' : '')} {stats} />
 
@@ -325,6 +331,9 @@ import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 		<ConceptExplainer title={content.concept.title} content={content.concept.content} />
 		<Examples examples={content.examples} />
 		<FAQSection faqs={content.faqs} />
-<RelatedTools relatedTools={content.relatedTools} />
+		{#if content.commonMistakes}
+			<CommonMistakes mistakes={content.commonMistakes} />
+		{/if}
+		<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>

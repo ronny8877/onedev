@@ -7,6 +7,11 @@ export interface XmlToolContent {
 	relatedTools: Array<{ name: string; path: string; description: string }>;
 	tips?: string[];
 	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const xmlToolsContent: Record<string, XmlToolContent> = {
@@ -186,11 +191,11 @@ export const xmlToolsContent: Record<string, XmlToolContent> = {
 			'Inspect RSS item lists as arrays of objects'
 		],
 		concept: {
-			title: '@attributes, #text, and repeating siblings',
-			content: `<p>XML has attributes, mixed content, and repeating child names. JSON has objects and arrays. This converter uses a common convention: attributes are keys prefixed with <code>@</code>, and character data is <code>#text</code> when it would otherwise collide with children or attributes.</p>
-<p><code>&lt;book id="1"&gt;Dune&lt;/book&gt;</code> becomes <code>{"book":{"@id":"1","#text":"Dune"}}</code> (wrapped in the root). If you expected <code>{"book":"Dune","id":"1"}</code>, you will write the wrong client. Bare text with no attributes can stay a string.</p>
-<p><strong>Repeating siblings:</strong> one <code>&lt;item&gt;</code> is an object. Two <code>&lt;item&gt;</code> siblings become an array. Code that always does <code>item.name</code> will break on the second sample. If a schema sometimes has one item, normalize to an array in your app after convert.</p>
-<p>Namespaces stay in the tag names as pasted (prefix included). Mixed content (text plus child elements) is lossy. Comments vanish. This is not a lossless Infoset dump.</p>`
+			title: 'XML has attributes and text',
+			content: `<p>XML has attributes and text. JSON has neither, so something has to give. If you don’t know whether <code>id</code> landed in <code>@attributes</code> or as a sibling, the convert “worked” and your code is still wrong.</p>
+<p>Paste the XML. Find one element that had an attribute and a body. If those aren’t two different keys, the mapping will lie to you later.</p>
+<p>Attributes become <code>@id</code> on the object (<code>@</code> plus the attribute name). Text becomes <code>"#text": "…"</code>. That convention is not standard JSON. It is a choice. Match it in your code or remap it. Repeated child tags become an array. A single child stays an object. One vs many records is the usual off-by-one after convert.</p>
+<p>Namespaces (<code>soap:</code>, <code>xsi:</code>) stay in the keys unless you strip them. They are not decoration. Mixed content (<code>&lt;p&gt;hello &lt;b&gt;x&lt;/b&gt;&lt;/p&gt;</code>) does not have a clean JSON shape. Expect <code>#text</code> plus a <code>b</code> key, not a sentence.</p>`
 		},
 		examples: [
 			{ label: 'Attribute + text', code: '<book id="1">Dune</book>', isValid: true },
@@ -200,20 +205,20 @@ export const xmlToolsContent: Record<string, XmlToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'Why is there an @ on my keys?',
-				answer: '<p>Those are XML attributes. <code>@id</code> was <code>id="..."</code> on the tag. Element children keep unprefixed names. This is the xml2js default-ish convention so attributes and children can coexist.</p>'
-			},
-			{
-				question: 'When do I get #text?',
-				answer: '<p>When an element has both attributes (or child elements) and character data. A leaf with only text can be a JSON string. Do not assume every element is a string.</p>'
+				question: 'Where did my attributes go?',
+				answer: '<p>XML has attributes and text. JSON has neither, so something has to give. If you don’t know whether <code>id</code> landed in <code>@attributes</code> or as a sibling, the convert “worked” and your code is still wrong. Attributes become <code>@id</code> on the object (<code>@</code> plus the attribute name). Text becomes <code>"#text": "…"</code>. That convention is not standard JSON. It is a choice. Match it in your code or remap it.</p>'
 			},
 			{
 				question: 'Why is item sometimes an object and sometimes an array?',
-				answer: '<p>One sibling stays a single value. Two or more of the same tag become an array. If production XML can have one or many, always coerce to an array in code.</p>'
+				answer: '<p>Repeated child tags become an array. A single child stays an object. One vs many records is the usual off-by-one after convert.</p>'
 			},
 			{
-				question: 'Can I go back to XML?',
-				answer: '<p>The JSON-to-XML tool understands <code>@</code> and arrays of the same key. Mixed content, original namespace prefixes, and comments will not round-trip perfectly.</p>'
+				question: 'What happens to namespaces and mixed content?',
+				answer: '<p>Namespaces (<code>soap:</code>, <code>xsi:</code>) stay in the keys unless you strip them. They are not decoration. Mixed content (<code>&lt;p&gt;hello &lt;b&gt;x&lt;/b&gt;&lt;/p&gt;</code>) does not have a clean JSON shape. Expect <code>#text</code> plus a <code>b</code> key, not a sentence.</p>'
+			},
+			{
+				question: 'Will comments and DTDs survive?',
+				answer: '<p>Self-closing vs empty (<code>&lt;a/&gt;</code> vs <code>&lt;a&gt;&lt;/a&gt;</code>) often collapse to the same JSON. Don’t use this to round-trip markup you need bit-perfect. Comments and processing instructions are dropped. The JSON will not mention them. Huge XML with DTD/entities is a parser footgun. If it tries to fetch a DTD, don’t. That’s XXE, not conversion.</p>'
 			}
 		],
 		relatedTools: [
@@ -227,10 +232,27 @@ export const xmlToolsContent: Record<string, XmlToolContent> = {
 			'Namespaces: check the tag names in the JSON. You may want to strip prefixes in the app.'
 		],
 		commonMistakes: [
-			'Assuming a single child is already an array',
-			'Looking for id instead of @id',
-			'Expecting comments or xmlns prefixes to survive as XML did'
-		]
+			'Self-closing vs empty (`<a/>` vs `<a></a>`) often collapse to the same JSON. Don’t use this to round-trip markup you need bit-perfect.',
+			'Comments and processing instructions are dropped. The JSON will not mention them.',
+			'Huge XML with DTD/entities is a parser footgun. If it tries to fetch a DTD, don’t. That’s XXE, not conversion.'
+		],
+		howTo: {
+			lede: [
+				'XML has attributes and text. JSON has neither, so something has to give. If you don’t know whether `id` landed in `@attributes` or as a sibling, the convert “worked” and your code is still wrong.',
+				'Paste the XML. Find one element that had an attribute and a body. If those aren’t two different keys, the mapping will lie to you later.'
+			],
+			steps: [
+				'Attributes become `@id` on the object (`@` plus the attribute name). Text becomes `"#text": "…"`. That convention is not standard JSON. It is a choice. Match it in your code or remap it.',
+				'Repeated child tags become an array. A single child stays an object. One vs many records is the usual off-by-one after convert.',
+				'Namespaces (`soap:`, `xsi:`) stay in the keys unless you strip them. They are not decoration.',
+				'Mixed content (`<p>hello <b>x</b></p>`) does not have a clean JSON shape. Expect `#text` plus a `b` key, not a sentence.'
+			],
+			breaks: [
+				'Self-closing vs empty (`<a/>` vs `<a></a>`) often collapse to the same JSON. Don’t use this to round-trip markup you need bit-perfect.',
+				'Comments and processing instructions are dropped. The JSON will not mention them.',
+				'Huge XML with DTD/entities is a parser footgun. If it tries to fetch a DTD, don’t. That’s XXE, not conversion.'
+			]
+		}
 	},
 	'from-json': {
 		features: [

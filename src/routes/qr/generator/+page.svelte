@@ -12,6 +12,7 @@
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
 	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 	import { qrToolsContent } from '$lib/config/content/qr-tools-content';
 	import {
 		buildEmailPayload,
@@ -124,6 +125,10 @@
 
 <ToolWrapper lastUpdated="2026-08-17">
 	<div class="space-y-6">
+		{#if content.howTo}
+			<HowTo lede={content.howTo.lede} steps={content.howTo.steps} breaks={content.howTo.breaks} />
+		{/if}
+
 		<ToolActions onSample={loadSample} onClear={clearAll} />
 
 		<div class="flex flex-wrap gap-2">

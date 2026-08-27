@@ -34,10 +34,10 @@ export const jwtToolsContent: Record<string, JwtToolContent> = {
 		],
 		concept: {
 			title: 'Decode is not verify',
-			content: `<p>A JWT is three Base64URL segments: <code>header.payload.signature</code>. This page decodes the header and payload. It does <strong>not</strong> check the signature. If the bytes parse, you will see claims even when the signature is garbage, stripped, or signed with the wrong key.</p>
-<p><strong>alg=none</strong> means there is no signature. Some old libraries treated <code>{"alg":"none"}</code> as valid. If you see <code>none</code>, the token is an assertion anyone could have written. HS256 vs RS256 confusion is the other classic failure: a token that looks fine here can still be rejected (or worse, accepted) by a sloppy verifier.</p>
-<p>The payload is encoded, not encrypted. Treat it as public. Do not put passwords, session secrets, or full PANs in claims. <strong>Do not paste live production tokens into examples or screenshots.</strong> Use a fixture with fake sub/email values. A still-valid access token in a ticket is a credential leak.</p>
-<p>Expiry is a Unix second in <code>exp</code>. Decoding it here does not enforce it. The server that holds the key is the only place verification belongs.</p>`
+			content: `<p>Decode is not verify. A readable payload is not a trusted user. <code>alg: none</code>, an expired <code>exp</code>, and a token you found in a log will all “decode” just fine.</p>
+<p>Paste the token. You get header and payload as JSON. Nothing here checks the signature. If you needed that, you needed your server and the real secret, not this page.</p>
+<p>Read <code>alg</code> first. <code>none</code> means there is no signature. <code>HS256</code> vs <code>RS256</code> is not a style choice. If the header says <code>none</code> and you still trust the claims, that’s the bug. <code>exp</code>, <code>nbf</code>, and <code>iat</code> are Unix seconds, not milliseconds. A <code>exp</code> in 2020 still decodes. It is just dead.</p>
+<p>Three segments: header, payload, signature. Two segments is usually <code>alg: none</code> or a truncated copy-paste.</p>`
 		},
 		examples: [
 			{
@@ -59,19 +59,19 @@ export const jwtToolsContent: Record<string, JwtToolContent> = {
 		faqs: [
 			{
 				question: 'Does this tool verify the signature?',
-				answer: '<p>No. Verification needs the HMAC secret or the issuer public key, and it belongs on your server. This page only Base64URL-decodes header and payload. A green decode means the JSON parsed, not that the token is authentic.</p>'
+				answer: '<p>Decode is not verify. A readable payload is not a trusted user. <code>alg: none</code>, an expired <code>exp</code>, and a token you found in a log will all “decode” just fine. Paste the token. You get header and payload as JSON. Nothing here checks the signature. If you needed that, you needed your server and the real secret, not this page.</p>'
 			},
 			{
 				question: 'What does alg none mean?',
-				answer: '<p>The header says the token is unsigned. Anyone can mint a payload with <code>alg: none</code>. Reject it in production verifiers. If you decode one here, treat every claim as attacker-controlled.</p>'
+				answer: '<p>Read <code>alg</code> first. <code>none</code> means there is no signature. <code>HS256</code> vs <code>RS256</code> is not a style choice. If the header says <code>none</code> and you still trust the claims, that’s the bug. Three segments: header, payload, signature. Two segments is usually <code>alg: none</code> or a truncated copy-paste.</p>'
+			},
+			{
+				question: 'Why does an expired token still decode?',
+				answer: '<p><code>exp</code>, <code>nbf</code>, and <code>iat</code> are Unix seconds, not milliseconds. A <code>exp</code> in 2020 still decodes. It is just dead.</p>'
 			},
 			{
 				question: 'Can I paste a production access token?',
-				answer: '<p>Do not. A live token is a credential. Use a fixture: fake <code>sub</code>, obviously fake email, expired or far-future <code>exp</code>. If you already pasted a real token, rotate it. Screenshots, HARs, and chat logs leak tokens even when the page itself does not upload them.</p>'
-			},
-			{
-				question: 'Why can I read the payload without a key?',
-				answer: '<p>Base64URL is encoding. There is no confidentiality. JWE (encrypted JWT) is a different format. This decoder is for JWS compact serialization, the three-part tokens APIs usually send.</p>'
+				answer: '<p>An invalid Base64url character (a <code>+</code> from standard Base64, a trailing newline) fails the decode. Trim it. This will not tell you if the token is authentic. Anyone can mint a payload. Don’t paste live production tokens. The claims are the data. Treat them that way.</p>'
 			}
 		],
 		relatedTools: [
@@ -83,7 +83,28 @@ export const jwtToolsContent: Record<string, JwtToolContent> = {
 			'If the payload looks empty, you probably pasted two segments instead of three.',
 			'A token that decodes can still be expired, wrong-aud, or signed with a leaked HS256 secret.',
 			'Never put real production tokens in docs, issue templates, or this page\'s sample field.'
-		]
+		],
+		commonMistakes: [
+			'An invalid Base64url character (a `+` from standard Base64, a trailing newline) fails the decode. Trim it.',
+			'This will not tell you if the token is authentic. Anyone can mint a payload.',
+			'Don’t paste live production tokens. The claims are the data. Treat them that way.'
+		],
+		howTo: {
+			lede: [
+				'Decode is not verify. A readable payload is not a trusted user. `alg: none`, an expired `exp`, and a token you found in a log will all “decode” just fine.',
+				'Paste the token. You get header and payload as JSON. Nothing here checks the signature. If you needed that, you needed your server and the real secret, not this page.'
+			],
+			steps: [
+				'Read `alg` first. `none` means there is no signature. `HS256` vs `RS256` is not a style choice. If the header says `none` and you still trust the claims, that’s the bug.',
+				'`exp`, `nbf`, and `iat` are Unix seconds, not milliseconds. A `exp` in 2020 still decodes. It is just dead.',
+				'Three segments: header, payload, signature. Two segments is usually `alg: none` or a truncated copy-paste.'
+			],
+			breaks: [
+				'An invalid Base64url character (a `+` from standard Base64, a trailing newline) fails the decode. Trim it.',
+				'This will not tell you if the token is authentic. Anyone can mint a payload.',
+				'Don’t paste live production tokens. The claims are the data. Treat them that way.'
+			]
+		}
 	},
 
 	claims: {

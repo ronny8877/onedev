@@ -37,6 +37,14 @@ export function parseXml(input: string): XmlParseResult {
 		return { ok: false, doc: null, error: { message: 'Paste some XML first.' } };
 	}
 
+	if (/<!DOCTYPE\b/i.test(trimmed) || /<!ENTITY\b/i.test(trimmed)) {
+		return {
+			ok: false,
+			doc: null,
+			error: { message: 'DTD / external entities are not parsed. Strip the DOCTYPE and try again.' }
+		};
+	}
+
 	try {
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(trimmed, 'application/xml');

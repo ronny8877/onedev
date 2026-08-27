@@ -22,6 +22,13 @@ export interface Base64ToolContent {
 		path: string;
 		description: string;
 	}[];
+	tips?: string[];
+	commonMistakes?: string[];
+	howTo?: {
+		lede: string[];
+		steps: string[];
+		breaks: string[];
+	};
 }
 
 export const base64ToolsContent: Record<string, Base64ToolContent> = {
@@ -41,10 +48,10 @@ export const base64ToolsContent: Record<string, Base64ToolContent> = {
 		],
 		concept: {
 			title: 'Base64 is encoding, not encryption',
-			content: `<p>Anyone who has the string can decode it. Base64 exists so binary can travel through text protocols. It is not access control. Putting an API key in Base64 is the same as putting it in plaintext with extra characters.</p>
-<p><strong>Alphabets:</strong> Standard Base64 uses <code>+</code> and <code>/</code>, plus <code>=</code> padding. Those three are unsafe in URLs and filenames. URL-safe Base64 (RFC 4648 §5) swaps them for <code>-</code> and <code>_</code> and often drops padding. JWTs use URL-safe without padding. If you <code>atob</code> a JWT segment, you must map <code>-</code>/<code>_</code> back first or decode fails.</p>
-<p><strong>btoa Unicode:</strong> In browsers, <code>btoa</code> only accepts bytes as a "binary string". <code>btoa("✓")</code> or <code>btoa("café")</code> throws <code>InvalidCharacterError</code>. The fix is UTF-8 then Base64: encode the string to bytes (TextEncoder), then Base64 those bytes. Decoding must reverse that. Latin-1 <code>escape/unescape</code> hacks mis-decode emoji.</p>
-<p>Size grows by about 4/3. Padding: input length mod 3 of 1 needs <code>==</code>, mod 3 of 2 needs <code>=</code>. Some decoders accept missing padding; strict ones do not.</p>`
+			content: `<p>Base64 is encoding, not encryption. Anyone who can see it can reverse it. If it felt like a secret, it isn’t.</p>
+<p>Paste text or a Base64 blob. Encode for transport. Decode to see what you actually sent. URL-safe and standard are not interchangeable.</p>
+<p>Standard Base64 uses <code>+</code> and <code>/</code>, with <code>=</code> padding. URL-safe uses <code>-</code> and <code>_</code>, and often drops padding. Mixing them is the usual “why won’t this decode” bug. <code>btoa()</code> in a browser dies on Unicode. Characters above 255 throw. Encode UTF-8 bytes first, then Base64. This page should do that. <code>btoa('✓')</code> will not.</p>
+<p>Whitespace in the blob is usually safe to strip. A missing <code>=</code> at the end sometimes is, sometimes isn’t. If decode fails, add padding until the length is a multiple of 4.</p>`
 		},
 		examples: [
 			{
@@ -71,26 +78,47 @@ export const base64ToolsContent: Record<string, Base64ToolContent> = {
 		faqs: [
 			{
 				question: 'Is Base64 encryption?',
-				answer: '<p>No. It is a reversible alphabet mapping. If the string is in a repo, a JWT, or a URL, assume anyone can decode it. Use TLS plus a real cipher or a secret store when you need confidentiality.</p>'
+				answer: '<p>Base64 is encoding, not encryption. Anyone who can see it can reverse it. If it felt like a secret, it isn’t. Don’t store passwords in Base64. That’s just the password, longer.</p>'
 			},
 			{
-				question: 'Why did atob fail on a JWT or URL token?',
-				answer: '<p>JWT uses URL-safe Base64 without padding. <code>+</code>/<code>/</code> became <code>-</code>/<code>_</code>, and <code>=</code> is omitted. Map the alphabet back and add padding until the length is a multiple of 4, then decode. This page\'s URL-safe converter exists for that swap.</p>'
+				question: 'Why won’t this decode?',
+				answer: '<p>Standard Base64 uses <code>+</code> and <code>/</code>, with <code>=</code> padding. URL-safe uses <code>-</code> and <code>_</code>, and often drops padding. Mixing them is the usual “why won’t this decode” bug. Whitespace in the blob is usually safe to strip. A missing <code>=</code> at the end sometimes is, sometimes isn’t. If decode fails, add padding until the length is a multiple of 4.</p>'
 			},
 			{
 				question: 'Why does btoa throw on my string?',
-				answer: '<p>The string has a code unit above 255. Encode to UTF-8 bytes first. <code>unescape(encodeURIComponent(s))</code> is the old trick; <code>TextEncoder</code> is the correct one. Decoding must use UTF-8, not Latin-1, or you get mojibake.</p>'
+				answer: '<p><code>btoa()</code> in a browser dies on Unicode. Characters above 255 throw. Encode UTF-8 bytes first, then Base64. This page should do that. <code>btoa(\'✓\')</code> will not.</p>'
 			},
 			{
 				question: 'Do I need the = padding?',
-				answer: '<p>Strict Base64 yes. Many JWT and URL-safe libraries omit it. A decoder that requires padding will reject a valid JWT segment until you append <code>=</code> or <code>==</code>.</p>'
+				answer: '<p>Binary files round-trip only if you treat the result as bytes, not as a JS string of “characters.” JWT uses Base64url without padding. A decoder that demands <code>=</code> will reject a valid token. Don’t store passwords in Base64. That’s just the password, longer.</p>'
 			}
 		],
 		relatedTools: [
 			{ name: 'URL-safe Converter', path: '/base64/url-safe', description: 'Swap +/ with -_ for tokens and query values' },
 			{ name: 'JWT Decoder', path: '/jwt/decoder', description: 'JWT parts are URL-safe Base64 without padding' },
 			{ name: 'URL Encode', path: '/url/encode-decode', description: 'Percent-encoding is a different alphabet than Base64' }
-		]
+		],
+		commonMistakes: [
+			'Binary files round-trip only if you treat the result as bytes, not as a JS string of “characters.”',
+			'JWT uses Base64url without padding. A decoder that demands `=` will reject a valid token.',
+			'Don’t store passwords in Base64. That’s just the password, longer.'
+		],
+		howTo: {
+			lede: [
+				'Base64 is encoding, not encryption. Anyone who can see it can reverse it. If it felt like a secret, it isn’t.',
+				'Paste text or a Base64 blob. Encode for transport. Decode to see what you actually sent. URL-safe and standard are not interchangeable.'
+			],
+			steps: [
+				'Standard Base64 uses `+` and `/`, with `=` padding. URL-safe uses `-` and `_`, and often drops padding. Mixing them is the usual “why won’t this decode” bug.',
+				'`btoa()` in a browser dies on Unicode. Characters above 255 throw. Encode UTF-8 bytes first, then Base64. This page should do that. `btoa(\'✓\')` will not.',
+				'Whitespace in the blob is usually safe to strip. A missing `=` at the end sometimes is, sometimes isn’t. If decode fails, add padding until the length is a multiple of 4.'
+			],
+			breaks: [
+				'Binary files round-trip only if you treat the result as bytes, not as a JS string of “characters.”',
+				'JWT uses Base64url without padding. A decoder that demands `=` will reject a valid token.',
+				'Don’t store passwords in Base64. That’s just the password, longer.'
+			]
+		}
 	},
 
 	'file-encoder': {

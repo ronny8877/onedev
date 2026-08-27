@@ -45,7 +45,7 @@ export const toolCategories: ToolCategory[] = [
 			{ name: 'PDF Viewer', href: '/pdf/viewer', description: 'View PDF files right in your browser with page navigation and zoom — nothing is uploaded.', icon: 'eye' },
 			{ name: 'PDF Splitter', href: '/pdf/split', description: 'Split a PDF or pull out specific pages by range, then download the result.', icon: 'scissors' },
 			{ name: 'PDF Merger', href: '/pdf/merge', description: 'Combine several PDFs into one document and drag pages to reorder them before saving.', icon: 'link' },
-			{ name: 'PDF Compressor', href: '/pdf/compress', description: 'Compress a PDF by downsampling images in this tab. No Adobe or Smallpdf upload: the file never leaves the device.', icon: 'package', keywords: ['compress pdf', 'pdf compressor no upload', 'shrink pdf without uploading', 'smallpdf alternative', 'compress pdf locally'] },
+			{ name: 'PDF Compressor', href: '/pdf/compress', description: 'Adobe and Smallpdf want the file on their server. This page compresses in the tab.', icon: 'package', keywords: ['compress pdf', 'pdf compressor no upload', 'shrink pdf without uploading', 'smallpdf alternative', 'compress pdf locally'] },
 			{ name: 'PDF Watermark', href: '/pdf/watermark', description: 'Add a text or image watermark to PDF pages, with control over opacity, position, and rotation.', icon: 'droplet' },
 			{ name: 'PDF Page Numbers', href: '/pdf/page-numbers', description: 'Add page numbers to a PDF with your choice of position, font size, and starting number.', icon: 'hash' },
 			{ name: 'PDF Redact', href: '/pdf/redact', description: 'Permanently remove sensitive text and images from a PDF by drawing redaction boxes.', icon: 'highlighter' },
@@ -59,7 +59,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: 'zap',
 		description: 'Encode and decode Base64 for text, files, and images. Encoding is not encryption.',
 		items: [
-			{ name: 'Encode / Decode', href: '/base64/encode-decode', description: 'Base64 encode and decode. Encoding is not encryption. Covers URL-safe alphabet and the btoa Unicode / UTF-8 failure.', icon: 'refresh-cw', keywords: ['base64 encode', 'base64 decode', 'base64 not encryption', 'url-safe base64', 'btoa unicode'] },
+			{ name: 'Encode / Decode', href: '/base64/encode-decode', description: 'Base64 is encoding, not encryption. Anyone who can see it can reverse it.', icon: 'refresh-cw', keywords: ['base64 encode', 'base64 decode', 'base64 not encryption', 'url-safe base64', 'btoa unicode'] },
 			{ name: 'Image to Base64', href: '/base64/image-encoder', description: 'Image to Base64 converter online. Convert PNG, JPG, WebP, and SVG images to Base64 data URIs for HTML/CSS embedding. Free image encoder tool.', icon: 'image' },
 			{ name: 'File to Base64', href: '/base64/file-encoder', description: 'Encode files to Base64 online. Convert any file to Base64 content for embedding in HTML, JSON, or XML. Free file to Base64 converter.', icon: 'folder' },
 			{ name: 'Image Preview', href: '/base64/image-preview', description: 'Base64 image viewer online. Paste Base64 image data and preview instantly. Supports PNG, JPG, WebP, GIF—decode and view Base64 images free.', icon: 'image' },
@@ -74,7 +74,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: 'link',
 		description: 'Encode, decode, parse, build, and normalize URLs. Encoding is per component, not the whole string.',
 		items: [
-			{ name: 'Encode / Decode', href: '/url/encode-decode', description: 'Percent-encode and decode. encodeURI vs encodeURIComponent, and when + is a space vs %20.', icon: 'lock-keyhole', keywords: ['url encode', 'encodeuricomponent', 'encodeuri vs encodeuricomponent', 'percent encoding', 'plus vs %20'] },
+			{ name: 'Encode / Decode', href: '/url/encode-decode', description: '`encodeURI` and `encodeURIComponent` are not the same function. Using the wrong one is why `?q=a+b` is a space in one API and a plus sign in the other.', icon: 'lock-keyhole', keywords: ['url encode', 'encodeuricomponent', 'encodeuri vs encodeuricomponent', 'percent encoding', 'plus vs %20'] },
 			{ name: 'Query Parser', href: '/url/query-parser', description: 'URL query string parser online. Parse query parameters into a key-value table instantly. Export as JSON or CSV—free URL parameter extractor.', icon: 'clipboard' },
 			{ name: 'URL Builder', href: '/url/builder', description: 'URL builder online. Build URLs with query parameters visually. Paste existing URLs to parse and edit them—generate URLs free in your browser.', icon: 'wrench' },
 			{ name: 'Validator', href: '/url/validator', description: 'URL validator online. Check if a URL is valid and see protocol, domain, port, and path breakdown. Validate URLs instantly—free browser tool.', icon: 'check' },
@@ -106,7 +106,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: 'qr-code',
 		description: 'Create and read QR codes and 1D barcodes in the browser. Treat a WiFi QR like the password it encodes.',
 		items: [
-			{ name: 'QR Generator', href: '/qr/generator', description: 'Create a static QR that never expires. A WiFi QR is the password in the payload. Download SVG for print.', icon: 'qr-code', keywords: ['qr code generator', 'static qr', 'wifi qr password', 'qr svg print', 'qr code'] },
+			{ name: 'QR Generator', href: '/qr/generator', description: 'A printed QR does not expire. If you put a Wi‑Fi password or a one-time login in it, that secret lives as long as the paper does.', icon: 'qr-code', keywords: ['qr code generator', 'static qr', 'wifi qr password', 'qr svg print', 'qr code'] },
 			{ name: 'QR Reader', href: '/qr/reader', description: 'QR code reader online. Decode a QR code from an image or your camera. See the payload instantly — nothing is uploaded.', icon: 'camera' },
 			{ name: 'WiFi QR', href: '/qr/wifi', description: 'WiFi QR code generator. Encode your network name, password, and security type so phones can join with a scan.', icon: 'wifi' },
 			{ name: 'vCard QR', href: '/qr/vcard', description: 'vCard QR code generator. Turn a name, phone, email, and company into a contact QR that phones can save.', icon: 'user' },
@@ -208,7 +208,7 @@ export const toolCategories: ToolCategory[] = [
 				name: 'XML to JSON Converter',
 				href: '/xml/to-json',
 				description:
-					'Convert XML to JSON using @attributes and #text. Repeated sibling tags become arrays; a single sibling stays an object.',
+					'XML has attributes and text. JSON has neither, so something has to give.',
 				icon: 'arrow-right',
 				keywords: [
 					'xml to json',
@@ -707,7 +707,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: 'hash',
 		description: 'Compute MD5, SHA-1, SHA-256, SHA-512, CRC32, and HMAC checksums, or check a digest against published test vectors. Hashes are not encryption.',
 		items: [
-			{ name: 'Hash Generator', href: '/hash/generator', description: 'MD5 and SHA-1 are collision-broken. SHA-256 for file checksums. Do not hash passwords here.', icon: 'lock-keyhole', keywords: ['sha256 checksum', 'md5 broken', 'sha1 broken', 'hash not for passwords', 'file hash'] },
+			{ name: 'Hash Generator', href: '/hash/generator', description: 'SHA-512 is not password storage. MD5 is not integrity.', icon: 'lock-keyhole', keywords: ['sha256 checksum', 'md5 broken', 'sha1 broken', 'hash not for passwords', 'file hash'] },
 			{ name: 'MD5 Checksum', href: '/hash/md5', description: 'Create an MD5 checksum from text or a file. MD5 is fine for accidental corruption checks, not for passwords.', icon: 'lock' },
 			{ name: 'SHA-256 Hash', href: '/hash/sha256', description: 'Generate secure 256-bit SHA-256 hashes from text or files.', icon: 'lock' },
 			{ name: 'SHA-512 Hash', href: '/hash/sha512', description: 'SHA-512 checksum (512-bit). Longer SHA-2 digest than SHA-256. Not a password KDF.', icon: 'lock' },
@@ -749,7 +749,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: 'regex',
 		description: 'Test, extract, replace, and explain JavaScript regular expressions. Flavor differences vs PCRE are called out.',
 		items: [
-			{ name: 'Regex Tester', href: '/regex/tester', description: 'Test JavaScript regular expressions only. Not PCRE, Python, or Go. regex101 owns the other flavors.', icon: 'flask-conical', keywords: ['javascript regex tester', 'js regexp', 'pcre vs javascript regex', 'regex lastIndex'] },
+			{ name: 'Regex Tester', href: '/regex/tester', description: 'This is JavaScript regex, not PCRE, not Python, not Go. A pattern that “worked in PHP” can fail here for reasons that look like your test string is wrong.', icon: 'flask-conical', keywords: ['javascript regex tester', 'js regexp', 'pcre vs javascript regex', 'regex lastIndex'] },
 			{ name: 'Regex Matcher', href: '/regex/matcher', description: 'Regex match extractor online. Extract all matches and capture groups from text. Export matches as JSON, CSV, or plain list—free regex extraction tool.', icon: 'target' },
 			{ name: 'Regex Replacer', href: '/regex/replacer', description: 'Find and replace with regular expressions, with live preview and capture-group support ($1, $2).', icon: 'refresh-cw' },
 			{ name: 'Regex Explainer', href: '/regex/explainer', description: 'Regex explainer online. Break down regex patterns into tokens with plain English explanations. Understand any regex visually—free regex breakdown tool.', icon: 'book-open' },
@@ -761,7 +761,7 @@ export const toolCategories: ToolCategory[] = [
 		icon: 'lock-keyhole',
 		description: 'Decode JWT header and payload, inspect claims and expiry, mint unsigned tokens for UI tests. Decoding is not verification.',
 		items: [
-			{ name: 'JWT Decoder', href: '/jwt/decoder', description: 'Decode a JWT header and payload. Decoding is not verification. alg=none is unsigned. Use fake fixture tokens, not production ones.', icon: 'lock-open', keywords: ['jwt decoder', 'jwt decode not verify', 'alg none jwt', 'jwt payload'] },
+			{ name: 'JWT Decoder', href: '/jwt/decoder', description: 'Decode is not verify. A readable payload is not a trusted user.', icon: 'lock-open', keywords: ['jwt decoder', 'jwt decode not verify', 'alg none jwt', 'jwt payload'] },
 			{ name: 'Expiration Checker', href: '/jwt/expiration', description: 'JWT expiration checker online. Check if your JWT is expired, see time remaining, and view exp/iat/nbf timestamps in human-readable format with timezone support.', icon: 'timer' },
 			{ name: 'Claims Viewer', href: '/jwt/claims', description: 'JWT claims viewer online. View and understand all JWT claims with descriptions. Highlights standard claims (iss, sub, aud, exp) and flags missing recommended claims.', icon: 'clipboard' },
 			{ name: 'JWT Generator', href: '/jwt/generator', description: 'JWT generator online for testing. Create unsigned or demo JWT tokens for UI testing. NOT for production—generates test tokens with custom header and payload.', icon: 'zap' },

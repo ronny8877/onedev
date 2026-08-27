@@ -31,10 +31,11 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 			'HMAC belongs on the HMAC page; this page is unkeyed hashes'
 		],
 		concept: {
-			title: 'MD5 and SHA-1 are broken; hashes are not for passwords',
-			content: `<p><strong>MD5</strong> (1992) and <strong>SHA-1</strong> (1995) are collision-broken. Chosen-prefix collisions are practical. Browsers and CAs rejected SHA-1 certificates years ago. Git still uses SHA-1 historically; that is not a reason to hash passwords or sign new artifacts with it. For integrity of a file you already trust the publisher of, SHA-256 is the default. CRC32 is an error-detecting checksum, not a cryptographic hash at all.</p>
-<p><strong>Do not hash passwords with anything on this page.</strong> MD5(password), SHA-1(password), even SHA-256(password) are fast and unsalted. Attackers use GPUs and rainbow tables. Password storage needs a slow KDF: Argon2id, bcrypt, or scrypt, with a unique salt per user. The security tools section covers that. A 32-character hex SHA-256 of "admin123" is a demo of the avalanche effect, not a login scheme.</p>
-<p>Hashing is one-way. Encryption is two-way with a key. You cannot "decrypt" a digest. If two files share an MD5, that can be an attack, not a coincidence you ignore.</p>`
+			title: 'SHA-512 is not password storage',
+			content: `<p>SHA-512 is not password storage. MD5 is not integrity. A hex digest is a fingerprint of bytes, not a lock, and treating it as either is how leaks happen.</p>
+<p>Paste the text (or pick a file). Read the algorithm name before you copy the hex. If this is a password, stop and use Argon2 or bcrypt instead.</p>
+<p>Checksums for “did the download match”: SHA-256 or SHA-512. Compare against the vendor’s published digest on <code>/hash/compare</code>. MD5 and SHA-1 are broken for anything adversarial. They still catch accidental bit flips. They do not stop someone who wanted a collision. Same bytes, same digest, always. One flipped bit, a different digest. If two files match on SHA-256, they are the same bytes.</p>
+<p>Hex vs Base64 is encoding of the digest, not a different hash. Don’t mix them in a compare.</p>`
 		},
 		examples: [
 			{
@@ -55,20 +56,20 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'Can I use MD5 for passwords?',
-				answer: '<p>No. MD5 is fast and broken for collisions. Unsalted SHA-256 is also wrong for passwords. Use Argon2id or bcrypt in the application, never a general-purpose digest from this page.</p>'
+				question: 'Can I use SHA-512 or SHA-256 for passwords?',
+				answer: '<p>SHA-512 is not password storage. MD5 is not integrity. A hex digest is a fingerprint of bytes, not a lock, and treating it as either is how leaks happen. If this is a password, stop and use Argon2 or bcrypt instead. Do not hash passwords with SHA-256 or SHA-512, “even with a salt you invented.” Use a password hash (Argon2, bcrypt, scrypt). Fast hashes are a feature for checksums and a bug for passwords.</p>'
 			},
 			{
-				question: 'Is SHA-1 OK for Git?',
-				answer: '<p>Git still names commits with SHA-1 (and is moving). That is a content address, not password storage and not a TLS certificate. For new file checksums you publish, prefer SHA-256.</p>'
+				question: 'Which algorithm should I use for a download checksum?',
+				answer: '<p>Checksums for “did the download match”: SHA-256 or SHA-512. Compare against the vendor’s published digest on <code>/hash/compare</code>. MD5 and SHA-1 are broken for anything adversarial. They still catch accidental bit flips. They do not stop someone who wanted a collision.</p>'
 			},
 			{
-				question: 'Why does CRC32 look short?',
-				answer: '<p>32 bits. Fine for zip/ethernet-style accidental corruption. Trivial to collide on purpose. Do not use it to authenticate.</p>'
+				question: 'If two SHA-256 hashes match, are the files the same?',
+				answer: '<p>Same bytes, same digest, always. One flipped bit, a different digest. If two files match on SHA-256, they are the same bytes. Hex vs Base64 is encoding of the digest, not a different hash. Don’t mix them in a compare.</p>'
 			},
 			{
-				question: 'Hash vs HMAC vs encryption?',
-				answer: '<p>Hash: unkeyed digest. HMAC: keyed digest (API signatures). Encryption: reversible with a key. This generator is unkeyed hashes only.</p>'
+				question: 'Is this HMAC? Why did a large file freeze the tab?',
+				answer: '<p>HMAC is not this page. If you needed a signature with a secret, you needed HMAC, not a raw digest. File hashing should not freeze the tab. If it does, the work is still on the main thread; that’s a bug in the tool, not in your file.</p>'
 			}
 		],
 		tips: [
@@ -77,10 +78,27 @@ export const hashToolsContent: Record<string, HashToolContent> = {
 			'Hex vs Base64 is presentation. The bits are the same digest.'
 		],
 		commonMistakes: [
-			'Storing SHA-256(password) in a user table',
-			'Treating MD5 as "good enough" because the output looks random',
-			'Confusing a hash with encryption and asking how to decode it'
+			'Do not hash passwords with SHA-256 or SHA-512, “even with a salt you invented.” Use a password hash (Argon2, bcrypt, scrypt). Fast hashes are a feature for checksums and a bug for passwords.',
+			'HMAC is not this page. If you needed a signature with a secret, you needed HMAC, not a raw digest.',
+			'File hashing should not freeze the tab. If it does, the work is still on the main thread; that’s a bug in the tool, not in your file.'
 		],
+		howTo: {
+			lede: [
+				'SHA-512 is not password storage. MD5 is not integrity. A hex digest is a fingerprint of bytes, not a lock, and treating it as either is how leaks happen.',
+				'Paste the text (or pick a file). Read the algorithm name before you copy the hex. If this is a password, stop and use Argon2 or bcrypt instead.'
+			],
+			steps: [
+				'Checksums for “did the download match”: SHA-256 or SHA-512. Compare against the vendor’s published digest on `/hash/compare`.',
+				'MD5 and SHA-1 are broken for anything adversarial. They still catch accidental bit flips. They do not stop someone who wanted a collision.',
+				'Same bytes, same digest, always. One flipped bit, a different digest. If two files match on SHA-256, they are the same bytes.',
+				'Hex vs Base64 is encoding of the digest, not a different hash. Don’t mix them in a compare.'
+			],
+			breaks: [
+				'Do not hash passwords with SHA-256 or SHA-512, “even with a salt you invented.” Use a password hash (Argon2, bcrypt, scrypt). Fast hashes are a feature for checksums and a bug for passwords.',
+				'HMAC is not this page. If you needed a signature with a secret, you needed HMAC, not a raw digest.',
+				'File hashing should not freeze the tab. If it does, the work is still on the main thread; that’s a bug in the tool, not in your file.'
+			]
+		},
 		relatedTools: [
 			{ name: 'JWT Decoder', path: '/jwt/decoder', description: 'HS256 is HMAC-SHA-256 of the token, not a password hash' },
 			{ name: 'PDF Compress', path: '/pdf/compress', description: 'Checksum the file after you shrink it' },

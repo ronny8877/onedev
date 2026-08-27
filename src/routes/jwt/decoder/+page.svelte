@@ -8,6 +8,8 @@
 	import FAQSection from '$lib/components/content/FAQSection.svelte';
 	import RelatedTools from '$lib/components/content/RelatedTools.svelte';
 	import Tips from '$lib/components/content/Tips.svelte';
+	import CommonMistakes from '$lib/components/content/CommonMistakes.svelte';
+	import HowTo from '$lib/components/content/HowTo.svelte';
 	import { jwtToolsContent } from '$lib/config/content/jwt-tools-content';
 
 	const jwtContent = jwtToolsContent['decoder'];
@@ -138,16 +140,9 @@
 
 <ToolWrapper>
 	<div class="flex flex-col gap-6">
-		<!-- Warning Banner -->
-		<div class="alert bg-warning/10 border border-warning/30 rounded-xl">
-			<svg class="h-5 w-5 text-warning flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-			</svg>
-			<div>
-				<p class="font-semibold text-warning">Decoding ≠ Verification</p>
-				<p class="text-sm text-base-content/70">This tool only decodes the JWT. It does NOT verify the signature. Anyone can create a JWT with any claims—always verify tokens server-side with the correct secret or public key.</p>
-			</div>
-		</div>
+		{#if jwtContent.howTo}
+			<HowTo lede={jwtContent.howTo.lede} steps={jwtContent.howTo.steps} breaks={jwtContent.howTo.breaks} />
+		{/if}
 
 		<!-- Actions -->
 		<ToolActions onSample={loadSample} onClear={clearAll} {stats} />
@@ -335,6 +330,9 @@
 			<FAQSection faqs={jwtContent.faqs} />
 			{#if jwtContent.tips}
 				<Tips tips={jwtContent.tips} />
+			{/if}
+			{#if jwtContent.commonMistakes}
+				<CommonMistakes mistakes={jwtContent.commonMistakes} />
 			{/if}
 			<RelatedTools relatedTools={jwtContent.relatedTools} />
 		</div>
