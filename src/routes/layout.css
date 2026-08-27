@@ -118,11 +118,13 @@ body {
   color: var(--color-primary-content);
 }
 
-/* Daisy 5 paints .btn-primary --btn-fg in @layer utilities; this selector has to win. */
+/* Daisy 5 paints .btn-primary in @layer utilities; this selector has to win.
+   --btn-color is Daisy's fill token, so it stays primary green. Ink is --btn-fg. */
 html[data-theme='lemonade'] .btn.btn-primary,
 html[data-theme='forest'] .btn.btn-primary {
   --btn-fg: var(--color-primary-content);
-  --btn-color: var(--color-primary-content);
+  --btn-color: var(--color-primary);
+  --btn-bg: var(--color-primary);
   color: var(--color-primary-content);
 }
 
