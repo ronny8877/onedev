@@ -118,6 +118,14 @@ body {
   color: var(--color-primary-content);
 }
 
+/* Daisy 5 paints .btn-primary --btn-fg in @layer utilities; this selector has to win. */
+html[data-theme='lemonade'] .btn.btn-primary,
+html[data-theme='forest'] .btn.btn-primary {
+  --btn-fg: var(--color-primary-content);
+  --btn-color: var(--color-primary-content);
+  color: var(--color-primary-content);
+}
+
 .btn-square {
   border-radius: var(--radius-selector) !important;
 }

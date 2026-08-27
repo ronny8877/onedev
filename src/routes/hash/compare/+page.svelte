@@ -104,7 +104,7 @@
 				<textarea
 					bind:value={hashA}
 					placeholder="Paste first hash..."
-					class="textarea textarea-bordered w-full min-h-[100px] font-mono text-sm rounded-xl resize-none"
+					class="textarea textarea-bordered w-full min-h-[100px] font-mono text-sm bg-base-100 border border-base-300 rounded-lg text-base-content resize-none"
 					spellcheck="false"
 				></textarea>
 				<p class="text-xs text-base-content/50 mt-1">{hashA.trim().length} chars</p>
@@ -114,7 +114,7 @@
 				<textarea
 					bind:value={hashB}
 					placeholder="Paste second hash..."
-					class="textarea textarea-bordered w-full min-h-[100px] font-mono text-sm rounded-xl resize-none"
+					class="textarea textarea-bordered w-full min-h-[100px] font-mono text-sm bg-base-100 border border-base-300 rounded-lg text-base-content resize-none"
 					spellcheck="false"
 				></textarea>
 				<p class="text-xs text-base-content/50 mt-1">{hashB.trim().length} chars</p>
