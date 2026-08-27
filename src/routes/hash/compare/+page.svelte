@@ -173,7 +173,7 @@
 		{/if}
 
 		<!-- Info -->
-		<div class="card bg-base-200 rounded-xl">
+		<div class="card bg-base-100 border border-base-300 rounded-lg">
 			<div class="card-body py-4">
 				<h4 class="text-sm font-semibold">Tips</h4>
 				<ul class="mt-2 space-y-1 text-sm text-base-content/70">
@@ -200,3 +200,13 @@
 		</div>
 	</div>
 </ToolWrapper>
+
+<style>
+	/* Theme .card fills base-200. Keep this Tips card on Hash A/B paper. */
+	.card.rounded-lg {
+		border-radius: 0.5rem;
+	}
+	:global(html[data-theme='lemonade']) .card.rounded-lg {
+		background-color: var(--color-base-100);
+	}
+</style>
