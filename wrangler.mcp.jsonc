@@ -1,0 +1,18 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "onedev-mcp",
+	"main": "./mcp-server/index.ts",
+	"compatibility_date": "2026-09-06",
+	"compatibility_flags": ["nodejs_compat"],
+	"workers_dev": false,
+	"routes": [
+		{
+			"pattern": "mcp.onedev.tools",
+			"custom_domain": true
+		}
+	],
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	}
+}

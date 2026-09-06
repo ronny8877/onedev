@@ -24,3 +24,4 @@ vite.config.ts.timestamp-*
 
 # Cloudflare Types
 /worker-configuration.d.ts
+/mcp-server/worker-configuration.d.ts
