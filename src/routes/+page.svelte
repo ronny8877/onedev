@@ -133,6 +133,24 @@
 		</p>
 	</section>
 
+	<!-- MCP Server -->
+	<section class="mb-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-left sm:p-8">
+		<div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+			<div class="max-w-2xl">
+				<p class="mb-2 text-xs font-semibold tracking-[0.16em] text-primary uppercase">
+					MCP Server
+				</p>
+				<h2 class="mb-3 text-2xl font-bold text-base-content">OneDev Tools in your AI assistant</h2>
+				<p class="leading-relaxed text-base-content/70">
+					Connect our hosted MCP server to ChatGPT, Codex, Claude, or another compatible client. Use
+					JSON transforms, hashes, JWT inspection, ID generation, CSV/YAML conversion, cron helpers,
+					and time conversion without leaving your workflow.
+				</p>
+			</div>
+			<a href="/mcp" class="btn shrink-0 btn-sm btn-primary">Explore MCP</a>
+		</div>
+	</section>
+
 	<!-- Tool Categories (from centralized config) -->
 	{#each categories as category}
 		<section class="mb-12">

@@ -870,7 +870,7 @@ export function getToolNameByPath(path: string): string | undefined {
 
 // Helper: Build toolNames record for layout
 export function getToolNamesRecord(): Record<string, string> {
-	const record: Record<string, string> = { '/': 'Dev Tools' };
+	const record: Record<string, string> = { '/': 'Dev Tools', '/mcp': 'MCP Server' };
 	for (const cat of getActiveCategories()) {
 		for (const tool of cat.items) {
 			record[tool.href] = tool.name;

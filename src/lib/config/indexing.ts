@@ -29,7 +29,8 @@ export const INDEXABLE_TRUST_PAGES = [
 	'/about',
 	'/privacy',
 	'/contact',
-	'/editorial-policy'
+	'/editorial-policy',
+	'/mcp'
 ] as const;
 
 export const INDEXABLE_CONTENT_LAST_UPDATED = '2026-08-27';
