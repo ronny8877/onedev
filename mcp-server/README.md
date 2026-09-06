@@ -14,7 +14,7 @@ Add this remote server URL in ChatGPT, Codex, Claude, or another MCP-compatible 
 https://mcp.onedev.tools/mcp
 ```
 
-The server does not require an API key or OAuth. It exposes JSON operations, Base64 and URL transforms, hashes and HMACs, UUID/NanoID/ULID generation, JWT inspection and HMAC verification, CSV and YAML conversions, cron inspection, and time conversion.
+The server does not require an API key or OAuth. It exposes JSON operations, Base64 and image data URL transforms, QR code generation with SVG/Base64 output, URL transforms, hashes and HMACs, UUID/NanoID/ULID generation, JWT inspection and HMAC verification, CSV and YAML conversions, cron inspection, and time conversion.
 
 ## Development
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { getTheme, toggleTheme } from '$lib/stores/theme.svelte.ts';
 	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 
@@ -40,6 +41,15 @@
 					<AppIcon name="moon" class="size-4" />
 				{/if}
 			</button>
+
+			<a
+				href={resolve('/mcp')}
+				class="btn btn-ghost h-8 min-h-8 gap-2 rounded-lg border border-base-300 px-3 font-normal"
+				aria-label="Open MCP server"
+			>
+				<AppIcon name="bot" class="size-4 text-primary" />
+				<span class="text-sm text-base-content">MCP</span>
+			</a>
 
 			<button
 				class="btn btn-ghost hidden h-8 min-h-8 rounded-lg border border-base-300 px-3 font-normal sm:inline-flex"

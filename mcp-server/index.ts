@@ -7,6 +7,7 @@ import {
 import { decodeJwt, decodeProtectedHeader, jwtVerify } from 'jose';
 import { load, dump } from 'js-yaml';
 import { nanoid } from 'nanoid';
+import qrcode from 'qrcode-generator';
 import { Cron } from 'croner';
 import cronstrue from 'cronstrue';
 import { ulid } from 'ulid';
@@ -17,6 +18,7 @@ import {
 	base64ToBinary,
 	base64ToHex,
 	decodeBase64,
+	detectMimeType,
 	encodeBase64,
 	fromURLSafe,
 	toURLSafe,
@@ -60,7 +62,6 @@ const BROWSER_ORIGINS = [
 ];
 
 const textInput = z.string().min(1).max(MAX_TEXT_LENGTH);
-const optionalTextInput = z.string().max(MAX_TEXT_LENGTH).optional();
 const hashAlgorithms = ['MD5', 'SHA-1', 'SHA-256', 'SHA-512', 'CRC32'] as const;
 const csvDelimiters = [',', ';', '\t', '|'] as const;
 
@@ -88,6 +89,39 @@ function toBase64(bytes: ArrayBuffer): string {
 	let binary = '';
 	for (const byte of new Uint8Array(bytes)) binary += String.fromCharCode(byte);
 	return btoa(binary);
+}
+
+function parseBase64DataUrl(input: string): { mimeType: string; base64: string } {
+	const match = input.trim().match(/^data:([^;,]+);base64,([\s\S]*)$/i);
+	if (!match) throw new Error('Expected a Base64 data URL such as data:image/png;base64,...');
+	const base64 = match[2].replace(/\s/g, '');
+	const validation = validateBase64(base64);
+	if (!validation.valid)
+		throw new Error(validation.details ?? validation.error ?? 'Invalid Base64 data.');
+	return { mimeType: match[1], base64: fromURLSafe(base64) };
+}
+
+function buildQrResult(
+	input: string,
+	format: 'svg' | 'base64' | 'data_url',
+	errorCorrection: 'L' | 'M' | 'Q' | 'H',
+	cellSize: number,
+	margin: number
+) {
+	const qr = qrcode(0, errorCorrection);
+	qr.addData(input);
+	qr.make();
+	const svg = qr.createSvgTag({ cellSize, margin, scalable: true });
+	const base64 = encodeBase64(svg);
+	const result: Record<string, unknown> = {
+		format,
+		mimeType: 'image/svg+xml',
+		moduleCount: qr.getModuleCount()
+	};
+	if (format === 'svg') result.svg = svg;
+	if (format === 'base64' || format === 'data_url') result.base64 = base64;
+	if (format === 'data_url') result.dataUrl = `data:image/svg+xml;base64,${base64}`;
+	return result;
 }
 
 function readableJwtTime(value: unknown): string | undefined {
@@ -189,15 +223,39 @@ function registerTools(server: McpServer) {
 					'to_url_safe',
 					'from_url_safe',
 					'to_hex',
-					'to_binary'
+					'to_binary',
+					'to_data_url',
+					'from_data_url'
 				]),
 				input: textInput,
-				removePadding: z.boolean().default(false)
+				removePadding: z.boolean().default(false),
+				mimeType: z
+					.string()
+					.regex(/^[a-z][a-z0-9.+-]*\/[a-z0-9.+-]+$/i)
+					.optional()
 			})
 		},
-		async ({ operation, input, removePadding }) => {
+		async ({ operation, input, removePadding, mimeType }) => {
 			try {
 				if (operation === 'validate') return jsonResult(validateBase64(input));
+				if (operation === 'to_data_url') {
+					const base64 = fromURLSafe(input.trim().replace(/\s/g, ''));
+					const validation = validateBase64(base64);
+					if (!validation.valid)
+						throw new Error(validation.details ?? validation.error ?? 'Invalid Base64 data.');
+					const resolvedMimeType =
+						mimeType ?? detectMimeType(base64)?.mimeType ?? 'application/octet-stream';
+					return jsonResult({
+						operation,
+						mimeType: resolvedMimeType,
+						base64,
+						dataUrl: `data:${resolvedMimeType};base64,${base64}`
+					});
+				}
+				if (operation === 'from_data_url') {
+					const parsed = parseBase64DataUrl(input);
+					return jsonResult({ operation, ...parsed });
+				}
 				const output =
 					operation === 'encode'
 						? encodeBase64(input)
@@ -211,6 +269,28 @@ function registerTools(server: McpServer) {
 										? base64ToHex(input)
 										: base64ToBinary(input);
 				return jsonResult({ operation, output });
+			} catch (error) {
+				return toolError(error);
+			}
+		}
+	);
+
+	server.registerTool(
+		'qr_code',
+		{
+			description:
+				'Generate a QR code from text or a URL and return SVG, raw Base64 image data, or an embeddable Base64 data URL.',
+			inputSchema: z.object({
+				input: z.string().min(1).max(8_000),
+				format: z.enum(['svg', 'base64', 'data_url']).default('data_url'),
+				errorCorrection: z.enum(['L', 'M', 'Q', 'H']).default('M'),
+				cellSize: z.number().int().min(1).max(16).default(4),
+				margin: z.number().int().min(0).max(32).default(4)
+			})
+		},
+		async ({ input, format, errorCorrection, cellSize, margin }) => {
+			try {
+				return jsonResult(buildQrResult(input, format, errorCorrection, cellSize, margin));
 			} catch (error) {
 				return toolError(error);
 			}

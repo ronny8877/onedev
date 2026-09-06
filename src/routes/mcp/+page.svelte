@@ -16,8 +16,15 @@
 		{
 			icon: 'binary',
 			title: 'Encoding',
-			description: 'Encode, decode, validate, and inspect Base64 and URL values.',
+			description: 'Encode, decode, validate, and inspect Base64, image data URLs, and URL values.',
 			tools: ['base64_transform', 'url_transform']
+		},
+		{
+			icon: 'qr-code',
+			title: 'QR & images',
+			description:
+				'Turn text into QR codes and receive SVG or Base64 image data from an assistant.',
+			tools: ['qr_code']
 		},
 		{
 			icon: 'lock-keyhole',
@@ -94,7 +101,7 @@
 		<div class="max-w-3xl">
 			<div class="mb-5 flex flex-wrap items-center gap-3">
 				<span class="badge badge-outline badge-primary">Model Context Protocol</span>
-				<span class="text-sm text-base-content/50">15 focused tools</span>
+				<span class="text-sm text-base-content/50">16 focused tools</span>
 			</div>
 			<h1 class="text-4xl font-bold tracking-tight text-base-content sm:text-5xl">
 				OneDev Tools, in your assistant.
@@ -132,7 +139,7 @@
 
 		<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 			{#each toolGroups as group (group.title)}
-				<article class="card border border-base-300 bg-base-200 shadow-sm">
+				<article class="card border border-base-300 bg-base-200 p-6 shadow-sm">
 					<div
 						class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary"
 					>
@@ -163,7 +170,7 @@
 		</div>
 
 		<div class="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-			<article class="card border border-base-300 bg-base-200 shadow-sm">
+			<article class="card border border-base-300 bg-base-200 p-6 shadow-sm">
 				<div class="mb-4 flex items-center gap-3">
 					<span
 						class="flex h-9 w-9 items-center justify-center rounded-lg bg-base-300 text-primary"
@@ -224,6 +231,47 @@
 				<pre
 					class="overflow-x-auto rounded-xl bg-neutral p-5 text-sm leading-relaxed text-neutral-content"><code
 						>{exampleResult}</code
+					></pre>
+			</div>
+		</div>
+	</section>
+
+	<section class="mb-14">
+		<div class="mb-7">
+			<p class="mb-2 text-xs font-semibold tracking-[0.16em] text-primary uppercase">QR output</p>
+			<h2 class="text-2xl font-bold tracking-tight text-base-content sm:text-3xl">
+				Return a QR image as Base64.
+			</h2>
+			<p class="mt-2 max-w-2xl text-base-content/60">
+				Send any short text, URL, or structured QR payload and ask for a scalable SVG or a
+				ready-to-embed Base64 data URL.
+			</p>
+		</div>
+
+		<div class="grid gap-4 lg:grid-cols-2">
+			<div>
+				<p class="mb-2 text-sm font-semibold text-base-content/70">Request</p>
+				<pre
+					class="overflow-x-auto rounded-xl bg-neutral p-5 text-sm leading-relaxed text-neutral-content"><code
+						>{`{
+  "name": "qr_code",
+  "arguments": {
+    "input": "https://onedev.tools",
+    "format": "data_url"
+  }
+}`}</code
+					></pre>
+			</div>
+			<div>
+				<p class="mb-2 text-sm font-semibold text-base-content/70">Result</p>
+				<pre
+					class="overflow-x-auto rounded-xl bg-neutral p-5 text-sm leading-relaxed text-neutral-content"><code
+						>{`{
+  "format": "data_url",
+  "mimeType": "image/svg+xml",
+  "base64": "PHN2ZyB4bWxucz0i...",
+  "dataUrl": "data:image/svg+xml;base64,PHN2Zy..."
+}`}</code
 					></pre>
 			</div>
 		</div>

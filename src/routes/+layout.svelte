@@ -98,7 +98,7 @@
 	<!-- Sidebar Drawer -->
 	<div class="drawer-side z-40">
 		<label for="main-drawer" class="drawer-overlay" aria-label="Close menu"></label>
-		<Sidebar items={[{ name: 'MCP', href: '/mcp', icon: 'bot' }]} accordions={sidebarAccordions} onNavigate={() => { drawerOpen = false; }} />
+		<Sidebar accordions={sidebarAccordions} onNavigate={() => { drawerOpen = false; }} />
 	</div>
 </div>
 
