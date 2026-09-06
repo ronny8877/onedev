@@ -669,7 +669,7 @@ export default {
 					name: 'OneDev Tools MCP',
 					version: '0.1.0',
 					endpoint: 'https://mcp.onedev.tools/mcp',
-					documentation: 'https://onedev.tools'
+					documentation: 'https://onedev.tools/mcp'
 				})
 			);
 		}
