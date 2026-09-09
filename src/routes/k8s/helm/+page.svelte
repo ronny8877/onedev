@@ -2,7 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
-	import yaml from 'js-yaml';
+	import * as yaml from 'js-yaml';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
@@ -78,7 +78,13 @@ spec:
 		try {
 			const parsed = yaml.load(input) as Record<string, unknown>;
 			if (!parsed || typeof parsed !== 'object') {
-				return { success: false, error: 'Invalid YAML', values: {}, valuesYaml: '', templateSnippets: [] };
+				return {
+					success: false,
+					error: 'Invalid YAML',
+					values: {},
+					valuesYaml: '',
+					templateSnippets: []
+				};
 			}
 
 			const kind = parsed.kind as string;
@@ -99,12 +105,15 @@ spec:
 			}
 
 			// Extract container info
-			const templateSpec = (spec?.template as Record<string, unknown>)?.spec as Record<string, unknown>;
+			const templateSpec = (spec?.template as Record<string, unknown>)?.spec as Record<
+				string,
+				unknown
+			>;
 			const containers = templateSpec?.containers as Record<string, unknown>[] | undefined;
-			
+
 			if (containers && containers.length > 0) {
 				const container = containers[0];
-				
+
 				// Image
 				if (container.image) {
 					const imageParts = String(container.image).split(':');
@@ -136,13 +145,15 @@ spec:
 				const env = container.env as Record<string, unknown>[] | undefined;
 				if (env && env.length > 0) {
 					const envObj: Record<string, string> = {};
-					env.forEach(e => {
+					env.forEach((e) => {
 						if (e.name && e.value) {
 							envObj[String(e.name)] = String(e.value);
 						}
 					});
 					values['env'] = envObj;
-					templateSnippets.push(`env:\n{{- range $key, $value := .Values.env }}\n- name: {{ $key }}\n  value: {{ $value | quote }}\n{{- end }}`);
+					templateSnippets.push(
+						`env:\n{{- range $key, $value := .Values.env }}\n- name: {{ $key }}\n  value: {{ $value | quote }}\n{{- end }}`
+					);
 				}
 			}
 
@@ -161,7 +172,13 @@ spec:
 
 			return { success: true, values, valuesYaml, templateSnippets };
 		} catch (e) {
-			return { success: false, error: (e as Error).message, values: {}, valuesYaml: '', templateSnippets: [] };
+			return {
+				success: false,
+				error: (e as Error).message,
+				values: {},
+				valuesYaml: '',
+				templateSnippets: []
+			};
 		}
 	}
 
@@ -199,47 +216,47 @@ spec:
 
 		<div class="grid gap-6 lg:grid-cols-2">
 			<!-- Input -->
-			<div class="card bg-base-200 rounded-2xl h-fit">
+			<div class="card h-fit rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<h3 class="font-bold text-sm mb-2">Kubernetes YAML</h3>
+					<h3 class="mb-2 text-sm font-bold">Kubernetes YAML</h3>
 					<textarea
 						bind:value={input}
 						placeholder="Paste K8s deployment/service YAML..."
-						class="textarea textarea-bordered w-full font-mono text-xs min-h-64 leading-relaxed"
-						spellcheck="false"
-					></textarea>
+						class="textarea-bordered textarea min-h-64 w-full font-mono text-xs leading-relaxed"
+						spellcheck="false"></textarea>
 				</div>
 			</div>
 
 			<!-- Output -->
 			<div class="space-y-4">
 				{#if result.error}
-					<div class="alert alert-error rounded-xl">
+					<div class="alert rounded-xl alert-error">
 						<span>{result.error}</span>
 					</div>
 				{:else if result.valuesYaml}
 					<!-- Values.yaml -->
-					<div class="card bg-base-200 rounded-2xl">
+					<div class="card rounded-2xl bg-base-200">
 						<div class="card-body p-4">
-							<div class="flex items-center justify-between mb-3">
-								<h3 class="font-bold text-sm">values.yaml</h3>
+							<div class="mb-3 flex items-center justify-between">
+								<h3 class="text-sm font-bold">values.yaml</h3>
 								<div class="flex gap-1">
 									<CopyButton text={result.valuesYaml} size="sm" />
-									<button class="btn btn-xs btn-ghost" onclick={downloadValues}>Download</button>
+									<button class="btn btn-ghost btn-xs" onclick={downloadValues}>Download</button>
 								</div>
 							</div>
-							<pre class="bg-base-100 p-3 rounded-lg text-xs font-mono overflow-x-auto max-h-48">{result.valuesYaml}</pre>
+							<pre
+								class="max-h-48 overflow-x-auto rounded-lg bg-base-100 p-3 font-mono text-xs">{result.valuesYaml}</pre>
 						</div>
 					</div>
 
 					<!-- Template Snippets -->
 					{#if result.templateSnippets.length > 0}
-						<div class="card bg-base-200 rounded-xl">
+						<div class="card rounded-xl bg-base-200">
 							<div class="card-body p-4">
-								<h3 class="font-bold text-sm mb-3">Template Snippets</h3>
+								<h3 class="mb-3 text-sm font-bold">Template Snippets</h3>
 								<div class="space-y-2">
 									{#each result.templateSnippets as snippet}
-										<div class="bg-base-100 p-2 rounded text-xs font-mono flex items-start gap-2">
+										<div class="flex items-start gap-2 rounded bg-base-100 p-2 font-mono text-xs">
 											<code class="flex-1 whitespace-pre">{snippet}</code>
 											<CopyButton text={snippet} size="sm" />
 										</div>
@@ -249,7 +266,7 @@ spec:
 						</div>
 					{/if}
 				{:else}
-					<div class="card bg-base-200 rounded-xl">
+					<div class="card rounded-xl bg-base-200">
 						<div class="card-body p-6 text-center text-base-content/50">
 							<p>Paste K8s YAML to generate Helm values</p>
 						</div>
@@ -259,9 +276,9 @@ spec:
 		</div>
 
 		<!-- Extracted Fields Legend -->
-		<div class="card bg-base-200 rounded-xl">
+		<div class="card rounded-xl bg-base-200">
 			<div class="card-body p-4">
-				<h4 class="font-semibold text-sm mb-2">Extracted Fields</h4>
+				<h4 class="mb-2 text-sm font-semibold">Extracted Fields</h4>
 				<div class="flex flex-wrap gap-2 text-xs">
 					<span class="badge badge-ghost">image.repository</span>
 					<span class="badge badge-ghost">image.tag</span>

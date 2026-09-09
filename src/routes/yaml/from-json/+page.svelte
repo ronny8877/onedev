@@ -3,7 +3,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
-	import yaml from 'js-yaml';
+	import * as yaml from 'js-yaml';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
@@ -89,9 +89,9 @@
 
 		<!-- Settings -->
 		<div class="flex justify-center">
-			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
+			<div class="flex items-center gap-2 rounded-xl bg-base-200 px-4 py-2">
 				<span class="text-sm font-medium">YAML Indent:</span>
-				<select bind:value={yamlIndent} class="select select-sm select-bordered bg-base-100">
+				<select bind:value={yamlIndent} class="select-bordered select bg-base-100 select-sm">
 					<option value={2}>2 spaces</option>
 					<option value={4}>4 spaces</option>
 				</select>
@@ -100,11 +100,11 @@
 
 		<div class="grid gap-6 lg:grid-cols-2">
 			<!-- Input JSON -->
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<div class="flex items-center gap-2 mb-3">
-						<div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
-							<span class="font-mono font-bold text-xs">JS</span>
+					<div class="mb-3 flex items-center gap-2">
+						<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20">
+							<span class="font-mono text-xs font-bold">JS</span>
 						</div>
 						<h3 class="font-bold">JSON Input</h3>
 					</div>
@@ -112,18 +112,17 @@
 					<textarea
 						bind:value={input}
 						placeholder="Paste your JSON here..."
-						class="textarea textarea-bordered w-full font-mono text-sm min-h-64 leading-relaxed"
-						spellcheck="false"
-					></textarea>
+						class="textarea-bordered textarea min-h-64 w-full font-mono text-sm leading-relaxed"
+						spellcheck="false"></textarea>
 				</div>
 			</div>
 
 			<!-- Output YAML -->
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<div class="flex items-center justify-between mb-3">
+					<div class="mb-3 flex items-center justify-between">
 						<div class="flex items-center gap-2">
-							<div class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center">
+							<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500/20">
 								<AppIcon name="file-text" size={16} />
 							</div>
 							<h3 class="font-bold">YAML Output</h3>
@@ -131,13 +130,13 @@
 						{#if result.success && result.output}
 							<div class="flex gap-1">
 								<CopyButton text={result.output} size="sm" />
-								<button class="btn btn-xs btn-ghost" onclick={downloadOutput}>Download</button>
+								<button class="btn btn-ghost btn-xs" onclick={downloadOutput}>Download</button>
 							</div>
 						{/if}
 					</div>
 
 					{#if result.error}
-						<div class="alert alert-error rounded-lg mb-3">
+						<div class="mb-3 alert rounded-lg alert-error">
 							<span class="text-sm">{result.error}</span>
 						</div>
 					{/if}
@@ -146,7 +145,7 @@
 						value={result.output}
 						readonly
 						placeholder="YAML will appear here..."
-						class="textarea textarea-bordered w-full font-mono text-sm min-h-64 leading-relaxed bg-base-100"
+						class="textarea-bordered textarea min-h-64 w-full bg-base-100 font-mono text-sm leading-relaxed"
 					></textarea>
 				</div>
 			</div>
@@ -157,7 +156,7 @@
 			<div class="flex items-center gap-4 text-sm text-base-content/60">
 				<span class="badge badge-lg badge-primary">JSON</span>
 				<AppIcon name="arrow-right" size={20} />
-				<span class="badge badge-lg badge-ghost">YAML</span>
+				<span class="badge badge-ghost badge-lg">YAML</span>
 			</div>
 		</div>
 	</div>

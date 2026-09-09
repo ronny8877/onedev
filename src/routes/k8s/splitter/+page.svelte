@@ -2,7 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
-	import yaml from 'js-yaml';
+	import * as yaml from 'js-yaml';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
@@ -77,7 +77,7 @@ data:
 		}
 
 		try {
-			const rawDocs = input.split(/^---$/m).filter(d => d.trim());
+			const rawDocs = input.split(/^---$/m).filter((d) => d.trim());
 			const docs: ParsedDoc[] = [];
 
 			rawDocs.forEach((rawContent, i) => {
@@ -118,7 +118,7 @@ data:
 	// Auto-select all on parse
 	$effect(() => {
 		if (result.docs.length > 0 && selectedDocs.size === 0) {
-			selectedDocs = new Set(result.docs.map(d => d.index));
+			selectedDocs = new Set(result.docs.map((d) => d.index));
 		}
 	});
 
@@ -143,7 +143,7 @@ data:
 	}
 
 	function selectAll() {
-		selectedDocs = new Set(result.docs.map(d => d.index));
+		selectedDocs = new Set(result.docs.map((d) => d.index));
 	}
 
 	function selectNone() {
@@ -152,11 +152,11 @@ data:
 
 	async function downloadZip() {
 		const zip = new JSZip();
-		const selectedDocsList = result.docs.filter(d => selectedDocs.has(d.index));
+		const selectedDocsList = result.docs.filter((d) => selectedDocs.has(d.index));
 
 		// Handle filename collisions
 		const usedNames = new Map<string, number>();
-		selectedDocsList.forEach(doc => {
+		selectedDocsList.forEach((doc) => {
 			let filename = doc.filename;
 			const count = usedNames.get(filename) || 0;
 			if (count > 0) {
@@ -176,8 +176,8 @@ data:
 	}
 
 	function copySelected() {
-		const selectedDocsList = result.docs.filter(d => selectedDocs.has(d.index));
-		const content = selectedDocsList.map(d => `---\n${d.content}`).join('\n');
+		const selectedDocsList = result.docs.filter((d) => selectedDocs.has(d.index));
+		const content = selectedDocsList.map((d) => `---\n${d.content}`).join('\n');
 		navigator.clipboard.writeText(content);
 	}
 
@@ -189,26 +189,25 @@ data:
 <ToolWrapper>
 	<div class="flex flex-col gap-6">
 		<!-- Actions -->
-		<ToolActions onSample={loadSample} onClear={clearAll} stats={stats} />
+		<ToolActions onSample={loadSample} onClear={clearAll} {stats} />
 
 		<div class="grid gap-6 lg:grid-cols-2">
 			<!-- Input -->
-			<div class="card bg-base-200 rounded-2xl h-fit">
+			<div class="card h-fit rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<h3 class="font-bold text-sm mb-2">Multi-Document YAML</h3>
+					<h3 class="mb-2 text-sm font-bold">Multi-Document YAML</h3>
 					<textarea
 						bind:value={input}
 						placeholder="Paste multi-doc K8s YAML (separated by ---)..."
-						class="textarea textarea-bordered w-full font-mono text-xs min-h-72 leading-relaxed"
-						spellcheck="false"
-					></textarea>
+						class="textarea-bordered textarea min-h-72 w-full font-mono text-xs leading-relaxed"
+						spellcheck="false"></textarea>
 				</div>
 			</div>
 
 			<!-- Documents List -->
 			<div class="space-y-4">
 				{#if result.error}
-					<div class="alert alert-error rounded-xl">
+					<div class="alert rounded-xl alert-error">
 						<span>{result.error}</span>
 					</div>
 				{:else if result.docs.length > 0}
@@ -219,62 +218,60 @@ data:
 							<span class="badge badge-ghost badge-sm">{selectedDocs.size} selected</span>
 						</div>
 						<div class="flex gap-1">
-							<button class="btn btn-xs btn-ghost" onclick={selectAll}>All</button>
-							<button class="btn btn-xs btn-ghost" onclick={selectNone}>None</button>
+							<button class="btn btn-ghost btn-xs" onclick={selectAll}>All</button>
+							<button class="btn btn-ghost btn-xs" onclick={selectNone}>None</button>
 						</div>
 					</div>
 
 					<!-- Documents -->
-					<div class="space-y-2 max-h-64 overflow-y-auto">
+					<div class="max-h-64 space-y-2 overflow-y-auto">
 						{#each result.docs as doc}
-							<div 
-								class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors
-									{selectedDocs.has(doc.index) ? 'bg-primary/10 border border-primary/20' : 'bg-base-200 hover:bg-base-300'}"
+							<div
+								class="flex cursor-pointer items-center gap-3 rounded-lg p-3 transition-colors
+									{selectedDocs.has(doc.index)
+									? 'border border-primary/20 bg-primary/10'
+									: 'bg-base-200 hover:bg-base-300'}"
 								onclick={() => toggleDoc(doc.index)}
 							>
-								<input 
-									type="checkbox" 
+								<input
+									type="checkbox"
 									checked={selectedDocs.has(doc.index)}
 									class="checkbox checkbox-sm checkbox-primary"
 									onclick={(e) => e.stopPropagation()}
 									onchange={() => toggleDoc(doc.index)}
 								/>
-								<div class="flex-1 min-w-0">
+								<div class="min-w-0 flex-1">
 									<div class="flex items-center gap-2">
-										<span class="badge badge-sm badge-ghost">{doc.kind}</span>
-										<span class="font-mono font-bold text-sm truncate">{doc.name}</span>
+										<span class="badge badge-ghost badge-sm">{doc.kind}</span>
+										<span class="truncate font-mono text-sm font-bold">{doc.name}</span>
 									</div>
 									{#if doc.namespace}
 										<span class="text-xs text-base-content/50">namespace: {doc.namespace}</span>
 									{/if}
 								</div>
-								<span class="text-xs text-base-content/50 font-mono">{doc.filename}</span>
+								<span class="font-mono text-xs text-base-content/50">{doc.filename}</span>
 							</div>
 						{/each}
 					</div>
 
 					<!-- Actions -->
 					<div class="flex gap-2">
-						<button 
-							class="btn btn-primary flex-1" 
+						<button
+							class="btn flex-1 btn-primary"
 							disabled={selectedDocs.size === 0}
 							onclick={downloadZip}
 						>
 							Download ZIP ({selectedDocs.size})
 						</button>
-						<button 
-							class="btn btn-ghost" 
-							disabled={selectedDocs.size === 0}
-							onclick={copySelected}
-						>
+						<button class="btn btn-ghost" disabled={selectedDocs.size === 0} onclick={copySelected}>
 							Copy
 						</button>
 					</div>
 				{:else}
-					<div class="card bg-base-200 rounded-xl">
+					<div class="card rounded-xl bg-base-200">
 						<div class="card-body p-6 text-center text-base-content/50">
 							<p>Paste multi-doc YAML to split</p>
-							<p class="text-xs mt-1">Documents should be separated by <code>---</code></p>
+							<p class="mt-1 text-xs">Documents should be separated by <code>---</code></p>
 						</div>
 					</div>
 				{/if}
@@ -282,10 +279,11 @@ data:
 		</div>
 
 		<!-- Info -->
-		<div class="card bg-info/10 border border-info/20 rounded-xl">
+		<div class="card rounded-xl border border-info/20 bg-info/10">
 			<div class="card-body p-3">
 				<p class="text-sm text-base-content/70">
-					<strong>Tip:</strong> Files are named <code>{'{kind}'}-{'{name}'}.yaml</code>. Duplicates are automatically numbered.
+					<strong>Tip:</strong> Files are named <code>{'{kind}'}-{'{name}'}.yaml</code>. Duplicates
+					are automatically numbered.
 				</p>
 			</div>
 		</div>

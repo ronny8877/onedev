@@ -1,15 +1,9 @@
-interface CSSToolContent {
-	features: string[];
-	useCases: string[];
-	concept: { title: string; content: string };
-	examples: Array<{ label: string; code: string; isValid: boolean }>;
-	faqs: Array<{ question: string; answer: string }>;
-	relatedTools: Array<{ name: string; path: string; description: string }>;
-	tips?: string[];
-}
+import type { ToolContent } from './types';
+
+type CSSToolContent = ToolContent;
 
 export const cssToolsContent: Record<string, CSSToolContent> = {
-	'bezier': {
+	bezier: {
 		features: [
 			'Visual Cubic Bezier editor',
 			'Preview animation with custom duration',
@@ -62,26 +56,33 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 		faqs: [
 			{
 				question: 'What is the cubic-bezier function?',
-				answer: 'It\'s a CSS function that defines a custom timing function for transitions and animations. It accepts four values representing the coordinates of two control points that shape the curve of the animation.'
+				answer:
+					"It's a CSS function that defines a custom timing function for transitions and animations. It accepts four values representing the coordinates of two control points that shape the curve of the animation."
 			},
 			{
 				question: 'How do I use this in my CSS?',
-				answer: 'Copy the generated code and use it in `transition` or `animation` properties. Example: `transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);`.'
+				answer:
+					'Copy the generated code and use it in `transition` or `animation` properties. Example: `transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);`.'
 			},
 			{
 				question: 'Can values go outside 0-1 range?',
-				answer: 'Yes! Y-values (progression) can go below 0 or above 1 to create "bounce" or "elastic" effects (overshooting the target). X-values (time) must stay between 0 and 1.'
+				answer:
+					'Yes! Y-values (progression) can go below 0 or above 1 to create "bounce" or "elastic" effects (overshooting the target). X-values (time) must stay between 0 and 1.'
 			}
 		],
 		relatedTools: [
-			{ name: 'CSS Transitions', path: '/css/transition', description: 'Generate complete transition syntax' },
+			{
+				name: 'CSS Transitions',
+				path: '/css/transition',
+				description: 'Generate complete transition syntax'
+			},
 			{ name: 'Keyframes', path: '/css/keyframes', description: 'Create complex animations' },
 			{ name: 'CSS Formatter', path: '/css/formatter', description: 'Format your CSS code' }
 		],
 		tips: [
 			'Use ease-out for entering elements (feels responsive).',
 			'Use ease-in for exiting elements (feels natural).',
-			'Avoid complex curves for very short animations (<200ms) as they won\'t be noticeable.'
+			"Avoid complex curves for very short animations (<200ms) as they won't be noticeable."
 		]
 	},
 	'box-shadow': {
@@ -134,21 +135,32 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 		faqs: [
 			{
 				question: 'How do I make a shadow only on one side?',
-				answer: 'Use a negative spread radius equal to the blur radius. For example, a bottom-only shadow: `0 10px 10px -10px rgba(0,0,0,0.5)`.'
+				answer:
+					'Use a negative spread radius equal to the blur radius. For example, a bottom-only shadow: `0 10px 10px -10px rgba(0,0,0,0.5)`.'
 			},
 			{
 				question: 'Can I have multiple shadows?',
-				answer: 'Yes! Separate them with commas. The first shadow in the list is rendered on top, the last one on the bottom. `box-shadow: 3px 3px red, -1em 0 0.4em olive;`'
+				answer:
+					'Yes! Separate them with commas. The first shadow in the list is rendered on top, the last one on the bottom. `box-shadow: 3px 3px red, -1em 0 0.4em olive;`'
 			},
 			{
 				question: 'What is neumorphism?',
-				answer: 'Neumorphism (Soft UI) is a design trend that uses highlights and shadows to make elements look like they are extruded from the background. It typically requires two shadows: a light one and a dark one.'
+				answer:
+					'Neumorphism (Soft UI) is a design trend that uses highlights and shadows to make elements look like they are extruded from the background. It typically requires two shadows: a light one and a dark one.'
 			}
 		],
 		relatedTools: [
 			{ name: 'Text Shadow', path: '/css/text-shadow', description: 'Add shadows to text' },
-			{ name: 'CSS Filter', path: '/css/filter', description: 'Add drop-shadow filters (follows transparent shapes)' },
-			{ name: 'Border Radius', path: '/css/border-radius', description: 'Round corners for your boxes' }
+			{
+				name: 'CSS Filter',
+				path: '/css/filter',
+				description: 'Add drop-shadow filters (follows transparent shapes)'
+			},
+			{
+				name: 'Border Radius',
+				path: '/css/border-radius',
+				description: 'Round corners for your boxes'
+			}
 		],
 		tips: [
 			'Use multiple subtle shadows instead of one harsh shadow for a more realistic look.',
@@ -156,7 +168,7 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 			'Performance warning: Large blur radii and spread radii can be expensive to render on low-end devices.'
 		]
 	},
-	'filter': {
+	filter: {
 		features: [
 			'Visual adjustment of all CSS filters',
 			'Real-time image preview',
@@ -206,15 +218,18 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 		faqs: [
 			{
 				question: 'What is the difference between box-shadow and drop-shadow?',
-				answer: '`box-shadow` creates a rectangular shadow around the element\'s box. `drop-shadow` (a filter) creates a shadow that conforms to the shape of the content (e.g., a transparent PNG or SVG).'
+				answer:
+					"`box-shadow` creates a rectangular shadow around the element's box. `drop-shadow` (a filter) creates a shadow that conforms to the shape of the content (e.g., a transparent PNG or SVG)."
 			},
 			{
 				question: 'Does filter order matter?',
-				answer: 'Yes! Filters are applied in order. For example, `grayscale(100%) sepia(100%)` produces a different result than `sepia(100%) grayscale(100%)`.'
+				answer:
+					'Yes! Filters are applied in order. For example, `grayscale(100%) sepia(100%)` produces a different result than `sepia(100%) grayscale(100%)`.'
 			},
 			{
 				question: 'Do filters affect performance?',
-				answer: 'Some filters like `blur` and `drop-shadow` can be computationally expensive, especially on large areas or during animations. Use `will-change: filter` sparingly if animating.'
+				answer:
+					'Some filters like `blur` and `drop-shadow` can be computationally expensive, especially on large areas or during animations. Use `will-change: filter` sparingly if animating.'
 			}
 		],
 		relatedTools: [
@@ -228,7 +243,7 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 			'Filters apply to the element and all its children.'
 		]
 	},
-	'formatter': {
+	formatter: {
 		features: [
 			'Beautify messy CSS/SCSS/LESS code',
 			'Consistent indentation (spaces or tabs)',
@@ -271,20 +286,27 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 		faqs: [
 			{
 				question: 'Why format CSS?',
-				answer: 'Readability is key for maintenance. It\'s much harder to find bugs in a single long line of CSS. Formatting also ensures consistency when working in teams.'
+				answer:
+					"Readability is key for maintenance. It's much harder to find bugs in a single long line of CSS. Formatting also ensures consistency when working in teams."
 			},
 			{
 				question: 'Should I sort properties alphabetically?',
-				answer: 'It\'s a matter of preference. Some tools (and Google\'s style guide) recommend alphabetical sorting for faster scanning. Others prefer grouping by function (e.g., positioning first, then box model, then typography).'
+				answer:
+					"It's a matter of preference. Some tools (and Google's style guide) recommend alphabetical sorting for faster scanning. Others prefer grouping by function (e.g., positioning first, then box model, then typography)."
 			},
 			{
 				question: 'Can this fix errors?',
-				answer: 'It can fix minor syntax issues like missing semicolons or braces, but it won\'t fix invalid property names or logic errors.'
+				answer:
+					"It can fix minor syntax issues like missing semicolons or braces, but it won't fix invalid property names or logic errors."
 			}
 		],
 		relatedTools: [
 			{ name: 'CSS Minifier', path: '/css/minifier', description: 'Minify CSS for production' },
-			{ name: 'Prefix Cleaner', path: '/css/prefix-cleaner', description: 'Remove unnecessary vendor prefixes' },
+			{
+				name: 'Prefix Cleaner',
+				path: '/css/prefix-cleaner',
+				description: 'Remove unnecessary vendor prefixes'
+			},
 			{ name: 'Snippets', path: '/css/snippets', description: 'Useful CSS snippets' }
 		],
 		tips: [
@@ -293,7 +315,7 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 			'Consider using a preprocessor like SASS or PostCSS for better organization.'
 		]
 	},
-	'gradient': {
+	gradient: {
 		features: [
 			'Linear and Radial gradient support',
 			'Multi-stop color picker',
@@ -337,15 +359,18 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 		faqs: [
 			{
 				question: 'Do I still need vendor prefixes?',
-				answer: 'For modern browsers, no. `linear-gradient` is widely supported. However, for supporting very old browsers (like old Android or iOS versions), prefixes like `-webkit-` might be needed.'
+				answer:
+					'For modern browsers, no. `linear-gradient` is widely supported. However, for supporting very old browsers (like old Android or iOS versions), prefixes like `-webkit-` might be needed.'
 			},
 			{
 				question: 'How do I create hard edges?',
-				answer: 'By setting two color stops at the same location. E.g., `red 50%, blue 50%` creates a sharp line between red and blue at the halfway point.'
+				answer:
+					'By setting two color stops at the same location. E.g., `red 50%, blue 50%` creates a sharp line between red and blue at the halfway point.'
 			},
 			{
 				question: 'Can I overlay gradients?',
-				answer: 'Yes! You can specify multiple background images separated by commas. `background: linear-gradient(...), url(image.jpg);`.'
+				answer:
+					'Yes! You can specify multiple background images separated by commas. `background: linear-gradient(...), url(image.jpg);`.'
 			}
 		],
 		relatedTools: [
@@ -359,7 +384,7 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 			'Use `conic-gradient` (modern browsers) for pie charts or color wheels.'
 		]
 	},
-	'keyframes': {
+	keyframes: {
 		features: [
 			'Visual timeline for animation steps',
 			'Add/remove keyframe stops (0%, 50%, 100%)',
@@ -404,15 +429,18 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 		faqs: [
 			{
 				question: 'What is the difference between transition and animation?',
-				answer: 'Transitions move from state A to state B when a property changes (hover, class change). Animations can have intermediate steps (keyframes), loop, and start automatically without user interaction.'
+				answer:
+					'Transitions move from state A to state B when a property changes (hover, class change). Animations can have intermediate steps (keyframes), loop, and start automatically without user interaction.'
 			},
 			{
 				question: 'What does fill-mode do?',
-				answer: '`animation-fill-mode` specifies a style for the element when the animation is not playing (before it starts, after it ends, or both). `forwards` retains the computed values set by the last keyframe.'
+				answer:
+					'`animation-fill-mode` specifies a style for the element when the animation is not playing (before it starts, after it ends, or both). `forwards` retains the computed values set by the last keyframe.'
 			},
 			{
 				question: 'Can I animate any property?',
-				answer: 'Most properties are animatable, but not all. Properties involving layout (height: auto) are notoriously hard to animate smoothly. Transform and Opacity are best for performance.'
+				answer:
+					'Most properties are animatable, but not all. Properties involving layout (height: auto) are notoriously hard to animate smoothly. Transform and Opacity are best for performance.'
 			}
 		],
 		relatedTools: [
@@ -426,7 +454,7 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 			'Use `animation-delay` to stagger animations for a group of elements.'
 		]
 	},
-	'minifier': {
+	minifier: {
 		features: [
 			'Compress CSS file size',
 			'Remove comments and whitespace',
@@ -468,21 +496,32 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 		faqs: [
 			{
 				question: 'Will minification break my layout?',
-				answer: 'No, a good minifier preserves the semantic meaning of your CSS. It only removes bytes that the browser doesn\'t need to understand the styles.'
+				answer:
+					"No, a good minifier preserves the semantic meaning of your CSS. It only removes bytes that the browser doesn't need to understand the styles."
 			},
 			{
 				question: 'Can I reverse minification?',
-				answer: 'Yes, using a "Formatter" or "Beautifier" tool. It won\'t restore original comments or variable names if they were removed, but it will make the code readable again.'
+				answer:
+					'Yes, using a "Formatter" or "Beautifier" tool. It won\'t restore original comments or variable names if they were removed, but it will make the code readable again.'
 			},
 			{
 				question: 'Does this handle CSS variables?',
-				answer: 'Yes, modern minifiers respect CSS variables (--var-name) and won\'t rename them as that could break functionality.'
+				answer:
+					"Yes, modern minifiers respect CSS variables (--var-name) and won't rename them as that could break functionality."
 			}
 		],
 		relatedTools: [
 			{ name: 'CSS Formatter', path: '/css/formatter', description: 'Un-minify CSS code' },
-			{ name: 'Data Size Converter', path: '/convert/data-size', description: 'Calculate size savings' },
-			{ name: 'Prefix Cleaner', path: '/css/prefix-cleaner', description: 'Remove old vendor prefixes' }
+			{
+				name: 'Data Size Converter',
+				path: '/convert/data-size',
+				description: 'Calculate size savings'
+			},
+			{
+				name: 'Prefix Cleaner',
+				path: '/css/prefix-cleaner',
+				description: 'Remove old vendor prefixes'
+			}
 		],
 		tips: [
 			'Automate minification in your build process (Webpack, Vite, Gulp) rather than doing it manually.',
@@ -534,15 +573,18 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 		faqs: [
 			{
 				question: 'Should I remove ALL prefixes?',
-				answer: 'Not necessarily. Some cutting-edge features still require prefixes (like `-webkit-background-clip: text` or scrollbar styling). This tool targets *obsolete* prefixes for standard properties like border-radius, box-shadow, Flexbox, etc.'
+				answer:
+					'Not necessarily. Some cutting-edge features still require prefixes (like `-webkit-background-clip: text` or scrollbar styling). This tool targets *obsolete* prefixes for standard properties like border-radius, box-shadow, Flexbox, etc.'
 			},
 			{
 				question: 'How do I know which prefixes are needed?',
-				answer: 'The best practice is to write standard CSS and use a build tool plugin called "Autoprefixer" which checks "Can I Use" data to automatically add only the prefixes needed for the browsers you want to support.'
+				answer:
+					'The best practice is to write standard CSS and use a build tool plugin called "Autoprefixer" which checks "Can I Use" data to automatically add only the prefixes needed for the browsers you want to support.'
 			},
 			{
 				question: 'Why does -webkit- still exist?',
-				answer: 'Because of Chrome/Safari dominance, many sites relied on `-webkit-` properties. Even non-WebKit browsers sometimes implement `-webkit-` aliases for compatibility!'
+				answer:
+					'Because of Chrome/Safari dominance, many sites relied on `-webkit-` properties. Even non-WebKit browsers sometimes implement `-webkit-` aliases for compatibility!'
 			}
 		],
 		relatedTools: [
@@ -551,11 +593,11 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 			{ name: 'Box Shadow', path: '/css/box-shadow', description: 'Generate modern box shadows' }
 		],
 		tips: [
-			'Don\'t manually write prefixes anymore. Use standard CSS and a post-processor.',
+			"Don't manually write prefixes anymore. Use standard CSS and a post-processor.",
 			'If copying code from old tutorials (pre-2015), run it through this cleaner first.'
 		]
 	},
-	'snippets': {
+	snippets: {
 		features: [
 			'Collection of common CSS patterns',
 			'One-click copy',
@@ -603,11 +645,13 @@ export const cssToolsContent: Record<string, CSSToolContent> = {
 		faqs: [
 			{
 				question: 'Are these snippets compatible with all browsers?',
-				answer: 'Most are standard modern CSS supported by all evergreen browsers. Some cutting-edge snippets might need fallback for Internet Explorer, but we focus on modern web development practices.'
+				answer:
+					'Most are standard modern CSS supported by all evergreen browsers. Some cutting-edge snippets might need fallback for Internet Explorer, but we focus on modern web development practices.'
 			},
 			{
 				question: 'How do I use these in SASS/SCSS?',
-				answer: 'Most valid CSS is also valid SCSS. You can copy these directly into your mixins or classes. The nesting syntax `&` used in some snippets is native to SCSS (and now native CSS too!).'
+				answer:
+					'Most valid CSS is also valid SCSS. You can copy these directly into your mixins or classes. The nesting syntax `&` used in some snippets is native to SCSS (and now native CSS too!).'
 			}
 		],
 		relatedTools: [
@@ -663,21 +707,28 @@ color: transparent;</code></pre>
 		faqs: [
 			{
 				question: 'Why does my text disappear?',
-				answer: 'You likely forgot `color: transparent`. The gradient is on the background, sitting behind the text. You need to make the text transparent so the background shows through the character shapes.'
+				answer:
+					'You likely forgot `color: transparent`. The gradient is on the background, sitting behind the text. You need to make the text transparent so the background shows through the character shapes.'
 			},
 			{
 				question: 'Does this work in Internet Explorer?',
-				answer: 'No. IE11 does not support `background-clip: text`. You should provide a solid color fallback: define `color: black` before the gradient styles, and wrap the gradient code in `@supports (-webkit-background-clip: text) { ... }`.'
+				answer:
+					'No. IE11 does not support `background-clip: text`. You should provide a solid color fallback: define `color: black` before the gradient styles, and wrap the gradient code in `@supports (-webkit-background-clip: text) { ... }`.'
 			},
 			{
 				question: 'Can I select the text?',
-				answer: 'Yes! Unlike SVG or Canvas text effects, CSS text gradients remain fully selectable and accessible screen text.'
+				answer:
+					'Yes! Unlike SVG or Canvas text effects, CSS text gradients remain fully selectable and accessible screen text.'
 			}
 		],
 		relatedTools: [
 			{ name: 'CSS Gradient', path: '/css/gradient', description: 'General gradient generator' },
 			{ name: 'Text Shadow', path: '/css/text-shadow', description: 'Add shadows to text' },
-			{ name: 'Typography', path: '/convert/typography', description: 'Font size and line-height tools' }
+			{
+				name: 'Typography',
+				path: '/convert/typography',
+				description: 'Font size and line-height tools'
+			}
 		],
 		tips: [
 			'Always include a solid `color` fallback for older browsers.',
@@ -730,15 +781,18 @@ color: transparent;</code></pre>
 		faqs: [
 			{
 				question: 'How do I create a text outline (stroke)?',
-				answer: 'While `text-stroke` exists, it has poor support. A common trick is using 4 text-shadows: `1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000`.'
+				answer:
+					'While `text-stroke` exists, it has poor support. A common trick is using 4 text-shadows: `1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000`.'
 			},
 			{
 				question: 'Can I use rgba colors?',
-				answer: 'Yes, and it\'s recommended! Using a semi-transparent black (rgba(0,0,0,0.5)) allows the shadow to blend naturally with any background color.'
+				answer:
+					"Yes, and it's recommended! Using a semi-transparent black (rgba(0,0,0,0.5)) allows the shadow to blend naturally with any background color."
 			},
 			{
 				question: 'Why is there no spread radius?',
-				answer: 'The CSS spec for text-shadow doesn\'t include spread. To simulate spread (thicker shadow), you must stack multiple shadows with slightly different offsets.'
+				answer:
+					"The CSS spec for text-shadow doesn't include spread. To simulate spread (thicker shadow), you must stack multiple shadows with slightly different offsets."
 			}
 		],
 		relatedTools: [
@@ -748,10 +802,10 @@ color: transparent;</code></pre>
 		],
 		tips: [
 			'For a "letterpress" effect (engraved), use a light shadow on the bottom right and a dark shadow on the top left (or vice versa depending on light source).',
-			'Don\'t overdo blur on small text, it reduces readability.'
+			"Don't overdo blur on small text, it reduces readability."
 		]
 	},
-	'transition': {
+	transition: {
 		features: [
 			'Visual transition builder',
 			'Preview transition effects',
@@ -801,15 +855,18 @@ color: transparent;</code></pre>
 		faqs: [
 			{
 				question: 'Can I transition "display: none"?',
-				answer: 'No. `display` is not an animatable property because it toggles instantly. To fade out an element, transition `opacity` and `visibility`, but note that the element still takes up layout space unless you use JavaScript to set display none after the animation.'
+				answer:
+					'No. `display` is not an animatable property because it toggles instantly. To fade out an element, transition `opacity` and `visibility`, but note that the element still takes up layout space unless you use JavaScript to set display none after the animation.'
 			},
 			{
 				question: 'What is the best duration for UI interactions?',
-				answer: 'For hover effects, 150ms-300ms is snappy and responsive. For larger movements (modals, drawers), 300ms-500ms feels natural. Avoid >500ms for frequent interactions as it feels sluggish.'
+				answer:
+					'For hover effects, 150ms-300ms is snappy and responsive. For larger movements (modals, drawers), 300ms-500ms feels natural. Avoid >500ms for frequent interactions as it feels sluggish.'
 			},
 			{
 				question: 'Why use specific properties instead of "all"?',
-				answer: 'Performance. `transition: all` forces the browser to check every property for changes. Specifying `transition: transform, opacity` is more efficient and prevents unintended animations on other properties.'
+				answer:
+					'Performance. `transition: all` forces the browser to check every property for changes. Specifying `transition: transform, opacity` is more efficient and prevents unintended animations on other properties.'
 			}
 		],
 		relatedTools: [
@@ -818,7 +875,7 @@ color: transparent;</code></pre>
 			{ name: 'CSS Formatter', path: '/css/formatter', description: 'Format your CSS' }
 		],
 		tips: [
-			'Use `transform` and `opacity` for the smoothest (60fps) animations because they don\'t trigger layout repaints.',
+			"Use `transform` and `opacity` for the smoothest (60fps) animations because they don't trigger layout repaints.",
 			'Be careful transitioning `height` or `width` as it causes layout recalculations (can be laggy).'
 		]
 	}

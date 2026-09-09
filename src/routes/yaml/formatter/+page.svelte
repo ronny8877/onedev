@@ -3,7 +3,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
-	import yaml from 'js-yaml';
+	import * as yaml from 'js-yaml';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
@@ -93,17 +93,17 @@ settings:
 		<ToolActions onSample={loadSample} onClear={clearAll} {stats} />
 
 		<!-- Settings -->
-		<div class="flex flex-wrap gap-4 items-center justify-center">
-			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
+		<div class="flex flex-wrap items-center justify-center gap-4">
+			<div class="flex items-center gap-2 rounded-xl bg-base-200 px-4 py-2">
 				<span class="text-sm font-medium">Indent:</span>
-				<select bind:value={indent} class="select select-sm select-bordered bg-base-100">
+				<select bind:value={indent} class="select-bordered select bg-base-100 select-sm">
 					<option value={2}>2 spaces</option>
 					<option value={4}>4 spaces</option>
 				</select>
 			</div>
-			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
+			<div class="flex items-center gap-2 rounded-xl bg-base-200 px-4 py-2">
 				<span class="text-sm font-medium">Style:</span>
-				<select bind:value={flowLevel} class="select select-sm select-bordered bg-base-100">
+				<select bind:value={flowLevel} class="select-bordered select bg-base-100 select-sm">
 					<option value={-1}>Block (expanded)</option>
 					<option value={0}>Inline arrays</option>
 				</select>
@@ -112,10 +112,10 @@ settings:
 
 		<div class="grid gap-6 lg:grid-cols-2">
 			<!-- Input -->
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<div class="flex items-center gap-2 mb-3">
-						<div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
+					<div class="mb-3 flex items-center gap-2">
+						<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20">
 							<AppIcon name="file-pen" size={16} />
 						</div>
 						<h3 class="font-bold">Input YAML</h3>
@@ -124,32 +124,31 @@ settings:
 					<textarea
 						bind:value={input}
 						placeholder="Paste your YAML here..."
-						class="textarea textarea-bordered w-full font-mono text-sm min-h-64 leading-relaxed"
-						spellcheck="false"
-					></textarea>
+						class="textarea-bordered textarea min-h-64 w-full font-mono text-sm leading-relaxed"
+						spellcheck="false"></textarea>
 				</div>
 			</div>
 
 			<!-- Output -->
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<div class="flex items-center justify-between mb-3">
+					<div class="mb-3 flex items-center justify-between">
 						<div class="flex items-center gap-2">
-							<div class="w-8 h-8 rounded-lg bg-success/20 flex items-center justify-center">
+							<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-success/20">
 								<AppIcon name="sparkles" size={16} />
 							</div>
 							<h3 class="font-bold">Formatted YAML</h3>
 						</div>
 						{#if result.success && result.output}
 							<div class="flex gap-1">
-								<button class="btn btn-xs btn-ghost" onclick={copyOutput}>Copy</button>
-								<button class="btn btn-xs btn-ghost" onclick={downloadOutput}>Download</button>
+								<button class="btn btn-ghost btn-xs" onclick={copyOutput}>Copy</button>
+								<button class="btn btn-ghost btn-xs" onclick={downloadOutput}>Download</button>
 							</div>
 						{/if}
 					</div>
 
 					{#if result.error}
-						<div class="alert alert-error rounded-lg mb-3">
+						<div class="mb-3 alert rounded-lg alert-error">
 							<span class="text-sm">{result.error}</span>
 						</div>
 					{/if}
@@ -158,7 +157,7 @@ settings:
 						value={result.output}
 						readonly
 						placeholder="Formatted YAML will appear here..."
-						class="textarea textarea-bordered w-full font-mono text-sm min-h-64 leading-relaxed bg-base-100"
+						class="textarea-bordered textarea min-h-64 w-full bg-base-100 font-mono text-sm leading-relaxed"
 					></textarea>
 				</div>
 			</div>

@@ -1,32 +1,12 @@
 // Image Tools Content Configuration
 // SEO-optimized content for all Image-related tools
 
-export interface ImageToolContent {
-	features: string[];
-	useCases: string[];
-	concept: {
-		title: string;
-		content: string;
-	};
-	examples: {
-		label: string;
-		code: string;
-		isValid: boolean;
-	}[];
-	faqs: {
-		question: string;
-		answer: string;
-	}[];
-	relatedTools: {
-		name: string;
-		path: string;
-		description: string;
-	}[];
-	tips?: string[]; // Optional tips for best practices
-}
+import type { ToolContent } from './types';
+
+export type ImageToolContent = ToolContent;
 
 export const imageToolsContent: Record<string, ImageToolContent> = {
-	'resize': {
+	resize: {
 		features: [
 			'Pixel-precise width and height control',
 			'Maintain aspect ratio automatically',
@@ -86,23 +66,28 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		faqs: [
 			{
 				question: 'What happens to image quality when resizing?',
-				answer: '<p><strong>Downscaling</strong> (making smaller) usually preserves quality well. <strong>Upscaling</strong> (making larger) can cause blurriness or pixelation since you\'re adding pixels that don\'t exist in the original. Our tool uses high-quality resampling to minimize quality loss.</p>'
+				answer:
+					"<p><strong>Downscaling</strong> (making smaller) usually preserves quality well. <strong>Upscaling</strong> (making larger) can cause blurriness or pixelation since you're adding pixels that don't exist in the original. Our tool uses high-quality resampling to minimize quality loss.</p>"
 			},
 			{
 				question: 'Should I maintain aspect ratio when resizing?',
-				answer: '<p>Yes, in most cases! Maintaining aspect ratio prevents distortion. Unlock it only for specific use cases like fitting exact banner dimensions where stretching is acceptable. For thumbnails and web images, always keep aspect ratio locked.</p>'
+				answer:
+					'<p>Yes, in most cases! Maintaining aspect ratio prevents distortion. Unlock it only for specific use cases like fitting exact banner dimensions where stretching is acceptable. For thumbnails and web images, always keep aspect ratio locked.</p>'
 			},
 			{
-				question: 'What\'s the difference between resizing and compressing?',
-				answer: '<p><strong>Resizing</strong> changes pixel dimensions (e.g., 1920×1080 → 800×600). <strong>Compressing</strong> reduces file size without changing dimensions by adjusting quality. For best results, resize first, then compress.</p>'
+				question: "What's the difference between resizing and compressing?",
+				answer:
+					'<p><strong>Resizing</strong> changes pixel dimensions (e.g., 1920×1080 → 800×600). <strong>Compressing</strong> reduces file size without changing dimensions by adjusting quality. For best results, resize first, then compress.</p>'
 			},
 			{
 				question: 'What dimensions should I use for web images?',
-				answer: '<p>Common web sizes: <strong>Thumbnails</strong> 150-300px, <strong>Content images</strong> 800-1200px wide, <strong>Hero images</strong> 1920-2400px, <strong>Social media</strong> varies (Instagram 1080×1080, Twitter 1200×675). Always optimize for your layout and audience.</p>'
+				answer:
+					'<p>Common web sizes: <strong>Thumbnails</strong> 150-300px, <strong>Content images</strong> 800-1200px wide, <strong>Hero images</strong> 1920-2400px, <strong>Social media</strong> varies (Instagram 1080×1080, Twitter 1200×675). Always optimize for your layout and audience.</p>'
 			},
 			{
 				question: 'Can I resize images without losing quality?',
-				answer: '<p><strong>Downscaling</strong> preserves quality well. For <strong>upscaling</strong>, quality loss is inevitable—you can\'t add detail that wasn\'t captured. Use vector formats (SVG) or higher resolution originals when possible for enlarging.</p>'
+				answer:
+					"<p><strong>Downscaling</strong> preserves quality well. For <strong>upscaling</strong>, quality loss is inevitable—you can't add detail that wasn't captured. Use vector formats (SVG) or higher resolution originals when possible for enlarging.</p>"
 			}
 		],
 		relatedTools: [
@@ -119,7 +104,7 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		]
 	},
 
-	'compressor': {
+	compressor: {
 		features: [
 			'Quality control slider (10-100%)',
 			'Target file size limit option',
@@ -180,30 +165,39 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		faqs: [
 			{
 				question: 'What quality setting should I use?',
-				answer: '<p><strong>80-90%</strong> is the sweet spot for web images. At 90%, compression is nearly invisible. At 85%, you get good savings with minimal quality loss. Below 70%, artifacts become noticeable. Test on your specific images!</p>'
+				answer:
+					'<p><strong>80-90%</strong> is the sweet spot for web images. At 90%, compression is nearly invisible. At 85%, you get good savings with minimal quality loss. Below 70%, artifacts become noticeable. Test on your specific images!</p>'
 			},
 			{
 				question: 'Should I use JPEG, PNG, or WebP?',
-				answer: '<p>Use <strong>WebP</strong> when possible (modern browsers support it). Fallback to <strong>JPEG</strong> for photos and <strong>PNG</strong> for logos/graphics with transparency. WebP offers 25-35% better compression than JPEG/PNG at the same quality.</p>'
+				answer:
+					'<p>Use <strong>WebP</strong> when possible (modern browsers support it). Fallback to <strong>JPEG</strong> for photos and <strong>PNG</strong> for logos/graphics with transparency. WebP offers 25-35% better compression than JPEG/PNG at the same quality.</p>'
 			},
 			{
 				question: 'Will compression reduce image quality?',
-				answer: '<p>Lossy compression (JPEG, WebP) removes some data, but at 80-90% quality, the loss is imperceptible to most users. Lossless compression (PNG) reduces file size without any quality loss. Always keep high-quality originals!</p>'
+				answer:
+					'<p>Lossy compression (JPEG, WebP) removes some data, but at 80-90% quality, the loss is imperceptible to most users. Lossless compression (PNG) reduces file size without any quality loss. Always keep high-quality originals!</p>'
 			},
 			{
 				question: 'What is EXIF metadata and should I keep it?',
-				answer: '<p>EXIF is camera/photo data (date, location, camera settings). <strong>Remove it</strong> for web use (privacy + smaller file size). <strong>Preserve it</strong> for archival photos or when metadata is needed (e.g., copyright).</p>'
+				answer:
+					'<p>EXIF is camera/photo data (date, location, camera settings). <strong>Remove it</strong> for web use (privacy + smaller file size). <strong>Preserve it</strong> for archival photos or when metadata is needed (e.g., copyright).</p>'
 			},
 			{
 				question: 'Can I compress images multiple times?',
-				answer: '<p><strong>No!</strong> Each lossy compression degrades quality further. Compress once from the original high-quality source. If you need to re-compress, go back to the original, don\'t compress an already compressed image.</p>'
+				answer:
+					"<p><strong>No!</strong> Each lossy compression degrades quality further. Compress once from the original high-quality source. If you need to re-compress, go back to the original, don't compress an already compressed image.</p>"
 			}
 		],
 		relatedTools: [
 			{ name: 'Image Resizer', path: '/image/resize', description: 'Change dimensions' },
 			{ name: 'Image Format Converter', path: '/image/converter', description: 'Convert formats' },
 			{ name: 'Image Metadata Viewer', path: '/image/metadata', description: 'Remove EXIF data' },
-			{ name: 'Image BG Remover', path: '/image/remove-white', description: 'Remove white backgrounds' }
+			{
+				name: 'Image BG Remover',
+				path: '/image/remove-white',
+				description: 'Remove white backgrounds'
+			}
 		],
 		tips: [
 			'Use 85% quality for a good balance of size and quality',
@@ -213,7 +207,7 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		]
 	},
 
-	'crop': {
+	crop: {
 		features: [
 			'Visual crop area selection',
 			'AspectRatio presets (16:9, 4:3, 1:1, etc.)',
@@ -272,24 +266,29 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'What\'s the difference between cropping and resizing?',
-				answer: '<p><strong>Cropping</strong> removes outer portions of an image, reducing visible area. <strong>Resizing</strong> changes dimensions but keeps all content. Use cropping to remove unwanted parts, resizing to change size.</p>'
+				question: "What's the difference between cropping and resizing?",
+				answer:
+					'<p><strong>Cropping</strong> removes outer portions of an image, reducing visible area. <strong>Resizing</strong> changes dimensions but keeps all content. Use cropping to remove unwanted parts, resizing to change size.</p>'
 			},
 			{
 				question: 'What aspect ratio should I use?',
-				answer: '<p>It depends on usage: <strong>1:1</strong> for Instagram/profile pics, <strong>16:9</strong> for YouTube/web banners, <strong>4:5</strong> for Instagram portraits, <strong>2:3</strong> for Pinterest. Match your platform or stay with the original ratio.</p>'
+				answer:
+					'<p>It depends on usage: <strong>1:1</strong> for Instagram/profile pics, <strong>16:9</strong> for YouTube/web banners, <strong>4:5</strong> for Instagram portraits, <strong>2:3</strong> for Pinterest. Match your platform or stay with the original ratio.</p>'
 			},
 			{
 				question: 'Can I undo a crop?',
-				answer: '<p><strong>No!</strong> Cropping permanently removes pixels. Always <strong>save a copy</strong> before cropping. Keep high-resolution originals and work on duplicates for web use.</p>'
+				answer:
+					'<p><strong>No!</strong> Cropping permanently removes pixels. Always <strong>save a copy</strong> before cropping. Keep high-resolution originals and work on duplicates for web use.</p>'
 			},
 			{
 				question: 'Should I crop before orafter resizing?',
-				answer: '<p>Generally, <strong>crop first</strong> to get the right composition and aspect ratio, then <strong>resize</strong> to fit specific dimensions. This preserves more detail than resizing first.</p>'
+				answer:
+					'<p>Generally, <strong>crop first</strong> to get the right composition and aspect ratio, then <strong>resize</strong> to fit specific dimensions. This preserves more detail than resizing first.</p>'
 			},
 			{
 				question: 'How do I crop without losing quality?',
-				answer: '<p>Cropping itself doesn\'t reduce quality—it just removes pixels. For best results, crop from high-resolution originals, then resize/compress the cropped result for web use.</p>'
+				answer:
+					"<p>Cropping itself doesn't reduce quality—it just removes pixels. For best results, crop from high-resolution originals, then resize/compress the cropped result for web use.</p>"
 			}
 		],
 		relatedTools: [
@@ -300,7 +299,7 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		]
 	},
 
-	'converter': {
+	converter: {
 		features: [
 			'Convert between JPEG, PNG, WebP, GIF',
 			'Quality settings for lossy formats',
@@ -362,27 +361,36 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		faqs: [
 			{
 				question: 'What format should I use for web images?',
-				answer: '<p>Use <strong>WebP</strong> with JPEG/PNG fallback for best compatibility and size. For photos, JPEG is fine. For logos/graphics with transparency, use PNG. Always optimize for web!</p>'
+				answer:
+					'<p>Use <strong>WebP</strong> with JPEG/PNG fallback for best compatibility and size. For photos, JPEG is fine. For logos/graphics with transparency, use PNG. Always optimize for web!</p>'
 			},
 			{
 				question: 'Will I lose quality when converting formats?',
-				answer: '<p>It depends: <strong>Lossless to lossless</strong> (PNG→PNG) preserves quality. <strong>Lossy to lossless</strong> (JPEG→PNG) doesn\'t add quality back. <strong>Lossless to lossy</strong> (PNG→JPEG) reduces quality. Choose appropriate formats!</p>'
+				answer:
+					"<p>It depends: <strong>Lossless to lossless</strong> (PNG→PNG) preserves quality. <strong>Lossy to lossless</strong> (JPEG→PNG) doesn't add quality back. <strong>Lossless to lossy</strong> (PNG→JPEG) reduces quality. Choose appropriate formats!</p>"
 			},
 			{
 				question: 'Can I convert JPEG to PNG to add transparency?',
-				answer: '<p><strong>No.</strong> You can convert JPEG to PNG, but the transparent areas must be <strong>manually removed</strong> (use Remove Background tool). Conversion alone won\'t create transparency from solid backgrounds.</p>'
+				answer:
+					"<p><strong>No.</strong> You can convert JPEG to PNG, but the transparent areas must be <strong>manually removed</strong> (use Remove Background tool). Conversion alone won't create transparency from solid backgrounds.</p>"
 			},
 			{
 				question: 'What happens to transparency when converting to JPEG?',
-				answer: '<p>JPEG doesn\'t support transparency. Transparent areas are replaced with a <strong>solid color</strong> (usually white). If you need transparency, stick with PNG or convert to WebP.</p>'
+				answer:
+					"<p>JPEG doesn't support transparency. Transparent areas are replaced with a <strong>solid color</strong> (usually white). If you need transparency, stick with PNG or convert to WebP.</p>"
 			},
 			{
 				question: 'Is WebP better than JPEG?',
-				answer: '<p>Yes! WebP offers <strong>25-35% better compression</strong> than JPEG at the same visual quality, supports transparency, and has wide browser support. Use WebP with JPEG fallback for older browsers.</p>'
+				answer:
+					'<p>Yes! WebP offers <strong>25-35% better compression</strong> than JPEG at the same visual quality, supports transparency, and has wide browser support. Use WebP with JPEG fallback for older browsers.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'Image Compressor', path: '/image/compressor', description: 'Compress after converting' },
+			{
+				name: 'Image Compressor',
+				path: '/image/compressor',
+				description: 'Compress after converting'
+			},
 			{ name: 'Image Resizer', path: '/image/resize', description: 'Resize dimensions' },
 			{ name: 'Image BG Remover', path: '/image/remove-white', description: 'Add transparency' },
 			{ name: 'Image Metadata Viewer', path: '/image/metadata', description: 'View/edit metadata' }
@@ -390,12 +398,12 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		tips: [
 			'Use WebP for web—25-35% smaller than JPEG at same quality',
 			'JPEG for photos, PNG for logos/graphics with transparency',
-			'Converting to lossless doesn\'t improve quality of lossy sources',
+			"Converting to lossless doesn't improve quality of lossy sources",
 			'Test format compatibility with your target platforms'
 		]
 	},
 
-	'blur': {
+	blur: {
 		features: [
 			'Adjustable blur intensity',
 			'Gaussian blur algorithm',
@@ -455,34 +463,47 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		faqs: [
 			{
 				question: 'Can blurred data be un-blurred?',
-				answer: '<p>Generally <strong>no</strong>, but sophisticated techniques can sometimes recover partial information from light blurs. For high-security needs, use <strong>solid redaction</strong> (black boxes) instead of blur.</p>'
+				answer:
+					'<p>Generally <strong>no</strong>, but sophisticated techniques can sometimes recover partial information from light blurs. For high-security needs, use <strong>solid redaction</strong> (black boxes) instead of blur.</p>'
 			},
 			{
 				question: 'What blur intensity should I use for privacy?',
-				answer: '<p>Use at least <strong>15-20px</strong> for faces and <strong>25-30px</strong> for text/sensitive data. Test by zooming in—if you can still recognize details, increase the blur radius.</p>'
+				answer:
+					'<p>Use at least <strong>15-20px</strong> for faces and <strong>25-30px</strong> for text/sensitive data. Test by zooming in—if you can still recognize details, increase the blur radius.</p>'
 			},
 			{
 				question: 'Does blurring reduce file size?',
-				answer: '<p>Sometimes! Blurred areas have less detail, which can compress better (especially JPEG). However, the file size reduction is minor. Use compression tools for meaningful size reduction.</p>'
+				answer:
+					'<p>Sometimes! Blurred areas have less detail, which can compress better (especially JPEG). However, the file size reduction is minor. Use compression tools for meaningful size reduction.</p>'
 			},
 			{
 				question: 'Can I blur only part of an image?',
-				answer: '<p>Yes! Select specific areas to blur while keeping the rest sharp. This is useful for backgrounds, faces, or sensitive information while maintaining overall image clarity.</p>'
+				answer:
+					'<p>Yes! Select specific areas to blur while keeping the rest sharp. This is useful for backgrounds, faces, or sensitive information while maintaining overall image clarity.</p>'
 			},
 			{
 				question: 'Is Gaussian blur the best for privacy?',
-				answer: '<p>For typical needs, yes. Gaussian blur is hard to reverse. For maximum security (legal documents, passwords), use <strong>pixelation</strong> or <strong>solid black boxes</strong> instead.</p>'
+				answer:
+					'<p>For typical needs, yes. Gaussian blur is hard to reverse. For maximum security (legal documents, passwords), use <strong>pixelation</strong> or <strong>solid black boxes</strong> instead.</p>'
 			}
 		],
 		relatedTools: [
 			{ name: 'Image Cropper', path: '/image/crop', description: 'Remove sensitive areas' },
-			{ name: 'Image Compressor', path: '/image/compressor', description: 'Compress blurred images' },
-			{ name: 'Image Metadata Viewer', path: '/image/metadata', description: 'Remove location data' },
+			{
+				name: 'Image Compressor',
+				path: '/image/compressor',
+				description: 'Compress blurred images'
+			},
+			{
+				name: 'Image Metadata Viewer',
+				path: '/image/metadata',
+				description: 'Remove location data'
+			},
 			{ name: 'Image BG Remover', path: '/image/remove-white', description: 'Isolate subjects' }
 		]
 	},
 
-	'colors': {
+	colors: {
 		features: [
 			'Adjust brightness and contrast',
 			'Saturation and vibrance control',
@@ -542,35 +563,44 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'What\'s the difference between saturation and vibrance?',
-				answer: '<p><strong>Saturation</strong> increases all colors equally, which can oversaturate already-vibrant tones. <strong>Vibrance</strong> selectively enhances muted colors while protecting already-saturated ones from clipping. Use vibrance for more natural results.</p>'
+				question: "What's the difference between saturation and vibrance?",
+				answer:
+					'<p><strong>Saturation</strong> increases all colors equally, which can oversaturate already-vibrant tones. <strong>Vibrance</strong> selectively enhances muted colors while protecting already-saturated ones from clipping. Use vibrance for more natural results.</p>'
 			},
 			{
 				question: 'How do I fix a dark photo?',
-				answer: '<p>Increase <strong>brightness</strong> first, then adjust <strong>contrast</strong> to restore depth. If shadows are too dark, try <strong>shadow recovery</strong>. Avoid extreme brightness adjustments that cause washed-out highlights.</p>'
+				answer:
+					'<p>Increase <strong>brightness</strong> first, then adjust <strong>contrast</strong> to restore depth. If shadows are too dark, try <strong>shadow recovery</strong>. Avoid extreme brightness adjustments that cause washed-out highlights.</p>'
 			},
 			{
 				question: 'Can I convert back from grayscale to color?',
-				answer: '<p><strong>No.</strong> Grayscale conversion permanently removes color data. You can re-colorize (add fake colors), but the original colors are lost. Always keep a color copy before converting!</p>'
+				answer:
+					'<p><strong>No.</strong> Grayscale conversion permanently removes color data. You can re-colorize (add fake colors), but the original colors are lost. Always keep a color copy before converting!</p>'
 			},
 			{
 				question: 'Why do my colors look oversaturated?',
-				answer: '<p>You\'ve pushed saturation too far! Dial it back. Use <strong>vibrance</strong> instead of saturation for more natural enhancement, and make small +10-20% adjustments rather than large jumps.</p>'
+				answer:
+					"<p>You've pushed saturation too far! Dial it back. Use <strong>vibrance</strong> instead of saturation for more natural enhancement, and make small +10-20% adjustments rather than large jumps.</p>"
 			},
 			{
 				question: 'What is color temperature?',
-				answer: '<p>Color temperature makes images appear <strong>warmer</strong> (orange/yellow tint, like sunset) or <strong>cooler</strong> (blue tint, like shade). Adjust to match lighting conditions or create moods.</p>'
+				answer:
+					'<p>Color temperature makes images appear <strong>warmer</strong> (orange/yellow tint, like sunset) or <strong>cooler</strong> (blue tint, like shade). Adjust to match lighting conditions or create moods.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'Image Compressor', path: '/image/compressor', description: 'Compress edited images' },
+			{
+				name: 'Image Compressor',
+				path: '/image/compressor',
+				description: 'Compress edited images'
+			},
 			{ name: 'Image Resizer', path: '/image/resize', description: 'Resize for web' },
 			{ name: 'Image Format Converter', path: '/image/converter', description: 'Convert formats' },
 			{ name: 'Image Cropper', path: '/image/crop', description: 'Crop composition' }
 		]
 	},
 
-	'metadata': {
+	metadata: {
 		features: [
 			'View EXIF data (camera, date, location)',
 			'Display GPS coordinates if present',
@@ -632,27 +662,36 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		faqs: [
 			{
 				question: 'What is EXIF and why should I care?',
-				answer: '<p>EXIF is hidden data in photos. It can reveal <strong>where</strong> you took a photo (GPS), <strong>when</strong> (timestamps), and <strong>what camera</strong>you used. For privacy, remove EXIF before sharing photos online!</p>'
+				answer:
+					'<p>EXIF is hidden data in photos. It can reveal <strong>where</strong> you took a photo (GPS), <strong>when</strong> (timestamps), and <strong>what camera</strong>you used. For privacy, remove EXIF before sharing photos online!</p>'
 			},
 			{
 				question: 'Do all images have EXIF data?',
-				answer: '<p><strong>No.</strong> Only photos from cameras/phones typically have EXIF. Screenshots, drawn graphics, and web-downloaded images usually lack EXIF. JPEGs commonly have it; PNGs and WebPs less often.</p>'
+				answer:
+					'<p><strong>No.</strong> Only photos from cameras/phones typically have EXIF. Screenshots, drawn graphics, and web-downloaded images usually lack EXIF. JPEGs commonly have it; PNGs and WebPs less often.</p>'
 			},
 			{
 				question: 'Can I edit EXIF data?',
-				answer: '<p>Yes! You can edit or remove specific fields (copyright, author, keywords) or strip all EXIF. Some tools let you add custom EXIF. Note: editing may break digital signatures used for authenticity verification.</p>'
+				answer:
+					'<p>Yes! You can edit or remove specific fields (copyright, author, keywords) or strip all EXIF. Some tools let you add custom EXIF. Note: editing may break digital signatures used for authenticity verification.</p>'
 			},
 			{
 				question: 'Does social media remove EXIF when I upload photos?',
-				answer: '<p>Usually <strong>yes</strong>. Most platforms (Facebook, Twitter, Instagram) strip EXIF automatically for privacy and file size reduction. However, <strong>don\'t rely on this</strong>—remove sensitive data yourself before uploading.</p>'
+				answer:
+					"<p>Usually <strong>yes</strong>. Most platforms (Facebook, Twitter, Instagram) strip EXIF automatically for privacy and file size reduction. However, <strong>don't rely on this</strong>—remove sensitive data yourself before uploading.</p>"
 			},
 			{
 				question: 'Will removing EXIF reduce file size?',
-				answer: '<p>Yes, slightly (usually 10-50KB). For massive file size reduction, use compression. Remove EXIF primarily for <strong>privacy</strong>, not size optimization.</p>'
+				answer:
+					'<p>Yes, slightly (usually 10-50KB). For massive file size reduction, use compression. Remove EXIF primarily for <strong>privacy</strong>, not size optimization.</p>'
 			}
 		],
 		relatedTools: [
-			{ name: 'Image Compressor', path: '/image/compressor', description: 'Optionally remove EXIF' },
+			{
+				name: 'Image Compressor',
+				path: '/image/compressor',
+				description: 'Optionally remove EXIF'
+			},
 			{ name: 'Image Format Converter', path: '/image/converter', description: 'Convert formats' },
 			{ name: 'Image Blur', path: '/image/blur', description: 'Blur sensitive areas' },
 			{ name: 'Image Resizer', path: '/image/resize', description: 'Resize images' }
@@ -660,7 +699,7 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		tips: [
 			'Remove GPS data before sharing photos publicly',
 			'Preserve EXIF for archival or professional portfolios',
-			'Check EXIF removal—don\'t rely solely on social media platforms',
+			"Check EXIF removal—don't rely solely on social media platforms",
 			'Use EXIF to learn camera settings from great photos you find online'
 		]
 	},
@@ -726,23 +765,28 @@ export const imageToolsContent: Record<string, ImageToolContent> = {
 		faqs: [
 			{
 				question: 'What is tolerance and how should I set it?',
-				answer: '<p><strong>Tolerance</strong> determines how similar colors must be to white to be removed. Start with <strong>20-25</strong>. If edges remain, increase. If subject disappears, decrease. Test and adjust!</p>'
+				answer:
+					'<p><strong>Tolerance</strong> determines how similar colors must be to white to be removed. Start with <strong>20-25</strong>. If edges remain, increase. If subject disappears, decrease. Test and adjust!</p>'
 			},
 			{
 				question: 'Why do I see white edges around my subject?',
-				answer: '<p>Tolerance is too low! Increase it slightly to remove near-white pixels. Alternatively, use <strong>edge feathering</strong> or <strong>expand selection</strong> to clean up edges after removal.</p>'
+				answer:
+					'<p>Tolerance is too low! Increase it slightly to remove near-white pixels. Alternatively, use <strong>edge feathering</strong> or <strong>expand selection</strong> to clean up edges after removal.</p>'
 			},
 			{
 				question: 'Can I remove colors other than white?',
-				answer: '<p>Yes! This tool works best for white, but the same technique applies to any solid color (green screen, blue, etc.). For complex multicolor backgrounds, use AI-based background removal tools.</p>'
+				answer:
+					'<p>Yes! This tool works best for white, but the same technique applies to any solid color (green screen, blue, etc.). For complex multicolor backgrounds, use AI-based background removal tools.</p>'
 			},
 			{
 				question: 'Why is my output still JPEG and not transparent?',
-				answer: '<p>You must save as <strong>PNG</strong>! JPEG doesn\'t support transparency. Only PNG and WebP formats can have transparent areas. Always export as PNG for transparent backgrounds.</p>'
+				answer:
+					"<p>You must save as <strong>PNG</strong>! JPEG doesn't support transparency. Only PNG and WebP formats can have transparent areas. Always export as PNG for transparent backgrounds.</p>"
 			},
 			{
 				question: 'Does this work for complex backgrounds?',
-				answer: '<p><strong>No.</strong> This tool is for <strong>solid or near-solid</strong> backgrounds (white, green screen, etc.). For complex/textured backgrounds, use AI-powered background removal tools that detect subjects intelligently.</p>'
+				answer:
+					'<p><strong>No.</strong> This tool is for <strong>solid or near-solid</strong> backgrounds (white, green screen, etc.). For complex/textured backgrounds, use AI-powered background removal tools that detect subjects intelligently.</p>'
 			}
 		],
 		relatedTools: [

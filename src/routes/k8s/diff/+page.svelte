@@ -2,7 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
-	import yaml from 'js-yaml';
+	import * as yaml from 'js-yaml';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
@@ -80,7 +80,15 @@ spec:
 	}
 
 	// Breaking change fields
-	const breakingFields = ['image', 'replicas', 'containerPort', 'port', 'targetPort', 'resources', 'env'];
+	const breakingFields = [
+		'image',
+		'replicas',
+		'containerPort',
+		'port',
+		'targetPort',
+		'resources',
+		'env'
+	];
 
 	// Semantic diff between two objects
 	function semanticDiff(left: unknown, right: unknown, path: string = ''): DiffItem[] {
@@ -107,10 +115,10 @@ spec:
 		// Different types
 		if (typeof left !== typeof right) {
 			const fieldName = path.split('.').pop() || '';
-			diffs.push({ 
-				path: path || 'root', 
-				type: 'changed', 
-				leftValue: left, 
+			diffs.push({
+				path: path || 'root',
+				type: 'changed',
+				leftValue: left,
 				rightValue: right,
 				breaking: breakingFields.includes(fieldName)
 			});
@@ -155,10 +163,10 @@ spec:
 		// Primitives
 		if (left !== right) {
 			const fieldName = path.split('.').pop() || '';
-			diffs.push({ 
-				path: path || 'root', 
-				type: 'changed', 
-				leftValue: left, 
+			diffs.push({
+				path: path || 'root',
+				type: 'changed',
+				leftValue: left,
 				rightValue: right,
 				breaking: breakingFields.includes(fieldName)
 			});
@@ -190,7 +198,7 @@ spec:
 			const resourceId = `${kind}/${name}`;
 
 			const diffs = semanticDiff(left, right);
-			
+
 			return { success: true, resourceId, kind, name, diffs };
 		} catch (e) {
 			return { success: false, error: (e as Error).message, diffs: [] };
@@ -219,33 +227,35 @@ spec:
 		const lines: string[] = [];
 		lines.push(`# K8s Resource Diff: ${result.resourceId || 'Unknown'}`);
 		lines.push('');
-		
-		const added = result.diffs.filter(d => d.type === 'added');
-		const removed = result.diffs.filter(d => d.type === 'removed');
-		const changed = result.diffs.filter(d => d.type === 'changed');
+
+		const added = result.diffs.filter((d) => d.type === 'added');
+		const removed = result.diffs.filter((d) => d.type === 'removed');
+		const changed = result.diffs.filter((d) => d.type === 'changed');
 
 		if (added.length > 0) {
 			lines.push('## Added');
-			added.forEach(d => lines.push(`+ ${d.path}: ${formatValue(d.rightValue)}`));
+			added.forEach((d) => lines.push(`+ ${d.path}: ${formatValue(d.rightValue)}`));
 			lines.push('');
 		}
 		if (removed.length > 0) {
 			lines.push('## Removed');
-			removed.forEach(d => lines.push(`- ${d.path}: ${formatValue(d.leftValue)}`));
+			removed.forEach((d) => lines.push(`- ${d.path}: ${formatValue(d.leftValue)}`));
 			lines.push('');
 		}
 		if (changed.length > 0) {
 			lines.push('## Changed');
-			changed.forEach(d => lines.push(`~ ${d.path}: ${formatValue(d.leftValue)} → ${formatValue(d.rightValue)}`));
+			changed.forEach((d) =>
+				lines.push(`~ ${d.path}: ${formatValue(d.leftValue)} → ${formatValue(d.rightValue)}`)
+			);
 		}
 
 		navigator.clipboard.writeText(lines.join('\n'));
 	}
 
-	let addedCount = $derived(result.diffs.filter(d => d.type === 'added').length);
-	let removedCount = $derived(result.diffs.filter(d => d.type === 'removed').length);
-	let changedCount = $derived(result.diffs.filter(d => d.type === 'changed').length);
-	let breakingCount = $derived(result.diffs.filter(d => d.breaking).length);
+	let addedCount = $derived(result.diffs.filter((d) => d.type === 'added').length);
+	let removedCount = $derived(result.diffs.filter((d) => d.type === 'removed').length);
+	let changedCount = $derived(result.diffs.filter((d) => d.type === 'changed').length);
+	let breakingCount = $derived(result.diffs.filter((d) => d.breaking).length);
 </script>
 
 <ToolWrapper>
@@ -255,88 +265,88 @@ spec:
 
 		<!-- Two-pane Input -->
 		<div class="grid gap-4 lg:grid-cols-2">
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<h3 class="font-bold text-sm mb-2">Original / Local</h3>
+					<h3 class="mb-2 text-sm font-bold">Original / Local</h3>
 					<textarea
 						bind:value={leftInput}
 						placeholder="Paste local/original K8s YAML..."
-						class="textarea textarea-bordered w-full font-mono text-xs min-h-48 leading-relaxed"
-						spellcheck="false"
-					></textarea>
+						class="textarea-bordered textarea min-h-48 w-full font-mono text-xs leading-relaxed"
+						spellcheck="false"></textarea>
 				</div>
 			</div>
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<h3 class="font-bold text-sm mb-2">Modified / Remote</h3>
+					<h3 class="mb-2 text-sm font-bold">Modified / Remote</h3>
 					<textarea
 						bind:value={rightInput}
 						placeholder="Paste modified/remote K8s YAML..."
-						class="textarea textarea-bordered w-full font-mono text-xs min-h-48 leading-relaxed"
-						spellcheck="false"
-					></textarea>
+						class="textarea-bordered textarea min-h-48 w-full font-mono text-xs leading-relaxed"
+						spellcheck="false"></textarea>
 				</div>
 			</div>
 		</div>
 
 		<!-- Error -->
 		{#if result.error}
-			<div class="alert alert-error rounded-xl">
+			<div class="alert rounded-xl alert-error">
 				<span>{result.error}</span>
 			</div>
 		{/if}
 
 		<!-- Diff Results -->
 		{#if result.success && leftInput.trim() && rightInput.trim()}
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
 					<!-- Header -->
-					<div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+					<div class="mb-4 flex flex-wrap items-center justify-between gap-2">
 						<div class="flex items-center gap-3">
 							<h3 class="font-bold">{result.kind}/{result.name}</h3>
 							<div class="flex gap-1">
 								{#if addedCount > 0}
-									<span class="badge badge-success badge-sm">+{addedCount}</span>
+									<span class="badge badge-sm badge-success">+{addedCount}</span>
 								{/if}
 								{#if removedCount > 0}
-									<span class="badge badge-error badge-sm">-{removedCount}</span>
+									<span class="badge badge-sm badge-error">-{removedCount}</span>
 								{/if}
 								{#if changedCount > 0}
-									<span class="badge badge-warning badge-sm">~{changedCount}</span>
+									<span class="badge badge-sm badge-warning">~{changedCount}</span>
 								{/if}
 							</div>
 							{#if breakingCount > 0}
 								<span class="badge badge-error">⚠ {breakingCount} breaking</span>
 							{/if}
 						</div>
-						<button class="btn btn-sm btn-ghost" onclick={copyDiffSummary}>Copy Summary</button>
+						<button class="btn btn-ghost btn-sm" onclick={copyDiffSummary}>Copy Summary</button>
 					</div>
 
 					<!-- Toggle -->
-					<label class="flex items-center gap-2 mb-3">
+					<label class="mb-3 flex items-center gap-2">
 						<input type="checkbox" bind:checked={showUnchanged} class="checkbox checkbox-xs" />
 						<span class="text-xs">Show unchanged fields</span>
 					</label>
 
 					<!-- Diff List -->
-					{#if result.diffs.filter(d => d.type !== 'unchanged' || showUnchanged).length === 0}
-						<div class="text-center py-6 text-success">
+					{#if result.diffs.filter((d) => d.type !== 'unchanged' || showUnchanged).length === 0}
+						<div class="py-6 text-center text-success">
 							<p class="font-bold">No differences found</p>
 							<p class="text-sm text-base-content/60">Resources are identical</p>
 						</div>
 					{:else}
-						<div class="space-y-1 max-h-72 overflow-y-auto">
-							{#each result.diffs.filter(d => d.type !== 'unchanged' || showUnchanged) as diff}
-								<div class="flex items-start gap-2 p-2 rounded text-sm font-mono
+						<div class="max-h-72 space-y-1 overflow-y-auto">
+							{#each result.diffs.filter((d) => d.type !== 'unchanged' || showUnchanged) as diff}
+								<div
+									class="flex items-start gap-2 rounded p-2 font-mono text-sm
 									{diff.type === 'added' ? 'bg-success/10 text-success' : ''}
 									{diff.type === 'removed' ? 'bg-error/10 text-error' : ''}
 									{diff.type === 'changed' ? 'bg-warning/10 text-warning' : ''}
 									{diff.type === 'unchanged' ? 'bg-base-300/30 text-base-content/50' : ''}
-								">
-									<span class="shrink-0 w-4">
+								"
+								>
+									<span class="w-4 shrink-0">
 										{#if diff.type === 'added'}+{:else if diff.type === 'removed'}-{:else if diff.type === 'changed'}~{:else}={/if}
 									</span>
-									<span class="font-bold shrink-0">{diff.path}</span>
+									<span class="shrink-0 font-bold">{diff.path}</span>
 									<span class="flex-1 truncate text-base-content/70">
 										{#if diff.type === 'changed'}
 											{formatValue(diff.leftValue)} → {formatValue(diff.rightValue)}
@@ -349,7 +359,7 @@ spec:
 										{/if}
 									</span>
 									{#if diff.breaking}
-										<span class="badge badge-error badge-xs">breaking</span>
+										<span class="badge badge-xs badge-error">breaking</span>
 									{/if}
 								</div>
 							{/each}
@@ -358,7 +368,7 @@ spec:
 				</div>
 			</div>
 		{:else if !leftInput.trim() || !rightInput.trim()}
-			<div class="card bg-base-200 rounded-xl">
+			<div class="card rounded-xl bg-base-200">
 				<div class="card-body p-6 text-center text-base-content/50">
 					<p>Paste two K8s manifests to compare</p>
 				</div>
@@ -366,10 +376,16 @@ spec:
 		{/if}
 
 		<!-- Legend -->
-		<div class="flex flex-wrap gap-4 justify-center text-xs">
-			<span class="flex items-center gap-1"><span class="badge badge-success badge-xs">+</span> Added</span>
-			<span class="flex items-center gap-1"><span class="badge badge-error badge-xs">-</span> Removed</span>
-			<span class="flex items-center gap-1"><span class="badge badge-warning badge-xs">~</span> Changed</span>
+		<div class="flex flex-wrap justify-center gap-4 text-xs">
+			<span class="flex items-center gap-1"
+				><span class="badge badge-xs badge-success">+</span> Added</span
+			>
+			<span class="flex items-center gap-1"
+				><span class="badge badge-xs badge-error">-</span> Removed</span
+			>
+			<span class="flex items-center gap-1"
+				><span class="badge badge-xs badge-warning">~</span> Changed</span
+			>
 		</div>
 	</div>
 	<div class="mt-12 space-y-12">

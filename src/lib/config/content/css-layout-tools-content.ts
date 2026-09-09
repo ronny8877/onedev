@@ -1,15 +1,9 @@
-interface CSSLayoutToolContent {
-	features: string[];
-	useCases: string[];
-	concept: { title: string; content: string };
-	examples: Array<{ label: string; code: string; isValid: boolean }>;
-	faqs: Array<{ question: string; answer: string }>;
-	relatedTools: Array<{ name: string; path: string; description: string }>;
-	tips?: string[];
-}
+import type { ToolContent } from './types';
+
+type CSSLayoutToolContent = ToolContent;
 
 export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
-	'flexbox': {
+	flexbox: {
 		features: [
 			'Interactive Flexbox playground',
 			'Visual controls for direction, wrap, and alignment',
@@ -57,15 +51,18 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 		faqs: [
 			{
 				question: 'Flexbox vs Grid: Which one to use?',
-				answer: 'Use Flexbox for 1D layouts (a row OR a column). Use CSS Grid for 2D layouts (rows AND columns). They work great together!'
+				answer:
+					'Use Flexbox for 1D layouts (a row OR a column). Use CSS Grid for 2D layouts (rows AND columns). They work great together!'
 			},
 			{
 				question: 'What does "flex: 1" mean?',
-				answer: 'It is a shorthand for `flex-grow: 1; flex-shrink: 1; flex-basis: 0%`. It forces the item to expand and fill available space equally.'
+				answer:
+					'It is a shorthand for `flex-grow: 1; flex-shrink: 1; flex-basis: 0%`. It forces the item to expand and fill available space equally.'
 			},
 			{
 				question: 'How do I push one item to the right?',
-				answer: 'Set `margin-left: auto` on that specific item. In a flex container, auto margins absorb all available extra space.'
+				answer:
+					'Set `margin-left: auto` on that specific item. In a flex container, auto margins absorb all available extra space.'
 			}
 		],
 		relatedTools: [
@@ -79,7 +76,7 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 			'Use `flex-wrap: wrap` to make flex layouts responsive on smaller screens.'
 		]
 	},
-	'grid': {
+	grid: {
 		features: [
 			'Visual CSS Grid drag-and-drop builder',
 			'Define rows and columns visually',
@@ -127,15 +124,18 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 		faqs: [
 			{
 				question: 'What is the difference between auto-fill and auto-fit?',
-				answer: '`auto-fill` fills the row with as many columns as it can, even if they are empty. `auto-fit` collapses empty columns and stretches the items to fit the row.'
+				answer:
+					'`auto-fill` fills the row with as many columns as it can, even if they are empty. `auto-fit` collapses empty columns and stretches the items to fit the row.'
 			},
 			{
 				question: 'Can nested grids be subgrids?',
-				answer: 'Yes! `grid-template-columns: subgrid` allows a child to inherit the grid tracks of its parent, ensuring perfect alignment across nested components (supported in Firefox and Safari, coming to Chrome).'
+				answer:
+					'Yes! `grid-template-columns: subgrid` allows a child to inherit the grid tracks of its parent, ensuring perfect alignment across nested components (supported in Firefox and Safari, coming to Chrome).'
 			},
 			{
 				question: 'Grid vs Bootstrap?',
-				answer: 'CSS Grid replaces the need for layout frameworks like Bootstrap for structure. It is native, lighter, and more flexible.'
+				answer:
+					'CSS Grid replaces the need for layout frameworks like Bootstrap for structure. It is native, lighter, and more flexible.'
 			}
 		],
 		relatedTools: [
@@ -148,7 +148,7 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 			'Name your grid lines for easier maintenance in complex layouts: `[main-start] 1fr [main-end]`.'
 		]
 	},
-	'masonry': {
+	masonry: {
 		features: [
 			'Generate Pinterest-style masonry layouts',
 			'Pure CSS column-count method',
@@ -191,15 +191,18 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 		faqs: [
 			{
 				question: 'Why is the order top-to-bottom in CSS?',
-				answer: 'CSS Multi-column layout was designed for text flowing into columns (like a newspaper). It forces elements to fill column 1, then column 2, etc. This messes up chronological order (left-to-right).'
+				answer:
+					'CSS Multi-column layout was designed for text flowing into columns (like a newspaper). It forces elements to fill column 1, then column 2, etc. This messes up chronological order (left-to-right).'
 			},
 			{
 				question: 'How do I keep order left-to-right?',
-				answer: 'Currently, you need JavaScript to calculate absolute positions for a true left-to-right masonry layout. Or you can use a CSS Grid with dense packing, though usually not strictly masonry.'
+				answer:
+					'Currently, you need JavaScript to calculate absolute positions for a true left-to-right masonry layout. Or you can use a CSS Grid with dense packing, though usually not strictly masonry.'
 			},
 			{
 				question: 'What does "break-inside: avoid" do?',
-				answer: 'It prevents an item from being split across two columns, keeping your cards or images intact.'
+				answer:
+					'It prevents an item from being split across two columns, keeping your cards or images intact.'
 			}
 		],
 		relatedTools: [
@@ -212,7 +215,7 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 			'Always add `width: 100%` and `display: block` to images inside masonry items to avoid layout shifts.'
 		]
 	},
-	'responsive': {
+	responsive: {
 		features: [
 			'Generate standard media query breakpoints',
 			'Mobile-first vs Desktop-first toggles',
@@ -261,15 +264,18 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 		faqs: [
 			{
 				question: 'Min-width vs Max-width?',
-				answer: 'Use `min-width` for mobile-first workflows (recommended). Use `max-width` for "desktop-first" workflows where you start with desktop styles and shrink them down. Avoid mixing them to prevent complexity.'
+				answer:
+					'Use `min-width` for mobile-first workflows (recommended). Use `max-width` for "desktop-first" workflows where you start with desktop styles and shrink them down. Avoid mixing them to prevent complexity.'
 			},
 			{
 				question: 'What are the standard breakpoints?',
-				answer: 'Common standards (like Tailwind CSS): 640px (sm), 768px (md), 1024px (lg), 1280px (xl), 1536px (2xl).'
+				answer:
+					'Common standards (like Tailwind CSS): 640px (sm), 768px (md), 1024px (lg), 1280px (xl), 1536px (2xl).'
 			},
 			{
 				question: 'What meta tag do I need?',
-				answer: 'Always include `<meta name="viewport" content="width=device-width, initial-scale=1">` in your HTML head, or responsive CSS won\'t work on mobile devices.'
+				answer:
+					'Always include `<meta name="viewport" content="width=device-width, initial-scale=1">` in your HTML head, or responsive CSS won\'t work on mobile devices.'
 			}
 		],
 		relatedTools: [
@@ -283,7 +289,7 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 			'Start with the base mobile view and scale up.'
 		]
 	},
-	'position': {
+	position: {
 		features: [
 			'Interactive positioning playground',
 			'Visualize Relative, Absolute, Fixed, Sticky',
@@ -331,19 +337,26 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 		faqs: [
 			{
 				question: 'Why is my absolute element misplaced?',
-				answer: 'It needs a reference point. Ensure a parent element has `position: relative` (or fixed/sticky). otherwise, it will position itself relative to the `<body>`.'
+				answer:
+					'It needs a reference point. Ensure a parent element has `position: relative` (or fixed/sticky). otherwise, it will position itself relative to the `<body>`.'
 			},
 			{
-				question: 'Why doesn\'t z-index work?',
-				answer: '`z-index` only works on positioned elements (relative, absolute, fixed, sticky) or flex/grid children. It won\'t work on `position: static`.'
+				question: "Why doesn't z-index work?",
+				answer:
+					"`z-index` only works on positioned elements (relative, absolute, fixed, sticky) or flex/grid children. It won't work on `position: static`."
 			},
 			{
 				question: 'What is a Stacking Context?',
-				answer: 'A new layer in the render tree. Elements like opacity < 1, transform, filter, or z-index create new stacking contexts, trapping their children\'s z-index within them.'
+				answer:
+					"A new layer in the render tree. Elements like opacity < 1, transform, filter, or z-index create new stacking contexts, trapping their children's z-index within them."
 			}
 		],
 		relatedTools: [
-			{ name: 'Flexbox Generator', path: '/css-layout/flexbox', description: 'Align without positioning' },
+			{
+				name: 'Flexbox Generator',
+				path: '/css-layout/flexbox',
+				description: 'Align without positioning'
+			},
 			{ name: 'Snippet Library', path: '/css/snippets', description: 'Centering snippets' },
 			{ name: 'Grid Builder', path: '/css-layout/grid', description: 'Layout structure' }
 		],
@@ -353,7 +366,7 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 			'Use `position: sticky` for headers or sidebar navigation.'
 		]
 	},
-	'spacing': {
+	spacing: {
 		features: [
 			'Visual Margin vs Padding explorer',
 			'Box Model visualization',
@@ -402,15 +415,18 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 		faqs: [
 			{
 				question: 'Margin vs Padding?',
-				answer: 'Use Padding for internal space (background color applies). Use Margin for external space (distance between elements). "Padding makes me fat, Margin gives me personal space."'
+				answer:
+					'Use Padding for internal space (background color applies). Use Margin for external space (distance between elements). "Padding makes me fat, Margin gives me personal space."'
 			},
 			{
 				question: 'Why do my margins collapse?',
-				answer: 'Vertical margins of adjacent block elements often combine into the largest single margin value. This is "Margin Collapsing". Adding a border or padding to the parent prevents it.'
+				answer:
+					'Vertical margins of adjacent block elements often combine into the largest single margin value. This is "Margin Collapsing". Adding a border or padding to the parent prevents it.'
 			},
 			{
 				question: 'Why use REM?',
-				answer: 'REM is relative to the root font size (usually 16px). This ensures your entire layout scales respectfully if a user changes their browser\'s default font size for accessibility.'
+				answer:
+					"REM is relative to the root font size (usually 16px). This ensures your entire layout scales respectfully if a user changes their browser's default font size for accessibility."
 			}
 		],
 		relatedTools: [
@@ -467,11 +483,13 @@ export const cssLayoutToolsContent: Record<string, CSSLayoutToolContent> = {
 		faqs: [
 			{
 				question: 'What happens if content overflows?',
-				answer: 'By default, `aspect-ratio` sets a preferred size, but content can expand the element if it\'s too tall (unless you set `overflow: hidden` or `min-height`).'
+				answer:
+					"By default, `aspect-ratio` sets a preferred size, but content can expand the element if it's too tall (unless you set `overflow: hidden` or `min-height`)."
 			},
 			{
 				question: 'How do I fit an image inside?',
-				answer: 'Combine `aspect-ratio` with `object-fit: cover;` to ensure the image fills the box without stretching/distorting.'
+				answer:
+					'Combine `aspect-ratio` with `object-fit: cover;` to ensure the image fills the box without stretching/distorting.'
 			},
 			{
 				question: 'Calculating Padding Hack?',

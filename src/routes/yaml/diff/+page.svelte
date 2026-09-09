@@ -2,7 +2,7 @@
 	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
-	import yaml from 'js-yaml';
+	import * as yaml from 'js-yaml';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
@@ -83,11 +83,16 @@ features:
 					diffs.push(...findDifferences(left[i], right[i], itemPath));
 				}
 			}
-		} else if (typeof left === 'object' && left !== null && typeof right === 'object' && right !== null) {
+		} else if (
+			typeof left === 'object' &&
+			left !== null &&
+			typeof right === 'object' &&
+			right !== null
+		) {
 			const leftObj = left as Record<string, unknown>;
 			const rightObj = right as Record<string, unknown>;
 			const allKeys = new Set([...Object.keys(leftObj), ...Object.keys(rightObj)]);
-			
+
 			for (const key of allKeys) {
 				const keyPath = path ? `${path}.${key}` : key;
 				if (!(key in leftObj)) {
@@ -131,10 +136,10 @@ features:
 		<!-- Side by Side Inputs -->
 		<div class="grid gap-4 lg:grid-cols-2">
 			<!-- Left -->
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<div class="flex items-center gap-2 mb-3">
-						<div class="w-8 h-8 rounded-lg bg-error/20 flex items-center justify-center">
+					<div class="mb-3 flex items-center gap-2">
+						<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-error/20">
 							<AppIcon name="file-text" size={16} />
 						</div>
 						<h3 class="font-bold">Original YAML</h3>
@@ -142,17 +147,16 @@ features:
 					<textarea
 						bind:value={leftInput}
 						placeholder="Paste first YAML..."
-						class="textarea textarea-bordered w-full font-mono text-sm min-h-48 leading-relaxed"
-						spellcheck="false"
-					></textarea>
+						class="textarea-bordered textarea min-h-48 w-full font-mono text-sm leading-relaxed"
+						spellcheck="false"></textarea>
 				</div>
 			</div>
 
 			<!-- Right -->
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<div class="flex items-center gap-2 mb-3">
-						<div class="w-8 h-8 rounded-lg bg-success/20 flex items-center justify-center">
+					<div class="mb-3 flex items-center gap-2">
+						<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-success/20">
 							<AppIcon name="file-text" size={16} />
 						</div>
 						<h3 class="font-bold">Modified YAML</h3>
@@ -160,52 +164,55 @@ features:
 					<textarea
 						bind:value={rightInput}
 						placeholder="Paste second YAML..."
-						class="textarea textarea-bordered w-full font-mono text-sm min-h-48 leading-relaxed"
-						spellcheck="false"
-					></textarea>
+						class="textarea-bordered textarea min-h-48 w-full font-mono text-sm leading-relaxed"
+						spellcheck="false"></textarea>
 				</div>
 			</div>
 		</div>
 
 		<!-- Error -->
 		{#if result.error}
-			<div class="alert alert-error rounded-xl">
+			<div class="alert rounded-xl alert-error">
 				<span>{result.error}</span>
 			</div>
 		{/if}
 
 		<!-- Differences -->
 		{#if result.success && leftInput.trim() && rightInput.trim()}
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<div class="flex items-center justify-between mb-4">
+					<div class="mb-4 flex items-center justify-between">
 						<h3 class="font-bold">Differences</h3>
 						<span class="badge badge-ghost">{result.differences.length} change(s)</span>
 					</div>
 
 					{#if result.differences.length === 0}
-						<div class="text-center py-8 text-success">
+						<div class="py-8 text-center text-success">
 							<AppIcon name="check" size={32} />
-							<p class="font-medium mt-2">Files are identical</p>
+							<p class="mt-2 font-medium">Files are identical</p>
 						</div>
 					{:else}
 						<div class="space-y-2">
 							{#each result.differences as diff}
-								<div class="flex items-start gap-3 p-3 rounded-lg {
-									diff.type === 'added' ? 'bg-success/10 border border-success/20' :
-									diff.type === 'removed' ? 'bg-error/10 border border-error/20' :
-									'bg-warning/10 border border-warning/20'
-								}">
-									<span class="badge badge-sm {
-										diff.type === 'added' ? 'badge-success' :
-										diff.type === 'removed' ? 'badge-error' :
-										'badge-warning'
-									}">
+								<div
+									class="flex items-start gap-3 rounded-lg p-3 {diff.type === 'added'
+										? 'border border-success/20 bg-success/10'
+										: diff.type === 'removed'
+											? 'border border-error/20 bg-error/10'
+											: 'border border-warning/20 bg-warning/10'}"
+								>
+									<span
+										class="badge badge-sm {diff.type === 'added'
+											? 'badge-success'
+											: diff.type === 'removed'
+												? 'badge-error'
+												: 'badge-warning'}"
+									>
 										{diff.type === 'added' ? '+' : diff.type === 'removed' ? '-' : '~'}
 									</span>
-									<div class="flex-1 min-w-0">
-										<code class="text-sm font-mono font-bold">{diff.path}</code>
-										<div class="text-sm mt-1">
+									<div class="min-w-0 flex-1">
+										<code class="font-mono text-sm font-bold">{diff.path}</code>
+										<div class="mt-1 text-sm">
 											{#if diff.type === 'added'}
 												<span class="text-success">Added: {formatValue(diff.rightValue)}</span>
 											{:else if diff.type === 'removed'}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getActiveCategories, getAllActiveTools } from '$lib/config/tools';
 	import { SITE_ORIGIN } from '$lib/config/indexing';
+	import { REPOSITORY_URL } from '$lib/config/site';
 	import logo from '$lib/assets/logo.png';
 	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	const categories = getActiveCategories();
@@ -70,6 +71,14 @@
 		<p class="text-muted mt-4 text-sm">
 			{allTools.length} tools · Free · Website tools run locally
 		</p>
+		<a
+			href={REPOSITORY_URL}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="btn mt-5 gap-2 border border-base-300 btn-ghost btn-sm"
+		>
+			View the source on GitHub
+		</a>
 	</div>
 
 	<!-- Original copy so the homepage is not only a card grid -->
@@ -147,7 +156,7 @@
 					and time conversion without leaving your workflow.
 				</p>
 			</div>
-			<a href="/mcp" class="btn shrink-0 btn-sm btn-primary">Explore MCP</a>
+			<a href="/mcp" class="btn shrink-0 btn-primary btn-sm">Explore MCP</a>
 		</div>
 	</section>
 

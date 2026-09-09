@@ -3,7 +3,14 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ImageUploader from '$lib/components/ui/ImageUploader.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
-	import { readFileAsArrayBuffer, loadImage, loadImageAsCanvas, canvasToBlob, downloadBlob, formatFileSize } from '$lib/utils/image';
+	import {
+		readFileAsArrayBuffer,
+		loadImage,
+		loadImageAsCanvas,
+		canvasToBlob,
+		downloadBlob,
+		formatFileSize
+	} from '$lib/utils/image';
 	import exifr from 'exifr';
 	import { imageToolsContent } from '$lib/config/content/image-tools-content';
 	import Features from '$lib/components/content/Features.svelte';
@@ -25,9 +32,17 @@
 	let basicInfo = $state<{ key: string; value: string; icon?: string }[]>([]);
 
 	// EXIF metadata groups
-	let exifGroups = $state<{ name: string; icon: string; data: { key: string; value: string }[] }[]>([]);
+	let exifGroups = $state<{ name: string; icon: string; data: { key: string; value: string }[] }[]>(
+		[]
+	);
 	let hasExif = $state(false);
 	let exifError = $state('');
+
+	function formatAspectRatio(width: number, height: number): string {
+		const divisor = (a: number, b: number): number => (b === 0 ? a : divisor(b, a % b));
+		const gcd = divisor(width, height);
+		return `${width / gcd}:${height / gcd}`;
+	}
 
 	async function handleImageLoad(file: File, dataURL: string) {
 		console.log('Handling image load:', file.name, file.type, file.size);
@@ -43,7 +58,10 @@
 			{ key: 'File Name', value: file.name },
 			{ key: 'File Size', value: formatFileSize(file.size) },
 			{ key: 'File Type', value: file.type || 'Unknown' },
-			{ key: 'Last Modified', value: file.lastModified ? new Date(file.lastModified).toLocaleString() : 'Unknown' }
+			{
+				key: 'Last Modified',
+				value: file.lastModified ? new Date(file.lastModified).toLocaleString() : 'Unknown'
+			}
 		];
 		basicInfo = initialInfo;
 
@@ -54,7 +72,7 @@
 				...initialInfo.slice(0, 3), // Insert dimensions after Type
 				{ key: 'Dimensions', value: `${img.width} × ${img.height} pixels` },
 				{ key: 'Aspect Ratio', value: formatAspectRatio(img.width, img.height) },
-				{ key: 'Total Pixels', value: `${(img.width * img.height / 1000000).toFixed(2)} MP` },
+				{ key: 'Total Pixels', value: `${((img.width * img.height) / 1000000).toFixed(2)} MP` },
 				...initialInfo.slice(3)
 			];
 		} catch (e) {
@@ -65,7 +83,7 @@
 		try {
 			console.log('Reading file as ArrayBuffer for exifr...');
 			const buffer = await readFileAsArrayBuffer(file);
-			
+
 			console.log('Starting exifr parse...');
 			// Parse with grouping enabled - try to be as permissive as possible
 			const options = {
@@ -75,15 +93,15 @@
 				gps: true,
 				interop: true,
 				xmp: true,
-				jfif: true, 
+				jfif: true,
 				icc: true,
 				iptc: true,
 				mergeOutput: false, // Keep structure
 				sanitize: true,
 				reviveValues: true
 			};
-			
-			let output = await exifr.parse(buffer, options);
+
+			let output = await exifr.parse(buffer, options as never);
 			console.log('exifr structured output:', output);
 
 			if (!output || Object.keys(output).length === 0) {
@@ -91,10 +109,10 @@
 				// Fallback to simple parse
 				output = await exifr.parse(buffer);
 				console.log('exifr flat output:', output);
-				
+
 				if (output) {
 					// Wrap flat output in a 'General' group
-					output = { 'General': output };
+					output = { General: output };
 				}
 			}
 
@@ -117,15 +135,19 @@
 
 	// ... formatAspectRatio ...
 
-	function organizeExifData(data: any): { name: string; icon: string; data: { key: string; value: string }[] }[] {
+	function organizeExifData(
+		data: any
+	): { name: string; icon: string; data: { key: string; value: string }[] }[] {
 		const groups: { name: string; icon: string; data: { key: string; value: string }[] }[] = [];
 
 		const formatValue = (v: any): string => {
 			if (v instanceof Date) return v.toLocaleString();
-			if (v instanceof Uint8Array || v instanceof Uint16Array || (v && v.type === 'Buffer')) return `[Binary Data: ${v.length || v.byteLength} bytes]`;
+			if (v instanceof Uint8Array || v instanceof Uint16Array || (v && v.type === 'Buffer'))
+				return `[Binary Data: ${v.length || v.byteLength} bytes]`;
 			if (Array.isArray(v)) return v.map(formatValue).join(', ');
 			if (typeof v === 'object' && v !== null) return JSON.stringify(v);
-			if (typeof v === 'number') return Number.isInteger(v) ? v.toString() : v.toFixed(4).replace(/\.?0+$/, '');
+			if (typeof v === 'number')
+				return Number.isInteger(v) ? v.toString() : v.toFixed(4).replace(/\.?0+$/, '');
 			return String(v);
 		};
 
@@ -150,10 +172,23 @@
 		if (data.iptc) processGroup('IPTC Metadata', '�', data.iptc);
 		if (data.icc) processGroup('ICC Profile', '🎨', data.icc);
 		if (data.jfif) processGroup('JFIF', 'ℹ️', data.jfif);
-		
+
 		// Fallback for flat data or unknown groups
-		Object.keys(data).forEach(key => {
-			if (!['ifd0', 'exif', 'gps', 'interop', 'ifd1', 'xmp', 'jfif', 'thumbnail', 'iptc', 'icc'].includes(key)) {
+		Object.keys(data).forEach((key) => {
+			if (
+				![
+					'ifd0',
+					'exif',
+					'gps',
+					'interop',
+					'ifd1',
+					'xmp',
+					'jfif',
+					'thumbnail',
+					'iptc',
+					'icc'
+				].includes(key)
+			) {
 				processGroup(key.charAt(0).toUpperCase() + key.slice(1), '📁', data[key]);
 			}
 		});
@@ -194,7 +229,9 @@
 	async function loadSample() {
 		try {
 			console.log('Loading sample image...');
-			const res = await fetch('https://images.unsplash.com/photo-1517336714731-489689fd1ca4?w=800&q=80');
+			const res = await fetch(
+				'https://images.unsplash.com/photo-1517336714731-489689fd1ca4?w=800&q=80'
+			);
 			if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
 			const blob = await res.blob();
 			const file = new File([blob], 'laptop.jpg', { type: 'image/jpeg' });
@@ -220,7 +257,7 @@
 			<ImageUploader onImageLoad={handleImageLoad} />
 		{:else}
 			<!-- Image Preview & Actions -->
-			<div class="flex flex-col sm:flex-row gap-6">
+			<div class="flex flex-col gap-6 sm:flex-row">
 				<div class="shrink-0">
 					<img
 						src={originalDataURL}
@@ -230,19 +267,27 @@
 				</div>
 
 				<div class="flex flex-col gap-3">
-					<button class="btn btn-primary gap-2" onclick={downloadStripped} disabled={!strippedBlob}>
+					<button class="btn gap-2 btn-primary" onclick={downloadStripped} disabled={!strippedBlob}>
 						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+							/>
 						</svg>
 						Download Without Metadata
 					</button>
-					<button class="btn btn-ghost" onclick={reset}>
-						Upload New Image
-					</button>
+					<button class="btn btn-ghost" onclick={reset}> Upload New Image </button>
 					{#if hasExif}
-						<div class="badge badge-warning gap-1">
+						<div class="badge gap-1 badge-warning">
 							<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+								></path>
 							</svg>
 							Contains EXIF data
 						</div>
@@ -251,7 +296,7 @@
 			</div>
 
 			<!-- Basic File Info -->
-			<div class="card bg-base-200 rounded-xl">
+			<div class="card rounded-xl bg-base-200">
 				<div class="card-body py-4">
 					<h4 class="flex items-center gap-2 text-sm font-semibold">
 						<AppIcon name="folder" size={16} />
@@ -261,7 +306,7 @@
 						{#each basicInfo as item}
 							<div class="flex justify-between text-sm">
 								<span class="text-base-content/60">{item.key}</span>
-								<span class="font-mono text-right">{item.value}</span>
+								<span class="text-right font-mono">{item.value}</span>
 							</div>
 						{/each}
 					</div>
@@ -272,7 +317,7 @@
 			{#if exifGroups.length > 0}
 				<div class="space-y-4">
 					{#each exifGroups as group}
-						<div class="card bg-base-200 rounded-xl">
+						<div class="card rounded-xl bg-base-200">
 							<div class="card-body py-4">
 								<h4 class="flex items-center gap-2 text-sm font-semibold">
 									<span><AppIcon name={group.icon} size={16} /></span>
@@ -280,9 +325,9 @@
 								</h4>
 								<div class="mt-2 grid gap-2 overflow-y-auto">
 									{#each group.data as item}
-										<div class="flex justify-between text-sm gap-4">
-											<span class="text-base-content/60 shrink-0">{item.key}</span>
-											<span class="font-mono text-right truncate" title={item.value}>
+										<div class="flex justify-between gap-4 text-sm">
+											<span class="shrink-0 text-base-content/60">{item.key}</span>
+											<span class="truncate text-right font-mono" title={item.value}>
 												{item.value}
 											</span>
 										</div>
@@ -293,23 +338,38 @@
 					{/each}
 				</div>
 			{:else if exifError}
-				<div class="alert alert-warning rounded-xl">
+				<div class="alert rounded-xl alert-warning">
 					<svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+						></path>
 					</svg>
 					<span>EXIF parsing error: {exifError}</span>
 				</div>
 			{:else if originalFile?.type === 'image/jpeg' || originalFile?.type === 'image/jpg'}
-				<div class="alert alert-info rounded-xl">
+				<div class="alert rounded-xl alert-info">
 					<svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						></path>
 					</svg>
 					<span>No EXIF metadata found in this JPEG image.</span>
 				</div>
 			{:else}
-				<div class="alert alert-info rounded-xl">
+				<div class="alert rounded-xl alert-info">
 					<svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						></path>
 					</svg>
 					<span>EXIF metadata is typically only found in JPEG images from cameras and phones.</span>
 				</div>

@@ -2,7 +2,7 @@
 	import AppIcon from '$lib/components/ui/AppIcon.svelte';
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
-	import yaml from 'js-yaml';
+	import * as yaml from 'js-yaml';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
@@ -137,8 +137,8 @@ features:
 		lines: input ? input.split('\n').length : undefined
 	});
 
-	let errorCount = $derived(result.issues.filter(i => i.type === 'error').length);
-	let warningCount = $derived(result.issues.filter(i => i.type === 'warning').length);
+	let errorCount = $derived(result.issues.filter((i) => i.type === 'error').length);
+	let warningCount = $derived(result.issues.filter((i) => i.type === 'warning').length);
 </script>
 
 <ToolWrapper>
@@ -148,10 +148,10 @@ features:
 
 		<div class="grid gap-6 lg:grid-cols-2">
 			<!-- Input -->
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<div class="flex items-center gap-2 mb-3">
-						<div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
+					<div class="mb-3 flex items-center gap-2">
+						<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20">
 							<AppIcon name="file-text" size={16} />
 						</div>
 						<h3 class="font-bold">YAML Input</h3>
@@ -160,18 +160,17 @@ features:
 					<textarea
 						bind:value={input}
 						placeholder="Paste your YAML here..."
-						class="textarea textarea-bordered w-full font-mono text-sm min-h-64 leading-relaxed"
-						spellcheck="false"
-					></textarea>
+						class="textarea-bordered textarea min-h-64 w-full font-mono text-sm leading-relaxed"
+						spellcheck="false"></textarea>
 				</div>
 			</div>
 
 			<!-- Results -->
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<div class="flex items-center justify-between mb-3">
+					<div class="mb-3 flex items-center justify-between">
 						<div class="flex items-center gap-2">
-							<div class="w-8 h-8 rounded-lg bg-warning/20 flex items-center justify-center">
+							<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-warning/20">
 								<AppIcon name="search" size={16} />
 							</div>
 							<h3 class="font-bold">Lint Results</h3>
@@ -179,36 +178,42 @@ features:
 						{#if input.trim()}
 							<div class="flex gap-2">
 								{#if errorCount > 0}
-									<span class="badge badge-error badge-sm">{errorCount} error(s)</span>
+									<span class="badge badge-sm badge-error">{errorCount} error(s)</span>
 								{/if}
 								{#if warningCount > 0}
-									<span class="badge badge-warning badge-sm">{warningCount} warning(s)</span>
+									<span class="badge badge-sm badge-warning">{warningCount} warning(s)</span>
 								{/if}
 								{#if errorCount === 0 && warningCount === 0}
-									<span class="badge badge-success badge-sm">All clear!</span>
+									<span class="badge badge-sm badge-success">All clear!</span>
 								{/if}
 							</div>
 						{/if}
 					</div>
 
 					{#if !input.trim()}
-						<div class="text-center py-12 text-base-content/50">
-							Enter YAML to lint
-						</div>
+						<div class="py-12 text-center text-base-content/50">Enter YAML to lint</div>
 					{:else if result.issues.length === 0}
-						<div class="text-center py-12">
+						<div class="py-12 text-center">
 							<AppIcon name="check" size={16} />
-							<p class="font-bold text-success mt-2">No issues found!</p>
+							<p class="mt-2 font-bold text-success">No issues found!</p>
 							<p class="text-sm text-base-content/60">Your YAML looks clean</p>
 						</div>
 					{:else}
-						<div class="space-y-2 max-h-64 overflow-y-auto">
+						<div class="max-h-64 space-y-2 overflow-y-auto">
 							{#each result.issues as issue}
-								<div class="flex items-start gap-3 p-2 rounded-lg {issue.type === 'error' ? 'bg-error/10' : 'bg-warning/10'}">
-									<span class="badge badge-sm {issue.type === 'error' ? 'badge-error' : 'badge-warning'}">
+								<div
+									class="flex items-start gap-3 rounded-lg p-2 {issue.type === 'error'
+										? 'bg-error/10'
+										: 'bg-warning/10'}"
+								>
+									<span
+										class="badge badge-sm {issue.type === 'error'
+											? 'badge-error'
+											: 'badge-warning'}"
+									>
 										L{issue.line}
 									</span>
-									<span class="text-sm flex-1">{issue.message}</span>
+									<span class="flex-1 text-sm">{issue.message}</span>
 								</div>
 							{/each}
 						</div>
@@ -218,9 +223,9 @@ features:
 		</div>
 
 		<!-- Lint Checks -->
-		<div class="card bg-base-200 rounded-xl">
+		<div class="card rounded-xl bg-base-200">
 			<div class="card-body p-4">
-				<h4 class="font-semibold text-sm mb-2">Checks Performed</h4>
+				<h4 class="mb-2 text-sm font-semibold">Checks Performed</h4>
 				<div class="flex flex-wrap gap-2 text-xs">
 					<span class="badge badge-ghost">Syntax validation</span>
 					<span class="badge badge-ghost">Duplicate keys</span>

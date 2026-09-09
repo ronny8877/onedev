@@ -8,7 +8,7 @@
 	import { page } from '$app/stores';
 	import { afterNavigate } from '$app/navigation';
 	import { getSidebarAccordions, getToolNamesRecord } from '$lib/config/tools';
-	import { initTheme, getTheme } from '$lib/stores/theme.svelte.ts';
+	import { initTheme, getTheme } from '$lib/stores/theme.svelte';
 	import { trackPageView } from '$lib/utils/analytics';
 	//fevicons
 	import appleTouchIcon from '$lib/assets/apple-touch-icon.png';
@@ -74,14 +74,14 @@
 <div class="drawer lg:drawer-open">
 	<input id="main-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerOpen} />
 
-	<div class="drawer-content ">
+	<div class="drawer-content">
 		<!-- Top Bar -->
-		<TopBar toolName={currentToolName} onSearchClick={() => commandPaletteOpen = true} />
+		<TopBar toolName={currentToolName} onSearchClick={() => (commandPaletteOpen = true)} />
 
 		<!-- Mobile menu button -->
 		<label
 			for="main-drawer"
-			class="btn btn-ghost fixed top-2 left-4 z-50 h-8 w-8 min-h-8 min-w-8 p-0 rounded-lg lg:hidden"
+			class="btn fixed top-2 left-4 z-50 h-8 min-h-8 w-8 min-w-8 rounded-lg btn-ghost p-0 lg:hidden"
 			aria-label="Open menu"
 		>
 			<AppIcon name="menu" class="size-4" />
@@ -98,7 +98,12 @@
 	<!-- Sidebar Drawer -->
 	<div class="drawer-side z-40">
 		<label for="main-drawer" class="drawer-overlay" aria-label="Close menu"></label>
-		<Sidebar accordions={sidebarAccordions} onNavigate={() => { drawerOpen = false; }} />
+		<Sidebar
+			accordions={sidebarAccordions}
+			onNavigate={() => {
+				drawerOpen = false;
+			}}
+		/>
 	</div>
 </div>
 

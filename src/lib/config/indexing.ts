@@ -1,4 +1,6 @@
-export const SITE_ORIGIN = 'https://onedev.tools';
+import { SITE_ORIGIN } from '$lib/config/site';
+
+export { SITE_ORIGIN };
 
 export const INDEXABLE_TOOLS = [
 	'/json/formatter',

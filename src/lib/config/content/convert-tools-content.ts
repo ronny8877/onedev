@@ -1,12 +1,6 @@
-interface ConvertToolContent {
-	features: string[];
-	useCases: string[];
-	concept: { title: string; content: string };
-	examples: Array<{ label: string; code: string; isValid: boolean }>;
-	faqs: Array<{ question: string; answer: string }>;
-	relatedTools: Array<{ name: string; path: string; description: string }>;
-	tips?: string[];
-}
+import type { ToolContent } from './types';
+
+type ConvertToolContent = ToolContent;
 
 export const convertToolsContent: Record<string, ConvertToolContent> = {
 	'css-units': {
@@ -73,29 +67,46 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 		faqs: [
 			{
 				question: 'Should I use px or rem for font sizes?',
-				answer: 'Use rem for font sizes. It respects user browser settings (accessibility) and makes global scaling easier. If a user sets their browser to larger text, rem scales but px doesn\'t.'
+				answer:
+					"Use rem for font sizes. It respects user browser settings (accessibility) and makes global scaling easier. If a user sets their browser to larger text, rem scales but px doesn't."
 			},
 			{
-				question: 'What\'s the difference between rem and em?',
-				answer: 'rem is always relative to the root (html) font size, while em is relative to the parent element. rem is more predictable; em can compound with nesting (2em inside 2em = 4× base size).'
+				question: "What's the difference between rem and em?",
+				answer:
+					'rem is always relative to the root (html) font size, while em is relative to the parent element. rem is more predictable; em can compound with nesting (2em inside 2em = 4× base size).'
 			},
 			{
 				question: 'When should I use vw/vh units?',
-				answer: 'Use vw/vh for full-screen sections, hero images, or elements that should scale with viewport size. Avoid for body text—viewport units can become too small on mobile or too large on desktop.'
+				answer:
+					'Use vw/vh for full-screen sections, hero images, or elements that should scale with viewport size. Avoid for body text—viewport units can become too small on mobile or too large on desktop.'
 			},
 			{
 				question: 'What is CSS clamp() and when should I use it?',
-				answer: 'clamp(min, preferred, max) sets a value that scales between min and max. Use it for fluid typography that\'s readable on all screen sizes: clamp(1rem, 2.5vw, 3rem) scales with viewport but never goes below 1rem or above 3rem.'
+				answer:
+					"clamp(min, preferred, max) sets a value that scales between min and max. Use it for fluid typography that's readable on all screen sizes: clamp(1rem, 2.5vw, 3rem) scales with viewport but never goes below 1rem or above 3rem."
 			},
 			{
 				question: 'Do viewport units work in all browsers?',
-				answer: 'Yes, vw/vh have excellent support (IE9+). However, mobile browsers may calculate vh differently when address bars appear/disappear. Use svh (small viewport height) for more predictable behavior in modern browsers.'
+				answer:
+					'Yes, vw/vh have excellent support (IE9+). However, mobile browsers may calculate vh differently when address bars appear/disappear. Use svh (small viewport height) for more predictable behavior in modern browsers.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Typography Converter', path: '/convert/typography', description: 'Advanced typography and line-height calculator' },
-			{ name: 'Length Converter', path: '/convert/length', description: 'Convert physical length measurements' },
-			{ name: 'Screen / Resolution', path: '/convert/screen', description: 'Calculate screen dimensions and DPI' },
+			{
+				name: 'Typography Converter',
+				path: '/convert/typography',
+				description: 'Advanced typography and line-height calculator'
+			},
+			{
+				name: 'Length Converter',
+				path: '/convert/length',
+				description: 'Convert physical length measurements'
+			},
+			{
+				name: 'Screen / Resolution',
+				path: '/convert/screen',
+				description: 'Calculate screen dimensions and DPI'
+			},
 			{ name: 'CSS Formatter', path: '/css/formatter', description: 'Format and beautify CSS code' }
 		],
 		tips: [
@@ -105,7 +116,7 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 			'For consistent spacing, define a scale: 0.25rem, 0.5rem, 1rem, 1.5rem, 2rem, 3rem, 4rem'
 		]
 	},
-	'length': {
+	length: {
 		features: [
 			'Convert mm, cm, meters, kilometers',
 			'Imperial units: inches, feet, yards, miles',
@@ -169,30 +180,51 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 		faqs: [
 			{
 				question: 'What DPI should I use for web design?',
-				answer: '96 DPI is the web standard. However, modern displays (Retina, HiDPI) have 2× or 3× pixel density. Design at 1× and let CSS handle scaling with device-pixel-ratio.'
+				answer:
+					'96 DPI is the web standard. However, modern displays (Retina, HiDPI) have 2× or 3× pixel density. Design at 1× and let CSS handle scaling with device-pixel-ratio.'
 			},
 			{
 				question: 'How do I convert pixels to inches for print?',
-				answer: 'Divide pixels by DPI. For print, use 300 DPI: 3000px width ÷ 300 DPI = 10 inches wide. For web previews, use 96 DPI: 960px ÷ 96 DPI = 10 inches.'
+				answer:
+					'Divide pixels by DPI. For print, use 300 DPI: 3000px width ÷ 300 DPI = 10 inches wide. For web previews, use 96 DPI: 960px ÷ 96 DPI = 10 inches.'
 			},
 			{
 				question: 'Is 1 CSS pixel always the same size?',
-				answer: 'No, 1 CSS pixel is a reference unit, not a physical pixel. On Retina displays (2× DPR), 1 CSS pixel = 4 physical pixels (2×2). This ensures consistent visual size across devices.'
+				answer:
+					'No, 1 CSS pixel is a reference unit, not a physical pixel. On Retina displays (2× DPR), 1 CSS pixel = 4 physical pixels (2×2). This ensures consistent visual size across devices.'
 			},
 			{
-				question: 'What\'s the difference between DPI and PPI?',
-				answer: 'DPI (Dots Per Inch) is for printers; PPI (Pixels Per Inch) is for screens. Both measure density—higher values mean sharper images. For screens, PPI is technically correct, but DPI is commonly used.'
+				question: "What's the difference between DPI and PPI?",
+				answer:
+					'DPI (Dots Per Inch) is for printers; PPI (Pixels Per Inch) is for screens. Both measure density—higher values mean sharper images. For screens, PPI is technically correct, but DPI is commonly used.'
 			},
 			{
 				question: 'How do I measure screen size from resolution?',
-				answer: 'You need resolution AND DPI. Example: 1920×1080 at 96 DPI = 20×11.25 inches. Use the Screen/Resolution tool for automatic calculation of physical dimensions from resolution.'
+				answer:
+					'You need resolution AND DPI. Example: 1920×1080 at 96 DPI = 20×11.25 inches. Use the Screen/Resolution tool for automatic calculation of physical dimensions from resolution.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Screen / Resolution', path: '/convert/screen', description: 'Calculate screen dimensions from resolution and DPI' },
-			{ name: 'CSS Units', path: '/convert/css-units', description: 'Convert CSS units including pixels' },
-			{ name: 'Data Size', path: '/convert/data-size', description: 'Convert file sizes and data units' },
-			{ name: 'Angle Converter', path: '/convert/angle', description: 'Convert degrees, radians, and more' }
+			{
+				name: 'Screen / Resolution',
+				path: '/convert/screen',
+				description: 'Calculate screen dimensions from resolution and DPI'
+			},
+			{
+				name: 'CSS Units',
+				path: '/convert/css-units',
+				description: 'Convert CSS units including pixels'
+			},
+			{
+				name: 'Data Size',
+				path: '/convert/data-size',
+				description: 'Convert file sizes and data units'
+			},
+			{
+				name: 'Angle Converter',
+				path: '/convert/angle',
+				description: 'Convert degrees, radians, and more'
+			}
 		],
 		tips: [
 			'For print designs, always use 300 DPI—anything less will look pixelated when printed',
@@ -201,7 +233,7 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 			'For screen sizes, diagonal measurement is standard: √(width² + height²) in inches'
 		]
 	},
-	'screen': {
+	screen: {
 		features: [
 			'Calculate physical dimensions from resolution',
 			'Convert DPI/PPI to screen size',
@@ -267,31 +299,52 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'What\'s a good PPI for a monitor?',
-				answer: 'For desktop monitors at 20-30 inches distance, 110-140 PPI is comfortable. Higher (160-220 PPI) is sharper but requires UI scaling. For laptops, 140-180 PPI is ideal. Phones need 300+ PPI for sharp text at close distance.'
+				question: "What's a good PPI for a monitor?",
+				answer:
+					'For desktop monitors at 20-30 inches distance, 110-140 PPI is comfortable. Higher (160-220 PPI) is sharper but requires UI scaling. For laptops, 140-180 PPI is ideal. Phones need 300+ PPI for sharp text at close distance.'
 			},
 			{
 				question: 'How is PPI calculated?',
-				answer: 'PPI = √(width² + height²) ÷ diagonal size. For a 27" 4K monitor: √(3840² + 2160²) ÷ 27 ≈ 163 PPI. Higher PPI means sharper images and text.'
+				answer:
+					'PPI = √(width² + height²) ÷ diagonal size. For a 27" 4K monitor: √(3840² + 2160²) ÷ 27 ≈ 163 PPI. Higher PPI means sharper images and text.'
 			},
 			{
 				question: 'What is device pixel ratio (DPR)?',
-				answer: 'DPR is physical pixels per CSS pixel. A 2× Retina display uses 4 physical pixels (2×2) for each CSS pixel. This maintains consistent visual size while increasing sharpness. Check with window.devicePixelRatio in JavaScript.'
+				answer:
+					'DPR is physical pixels per CSS pixel. A 2× Retina display uses 4 physical pixels (2×2) for each CSS pixel. This maintains consistent visual size while increasing sharpness. Check with window.devicePixelRatio in JavaScript.'
 			},
 			{
 				question: 'Why do phones have much higher PPI than monitors?',
-				answer: 'Viewing distance! Phones are held 10-12 inches from eyes, monitors 20-30 inches away. To look equally sharp, phones need ~300-400 PPI while monitors need only ~110-140 PPI. It\'s about perceived sharpness, not absolute PPI.'
+				answer:
+					"Viewing distance! Phones are held 10-12 inches from eyes, monitors 20-30 inches away. To look equally sharp, phones need ~300-400 PPI while monitors need only ~110-140 PPI. It's about perceived sharpness, not absolute PPI."
 			},
 			{
-				question: 'What\'s the difference between 2K and 4K?',
-				answer: '2K (2560×1440) has ~3.7M pixels; 4K (3840×2160) has ~8.3M pixels—more than double. 4K is sharper but requires more GPU power. For monitors <27", the difference is subtle. For 32"+, 4K is noticeably better.'
+				question: "What's the difference between 2K and 4K?",
+				answer:
+					'2K (2560×1440) has ~3.7M pixels; 4K (3840×2160) has ~8.3M pixels—more than double. 4K is sharper but requires more GPU power. For monitors <27", the difference is subtle. For 32"+, 4K is noticeably better.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Length Converter', path: '/convert/length', description: 'Convert physical measurements and DPI' },
-			{ name: 'CSS Units', path: '/convert/css-units', description: 'Convert vw/vh based on viewport size' },
-			{ name: 'Data Size', path: '/convert/data-size', description: 'Calculate image file sizes for different resolutions' },
-			{ name: 'Angle Converter', path: '/convert/angle', description: 'Calculate viewing angles and FOV' }
+			{
+				name: 'Length Converter',
+				path: '/convert/length',
+				description: 'Convert physical measurements and DPI'
+			},
+			{
+				name: 'CSS Units',
+				path: '/convert/css-units',
+				description: 'Convert vw/vh based on viewport size'
+			},
+			{
+				name: 'Data Size',
+				path: '/convert/data-size',
+				description: 'Calculate image file sizes for different resolutions'
+			},
+			{
+				name: 'Angle Converter',
+				path: '/convert/angle',
+				description: 'Calculate viewing angles and FOV'
+			}
 		],
 		tips: [
 			'For responsive design, test at 375×667 (mobile), 1366×768 (laptop), 1920×1080 (desktop)',
@@ -300,7 +353,7 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 			'Calculate image file size: width × height × 3 bytes (RGB) or × 4 bytes (RGBA)'
 		]
 	},
-	'time': {
+	time: {
 		features: [
 			'Convert milliseconds, seconds, minutes, hours, days',
 			'Human-readable time format output',
@@ -367,30 +420,51 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 		faqs: [
 			{
 				question: 'Why does JavaScript use milliseconds for setTimeout?',
-				answer: 'Milliseconds provide precision for animations and timers. setTimeout(fn, 1000) waits 1 second. Using ms avoids decimals (1.5 seconds = 1500ms) and allows sub-second precision for smooth animations (16.67ms ≈ 60fps).'
+				answer:
+					'Milliseconds provide precision for animations and timers. setTimeout(fn, 1000) waits 1 second. Using ms avoids decimals (1.5 seconds = 1500ms) and allows sub-second precision for smooth animations (16.67ms ≈ 60fps).'
 			},
 			{
-				question: 'What\'s the difference between Date.now() and new Date()?',
-				answer: 'Date.now() returns a number (milliseconds since Unix epoch). new Date() returns a Date object with methods. Use Date.now() for timestamps and performance.now() for precise intervals (sub-millisecond accuracy).'
+				question: "What's the difference between Date.now() and new Date()?",
+				answer:
+					'Date.now() returns a number (milliseconds since Unix epoch). new Date() returns a Date object with methods. Use Date.now() for timestamps and performance.now() for precise intervals (sub-millisecond accuracy).'
 			},
 			{
 				question: 'How do I convert hours to milliseconds?',
-				answer: 'Multiply by 60 (minutes) × 60 (seconds) × 1000 (milliseconds): 1 hour = 1× 60 × 60 × 1000 = 3,600,000ms. For 24 hours: 24 × 3600000 = 86,400,000ms.'
+				answer:
+					'Multiply by 60 (minutes) × 60 (seconds) × 1000 (milliseconds): 1 hour = 1× 60 × 60 × 1000 = 3,600,000ms. For 24 hours: 24 × 3600000 = 86,400,000ms.'
 			},
 			{
 				question: 'What is Unix timestamp and why use it?',
-				answer: 'Unix timestamp is seconds since Jan 1, 1970 UTC (epoch). It\'s timezone-independent, easy to compare/sort, and compact for storage. Most systems use it internally, then convert to local time for display.'
+				answer:
+					"Unix timestamp is seconds since Jan 1, 1970 UTC (epoch). It's timezone-independent, easy to compare/sort, and compact for storage. Most systems use it internally, then convert to local time for display."
 			},
 			{
 				question: 'How accurate is setTimeout in JavaScript?',
-				answer: 'setTimeout is not precise—delays can vary by 1-10ms or more depending on browser load. For critical timing (animations), use requestAnimationFrame. For precise intervals, use Web Workers or server-side timing.'
+				answer:
+					'setTimeout is not precise—delays can vary by 1-10ms or more depending on browser load. For critical timing (animations), use requestAnimationFrame. For precise intervals, use Web Workers or server-side timing.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Number Base', path: '/convert/number-base', description: 'Convert timestamps between number systems' },
-			{ name: 'Data Size', path: '/convert/data-size', description: 'Calculate data transfer rates over time' },
-			{ name: 'CSS Units', path: '/convert/css-units', description: 'Convert CSS timing (s/ms for animations)' },
-			{ name: 'Cron Generator', path: '/cron/generator', description: 'Schedule tasks at specific times' }
+			{
+				name: 'Number Base',
+				path: '/convert/number-base',
+				description: 'Convert timestamps between number systems'
+			},
+			{
+				name: 'Data Size',
+				path: '/convert/data-size',
+				description: 'Calculate data transfer rates over time'
+			},
+			{
+				name: 'CSS Units',
+				path: '/convert/css-units',
+				description: 'Convert CSS timing (s/ms for animations)'
+			},
+			{
+				name: 'Cron Generator',
+				path: '/cron/generator',
+				description: 'Schedule tasks at specific times'
+			}
 		],
 		tips: [
 			'For HTTP caching, use seconds: Cache-Control: max-age=86400 (1 day), max-age=3600 (1 hour)',
@@ -465,29 +539,46 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 		faqs: [
 			{
 				question: 'Why does my 1 TB hard drive show as 931 GB in Windows?',
-				answer: 'Hard drive makers use decimal (1 TB = 1,000 GB), but Windows uses binary and displays GiB as "GB". 1 TB = 1,000,000,000,000 bytes ÷ 1,073,741,824 bytes/GiB ≈ 931 GiB. You\'re not losing space—it\'s a labeling difference.'
+				answer:
+					'Hard drive makers use decimal (1 TB = 1,000 GB), but Windows uses binary and displays GiB as "GB". 1 TB = 1,000,000,000,000 bytes ÷ 1,073,741,824 bytes/GiB ≈ 931 GiB. You\'re not losing space—it\'s a labeling difference.'
 			},
 			{
-				question: 'What\'s the difference between MB and MiB?',
-				answer: 'MB (Megabyte) = 1,000,000 bytes (decimal). MiB (Mebibyte) = 1,048,576 bytes (binary). MiB is ~4.9% larger. Use MiB for clarity when referring to binary (RAM, file systems); MB for network/file sizes.'
+				question: "What's the difference between MB and MiB?",
+				answer:
+					'MB (Megabyte) = 1,000,000 bytes (decimal). MiB (Mebibyte) = 1,048,576 bytes (binary). MiB is ~4.9% larger. Use MiB for clarity when referring to binary (RAM, file systems); MB for network/file sizes.'
 			},
 			{
 				question: 'Which system should I use?',
-				answer: 'Use decimal (KB, MB, GB) for file sizes, network speeds, and storage (matches industry standard). Use binary (KiB, MiB, GiB) when discussing RAM or being precise about powers of 1024. Specify which you mean to avoid confusion.'
+				answer:
+					'Use decimal (KB, MB, GB) for file sizes, network speeds, and storage (matches industry standard). Use binary (KiB, MiB, GiB) when discussing RAM or being precise about powers of 1024. Specify which you mean to avoid confusion.'
 			},
 			{
 				question: 'How do I calculate file upload time?',
-				answer: 'File size (megabytes) ÷ upload speed (Mbps) × 8 bits/byte. Example: 100 MB file at 10 Mbps: 100 ÷ 10 × 8 = 80 seconds. Note: Mbps is megabits per second, MB is megabytes (8× difference).'
+				answer:
+					'File size (megabytes) ÷ upload speed (Mbps) × 8 bits/byte. Example: 100 MB file at 10 Mbps: 100 ÷ 10 × 8 = 80 seconds. Note: Mbps is megabits per second, MB is megabytes (8× difference).'
 			},
 			{
-				question: 'What\'s the largest data unit?',
-				answer: 'Petabyte (PB, 1,000 TB), Exabyte (EB, 1,000 PB), Zettabyte (ZB, 1,000 EB), Yottabyte (YB, 1,000 ZB). Google processes ~20 PB daily. Total internet traffic: ~1 ZB/month in 2024. Human brain: ~2.5 PB capacity.'
+				question: "What's the largest data unit?",
+				answer:
+					'Petabyte (PB, 1,000 TB), Exabyte (EB, 1,000 PB), Zettabyte (ZB, 1,000 EB), Yottabyte (YB, 1,000 ZB). Google processes ~20 PB daily. Total internet traffic: ~1 ZB/month in 2024. Human brain: ~2.5 PB capacity.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Number Base', path: '/convert/number-base', description: 'Convert between binary and decimal numbers' },
-			{ name: 'Time Converter', path: '/convert/time', description: 'Calculate download/upload times' },
-			{ name: 'Length Converter', path: '/convert/length', description: 'Physical size of storage media' },
+			{
+				name: 'Number Base',
+				path: '/convert/number-base',
+				description: 'Convert between binary and decimal numbers'
+			},
+			{
+				name: 'Time Converter',
+				path: '/convert/time',
+				description: 'Calculate download/upload times'
+			},
+			{
+				name: 'Length Converter',
+				path: '/convert/length',
+				description: 'Physical size of storage media'
+			},
 			{ name: 'CSS Units', path: '/convert/css-units', description: 'Optimize image sizes for web' }
 		],
 		tips: [
@@ -497,7 +588,7 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 			'1 GiB RAM ≈ 1.074 GB. When buying RAM, "16 GB" usually means 16 GiB (17.2 GB decimal)'
 		]
 	},
-	'angle': {
+	angle: {
 		features: [
 			'Convert degrees, radians, gradians, turns',
 			'Visual arc preview for angle',
@@ -563,30 +654,51 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 		faqs: [
 			{
 				question: 'Why does JavaScript use radians instead of degrees?',
-				answer: 'Radians are the mathematical standard because they simplify calculus and physics formulas. To convert: radians = degrees × Math.PI / 180. For 90°: 90 × π / 180 = π/2 ≈ 1.5708 radians.'
+				answer:
+					'Radians are the mathematical standard because they simplify calculus and physics formulas. To convert: radians = degrees × Math.PI / 180. For 90°: 90 × π / 180 = π/2 ≈ 1.5708 radians.'
 			},
 			{
 				question: 'What are turns in CSS and when should I use them?',
-				answer: 'Turns are full rotations: 1 turn = 360°, 0.5 turn = 180°. Use turns for animations that need multiple rotations (5 turns) or when fractions make sense (0.25 turn instead of 90deg). More intuitive than degrees for full rotations.'
+				answer:
+					'Turns are full rotations: 1 turn = 360°, 0.5 turn = 180°. Use turns for animations that need multiple rotations (5 turns) or when fractions make sense (0.25 turn instead of 90deg). More intuitive than degrees for full rotations.'
 			},
 			{
 				question: 'How do I convert degrees to radians?',
-				answer: 'Multiply by π/180: radians = degrees × (Math.PI / 180). Example: 45° × π/180 = 0.7854 rad. Or divide by 180 and multiply by π: 45/180 × π = π/4.'
+				answer:
+					'Multiply by π/180: radians = degrees × (Math.PI / 180). Example: 45° × π/180 = 0.7854 rad. Or divide by 180 and multiply by π: 45/180 × π = π/4.'
 			},
 			{
-				question: 'What are gradians and why don\'t we use them?',
-				answer: 'Gradians (1/400 of a circle) were designed so a right angle = 100 grad (easier decimal math). They\'re used in some surveying and engineering, but degrees and radians dominate because of historical adoption and mathematical convenience.'
+				question: "What are gradians and why don't we use them?",
+				answer:
+					"Gradians (1/400 of a circle) were designed so a right angle = 100 grad (easier decimal math). They're used in some surveying and engineering, but degrees and radians dominate because of historical adoption and mathematical convenience."
 			},
 			{
 				question: 'How do I normalize an angle to 0-360°?',
-				answer: 'Use modulo: normalized = angle % 360. For negative angles: normalized = (angle % 360 + 360) % 360. Example: 450° % 360 = 90°, -45° normalized = 315°. This ensures angles are in the standard 0-360° range.'
+				answer:
+					'Use modulo: normalized = angle % 360. For negative angles: normalized = (angle % 360 + 360) % 360. Example: 450° % 360 = 90°, -45° normalized = 315°. This ensures angles are in the standard 0-360° range.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Number Base', path: '/convert/number-base', description: 'Convert angle decimal values to other bases' },
-			{ name: 'CSS Units', path: '/convert/css-units', description: 'CSS transform and animation units' },
-			{ name: 'Typography', path: '/convert/typography', description: 'Text rotation and skew angles' },
-			{ name: 'CSS Formatter', path: '/css/formatter', description: 'Format CSS with transform values' }
+			{
+				name: 'Number Base',
+				path: '/convert/number-base',
+				description: 'Convert angle decimal values to other bases'
+			},
+			{
+				name: 'CSS Units',
+				path: '/convert/css-units',
+				description: 'CSS transform and animation units'
+			},
+			{
+				name: 'Typography',
+				path: '/convert/typography',
+				description: 'Text rotation and skew angles'
+			},
+			{
+				name: 'CSS Formatter',
+				path: '/css/formatter',
+				description: 'Format CSS with transform values'
+			}
 		],
 		tips: [
 			'For CSS animations with multiple rotations, use turns: @keyframes { from { rotate: 0turn } to { rotate: 5turn } }',
@@ -602,7 +714,7 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 			'Signed and unsigned integer support',
 			'ASCII character encoding',
 			'Color hex codes (#RRGGBB)',
-			'Negative number representation (two\'s complement)'
+			"Negative number representation (two's complement)"
 		],
 		useCases: [
 			'Convert hex color codes to RGB',
@@ -666,28 +778,41 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 		faqs: [
 			{
 				question: 'How do I convert hex color codes to RGB?',
-				answer: 'Split hex into 3 pairs (RR, GG, BB), convert each to decimal. #FF5733: FF=255, 57=87, 33=51 → rgb(255,87,51). Each hex pair is 0-FF (0-255). Use this tool for instant conversion.'
+				answer:
+					'Split hex into 3 pairs (RR, GG, BB), convert each to decimal. #FF5733: FF=255, 57=87, 33=51 → rgb(255,87,51). Each hex pair is 0-FF (0-255). Use this tool for instant conversion.'
 			},
 			{
 				question: 'What do Unix file permissions like 755 mean?',
-				answer: '755 (octal) = 111,101,101 (binary). Each digit is user/group/others. 7(111)=rwx, 5(101)=r-x, 5(101)=r-x. So 755 = owner can read/write/execute, others can read/execute. Common: 644 (rw-r--r--), 755 (rwxr-xr-x).'
+				answer:
+					'755 (octal) = 111,101,101 (binary). Each digit is user/group/others. 7(111)=rwx, 5(101)=r-x, 5(101)=r-x. So 755 = owner can read/write/execute, others can read/execute. Common: 644 (rw-r--r--), 755 (rwxr-xr-x).'
 			},
 			{
 				question: 'Why do programmers use hexadecimal so much?',
-				answer: 'Hex is compact—1 hex digit = 4 bits. A byte (8 bits) = 2 hex digits. Binary 11111111 = FF (much shorter). Memory addresses, colors, and byte data are easier to read in hex than long binary strings.'
+				answer:
+					'Hex is compact—1 hex digit = 4 bits. A byte (8 bits) = 2 hex digits. Binary 11111111 = FF (much shorter). Memory addresses, colors, and byte data are easier to read in hex than long binary strings.'
 			},
 			{
-				question: 'What is two\'s complement for negative numbers?',
-				answer: 'Two\'s complement represents negative numbers in binary. Invert all bits and add 1. For -5 in 8-bit: 5 = 00000101, invert = 11111010, +1 = 11111011 (-5). Leftmost bit indicates sign (1=negative). Computers use this for arithmetic.'
+				question: "What is two's complement for negative numbers?",
+				answer:
+					"Two's complement represents negative numbers in binary. Invert all bits and add 1. For -5 in 8-bit: 5 = 00000101, invert = 11111010, +1 = 11111011 (-5). Leftmost bit indicates sign (1=negative). Computers use this for arithmetic."
 			},
 			{
 				question: 'How do I count in binary?',
-				answer: '0, 1, 10, 11, 100, 101, 110, 111, 1000... Same as decimal but only using 0 and 1. Each position is a power of 2: 1010 = (1×8) + (0×4) + (1×2) + (0×1) = 10.'
+				answer:
+					'0, 1, 10, 11, 100, 101, 110, 111, 1000... Same as decimal but only using 0 and 1. Each position is a power of 2: 1010 = (1×8) + (0×4) + (1×2) + (0×1) = 10.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Color Converter', path: '/convert/color', description: 'Convert hex colors to RGB, HSL, and more' },
-			{ name: 'Data Size', path: '/convert/data-size', description: 'File sizes in different bases' },
+			{
+				name: 'Color Converter',
+				path: '/convert/color',
+				description: 'Convert hex colors to RGB, HSL, and more'
+			},
+			{
+				name: 'Data Size',
+				path: '/convert/data-size',
+				description: 'File sizes in different bases'
+			},
 			{ name: 'Typography', path: '/convert/typography', description: 'Convert typography values' },
 			{ name: 'CSS Formatter', path: '/css/formatter', description: 'Format hex colors in CSS' }
 		],
@@ -698,7 +823,7 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 			'Common permissions: 644 (files), 755 (executables/dirs), 600 (private files), 777 (all access)'
 		]
 	},
-	'typography': {
+	typography: {
 		features: [
 			'Convert font sizes (px, pt, em, rem)',
 			'Line-height calculator with preview',
@@ -765,31 +890,52 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'What\'s the ideal line-height for body text?',
-				answer: '1.5-1.6× the font size for most body text. For 16px font, use 24-25.6px line-height. Longer lines need more line-height (1.6-1.8), shorter lines can use less (1.4-1.5). Accessibility guidelines recommend minimum 1.5.'
+				question: "What's the ideal line-height for body text?",
+				answer:
+					'1.5-1.6× the font size for most body text. For 16px font, use 24-25.6px line-height. Longer lines need more line-height (1.6-1.8), shorter lines can use less (1.4-1.5). Accessibility guidelines recommend minimum 1.5.'
 			},
 			{
 				question: 'Should I use px, em, or rem for font sizes?',
-				answer: 'Use rem for font sizes—it respects user browser settings (accessibility) and makes scaling easy. Use em for padding/margin within components. Avoid px for fonts—it ignores user preferences for larger text.'
+				answer:
+					'Use rem for font sizes—it respects user browser settings (accessibility) and makes scaling easy. Use em for padding/margin within components. Avoid px for fonts—it ignores user preferences for larger text.'
 			},
 			{
 				question: 'How do I convert pt (print) to px (web)?',
-				answer: 'At 96 DPI (web standard): px = pt × 96 / 72 ≈ pt × 1.333. So 12pt = 16px, 14pt ≈ 18.67px. For print (300 DPI): px = pt × 300 / 72 ≈ pt × 4.167. Design tools use 72 DPI, so 12pt shows as 12px.'
+				answer:
+					'At 96 DPI (web standard): px = pt × 96 / 72 ≈ pt × 1.333. So 12pt = 16px, 14pt ≈ 18.67px. For print (300 DPI): px = pt × 300 / 72 ≈ pt × 4.167. Design tools use 72 DPI, so 12pt shows as 12px.'
 			},
 			{
 				question: 'What is a modular type scale?',
-				answer: 'A modular scale uses a consistent ratio to generate harmonious font sizes. Start with base (16px), multiply by ratio (1.25) for each step: 16px → 20px → 25px → 31.25px → 39px. Common ratios: 1.25 (major third), 1.333 (perfect fourth), 1.5 (perfect fifth), 1.618 (golden ratio).'
+				answer:
+					'A modular scale uses a consistent ratio to generate harmonious font sizes. Start with base (16px), multiply by ratio (1.25) for each step: 16px → 20px → 25px → 31.25px → 39px. Common ratios: 1.25 (major third), 1.333 (perfect fourth), 1.5 (perfect fifth), 1.618 (golden ratio).'
 			},
 			{
 				question: 'Why use unitless line-height instead of px?',
-				answer: 'Unitless line-height (1.5) is relative to font size. If you use px (24px), nested elements with larger fonts won\'t scale properly. line-height: 1.5 on parent applies 1.5× to all children, regardless of their font size.'
+				answer:
+					"Unitless line-height (1.5) is relative to font size. If you use px (24px), nested elements with larger fonts won't scale properly. line-height: 1.5 on parent applies 1.5× to all children, regardless of their font size."
 			}
 		],
 		relatedTools: [
-			{ name: 'CSS Units', path: '/convert/css-units', description: 'Convert all CSS units including typography' },
-			{ name: 'Length Converter', path: '/convert/length', description: 'Convert physical print measurements' },
-			{ name: 'Color Converter', path: '/convert/color', description: 'Convert text colors for design' },
-			{ name: 'CSS Formatter', path: '/css/formatter', description: 'Format CSS with typography rules' }
+			{
+				name: 'CSS Units',
+				path: '/convert/css-units',
+				description: 'Convert all CSS units including typography'
+			},
+			{
+				name: 'Length Converter',
+				path: '/convert/length',
+				description: 'Convert physical print measurements'
+			},
+			{
+				name: 'Color Converter',
+				path: '/convert/color',
+				description: 'Convert text colors for design'
+			},
+			{
+				name: 'CSS Formatter',
+				path: '/css/formatter',
+				description: 'Format CSS with typography rules'
+			}
 		],
 		tips: [
 			'Standard type scale for headings: h1=2.5rem (40px), h2=2rem (32px), h3=1.75rem (28px), h4=1.5rem (24px)',
@@ -798,7 +944,7 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 			'For vertical rhythm, set root font to 16px, line-height 1.5 = 24px baseline, use 8px spacing grid'
 		]
 	},
-	'color': {
+	color: {
 		features: [
 			'Convert HEX, RGB, RGBA, HSL, HSLA, CMYK, HSB',
 			'Visual color picker with live preview',
@@ -865,29 +1011,42 @@ export const convertToolsContent: Record<string, ConvertToolContent> = {
 		],
 		faqs: [
 			{
-				question: 'What\'s the difference between HSL and RGB?',
-				answer: 'RGB uses red/green/blue channels (0-255). HSL uses hue (color), saturation (intensity), lightness (brightness). HSL is more intuitive for creating color variations—adjust hue for different colors, saturation for vibrancy, lightness for shades.'
+				question: "What's the difference between HSL and RGB?",
+				answer:
+					'RGB uses red/green/blue channels (0-255). HSL uses hue (color), saturation (intensity), lightness (brightness). HSL is more intuitive for creating color variations—adjust hue for different colors, saturation for vibrancy, lightness for shades.'
 			},
 			{
 				question: 'Can I use HEX colors with transparency?',
-				answer: 'Yes, 8-digit HEX includes alpha: #FF5733FF (opaque), #FF573380 (50% transparent). But RGBA is more readable: rgba(255,87,51,0.5). Not all browsers support 8-digit HEX, so RGBA is safer for transparency.'
+				answer:
+					'Yes, 8-digit HEX includes alpha: #FF5733FF (opaque), #FF573380 (50% transparent). But RGBA is more readable: rgba(255,87,51,0.5). Not all browsers support 8-digit HEX, so RGBA is safer for transparency.'
 			},
 			{
 				question: 'How do I convert CMYK to RGB for web?',
-				answer: 'CMYK (print) doesn\'t convert perfectly to RGB (screen)—colors may shift. Use this tool for approximate conversion. For accurate brand colors, use the RGB values your designer provides. CMYK is subtractive (ink), RGB is additive (light).'
+				answer:
+					"CMYK (print) doesn't convert perfectly to RGB (screen)—colors may shift. Use this tool for approximate conversion. For accurate brand colors, use the RGB values your designer provides. CMYK is subtractive (ink), RGB is additive (light)."
 			},
 			{
-				question: 'What\'s the best color format for CSS?',
-				answer: 'HEX for solid colors (#FF5733), RGBA for transparency (rgba(255,87,51,0.5)), HSL for color variations (hsl(9,100%,60%)). Modern CSS also supports oklch() for better color space, but browser support is limited.'
+				question: "What's the best color format for CSS?",
+				answer:
+					'HEX for solid colors (#FF5733), RGBA for transparency (rgba(255,87,51,0.5)), HSL for color variations (hsl(9,100%,60%)). Modern CSS also supports oklch() for better color space, but browser support is limited.'
 			},
 			{
 				question: 'How do I create color shades and tints?',
-				answer: 'Use HSL. For shades (darker), decrease lightness: hsl(9, 100%, 60%) → hsl(9, 100%, 40%). For tints (lighter), increase lightness: hsl(9, 100%, 80%). Keep hue and saturation constant, adjust lightness 10-20% per step.'
+				answer:
+					'Use HSL. For shades (darker), decrease lightness: hsl(9, 100%, 60%) → hsl(9, 100%, 40%). For tints (lighter), increase lightness: hsl(9, 100%, 80%). Keep hue and saturation constant, adjust lightness 10-20% per step.'
 			}
 		],
 		relatedTools: [
-			{ name: 'Number Base', path: '/convert/number-base', description: 'Convert hex color codes to decimal' },
-			{ name: 'CSS Formatter', path: '/css/formatter', description: 'Format CSS with color values' },
+			{
+				name: 'Number Base',
+				path: '/convert/number-base',
+				description: 'Convert hex color codes to decimal'
+			},
+			{
+				name: 'CSS Formatter',
+				path: '/css/formatter',
+				description: 'Format CSS with color values'
+			},
 			{ name: 'Typography', path: '/convert/typography', description: 'Text color and typography' },
 			{ name: 'CSS Units', path: '/convert/css-units', description: 'All CSS unit conversions' }
 		],

@@ -2,7 +2,7 @@
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
 	import CopyButton from '$lib/components/ui/CopyButton.svelte';
-	import yaml from 'js-yaml';
+	import * as yaml from 'js-yaml';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
@@ -46,20 +46,20 @@ features:
 		if (obj === null || obj === undefined) {
 			return obj;
 		}
-		
+
 		// Handle arrays - sort contents if recursive
 		if (Array.isArray(obj)) {
-			return recursive ? obj.map(item => sortKeysDeep(item)) : obj;
+			return recursive ? obj.map((item) => sortKeysDeep(item)) : obj;
 		}
-		
+
 		// Handle objects - sort keys
 		if (typeof obj === 'object') {
 			const sorted: Record<string, unknown> = {};
 			const keys = Object.keys(obj as Record<string, unknown>);
-			
+
 			// Sort keys alphabetically (case-insensitive)
 			keys.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-			
+
 			for (const key of keys) {
 				const value = (obj as Record<string, unknown>)[key];
 				// Recursively sort nested objects if recursive is enabled
@@ -67,7 +67,7 @@ features:
 			}
 			return sorted;
 		}
-		
+
 		// Return primitives as-is
 		return obj;
 	}
@@ -79,29 +79,32 @@ features:
 
 		try {
 			const parsed = yaml.load(input);
-			
+
 			if (parsed === null || parsed === undefined || typeof parsed !== 'object') {
 				return { success: true, output: yaml.dump(parsed, { indent }), keysSorted: 0 };
 			}
-			
+
 			const sorted = sortKeysDeep(parsed);
-			
+
 			const output = yaml.dump(sorted, {
 				indent: indent,
 				lineWidth: -1,
 				noRefs: true,
-				quotingType: '"',
+				quoteStyle: 'double',
 				forceQuotes: false
 			});
-			
+
 			// Count how many keys were in the original
 			const countKeys = (o: unknown): number => {
 				if (!o || typeof o !== 'object') return 0;
 				if (Array.isArray(o)) return o.reduce((sum, item) => sum + countKeys(item), 0);
 				const keys = Object.keys(o as Record<string, unknown>);
-				return keys.length + keys.reduce((sum, k) => sum + countKeys((o as Record<string, unknown>)[k]), 0);
+				return (
+					keys.length +
+					keys.reduce((sum, k) => sum + countKeys((o as Record<string, unknown>)[k]), 0)
+				);
 			};
-			
+
 			return { success: true, output, keysSorted: countKeys(parsed) };
 		} catch (e) {
 			const err = e as yaml.YAMLException;
@@ -142,14 +145,18 @@ features:
 		<ToolActions onSample={loadSample} onClear={clearAll} {stats} />
 
 		<!-- Settings -->
-		<div class="flex flex-wrap gap-4 items-center justify-center">
-			<label class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2 cursor-pointer">
-				<input type="checkbox" bind:checked={recursive} class="checkbox checkbox-sm checkbox-primary" />
+		<div class="flex flex-wrap items-center justify-center gap-4">
+			<label class="flex cursor-pointer items-center gap-2 rounded-xl bg-base-200 px-4 py-2">
+				<input
+					type="checkbox"
+					bind:checked={recursive}
+					class="checkbox checkbox-sm checkbox-primary"
+				/>
 				<span class="text-sm font-medium">Sort recursively (nested objects)</span>
 			</label>
-			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
+			<div class="flex items-center gap-2 rounded-xl bg-base-200 px-4 py-2">
 				<span class="text-sm font-medium">Indent:</span>
-				<select bind:value={indent} class="select select-sm select-bordered bg-base-100">
+				<select bind:value={indent} class="select-bordered select bg-base-100 select-sm">
 					<option value={2}>2 spaces</option>
 					<option value={4}>4 spaces</option>
 				</select>
@@ -158,25 +165,24 @@ features:
 
 		<div class="grid gap-6 lg:grid-cols-2">
 			<!-- Input -->
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<div class="flex items-center gap-2 mb-3">
+					<div class="mb-3 flex items-center gap-2">
 						<h3 class="font-bold">Original YAML</h3>
 					</div>
 
 					<textarea
 						bind:value={input}
 						placeholder="Paste your YAML here..."
-						class="textarea textarea-bordered w-full font-mono text-sm min-h-64 leading-relaxed"
-						spellcheck="false"
-					></textarea>
+						class="textarea-bordered textarea min-h-64 w-full font-mono text-sm leading-relaxed"
+						spellcheck="false"></textarea>
 				</div>
 			</div>
 
 			<!-- Output -->
-			<div class="card bg-base-200 rounded-2xl">
+			<div class="card rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<div class="flex items-center justify-between mb-3">
+					<div class="mb-3 flex items-center justify-between">
 						<div class="flex items-center gap-2">
 							<h3 class="font-bold">Sorted YAML</h3>
 							{#if result.keysSorted > 0}
@@ -186,13 +192,13 @@ features:
 						{#if result.success && result.output}
 							<div class="flex gap-1">
 								<CopyButton text={result.output} size="sm" />
-								<button class="btn btn-xs btn-ghost" onclick={downloadOutput}>Download</button>
+								<button class="btn btn-ghost btn-xs" onclick={downloadOutput}>Download</button>
 							</div>
 						{/if}
 					</div>
 
 					{#if result.error}
-						<div class="alert alert-error rounded-lg mb-3">
+						<div class="mb-3 alert rounded-lg alert-error">
 							<span class="text-sm">{result.error}</span>
 						</div>
 					{/if}
@@ -201,17 +207,17 @@ features:
 						value={result.output}
 						readonly
 						placeholder="Sorted YAML will appear here..."
-						class="textarea textarea-bordered w-full font-mono text-sm min-h-64 leading-relaxed bg-base-100"
+						class="textarea-bordered textarea min-h-64 w-full bg-base-100 font-mono text-sm leading-relaxed"
 					></textarea>
 				</div>
 			</div>
 		</div>
 
 		<!-- Info -->
-		<div class="card bg-info/10 border border-info/20 rounded-xl">
+		<div class="card rounded-xl border border-info/20 bg-info/10">
 			<div class="card-body p-3">
 				<p class="text-sm text-base-content/70">
-					<strong>How it works:</strong> Keys are sorted alphabetically (case-insensitive). 
+					<strong>How it works:</strong> Keys are sorted alphabetically (case-insensitive).
 					{#if recursive}
 						Nested objects are also sorted recursively.
 					{:else}

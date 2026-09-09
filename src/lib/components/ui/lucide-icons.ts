@@ -179,4 +179,3 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	'x': X,
 	'zap': Zap,
 };
-

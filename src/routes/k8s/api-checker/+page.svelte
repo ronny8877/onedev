@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ToolWrapper from '$lib/components/ui/ToolWrapper.svelte';
 	import ToolActions from '$lib/components/ui/ToolActions.svelte';
-	import yaml from 'js-yaml';
+	import * as yaml from 'js-yaml';
 	import Features from '$lib/components/content/Features.svelte';
 	import UseCases from '$lib/components/content/UseCases.svelte';
 	import ConceptExplainer from '$lib/components/content/ConceptExplainer.svelte';
@@ -49,12 +49,15 @@ spec:
         image: myapp:latest`;
 
 	// K8s API deprecation database
-	const apiDeprecations: Record<string, {
-		deprecated?: string;
-		removed?: string;
-		replacement?: string;
-		docs?: string;
-	}> = {
+	const apiDeprecations: Record<
+		string,
+		{
+			deprecated?: string;
+			removed?: string;
+			replacement?: string;
+			docs?: string;
+		}
+	> = {
 		'extensions/v1beta1:Ingress': {
 			deprecated: '1.14',
 			removed: '1.22',
@@ -186,7 +189,7 @@ spec:
 		}
 
 		try {
-			const docs = input.split(/^---$/m).filter(d => d.trim());
+			const docs = input.split(/^---$/m).filter((d) => d.trim());
 			const results: ApiCheckResult[] = [];
 
 			for (const docContent of docs) {
@@ -206,10 +209,13 @@ spec:
 
 					if (deprecation) {
 						let status: 'ok' | 'deprecated' | 'removed' = 'ok';
-						
+
 						if (deprecation.removed && compareVersions(targetVersion, deprecation.removed) >= 0) {
 							status = 'removed';
-						} else if (deprecation.deprecated && compareVersions(targetVersion, deprecation.deprecated) >= 0) {
+						} else if (
+							deprecation.deprecated &&
+							compareVersions(targetVersion, deprecation.deprecated) >= 0
+						) {
 							status = 'deprecated';
 						}
 
@@ -258,13 +264,13 @@ spec:
 		lines.push(`Target Version: ${targetVersion}`);
 		lines.push('');
 
-		const removed = result.results.filter(r => r.status === 'removed');
-		const deprecated = result.results.filter(r => r.status === 'deprecated');
-		const ok = result.results.filter(r => r.status === 'ok');
+		const removed = result.results.filter((r) => r.status === 'removed');
+		const deprecated = result.results.filter((r) => r.status === 'deprecated');
+		const ok = result.results.filter((r) => r.status === 'ok');
 
 		if (removed.length > 0) {
 			lines.push('## Removed APIs (Action Required)');
-			removed.forEach(r => {
+			removed.forEach((r) => {
 				lines.push(`- ${r.kind}/${r.name}: ${r.apiVersion}`);
 				lines.push(`  Removed in: ${r.removedIn}, Use: ${r.replacement}`);
 			});
@@ -273,24 +279,26 @@ spec:
 
 		if (deprecated.length > 0) {
 			lines.push('## Deprecated APIs');
-			deprecated.forEach(r => {
+			deprecated.forEach((r) => {
 				lines.push(`- ${r.kind}/${r.name}: ${r.apiVersion}`);
-				lines.push(`  Deprecated: ${r.deprecatedIn}, Removed: ${r.removedIn}, Use: ${r.replacement}`);
+				lines.push(
+					`  Deprecated: ${r.deprecatedIn}, Removed: ${r.removedIn}, Use: ${r.replacement}`
+				);
 			});
 			lines.push('');
 		}
 
 		if (ok.length > 0) {
 			lines.push('## OK');
-			ok.forEach(r => lines.push(`- ${r.kind}/${r.name}: ${r.apiVersion}`));
+			ok.forEach((r) => lines.push(`- ${r.kind}/${r.name}: ${r.apiVersion}`));
 		}
 
 		navigator.clipboard.writeText(lines.join('\n'));
 	}
 
-	let removedCount = $derived(result.results.filter(r => r.status === 'removed').length);
-	let deprecatedCount = $derived(result.results.filter(r => r.status === 'deprecated').length);
-	let okCount = $derived(result.results.filter(r => r.status === 'ok').length);
+	let removedCount = $derived(result.results.filter((r) => r.status === 'removed').length);
+	let deprecatedCount = $derived(result.results.filter((r) => r.status === 'deprecated').length);
+	let okCount = $derived(result.results.filter((r) => r.status === 'ok').length);
 </script>
 
 <ToolWrapper>
@@ -300,9 +308,12 @@ spec:
 
 		<!-- Target Version -->
 		<div class="flex justify-center">
-			<div class="flex items-center gap-2 bg-base-200 rounded-xl px-4 py-2">
+			<div class="flex items-center gap-2 rounded-xl bg-base-200 px-4 py-2">
 				<span class="text-sm font-medium">Target K8s Version:</span>
-				<select bind:value={targetVersion} class="select select-sm select-bordered bg-base-100 font-semibold">
+				<select
+					bind:value={targetVersion}
+					class="select-bordered select bg-base-100 font-semibold select-sm"
+				>
 					{#each k8sVersions as version}
 						<option value={version}>{version}</option>
 					{/each}
@@ -312,22 +323,21 @@ spec:
 
 		<div class="grid gap-6 lg:grid-cols-2">
 			<!-- Input -->
-			<div class="card bg-base-200 rounded-2xl h-fit">
+			<div class="card h-fit rounded-2xl bg-base-200">
 				<div class="card-body p-4">
-					<h3 class="font-bold text-sm mb-2">Kubernetes YAML</h3>
+					<h3 class="mb-2 text-sm font-bold">Kubernetes YAML</h3>
 					<textarea
 						bind:value={input}
 						placeholder="Paste K8s manifests to check API versions..."
-						class="textarea textarea-bordered w-full font-mono text-xs min-h-64 leading-relaxed"
-						spellcheck="false"
-					></textarea>
+						class="textarea-bordered textarea min-h-64 w-full font-mono text-xs leading-relaxed"
+						spellcheck="false"></textarea>
 				</div>
 			</div>
 
 			<!-- Results -->
 			<div class="space-y-4">
 				{#if result.error}
-					<div class="alert alert-error rounded-xl">
+					<div class="alert rounded-xl alert-error">
 						<span>{result.error}</span>
 					</div>
 				{:else if result.results.length > 0}
@@ -344,35 +354,43 @@ spec:
 								<span class="badge badge-error">{removedCount} Removed</span>
 							{/if}
 						</div>
-						<button class="btn btn-sm btn-ghost" onclick={copyReport}>Copy Report</button>
+						<button class="btn btn-ghost btn-sm" onclick={copyReport}>Copy Report</button>
 					</div>
 
 					<!-- Results List -->
-					<div class="space-y-2 max-h-72 overflow-y-auto">
+					<div class="max-h-72 space-y-2 overflow-y-auto">
 						{#each result.results as item}
-							<div class="p-3 rounded-lg
-								{item.status === 'removed' ? 'bg-error/10 border border-error/20' : ''}
-								{item.status === 'deprecated' ? 'bg-warning/10 border border-warning/20' : ''}
-								{item.status === 'ok' ? 'bg-success/10 border border-success/20' : ''}
-							">
+							<div
+								class="rounded-lg p-3
+								{item.status === 'removed' ? 'border border-error/20 bg-error/10' : ''}
+								{item.status === 'deprecated' ? 'border border-warning/20 bg-warning/10' : ''}
+								{item.status === 'ok' ? 'border border-success/20 bg-success/10' : ''}
+							"
+							>
 								<div class="flex items-center justify-between">
 									<div class="flex items-center gap-2">
-										<span class="font-bold text-sm">{item.kind}</span>
-										<span class="text-xs text-base-content/60 font-mono">{item.name}</span>
+										<span class="text-sm font-bold">{item.kind}</span>
+										<span class="font-mono text-xs text-base-content/60">{item.name}</span>
 									</div>
-									<span class="badge badge-sm 
+									<span
+										class="badge badge-sm
 										{item.status === 'removed' ? 'badge-error' : ''}
 										{item.status === 'deprecated' ? 'badge-warning' : ''}
 										{item.status === 'ok' ? 'badge-success' : ''}
-									">
-										{item.status === 'removed' ? 'REMOVED' : item.status === 'deprecated' ? 'DEPRECATED' : 'OK'}
+									"
+									>
+										{item.status === 'removed'
+											? 'REMOVED'
+											: item.status === 'deprecated'
+												? 'DEPRECATED'
+												: 'OK'}
 									</span>
 								</div>
-								<div class="text-xs font-mono text-base-content/70 mt-1">
+								<div class="mt-1 font-mono text-xs text-base-content/70">
 									{item.apiVersion}
 								</div>
 								{#if item.status !== 'ok'}
-									<div class="mt-2 text-xs space-y-1">
+									<div class="mt-2 space-y-1 text-xs">
 										{#if item.deprecatedIn}
 											<p>Deprecated: <strong>v{item.deprecatedIn}</strong></p>
 										{/if}
@@ -388,7 +406,7 @@ spec:
 						{/each}
 					</div>
 				{:else}
-					<div class="card bg-base-200 rounded-xl">
+					<div class="card rounded-xl bg-base-200">
 						<div class="card-body p-6 text-center text-base-content/50">
 							<p>Paste K8s manifests to check for deprecated APIs</p>
 						</div>
@@ -398,10 +416,10 @@ spec:
 		</div>
 
 		<!-- Info -->
-		<div class="card bg-info/10 border border-info/20 rounded-xl">
+		<div class="card rounded-xl border border-info/20 bg-info/10">
 			<div class="card-body p-3">
 				<p class="text-sm text-base-content/70">
-					<strong>Checked APIs:</strong> extensions/v1beta1, apps/v1beta*, networking.k8s.io/v1beta1, 
+					<strong>Checked APIs:</strong> extensions/v1beta1, apps/v1beta*, networking.k8s.io/v1beta1,
 					rbac.authorization.k8s.io/v1beta1, batch/v1beta1, policy/v1beta1, autoscaling/v2beta*, and more.
 				</p>
 			</div>

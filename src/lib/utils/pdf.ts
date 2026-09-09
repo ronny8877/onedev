@@ -6,7 +6,10 @@ let pdfjsLib: typeof import('pdfjs-dist') | null = null;
 async function getPdfJs() {
 	if (!pdfjsLib) {
 		pdfjsLib = await import('pdfjs-dist');
-		pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).href;
+		pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+			'pdfjs-dist/build/pdf.worker.min.mjs',
+			import.meta.url
+		).href;
 	}
 	return pdfjsLib;
 }
@@ -34,8 +37,7 @@ export async function renderPage(pdfDoc: PDFDocumentProxy, pageNum: number, scal
 	const canvas = document.createElement('canvas');
 	canvas.width = viewport.width;
 	canvas.height = viewport.height;
-	const ctx = canvas.getContext('2d')!;
-	await page.render({ canvasContext: ctx, viewport }).promise;
+	await page.render({ canvas, viewport }).promise;
 	return canvas.toDataURL();
 }
 
@@ -43,7 +45,7 @@ export async function renderPage(pdfDoc: PDFDocumentProxy, pageNum: number, scal
 
 export async function pdfToBlob(pdf: PDFDocument): Promise<Blob> {
 	const bytes = await pdf.save({ useObjectStreams: true });
-	return new Blob([bytes], { type: 'application/pdf' });
+	return new Blob([Uint8Array.from(bytes).buffer], { type: 'application/pdf' });
 }
 
 export function downloadBlob(blob: Blob, name: string) {
@@ -61,11 +63,11 @@ export function downloadBlob(blob: Blob, name: string) {
 export async function renderPdfToDataUrl(pdf: PDFDocument, scale = 1.0): Promise<string> {
 	const lib = await getPdfJs();
 	const bytes = await pdf.save({ useObjectStreams: false });
-	const blob = new Blob([bytes], { type: 'application/pdf' });
+	const blob = new Blob([Uint8Array.from(bytes).buffer], { type: 'application/pdf' });
 	const url = URL.createObjectURL(blob);
-	const pdfJsDoc = await lib.getDocument(url).promise;
+	const pdfJsDoc = await lib.getDocument({ url }).promise;
 	const dataUrl = await renderPage(pdfJsDoc, 1, scale);
-	pdfJsDoc.destroy();
+	await pdfJsDoc.cleanup();
 	URL.revokeObjectURL(url);
 	return dataUrl;
 }
@@ -123,7 +125,13 @@ export async function addTextWatermark(
 		density?: number;
 	} = {}
 ): Promise<PDFDocument> {
-	const { fontSize = 48, opacity = 0.12, color = [0.5, 0.5, 0.5], mode = 'tile', density = 1 } = opts;
+	const {
+		fontSize = 48,
+		opacity = 0.12,
+		color = [0.5, 0.5, 0.5],
+		mode = 'tile',
+		density = 1
+	} = opts;
 	const rotation = opts.rotate ?? 45;
 	const font = await pdf.embedFont(StandardFonts.HelveticaBold);
 	const pages = pdf.getPages();
@@ -141,7 +149,7 @@ export async function addTextWatermark(
 				size: fontSize,
 				opacity,
 				color: rgb(...color),
-				rotate: degrees(rotation),
+				rotate: degrees(rotation)
 			});
 		}
 
@@ -157,7 +165,7 @@ export async function addTextWatermark(
 
 			for (let row = 0; row < rows; row++) {
 				for (let col = 0; col < cols; col++) {
-					const sx = col * spacingX + ((row % 2) * spacingX * 0.5);
+					const sx = col * spacingX + (row % 2) * spacingX * 0.5;
 					const sy = row * spacingY;
 					page.drawText(text, {
 						x: sx,
@@ -166,7 +174,7 @@ export async function addTextWatermark(
 						size: fontSize,
 						opacity,
 						color: rgb(...color),
-						rotate: degrees(rotation),
+						rotate: degrees(rotation)
 					});
 				}
 			}
@@ -177,7 +185,11 @@ export async function addTextWatermark(
 
 export async function addPageNumbers(
 	pdf: PDFDocument,
-	opts: { fontSize?: number; start?: number; position?: 'bottom-center' | 'bottom-right' | 'bottom-left' | 'top-center' } = {}
+	opts: {
+		fontSize?: number;
+		start?: number;
+		position?: 'bottom-center' | 'bottom-right' | 'bottom-left' | 'top-center';
+	} = {}
 ): Promise<PDFDocument> {
 	const { fontSize = 10, start = 1, position = 'bottom-center' } = opts;
 	const font = await pdf.embedFont(StandardFonts.Helvetica);
@@ -191,11 +203,23 @@ export async function addPageNumbers(
 		let x: number, y: number;
 		const bottomY = 25;
 		switch (position) {
-			case 'bottom-left': x = 30; y = bottomY; break;
-			case 'bottom-right': x = width - textWidth - 30; y = bottomY; break;
-			case 'top-center': x = width / 2 - textWidth / 2; y = height - fontSize - 25; break;
+			case 'bottom-left':
+				x = 30;
+				y = bottomY;
+				break;
+			case 'bottom-right':
+				x = width - textWidth - 30;
+				y = bottomY;
+				break;
+			case 'top-center':
+				x = width / 2 - textWidth / 2;
+				y = height - fontSize - 25;
+				break;
 			case 'bottom-center':
-			default: x = width / 2 - textWidth / 2; y = bottomY; break;
+			default:
+				x = width / 2 - textWidth / 2;
+				y = bottomY;
+				break;
 		}
 		page.drawText(text, { x, y, font, size: fontSize, color: rgb(0, 0, 0) });
 	}
@@ -213,7 +237,7 @@ export async function redactAreas(
 		if (!page) continue;
 		const { height } = page.getSize();
 		const rx = r.x / displayScale;
-		const ry = height - (r.y / displayScale) - (r.h / displayScale);
+		const ry = height - r.y / displayScale - r.h / displayScale;
 		const rw = r.w / displayScale;
 		const rh = r.h / displayScale;
 		page.drawRectangle({ x: rx, y: ry, width: rw, height: rh, color: rgb(0, 0, 0) });
@@ -224,7 +248,14 @@ export async function redactAreas(
 export async function signPdf(
 	pdf: PDFDocument,
 	signatureImage: File | string,
-	opts: { page?: number; x?: number; y?: number; width?: number; height?: number; displayScale?: number } = {}
+	opts: {
+		page?: number;
+		x?: number;
+		y?: number;
+		width?: number;
+		height?: number;
+		displayScale?: number;
+	} = {}
 ): Promise<PDFDocument> {
 	const { page: pageIdx = 0, x = 50, y = 50, width = 150, height = 50, displayScale = 1 } = opts;
 	let imageBytes: ArrayBuffer;
@@ -234,9 +265,10 @@ export async function signPdf(
 	} else {
 		imageBytes = await signatureImage.arrayBuffer();
 	}
-	const isPng = typeof signatureImage === 'string'
-		? signatureImage.endsWith('.png') || signatureImage.startsWith('data:image/png')
-		: signatureImage.type === 'image/png';
+	const isPng =
+		typeof signatureImage === 'string'
+			? signatureImage.endsWith('.png') || signatureImage.startsWith('data:image/png')
+			: signatureImage.type === 'image/png';
 	const image = isPng ? await pdf.embedPng(imageBytes) : await pdf.embedJpg(imageBytes);
 	const pages = pdf.getPages();
 	const page = pages[pageIdx];
@@ -244,9 +276,9 @@ export async function signPdf(
 		const { height: pageH } = page.getSize();
 		page.drawImage(image, {
 			x: x / displayScale,
-			y: pageH - (y / displayScale) - (height / displayScale),
+			y: pageH - y / displayScale - height / displayScale,
 			width: width / displayScale,
-			height: height / displayScale,
+			height: height / displayScale
 		});
 	}
 	return pdf;
@@ -273,9 +305,10 @@ export async function imagesToPdfWithPlacement(
 		const image = isPng ? await doc.embedPng(buf) : await doc.embedJpg(buf);
 		const page = doc.addPage([pageWidth, pageHeight]);
 
-		const imgDims = img.width && img.height
-			? { width: img.width, height: img.height }
-			: image.scaleToFit(pageWidth - margin * 2, pageHeight - margin * 2);
+		const imgDims =
+			img.width && img.height
+				? { width: img.width, height: img.height }
+				: image.scaleToFit(pageWidth - margin * 2, pageHeight - margin * 2);
 
 		const ix = img.x ?? (pageWidth - imgDims.width) / 2;
 		const iy = img.y ?? (pageHeight - imgDims.height) / 2;
@@ -284,7 +317,7 @@ export async function imagesToPdfWithPlacement(
 			x: ix,
 			y: pageHeight - iy - imgDims.height,
 			width: imgDims.width,
-			height: imgDims.height,
+			height: imgDims.height
 		};
 
 		if (img.rotate) {

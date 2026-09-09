@@ -13,8 +13,7 @@ import {
 } from '@codemirror/search';
 import AppIcon from './AppIcon.svelte';
 
-const ICON_BTN =
-	'btn btn-ghost h-8 w-8 min-h-8 min-w-8 p-0 rounded-lg text-base-content';
+const ICON_BTN = 'btn btn-ghost h-8 w-8 min-h-8 min-w-8 p-0 rounded-lg text-base-content';
 const TEXT_BTN = 'btn btn-ghost h-8 min-h-8 rounded-lg px-3 text-base-content';
 
 function mountIcon(target: HTMLElement, name: string) {
@@ -61,7 +60,8 @@ export function createSearchPanel(view: EditorView): Panel {
 		label.className = 'onedev-cm-search-field';
 		const span = document.createElement('span');
 		span.textContent = labelText;
-		label.append(span, input);
+		label.appendChild(span);
+		label.appendChild(input);
 		return label;
 	}
 
@@ -136,24 +136,20 @@ export function createSearchPanel(view: EditorView): Panel {
 	findField.addEventListener('input', syncQuery);
 	replaceField.addEventListener('input', syncQuery);
 
-	root.append(
-		labeledField('Find', findField),
-		iconButton('chevron-up', 'Previous match', () => findPrevious(view)),
-		iconButton('chevron-down', 'Next match', () => findNext(view)),
-		caseBtn,
-		regexBtn,
-		wordBtn
-	);
+	root.appendChild(labeledField('Find', findField));
+	root.appendChild(iconButton('chevron-up', 'Previous match', () => findPrevious(view)));
+	root.appendChild(iconButton('chevron-down', 'Next match', () => findNext(view)));
+	root.appendChild(caseBtn);
+	root.appendChild(regexBtn);
+	root.appendChild(wordBtn);
 
 	if (!readOnly) {
-		root.append(
-			labeledField('Replace', replaceField),
-			textButton('Replace', () => replaceNext(view)),
-			textButton('Replace all', () => replaceAll(view))
-		);
+		root.appendChild(labeledField('Replace', replaceField));
+		root.appendChild(textButton('Replace', () => replaceNext(view)));
+		root.appendChild(textButton('Replace all', () => replaceAll(view)));
 	}
 
-	root.append(iconButton('x', 'Close search', () => closeSearchPanel(view)));
+	root.appendChild(iconButton('x', 'Close search', () => closeSearchPanel(view)));
 	syncToggles();
 
 	return {

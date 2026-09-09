@@ -4,10 +4,10 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script>
-			(function() {
+			(function () {
 				// Keep in sync with daisyTheme() in src/lib/theme-daisy.ts (blocking script cannot import it).
 				var stored = localStorage.getItem('onedev-theme');
-				var theme = stored === 'light' ? 'lemonade' : 'forest';
+				var theme = stored === 'light' ? 'emerald' : 'forest';
 				document.documentElement.setAttribute('data-theme', theme);
 				document.documentElement.style.colorScheme = stored === 'light' ? 'light' : 'dark';
 			})();
@@ -15,7 +15,9 @@
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-79EL2FS0FS"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
+			function gtag() {
+				dataLayer.push(arguments);
+			}
 			gtag('js', new Date());
 			gtag('config', 'G-79EL2FS0FS', { send_page_view: false });
 		</script>
