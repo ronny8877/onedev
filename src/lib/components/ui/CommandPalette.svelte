@@ -14,7 +14,7 @@
 
 	let searchQuery = $state('');
 	let selectedIndex = $state(0);
-	let inputRef: HTMLInputElement;
+	let inputRef = $state<HTMLInputElement | undefined>();
 
 	const allTools = getAllActiveTools();
 	const categories = getActiveCategories();
@@ -106,7 +106,7 @@
 			setTimeout(() => inputRef?.focus(), 50);
 		}
 	});
-	let resultsContainer: HTMLDivElement;
+	let resultsContainer = $state<HTMLDivElement | undefined>();
 
 	// Scroll selected item into view
 	$effect(() => {
@@ -137,6 +137,7 @@
 		class="command-palette bg-base-100"
 		onkeydown={handleKeydown}
 		role="dialog"
+		tabindex="-1"
 		aria-modal="true"
 		aria-label="Search tools"
 	>

@@ -50,7 +50,7 @@
 	let imageWidth = $state(0);
 	let imageHeight = $state(0);
 	let canvasScale = $state(1);
-	let containerRef: HTMLElement;
+	let containerRef = $state<HTMLElement | undefined>();
 
 	async function handleImageLoad(file: File, dataURL: string) {
 		originalFile = file;

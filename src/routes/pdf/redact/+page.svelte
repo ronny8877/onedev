@@ -28,8 +28,8 @@
 	let isDrawing = $state(false);
 	let drawStart = $state({ x: 0, y: 0 });
 	let drawCurrent = $state({ x: 0, y: 0 });
-	let imgRef: HTMLImageElement;
-	let containerRef: HTMLDivElement;
+	let imgRef = $state<HTMLImageElement | undefined>();
+	let containerRef = $state<HTMLDivElement | undefined>();
 
 	async function handleFile(e: Event) {
 		const input = e.target as HTMLInputElement;

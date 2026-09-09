@@ -201,11 +201,12 @@
 						<!-- Main Input Area -->
 						<div class="flex flex-col sm:flex-row gap-4 items-start">
 							<div class="form-control flex-1 w-full">
-								<label class="label pt-0 pb-2">
+								<label class="label pt-0 pb-2" for="css-unit-input">
 									<span class="label-text font-semibold text-base">Input Value</span>
 								</label>
 								<div class="join w-full">
 									<input
+										id="css-unit-input"
 										type="number"
 										bind:value={inputValue}
 										placeholder="Value"
@@ -279,34 +280,34 @@
 									<!-- Advanced Inputs -->
 									<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 										<div class="form-control">
-											<label class="label py-1">
+											<label class="label py-1" for="root-font-size">
 												<span class="label-text text-xs text-base-content/70">Root Font Size (px)</span>
 											</label>
-											<input type="number" bind:value={baseFontSize} class="input input-sm input-bordered font-mono" />
+											<input id="root-font-size" type="number" bind:value={baseFontSize} class="input input-sm input-bordered font-mono" />
 										</div>
 										<div class="form-control">
-											<label class="label py-1">
+											<label class="label py-1" for="parent-font-size">
 												<span class="label-text text-xs text-base-content/70">Parent Font Size (px)</span>
 											</label>
-											<input type="number" bind:value={parentFontSize} class="input input-sm input-bordered font-mono" />
+											<input id="parent-font-size" type="number" bind:value={parentFontSize} class="input input-sm input-bordered font-mono" />
 										</div>
 										<div class="form-control">
-											<label class="label py-1">
+											<label class="label py-1" for="percent-base">
 												<span class="label-text text-xs text-base-content/70">Base for % (px)</span>
 											</label>
-											<input type="number" bind:value={baseForPercent} class="input input-sm input-bordered font-mono" />
+											<input id="percent-base" type="number" bind:value={baseForPercent} class="input input-sm input-bordered font-mono" />
 										</div>
 										<div class="form-control">
-											<label class="label py-1">
+											<label class="label py-1" for="viewport-width">
 												<span class="label-text text-xs text-base-content/70">Viewport Width</span>
 											</label>
-											<input type="number" bind:value={viewportWidth} class="input input-sm input-bordered font-mono" />
+											<input id="viewport-width" type="number" bind:value={viewportWidth} class="input input-sm input-bordered font-mono" />
 										</div>
 										<div class="form-control">
-											<label class="label py-1">
+											<label class="label py-1" for="screen-dpi">
 												<span class="label-text text-xs text-base-content/70">Screen DPI</span>
 											</label>
-											<input type="number" bind:value={dpi} class="input input-sm input-bordered font-mono" />
+											<input id="screen-dpi" type="number" bind:value={dpi} class="input input-sm input-bordered font-mono" />
 										</div>
 									</div>
 								</div>
@@ -455,28 +456,28 @@
 
 							<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">
 								<div class="form-control">
-									<label class="label py-1">
+									<label class="label py-1" for="clamp-min-width">
 										<span class="label-text">Min Width (px)</span>
 									</label>
-									<input type="number" bind:value={clampMinW} class="input input-bordered font-mono" />
+									<input id="clamp-min-width" type="number" bind:value={clampMinW} class="input input-bordered font-mono" />
 								</div>
 								<div class="form-control">
-									<label class="label py-1">
+									<label class="label py-1" for="clamp-max-width">
 										<span class="label-text">Max Width (px)</span>
 									</label>
-									<input type="number" bind:value={clampMaxW} class="input input-bordered font-mono" />
+									<input id="clamp-max-width" type="number" bind:value={clampMaxW} class="input input-bordered font-mono" />
 								</div>
 								<div class="form-control">
-									<label class="label py-1">
+									<label class="label py-1" for="clamp-min-value">
 										<span class="label-text">Min Value (px)</span>
 									</label>
-									<input type="number" bind:value={clampMinF} class="input input-bordered font-mono" />
+									<input id="clamp-min-value" type="number" bind:value={clampMinF} class="input input-bordered font-mono" />
 								</div>
 								<div class="form-control">
-									<label class="label py-1">
+									<label class="label py-1" for="clamp-max-value">
 										<span class="label-text">Max Value (px)</span>
 									</label>
-									<input type="number" bind:value={clampMaxF} class="input input-bordered font-mono" />
+									<input id="clamp-max-value" type="number" bind:value={clampMaxF} class="input input-bordered font-mono" />
 								</div>
 							</div>
 						</div>

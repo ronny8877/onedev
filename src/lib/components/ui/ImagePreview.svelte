@@ -18,7 +18,7 @@
 	}: Props = $props();
 
 	let sliderPosition = $state(50);
-	let containerRef: HTMLDivElement;
+	let containerRef = $state<HTMLDivElement | undefined>();
 
 	function handleMouseMove(e: MouseEvent) {
 		if (!containerRef) return;

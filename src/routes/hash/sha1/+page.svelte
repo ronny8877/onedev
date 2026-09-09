@@ -25,7 +25,7 @@
 	let fileInfo = $state<{ name: string; size: number } | null>(null);
 	let progress = $state<HashProgress | null>(null);
 	let isDragging = $state(false);
-	let fileInput: HTMLInputElement;
+	let fileInput = $state<HTMLInputElement | undefined>();
 
 	const MAX_FILE_SIZE = 100 * 1024 * 1024;
 	const sampleText = 'Hello, World!';

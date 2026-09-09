@@ -39,7 +39,7 @@
 	// Preview state
 	let videoPreviewStream = $state<MediaStream | null>(null);
 	let audioPreviewStream = $state<MediaStream | null>(null);
-	let videoRef: HTMLVideoElement;
+	let videoRef = $state<HTMLVideoElement | undefined>();
 	let selectedCameraId = $state<string | null>(null);
 	let selectedMicId = $state<string | null>(null);
 

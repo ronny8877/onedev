@@ -115,7 +115,7 @@
 	let dragging = $state(false);
 	let dragOffsetX = $state(0);
 	let dragOffsetY = $state(0);
-	let imgContainer: HTMLDivElement;
+	let imgContainer = $state<HTMLDivElement | undefined>();
 
 	function startDrag(e: MouseEvent) {
 		dragging = true;

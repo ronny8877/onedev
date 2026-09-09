@@ -86,7 +86,7 @@
 	let imgStartH = 0;
 	let imgStartRot = 0;
 	let aspectRatio = 0;
-	let previewContainer: HTMLDivElement;
+	let previewContainer = $state<HTMLDivElement | undefined>();
 
 	function onImageMouseDown(e: MouseEvent, idx: number, mode: 'move' | 'resize' | 'rotate') {
 		selectedIdx = idx;
@@ -129,6 +129,7 @@
 				updateSelectedWH(nw, nh);
 			}
 		} else if (dragMode === 'rotate') {
+			if (!previewContainer) return;
 			const containerRect = previewContainer.getBoundingClientRect();
 			const cx = containerRect.left + imgStartX + imgStartW / 2;
 			const cy = containerRect.top + imgStartY + imgStartH / 2;

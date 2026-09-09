@@ -36,7 +36,7 @@
 	let dragStart = $state({ x: 0, y: 0 });
 	let cropStart = $state({ x: 0, y: 0, w: 0, h: 0 });
 	let previewScale = $state(1);
-	let containerRef: HTMLDivElement;
+	let containerRef = $state<HTMLDivElement | undefined>();
 
 	// Preset ratios
 	const ratios = [
