@@ -14,7 +14,7 @@
 
 	let { data, expandAll = false, depth = 0, maxDepth = 10 }: Props = $props();
 
-	let expanded = $state(expandAll || depth < 2);
+	let expanded = $state(false);
 
 	// React to expandAll prop changes - sync expanded state
 	$effect(() => {

@@ -98,9 +98,9 @@
 			<div class="card-body p-4 sm:p-6">
 				<div class="flex flex-col gap-6">
 					<div class="form-control w-full">
-						<label class="label pt-0 pb-2">
+						<div class="label pt-0 pb-2">
 							<span class="label-text font-semibold text-base">Input Angle</span>
-						</label>
+						</div>
 						<div class="join w-full shadow-sm">
 							<input
 								type="number"

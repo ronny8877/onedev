@@ -308,7 +308,7 @@ For more information, please refer to <https://unlicense.org>`
 				<h3 class="font-semibold mb-3">Customize</h3>
 				<div class="grid md:grid-cols-2 gap-4">
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">Your Name / Organization</label>
+						<div class="text-sm text-base-content/70 mb-1 block">Your Name / Organization</div>
 						<input
 							type="text"
 							bind:value={fullName}
@@ -317,7 +317,7 @@ For more information, please refer to <https://unlicense.org>`
 						/>
 					</div>
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">Year</label>
+						<div class="text-sm text-base-content/70 mb-1 block">Year</div>
 						<input
 							type="text"
 							bind:value={year}

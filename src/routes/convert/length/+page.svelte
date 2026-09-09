@@ -73,9 +73,9 @@
 				<div class="flex flex-col gap-6">
 					<!-- Main Input -->
 					<div class="form-control w-full">
-						<label class="label pt-0 pb-2">
-							<span class="label-text font-semibold text-base">Input Length</span>
-						</label>
+					<div class="label pt-0 pb-2">
+						<span class="label-text font-semibold text-base">Input Length</span>
+					</div>
 						<div class="join w-full shadow-sm">
 							<input
 								type="number"

@@ -29,12 +29,13 @@
 	let radialPosition = $state({ x: 50, y: 50 });
 	let isAnimated = $state(false);
 
-	let colorStops = $state<ColorStop[]>([
+	const initialColorStops: ColorStop[] = [
 		{ id: crypto.randomUUID(), color: '#667eea', position: 0 },
 		{ id: crypto.randomUUID(), color: '#764ba2', position: 100 }
-	]);
+	];
+	let colorStops = $state<ColorStop[]>(initialColorStops);
 
-	let selectedStopId = $state<string | null>(colorStops[0]?.id ?? null);
+	let selectedStopId = $state<string | null>(initialColorStops[0]?.id ?? null);
 	
 	// Library State
 	let activeLibraryTab = $state<'linear' | 'radial' | 'conic' | 'animated'>('linear');
@@ -332,6 +333,7 @@
                                 class="flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all duration-200 border 
                                 {selectedStopId === stop.id ? 'bg-base-100 border-primary shadow-sm ring-1 ring-primary/20' : 'hover:bg-base-100 border-transparent hover:border-base-300'}"
                                 onclick={() => selectedStopId = stop.id}
+                                onkeydown={(e) => e.key === 'Enter' && (selectedStopId = stop.id)}
                                 role="button"
                                 tabindex="0"
                             >
@@ -408,7 +410,7 @@
 					
 					<!-- Type Selector -->
 					<div class="form-control">
-                        <label class="label text-xs font-medium opacity-70 p-0 mb-2">Type</label>
+                        <div class="label text-xs font-medium opacity-70 p-0 mb-2">Type</div>
 						<div class="join w-full grid grid-cols-3">
 							{#each ['linear', 'radial', 'conic'] as type}
 								<button
@@ -452,7 +454,7 @@
 
                     {#if gradientType === 'radial'}
                          <div class="form-control">
-                            <label class="label text-xs font-medium opacity-70 p-0 mb-2">Shape</label>
+                            <div class="label text-xs font-medium opacity-70 p-0 mb-2">Shape</div>
                             <div class="flex gap-2">
                                 <button 
                                     class="btn btn-sm flex-1 {radialShape === 'circle' ? 'btn-primary' : 'btn-outline'}"

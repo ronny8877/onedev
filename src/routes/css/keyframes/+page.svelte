@@ -277,11 +277,11 @@
                                         <!-- Position -->
                                         <div class="grid grid-cols-2 gap-3">
                                             <div class="form-control">
-                                                <label class="label text-xs font-medium opacity-60 p-0 mb-1">Translate X (px)</label>
+                                                <div class="label text-xs font-medium opacity-60 p-0 mb-1">Translate X (px)</div>
                                                 <input type="number" bind:value={kf.translateX} class="input input-bordered input-sm w-full font-mono"/>
                                             </div>
                                             <div class="form-control">
-                                                <label class="label text-xs font-medium opacity-60 p-0 mb-1">Translate Y (px)</label>
+                                                <div class="label text-xs font-medium opacity-60 p-0 mb-1">Translate Y (px)</div>
                                                 <input type="number" bind:value={kf.translateY} class="input input-bordered input-sm w-full font-mono"/>
                                             </div>
                                         </div>
@@ -289,15 +289,15 @@
                                         <!-- Transform Properties -->
                                         <div class="grid grid-cols-3 gap-3">
                                             <div class="form-control">
-                                                <label class="label text-xs font-medium opacity-60 p-0 mb-1">Scale</label>
+                                                <div class="label text-xs font-medium opacity-60 p-0 mb-1">Scale</div>
                                                 <input type="number" bind:value={kf.scale} step="0.1" min="0" class="input input-bordered input-sm w-full font-mono"/>
                                             </div>
                                             <div class="form-control">
-                                                <label class="label text-xs font-medium opacity-60 p-0 mb-1">Rotate (deg)</label>
+                                                <div class="label text-xs font-medium opacity-60 p-0 mb-1">Rotate (deg)</div>
                                                 <input type="number" bind:value={kf.rotate} class="input input-bordered input-sm w-full font-mono"/>
                                             </div>
                                             <div class="form-control">
-                                                <label class="label text-xs font-medium opacity-60 p-0 mb-1">Opacity</label>
+                                                <div class="label text-xs font-medium opacity-60 p-0 mb-1">Opacity</div>
                                                 <input type="number" bind:value={kf.opacity} step="0.1" min="0" max="1" class="input input-bordered input-sm w-full font-mono"/>
                                             </div>
                                         </div>
@@ -368,17 +368,17 @@
 					<h3 class="text-sm font-semibold">Global Settings</h3>
 					
                     <div class="form-control">
-                        <label class="label text-xs font-medium opacity-70 p-0 mb-1">Animation Name</label>
+                        <div class="label text-xs font-medium opacity-70 p-0 mb-1">Animation Name</div>
                         <input type="text" bind:value={animationName} class="input input-bordered input-sm w-full font-mono"/>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
                         <div class="form-control">
-                            <label class="label text-xs font-medium opacity-70 p-0 mb-1">Duration (ms)</label>
+                            <div class="label text-xs font-medium opacity-70 p-0 mb-1">Duration (ms)</div>
                             <input type="number" bind:value={duration} min="100" step="100" class="input input-bordered input-sm w-full font-mono"/>
                         </div>
                         <div class="form-control">
-                            <label class="label text-xs font-medium opacity-70 p-0 mb-1">Timing</label>
+                            <div class="label text-xs font-medium opacity-70 p-0 mb-1">Timing</div>
                             <select bind:value={timingFunction} class="select select-bordered select-sm w-full text-xs">
                                 <option value="linear">linear</option>
                                 <option value="ease">ease</option>
@@ -391,7 +391,7 @@
 
                     <div class="grid grid-cols-2 gap-3">
                         <div class="form-control">
-                            <label class="label text-xs font-medium opacity-70 p-0 mb-1">Iteration</label>
+                            <div class="label text-xs font-medium opacity-70 p-0 mb-1">Iteration</div>
                             <select bind:value={iterationCount} class="select select-bordered select-sm w-full text-xs">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -400,7 +400,7 @@
                             </select>
                         </div>
                         <div class="form-control">
-                            <label class="label text-xs font-medium opacity-70 p-0 mb-1">Direction</label>
+                            <div class="label text-xs font-medium opacity-70 p-0 mb-1">Direction</div>
                             <select bind:value={direction} class="select select-bordered select-sm w-full text-xs">
                                 <option value="normal">normal</option>
                                 <option value="reverse">reverse</option>

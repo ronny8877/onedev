@@ -241,11 +241,11 @@
 				</h3>
 				<div class="grid md:grid-cols-2 gap-4">
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">Project Name</label>
+						<div class="text-sm text-base-content/70 mb-1 block">Project Name</div>
 						<input type="text" bind:value={projectName} placeholder="my-awesome-project" class="input input-bordered w-full rounded-xl" />
 					</div>
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">License</label>
+						<div class="text-sm text-base-content/70 mb-1 block">License</div>
 						<select bind:value={license} class="select select-bordered w-full rounded-xl">
 							{#each licenseOptions as lic}
 								<option value={lic}>{lic}</option>
@@ -253,15 +253,15 @@
 						</select>
 					</div>
 					<div class="md:col-span-2">
-						<label class="text-sm text-base-content/70 mb-1 block">Description</label>
+						<div class="text-sm text-base-content/70 mb-1 block">Description</div>
 						<textarea bind:value={description} placeholder="A brief description of your project..." class="textarea textarea-bordered w-full rounded-xl h-20"></textarea>
 					</div>
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">Author Name</label>
+						<div class="text-sm text-base-content/70 mb-1 block">Author Name</div>
 						<input type="text" bind:value={authorName} placeholder="John Doe" class="input input-bordered w-full rounded-xl" />
 					</div>
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">GitHub Username</label>
+						<div class="text-sm text-base-content/70 mb-1 block">GitHub Username</div>
 						<input type="text" bind:value={authorGithub} placeholder="johndoe" class="input input-bordered w-full rounded-xl" />
 					</div>
 				</div>

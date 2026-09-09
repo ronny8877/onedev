@@ -265,6 +265,7 @@
 				<p class="text-center text-xs text-base-content/50 mt-2">
 					* = any • , = list • - = range • / = step
 				</p>
+			</div>
 		</div>
 
 		<!-- Content Sections -->

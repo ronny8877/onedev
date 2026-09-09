@@ -248,7 +248,7 @@
 				<h4 class="text-sm font-semibold mb-3">Options</h4>
 				<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
 					<div>
-						<label class="text-xs text-base-content/70 mb-1 block">Date Format</label>
+						<div class="text-xs text-base-content/70 mb-1 block">Date Format</div>
 						<select bind:value={dateFormat} class="select select-bordered w-full rounded-lg select-sm">
 							{#each dateFormats as df}
 								<option value={df.id}>{df.name}</option>
@@ -256,15 +256,15 @@
 						</select>
 					</div>
 					<div>
-						<label class="text-xs text-base-content/70 mb-1 block">Limit</label>
+						<div class="text-xs text-base-content/70 mb-1 block">Limit</div>
 						<input type="number" bind:value={limit} min="0" max="1000" class="input input-bordered w-full rounded-lg input-sm" />
 					</div>
 					<div>
-						<label class="text-xs text-base-content/70 mb-1 block">Author Filter</label>
+						<div class="text-xs text-base-content/70 mb-1 block">Author Filter</div>
 						<input type="text" bind:value={authorFilter} placeholder="name or email" class="input input-bordered w-full rounded-lg input-sm" />
 					</div>
 					<div>
-						<label class="text-xs text-base-content/70 mb-1 block">Since Date</label>
+						<div class="text-xs text-base-content/70 mb-1 block">Since Date</div>
 						<input type="text" bind:value={sinceDate} placeholder="2024-01-01" class="input input-bordered w-full rounded-lg input-sm" />
 					</div>
 				</div>

@@ -113,7 +113,7 @@
 
 					<!-- Output Format Selection -->
 					<div>
-						<label class="text-sm font-medium mb-2 block">Convert to:</label>
+						<div class="text-sm font-medium mb-2 block">Convert to:</div>
 						<div class="flex gap-2">
 							{#each formats as format}
 								<button

@@ -234,7 +234,7 @@
 
 					<!-- Output Format -->
 					<div>
-						<label class="text-sm font-medium mb-2 block text-base-content/70">Output format</label>
+						<div class="text-sm font-medium mb-2 block text-base-content/70">Output format</div>
 						<div class="flex flex-wrap gap-2">
 							{#each [
 								{ value: 'original', label: 'Original' },

@@ -36,7 +36,7 @@
 		onSelect
 	}: Props = $props();
 
-	let expanded = $state(expandAll || depth < 2);
+	let expanded = $state(false);
 
 	// React to expandAll prop changes
 	$effect(() => {

@@ -150,7 +150,7 @@
 				</h3>
 				<div class="grid md:grid-cols-2 gap-4">
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">Name</label>
+						<div class="text-sm text-base-content/70 mb-1 block">Name</div>
 						<input
 							type="text"
 							bind:value={userName}
@@ -159,7 +159,7 @@
 						/>
 					</div>
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">Email</label>
+						<div class="text-sm text-base-content/70 mb-1 block">Email</div>
 						<input
 							type="email"
 							bind:value={userEmail}
@@ -180,7 +180,7 @@
 				</h3>
 				<div class="grid md:grid-cols-2 gap-4">
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">Default Branch</label>
+						<div class="text-sm text-base-content/70 mb-1 block">Default Branch</div>
 						<input
 							type="text"
 							bind:value={defaultBranch}
@@ -189,7 +189,7 @@
 						/>
 					</div>
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">Editor</label>
+						<div class="text-sm text-base-content/70 mb-1 block">Editor</div>
 						<select bind:value={editor} class="select select-bordered w-full rounded-xl">
 							{#each editors as ed}
 								<option value={ed.value}>{ed.label}</option>
@@ -197,7 +197,7 @@
 						</select>
 					</div>
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">Line Endings (autocrlf)</label>
+						<div class="text-sm text-base-content/70 mb-1 block">Line Endings (autocrlf)</div>
 						<select bind:value={autocrlf} class="select select-bordered w-full rounded-xl">
 							{#each autocrlfOptions as opt}
 								<option value={opt.value}>{opt.label}</option>
@@ -205,7 +205,7 @@
 						</select>
 					</div>
 					<div>
-						<label class="text-sm text-base-content/70 mb-1 block">Push Default</label>
+						<div class="text-sm text-base-content/70 mb-1 block">Push Default</div>
 						<select bind:value={pushDefault} class="select select-bordered w-full rounded-xl">
 							<option value="simple">simple (recommended)</option>
 							<option value="current">current</option>

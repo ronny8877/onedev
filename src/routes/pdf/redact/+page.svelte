@@ -139,7 +139,8 @@
 					</div>
 				</div>
 
-				<div bind:this={containerRef} class="relative inline-block bg-base-300 rounded-xl select-none" onmousedown={mouseDown} onmousemove={mouseMove} onmouseup={mouseUp} onmouseleave={mouseUp}>
+				<!-- svelte-ignore a11y_no_noninteractive_element_interactions: redaction surface intentionally handles pointer events -->
+				<div bind:this={containerRef} class="relative inline-block bg-base-300 rounded-xl select-none" role="application" aria-label="PDF redaction area" onmousedown={mouseDown} onmousemove={mouseMove} onmouseup={mouseUp} onmouseleave={mouseUp}>
 					{#if pageDataURL}
 						<img bind:this={imgRef} src={pageDataURL} alt={`Page ${currentPage}`} class="max-w-full rounded" />
 					{/if}

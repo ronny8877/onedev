@@ -133,6 +133,9 @@
 				<div 
 					class="card bg-base-200 rounded-xl cursor-pointer hover:shadow-lg transition-shadow"
 					onclick={() => expandedCode = expandedCode === status.code ? null : status.code}
+					onkeydown={(e) => e.key === 'Enter' && (expandedCode = expandedCode === status.code ? null : status.code)}
+					role="button"
+					tabindex="0"
 				>
 					<div class="card-body p-4">
 						<div class="flex items-center gap-3">

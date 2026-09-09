@@ -148,19 +148,19 @@
 					{:else}
 						<div class="grid grid-cols-2 gap-4">
 							<div class="form-control">
-								<label class="label py-1 text-xs">Top</label>
+								<div class="label py-1 text-xs">Top</div>
 								<input type="range" bind:value={mt} min="0" max="100" class="range range-warning range-xs" />
 							</div>
 							<div class="form-control">
-								<label class="label py-1 text-xs">Right</label>
+								<div class="label py-1 text-xs">Right</div>
 								<input type="range" bind:value={mr} min="0" max="100" class="range range-warning range-xs" />
 							</div>
 							<div class="form-control">
-								<label class="label py-1 text-xs">Bottom</label>
+								<div class="label py-1 text-xs">Bottom</div>
 								<input type="range" bind:value={mb} min="0" max="100" class="range range-warning range-xs" />
 							</div>
 							<div class="form-control">
-								<label class="label py-1 text-xs">Left</label>
+								<div class="label py-1 text-xs">Left</div>
 								<input type="range" bind:value={ml} min="0" max="100" class="range range-warning range-xs" />
 							</div>
 						</div>
@@ -193,19 +193,19 @@
 					{:else}
 						<div class="grid grid-cols-2 gap-4">
 							<div class="form-control">
-								<label class="label py-1 text-xs">Top</label>
+								<div class="label py-1 text-xs">Top</div>
 								<input type="range" bind:value={pt} min="0" max="100" class="range range-success range-xs" />
 							</div>
 							<div class="form-control">
-								<label class="label py-1 text-xs">Right</label>
+								<div class="label py-1 text-xs">Right</div>
 								<input type="range" bind:value={pr} min="0" max="100" class="range range-success range-xs" />
 							</div>
 							<div class="form-control">
-								<label class="label py-1 text-xs">Bottom</label>
+								<div class="label py-1 text-xs">Bottom</div>
 								<input type="range" bind:value={pb} min="0" max="100" class="range range-success range-xs" />
 							</div>
 							<div class="form-control">
-								<label class="label py-1 text-xs">Left</label>
+								<div class="label py-1 text-xs">Left</div>
 								<input type="range" bind:value={pl} min="0" max="100" class="range range-success range-xs" />
 							</div>
 						</div>

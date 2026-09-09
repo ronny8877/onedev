@@ -93,12 +93,12 @@
 					
 					<div class="flex items-center gap-4 mb-6">
 						<div class="form-control w-full">
-							<label class="label py-1 text-xs uppercase font-bold text-base-content/60">Width</label>
+						<div class="label py-1 text-xs uppercase font-bold text-base-content/60">Width</div>
 							<input type="number" bind:value={width} min="1" class="input input-bordered font-mono lg:text-lg" />
 						</div>
 						<span class="text-2xl font-light text-base-content/30 mt-6">:</span>
 						<div class="form-control w-full">
-							<label class="label py-1 text-xs uppercase font-bold text-base-content/60">Height</label>
+						<div class="label py-1 text-xs uppercase font-bold text-base-content/60">Height</div>
 							<input type="number" bind:value={height} min="1" class="input input-bordered font-mono lg:text-lg" />
 						</div>
 					</div>

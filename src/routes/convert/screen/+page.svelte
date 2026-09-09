@@ -135,9 +135,9 @@
 				<div class="card-body p-4 sm:p-6">
 					<div class="flex flex-col gap-6">
 						<div class="form-control w-full">
-							<label class="label pt-0 pb-2">
-								<span class="label-text font-semibold text-base">Screen Resolution</span>
-							</label> 
+						<div class="label pt-0 pb-2">
+							<span class="label-text font-semibold text-base">Screen Resolution</span>
+						</div>
 							<div class="flex items-center gap-2 sm:gap-4">
 								<div class="relative flex-1">
 									<input
@@ -161,9 +161,9 @@
 									<span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-base-content/40 pointer-events-none">H</span>
 								</div>
 							</div>
-							<label class="label">
-								<span class="label-text-alt text-base-content/60">pixels</span>
-							</label>
+						<span class="label">
+							<span class="label-text-alt text-base-content/60">pixels</span>
+						</span>
 						</div>
 
 						<div>
@@ -192,9 +192,9 @@
 					<h3 class="font-semibold text-base mb-4">Physical Size (inches)</h3>
 					<div class="grid sm:grid-cols-2 gap-6">
 						<div class="form-control">
-							<label class="label pt-0 pb-2">
-								<span class="label-text font-medium text-base-content/80">Width</span>
-							</label>
+						<div class="label pt-0 pb-2">
+							<span class="label-text font-medium text-base-content/80">Width</span>
+						</div>
 							<div class="join w-full shadow-sm">
 								<input
 									type="number"
@@ -207,9 +207,9 @@
 							</div>
 						</div>
 						<div class="form-control">
-							<label class="label pt-0 pb-2">
-								<span class="label-text font-medium text-base-content/80">Height</span>
-							</label>
+						<div class="label pt-0 pb-2">
+							<span class="label-text font-medium text-base-content/80">Height</span>
+						</div>
 							<div class="join w-full shadow-sm">
 								<input
 									type="number"
@@ -231,9 +231,9 @@
 			<div class="card-body p-4 sm:p-6">
 				<div class="flex flex-col sm:flex-row gap-6 items-start">
 					<div class="form-control">
-						<label class="label pt-0 pb-2">
-							<span class="label-text font-semibold">Pixel Density (PPI)</span>
-						</label>
+				<div class="label pt-0 pb-2">
+					<span class="label-text font-semibold">Pixel Density (PPI)</span>
+				</div>
 						<div class="join shadow-sm">
 							<input
 								type="number"

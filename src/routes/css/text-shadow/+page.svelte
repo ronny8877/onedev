@@ -262,9 +262,9 @@
 
 					<!-- Color -->
 					<div class="form-control">
-						<label class="label p-0 mb-2">
-							<span class="label-text text-xs font-medium opacity-70">Shadow Color</span>
-						</label>
+					<div class="label p-0 mb-2">
+						<span class="label-text text-xs font-medium opacity-70">Shadow Color</span>
+					</div>
 						
 						<div class="join w-full shadow-sm">
 							<div class="btn btn-square join-item relative hover:bg-base-200 border-base-300">

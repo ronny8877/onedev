@@ -87,6 +87,9 @@
 				<div 
 					class="card bg-base-200 rounded-xl cursor-pointer transition-all {selectedOption === opt.value ? `ring-2 ring-${opt.color}` : ''}"
 					onclick={() => selectedOption = opt.value as typeof selectedOption}
+					onkeydown={(e) => e.key === 'Enter' && (selectedOption = opt.value as typeof selectedOption)}
+					role="button"
+					tabindex="0"
 				>
 					<div class="card-body p-4">
 						<div class="flex items-center justify-between">
@@ -113,7 +116,7 @@
 							<div class="mt-3 space-y-3">
 								{#if opt.value === 'ALLOW-FROM'}
 									<div>
-										<label class="text-xs font-bold">Allowed Origin</label>
+										<div class="text-xs font-bold">Allowed Origin</div>
 										<input 
 											type="text" 
 											bind:value={allowFromUrl}

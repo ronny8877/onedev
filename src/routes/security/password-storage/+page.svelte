@@ -161,7 +161,7 @@ valid = bcrypt.checkpw(password.encode(), hash)` }
 
 					<div class="space-y-6">
 						<div>
-							<label class="text-sm font-medium block mb-2">Application Type</label>
+							<div class="text-sm font-medium block mb-2">Application Type</div>
 							<div class="flex gap-2">
 								{#each ['web', 'mobile', 'internal'] as type}
 									<button 
@@ -175,7 +175,7 @@ valid = bcrypt.checkpw(password.encode(), hash)` }
 						</div>
 
 						<div>
-							<label class="text-sm font-medium block mb-2">Threat Level</label>
+							<div class="text-sm font-medium block mb-2">Threat Level</div>
 							<div class="flex gap-2">
 								{#each ['low', 'medium', 'high'] as level}
 									<button 
@@ -191,7 +191,7 @@ valid = bcrypt.checkpw(password.encode(), hash)` }
 						</div>
 
 						<div>
-							<label class="text-sm font-medium block mb-2">Compliance Requirements</label>
+							<div class="text-sm font-medium block mb-2">Compliance Requirements</div>
 							<div class="flex flex-wrap gap-2">
 								{#each complianceOptions as opt}
 									<button 

@@ -231,7 +231,7 @@ Sales: sales@business.net`;
 				<div class="grid sm:grid-cols-2 gap-4">
 					<!-- Find Pattern -->
 					<div>
-						<label class="text-sm font-medium text-base-content/70 mb-2 block">Find Pattern</label>
+						<div class="text-sm font-medium text-base-content/70 mb-2 block">Find Pattern</div>
 						<div class="flex items-center gap-2 bg-base-100 rounded-xl p-2">
 							<span class="text-xl text-warning/70 font-mono font-bold pl-2">/</span>
 							<input
@@ -248,7 +248,7 @@ Sales: sales@business.net`;
 					
 					<!-- Replace With -->
 					<div>
-						<label class="text-sm font-medium text-base-content/70 mb-2 block">Replace With</label>
+						<div class="text-sm font-medium text-base-content/70 mb-2 block">Replace With</div>
 						<div class="flex items-center gap-2 bg-base-100 rounded-xl p-2">
 							<input
 								type="text"
@@ -258,7 +258,7 @@ Sales: sales@business.net`;
 								spellcheck="false"
 							/>
 							<div class="dropdown dropdown-end">
-								<button tabindex="0" class="btn btn-ghost btn-xs">
+								<button tabindex="0" class="btn btn-ghost btn-xs" aria-label="Replacement templates">
 									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
 									</svg>
@@ -317,7 +317,7 @@ Sales: sales@business.net`;
 		<!-- Input Text -->
 		<div>
 			<div class="flex items-center justify-between mb-2">
-				<label class="text-sm font-medium text-base-content/70">Input Text</label>
+				<span class="text-sm font-medium text-base-content/70">Input Text</span>
 				{#if undoStack.length > 0}
 					<button class="btn btn-ghost btn-xs gap-1" onclick={undo}>
 						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

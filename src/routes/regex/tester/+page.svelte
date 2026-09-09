@@ -444,7 +444,7 @@ test123@test.io`;
 
 		<!-- Test String -->
 		<div>
-			<label class="text-sm font-medium text-base-content/70 mb-2 block">Test String</label>
+			<div class="text-sm font-medium text-base-content/70 mb-2 block">Test String</div>
 			<textarea
 				bind:value={testString}
 				placeholder="Enter text to test against..."

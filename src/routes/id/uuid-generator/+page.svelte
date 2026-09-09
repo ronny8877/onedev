@@ -240,7 +240,7 @@
 				<div class="grid gap-4 sm:grid-cols-2 mb-4">
 					<!-- Version Toggle -->
 					<div>
-						<label class="text-sm font-medium mb-2 block">UUID Version</label>
+						<div class="text-sm font-medium mb-2 block">UUID Version</div>
 						<div class="flex gap-2">
 							{#each ['v4', 'v7'] as v}
 								{@const info = versionInfo[v as 'v4' | 'v7']}
@@ -260,7 +260,7 @@
 					<!-- Count -->
 					<div>
 						<div class="flex justify-between items-center mb-2">
-							<label class="text-sm font-medium">Quantity</label>
+							<span class="text-sm font-medium">Quantity</span>
 							<input 
 								type="number" 
 								bind:value={count} 

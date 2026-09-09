@@ -272,6 +272,7 @@
                                     class="flex items-center gap-3 p-2 rounded-lg transition-colors border
                                     {selectedStopId === stop.id ? 'bg-base-100 border-primary shadow-sm ring-1 ring-primary/10' : 'bg-base-100/50 border-base-200 hover:border-base-300'}"
                                     onclick={() => selectedStopId = stop.id}
+                                    tabindex="0"
                                     role="button"
                                     onkeydown={(e) => e.key === 'Enter' && (selectedStopId = stop.id)}
                                 >

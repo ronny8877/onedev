@@ -232,6 +232,9 @@ data:
 									? 'border border-primary/20 bg-primary/10'
 									: 'bg-base-200 hover:bg-base-300'}"
 								onclick={() => toggleDoc(doc.index)}
+								onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && toggleDoc(doc.index)}
+								role="button"
+								tabindex="0"
 							>
 								<input
 									type="checkbox"

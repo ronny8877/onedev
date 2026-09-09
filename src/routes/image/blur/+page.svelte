@@ -731,6 +731,7 @@
 				{#if applyMode === 'patch'}
 					<!-- Patch mode: interactive canvas -->
 					<div class="relative">
+						<!-- svelte-ignore a11y_no_noninteractive_element_interactions: drawing surface intentionally handles pointer events -->
 						<div
 							bind:this={containerRef}
 							class="relative inline-block max-w-full overflow-hidden rounded-2xl bg-base-300 cursor-crosshair touch-none"

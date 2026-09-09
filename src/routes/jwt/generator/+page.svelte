@@ -305,7 +305,7 @@
 
 						<div class="space-y-3">
 							<div>
-								<label class="mb-1.5 block text-sm font-medium">Algorithm</label>
+								<div class="mb-1.5 block text-sm font-medium">Algorithm</div>
 								{#each algorithmGroups as group}
 									<div class="mb-2">
 										<p class="mb-1.5 text-xs text-base-content/50">{group.label}</p>
@@ -331,7 +331,7 @@
 							</div>
 
 							<div>
-								<label class="mb-1 block text-sm font-medium">Type (typ)</label>
+								<div class="mb-1 block text-sm font-medium">Type (typ)</div>
 								<input
 									type="text"
 									bind:value={headerTyp}

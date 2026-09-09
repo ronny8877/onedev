@@ -166,7 +166,7 @@
 		<!-- Input Fields -->
 		<div class="grid md:grid-cols-3 gap-4">
 			<div>
-				<label class="text-sm font-medium text-base-content/70 mb-2 block">Ticket ID (optional)</label>
+				<div class="text-sm font-medium text-base-content/70 mb-2 block">Ticket ID (optional)</div>
 				<input
 					type="text"
 					bind:value={ticketId}
@@ -175,7 +175,7 @@
 				/>
 			</div>
 			<div class="md:col-span-2">
-				<label class="text-sm font-medium text-base-content/70 mb-2 block">Description</label>
+				<div class="text-sm font-medium text-base-content/70 mb-2 block">Description</div>
 				<input
 					type="text"
 					bind:value={description}
@@ -208,7 +208,7 @@
 
 					<!-- Separator -->
 					<div>
-						<label class="text-sm text-base-content/70 mb-2 block">Segment Separator</label>
+						<div class="text-sm text-base-content/70 mb-2 block">Segment Separator</div>
 						<div class="join w-full">
 							{#each ['/', '-', '_'] as sep}
 								<button
@@ -224,7 +224,7 @@
 
 					<!-- Slug Separator -->
 					<div>
-						<label class="text-sm text-base-content/70 mb-2 block">Word Separator</label>
+						<div class="text-sm text-base-content/70 mb-2 block">Word Separator</div>
 						<div class="join w-full">
 							{#each ['-', '_'] as sep}
 								<button

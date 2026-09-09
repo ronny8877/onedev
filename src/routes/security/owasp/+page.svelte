@@ -225,6 +225,9 @@
 						<div 
 							class="flex items-center justify-between cursor-pointer"
 							onclick={() => expandedId = expandedId === item.id ? null : item.id}
+							onkeydown={(e) => e.key === 'Enter' && (expandedId = expandedId === item.id ? null : item.id)}
+							role="button"
+							tabindex="0"
 						>
 							<div class="flex items-center gap-3">
 								<span class="font-mono font-bold text-sm bg-base-300 px-2 py-1 rounded">{item.id}</span>

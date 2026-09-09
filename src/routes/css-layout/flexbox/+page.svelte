@@ -101,7 +101,7 @@
 					
 					<!-- Direction -->
 					<div class="form-control">
-						<label class="label-text font-bold mb-3 block">Flex Direction</label>
+						<div class="label-text font-bold mb-3 block">Flex Direction</div>
 						<div class="grid grid-cols-2 gap-2">
 							{#each directions as dir}
 								<button
@@ -120,7 +120,7 @@
 
 					<!-- Wrap -->
 					<div class="form-control">
-						<label class="label-text font-bold mb-3 block">Flex Wrap</label>
+						<div class="label-text font-bold mb-3 block">Flex Wrap</div>
 						<div class="join w-full">
 							{#each wrapOptions as wrap}
 								<button
@@ -139,7 +139,7 @@
 
 					<!-- Justify -->
 					<div class="form-control">
-						<label class="label-text font-bold mb-2 block">Justify Content</label>
+						<div class="label-text font-bold mb-2 block">Justify Content</div>
 						<select bind:value={config.justifyContent} class="select select-bordered select-sm w-full">
 							{#each justifyOptions as opt}
 								<option value={opt}>{opt}</option>
@@ -149,7 +149,7 @@
 
 					<!-- Align -->
 					<div class="form-control">
-						<label class="label-text font-bold mb-2 block">Align Items</label>
+						<div class="label-text font-bold mb-2 block">Align Items</div>
 						<select bind:value={config.alignItems} class="select select-bordered select-sm w-full">
 							{#each alignOptions as opt}
 								<option value={opt}>{opt}</option>
@@ -162,7 +162,7 @@
 					<!-- Gap -->
 					<div class="form-control">
 						<div class="flex justify-between items-center mb-2">
-							<label class="label-text font-bold">Gap</label>
+						<span class="label-text font-bold">Gap</span>
 							<span class="badge badge-sm font-mono">{config.gap}px</span>
 						</div>
 						<input 

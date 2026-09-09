@@ -113,7 +113,7 @@ pick c3d4e5f docs: update API documentation`);
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-3">Interactive Rebase</h3>
 					<div class="flex items-center gap-4">
-						<label class="text-sm text-base-content/70">Number of commits:</label>
+						<span class="text-sm text-base-content/70">Number of commits:</span>
 						<input
 							type="number"
 							bind:value={commitCount}
@@ -129,7 +129,7 @@ pick c3d4e5f docs: update API documentation`);
 				<div class="card-body py-4">
 					<h3 class="font-semibold mb-3">Standard Rebase</h3>
 					<div class="flex items-center gap-4">
-						<label class="text-sm text-base-content/70">Target branch:</label>
+						<span class="text-sm text-base-content/70">Target branch:</span>
 						<input
 							type="text"
 							bind:value={targetBranch}

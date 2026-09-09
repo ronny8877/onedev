@@ -411,9 +411,3 @@ ${hasLeft ? `  left: ${left}px;` : ''}`}
 			<RelatedTools relatedTools={content.relatedTools} />
 	</div>
 </ToolWrapper>
-
-<style>
-	.transform-style-3d {
-		transform-style: preserve-3d;
-	}
-</style>

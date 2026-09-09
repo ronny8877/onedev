@@ -185,7 +185,7 @@
 
 					<div class="space-y-6">
 						<div>
-							<label class="text-sm font-medium block mb-2">Application Type</label>
+							<div class="text-sm font-medium block mb-2">Application Type</div>
 							<div class="flex flex-wrap gap-2">
 								{#each [['web', 'Web App'], ['api', 'REST API'], ['spa', 'SPA'], ['mobile', 'Mobile Backend']] as [value, label]}
 									<button 
@@ -197,7 +197,7 @@
 						</div>
 
 						<div>
-							<label class="text-sm font-medium block mb-2">Authentication Type</label>
+							<div class="text-sm font-medium block mb-2">Authentication Type</div>
 							<div class="flex flex-wrap gap-2">
 								{#each [['session', 'Session/Cookie'], ['jwt', 'JWT'], ['oauth', 'OAuth/OIDC'], ['none', 'None']] as [value, label]}
 									<button 
@@ -209,7 +209,7 @@
 						</div>
 
 						<div>
-							<label class="text-sm font-medium block mb-2">Data Sensitivity</label>
+							<div class="text-sm font-medium block mb-2">Data Sensitivity</div>
 							<div class="flex gap-2">
 								{#each ['low', 'medium', 'high'] as level}
 									<button 

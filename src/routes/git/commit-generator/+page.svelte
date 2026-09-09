@@ -154,7 +154,7 @@
 		<!-- Scope and Description -->
 		<div class="grid md:grid-cols-4 gap-4">
 			<div>
-				<label class="text-sm font-medium text-base-content/70 mb-2 block">Scope (optional)</label>
+				<div class="text-sm font-medium text-base-content/70 mb-2 block">Scope (optional)</div>
 				<input
 					type="text"
 					bind:value={scope}
@@ -169,10 +169,10 @@
 				</datalist>
 			</div>
 			<div class="md:col-span-3">
-				<label class="text-sm font-medium text-base-content/70 mb-2 flex items-center justify-between">
+				<div class="text-sm font-medium text-base-content/70 mb-2 flex items-center justify-between">
 					<span>Description</span>
 					<span class="font-mono text-xs {headerLength > 72 ? 'text-error' : headerLength > 50 ? 'text-warning' : 'text-success'}">{headerLength}/72</span>
-				</label>
+				</div>
 				<input
 					type="text"
 					bind:value={description}
@@ -224,7 +224,7 @@
 		{#if showAdvanced}
 			<div class="grid md:grid-cols-2 gap-4">
 				<div>
-					<label class="text-sm font-medium text-base-content/70 mb-2 block">Body (optional)</label>
+					<div class="text-sm font-medium text-base-content/70 mb-2 block">Body (optional)</div>
 					<textarea
 						bind:value={body}
 						placeholder="Detailed description of the change..."
@@ -233,14 +233,14 @@
 					></textarea>
 				</div>
 				<div>
-					<label class="text-sm font-medium text-base-content/70 mb-2 block">Issue References</label>
+					<div class="text-sm font-medium text-base-content/70 mb-2 block">Issue References</div>
 					<input
 						type="text"
 						bind:value={issueRef}
 						placeholder="#123, #456 or JIRA-123"
 						class="input input-bordered w-full rounded-xl text-sm mb-3"
 					/>
-					<label class="text-sm font-medium text-base-content/70 mb-2 block">Footer (optional)</label>
+					<div class="text-sm font-medium text-base-content/70 mb-2 block">Footer (optional)</div>
 					<textarea
 						bind:value={footer}
 						placeholder="Additional footers like Co-authored-by..."

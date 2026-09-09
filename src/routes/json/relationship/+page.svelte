@@ -373,7 +373,7 @@
 		} catch { /* ignore */ }
 	}
 
-	function selectNode(id: string, e: MouseEvent) {
+	function selectNode(id: string, e: Event) {
 		e.stopPropagation();
 		selectedNodeId = selectedNodeId === id ? null : id;
 	}
@@ -448,6 +448,7 @@
 				</div>
 
 				<!-- Canvas -->
+				<!-- svelte-ignore a11y_no_noninteractive_element_interactions: visualization canvas intentionally handles pointer events -->
 				<div
 					class="viz-canvas"
 					bind:this={containerEl}
@@ -491,6 +492,7 @@
 									class:node-selected={selectedNodeId === node.id}
 									style="left: {node.x}px; top: {node.y}px; width: {NODE_W}px;"
 									onclick={(e) => selectNode(node.id, e)}
+									onkeydown={(e) => e.key === 'Enter' && selectNode(node.id, e)}
 									role="button"
 									tabindex="0"
 								>
@@ -793,12 +795,6 @@
 		justify-content: center;
 		height: 100%;
 		gap: 0.5rem;
-	}
-
-	.empty-icon {
-		font-size: 3rem;
-		opacity: 0.4;
-		margin-bottom: 0.5rem;
 	}
 
 	/* Responsive */

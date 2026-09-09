@@ -206,6 +206,7 @@
 			<div class="bg-base-200 rounded-lg p-2">
 				<code class="text-primary">/</code>
 				<p class="text-xs text-base-content/60">step</p>
+			</div>
 		</div>
 
 		<!-- Content Sections -->

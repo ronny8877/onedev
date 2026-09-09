@@ -231,7 +231,7 @@
 					<!-- Quantity -->
 					<div>
 						<div class="flex justify-between items-center mb-2">
-							<label class="text-sm font-medium">Quantity</label>
+							<span class="text-sm font-medium">Quantity</span>
 							<input 
 								type="number" 
 								bind:value={count} 

@@ -217,9 +217,9 @@
 				<h3 class="text-sm font-semibold mb-3">Line Height Calculator</h3>
 				<div class="grid sm:grid-cols-2 gap-4">
 					<div>
-						<label class="label pb-1">
-							<span class="label-text text-xs">Line Height Value</span>
-						</label>
+					<div class="label pb-1">
+						<span class="label-text text-xs">Line Height Value</span>
+					</div>
 						<div class="flex gap-2">
 							<input
 								type="number"
@@ -234,9 +234,9 @@
 						</div>
 					</div>
 					<div>
-						<label class="label pb-1">
-							<span class="label-text text-xs">Font Size (for calculation)</span>
-						</label>
+					<div class="label pb-1">
+						<span class="label-text text-xs">Font Size (for calculation)</span>
+					</div>
 						<div class="flex gap-2">
 							<input
 								type="number"

@@ -310,7 +310,7 @@
 				<div class="card-body p-4">
                     <h3 class="text-sm font-semibold mb-3">Animation Settings</h3>
                     <div class="form-control mb-3">
-                        <label class="label text-xs font-medium opacity-70 p-0 mb-1">Duration</label>
+                        <div class="label text-xs font-medium opacity-70 p-0 mb-1">Duration</div>
                         <select bind:value={animationDuration} class="select select-bordered select-sm w-full">
                             <option value={500}>Speedy (0.5s)</option>
                             <option value={1000}>Normal (1s)</option>

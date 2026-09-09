@@ -54,7 +54,7 @@
 					<!-- Column Controls -->
 					<div class="form-control">
 						<div class="flex justify-between items-center mb-2">
-							<label class="label-text font-semibold text-base">Column Count</label>
+						<span class="label-text font-semibold text-base">Column Count</span>
 							<span class="badge badge-primary font-mono">{columnCount}</span>
 						</div>
 						<input 
@@ -81,7 +81,7 @@
 					<!-- Gap Controls -->
 					<div class="form-control">
 						<div class="flex justify-between items-center mb-2">
-							<label class="label-text font-semibold text-base">Gap (Gutter)</label>
+						<span class="label-text font-semibold text-base">Gap (Gutter)</span>
 							<span class="badge badge-secondary font-mono">{gap}px</span>
 						</div>
 						<input 

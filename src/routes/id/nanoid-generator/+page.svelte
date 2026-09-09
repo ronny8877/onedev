@@ -283,7 +283,7 @@
 				<div class="grid gap-4 sm:grid-cols-2 mb-4">
 					<!-- Length -->
 					<div>
-						<label class="text-sm font-medium mb-2 block">Length: {length} characters</label>
+						<div class="text-sm font-medium mb-2 block">Length: {length} characters</div>
 						<input
 							type="range"
 							bind:value={length}
@@ -301,7 +301,7 @@
 					<!-- Quantity -->
 					<div>
 						<div class="flex justify-between items-center mb-2">
-							<label class="text-sm font-medium">Quantity</label>
+							<span class="text-sm font-medium">Quantity</span>
 							<input 
 								type="number" 
 								bind:value={count} 
@@ -328,7 +328,7 @@
 
 				<!-- Alphabet Selection -->
 				<div class="mt-4">
-					<label class="text-sm font-medium mb-2 block">Alphabet</label>
+				<div class="text-sm font-medium mb-2 block">Alphabet</div>
 					<div class="flex flex-wrap gap-2">
 						{#each Object.entries(alphabetPresets) as [key, preset]}
 							<button

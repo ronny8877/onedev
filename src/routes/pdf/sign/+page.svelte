@@ -207,7 +207,8 @@
 							<span class="text-sm">{currentPage} / {totalPages}</span>
 							<button class="btn btn-sm btn-ghost" onclick={() => goTo(currentPage + 1)} disabled={currentPage >= totalPages}>→</button>
 						</div>
-						<div bind:this={imgContainer} class="relative inline-block bg-base-200 rounded-xl" onmousemove={onDrag} onmouseup={stopDrag} onmouseleave={stopDrag}>
+						<!-- svelte-ignore a11y_no_noninteractive_element_interactions: signature surface intentionally handles pointer events -->
+						<div bind:this={imgContainer} class="relative inline-block bg-base-200 rounded-xl" role="application" aria-label="PDF signature placement area" onmousemove={onDrag} onmouseup={stopDrag} onmouseleave={stopDrag}>
 							{#if pageDataURL}
 								<img src={pageDataURL} alt={`Page ${currentPage}`} class="max-w-full rounded select-none" />
 							{/if}
@@ -216,6 +217,8 @@
 									class="absolute border-2 border-primary border-dashed rounded cursor-move bg-white/30"
 									style="left:{sigX}px; top:{sigY}px; width:{sigW}px; height:{sigH}px;"
 									onmousedown={startDrag}
+									role="button"
+									tabindex="0"
 								>
 									<img src={sigDataURL} alt="Signature" class="w-full h-full object-contain pointer-events-none" />
 								</div>

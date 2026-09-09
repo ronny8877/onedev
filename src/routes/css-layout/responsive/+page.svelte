@@ -155,7 +155,7 @@ ${Object.entries(breakpoints).map(([name, width]) => `      '${name}': '${width}
 						
 						<div class="grid sm:grid-cols-2 gap-6">
 							<div class="form-control">
-								<label class="label-text font-medium mb-2">Strategy</label>
+								<div class="label-text font-medium mb-2">Strategy</div>
 								<div class="join w-full">
 									<button 
 										class="btn btn-sm join-item flex-1"
@@ -172,15 +172,15 @@ ${Object.entries(breakpoints).map(([name, width]) => `      '${name}': '${width}
 										Desktop First
 									</button>
 								</div>
-								<label class="label">
+								<div class="label">
 									<span class="label-text-alt opacity-60">
 										{strategy === 'mobile-first' ? 'Uses min-width' : 'Uses max-width'}
 									</span>
-								</label>
+								</div>
 							</div>
 
 							<div class="form-control">
-								<label class="label-text font-medium mb-2">Preset</label>
+								<div class="label-text font-medium mb-2">Preset</div>
 								<div class="join w-full">
 									<button 
 										class="btn btn-sm join-item flex-1"
@@ -210,9 +210,9 @@ ${Object.entries(breakpoints).map(([name, width]) => `      '${name}': '${width}
 						<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
 							{#each Object.entries(breakpoints) as [key, val]}
 								<div class="form-control bg-base-100 p-2 rounded-lg border border-base-content/5">
-									<label class="label py-1">
+									<div class="label py-1">
 										<span class="label-text text-xs uppercase font-bold text-primary">{key}</span>
-									</label>
+									</div>
 									<input 
 										type="number" 
 										bind:value={breakpoints[key as keyof typeof breakpoints]} 

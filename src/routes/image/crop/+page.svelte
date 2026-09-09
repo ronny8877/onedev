@@ -448,6 +448,7 @@
 
 			<!-- Crop Canvas -->
 			<div class="relative">
+				<!-- svelte-ignore a11y_no_noninteractive_element_interactions: crop surface intentionally handles pointer events -->
 				<div
 					bind:this={containerRef}
 					class="relative inline-block overflow-hidden rounded-2xl bg-base-300 touch-none"

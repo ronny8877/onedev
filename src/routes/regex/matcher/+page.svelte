@@ -291,7 +291,7 @@ contact@business.io`;
 
 		<!-- Test String -->
 		<div>
-			<label class="text-sm font-medium text-base-content/70 mb-2 block">Test String</label>
+			<div class="text-sm font-medium text-base-content/70 mb-2 block">Test String</div>
 			<textarea
 				bind:value={testString}
 				placeholder="Enter text to extract matches from..."
@@ -352,6 +352,7 @@ contact@business.io`;
 										class="join-item btn btn-sm"
 										class:btn-active={viewMode === 'cards'}
 										onclick={() => viewMode = 'cards'}
+										aria-label="Card view"
 									>
 										<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -361,6 +362,7 @@ contact@business.io`;
 										class="join-item btn btn-sm"
 										class:btn-active={viewMode === 'table'}
 										onclick={() => viewMode = 'table'}
+										aria-label="Table view"
 									>
 										<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
@@ -536,15 +538,15 @@ contact@business.io`;
 					</h4>
 					<div class="grid sm:grid-cols-3 gap-3">
 						<div class="bg-base-100 p-3 rounded-lg">
-							<label class="text-xs text-base-content/50 mb-2 block">All Matches</label>
+							<div class="text-xs text-base-content/50 mb-2 block">All Matches</div>
 							<CopyButton text={exportAsPlain()} label="Copy List" size="sm" class="w-full" />
 						</div>
 						<div class="bg-base-100 p-3 rounded-lg">
-							<label class="text-xs text-base-content/50 mb-2 block">JSON Format</label>
+							<div class="text-xs text-base-content/50 mb-2 block">JSON Format</div>
 							<CopyButton text={exportAsJSON()} label="Copy JSON" size="sm" class="w-full" />
 						</div>
 						<div class="bg-base-100 p-3 rounded-lg">
-							<label class="text-xs text-base-content/50 mb-2 block">CSV Format</label>
+							<div class="text-xs text-base-content/50 mb-2 block">CSV Format</div>
 							<CopyButton text={exportAsCSV()} label="Copy CSV" size="sm" class="w-full" />
 						</div>
 					</div>

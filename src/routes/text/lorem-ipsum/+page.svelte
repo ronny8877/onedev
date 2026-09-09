@@ -93,7 +93,7 @@
 		<!-- Options -->
 		<div class="grid sm:grid-cols-2 gap-4">
 			<div>
-				<label class="text-sm font-medium text-base-content/70 mb-2 block">Paragraphs</label>
+				<div class="text-sm font-medium text-base-content/70 mb-2 block">Paragraphs</div>
 				<input
 					type="range"
 					min="1"
@@ -105,7 +105,7 @@
 				<div class="text-center font-mono text-sm mt-1">{paragraphs}</div>
 			</div>
 			<div>
-				<label class="text-sm font-medium text-base-content/70 mb-2 block">Words per paragraph</label>
+				<div class="text-sm font-medium text-base-content/70 mb-2 block">Words per paragraph</div>
 				<input
 					type="range"
 					min="20"

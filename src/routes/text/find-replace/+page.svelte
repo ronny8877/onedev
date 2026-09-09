@@ -116,7 +116,7 @@ Foxes are clever animals.`;
 		<!-- Find/Replace Inputs -->
 		<div class="grid sm:grid-cols-2 gap-4">
 			<div>
-				<label class="text-sm font-medium text-base-content/70 mb-2 block">Find</label>
+				<div class="text-sm font-medium text-base-content/70 mb-2 block">Find</div>
 				<input
 					type="text"
 					bind:value={findText}
@@ -129,7 +129,7 @@ Foxes are clever animals.`;
 				{/if}
 			</div>
 			<div>
-				<label class="text-sm font-medium text-base-content/70 mb-2 block">Replace with</label>
+				<div class="text-sm font-medium text-base-content/70 mb-2 block">Replace with</div>
 				<input
 					type="text"
 					bind:value={replaceText}
